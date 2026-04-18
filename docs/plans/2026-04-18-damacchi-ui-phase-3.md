@@ -45,6 +45,7 @@ Deps da installare: `@radix-ui/react-aspect-ratio`, `@radix-ui/react-scroll-area
 ## Task 1: Icon wrapper + prima wave (15 icone core)
 
 **Files:**
+
 - Create: `packages/ui/src/icons/Icon.tsx`
 - Create: `packages/ui/src/icons/{home,search,close,check,plus,minus,menu,chevron-up,chevron-down,chevron-left,chevron-right,crown,pawn,trophy,user}.tsx`
 
@@ -88,6 +89,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
 Ogni file: componente minimal che rende `<Icon>...</Icon>` con i path SVG corretti.
 
 Esempio `home.tsx`:
+
 ```tsx
 import { Icon, type IconProps } from './Icon'
 
@@ -107,6 +109,7 @@ Commit: `feat(ui): add Icon wrapper + 15 core icons`
 ## Task 2: 15 extended icons
 
 **Files:**
+
 - Create: `packages/ui/src/icons/{heart,star,bolt,bookmark,info,cog,edit,trash,filter,external-link,arrow-right,play,pause,clock,target}.tsx`
 - Create/Update: `packages/ui/src/icons/index.ts` — barrel con tutti i 30+
 
@@ -127,6 +130,7 @@ Commit: `feat(ui): complete icon set (30 icons) + barrel + stories`
 ## Task 3: Box component (CVA)
 
 **Files:**
+
 - Create: `packages/ui/src/components/box/{box.tsx,box.variants.ts,box.stories.tsx,index.ts}`
 
 Box è primitivo di layout: prop `direction` (row/column), `gap`, `align`, `justify`, `wrap`, `as`.
@@ -139,6 +143,7 @@ Box è primitivo di layout: prop `direction` (row/column), `gap`, `align`, `just
 ## Task 4: Container component
 
 **Files:**
+
 - Create: `packages/ui/src/components/container/{container.tsx,container.stories.tsx,index.ts}`
 
 Container: wrapper con max-width responsive (`sm/md/lg/xl/full`), padding orizzontale.
@@ -178,6 +183,7 @@ Divisore decorativo con SVG centrato tra due linee sfumate (preso dal DS esisten
 Componente con logica: combina Label + input slot + error message + description. Gestisce `aria-describedby`, `aria-invalid`.
 
 **Test cases (scritti PRIMA):**
+
 - renders label and children (input slot)
 - renders description when provided
 - renders error and sets aria-invalid
