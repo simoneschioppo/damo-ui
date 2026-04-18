@@ -15,7 +15,7 @@ export const Checkbox = forwardRef<
         'h-5 w-5 border-base border-border-memphis bg-surface',
         'transition-colors duration-fast cursor-pointer',
         'hover:bg-surface-2',
-        'data-[state=checked]:bg-plum-500 data-[state=checked]:text-paper-50',
+        'data-[state=checked]:bg-plum-900 data-[state=checked]:text-paper-50',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         'disabled:opacity-50 disabled:pointer-events-none',
         className,

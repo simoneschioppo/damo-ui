@@ -15,15 +15,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       disabled={disabled}
       aria-invalid={invalid || undefined}
       className={cn(
-        'h-10 w-full px-3 py-2 text-base',
+        'h-10 w-full px-3 py-2 text-base font-body font-medium',
         'bg-surface text-ink placeholder:text-ink-muted',
-        'border-thin border-border rounded-md',
+        'border-base border-border-memphis rounded-none',
         'transition-colors duration-fast',
-        'hover:border-border-strong',
-        'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
-        'focus-visible:border-accent',
-        'disabled:opacity-50 disabled:pointer-events-none',
-        invalid && 'border-danger aria-[invalid=true]:border-danger',
+        'hover:bg-surface-2',
+        'focus-visible:outline-none focus-visible:border-accent focus-visible:[--shadow-memphis-color:var(--gold-500)] focus-visible:shadow-memphis',
+        'disabled:bg-surface-2 disabled:text-ink-muted disabled:pointer-events-none',
+        'aria-invalid:border-danger aria-invalid:[--shadow-memphis-color:var(--danger)] aria-invalid:shadow-memphis',
         className,
       )}
       {...rest}
