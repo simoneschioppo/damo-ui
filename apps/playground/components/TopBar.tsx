@@ -33,6 +33,9 @@ export function TopBar() {
         <Link href="/tokens" style={{ fontSize: 14, fontWeight: 600 }}>
           Tokens
         </Link>
+        <Link href="/components/foundations" style={{ fontSize: 14, fontWeight: 600 }}>
+          Foundations
+        </Link>
       </nav>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>

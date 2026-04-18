@@ -1,5 +1,15 @@
 import Link from 'next/link'
 
+const cardStyle = {
+  display: 'block',
+  padding: 16,
+  border: '2px solid var(--border-memphis)',
+  boxShadow: 'var(--shadow-memphis)',
+  background: 'var(--surface)',
+  fontWeight: 600,
+  color: 'var(--ink)',
+}
+
 export default function IndexPage() {
   return (
     <main style={{ padding: 48, maxWidth: 800, margin: '0 auto' }}>
@@ -13,18 +23,14 @@ export default function IndexPage() {
 
       <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 12 }}>
         <li>
-          <Link
-            href="/tokens"
-            style={{
-              display: 'block',
-              padding: 16,
-              border: '2px solid var(--border-memphis)',
-              boxShadow: 'var(--shadow-memphis)',
-              background: 'var(--surface)',
-              fontWeight: 600,
-            }}
-          >
+          <Link href="/tokens" style={cardStyle}>
             → Design Tokens
+          </Link>
+        </li>
+        <li>
+          <Link href="/components/foundations" style={cardStyle}>
+            → Foundations (Icon, Box, Container, AspectRatio, ScrollArea, Separator, Ornament,
+            FormField)
           </Link>
         </li>
       </ul>
