@@ -81,9 +81,7 @@ function Swatch({ varName, label }: { varName: string; label: string }) {
           border: '1px solid var(--border)',
         }}
       />
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600 }}>
-        {label}
-      </div>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600 }}>{label}</div>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ink-muted)' }}>
         {varName}
       </div>
@@ -136,19 +134,14 @@ export default function TokensPage() {
       <Section title="Typography scale">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {TYPE_SCALE.map((t) => (
-            <div
-              key={t.label}
-              style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}
-            >
+            <div key={t.label} style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}>
               <span
                 className="mono"
                 style={{ fontSize: 11, color: 'var(--ink-muted)', minWidth: 80 }}
               >
                 {t.label} · {t.size}
               </span>
-              <span style={{ fontSize: t.size, fontWeight: 500 }}>
-                Damacchi · regina e cavallo
-              </span>
+              <span style={{ fontSize: t.size, fontWeight: 500 }}>Damacchi · regina e cavallo</span>
             </div>
           ))}
         </div>

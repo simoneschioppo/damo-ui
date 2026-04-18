@@ -17,6 +17,7 @@
 File creati/modificati in questo plan (tutti relativi a `~/Documents/damacchi-ui/`):
 
 **Radice monorepo:**
+
 - `pnpm-workspace.yaml`
 - `package.json` (root)
 - `tsconfig.base.json`
@@ -28,6 +29,7 @@ File creati/modificati in questo plan (tutti relativi a `~/Documents/damacchi-ui
 - `.github/workflows/ci.yml`
 
 **packages/ui:**
+
 - `packages/ui/package.json`
 - `packages/ui/tsconfig.json`
 - `packages/ui/tsup.config.ts`
@@ -45,6 +47,7 @@ File creati/modificati in questo plan (tutti relativi a `~/Documents/damacchi-ui
 - `packages/ui/src/lib/types.ts`
 
 **apps/playground:**
+
 - `apps/playground/package.json`
 - `apps/playground/tsconfig.json`
 - `apps/playground/next.config.ts`
@@ -61,12 +64,14 @@ File creati/modificati in questo plan (tutti relativi a `~/Documents/damacchi-ui
 - `apps/playground/lib/use-persisted-attr.test.tsx`
 
 **e2e:**
+
 - `e2e/package.json`
 - `e2e/tsconfig.json`
 - `e2e/playwright.config.ts`
 - `e2e/tests/.gitkeep`
 
 **docs:**
+
 - `docs/specs/2026-04-18-damacchi-ui-design.md` (copia dello spec esistente)
 - `docs/plans/2026-04-18-damacchi-ui-phase-1-2.md` (copia di questo plan)
 
@@ -80,7 +85,8 @@ File creati/modificati in questo plan (tutti relativi a `~/Documents/damacchi-ui
 
 - [ ] **Step 1: Creare il repo privato su GitHub**
 
-Run: 
+Run:
+
 ```bash
 gh repo create simoneschioppo/damacchi-ui \
   --private \
@@ -94,6 +100,7 @@ Expected: output `✓ Created repository simoneschioppo/damacchi-ui on GitHub`.
 - [ ] **Step 2: Clonare localmente**
 
 Run:
+
 ```bash
 cd ~/Documents
 gh repo clone simoneschioppo/damacchi-ui
@@ -113,6 +120,7 @@ Expected: `origin  https://github.com/simoneschioppo/damacchi-ui.git` e working 
 ## Task 2: Setup root monorepo — package.json, workspace, gitignore
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/pnpm-workspace.yaml`
 - Create: `~/Documents/damacchi-ui/package.json`
 - Create: `~/Documents/damacchi-ui/.gitignore`
@@ -123,9 +131,9 @@ Expected: `origin  https://github.com/simoneschioppo/damacchi-ui.git` e working 
 
 ```yaml
 packages:
-  - "packages/*"
-  - "apps/*"
-  - "e2e"
+  - 'packages/*'
+  - 'apps/*'
+  - 'e2e'
 ```
 
 - [ ] **Step 2: Scrivere `package.json` root**
@@ -244,6 +252,7 @@ See `docs/specs/2026-04-18-damacchi-ui-design.md`.
 - [ ] **Step 6: Inizializzare pnpm + install root deps**
 
 Run:
+
 ```bash
 cd ~/Documents/damacchi-ui
 pnpm install
@@ -263,6 +272,7 @@ git commit -m "chore: scaffold root monorepo workspace"
 ## Task 3: Configurare TypeScript base
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/tsconfig.base.json`
 
 - [ ] **Step 1: Scrivere `tsconfig.base.json`**
@@ -304,6 +314,7 @@ git commit -m "chore: add shared TypeScript base config"
 ## Task 4: Setup formatting & linting (Prettier + ESLint flat)
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/.prettierrc.json`
 - Create: `~/Documents/damacchi-ui/.prettierignore`
 - Create: `~/Documents/damacchi-ui/eslint.config.mjs`
@@ -336,6 +347,7 @@ pnpm-lock.yaml
 - [ ] **Step 3: Installare ESLint flat config + deps**
 
 Run:
+
 ```bash
 pnpm add -D -w eslint@^9 @eslint/js typescript-eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react eslint-plugin-react-hooks
 ```
@@ -399,6 +411,7 @@ git commit -m "chore: setup prettier + eslint flat config"
 ## Task 5: Setup `packages/ui` — package.json + tsconfig + tsup
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/package.json`
 - Create: `~/Documents/damacchi-ui/packages/ui/tsconfig.json`
 - Create: `~/Documents/damacchi-ui/packages/ui/tsup.config.ts`
@@ -407,6 +420,7 @@ git commit -m "chore: setup prettier + eslint flat config"
 - [ ] **Step 1: Creare la cartella e il package.json**
 
 Run:
+
 ```bash
 mkdir -p ~/Documents/damacchi-ui/packages/ui/src/styles
 mkdir -p ~/Documents/damacchi-ui/packages/ui/src/lib
@@ -433,10 +447,7 @@ Scrivere `packages/ui/package.json`:
     "url": "https://github.com/simoneschioppo/damacchi-ui.git",
     "directory": "packages/ui"
   },
-  "files": [
-    "dist",
-    "README.md"
-  ],
+  "files": ["dist", "README.md"],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -533,6 +544,7 @@ export const __version = '0.0.0'
 - [ ] **Step 5: Installare deps**
 
 Run:
+
 ```bash
 cd ~/Documents/damacchi-ui
 pnpm install
@@ -557,6 +569,7 @@ git commit -m "chore(ui): scaffold packages/ui with tsup build"
 ## Task 6: Setup Ladle in `packages/ui`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/.ladle/config.mjs`
 - Create: `~/Documents/damacchi-ui/packages/ui/.ladle/components.tsx`
 - Create: `~/Documents/damacchi-ui/packages/ui/src/__placeholder.stories.tsx`
@@ -588,10 +601,7 @@ import '../src/styles/patterns.css'
 
 export const Provider: GlobalProvider = ({ children, globalState }) => {
   return (
-    <div
-      data-theme={globalState.theme}
-      style={{ minHeight: '100vh', padding: 24 }}
-    >
+    <div data-theme={globalState.theme} style={{ minHeight: '100vh', padding: 24 }}>
       {children}
     </div>
   )
@@ -616,6 +626,7 @@ Welcome.storyName = 'Welcome'
 - [ ] **Step 4: Verificare Ladle parte**
 
 Run:
+
 ```bash
 cd ~/Documents/damacchi-ui
 pnpm --filter @damacchi/ui dev
@@ -635,6 +646,7 @@ git commit -m "chore(ui): scaffold Ladle config + placeholder story"
 ## Task 7: Setup Vitest in `packages/ui`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/vitest.config.ts`
 - Create: `~/Documents/damacchi-ui/packages/ui/vitest.setup.ts`
 
@@ -675,6 +687,7 @@ import '@testing-library/jest-dom/vitest'
 - [ ] **Step 3: Installare `@vitejs/plugin-react`**
 
 Run:
+
 ```bash
 pnpm --filter @damacchi/ui add -D @vitejs/plugin-react@^4.3.0 @vitest/coverage-v8@^2.1.1
 ```
@@ -696,6 +709,7 @@ git commit -m "chore(ui): setup Vitest with jsdom + coverage"
 ## Task 8: Setup `apps/playground` — Next 15 app
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/apps/playground/package.json`
 - Create: `~/Documents/damacchi-ui/apps/playground/tsconfig.json`
 - Create: `~/Documents/damacchi-ui/apps/playground/next.config.ts`
@@ -706,6 +720,7 @@ git commit -m "chore(ui): setup Vitest with jsdom + coverage"
 - [ ] **Step 1: Creare cartelle**
 
 Run:
+
 ```bash
 mkdir -p ~/Documents/damacchi-ui/apps/playground/app
 mkdir -p ~/Documents/damacchi-ui/apps/playground/components
@@ -796,10 +811,7 @@ export default {
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: [
-    './app/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-  ],
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   theme: {
     extend: {},
   },
@@ -845,6 +857,7 @@ export default function IndexPage() {
 - [ ] **Step 9: Installare**
 
 Run:
+
 ```bash
 cd ~/Documents/damacchi-ui
 pnpm install
@@ -855,6 +868,7 @@ Expected: `apps/playground/node_modules/` creato; `@damacchi/ui` linkato come wo
 - [ ] **Step 10: Verificare Next parte**
 
 Run:
+
 ```bash
 pnpm --filter @damacchi/playground dev
 ```
@@ -873,6 +887,7 @@ git commit -m "chore(playground): scaffold Next 15 app"
 ## Task 9: Setup `e2e` workspace — Playwright
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/e2e/package.json`
 - Create: `~/Documents/damacchi-ui/e2e/tsconfig.json`
 - Create: `~/Documents/damacchi-ui/e2e/playwright.config.ts`
@@ -881,6 +896,7 @@ git commit -m "chore(playground): scaffold Next 15 app"
 - [ ] **Step 1: Creare cartelle**
 
 Run:
+
 ```bash
 mkdir -p ~/Documents/damacchi-ui/e2e/tests/components
 mkdir -p ~/Documents/damacchi-ui/e2e/tests/scenarios
@@ -957,6 +973,7 @@ export default defineConfig({
 - [ ] **Step 5: Installare + browsers**
 
 Run:
+
 ```bash
 cd ~/Documents/damacchi-ui
 pnpm install
@@ -982,6 +999,7 @@ git commit -m "chore(e2e): scaffold Playwright workspace"
 ## Task 10: Setup GitHub Actions CI di base
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/.github/workflows/ci.yml`
 
 - [ ] **Step 1: Creare cartella**
@@ -1080,12 +1098,14 @@ Expected: push succeeds, GH Action parte su https://github.com/simoneschioppo/da
 ## Task 11: Copiare spec e plan dentro il repo
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/docs/specs/2026-04-18-damacchi-ui-design.md`
 - Create: `~/Documents/damacchi-ui/docs/plans/2026-04-18-damacchi-ui-phase-1-2.md`
 
 - [ ] **Step 1: Copiare spec**
 
 Run:
+
 ```bash
 mkdir -p ~/Documents/damacchi-ui/docs/specs
 mkdir -p ~/Documents/damacchi-ui/docs/plans
@@ -1113,6 +1133,7 @@ git push
 ## Task 12: Scrivere `tokens.css`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/src/styles/tokens.css`
 
 - [ ] **Step 1: Scrivere il file**
@@ -1263,6 +1284,7 @@ git commit -m "feat(ui): add design tokens (colors, type, radius, shadow, spacin
 ## Task 13: Scrivere `themes.css` (dark + palette alt)
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/src/styles/themes.css`
 
 - [ ] **Step 1: Scrivere il file**
@@ -1346,6 +1368,7 @@ git commit -m "feat(ui): add dark mode + frost + circuit palette overrides"
 ## Task 14: Scrivere `patterns.css`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/src/styles/patterns.css`
 
 - [ ] **Step 1: Scrivere il file**
@@ -1402,6 +1425,7 @@ git commit -m "feat(ui): add Memphis radial-gradient background pattern"
 ## Task 15: Scrivere `globals.css`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/src/styles/globals.css`
 
 - [ ] **Step 1: Scrivere il file**
@@ -1509,6 +1533,7 @@ git commit -m "feat(ui): add global base styles + typography utilities"
 ## Task 16: Implementare `cn()` utility con TDD
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/src/lib/cn.test.ts`
 - Create: `~/Documents/damacchi-ui/packages/ui/src/lib/cn.ts`
 
@@ -1586,6 +1611,7 @@ git commit -m "feat(ui): add cn() utility (clsx + tailwind-merge) with tests"
 ## Task 17: Scrivere `tailwind.preset.ts` della lib
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/packages/ui/tailwind.preset.ts`
 
 - [ ] **Step 1: Scrivere il preset**
@@ -1725,6 +1751,7 @@ git commit -m "feat(ui): add Tailwind preset mapping tokens to Tailwind classes"
 ## Task 18: Collegare tokens e preset al Playground
 
 **Files:**
+
 - Modify: `~/Documents/damacchi-ui/apps/playground/app/layout.tsx`
 - Modify: `~/Documents/damacchi-ui/apps/playground/tailwind.config.ts`
 - Create: `~/Documents/damacchi-ui/apps/playground/app/globals.css`
@@ -1783,11 +1810,7 @@ import damacchi from '@damacchi/ui/tailwind.preset'
 
 const config: Config = {
   presets: [damacchi as Config],
-  content: [
-    './app/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    '../../packages/ui/dist/**/*.js',
-  ],
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', '../../packages/ui/dist/**/*.js'],
 }
 
 export default config
@@ -1812,6 +1835,7 @@ git commit -m "feat(playground): wire Damacchi UI tokens + Tailwind preset + Goo
 Utility hook riutilizzato dai 3 switcher. Legge/scrive `data-*` su `<html>` + persiste in `localStorage`.
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/apps/playground/lib/use-persisted-attr.test.tsx`
 - Create: `~/Documents/damacchi-ui/apps/playground/lib/use-persisted-attr.ts`
 
@@ -1820,6 +1844,7 @@ Utility hook riutilizzato dai 3 switcher. Legge/scrive `data-*` su `<html>` + pe
 Per ora il playground non ha vitest. Aggiungere:
 
 Run:
+
 ```bash
 pnpm --filter @damacchi/playground add -D vitest@^2.1.1 @vitejs/plugin-react@^4.3.0 @testing-library/react@^16.0.1 @testing-library/jest-dom@^6.5.0 jsdom@^25.0.0 @vitest/coverage-v8@^2.1.1
 ```
@@ -1869,24 +1894,18 @@ describe('usePersistedAttr', () => {
   })
 
   it('returns the default when localStorage is empty', () => {
-    const { result } = renderHook(() =>
-      usePersistedAttr('theme', 'data-theme', 'light'),
-    )
+    const { result } = renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
     expect(result.current[0]).toBe('light')
   })
 
   it('reads initial value from localStorage if present', () => {
     localStorage.setItem('theme', 'dark')
-    const { result } = renderHook(() =>
-      usePersistedAttr('theme', 'data-theme', 'light'),
-    )
+    const { result } = renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
     expect(result.current[0]).toBe('dark')
   })
 
   it('sets data-attribute on html when value changes', () => {
-    const { result } = renderHook(() =>
-      usePersistedAttr('theme', 'data-theme', 'light'),
-    )
+    const { result } = renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
     act(() => {
       result.current[1]('dark')
     })
@@ -1894,9 +1913,7 @@ describe('usePersistedAttr', () => {
   })
 
   it('persists value to localStorage when changed', () => {
-    const { result } = renderHook(() =>
-      usePersistedAttr('theme', 'data-theme', 'light'),
-    )
+    const { result } = renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
     act(() => {
       result.current[1]('dark')
     })
@@ -1966,6 +1983,7 @@ git commit -m "feat(playground): add usePersistedAttr hook (localStorage + html 
 ## Task 20: Implementare `ThemeSwitcher`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/apps/playground/components/ThemeSwitcher.tsx`
 
 - [ ] **Step 1: Scrivere componente**
@@ -2020,6 +2038,7 @@ git commit -m "feat(playground): add ThemeSwitcher component"
 ## Task 21: Implementare `PaletteSwitcher`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/apps/playground/components/PaletteSwitcher.tsx`
 
 - [ ] **Step 1: Scrivere componente**
@@ -2038,11 +2057,7 @@ const LABELS: Record<Palette, string> = {
 }
 
 export function PaletteSwitcher() {
-  const [palette, setPalette] = usePersistedAttr<Palette>(
-    'palette',
-    'data-palette',
-    'plum-gold',
-  )
+  const [palette, setPalette] = usePersistedAttr<Palette>('palette', 'data-palette', 'plum-gold')
 
   return (
     <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
@@ -2082,6 +2097,7 @@ git commit -m "feat(playground): add PaletteSwitcher component"
 ## Task 22: Implementare `DensitySwitcher`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/apps/playground/components/DensitySwitcher.tsx`
 
 - [ ] **Step 1: Scrivere componente**
@@ -2094,11 +2110,7 @@ import { usePersistedAttr } from '@/lib/use-persisted-attr'
 type Density = 'compact' | 'normal' | 'comfortable'
 
 export function DensitySwitcher() {
-  const [density, setDensity] = usePersistedAttr<Density>(
-    'density',
-    'data-density',
-    'normal',
-  )
+  const [density, setDensity] = usePersistedAttr<Density>('density', 'data-density', 'normal')
 
   return (
     <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
@@ -2141,6 +2153,7 @@ git commit -m "feat(playground): add DensitySwitcher component"
 ## Task 23: Implementare `TopBar`
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/apps/playground/components/TopBar.tsx`
 
 - [ ] **Step 1: Scrivere componente**
@@ -2238,6 +2251,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 Run: `pnpm --filter @damacchi/playground dev`
 Expected:
+
 - Top bar visibile con DAMACCHI·UI + link Tokens + 3 switcher
 - Click Theme → html ottiene `data-theme="dark"`, colori cambiano (ma la pagina body è ancora mostly vuota)
 - Refresh browser: stato persiste.
@@ -2258,6 +2272,7 @@ git commit -m "feat(playground): wire TopBar with Theme/Palette/Density switcher
 ## Task 24: Implementare pagina `/tokens` del playground
 
 **Files:**
+
 - Create: `~/Documents/damacchi-ui/apps/playground/app/tokens/page.tsx`
 
 Pagina che mostra tutte le scale di token (colori, typography, radius, shadow, spacing) in modo visivo. È la "DS page" moderna, aggiornata in tempo reale dai switcher nella top bar.
@@ -2348,9 +2363,7 @@ function Swatch({ varName, label }: { varName: string; label: string }) {
           border: '1px solid var(--border)',
         }}
       />
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600 }}>
-        {label}
-      </div>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600 }}>{label}</div>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ink-muted)' }}>
         {varName}
       </div>
@@ -2403,19 +2416,14 @@ export default function TokensPage() {
       <Section title="Typography scale">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {TYPE_SCALE.map((t) => (
-            <div
-              key={t.label}
-              style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}
-            >
+            <div key={t.label} style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}>
               <span
                 className="mono"
                 style={{ fontSize: 11, color: 'var(--ink-muted)', minWidth: 80 }}
               >
                 {t.label} · {t.size}
               </span>
-              <span style={{ fontSize: t.size, fontWeight: 500 }}>
-                Damacchi · regina e cavallo
-              </span>
+              <span style={{ fontSize: t.size, fontWeight: 500 }}>Damacchi · regina e cavallo</span>
             </div>
           ))}
         </div>
@@ -2507,6 +2515,7 @@ Run: `pnpm --filter @damacchi/playground dev`
 Browse: `http://localhost:3000/tokens`
 
 Expected:
+
 - Pagina showcase renderizza con tutte le scale visibili
 - Cambio theme → colori semantici cambiano (bg, surface, ink)
 - Cambio palette frost → scale plum diventano blu ghiaccio, gold diventa verde
@@ -2528,8 +2537,8 @@ export default function IndexPage() {
         Damacchi UI
       </h1>
       <p style={{ fontSize: 18, color: 'var(--ink-muted)', marginBottom: 32 }}>
-        Showcase di componenti in stile Memphis. Usa la top bar per cambiare tema,
-        palette e density in live preview.
+        Showcase di componenti in stile Memphis. Usa la top bar per cambiare tema, palette e density
+        in live preview.
       </p>
 
       <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 12 }}>
@@ -2566,6 +2575,7 @@ git commit -m "feat(playground): add /tokens showcase page"
 ## Task 25: Aggiornare `packages/ui/src/index.ts` per esportare `cn`
 
 **Files:**
+
 - Modify: `~/Documents/damacchi-ui/packages/ui/src/index.ts`
 
 - [ ] **Step 1: Aggiornare il barrel**
@@ -2594,6 +2604,7 @@ git commit -m "feat(ui): export cn() from root barrel"
 - [ ] **Step 1: Verificare stato repo**
 
 Run:
+
 ```bash
 cd ~/Documents/damacchi-ui
 git status

@@ -5,11 +5,7 @@ import { usePersistedAttr } from '@/lib/use-persisted-attr'
 type Density = 'compact' | 'normal' | 'comfortable'
 
 export function DensitySwitcher() {
-  const [density, setDensity] = usePersistedAttr<Density>(
-    'density',
-    'data-density',
-    'normal',
-  )
+  const [density, setDensity] = usePersistedAttr<Density>('density', 'data-density', 'normal')
 
   return (
     <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>

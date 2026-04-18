@@ -11,11 +11,7 @@ const LABELS: Record<Palette, string> = {
 }
 
 export function PaletteSwitcher() {
-  const [palette, setPalette] = usePersistedAttr<Palette>(
-    'palette',
-    'data-palette',
-    'plum-gold',
-  )
+  const [palette, setPalette] = usePersistedAttr<Palette>('palette', 'data-palette', 'plum-gold')
 
   return (
     <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>

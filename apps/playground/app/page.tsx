@@ -7,8 +7,8 @@ export default function IndexPage() {
         Damacchi UI
       </h1>
       <p style={{ fontSize: 18, color: 'var(--ink-muted)', marginBottom: 32 }}>
-        Showcase di componenti in stile Memphis. Usa la top bar per cambiare tema,
-        palette e density in live preview.
+        Showcase di componenti in stile Memphis. Usa la top bar per cambiare tema, palette e density
+        in live preview.
       </p>
 
       <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 12 }}>
