@@ -226,4 +226,4 @@ export { Stat, type StatProps } from './components/stat'
 export { AppShell, type AppShellProps } from './components/app-shell'
 export { PageHeader, type PageHeaderProps } from './components/page-header'
 
-export const __version = '0.0.7'
+export const __version = '0.1.0'

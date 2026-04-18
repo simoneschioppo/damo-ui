@@ -8,6 +8,21 @@ import {
 import { cn } from '../../lib/cn'
 import { CloseIcon } from '../../icons'
 
+/**
+ * Dialog — modal dialog built on Radix primitives with Memphis framing.
+ * Use DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter.
+ *
+ * @example
+ * ```tsx
+ * <Dialog>
+ *   <DialogTrigger asChild><Button>Open</Button></DialogTrigger>
+ *   <DialogContent>
+ *     <DialogHeader><DialogTitle>Confirm</DialogTitle></DialogHeader>
+ *     <DialogFooter><Button>OK</Button></DialogFooter>
+ *   </DialogContent>
+ * </Dialog>
+ * ```
+ */
 export const Dialog = DialogPrimitive.Root
 export const DialogTrigger = DialogPrimitive.Trigger
 export const DialogPortal = DialogPrimitive.Portal
