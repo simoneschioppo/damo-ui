@@ -1,0 +1,6 @@
+@import '@damacchi/ui/styles/tokens.css';
+@import '@damacchi/ui/styles/themes.css';
+@import '@damacchi/ui/styles/globals.css';
+@import '@damacchi/ui/styles/patterns.css';
+
+@import 'tailwindcss';
