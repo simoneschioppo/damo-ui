@@ -5,6 +5,7 @@ export const Variants = () => (
   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
     <Button variant="primary">Primary</Button>
     <Button variant="accent">Accent</Button>
+    <Button variant="outline">Outline</Button>
     <Button variant="ghost">Ghost</Button>
     <Button variant="danger">Danger</Button>
     <Button variant="link">Link</Button>
