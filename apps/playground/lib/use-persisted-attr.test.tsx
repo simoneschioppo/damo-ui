@@ -9,18 +9,18 @@ describe('usePersistedAttr', () => {
   })
 
   it('returns the default when localStorage is empty', () => {
-    const { result } = renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
+    const { result } = renderHook(() => usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light'))
     expect(result.current[0]).toBe('light')
   })
 
   it('reads initial value from localStorage if present', () => {
     localStorage.setItem('theme', 'dark')
-    const { result } = renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
+    const { result } = renderHook(() => usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light'))
     expect(result.current[0]).toBe('dark')
   })
 
   it('sets data-attribute on html when value changes', () => {
-    const { result } = renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
+    const { result } = renderHook(() => usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light'))
     act(() => {
       result.current[1]('dark')
     })
@@ -28,7 +28,7 @@ describe('usePersistedAttr', () => {
   })
 
   it('persists value to localStorage when changed', () => {
-    const { result } = renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
+    const { result } = renderHook(() => usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light'))
     act(() => {
       result.current[1]('dark')
     })
@@ -37,7 +37,7 @@ describe('usePersistedAttr', () => {
 
   it('sets attribute on mount to synchronize DOM with state', () => {
     localStorage.setItem('theme', 'dark')
-    renderHook(() => usePersistedAttr('theme', 'data-theme', 'light'))
+    renderHook(() => usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light'))
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark')
   })
 })

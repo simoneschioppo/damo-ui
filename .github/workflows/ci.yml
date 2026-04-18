@@ -28,14 +28,14 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Build lib
+        run: pnpm build
+
       - name: Typecheck
         run: pnpm --filter @damacchi/ui typecheck && pnpm --filter @damacchi/playground typecheck
 
       - name: Unit tests
         run: pnpm test
-
-      - name: Build lib
-        run: pnpm build
 
   e2e:
     runs-on: ubuntu-latest
