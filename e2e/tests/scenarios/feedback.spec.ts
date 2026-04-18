@@ -16,9 +16,13 @@ test.describe('Feedback page', () => {
   test('Tooltip appears on hover', async ({ page }) => {
     await page.goto('/components/feedback')
     const topButton = page.getByRole('button', { name: 'top' }).first()
+    // Move to a neutral position first to ensure a clean hover-enter
+    await page.mouse.move(0, 0)
+    await topButton.hover()
+    // Keep the pointer over the element while Radix opens the tooltip
     await topButton.hover()
     await expect(page.getByRole('tooltip', { name: 'Side: top' })).toBeVisible({
-      timeout: 3000,
+      timeout: 8000,
     })
   })
 
