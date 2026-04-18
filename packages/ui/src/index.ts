@@ -204,5 +204,11 @@ export {
   type AvatarProps,
   type AvatarGroupProps,
 } from './components/avatar'
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from './components/accordion'
 
 export const __version = '0.0.5'
