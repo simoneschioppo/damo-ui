@@ -19,22 +19,19 @@ export const Slider = forwardRef<
     >
       <SliderPrimitive.Track
         className={cn(
-          'relative grow overflow-hidden bg-surface-2',
-          'border-thin border-border-memphis',
-          'data-[orientation=horizontal]:h-2 data-[orientation=horizontal]:w-full',
-          'data-[orientation=vertical]:w-2 data-[orientation=vertical]:h-full',
+          'relative grow overflow-hidden bg-surface',
+          'border-base border-border-memphis',
+          'data-[orientation=horizontal]:h-3 data-[orientation=horizontal]:w-full',
+          'data-[orientation=vertical]:w-3 data-[orientation=vertical]:h-full',
         )}
       >
-        <SliderPrimitive.Range className="absolute bg-plum-500 data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full" />
+        <SliderPrimitive.Range className="absolute bg-gold-500 data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full" />
       </SliderPrimitive.Track>
       <SliderPrimitive.Thumb
         className={cn(
-          'block h-5 w-5 bg-gold-500 border-base border-border-memphis',
+          'block h-5 w-5 bg-paper-50 border-base border-border-memphis',
           'cursor-grab active:cursor-grabbing',
           'transition-[transform,box-shadow] duration-snap ease-memphis',
-          'shadow-memphis-sm',
-          'hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis',
-          'active:translate-x-px active:translate-y-px active:shadow-memphis-sm',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           'disabled:pointer-events-none',
         )}

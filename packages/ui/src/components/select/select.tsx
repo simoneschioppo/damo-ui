@@ -17,12 +17,11 @@ export const SelectTrigger = forwardRef<
       className={cn(
         'inline-flex h-10 w-full items-center justify-between gap-2',
         'px-3 py-2 text-base text-ink',
-        'bg-surface border-thin border-border rounded-md',
+        'bg-surface border-base border-border-memphis rounded-none',
         'transition-colors duration-fast cursor-pointer',
-        'hover:border-border-strong',
+        'hover:bg-surface-2',
         'data-[placeholder]:text-ink-muted',
-        'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
-        'focus-visible:border-accent',
+        'focus-visible:outline-none focus-visible:border-accent focus-visible:[--shadow-memphis-color:var(--gold-500)] focus-visible:shadow-memphis',
         'disabled:opacity-50 disabled:pointer-events-none',
         className,
       )}
