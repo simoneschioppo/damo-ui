@@ -1,0 +1,33 @@
+# Deps
+node_modules/
+.pnpm-store/
+
+# Build
+dist/
+.next/
+build/
+out/
+
+# Testing
+coverage/
+playwright-report/
+test-results/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
