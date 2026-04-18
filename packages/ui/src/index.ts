@@ -195,4 +195,14 @@ export {
   type PageWindowOptions,
 } from './components/pagination'
 
+// Data display (Phase 8)
+export {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  AvatarGroup,
+  type AvatarProps,
+  type AvatarGroupProps,
+} from './components/avatar'
+
 export const __version = '0.0.5'
