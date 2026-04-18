@@ -2,31 +2,124 @@
 
 Memphis-inspired React component library for the Damacchi app.
 
-**Status:** pre-alpha (v0.0.0) — under active development.
+**Current version:** 0.1.0 — first tagged release
 
 ## Monorepo structure
 
-- `packages/ui` — the library, published as `@damacchi/ui` to GitHub Packages
-- `apps/playground` — Next 15 showcase app (private, not published)
+- `packages/ui` — the library, published as `@damacchi/ui` on GitHub Packages
+- `apps/playground` — Next 15 showcase app (private)
 - `e2e` — Playwright end-to-end tests (private)
+- `docs/specs/` — design spec
+- `docs/plans/` — implementation plans
 
-## Setup
+## Local dev
 
 ```bash
 pnpm install
-pnpm dev
+pnpm dev           # runs Ladle (port 61000) + Next playground (port 3000) in parallel
 ```
 
 - Playground → http://localhost:3000
 - Ladle → http://localhost:61000
 
-## Scripts
+### Scripts
 
-- `pnpm dev` — both Ladle and Playground in parallel
+- `pnpm build` — build the library (tsup + CSS + Tailwind preset)
 - `pnpm test` — Vitest unit tests
-- `pnpm test:e2e` — Playwright E2E tests (requires playground running)
-- `pnpm build` — build the library
+- `pnpm test:e2e` — Playwright against running playground
+- `pnpm lint` — ESLint across all workspaces
+- `pnpm format` — Prettier autofix
+
+## Using in a Next.js app
+
+1. Configure `.npmrc` at the consumer repo root:
+
+```
+@damacchi:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+2. Install:
+
+```bash
+pnpm add @damacchi/ui
+```
+
+3. Import styles once in your root layout:
+
+```tsx
+// app/layout.tsx
+import '@damacchi/ui/styles/tokens.css'
+import '@damacchi/ui/styles/themes.css'
+import '@damacchi/ui/styles/globals.css'
+import '@damacchi/ui/styles/patterns.css'
+```
+
+4. Wire Tailwind v4:
+
+```css
+/* app/globals.css */
+@import '@damacchi/ui/styles/tokens.css';
+@import '@damacchi/ui/styles/themes.css';
+@import '@damacchi/ui/styles/globals.css';
+@import '@damacchi/ui/styles/patterns.css';
+
+@import 'tailwindcss';
+@import '@damacchi/ui/styles/theme.css';
+
+@source '../../node_modules/@damacchi/ui/dist/**/*.js';
+```
+
+5. Use components:
+
+```tsx
+import { Button, Card, Dialog } from '@damacchi/ui'
+
+export default function Page() {
+  return (
+    <Card variant="featured">
+      <Button variant="accent">Clicca</Button>
+    </Card>
+  )
+}
+```
+
+## Theming
+
+Three switchers via html data-attributes:
+
+- `<html data-theme="light|dark">` — light/dark mode
+- `<html data-palette="plum-gold|frost|circuit">` — palette alt
+- `<html data-density="compact|normal|comfortable">` — spacing density
+
+## Component inventory (~47)
+
+**Foundations:** Icon (+30 atomic), Box, Container, AspectRatio, ScrollArea, Separator, Ornament, FormField
+
+**Tier 1 signature:** Button, IconButton, Card (5 variants), Dialog, AlertDialog, Drawer, Banner
+
+**Forms:** Input, Textarea, Label, Checkbox, RadioGroup, Switch, Slider, SegmentedControl, Select, DatePicker, Combobox, Popover
+
+**Feedback:** Tooltip, Toast, Progress, Spinner, Skeleton, Badge, Chip
+
+**Navigation:** Tabs, DropdownMenu, ContextMenu, NavItem, Breadcrumbs, Pagination
+
+**Data:** Avatar, AvatarGroup, Accordion, Table, Stat
+
+**Layout:** AppShell, PageHeader
+
+## Tech stack
+
+- React 19 (peer ≥18)
+- Tailwind v4 (CSS-first)
+- Radix UI primitives
+- TypeScript strict, pnpm workspace, tsup build
+- Vitest unit + Playwright e2e
 
 ## Design Spec
 
 See `docs/specs/2026-04-18-damacchi-ui-design.md`.
+
+## License
+
+Private — copyright Simone Schioppo.

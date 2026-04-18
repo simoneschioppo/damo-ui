@@ -18,6 +18,17 @@ export interface FormFieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
   labelClassName?: string
 }
 
+/**
+ * FormField — accessible wrapper that wires label, description, and error to a single input child
+ * via aria-describedby + aria-invalid. Pass exactly one ReactElement child.
+ *
+ * @example
+ * ```tsx
+ * <FormField label="Email" description="We won't share" error={errors.email}>
+ *   <Input type="email" />
+ * </FormField>
+ * ```
+ */
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(function FormField(
   { label, description, error, id, children, className, labelClassName, ...rest },
   ref,
