@@ -45,7 +45,7 @@ export const SegmentedControlItem = forwardRef<
         'cursor-pointer text-ink-soft',
         'transition-colors duration-fast',
         'hover:bg-surface-2 hover:text-ink',
-        'data-[state=on]:bg-plum-500 data-[state=on]:text-paper-50',
+        'data-[state=on]:bg-plum-900 data-[state=on]:text-paper-50',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring',
         'disabled:opacity-50 disabled:pointer-events-none',
         'not-first:border-l-base not-first:border-l-border-memphis',

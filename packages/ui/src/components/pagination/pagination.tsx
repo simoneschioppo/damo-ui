@@ -49,9 +49,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         onClick={() => onPageChange(currentPage - 1)}
         className={cn(
           'inline-flex h-9 w-9 items-center justify-center',
-          'border-thin border-border rounded-md bg-surface text-ink',
+          'border-base border-border-memphis rounded-none bg-surface text-ink',
           'transition-colors duration-fast cursor-pointer',
-          'hover:border-border-strong',
+          'hover:bg-surface-2',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           'disabled:opacity-50 disabled:pointer-events-none',
         )}
@@ -78,11 +78,11 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
             onClick={() => onPageChange(item)}
             className={cn(
               'inline-flex h-9 min-w-9 items-center justify-center px-3',
-              'border-thin border-border rounded-md bg-surface text-ink',
+              'border-base border-border-memphis rounded-none bg-surface text-ink',
               'font-mono text-sm cursor-pointer',
               'transition-colors duration-fast',
-              'hover:border-border-strong',
-              'aria-[current=page]:bg-plum-500 aria-[current=page]:text-paper-50 aria-[current=page]:border-border-memphis',
+              'hover:bg-surface-2',
+              'aria-[current=page]:bg-plum-900 aria-[current=page]:text-paper-50 aria-[current=page]:border-border-memphis',
               'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
               'disabled:opacity-50 disabled:pointer-events-none',
             )}
@@ -99,9 +99,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         onClick={() => onPageChange(currentPage + 1)}
         className={cn(
           'inline-flex h-9 w-9 items-center justify-center',
-          'border-thin border-border rounded-md bg-surface text-ink',
+          'border-base border-border-memphis rounded-none bg-surface text-ink',
           'transition-colors duration-fast cursor-pointer',
-          'hover:border-border-strong',
+          'hover:bg-surface-2',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           'disabled:opacity-50 disabled:pointer-events-none',
         )}

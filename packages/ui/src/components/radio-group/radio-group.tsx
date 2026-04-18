@@ -34,7 +34,7 @@ export const RadioGroupItem = forwardRef<
       {...rest}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <span className="block h-2.5 w-2.5 rounded-full bg-plum-500" />
+        <span className="block h-2.5 w-2.5 rounded-full bg-plum-900" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )
