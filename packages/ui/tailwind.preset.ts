@@ -1,0 +1,113 @@
+import type { Config } from 'tailwindcss'
+
+const preset: Partial<Config> = {
+  theme: {
+    extend: {
+      colors: {
+        plum: {
+          100: 'var(--plum-100)',
+          300: 'var(--plum-300)',
+          500: 'var(--plum-500)',
+          700: 'var(--plum-700)',
+          800: 'var(--plum-800)',
+          900: 'var(--plum-900)',
+        },
+        gold: {
+          100: 'var(--gold-100)',
+          200: 'var(--gold-200)',
+          300: 'var(--gold-300)',
+          400: 'var(--gold-400)',
+          500: 'var(--gold-500)',
+        },
+        paper: {
+          50: 'var(--paper-50)',
+          100: 'var(--paper-100)',
+          200: 'var(--paper-200)',
+          300: 'var(--paper-300)',
+        },
+        // Semantic
+        bg: 'var(--bg)',
+        surface: 'var(--surface)',
+        'surface-2': 'var(--surface-2)',
+        ink: 'var(--ink)',
+        'ink-soft': 'var(--ink-soft)',
+        'ink-muted': 'var(--ink-muted)',
+        border: 'var(--border)',
+        'border-strong': 'var(--border-strong)',
+        'border-memphis': 'var(--border-memphis)',
+        accent: 'var(--accent)',
+        'accent-strong': 'var(--accent-strong)',
+        ring: 'var(--ring)',
+        // Status
+        success: 'var(--success)',
+        danger: 'var(--danger)',
+        warning: 'var(--warning)',
+        rage: 'var(--rage)',
+        info: 'var(--info)',
+      },
+      fontFamily: {
+        display: 'var(--font-display)',
+        body: 'var(--font-body)',
+        mono: 'var(--font-mono)',
+      },
+      borderRadius: {
+        none: 'var(--radius-none)',
+        sm: 'var(--radius-sm)',
+        md: 'var(--radius-md)',
+        lg: 'var(--radius-lg)',
+        pill: 'var(--radius-pill)',
+        full: 'var(--radius-full)',
+      },
+      borderWidth: {
+        thin: 'var(--border-thin)',
+        base: 'var(--border-base)',
+        thick: 'var(--border-thick)',
+      },
+      boxShadow: {
+        'm-sm': 'var(--shadow-memphis-sm)',
+        memphis: 'var(--shadow-memphis)',
+        'm-lg': 'var(--shadow-memphis-lg)',
+        'm-hover': 'var(--shadow-memphis-hover)',
+        'm-active': 'var(--shadow-memphis-active)',
+        sm: 'var(--shadow-sm)',
+        md: 'var(--shadow-md)',
+        lg: 'var(--shadow-lg)',
+      },
+      spacing: {
+        1: 'var(--space-1)',
+        2: 'var(--space-2)',
+        3: 'var(--space-3)',
+        4: 'var(--space-4)',
+        5: 'var(--space-5)',
+        6: 'var(--space-6)',
+        8: 'var(--space-8)',
+        10: 'var(--space-10)',
+        12: 'var(--space-12)',
+        16: 'var(--space-16)',
+        20: 'var(--space-20)',
+      },
+      transitionDuration: {
+        snap: 'var(--duration-snap)',
+        fast: 'var(--duration-fast)',
+        base: 'var(--duration-base)',
+        slow: 'var(--duration-slow)',
+      },
+      transitionTimingFunction: {
+        memphis: 'var(--ease-memphis)',
+        out: 'var(--ease-out)',
+        'in-out': 'var(--ease-in-out)',
+      },
+      zIndex: {
+        base: 'var(--z-base)',
+        dropdown: 'var(--z-dropdown)',
+        sticky: 'var(--z-sticky)',
+        overlay: 'var(--z-overlay)',
+        modal: 'var(--z-modal)',
+        toast: 'var(--z-toast)',
+        tooltip: 'var(--z-tooltip)',
+      },
+    },
+  },
+}
+
+export default preset
