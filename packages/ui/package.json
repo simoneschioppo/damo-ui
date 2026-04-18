@@ -35,7 +35,7 @@
     "dev": "ladle serve",
     "build": "tsup && pnpm run build:css && pnpm run build:preset",
     "build:css": "mkdir -p dist/styles && cp src/styles/*.css dist/styles/",
-    "build:preset": "tsup tailwind.preset.ts --format esm --dts --out-dir dist",
+    "build:preset": "tsup tailwind.preset.ts --format esm --dts --out-dir dist --no-clean",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint src",
