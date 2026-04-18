@@ -20,11 +20,11 @@
   --gold-400: #d5a845;
   --gold-500: #c4942a;
 
-  /* ── Raw palette: Paper (neutri) ──────────────── */
-  --paper-50: #ffffff;
-  --paper-100: #f6f4f8;
-  --paper-200: #ece8ef;
-  --paper-300: #d6cfdb;
+  /* ── Raw palette: Paper (neutri ivory/cream) ──── */
+  --paper-50: #fbf7ee;
+  --paper-100: #f5efde;
+  --paper-200: #ece2c6;
+  --paper-300: #ddd0ae;
 
   /* ── Black & white ─────────────────────────────── */
   --white: #ffffff;
