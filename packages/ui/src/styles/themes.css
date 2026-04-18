@@ -1,0 +1,64 @@
+/* Damacchi UI — Theme Overrides
+ * Dark mode e palette alternative. Si attivano con data-attributes sul <html>.
+ *   <html data-theme="dark">
+ *   <html data-palette="frost">
+ *   <html data-theme="dark" data-palette="circuit">
+ */
+
+/* ── Dark theme (riassegna semantici, palette resta) ── */
+:root[data-theme='dark'] {
+  --bg: var(--plum-900);
+  --surface: var(--plum-800);
+  --surface-2: var(--plum-700);
+  --ink: var(--paper-50);
+  --ink-soft: var(--paper-100);
+  --ink-muted: var(--plum-300);
+  --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
+  --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
+  --border-memphis: var(--paper-50);
+  --shadow-memphis-color: var(--paper-50);
+}
+
+/* ── Palette: Frost (blu ghiaccio) ─────────────────── */
+:root[data-palette='frost'] {
+  --plum-100: #c6e0e2;
+  --plum-300: #7cadb5;
+  --plum-500: #398080;
+  --plum-700: #235757;
+  --plum-800: #1a4040;
+  --plum-900: #0f2d2d;
+
+  --gold-100: #bcf8e5;
+  --gold-200: #9af0d4;
+  --gold-300: #6de5bc;
+  --gold-400: #45d5a8;
+  --gold-500: #2ac494;
+}
+
+/* ── Palette: Circuit (neon cyber) ─────────────────── */
+:root[data-palette='circuit'] {
+  --plum-100: #d8c6e2;
+  --plum-300: #8f7cb5;
+  --plum-500: #5a39a0;
+  --plum-700: #3e2370;
+  --plum-800: #2a1a50;
+  --plum-900: #160f30;
+
+  --gold-100: #bcd5f8;
+  --gold-200: #9abaf0;
+  --gold-300: #6d9ae5;
+  --gold-400: #457bd5;
+  --gold-500: #2a62c4;
+}
+
+/* ── Reduced motion ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}
