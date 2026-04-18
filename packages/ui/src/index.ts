@@ -210,5 +210,16 @@ export {
   AccordionTrigger,
   AccordionContent,
 } from './components/accordion'
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from './components/table'
+export { Stat, type StatProps } from './components/stat'
 
 export const __version = '0.0.5'
