@@ -62,6 +62,11 @@ export default function IndexPage() {
             → Navigation (Tabs, DropdownMenu, ContextMenu, NavItem, Breadcrumbs, Pagination)
           </Link>
         </li>
+        <li>
+          <Link href="/components/data" style={cardStyle}>
+            → Data Display (Avatar, Accordion, Table, Stat)
+          </Link>
+        </li>
       </ul>
     </main>
   )

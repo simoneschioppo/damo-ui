@@ -51,6 +51,9 @@ export function TopBar() {
         <Link href="/components/navigation" style={{ fontSize: 14, fontWeight: 600 }}>
           Navigation
         </Link>
+        <Link href="/components/data" style={{ fontSize: 14, fontWeight: 600 }}>
+          Data
+        </Link>
       </nav>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
