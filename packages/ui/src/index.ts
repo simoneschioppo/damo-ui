@@ -222,4 +222,4 @@ export {
 } from './components/table'
 export { Stat, type StatProps } from './components/stat'
 
-export const __version = '0.0.5'
+export const __version = '0.0.6'
