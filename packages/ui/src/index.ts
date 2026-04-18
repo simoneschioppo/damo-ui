@@ -138,4 +138,61 @@ export { Skeleton, type SkeletonProps } from './components/skeleton'
 export { Badge, type BadgeProps, badgeVariants, type BadgeVariants } from './components/badge'
 export { Chip, type ChipProps, chipVariants, type ChipVariants } from './components/chip'
 
-export const __version = '0.0.4'
+// Navigation (Phase 7)
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './components/tabs'
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuGroup,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuRadioGroup,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from './components/dropdown-menu'
+export {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuGroup,
+  ContextMenuPortal,
+  ContextMenuSub,
+  ContextMenuRadioGroup,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSubTrigger,
+  ContextMenuSubContent,
+} from './components/context-menu'
+export {
+  NavItem,
+  type NavItemProps,
+  navItemVariants,
+  type NavItemVariants,
+} from './components/nav-item'
+export {
+  Breadcrumbs,
+  BreadcrumbItem,
+  type BreadcrumbsProps,
+  type BreadcrumbItemProps,
+} from './components/breadcrumbs'
+export {
+  Pagination,
+  type PaginationProps,
+  type PaginationLabels,
+  computePageWindow,
+  type PageItem,
+  type PageWindowOptions,
+} from './components/pagination'
+
+export const __version = '0.0.5'

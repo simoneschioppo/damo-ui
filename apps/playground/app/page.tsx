@@ -49,6 +49,11 @@ export default function IndexPage() {
             → Feedback (Tooltip, Toast, Progress, Spinner, Skeleton, Badge, Chip)
           </Link>
         </li>
+        <li>
+          <Link href="/components/navigation" style={cardStyle}>
+            → Navigation (Tabs, DropdownMenu, ContextMenu, NavItem, Breadcrumbs, Pagination)
+          </Link>
+        </li>
       </ul>
     </main>
   )
