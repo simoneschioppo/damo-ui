@@ -23,6 +23,14 @@ export default function IndexPage() {
 
       <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 12 }}>
         <li>
+          <Link
+            href="/design-system"
+            style={{ ...cardStyle, borderWidth: 3, boxShadow: 'var(--shadow-memphis-lg)' }}
+          >
+            ★ Design System — vista unificata (come nel DS originale)
+          </Link>
+        </li>
+        <li>
           <Link href="/tokens" style={cardStyle}>
             → Design Tokens
           </Link>

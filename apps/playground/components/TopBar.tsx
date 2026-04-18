@@ -30,6 +30,9 @@ export function TopBar() {
       </Link>
 
       <nav style={{ display: 'flex', gap: 16 }}>
+        <Link href="/design-system" style={{ fontSize: 14, fontWeight: 600 }}>
+          Design System
+        </Link>
         <Link href="/tokens" style={{ fontSize: 14, fontWeight: 600 }}>
           Tokens
         </Link>
