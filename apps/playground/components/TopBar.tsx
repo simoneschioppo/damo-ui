@@ -39,6 +39,9 @@ export function TopBar() {
         <Link href="/components/tier1" style={{ fontSize: 14, fontWeight: 600 }}>
           Tier 1
         </Link>
+        <Link href="/components/forms" style={{ fontSize: 14, fontWeight: 600 }}>
+          Forms
+        </Link>
       </nav>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>

@@ -38,6 +38,12 @@ export default function IndexPage() {
             → Tier 1 Core (Button, IconButton, Card, Dialog, AlertDialog, Drawer, Banner)
           </Link>
         </li>
+        <li>
+          <Link href="/components/forms" style={cardStyle}>
+            → Forms (Input, Checkbox, Radio, Switch, Slider, Select, Combobox, DatePicker,
+            SegmentedControl)
+          </Link>
+        </li>
       </ul>
     </main>
   )

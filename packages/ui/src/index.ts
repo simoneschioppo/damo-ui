@@ -85,4 +85,39 @@ export {
 } from './components/drawer'
 export { Banner, type BannerProps, bannerVariants, type BannerVariants } from './components/banner'
 
-export const __version = '0.0.2'
+// Form inputs (Phase 5)
+export { Input, type InputProps } from './components/input'
+export { Textarea, type TextareaProps } from './components/textarea'
+export { Label, type LabelProps } from './components/label'
+export { Checkbox } from './components/checkbox'
+export { RadioGroup, RadioGroupItem } from './components/radio-group'
+export { Switch } from './components/switch'
+export { Slider } from './components/slider'
+export {
+  SegmentedControl,
+  SegmentedControlItem,
+  type SegmentedControlProps,
+} from './components/segmented-control'
+export {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
+} from './components/select'
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverAnchor,
+  PopoverClose,
+  PopoverContent,
+} from './components/popover'
+export { DatePicker, type DatePickerProps } from './components/date-picker'
+export { Combobox, type ComboboxOption, type ComboboxProps } from './components/combobox'
+
+export const __version = '0.0.3'

@@ -4,3 +4,5 @@
 @import '@damacchi/ui/styles/patterns.css';
 
 @import 'tailwindcss';
+
+@source '../../../packages/ui/dist/**/*.js';
