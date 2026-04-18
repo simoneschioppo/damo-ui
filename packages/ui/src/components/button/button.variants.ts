@@ -45,6 +45,15 @@ export const buttonVariants = cva(
           'hover:text-accent-strong',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring',
         ],
+        // Outline — DS-faithful: white bg + black border + pure-black L-shadow + ink text.
+        // Matches the original Damacchi Design System buttons (scale of ink type is the differentiator).
+        outline: [
+          'bg-surface text-ink',
+          'border-2 border-border-memphis shadow-memphis rounded-none',
+          'hover:bg-surface-2 hover:-translate-x-px hover:-translate-y-px hover:shadow-m-hover',
+          'active:translate-x-[3px] active:translate-y-[3px] active:shadow-m-active',
+          'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+        ],
       },
       size: {
         sm: 'px-3 py-1.5 text-sm gap-1.5',
