@@ -42,6 +42,9 @@ export function TopBar() {
         <Link href="/components/forms" style={{ fontSize: 14, fontWeight: 600 }}>
           Forms
         </Link>
+        <Link href="/components/feedback" style={{ fontSize: 14, fontWeight: 600 }}>
+          Feedback
+        </Link>
       </nav>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>

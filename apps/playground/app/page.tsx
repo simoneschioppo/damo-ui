@@ -44,6 +44,11 @@ export default function IndexPage() {
             SegmentedControl)
           </Link>
         </li>
+        <li>
+          <Link href="/components/feedback" style={cardStyle}>
+            → Feedback (Tooltip, Toast, Progress, Spinner, Skeleton, Badge, Chip)
+          </Link>
+        </li>
       </ul>
     </main>
   )
