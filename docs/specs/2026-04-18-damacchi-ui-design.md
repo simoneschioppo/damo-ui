@@ -41,11 +41,11 @@ Il Memphis è **applicato gerarchicamente** (decision utente: opzione "B").
 
 ### 3.2 Sistema a Tier
 
-| Tier | Componenti | Applicazione |
-|---|---|---|
-| **Tier 1 — Memphis hard** | Button, IconButton, Card (default/elevated/featured/interactive), Dialog, AlertDialog, Drawer, Banner, NavItem attivo, Badge featured | Bordo 2px nero + shadow offset 4px + radius 0 + micro-interazione fisica |
-| **Tier 2 — Memphis soft** | Input, Textarea, Checkbox, Radio, Switch, Slider, Select, Combobox, SegmentedControl, DatePicker, Tooltip, Popover, Toast, Progress, Spinner, Skeleton, Chip, Badge default, Tabs, Breadcrumbs, Pagination, DropdownMenu, ContextMenu, Accordion, Avatar, AvatarGroup, Card dark | Bordo 1px soft + radius 4px + focus ring gold, no shadow offset o `shadow-sm` |
-| **Tier 3 — Pura struttura** | Typography utilities, Icon, Box (Stack/Flex via props), Container, AspectRatio, ScrollArea, Separator, FormField wrapper, PageHeader, Stat, Ornament, NavItem inattivo, Table rows | Solo tipografia e spacing |
+| Tier                        | Componenti                                                                                                                                                                                                                                                                       | Applicazione                                                                  |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **Tier 1 — Memphis hard**   | Button, IconButton, Card (default/elevated/featured/interactive), Dialog, AlertDialog, Drawer, Banner, NavItem attivo, Badge featured                                                                                                                                            | Bordo 2px nero + shadow offset 4px + radius 0 + micro-interazione fisica      |
+| **Tier 2 — Memphis soft**   | Input, Textarea, Checkbox, Radio, Switch, Slider, Select, Combobox, SegmentedControl, DatePicker, Tooltip, Popover, Toast, Progress, Spinner, Skeleton, Chip, Badge default, Tabs, Breadcrumbs, Pagination, DropdownMenu, ContextMenu, Accordion, Avatar, AvatarGroup, Card dark | Bordo 1px soft + radius 4px + focus ring gold, no shadow offset o `shadow-sm` |
+| **Tier 3 — Pura struttura** | Typography utilities, Icon, Box (Stack/Flex via props), Container, AspectRatio, ScrollArea, Separator, FormField wrapper, PageHeader, Stat, Ornament, NavItem inattivo, Table rows                                                                                               | Solo tipografia e spacing                                                     |
 
 ---
 
@@ -73,6 +73,7 @@ Tutti i token sono **CSS variables** definite in `src/styles/tokens.css`. I comp
 ### 4.3 Typography
 
 **Font families:**
+
 - `--font-display` → Audiowide
 - `--font-body` → Exo 2
 - `--font-mono` → Exo 2 (letter-spacing maggiore)
@@ -214,12 +215,26 @@ Pattern Memphis (Tier 1):
   border: var(--border-base) solid var(--border-memphis);
   box-shadow: var(--shadow-memphis);
   border-radius: var(--radius-none);
-  transition: transform var(--duration-snap), box-shadow var(--duration-snap);
+  transition:
+    transform var(--duration-snap),
+    box-shadow var(--duration-snap);
 }
-.btn:hover         { transform: translate(-1px,-1px); box-shadow: var(--shadow-memphis-hover); }
-.btn:active        { transform: translate(3px,3px);   box-shadow: var(--shadow-memphis-active); }
-.btn:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
-.btn[disabled] { opacity: 0.5; pointer-events: none; }
+.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-memphis-hover);
+}
+.btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: var(--shadow-memphis-active);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.btn[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
 ```
 
 ---
@@ -289,11 +304,12 @@ damacchi-ui/
 ```
 
 **pnpm-workspace.yaml:**
+
 ```yaml
 packages:
-  - "packages/*"
-  - "apps/*"
-  - "e2e"
+  - 'packages/*'
+  - 'apps/*'
+  - 'e2e'
 ```
 
 ### 8.2 Package exports (subpath + barrel)
@@ -350,12 +366,14 @@ export default { presets: [damacchi], content: [...] }
 ### 8.4 Playground (`apps/playground`)
 
 Next.js 15 mini-app con pagine showcase che compongono i componenti in scenari realistici. Serve a:
+
 1. Vedere l'esperienza d'uso vera (composizione di più componenti insieme), cosa che Ladle non fa.
 2. Sperimentare combinazioni `theme × palette × density` live via switcher in top bar.
 3. Catturare regression visivi durante lo sviluppo (occhio umano, niente Chromatic in v1).
 4. Fungere da target per i test Playwright (e2e punta a `apps/playground`).
 
 **Pagine previste (v1):**
+
 - `/` — indice dei showcase
 - `/tokens` — scala colori, typography, radius, shadow, spacing (come DS page moderna)
 - `/typography` — tutta la scala + utilities (`.display`, `.mono`, `.eyebrow`)
@@ -365,6 +383,7 @@ Next.js 15 mini-app con pagine showcase che compongono i componenti in scenari r
 - `/components/[name]` — page dinamica per sfogliare singolarmente tutti i 47 componenti
 
 **Top bar di switch:**
+
 ```
 [◐ Theme: light | dark]  [🎨 Palette: plum-gold | frost | circuit]  [📏 Density: compact | normal | comfortable]
 ```
@@ -375,34 +394,36 @@ Stato persistito in `localStorage` per sessioni successive.
 
 ## 9. Stack tecnico
 
-| Cosa | Versione / Tool |
-|---|---|
-| Monorepo | pnpm workspace |
-| Package manager | pnpm |
-| Node | ≥ 20 LTS |
-| TypeScript | 5.5+, strict |
-| React | 19 (peer 18+) |
-| Tailwind | v4 |
-| Radix UI | ultimo `@radix-ui/react-*` |
-| Varianti | class-variance-authority |
-| Classnames | clsx + tailwind-merge |
-| Date picker | react-day-picker |
-| Isolation playground | Ladle |
-| Scenario playground | Next.js 15 app (`apps/playground`) |
-| Unit / integration test | Vitest + @testing-library/react |
-| E2E test | Playwright (Chromium + WebKit) |
-| Visual regression | Rimandato a v2 (hook ready) |
-| Linter | ESLint flat config + Prettier |
-| Build lib | tsup |
+| Cosa                    | Versione / Tool                    |
+| ----------------------- | ---------------------------------- |
+| Monorepo                | pnpm workspace                     |
+| Package manager         | pnpm                               |
+| Node                    | ≥ 20 LTS                           |
+| TypeScript              | 5.5+, strict                       |
+| React                   | 19 (peer 18+)                      |
+| Tailwind                | v4                                 |
+| Radix UI                | ultimo `@radix-ui/react-*`         |
+| Varianti                | class-variance-authority           |
+| Classnames              | clsx + tailwind-merge              |
+| Date picker             | react-day-picker                   |
+| Isolation playground    | Ladle                              |
+| Scenario playground     | Next.js 15 app (`apps/playground`) |
+| Unit / integration test | Vitest + @testing-library/react    |
+| E2E test                | Playwright (Chromium + WebKit)     |
+| Visual regression       | Rimandato a v2 (hook ready)        |
+| Linter                  | ESLint flat config + Prettier      |
+| Build lib               | tsup                               |
 
 ---
 
 ## 10. Inventario componenti (47)
 
 ### Foundations (Tier 3) — 7 + utilities
+
 Typography utilities (classi, non componenti) · **Icon** (+ ~30 icon components atomiche) · **Box** (con prop `as`/`direction` copre Stack/Flex) · **Container** · **AspectRatio** · **ScrollArea** · **Separator** · **Ornament**
 
 ### Form / Input
+
 - **Button** (primary/accent/ghost/danger/link × sm/md/lg/icon) — Tier 1
 - **IconButton** — Tier 1
 - **Input** (text/email/password/number/search) — Tier 2
@@ -419,6 +440,7 @@ Typography utilities (classi, non componenti) · **Icon** (+ ~30 icon components
 - **FormField** — Tier 3
 
 ### Feedback / Overlays
+
 - **Dialog** (Radix) — Tier 1
 - **AlertDialog** (Radix) — Tier 1 (default/danger)
 - **Drawer / Sheet** (Radix) — Tier 1
@@ -433,6 +455,7 @@ Typography utilities (classi, non componenti) · **Icon** (+ ~30 icon components
 - **Banner** / Alert (info/success/warning/danger/rage) — Tier 1
 
 ### Navigation
+
 - **Tabs** (Radix) — Tier 2
 - **NavItem** — Tier 1 attivo · Tier 3 inattivo
 - **Breadcrumbs** — Tier 3
@@ -441,6 +464,7 @@ Typography utilities (classi, non componenti) · **Icon** (+ ~30 icon components
 - **ContextMenu** (Radix) — Tier 2
 
 ### Data display
+
 - **Card** — `default/elevated/featured/interactive` Tier 1 · `dark` Tier 2
 - **Avatar** (Radix) — Tier 2
 - **AvatarGroup** — Tier 2
@@ -449,6 +473,7 @@ Typography utilities (classi, non componenti) · **Icon** (+ ~30 icon components
 - **Stat** — Tier 3
 
 ### Layout
+
 - **AppShell** — Tier 3
 - **PageHeader** — Tier 3
 
@@ -459,17 +484,20 @@ Typography utilities (classi, non componenti) · **Icon** (+ ~30 icon components
 Tre livelli, tutti obbligatori dal v1 tranne visual regression.
 
 ### 11.1 Isolation (Ladle)
+
 - Una `*.stories.tsx` per **ogni** componente, dentro `packages/ui/src/components/*/`
 - Copre tutte le varianti + tutti gli stati (default/hover/focus/active/disabled/loading/invalid)
 - Serve sia come "sketchpad" durante lo sviluppo sia come documentazione viva
 
 ### 11.2 Unit / integration (Vitest)
+
 - Eseguiti con `vitest` + `@testing-library/react` + `jsdom`
 - Solo componenti con **logica propria** (non wrapping-only di Radix): `Slider` custom logic, `FormField` validation bridge, `SegmentedControl` keyboard nav, `Pagination` page math, ecc.
 - **Snapshot test vietati** (fragili, testano markup non comportamento)
 - Target: verifica comportamento + edge case, non rendering
 
 ### 11.3 End-to-end (Playwright)
+
 - Config a root `/e2e/playwright.config.ts`
 - Browser: **Chromium + WebKit** (Firefox escluso in v1 per velocità CI)
 - Target: Next playground (`apps/playground` in dev server)
@@ -481,6 +509,7 @@ Tre livelli, tutti obbligatori dal v1 tranne visual regression.
 - CI gate: blocca merge se fallisce
 
 ### 11.4 Visual regression (rimandato a v2)
+
 Non implementato in v1. Hook ready: la struttura Playwright permette l'aggiunta di `expect(page).toHaveScreenshot()` senza refactoring quando lo vorremo.
 
 ---
@@ -488,6 +517,7 @@ Non implementato in v1. Hook ready: la struttura Playwright permette l'aggiunta 
 ## 12. Delivery e consumo
 
 ### 12.1 Publish
+
 Privato su **GitHub Packages** (`npm.pkg.github.com`). Semver rigoroso.
 
 ### 12.2 Consumo dal progetto damacchi
@@ -504,6 +534,7 @@ pnpm add @damacchi/ui
 ```
 
 ### 12.3 Release workflow
+
 - GitHub Action on tag push `v*`: lint → test → build → publish
 - Manual changelog prima del tag
 - `pnpm changeset` come alternativa futura se la lib crescerà
@@ -512,61 +543,61 @@ pnpm add @damacchi/ui
 
 ## 13. Roadmap di sviluppo (alto livello)
 
-| Phase | Contenuto | Esito atteso |
-|---|---|---|
-| **1 — Scaffold** | Repo monorepo pnpm, TS, Tailwind v4, tsup, CI base, Ladle vuoto in `packages/ui`, Next 15 vuoto in `apps/playground`, Playwright vuoto in `e2e/` | `pnpm dev` apre Ladle e playground, `pnpm e2e` gira (0 test) |
-| **2 — Design system base** | tokens.css, themes.css (light/dark), patterns.css, globals.css, `cn()` util, tailwind.preset | Playground `/tokens` mostra tutte le scale, switch tema/palette/density funzionanti |
-| **3 — Foundations** | Icon set (~30), Typography utilities, Box, Container, AspectRatio, Separator, ScrollArea, Ornament, FormField | Stories + pagine playground `/typography`, `/components/*` per foundations |
-| **4 — Tier 1 core** | Button, IconButton, Card (5 var), Dialog, AlertDialog, Drawer, Banner | "Look Memphis" provato in stories + scenari playground |
-| **5 — Form inputs** | Input, Textarea, Label, Checkbox, Radio, Switch, Slider, Select, Combobox, SegmentedControl, DatePicker | Playground `/forms` completo |
-| **6 — Feedback** | Tooltip, Popover, Toast, Progress, Spinner, Skeleton, Badge, Chip | Playground `/overlays` popolato |
-| **7 — Navigation** | Tabs, NavItem, Breadcrumbs, Pagination, DropdownMenu, ContextMenu | |
-| **8 — Data display** | Avatar, AvatarGroup, Accordion, Table, Stat | |
-| **9 — Layout** | AppShell, PageHeader + pagina `/dashboard` del playground | Scenario dashboard completo |
-| **10 — E2E tests** | Playwright specs per ogni componente + scenari (form-submit, overlay-stack, theme-switch, keyboard-nav) | CI verde, e2e blocca merge |
-| **11 — Polish & release** | A11y audit, dark mode audit, density audit, docs JSDoc, GitHub Action publish, `v0.1.0` | `@damacchi/ui@0.1.0` installabile da progetto consumer |
+| Phase                      | Contenuto                                                                                                                                        | Esito atteso                                                                        |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| **1 — Scaffold**           | Repo monorepo pnpm, TS, Tailwind v4, tsup, CI base, Ladle vuoto in `packages/ui`, Next 15 vuoto in `apps/playground`, Playwright vuoto in `e2e/` | `pnpm dev` apre Ladle e playground, `pnpm e2e` gira (0 test)                        |
+| **2 — Design system base** | tokens.css, themes.css (light/dark), patterns.css, globals.css, `cn()` util, tailwind.preset                                                     | Playground `/tokens` mostra tutte le scale, switch tema/palette/density funzionanti |
+| **3 — Foundations**        | Icon set (~30), Typography utilities, Box, Container, AspectRatio, Separator, ScrollArea, Ornament, FormField                                    | Stories + pagine playground `/typography`, `/components/*` per foundations          |
+| **4 — Tier 1 core**        | Button, IconButton, Card (5 var), Dialog, AlertDialog, Drawer, Banner                                                                            | "Look Memphis" provato in stories + scenari playground                              |
+| **5 — Form inputs**        | Input, Textarea, Label, Checkbox, Radio, Switch, Slider, Select, Combobox, SegmentedControl, DatePicker                                          | Playground `/forms` completo                                                        |
+| **6 — Feedback**           | Tooltip, Popover, Toast, Progress, Spinner, Skeleton, Badge, Chip                                                                                | Playground `/overlays` popolato                                                     |
+| **7 — Navigation**         | Tabs, NavItem, Breadcrumbs, Pagination, DropdownMenu, ContextMenu                                                                                |                                                                                     |
+| **8 — Data display**       | Avatar, AvatarGroup, Accordion, Table, Stat                                                                                                      |                                                                                     |
+| **9 — Layout**             | AppShell, PageHeader + pagina `/dashboard` del playground                                                                                        | Scenario dashboard completo                                                         |
+| **10 — E2E tests**         | Playwright specs per ogni componente + scenari (form-submit, overlay-stack, theme-switch, keyboard-nav)                                          | CI verde, e2e blocca merge                                                          |
+| **11 — Polish & release**  | A11y audit, dark mode audit, density audit, docs JSDoc, GitHub Action publish, `v0.1.0`                                                          | `@damacchi/ui@0.1.0` installabile da progetto consumer                              |
 
 ---
 
 ## 14. Rischi e mitigazioni
 
-| Rischio | Mitigazione |
-|---|---|
-| Tailwind v4 è ancora giovane, tutorial shadcn puntano a v3 | Portiamo i pattern shadcn manualmente. v4 ha CSS-native config più vicino al nostro stile. |
-| 47 componenti = tanto lavoro | Fasi incrementali; Phase 4 (8 componenti Tier 1) sblocca il 60% del look, il resto è aggiunta iterativa |
-| Drift di token tra lib e app | Tutti i token definiti in lib, mai nell'app. L'app importa `@damacchi/ui/styles/tokens.css` e basta. |
-| Radius/shadow/border override accidentali | Solo i componenti leggono raw tokens; le CSS vars di customizzazione vivono nel consumer in `:root` override |
-| Manutenzione da solo | CI che fallisce su test/build/e2e. CHANGELOG disciplinato. Nessun publish manuale. |
-| Monorepo aggiunge complessità | pnpm workspace è leggero (no Turborepo, no Nx). Solo 3 workspace: `ui`, `playground`, `e2e`. |
-| E2E rallenta la CI | Chromium + WebKit soltanto (no Firefox). Parallelizzazione Playwright. Scenario test solo sui flow critici, component test nei PR che toccano quel componente. |
-| Dual-track Ladle + Playground = doppio lavoro | Ogni componente ha **una** story Ladle e **una** section playground. Ladle è autogenerato dal pattern del componente; playground si estende solo quando servono scenari compositi. |
+| Rischio                                                    | Mitigazione                                                                                                                                                                        |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tailwind v4 è ancora giovane, tutorial shadcn puntano a v3 | Portiamo i pattern shadcn manualmente. v4 ha CSS-native config più vicino al nostro stile.                                                                                         |
+| 47 componenti = tanto lavoro                               | Fasi incrementali; Phase 4 (8 componenti Tier 1) sblocca il 60% del look, il resto è aggiunta iterativa                                                                            |
+| Drift di token tra lib e app                               | Tutti i token definiti in lib, mai nell'app. L'app importa `@damacchi/ui/styles/tokens.css` e basta.                                                                               |
+| Radius/shadow/border override accidentali                  | Solo i componenti leggono raw tokens; le CSS vars di customizzazione vivono nel consumer in `:root` override                                                                       |
+| Manutenzione da solo                                       | CI che fallisce su test/build/e2e. CHANGELOG disciplinato. Nessun publish manuale.                                                                                                 |
+| Monorepo aggiunge complessità                              | pnpm workspace è leggero (no Turborepo, no Nx). Solo 3 workspace: `ui`, `playground`, `e2e`.                                                                                       |
+| E2E rallenta la CI                                         | Chromium + WebKit soltanto (no Firefox). Parallelizzazione Playwright. Scenario test solo sui flow critici, component test nei PR che toccano quel componente.                     |
+| Dual-track Ladle + Playground = doppio lavoro              | Ogni componente ha **una** story Ladle e **una** section playground. Ladle è autogenerato dal pattern del componente; playground si estende solo quando servono scenari compositi. |
 
 ---
 
 ## 15. Decisioni chiuse in brainstorm
 
-| # | Decisione | Valore |
-|---|---|---|
-| 1 | Rinomina palette | `--plum-*` + `--gold-*` |
-| 2 | Scale tipografica | Tailwind-style (text-xs/sm/base/lg/xl/…) |
-| 3 | Dark mode | Built-in via `[data-theme]` |
-| 4 | Multi-palette | Built-in via `[data-palette]` |
-| 5 | Spacing grid | 4px |
-| 6 | Border Memphis | 2px (normalizzato da 2.5px) |
-| 7 | Tailwind version | v4 |
-| 8 | Export strategy | Subpath + barrel entrambi supportati |
-| 9 | Density | 3 livelli (compact/normal/comfortable) subito |
-| 10 | i18n | Fuori dalla lib, label come prop |
-| 11 | Publish | Privato GitHub Packages |
-| 12 | Command Cmd+K | Escluso dalla v1 |
-| 13 | Shadow offset (colore) | Default nero, configurabile |
-| 14 | Radius 0 default | Configurabile via token |
-| 15 | Pattern di sfondo | Configurabile via `[data-app-pattern]` |
-| 16 | Monorepo setup | pnpm workspace con `packages/ui`, `apps/playground`, `e2e/` |
-| 17 | Playground dev | Next.js 15 app con pagine showcase + switcher theme/palette/density |
-| 18 | Ladle | Mantenuto per isolamento componenti (dual-track con Playground) |
-| 19 | E2E | Playwright con Chromium + WebKit (no Firefox) |
-| 20 | Visual regression | Rimandato a v2 (hook ready in Playwright) |
+| #   | Decisione              | Valore                                                              |
+| --- | ---------------------- | ------------------------------------------------------------------- |
+| 1   | Rinomina palette       | `--plum-*` + `--gold-*`                                             |
+| 2   | Scale tipografica      | Tailwind-style (text-xs/sm/base/lg/xl/…)                            |
+| 3   | Dark mode              | Built-in via `[data-theme]`                                         |
+| 4   | Multi-palette          | Built-in via `[data-palette]`                                       |
+| 5   | Spacing grid           | 4px                                                                 |
+| 6   | Border Memphis         | 2px (normalizzato da 2.5px)                                         |
+| 7   | Tailwind version       | v4                                                                  |
+| 8   | Export strategy        | Subpath + barrel entrambi supportati                                |
+| 9   | Density                | 3 livelli (compact/normal/comfortable) subito                       |
+| 10  | i18n                   | Fuori dalla lib, label come prop                                    |
+| 11  | Publish                | Privato GitHub Packages                                             |
+| 12  | Command Cmd+K          | Escluso dalla v1                                                    |
+| 13  | Shadow offset (colore) | Default nero, configurabile                                         |
+| 14  | Radius 0 default       | Configurabile via token                                             |
+| 15  | Pattern di sfondo      | Configurabile via `[data-app-pattern]`                              |
+| 16  | Monorepo setup         | pnpm workspace con `packages/ui`, `apps/playground`, `e2e/`         |
+| 17  | Playground dev         | Next.js 15 app con pagine showcase + switcher theme/palette/density |
+| 18  | Ladle                  | Mantenuto per isolamento componenti (dual-track con Playground)     |
+| 19  | E2E                    | Playwright con Chromium + WebKit (no Firefox)                       |
+| 20  | Visual regression      | Rimandato a v2 (hook ready in Playwright)                           |
 
 ---
 
