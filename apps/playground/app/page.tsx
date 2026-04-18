@@ -33,6 +33,11 @@ export default function IndexPage() {
             FormField)
           </Link>
         </li>
+        <li>
+          <Link href="/components/tier1" style={cardStyle}>
+            → Tier 1 Core (Button, IconButton, Card, Dialog, AlertDialog, Drawer, Banner)
+          </Link>
+        </li>
       </ul>
     </main>
   )
