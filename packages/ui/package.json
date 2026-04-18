@@ -47,6 +47,8 @@
     "tailwindcss": ">=4"
   },
   "dependencies": {
+    "@radix-ui/react-aspect-ratio": "^1.1.2",
+    "@radix-ui/react-separator": "^1.1.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.2"
