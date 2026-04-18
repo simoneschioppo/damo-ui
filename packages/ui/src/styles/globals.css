@@ -86,3 +86,10 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--ink-muted);
 }
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
