@@ -71,12 +71,14 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 
   /* ── Shadow: memphis (tier 1 signature) ───────── */
-  --shadow-memphis-color: var(--plum-900);
-  --shadow-memphis-sm: 2px 2px 0 var(--shadow-memphis-color);
-  --shadow-memphis: 4px 4px 0 var(--shadow-memphis-color);
-  --shadow-memphis-lg: 6px 6px 0 var(--shadow-memphis-color);
-  --shadow-memphis-hover: 5px 5px 0 var(--shadow-memphis-color);
-  --shadow-memphis-active: 1px 1px 0 var(--shadow-memphis-color);
+  /* Pure-black offset shadow — when button overlays, only the bottom+right strip
+   * peeks out, producing the signature L-shape Memphis corner. */
+  --shadow-memphis-color: var(--black);
+  --shadow-memphis-sm: 3px 3px 0 var(--shadow-memphis-color);
+  --shadow-memphis: 6px 6px 0 var(--shadow-memphis-color);
+  --shadow-memphis-lg: 9px 9px 0 var(--shadow-memphis-color);
+  --shadow-memphis-hover: 7px 7px 0 var(--shadow-memphis-color);
+  --shadow-memphis-active: 2px 2px 0 var(--shadow-memphis-color);
 
   /* ── Spacing (4px grid) ────────────────────────── */
   --space-0: 0;
