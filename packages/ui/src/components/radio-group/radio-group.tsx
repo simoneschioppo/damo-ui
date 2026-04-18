@@ -24,7 +24,7 @@ export const RadioGroupItem = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex items-center justify-center shrink-0',
-        'h-5 w-5 rounded-full border-base border-border-memphis bg-surface',
+        'h-5 w-5 rounded-full border-2 border-border-memphis bg-surface',
         'transition-colors duration-fast cursor-pointer',
         'hover:bg-surface-2',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',

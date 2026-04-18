@@ -14,7 +14,7 @@ export const Progress = forwardRef<ElementRef<typeof ProgressPrimitive.Root>, Pr
         value={value}
         className={cn(
           'relative h-3 w-full overflow-hidden bg-surface-2',
-          'border-thin border-border-memphis rounded-md',
+          'border border-border-memphis rounded-md',
           className,
         )}
         {...rest}

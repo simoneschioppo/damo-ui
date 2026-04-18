@@ -17,7 +17,7 @@ export const SelectTrigger = forwardRef<
       className={cn(
         'inline-flex h-10 w-full items-center justify-between gap-2',
         'px-3 py-2 text-base text-ink',
-        'bg-surface border-base border-border-memphis rounded-none',
+        'bg-surface border-2 border-border-memphis rounded-none',
         'transition-colors duration-fast cursor-pointer',
         'hover:bg-surface-2',
         'data-[placeholder]:text-ink-muted',
@@ -77,7 +77,7 @@ export const SelectContent = forwardRef<
         className={cn(
           'relative z-dropdown min-w-[8rem] overflow-hidden',
           'bg-surface text-ink',
-          'border-base border-border-memphis shadow-memphis rounded-none',
+          'border-2 border-border-memphis shadow-memphis rounded-none',
           position === 'popper' &&
             'data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
           className,
