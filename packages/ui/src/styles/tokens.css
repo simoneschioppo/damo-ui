@@ -71,7 +71,7 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 
   /* ── Shadow: memphis (tier 1 signature) ───────── */
-  --shadow-memphis-color: var(--black);
+  --shadow-memphis-color: var(--plum-900);
   --shadow-memphis-sm: 2px 2px 0 var(--shadow-memphis-color);
   --shadow-memphis: 4px 4px 0 var(--shadow-memphis-color);
   --shadow-memphis-lg: 6px 6px 0 var(--shadow-memphis-color);
