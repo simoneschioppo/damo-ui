@@ -7,6 +7,17 @@ export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {
   sidebarTone?: 'default' | 'onDark'
 }
 
+/**
+ * AppShell — two-column layout with sticky sidebar + main. Configurable sidebar width and tone.
+ *
+ * @example
+ * ```tsx
+ * <AppShell sidebar={<Nav />} sidebarWidth={260} sidebarTone="onDark">
+ *   <PageHeader title="Dashboard" />
+ *   <main>...</main>
+ * </AppShell>
+ * ```
+ */
 export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppShell(
   { sidebar, sidebarWidth = 240, sidebarTone = 'default', className, children, ...rest },
   ref,
