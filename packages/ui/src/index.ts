@@ -120,4 +120,22 @@ export {
 export { DatePicker, type DatePickerProps } from './components/date-picker'
 export { Combobox, type ComboboxOption, type ComboboxProps } from './components/combobox'
 
-export const __version = '0.0.3'
+// Feedback (Phase 6)
+export { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from './components/tooltip'
+export {
+  ToastProvider,
+  ToastViewport,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+  ToastAction,
+  ToastClose,
+  type ToastProps,
+} from './components/toast'
+export { Progress, type ProgressProps } from './components/progress'
+export { Spinner, type SpinnerProps } from './components/spinner'
+export { Skeleton, type SkeletonProps } from './components/skeleton'
+export { Badge, type BadgeProps, badgeVariants, type BadgeVariants } from './components/badge'
+export { Chip, type ChipProps, chipVariants, type ChipVariants } from './components/chip'
+
+export const __version = '0.0.4'
