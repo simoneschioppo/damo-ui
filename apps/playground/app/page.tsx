@@ -67,6 +67,11 @@ export default function IndexPage() {
             → Data Display (Avatar, Accordion, Table, Stat)
           </Link>
         </li>
+        <li>
+          <Link href="/components/layout" style={cardStyle}>
+            → Layout (AppShell + PageHeader)
+          </Link>
+        </li>
       </ul>
     </main>
   )

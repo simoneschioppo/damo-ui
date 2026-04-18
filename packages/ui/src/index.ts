@@ -222,4 +222,8 @@ export {
 } from './components/table'
 export { Stat, type StatProps } from './components/stat'
 
-export const __version = '0.0.6'
+// Layout (Phase 9)
+export { AppShell, type AppShellProps } from './components/app-shell'
+export { PageHeader, type PageHeaderProps } from './components/page-header'
+
+export const __version = '0.0.7'
