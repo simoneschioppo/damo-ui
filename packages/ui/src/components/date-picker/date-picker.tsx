@@ -56,7 +56,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
             className={cn(
               'inline-flex h-10 w-full items-center justify-between gap-2',
               'px-3 py-2 text-base text-ink text-left',
-              'bg-surface border-base border-border-memphis rounded-none',
+              'bg-surface border-2 border-border-memphis rounded-none',
               'transition-colors duration-fast cursor-pointer',
               'hover:bg-surface-2',
               'focus-visible:outline-none focus-visible:border-accent focus-visible:[--shadow-memphis-color:var(--gold-500)] focus-visible:shadow-memphis',

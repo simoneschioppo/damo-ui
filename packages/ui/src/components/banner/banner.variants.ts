@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 export const bannerVariants = cva(
   [
     'relative flex items-start gap-3 p-4',
-    'border-base border-border-memphis shadow-memphis rounded-none',
+    'border-2 border-border-memphis shadow-memphis rounded-none',
   ],
   {
     variants: {

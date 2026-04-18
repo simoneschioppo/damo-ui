@@ -25,7 +25,7 @@ export const ContextMenuContent = forwardRef<
         ref={ref}
         className={cn(
           'z-dropdown min-w-[10rem] overflow-hidden bg-surface text-ink',
-          'border-thin border-border rounded-md shadow-md p-1',
+          'border border-border rounded-md shadow-md p-1',
           className,
         )}
         {...rest}
@@ -177,7 +177,7 @@ export const ContextMenuSubContent = forwardRef<
       ref={ref}
       className={cn(
         'z-dropdown min-w-[8rem] overflow-hidden bg-surface text-ink',
-        'border-thin border-border rounded-md shadow-md p-1',
+        'border border-border rounded-md shadow-md p-1',
         className,
       )}
       {...rest}

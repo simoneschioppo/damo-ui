@@ -28,7 +28,7 @@ export const ToastViewport = forwardRef<
 const toastVariants = cva(
   [
     'group pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden',
-    'p-4 border-base border-border-memphis shadow-memphis rounded-none',
+    'p-4 border-2 border-border-memphis shadow-memphis rounded-none',
     'data-[state=open]:animate-in data-[state=open]:slide-in-from-top-full sm:data-[state=open]:slide-in-from-bottom-full',
     'data-[state=closed]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full',
     'data-[swipe=move]:transition-none data-[swipe=cancel]:translate-x-0',
@@ -103,7 +103,7 @@ export const ToastAction = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex h-8 shrink-0 items-center justify-center px-3 text-xs font-semibold',
-        'border-base border-border-memphis bg-surface cursor-pointer',
+        'border-2 border-border-memphis bg-surface cursor-pointer',
         'hover:bg-surface-2',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         className,

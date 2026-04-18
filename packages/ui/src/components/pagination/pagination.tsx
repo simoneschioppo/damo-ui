@@ -49,7 +49,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         onClick={() => onPageChange(currentPage - 1)}
         className={cn(
           'inline-flex h-9 w-9 items-center justify-center',
-          'border-base border-border-memphis rounded-none bg-surface text-ink',
+          'border-2 border-border-memphis rounded-none bg-surface text-ink',
           'transition-colors duration-fast cursor-pointer',
           'hover:bg-surface-2',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
@@ -78,7 +78,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
             onClick={() => onPageChange(item)}
             className={cn(
               'inline-flex h-9 min-w-9 items-center justify-center px-3',
-              'border-base border-border-memphis rounded-none bg-surface text-ink',
+              'border-2 border-border-memphis rounded-none bg-surface text-ink',
               'font-mono text-sm cursor-pointer',
               'transition-colors duration-fast',
               'hover:bg-surface-2',
@@ -99,7 +99,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         onClick={() => onPageChange(currentPage + 1)}
         className={cn(
           'inline-flex h-9 w-9 items-center justify-center',
-          'border-base border-border-memphis rounded-none bg-surface text-ink',
+          'border-2 border-border-memphis rounded-none bg-surface text-ink',
           'transition-colors duration-fast cursor-pointer',
           'hover:bg-surface-2',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',

@@ -17,7 +17,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       className={cn(
         'h-10 w-full px-3 py-2 text-base font-body font-medium',
         'bg-surface text-ink placeholder:text-ink-muted',
-        'border-base border-border-memphis rounded-none',
+        'border-2 border-border-memphis rounded-none',
         'transition-colors duration-fast',
         'hover:bg-surface-2',
         'focus-visible:outline-none focus-visible:border-accent focus-visible:[--shadow-memphis-color:var(--gold-500)] focus-visible:shadow-memphis',
