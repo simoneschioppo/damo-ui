@@ -19,7 +19,7 @@ export const PopoverContent = forwardRef<
         sideOffset={sideOffset}
         className={cn(
           'z-dropdown bg-surface text-ink',
-          'border-thin border-border rounded-md shadow-md',
+          'border border-border rounded-md shadow-md',
           'p-3 outline-none',
           className,
         )}

@@ -49,7 +49,7 @@ export const DialogContent = forwardRef<
         className={cn(
           'fixed left-1/2 top-1/2 z-modal -translate-x-1/2 -translate-y-1/2',
           'w-full max-w-lg bg-surface text-ink',
-          'border-base border-border-memphis shadow-m-lg rounded-none',
+          'border-2 border-border-memphis shadow-m-lg rounded-none',
           'p-6 flex flex-col gap-4',
           'focus:outline-none',
           'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',

@@ -1,3 +1,4 @@
+/* Token variable assignments (raw CSS vars) */
 @import '@damacchi/ui/styles/tokens.css';
 @import '@damacchi/ui/styles/themes.css';
 @import '@damacchi/ui/styles/globals.css';
@@ -5,4 +6,8 @@
 
 @import 'tailwindcss';
 
+/* Bridge tokens → Tailwind v4 utilities (must come after @import 'tailwindcss') */
+@import '@damacchi/ui/styles/theme.css';
+
 @source '../../../packages/ui/dist/**/*.js';
+@source '../../../packages/ui/src/**/*.{ts,tsx}';

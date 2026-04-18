@@ -24,7 +24,7 @@ export const SegmentedControl = forwardRef<
       type="single"
       orientation={orientation}
       className={cn(
-        'inline-flex border-base border-border-memphis bg-surface',
+        'inline-flex border-2 border-border-memphis bg-surface',
         'data-[orientation=vertical]:flex-col',
         className,
       )}
@@ -48,8 +48,8 @@ export const SegmentedControlItem = forwardRef<
         'data-[state=on]:bg-plum-900 data-[state=on]:text-paper-50',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring',
         'disabled:opacity-50 disabled:pointer-events-none',
-        'not-first:border-l-base not-first:border-l-border-memphis',
-        'data-[orientation=vertical]:not-first:border-l-0 data-[orientation=vertical]:not-first:border-t-base data-[orientation=vertical]:not-first:border-t-border-memphis',
+        'not-first:border-l-2 not-first:border-l-border-memphis',
+        'data-[orientation=vertical]:not-first:border-l-0 data-[orientation=vertical]:not-first:border-t-2 data-[orientation=vertical]:not-first:border-t-border-memphis',
         className,
       )}
       {...rest}
