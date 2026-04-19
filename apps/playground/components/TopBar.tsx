@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { PaletteSwitcher } from './PaletteSwitcher'
-import { DensitySwitcher } from './DensitySwitcher'
 
 export function TopBar() {
   return (
@@ -24,45 +23,30 @@ export function TopBar() {
           fontSize: 20,
           letterSpacing: '0.08em',
           color: 'var(--ink)',
+          textDecoration: 'none',
         }}
       >
         DAMACCHI · UI
       </Link>
 
-      <nav style={{ display: 'flex', gap: 16 }}>
-        <Link href="/design-system" style={{ fontSize: 14, fontWeight: 600 }}>
+      <nav style={{ display: 'flex', gap: 24 }}>
+        <Link
+          href="/design-system"
+          style={{ fontSize: 14, fontWeight: 600, textDecoration: 'none', color: 'var(--ink)' }}
+        >
           Design System
         </Link>
-        <Link href="/tokens" style={{ fontSize: 14, fontWeight: 600 }}>
-          Tokens
-        </Link>
-        <Link href="/components/foundations" style={{ fontSize: 14, fontWeight: 600 }}>
-          Foundations
-        </Link>
-        <Link href="/components/tier1" style={{ fontSize: 14, fontWeight: 600 }}>
-          Tier 1
-        </Link>
-        <Link href="/components/forms" style={{ fontSize: 14, fontWeight: 600 }}>
-          Forms
-        </Link>
-        <Link href="/components/feedback" style={{ fontSize: 14, fontWeight: 600 }}>
-          Feedback
-        </Link>
-        <Link href="/components/navigation" style={{ fontSize: 14, fontWeight: 600 }}>
-          Navigation
-        </Link>
-        <Link href="/components/data" style={{ fontSize: 14, fontWeight: 600 }}>
-          Data
-        </Link>
-        <Link href="/components/layout" style={{ fontSize: 14, fontWeight: 600 }}>
-          Layout
+        <Link
+          href="/theme-generator"
+          style={{ fontSize: 14, fontWeight: 600, textDecoration: 'none', color: 'var(--ink)' }}
+        >
+          Theme Generator
         </Link>
       </nav>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
         <ThemeSwitcher />
         <PaletteSwitcher />
-        <DensitySwitcher />
       </div>
     </header>
   )

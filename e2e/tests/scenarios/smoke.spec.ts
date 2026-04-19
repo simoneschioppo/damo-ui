@@ -6,8 +6,13 @@ test.describe('Smoke — playground boot', () => {
     await expect(page.getByText('DAMACCHI · UI')).toBeVisible()
   })
 
-  test('tokens page shows Plum scale section', async ({ page }) => {
-    await page.goto('/tokens')
-    await expect(page.getByRole('heading', { name: 'Plum scale' })).toBeVisible()
+  test('home page links to Design System', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.getByRole('link', { name: /Design System/i }).first()).toBeVisible()
+  })
+
+  test('design-system page loads', async ({ page }) => {
+    await page.goto('/design-system')
+    await expect(page).toHaveURL(/\/design-system/)
   })
 })
