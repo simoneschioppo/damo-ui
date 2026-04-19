@@ -11,16 +11,16 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary: [
-          'bg-plum-500 text-paper-50',
+          'bg-gold-500 text-white',
           'border-2 border-border-memphis shadow-memphis rounded-none',
-          'hover:bg-plum-700 hover:-translate-x-px hover:-translate-y-px hover:shadow-m-hover',
+          'hover:bg-gold-400 hover:-translate-x-px hover:-translate-y-px hover:shadow-m-hover',
           'active:translate-x-[3px] active:translate-y-[3px] active:shadow-m-active',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
         accent: [
-          'bg-gold-500 text-black',
+          'bg-plum-500 text-paper-50',
           'border-2 border-border-memphis shadow-memphis rounded-none',
-          'hover:bg-accent-strong hover:-translate-x-px hover:-translate-y-px hover:shadow-m-hover',
+          'hover:bg-plum-700 hover:-translate-x-px hover:-translate-y-px hover:shadow-m-hover',
           'active:translate-x-[3px] active:translate-y-[3px] active:shadow-m-active',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
@@ -39,20 +39,17 @@ export const buttonVariants = cva(
           'active:translate-x-[3px] active:translate-y-[3px] active:shadow-m-active',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
+        outline: [
+          'bg-surface text-ink',
+          'border-2 border-border-memphis rounded-none',
+          'hover:bg-surface-2',
+          'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+        ],
         link: [
           'bg-transparent text-accent underline underline-offset-2',
           'border-none shadow-none rounded-none p-0',
           'hover:text-accent-strong',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring',
-        ],
-        // Outline — DS-faithful: white bg + black border + pure-black L-shadow + ink text.
-        // Matches the original Damacchi Design System buttons (scale of ink type is the differentiator).
-        outline: [
-          'bg-surface text-ink',
-          'border-2 border-border-memphis shadow-memphis rounded-none',
-          'hover:bg-surface-2 hover:-translate-x-px hover:-translate-y-px hover:shadow-m-hover',
-          'active:translate-x-[3px] active:translate-y-[3px] active:shadow-m-active',
-          'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
       },
       size: {
@@ -67,7 +64,6 @@ export const buttonVariants = cva(
       },
     },
     compoundVariants: [
-      // link shouldn't use size padding — it's inline text
       { variant: 'link', size: 'sm', class: '!p-0 text-sm' },
       { variant: 'link', size: 'md', class: '!p-0 text-base' },
       { variant: 'link', size: 'lg', class: '!p-0 text-lg' },

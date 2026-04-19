@@ -19,7 +19,7 @@ export const Switch = forwardRef<
     <SwitchPrimitive.Root
       ref={ref}
       className={cn(
-        'relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center',
+        'relative inline-flex h-7 w-14 shrink-0 cursor-pointer items-center',
         'border-2 border-border-memphis rounded-none bg-surface',
         'transition-colors duration-fast',
         'data-[state=checked]:bg-gold-500',
@@ -32,10 +32,11 @@ export const Switch = forwardRef<
       <SwitchPrimitive.Thumb
         className={cn(
           'pointer-events-none block h-5 w-5',
-          'rounded-none bg-plum-900 border-0',
+          'rounded-none bg-plum-900',
+          'border-2 border-border-memphis',
           'data-[state=checked]:bg-paper-50',
           'translate-x-0.5 transition-transform duration-fast',
-          'data-[state=checked]:translate-x-[22px]',
+          'data-[state=checked]:translate-x-[30px]',
         )}
       />
     </SwitchPrimitive.Root>
