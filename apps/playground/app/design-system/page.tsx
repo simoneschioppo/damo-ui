@@ -343,50 +343,243 @@ function SubPanel({ label, children }: { label: string; children: ReactNode }) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 01 · Colors
+// 01 · Colors — horizontal color bands (faithful to original)
 // ═══════════════════════════════════════════════════════════
+// Ogni scala è una banda orizzontale piena: left col (nome + token + desc),
+// right col grid di stops con background colore + nome/hex inline.
 
-const PLUM_STOPS = [100, 300, 500, 700, 800, 900] as const
-const GOLD_STOPS = [100, 200, 300, 400, 500] as const
-const PAPER_STOPS = [50, 100, 200, 300] as const
+type ColorStop = { readonly k: number; readonly hex: string; readonly text: 'dark' | 'light' }
+type ColorScaleDef = {
+  readonly name: string
+  readonly token: string
+  readonly desc: string
+  readonly stops: ReadonlyArray<ColorStop>
+}
 
-const SEMANTIC_TOKENS: ReadonlyArray<readonly [string, string]> = [
-  ['--bg', 'Background'],
-  ['--surface', 'Surface'],
-  ['--surface-2', 'Surface 2'],
-  ['--ink', 'Ink'],
-  ['--ink-soft', 'Ink Soft'],
-  ['--ink-muted', 'Ink Muted'],
-  ['--border-memphis', 'Border'],
-  ['--accent', 'Accent'],
+const PLUM_SCALE: ColorScaleDef = {
+  name: 'Plum',
+  token: 'plum',
+  desc: 'Primario scuro — ink, testo, sfondi notturni',
+  stops: [
+    { k: 900, hex: '#2a0f2d', text: 'dark' },
+    { k: 800, hex: '#3d1a40', text: 'dark' },
+    { k: 700, hex: '#522357', text: 'dark' },
+    { k: 500, hex: '#7a3980', text: 'dark' },
+    { k: 300, hex: '#b17cb5', text: 'dark' },
+    { k: 100, hex: '#e0c6e2', text: 'light' },
+  ],
+}
+
+const GOLD_SCALE: ColorScaleDef = {
+  name: 'Gold',
+  token: 'gold',
+  desc: 'Accent brand — bottoni, bordi dorati, highlight',
+  stops: [
+    { k: 500, hex: '#c4942a', text: 'dark' },
+    { k: 400, hex: '#d5a845', text: 'dark' },
+    { k: 300, hex: '#e5bc6d', text: 'light' },
+    { k: 200, hex: '#f0d49a', text: 'light' },
+    { k: 100, hex: '#f8e5bc', text: 'light' },
+  ],
+}
+
+const PAPER_SCALE: ColorScaleDef = {
+  name: 'Paper',
+  token: 'paper',
+  desc: 'Sfondi caldi ivory/cream — base del prodotto',
+  stops: [
+    { k: 300, hex: '#ddd0ae', text: 'light' },
+    { k: 200, hex: '#ece2c6', text: 'light' },
+    { k: 100, hex: '#f5efde', text: 'light' },
+    { k: 50, hex: '#fbf7ee', text: 'light' },
+  ],
+}
+
+const SEMANTIC_BLOCKS: ReadonlyArray<{
+  readonly token: string
+  readonly name: string
+  readonly cssVar: string
+  readonly usage: string
+}> = [
+  { token: '--bg', name: 'Background', cssVar: '--bg', usage: "Sfondo principale dell'app" },
+  {
+    token: '--surface',
+    name: 'Surface',
+    cssVar: '--surface',
+    usage: 'Card, modali, superfici elevate',
+  },
+  {
+    token: '--surface-2',
+    name: 'Surface 2',
+    cssVar: '--surface-2',
+    usage: 'Superficie secondaria, hover',
+  },
+  { token: '--ink', name: 'Ink', cssVar: '--ink', usage: 'Testo primario, bordi' },
+  { token: '--ink-soft', name: 'Ink Soft', cssVar: '--ink-soft', usage: 'Testo secondario' },
+  {
+    token: '--ink-muted',
+    name: 'Ink Muted',
+    cssVar: '--ink-muted',
+    usage: 'Hint, placeholder, meta',
+  },
+  {
+    token: '--border-memphis',
+    name: 'Border Memphis',
+    cssVar: '--border-memphis',
+    usage: 'Bordo 2px Memphis nero',
+  },
+  { token: '--accent', name: 'Accent', cssVar: '--accent', usage: 'Gold 500 — brand highlight' },
 ]
 
-function Swatch({ varName, label }: { varName: string; label: string }) {
+function ColorBand({ scale }: { scale: ColorScaleDef }) {
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          marginBottom: 12,
+          flexWrap: 'wrap',
+          gap: 12,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+          <h3 className="display" style={{ fontSize: 28, margin: 0, color: 'var(--ink)' }}>
+            {scale.name}
+          </h3>
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 13,
+              color: 'var(--accent)',
+              fontWeight: 700,
+            }}
+          >
+            --{scale.token}-*
+          </span>
+        </div>
+        <div
+          style={{
+            color: 'var(--ink-muted)',
+            fontSize: 13,
+            fontStyle: 'italic',
+          }}
+        >
+          {scale.desc}
+        </div>
+      </div>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${scale.stops.length}, 1fr)`,
+          border: '2px solid var(--border-memphis)',
+          boxShadow: '6px 6px 0 var(--black)',
+          overflow: 'hidden',
+        }}
+      >
+        {scale.stops.map((s, idx) => (
+          <div
+            key={s.k}
+            style={{
+              background: s.hex,
+              color: s.text === 'dark' ? 'rgba(255,255,255,0.92)' : 'rgba(0,0,0,0.75)',
+              aspectRatio: '1.2 / 1',
+              padding: '14px 12px 12px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              borderLeft: idx === 0 ? 'none' : '2px solid var(--border-memphis)',
+            }}
+          >
+            <div
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+              }}
+            >
+              {scale.token}-{s.k}
+            </div>
+            <div
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                opacity: 0.85,
+                marginTop: 2,
+              }}
+            >
+              {s.hex}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function SemanticBlock({
+  token,
+  name,
+  cssVar,
+  usage,
+}: {
+  token: string
+  name: string
+  cssVar: string
+  usage: string
+}) {
   return (
     <div
       style={{
+        padding: 16,
         border: '2px solid var(--border-memphis)',
         background: 'var(--surface)',
-        padding: 10,
+        boxShadow: '3px 3px 0 var(--black)',
       }}
     >
       <div
         style={{
+          width: '100%',
           height: 44,
-          background: `var(${varName})`,
-          border: '1px solid var(--border)',
-          marginBottom: 6,
+          background: `var(${cssVar})`,
+          border: '2px solid var(--border-memphis)',
+          marginBottom: 10,
         }}
       />
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700 }}>{label}</div>
       <div
         style={{
           fontFamily: 'var(--font-mono)',
-          fontSize: 9,
-          color: 'var(--ink-muted)',
+          fontSize: 10,
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          fontWeight: 700,
+          color: 'var(--ink)',
         }}
       >
-        {varName}
+        {name}
+      </div>
+      <div
+        style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 10,
+          color: 'var(--accent)',
+          marginTop: 2,
+          fontWeight: 700,
+        }}
+      >
+        {token}
+      </div>
+      <div
+        style={{
+          fontSize: 11,
+          color: 'var(--ink-muted)',
+          marginTop: 6,
+          lineHeight: 1.35,
+        }}
+      >
+        {usage}
       </div>
     </div>
   )
@@ -398,60 +591,133 @@ function ColorsSection() {
       <SectionHeader
         num="01"
         title="Colori"
-        desc="Plum per l'ink scuro, Gold per l'accento, Paper (ivory/cream) per gli sfondi caldi."
+        desc="3 scale brand (Plum, Gold, Paper) in bande orizzontali + 8 token semantici. Plum per l'ink, Gold per l'accento, Paper per gli sfondi caldi."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="Plum Scale">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
-            {PLUM_STOPS.map((s) => (
-              <Swatch key={s} varName={`--plum-${s}`} label={`plum-${s}`} />
-            ))}
-          </div>
-        </SubPanel>
+      <div
+        style={{
+          border: '2px solid var(--border-memphis)',
+          boxShadow: 'var(--shadow-memphis)',
+          background: 'var(--surface)',
+          padding: 32,
+        }}
+      >
+        <ColorBand scale={PLUM_SCALE} />
+        <ColorBand scale={GOLD_SCALE} />
+        <ColorBand scale={PAPER_SCALE} />
 
-        <SubPanel label="Gold Scale">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
-            {GOLD_STOPS.map((s) => (
-              <Swatch key={s} varName={`--gold-${s}`} label={`gold-${s}`} />
-            ))}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'baseline',
+            justifyContent: 'space-between',
+            marginTop: 40,
+            marginBottom: 16,
+            flexWrap: 'wrap',
+            gap: 12,
+          }}
+        >
+          <h3 className="display" style={{ fontSize: 24, margin: 0, color: 'var(--ink)' }}>
+            Semantici
+          </h3>
+          <div style={{ color: 'var(--ink-muted)', fontSize: 13, fontStyle: 'italic' }}>
+            Alias di livello prodotto — usa questi nei componenti
           </div>
-        </SubPanel>
-
-        <SubPanel label="Paper Scale">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
-            {PAPER_STOPS.map((s) => (
-              <Swatch key={s} varName={`--paper-${s}`} label={`paper-${s}`} />
-            ))}
-          </div>
-        </SubPanel>
-
-        <SubPanel label="Semantic">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
-            {SEMANTIC_TOKENS.map(([v, l]) => (
-              <Swatch key={v} varName={v} label={l} />
-            ))}
-          </div>
-        </SubPanel>
+        </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 12,
+          }}
+        >
+          {SEMANTIC_BLOCKS.map((b) => (
+            <SemanticBlock key={b.token} {...b} />
+          ))}
+        </div>
       </div>
     </section>
   )
 }
 
 // ═══════════════════════════════════════════════════════════
-// 02 · Typography
+// 02 · Typography — type specimens + scale ladder
 // ═══════════════════════════════════════════════════════════
 
-const TYPE_LADDER: ReadonlyArray<{ label: string; size: number }> = [
-  { label: 'text-6xl', size: 60 },
-  { label: 'text-5xl', size: 48 },
-  { label: 'text-4xl', size: 36 },
-  { label: 'text-3xl', size: 30 },
-  { label: 'text-2xl', size: 24 },
-  { label: 'text-xl', size: 20 },
-  { label: 'text-base', size: 16 },
-  { label: 'text-sm', size: 14 },
-  { label: 'text-xs', size: 12 },
+type TypeScaleRow = {
+  readonly name: string
+  readonly size: number
+  readonly weight: number
+  readonly font: 'display' | 'body' | 'mono'
+  readonly upper?: boolean
+  readonly track?: number
+}
+
+const TYPE_SCALE: ReadonlyArray<TypeScaleRow> = [
+  { name: 'Display XL', size: 68, weight: 400, font: 'display' },
+  { name: 'Display L', size: 48, weight: 400, font: 'display' },
+  { name: 'Display M', size: 36, weight: 400, font: 'display' },
+  { name: 'Display S', size: 24, weight: 400, font: 'display' },
+  { name: 'Body XL', size: 20, weight: 500, font: 'body' },
+  { name: 'Body L', size: 18, weight: 500, font: 'body' },
+  { name: 'Body M', size: 16, weight: 400, font: 'body' },
+  { name: 'Body S', size: 14, weight: 400, font: 'body' },
+  { name: 'Caption', size: 12, weight: 500, font: 'body' },
+  { name: 'Mono / Eyebrow', size: 11, weight: 700, font: 'mono', upper: true, track: 0.22 },
 ]
+
+const typeCardStyle: CSSProperties = {
+  padding: 32,
+  background: 'var(--surface)',
+  border: '2px solid var(--border-memphis)',
+  boxShadow: '6px 6px 0 var(--black)',
+  position: 'relative',
+}
+
+const typeCardMetaStyle: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  fontFamily: 'var(--font-mono)',
+  fontSize: 10,
+  letterSpacing: '0.2em',
+  textTransform: 'uppercase',
+  color: 'var(--ink-muted)',
+  marginBottom: 16,
+  fontWeight: 700,
+}
+
+const typeCardSmallStyle: CSSProperties = {
+  marginTop: 20,
+  fontFamily: 'var(--font-mono)',
+  fontSize: 11,
+  color: 'var(--ink-muted)',
+  display: 'flex',
+  gap: 12,
+  flexWrap: 'wrap',
+}
+
+const typeChipStyle: CSSProperties = {
+  padding: '4px 8px',
+  background: 'var(--paper-100)',
+  border: '1.5px solid var(--border-memphis)',
+}
+
+function typeSpecStyle(t: TypeScaleRow): CSSProperties {
+  const family =
+    t.font === 'display'
+      ? 'var(--font-display)'
+      : t.font === 'mono'
+        ? 'var(--font-mono)'
+        : 'var(--font-body)'
+  return {
+    fontFamily: family,
+    fontSize: t.size,
+    fontWeight: t.weight,
+    textTransform: t.upper ? 'uppercase' : 'none',
+    letterSpacing: t.track ? `${t.track}em` : '0',
+    lineHeight: 1.1,
+    color: 'var(--ink)',
+  }
+}
 
 function TypographySection() {
   return (
@@ -459,245 +725,411 @@ function TypographySection() {
       <SectionHeader
         num="02"
         title="Tipografia"
-        desc="Audiowide per i titoli display, Exo 2 per il body. Scala coerente con Tailwind."
+        desc="Audiowide per il display, Exo 2 per body e UI. Nessun font extra — la personalità sta nel peso e nel tracking."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="Display · Audiowide">
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: 64, lineHeight: 1 }}>
-            Damacchi
-          </div>
-          <div style={stateNoteStyle}>var(--font-display) · 64px</div>
-        </SubPanel>
 
-        <SubPanel label="Body · Exo 2">
-          <div
+      {/* Two big type specimens side-by-side */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: 24,
+          marginBottom: 32,
+        }}
+      >
+        <div style={typeCardStyle}>
+          <div style={typeCardMetaStyle}>
+            <span>
+              DISPLAY · <b style={{ color: 'var(--accent)' }}>AUDIOWIDE</b>
+            </span>
+            <span>Google Fonts</span>
+          </div>
+          <p
             style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 18,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 8,
+              margin: 0,
+              fontFamily: 'var(--font-display)',
+              fontSize: 72,
+              lineHeight: 1,
+              letterSpacing: '-0.01em',
+              color: 'var(--ink)',
             }}
           >
-            <span style={{ fontWeight: 300 }}>Mangia come scacchi. (300)</span>
-            <span style={{ fontWeight: 400 }}>Mangia come scacchi. (400)</span>
-            <span style={{ fontWeight: 600 }}>Mangia come scacchi. (600)</span>
-            <span style={{ fontWeight: 700 }}>Mangia come scacchi. (700)</span>
+            Damacchi
+          </p>
+          <div style={typeCardSmallStyle}>
+            <span style={typeChipStyle}>400 regular</span>
+            <span style={typeChipStyle}>letter-spacing: 0.02em</span>
+            <span style={typeChipStyle}>Solo display — mai body</span>
           </div>
-        </SubPanel>
+        </div>
 
-        <SubPanel label="Scala">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {TYPE_LADDER.map((t) => (
-              <div key={t.label} style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 10,
-                    color: 'var(--ink-muted)',
-                    minWidth: 72,
-                  }}
-                >
-                  {t.label}
-                </span>
-                <span style={{ fontSize: t.size, lineHeight: 1.1 }}>Damacchi</span>
-              </div>
-            ))}
+        <div style={typeCardStyle}>
+          <div style={typeCardMetaStyle}>
+            <span>
+              BODY · <b style={{ color: 'var(--accent)' }}>EXO 2</b>
+            </span>
+            <span>Google Fonts</span>
           </div>
-        </SubPanel>
+          <p
+            style={{
+              margin: 0,
+              fontFamily: 'var(--font-body)',
+              fontSize: 42,
+              fontWeight: 600,
+              lineHeight: 1,
+              color: 'var(--ink)',
+            }}
+          >
+            Cavallo, ma a spazzare.
+          </p>
+          <div style={typeCardSmallStyle}>
+            <span style={typeChipStyle}>300 / 400 / 500 / 600 / 700</span>
+            <span style={typeChipStyle}>Body + UI + eyebrow</span>
+          </div>
+        </div>
+      </div>
 
-        <SubPanel label="Utilities">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 28 }}>.display</div>
-              <div style={stateNoteStyle}>Audiowide · letter-spacing tight</div>
+      {/* Scale ladder — single card with 3-col rows */}
+      <div style={typeCardStyle}>
+        <div style={typeCardMetaStyle}>
+          <span>SCALA TIPOGRAFICA</span>
+          <span>10 stili · rem + px</span>
+        </div>
+        {TYPE_SCALE.map((t, idx) => (
+          <div
+            key={t.name}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '140px 1fr 160px',
+              gap: 24,
+              alignItems: 'baseline',
+              padding: '18px 0',
+              borderTop:
+                idx === 0 ? 'none' : '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
+            }}
+          >
+            <div
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--ink-muted)',
+                fontWeight: 700,
+              }}
+            >
+              {t.name}
             </div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 14 }}>
-                .mono const {'{'} pawns: 12 {'}'}
-              </div>
-              <div style={stateNoteStyle}>Exo 2 · letter-spacing 0.04em</div>
+            <div style={typeSpecStyle(t)}>
+              {t.upper ? 'SCACCHI + DAMA' : 'Damacchi · Cavallo e pedona'}
             </div>
-            <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 11,
-                  letterSpacing: '0.22em',
-                  textTransform: 'uppercase',
-                  color: 'var(--ink-muted)',
-                  fontWeight: 700,
-                }}
-              >
-                Finalmente una dama con le palle
-              </div>
-              <div style={stateNoteStyle}>.eyebrow · uppercase · tracking wide</div>
+            <div
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                color: 'var(--accent)',
+                textAlign: 'right',
+                fontWeight: 700,
+              }}
+            >
+              {t.size}px / {t.weight}
+              <br />
+              <span style={{ color: 'var(--ink-muted)', fontWeight: 400 }}>--font-{t.font}</span>
             </div>
           </div>
-        </SubPanel>
+        ))}
       </div>
     </section>
   )
 }
 
 // ═══════════════════════════════════════════════════════════
-// 03 · Buttons
+// 03 · Buttons — full-state grid (Primary / Ghost / Sizes)
 // ═══════════════════════════════════════════════════════════
 
+const stateLabelStyle: CSSProperties = {
+  fontFamily: 'var(--font-mono)',
+  fontSize: 10,
+  letterSpacing: '0.18em',
+  textTransform: 'uppercase',
+  color: 'var(--ink-muted)',
+  fontWeight: 700,
+  marginTop: 8,
+  textAlign: 'center',
+}
+
+const sectionFrameSingleStyle: CSSProperties = {
+  border: '2px solid var(--border-memphis)',
+  boxShadow: 'var(--shadow-memphis)',
+  background: 'var(--surface)',
+  padding: 32,
+}
+
+const buttonSubPanelStyle: CSSProperties = {
+  border: '1px dashed var(--border-strong)',
+  padding: 24,
+  background: 'var(--paper-50)',
+}
+
+const buttonSubPanelLabelStyle: CSSProperties = {
+  ...subPanelLabelStyle,
+  marginBottom: 20,
+}
+
+type ButtonStateCell = { label: string; node: ReactNode }
+
+function ButtonStateRow({ cells }: { cells: ReadonlyArray<ButtonStateCell> }) {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(5, 1fr)',
+        gap: 20,
+        alignItems: 'start',
+      }}
+    >
+      {cells.map((c) => (
+        <div
+          key={c.label}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          {c.node}
+          <div style={stateLabelStyle}>{c.label}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function ButtonsSection() {
+  const primaryStates: ReadonlyArray<ButtonStateCell> = [
+    { label: 'Default', node: <Button variant="primary">GIOCA</Button> },
+    {
+      label: 'Hover',
+      node: (
+        <Button
+          variant="primary"
+          style={{
+            transform: 'translate(-1px,-1px)',
+            boxShadow: '7px 7px 0 var(--black)',
+            background: 'var(--gold-400)',
+          }}
+        >
+          GIOCA
+        </Button>
+      ),
+    },
+    {
+      label: 'Active',
+      node: (
+        <Button
+          variant="primary"
+          style={{
+            transform: 'translate(3px,3px)',
+            boxShadow: '2px 2px 0 var(--black)',
+          }}
+        >
+          GIOCA
+        </Button>
+      ),
+    },
+    {
+      label: 'Focus',
+      node: (
+        <Button
+          variant="primary"
+          style={{
+            outline: '2px solid var(--ring)',
+            outlineOffset: 2,
+          }}
+        >
+          GIOCA
+        </Button>
+      ),
+    },
+    {
+      label: 'Disabled',
+      node: (
+        <Button variant="primary" disabled>
+          GIOCA
+        </Button>
+      ),
+    },
+  ]
+
+  const ghostStates: ReadonlyArray<ButtonStateCell> = [
+    { label: 'Default', node: <Button variant="ghost">INDIETRO</Button> },
+    {
+      label: 'Hover',
+      node: (
+        <Button
+          variant="ghost"
+          style={{
+            transform: 'translate(-1px,-1px)',
+            boxShadow: '7px 7px 0 var(--gold-500)',
+            background: 'var(--surface-2)',
+          }}
+        >
+          INDIETRO
+        </Button>
+      ),
+    },
+    {
+      label: 'Active',
+      node: (
+        <Button
+          variant="ghost"
+          style={{
+            transform: 'translate(3px,3px)',
+            boxShadow: '2px 2px 0 var(--gold-500)',
+          }}
+        >
+          INDIETRO
+        </Button>
+      ),
+    },
+    {
+      label: 'Focus',
+      node: (
+        <Button
+          variant="ghost"
+          style={{
+            outline: '2px solid var(--ring)',
+            outlineOffset: 2,
+          }}
+        >
+          INDIETRO
+        </Button>
+      ),
+    },
+    {
+      label: 'Disabled',
+      node: (
+        <Button variant="ghost" disabled>
+          INDIETRO
+        </Button>
+      ),
+    },
+  ]
+
   return (
     <section id="buttons" style={sectionStyle}>
       <SectionHeader
         num="03"
         title="Bottoni"
-        desc="Memphis hard: bordo 2px nero, L-shadow offset pure black, click fisico snap."
+        desc="Bordo nero 2px + shadow Memphis di 4-6px. Offset si riduce a 2px su :active per la press response."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="Stati · Outline">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
-            <div>
-              <Button variant="outline">Default</Button>
-              <div style={stateNoteStyle}>default</div>
-            </div>
-            <div>
-              <Button variant="outline" style={{ boxShadow: 'var(--shadow-memphis-hover)' }}>
-                Hover
-              </Button>
-              <div style={stateNoteStyle}>hover</div>
-            </div>
-            <div>
-              <Button variant="outline" style={{ boxShadow: 'var(--shadow-memphis-active)' }}>
-                Active
-              </Button>
-              <div style={stateNoteStyle}>active</div>
-            </div>
-            <div>
-              <Button
-                variant="outline"
-                style={{ outline: '3px solid var(--ring)', outlineOffset: 2 }}
-              >
-                Focus
-              </Button>
-              <div style={stateNoteStyle}>focus</div>
-            </div>
-            <div>
-              <Button variant="outline" disabled>
-                Disabled
-              </Button>
-              <div style={stateNoteStyle}>disabled</div>
-            </div>
-          </div>
-        </SubPanel>
+      <div style={sectionFrameSingleStyle}>
+        <div style={buttonSubPanelStyle}>
+          <div style={buttonSubPanelLabelStyle}>PRIMARY · GOLD BACKGROUND</div>
+          <ButtonStateRow cells={primaryStates} />
+        </div>
 
-        <SubPanel label="Variants">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            <Button variant="primary">Primary</Button>
-            <Button variant="accent">Accent</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="danger">Danger</Button>
-            <Button variant="link">Link</Button>
-          </div>
-        </SubPanel>
+        <div style={{ height: 24 }} />
 
-        <SubPanel label="Sizes">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
-            <Button variant="outline" size="sm">
+        <div style={buttonSubPanelStyle}>
+          <div style={buttonSubPanelLabelStyle}>GHOST · OUTLINE NEUTRO</div>
+          <ButtonStateRow cells={ghostStates} />
+        </div>
+
+        <div style={{ height: 24 }} />
+
+        <div style={buttonSubPanelStyle}>
+          <div style={buttonSubPanelLabelStyle}>SIZES</div>
+          <div
+            style={{
+              display: 'flex',
+              gap: 16,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            <Button variant="primary" size="sm">
               Small
             </Button>
-            <Button variant="outline" size="md">
+            <Button variant="primary" size="md">
               Medium
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="primary" size="lg">
               Large
             </Button>
-            <IconButton aria-label="Search">
-              <SearchIcon size={18} />
+            <Button variant="ghost" size="md">
+              <ArrowRightIcon size={14} /> Con icona
+            </Button>
+            <IconButton aria-label="Settings" variant="ghost">
+              <CogIcon size={18} />
             </IconButton>
           </div>
-        </SubPanel>
-
-        <SubPanel label="With Icons">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            <Button variant="primary">
-              <CrownIcon size={16} /> Play
-            </Button>
-            <Button variant="accent">
-              <TrophyIcon size={16} /> Classifica
-            </Button>
-            <Button variant="outline">
-              <ArrowRightIcon size={16} /> Continua
-            </Button>
-            <Button variant="danger">
-              <TrashIcon size={16} /> Elimina
-            </Button>
-          </div>
-        </SubPanel>
+        </div>
       </div>
     </section>
   )
 }
 
 // ═══════════════════════════════════════════════════════════
-// 04 · Cards (domain patterns)
+// 04 · Cards — domain patterns (Player / Mode / Info / Content)
 // ═══════════════════════════════════════════════════════════
 
 function PlayerCard() {
   return (
     <div
       style={{
-        border: '2px solid var(--border-memphis)',
-        boxShadow: 'var(--shadow-memphis)',
-        background: 'var(--surface)',
-        padding: 16,
         display: 'flex',
-        alignItems: 'center',
         gap: 14,
-        minHeight: 92,
+        alignItems: 'center',
+        padding: 16,
+        border: '2px solid var(--border-memphis)',
+        background: 'var(--surface)',
+        boxShadow: '4px 4px 0 var(--black)',
+        width: '100%',
       }}
     >
       <div
         style={{
           width: 48,
           height: 48,
-          background: 'var(--plum-500)',
-          border: '2px solid var(--border-memphis)',
+          borderRadius: '50%',
+          background: 'var(--plum-900)',
+          color: 'var(--paper-50)',
           display: 'grid',
           placeItems: 'center',
-          color: 'var(--paper-50)',
+          fontFamily: 'var(--font-display)',
+          fontWeight: 700,
+          fontSize: 20,
+          border: '2px solid var(--border-memphis)',
+          flexShrink: 0,
         }}
       >
-        <UserIcon size={24} />
+        M
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--ink)' }}>
-          Marina &quot;MC&quot; Rossi
-        </div>
+        <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--ink)' }}>Marini · Bianco</div>
         <div
           style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 11,
-            letterSpacing: '0.1em',
             color: 'var(--ink-muted)',
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
             marginTop: 2,
           }}
         >
-          ELO 1847 · ONLINE
+          ELO 1842 · RAPID
         </div>
       </div>
       <div
         style={{
+          padding: '8px 14px',
+          border: '2px solid var(--gold-500)',
+          background: 'var(--paper-50)',
           fontFamily: 'var(--font-mono)',
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 700,
           color: 'var(--ink)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
+          boxShadow: '2px 2px 0 var(--gold-500)',
         }}
       >
-        <ClockIcon size={14} /> 10:32
+        05:42
       </div>
     </div>
   )
@@ -707,56 +1139,53 @@ function ModeCard() {
   return (
     <div
       style={{
+        padding: 20,
         border: '2px solid var(--border-memphis)',
-        boxShadow: 'var(--shadow-memphis)',
         background: 'var(--surface)',
-        padding: 16,
-        textAlign: 'left',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 14,
-        width: '100%',
+        boxShadow: '4px 4px 0 var(--gold-500)',
+        width: 280,
       }}
     >
-      <div style={{ flex: 1 }}>
-        <div
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 22,
-            color: 'var(--ink)',
-            marginBottom: 4,
-          }}
-        >
-          Classico
-        </div>
-        <div style={{ fontSize: 13, color: 'var(--ink-soft)', marginBottom: 8 }}>
-          Partita standard 8×8 con orologio.
-        </div>
-        <div
+      <h4
+        className="display"
+        style={{
+          fontSize: 24,
+          margin: '0 0 8px',
+          color: 'var(--ink)',
+          letterSpacing: '0.02em',
+        }}
+      >
+        CLASSICO
+      </h4>
+      <p
+        style={{
+          color: 'var(--ink-muted)',
+          fontSize: 13,
+          margin: '0 0 24px',
+          lineHeight: 1.4,
+        }}
+      >
+        Scacchi ortodossi, pezzi mangiati tornano come pedine
+      </p>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <span
           style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: 10,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: 'var(--gold-500)',
+            fontSize: 12,
             fontWeight: 700,
+            letterSpacing: '0.08em',
+            color: 'var(--accent)',
           }}
         >
           10+5 MIN
-        </div>
-      </div>
-      <div
-        style={{
-          width: 36,
-          height: 36,
-          background: 'var(--ink)',
-          color: 'var(--paper-50)',
-          display: 'grid',
-          placeItems: 'center',
-          flexShrink: 0,
-        }}
-      >
-        <ArrowRightIcon size={18} />
+        </span>
+        <ArrowRightIcon size={18} style={{ color: 'var(--accent)' }} />
       </div>
     </div>
   )
@@ -764,51 +1193,52 @@ function ModeCard() {
 
 function InfoCard() {
   return (
-    <div
-      style={{
-        border: '2px solid var(--border-memphis)',
-        boxShadow: 'var(--shadow-memphis)',
-        background: 'var(--surface)',
-        padding: 20,
-        position: 'relative',
-        textAlign: 'center',
-      }}
-    >
+    <div style={{ position: 'relative', width: 200 }}>
+      {/* Gold diamond indicator on top */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
-          top: -8,
-          left: '50%',
-          transform: 'translateX(-50%) rotate(45deg)',
-          width: 12,
-          height: 12,
+          top: -10,
+          right: 20,
+          width: 16,
+          height: 16,
           background: 'var(--gold-500)',
+          transform: 'rotate(45deg)',
           border: '2px solid var(--border-memphis)',
         }}
       />
       <div
         style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 10,
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          color: 'var(--ink-muted)',
-          fontWeight: 700,
-          marginBottom: 8,
+          padding: 16,
+          border: '2px solid var(--border-memphis)',
+          background: 'var(--surface)',
+          boxShadow: '4px 4px 0 var(--black)',
         }}
       >
-        Mosse Rimanenti
-      </div>
-      <div
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 64,
-          color: 'var(--ink)',
-          lineHeight: 1,
-        }}
-      >
-        23
+        <div
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: '0.2em',
+            color: 'var(--ink-muted)',
+            textTransform: 'uppercase',
+          }}
+        >
+          Mosse rimanenti
+        </div>
+        <div
+          className="display"
+          style={{
+            fontSize: 40,
+            lineHeight: 1,
+            marginTop: 8,
+            color: 'var(--ink)',
+          }}
+        >
+          23
+        </div>
       </div>
     </div>
   )
@@ -818,41 +1248,30 @@ function ContentCardNeutra() {
   return (
     <div
       style={{
+        padding: 24,
         border: '2px solid var(--border-memphis)',
-        boxShadow: 'var(--shadow-memphis)',
         background: 'var(--surface)',
-        padding: 20,
+        boxShadow: '4px 4px 0 var(--black)',
+        maxWidth: 420,
       }}
     >
-      <div
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 10,
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          color: 'var(--gold-500)',
-          fontWeight: 700,
-          marginBottom: 10,
-        }}
-      >
+      <div className="eyebrow" style={{ marginBottom: 8 }}>
         Regola
       </div>
-      <div
+      <h4
+        className="display"
         style={{
-          fontFamily: 'var(--font-display)',
           fontSize: 22,
-          color: 'var(--ink)',
-          marginBottom: 10,
           lineHeight: 1.15,
+          margin: '0 0 12px',
+          color: 'var(--ink)',
         }}
       >
-        Mangia come scacchi,
-        <br />
-        muovi come dama
-      </div>
-      <p style={{ fontSize: 14, color: 'var(--ink-soft)', margin: 0, lineHeight: 1.5 }}>
-        Cattura diagonale a distanza libera, movimento di una casella alla volta. L&apos;ibrido che
-        riscrive le regole.
+        Mangia come scacchi, muovi come dama
+      </h4>
+      <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--ink-soft)', margin: 0 }}>
+        Il pezzo cattura con le regole degli scacchi. Ma se arriva in fondo, promuove come nella
+        dama italiana.
       </p>
     </div>
   )
@@ -864,20 +1283,60 @@ function CardsSection() {
       <SectionHeader
         num="04"
         title="Cards"
-        desc="Player, mode, info, content card — pattern di dominio costruiti sul Memphis frame."
+        desc="4 varianti principali. Tutte condividono bordo 2px + shadow Memphis, cambia solo accento e layout."
       />
       <div style={sectionFrameStyle}>
-        <SubPanel label="Player Card">
-          <PlayerCard />
+        <SubPanel label="PLAYER CARD">
+          <div
+            style={{
+              display: 'grid',
+              placeItems: 'center',
+              padding: 16,
+              background: 'var(--paper-50)',
+              minHeight: 140,
+            }}
+          >
+            <PlayerCard />
+          </div>
         </SubPanel>
-        <SubPanel label="Mode Card">
-          <ModeCard />
+        <SubPanel label="MODE CARD">
+          <div
+            style={{
+              display: 'grid',
+              placeItems: 'center',
+              padding: 16,
+              background: 'var(--paper-50)',
+              minHeight: 200,
+            }}
+          >
+            <ModeCard />
+          </div>
         </SubPanel>
-        <SubPanel label="Info Card">
-          <InfoCard />
+        <SubPanel label="INFO CARD · TOOLTIP/POPOVER">
+          <div
+            style={{
+              display: 'grid',
+              placeItems: 'center',
+              padding: '32px 16px 16px',
+              background: 'var(--paper-50)',
+              minHeight: 180,
+            }}
+          >
+            <InfoCard />
+          </div>
         </SubPanel>
-        <SubPanel label="Content Card · Neutra">
-          <ContentCardNeutra />
+        <SubPanel label="CONTENT CARD · NEUTRA">
+          <div
+            style={{
+              display: 'grid',
+              placeItems: 'center',
+              padding: 16,
+              background: 'var(--paper-50)',
+              minHeight: 200,
+            }}
+          >
+            <ContentCardNeutra />
+          </div>
         </SubPanel>
       </div>
     </section>
