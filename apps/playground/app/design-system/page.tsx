@@ -24,8 +24,6 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-  Badge,
-  Chip,
   Avatar,
   AvatarFallback,
   AvatarGroup,
@@ -288,13 +286,38 @@ const subPanelLabelStyle: CSSProperties = {
   display: 'block',
 }
 
-const stateNoteStyle: CSSProperties = {
+// Faithful port of .ds-card (CSS rule in design-system.css):
+//   background: #fff; border: 2px solid var(--ink);
+//   box-shadow: 4px 4px 0 #000; padding: 28px;
+const dsCardStyle: CSSProperties = {
+  background: 'var(--surface)',
+  border: '2px solid var(--border-memphis)',
+  boxShadow: '4px 4px 0 var(--black)',
+  padding: 28,
+  position: 'relative',
+}
+
+// Faithful port of .ds-card__label
+const dsCardLabelStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 10,
-  color: 'var(--ink-muted)',
-  marginTop: 4,
+  letterSpacing: '0.2em',
   textTransform: 'uppercase',
-  letterSpacing: '0.15em',
+  color: 'var(--ink-muted)',
+  fontWeight: 700,
+  marginBottom: 16,
+  display: 'block',
+}
+
+// Faithful port of .showcase — paper-100 bg, dashed border
+const showcaseStyle: CSSProperties = {
+  display: 'flex',
+  gap: 16,
+  flexWrap: 'wrap',
+  padding: 24,
+  background: 'var(--paper-100)',
+  border: '2px dashed color-mix(in oklab, var(--ink) 25%, transparent)',
+  alignItems: 'center',
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -336,6 +359,26 @@ function SubPanel({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div style={subPanelStyle}>
       <span style={subPanelLabelStyle}>{label}</span>
+      {children}
+    </div>
+  )
+}
+
+// DsCard — faithful port of `.ds-card` from the original design-system.css.
+// Structure: white bg, 2px black border, 4px solid black Memphis shadow,
+// 28px padding, optional label block at top.
+function DsCard({
+  label,
+  style,
+  children,
+}: {
+  label?: string
+  style?: CSSProperties
+  children: ReactNode
+}) {
+  return (
+    <div style={{ ...dsCardStyle, ...(style ?? {}) }}>
+      {label ? <div style={dsCardLabelStyle}>{label}</div> : null}
       {children}
     </div>
   )
@@ -1277,6 +1320,15 @@ function ContentCardNeutra() {
 }
 
 function CardsSection() {
+  const sampleWrapStyle: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+    background: 'var(--paper-50)',
+    border: '2px dashed color-mix(in oklab, var(--ink) 25%, transparent)',
+  }
+
   return (
     <section id="cards" style={sectionStyle}>
       <SectionHeader
@@ -1284,59 +1336,27 @@ function CardsSection() {
         title="Cards"
         desc="4 varianti principali. Tutte condividono bordo 2px + shadow Memphis, cambia solo accento e layout."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="PLAYER CARD">
-          <div
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              padding: 16,
-              background: 'var(--paper-50)',
-              minHeight: 140,
-            }}
-          >
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+        <DsCard label="PLAYER CARD">
+          <div style={sampleWrapStyle}>
             <PlayerCard />
           </div>
-        </SubPanel>
-        <SubPanel label="MODE CARD">
-          <div
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              padding: 16,
-              background: 'var(--paper-50)',
-              minHeight: 200,
-            }}
-          >
+        </DsCard>
+        <DsCard label="MODE CARD">
+          <div style={sampleWrapStyle}>
             <ModeCard />
           </div>
-        </SubPanel>
-        <SubPanel label="INFO CARD · TOOLTIP/POPOVER">
-          <div
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              padding: '32px 16px 16px',
-              background: 'var(--paper-50)',
-              minHeight: 180,
-            }}
-          >
+        </DsCard>
+        <DsCard label="INFO CARD · tooltip/popover">
+          <div style={{ ...sampleWrapStyle, paddingTop: 40 }}>
             <InfoCard />
           </div>
-        </SubPanel>
-        <SubPanel label="CONTENT CARD · NEUTRA">
-          <div
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              padding: 16,
-              background: 'var(--paper-50)',
-              minHeight: 200,
-            }}
-          >
+        </DsCard>
+        <DsCard label="CONTENT CARD · neutra">
+          <div style={sampleWrapStyle}>
             <ContentCardNeutra />
           </div>
-        </SubPanel>
+        </DsCard>
       </div>
     </section>
   )
@@ -1382,28 +1402,28 @@ function InputsSection() {
       <SectionHeader
         num="05"
         title="Inputs"
-        desc="Text field, select, segmented, toggle minimalista, slider. Tutto risponde ai token."
+        desc="Text, toggle, slider, select. Stesso linguaggio: bordo nero 2px, shadow hard."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="TEXT FIELD · STATI">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+        <DsCard label="TEXT FIELD · stati">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div>
               <label htmlFor="nick-default" style={inputLabelStyle}>
-                NICKNAME
+                Nickname
               </label>
               <Input id="nick-default" defaultValue="Damo42" />
               <span style={inputStateCaptionStyle}>Default</span>
             </div>
             <div>
               <label htmlFor="nick-focus" style={inputLabelStyle}>
-                NICKNAME
+                Nickname
               </label>
               <Input id="nick-focus" defaultValue="MarinaChess" style={inputFocusOverrideStyle} />
               <span style={inputStateCaptionStyle}>Focus</span>
             </div>
             <div>
               <label htmlFor="email-disabled" style={inputLabelStyle}>
-                EMAIL
+                Email
               </label>
               <Input
                 id="email-disabled"
@@ -1415,12 +1435,12 @@ function InputsSection() {
               <span style={inputStateCaptionStyle}>Disabled</span>
             </div>
           </div>
-        </SubPanel>
+        </DsCard>
 
-        <SubPanel label="SELECT">
+        <DsCard label="SELECT">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div>
-              <label style={inputLabelStyle}>MODALITÀ</label>
+              <label style={inputLabelStyle}>Modalità</label>
               <Select defaultValue="classico">
                 <SelectTrigger>
                   <SelectValue />
@@ -1433,7 +1453,7 @@ function InputsSection() {
               </Select>
             </div>
             <div>
-              <label style={inputLabelStyle}>SEGMENTED</label>
+              <span style={dsCardLabelStyle}>SEGMENTED</span>
               <SegmentedControl defaultValue="blitz" aria-label="Tempo">
                 <SegmentedControlItem value="bullet">BULLET</SegmentedControlItem>
                 <SegmentedControlItem value="blitz">BLITZ</SegmentedControlItem>
@@ -1441,27 +1461,23 @@ function InputsSection() {
               </SegmentedControl>
             </div>
           </div>
-        </SubPanel>
+        </DsCard>
 
-        <SubPanel label="TOGGLE">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <DsCard label="TOGGLE">
+          <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <Switch id="tg-off" aria-label="Toggle off" />
-              <label htmlFor="tg-off" style={inputLabelStyle}>
-                Off
-              </label>
+              <span style={inputStateCaptionStyle}>Off</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <Switch id="tg-on" defaultChecked aria-label="Toggle on" />
-              <label htmlFor="tg-on" style={inputLabelStyle}>
-                On
-              </label>
+              <span style={inputStateCaptionStyle}>On</span>
             </div>
           </div>
-        </SubPanel>
+        </DsCard>
 
-        <SubPanel label="SLIDER">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <DsCard label="SLIDER">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             {SLIDER_VALUES.map((v) => (
               <div key={v} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{ flex: 1 }}>
@@ -1481,19 +1497,103 @@ function InputsSection() {
               </div>
             ))}
           </div>
-        </SubPanel>
+        </DsCard>
       </div>
     </section>
   )
 }
 
 // ═══════════════════════════════════════════════════════════
-// 06 · Badges & Chips — 2 sub-panel (BADGE count+featured / CHIP semantici+sizes)
+// 06 · Badges & Chips — faithful to original .badge / .chip-ds
+// Uses raw styled spans so we can express all the color variants the
+// original design ships (default / copper / navy / win / loss / draw /
+// rank / outline). The @damacchi/ui <Badge /> only supports two variants.
 // ═══════════════════════════════════════════════════════════
 
-const badgeChipFrameStyle: CSSProperties = {
-  ...sectionFrameStyle,
-  gridTemplateColumns: 'repeat(2, 1fr)',
+const badgeBaseStyle: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+  fontFamily: 'var(--font-mono)',
+  fontSize: 11,
+  fontWeight: 700,
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  padding: '4px 10px',
+  border: '1.5px solid var(--border-memphis)',
+  background: 'var(--surface)',
+  color: 'var(--ink)',
+  whiteSpace: 'nowrap',
+}
+
+type BadgeFlavor = 'default' | 'copper' | 'navy' | 'win' | 'loss' | 'draw' | 'rank' | 'outline'
+
+function badgeFlavorStyle(flavor: BadgeFlavor): CSSProperties {
+  switch (flavor) {
+    case 'copper':
+      return { background: 'var(--gold-500)', color: '#fff' }
+    case 'navy':
+      return { background: 'var(--plum-900)', color: 'var(--gold-200)' }
+    case 'win':
+      return { background: 'var(--success)', color: '#fff' }
+    case 'loss':
+      return { background: 'var(--danger)', color: '#fff' }
+    case 'draw':
+      return { background: 'var(--paper-100)' }
+    case 'rank':
+      return { background: 'var(--gold-100)' }
+    case 'outline':
+      return { background: 'transparent' }
+    default:
+      return {}
+  }
+}
+
+function DsBadge({ flavor = 'default', children }: { flavor?: BadgeFlavor; children: ReactNode }) {
+  return <span style={{ ...badgeBaseStyle, ...badgeFlavorStyle(flavor) }}>{children}</span>
+}
+
+const chipBaseStyle: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+  padding: '6px 12px',
+  background: 'var(--paper-100)',
+  border: '2px solid var(--border-memphis)',
+  fontSize: 12,
+  fontWeight: 500,
+  color: 'var(--ink)',
+}
+
+const chipActiveStyle: CSSProperties = {
+  background: 'var(--gold-500)',
+  color: '#fff',
+}
+
+const chipDotStyle: CSSProperties = {
+  width: 8,
+  height: 8,
+  borderRadius: '50%',
+  border: '1.5px solid var(--border-memphis)',
+  display: 'inline-block',
+}
+
+function DsChip({
+  active = false,
+  dotColor,
+  children,
+}: {
+  active?: boolean
+  dotColor: string
+  children: ReactNode
+}) {
+  const dotBorder = active ? '#fff' : 'var(--border-memphis)'
+  return (
+    <span style={{ ...chipBaseStyle, ...(active ? chipActiveStyle : {}) }}>
+      <span style={{ ...chipDotStyle, background: dotColor, borderColor: dotBorder }} />
+      {children}
+    </span>
+  )
 }
 
 function BadgesSection() {
@@ -1502,64 +1602,38 @@ function BadgesSection() {
       <SectionHeader
         num="06"
         title="Badge & Chip"
-        desc="Etichette discrete per numeri, status, categorie. Chip per filtri, badge per conteggi."
+        desc="Status, rank, tag. Sempre maiuscoli, mono, tracking 0.08em."
       />
-      <div style={badgeChipFrameStyle}>
-        <SubPanel label="BADGE">
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 12,
-              alignItems: 'center',
-            }}
-          >
-            <Badge>12</Badge>
-            <Badge>7</Badge>
-            <Badge variant="featured">NEW</Badge>
-            <Badge variant="featured">HOT</Badge>
-            <Badge variant="featured">LIVE</Badge>
-          </div>
-          <div
-            style={{
-              marginTop: 24,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              flexWrap: 'wrap',
-            }}
-          >
-            <span style={{ fontFamily: 'var(--font-body)' }}>Messaggi</span>
-            <Badge>12</Badge>
-            <span style={{ marginLeft: 16, fontFamily: 'var(--font-body)' }}>Offerte</span>
-            <Badge variant="featured">HOT</Badge>
-          </div>
-        </SubPanel>
+      <DsCard label="BADGE · status">
+        <div style={showcaseStyle}>
+          <DsBadge>DEFAULT</DsBadge>
+          <DsBadge flavor="copper">NUOVO</DsBadge>
+          <DsBadge flavor="navy">BETA</DsBadge>
+          <DsBadge flavor="win">VITTORIA</DsBadge>
+          <DsBadge flavor="loss">SCONFITTA</DsBadge>
+          <DsBadge flavor="draw">PAREGGIO</DsBadge>
+          <DsBadge flavor="outline">OUTLINE</DsBadge>
+        </div>
 
-        <SubPanel label="CHIP · SEMANTICI">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip>Default</Chip>
-            <Chip variant="accent">Accent</Chip>
-            <Chip variant="brand">Brand</Chip>
-            <Chip variant="success">Vittoria</Chip>
-            <Chip variant="danger">Sconfitta</Chip>
-            <Chip variant="warning">Pareggio</Chip>
-          </div>
-          <div
-            style={{
-              marginTop: 16,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              flexWrap: 'wrap',
-            }}
-          >
-            <Chip size="sm">sm</Chip>
-            <Chip>md</Chip>
-            <Chip size="lg">lg</Chip>
-          </div>
-        </SubPanel>
-      </div>
+        <div style={{ ...dsCardLabelStyle, marginTop: 24 }}>BADGE · rank / medal</div>
+        <div style={showcaseStyle}>
+          <DsBadge flavor="rank">♛ GRAN MAESTRO</DsBadge>
+          <DsBadge flavor="copper">★ TOP 100</DsBadge>
+          <DsBadge flavor="navy">ELO 2100+</DsBadge>
+          <DsBadge flavor="win">ON FIRE · 7W</DsBadge>
+        </div>
+
+        <div style={{ ...dsCardLabelStyle, marginTop: 24 }}>CHIP · tag filtrabili</div>
+        <div style={showcaseStyle}>
+          <DsChip dotColor="var(--gold-500)">Blitz</DsChip>
+          <DsChip active dotColor="#fff">
+            Rapid
+          </DsChip>
+          <DsChip dotColor="var(--plum-500)">Classico</DsChip>
+          <DsChip dotColor="var(--success)">Damacchi</DsChip>
+          <DsChip dotColor="var(--danger)">Torneo</DsChip>
+        </div>
+      </DsCard>
     </section>
   )
 }
@@ -1610,21 +1684,25 @@ const iconNoteStyle: CSSProperties = {
   letterSpacing: '0.04em',
 }
 
+// Original .icon-tile — thin dividers, no outer borders on individual tiles.
 const iconTileStyle: CSSProperties = {
+  aspectRatio: '1 / 1',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: 16,
-  border: '2px solid var(--border-memphis)',
-  background: 'var(--surface)',
   gap: 8,
+  padding: 16,
+  borderRight: '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
+  borderBottom: '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
+  background: 'var(--surface)',
 }
 
 const iconTileLabelStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
-  fontSize: 11,
+  fontSize: 10,
   color: 'var(--ink-muted)',
+  letterSpacing: '0.05em',
 }
 
 function IconsSection() {
@@ -1632,8 +1710,8 @@ function IconsSection() {
     <section id="icons" style={sectionStyle}>
       <SectionHeader
         num="07"
-        title="Icone"
-        desc="30 icone line-style dal set damacchi-ui, ideate per un tratto coerente."
+        title="Iconografia"
+        desc="24×24 viewport, stroke solido, path singolo. 30 icone dal set damacchi-ui."
       />
       <span style={iconNoteStyle}>
         {`${ICONS_GRID.length} icone SVG stroke-based, viewBox 24×24, stroke-width 1.75`}
@@ -1641,8 +1719,10 @@ function IconsSection() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
-          gap: 12,
+          gridTemplateColumns: 'repeat(6, 1fr)',
+          border: '2px solid var(--border-memphis)',
+          boxShadow: '4px 4px 0 var(--black)',
+          background: 'var(--surface)',
         }}
       >
         {ICONS_GRID.map(({ Cmp, name }) => (
@@ -1657,21 +1737,109 @@ function IconsSection() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 08 · Avatars — 3 sub-panel (Sizes / Shapes / Group) + future-medals note
+// 08 · Avatars & medals — avatars in 4 sizes × 4 colors, plus octagonal medals.
 // ═══════════════════════════════════════════════════════════
 
-const avatarFrameStyle: CSSProperties = {
-  ...sectionFrameStyle,
-  gridTemplateColumns: 'repeat(3, 1fr)',
+// Octagonal medal — faithful port of the original .medal SVG (sections.jsx).
+// Each medal has outer polygon (ring), inner polygon (core), and label text.
+type MedalDef = {
+  readonly label: string
+  readonly outerFill: string
+  readonly innerFill: string
+  readonly innerStroke: string
+  readonly text: string
+  readonly textColor: string
+  readonly textSize: number
 }
 
-const avatarFutureNoteStyle: CSSProperties = {
-  marginTop: 16,
-  fontFamily: 'var(--font-mono)',
-  fontSize: 12,
-  color: 'var(--ink-muted)',
-  fontStyle: 'italic',
-  letterSpacing: '0.02em',
+const MEDALS: ReadonlyArray<MedalDef> = [
+  {
+    label: 'BRONZO',
+    outerFill: '#e5bc6d',
+    innerFill: '#c4942a',
+    innerStroke: '#000',
+    text: 'I',
+    textColor: '#fff',
+    textSize: 18,
+  },
+  {
+    label: 'ARGENTO',
+    outerFill: '#c5d2e0',
+    innerFill: '#6f8aa9',
+    innerStroke: '#000',
+    text: 'II',
+    textColor: '#fff',
+    textSize: 18,
+  },
+  {
+    label: 'ORO',
+    outerFill: '#f8e5bc',
+    innerFill: '#d5a845',
+    innerStroke: '#000',
+    text: 'III',
+    textColor: '#fff',
+    textSize: 18,
+  },
+  {
+    label: 'MAESTRO',
+    outerFill: '#b17cb5',
+    innerFill: '#522357',
+    innerStroke: '#000',
+    text: 'M',
+    textColor: '#fff',
+    textSize: 18,
+  },
+  {
+    label: 'GRAN MAESTRO',
+    outerFill: '#2a0f2d',
+    innerFill: '#3d1a40',
+    innerStroke: '#e5bc6d',
+    text: 'GM',
+    textColor: '#e5bc6d',
+    textSize: 16,
+  },
+]
+
+function Medal({ medal }: { medal: MedalDef }) {
+  return (
+    <div
+      style={{
+        textAlign: 'center',
+        fontFamily: 'var(--font-mono)',
+        fontSize: 10,
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+        color: 'var(--ink-muted)',
+        fontWeight: 700,
+      }}
+    >
+      <svg viewBox="0 0 64 64" width={64} height={64} aria-label={medal.label}>
+        <polygon
+          points="32,4 54,14 58,38 42,58 22,58 6,38 10,14"
+          fill={medal.outerFill}
+          stroke="#000"
+          strokeWidth="3"
+        />
+        <polygon
+          points="32,14 48,20 50,36 40,50 24,50 14,36 16,20"
+          fill={medal.innerFill}
+          stroke={medal.innerStroke}
+          strokeWidth="2"
+        />
+        <text
+          x="32"
+          y="40"
+          textAnchor="middle"
+          fontFamily="Audiowide"
+          fontSize={medal.textSize}
+          fill={medal.textColor}
+        >
+          {medal.text}
+        </text>
+      </svg>
+      <span style={{ display: 'block', marginTop: 8 }}>{medal.label}</span>
+    </div>
+  )
 }
 
 function AvatarsSection() {
@@ -1679,67 +1847,61 @@ function AvatarsSection() {
     <section id="avatars" style={sectionStyle}>
       <SectionHeader
         num="08"
-        title="Avatar & Medaglie"
-        desc="Avatar in 4 size (sm, md, lg, xl) e 2 shape (circle, square). AvatarGroup per overlap."
+        title="Avatar & medaglie"
+        desc="Avatar in 4 taglie × 4 colori. Medaglie per ranking e achievement, forma ottagonale con bordo nero."
       />
-      <div style={avatarFrameStyle}>
-        <SubPanel label="AVATAR · SIZES">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-            <Avatar size="sm">
-              <AvatarFallback>S</AvatarFallback>
-            </Avatar>
-            <Avatar size="md">
-              <AvatarFallback>M</AvatarFallback>
-            </Avatar>
-            <Avatar size="lg">
-              <AvatarFallback>L</AvatarFallback>
-            </Avatar>
-            <Avatar size="xl">
-              <AvatarFallback>XL</AvatarFallback>
-            </Avatar>
-          </div>
-        </SubPanel>
+      <DsCard label="AVATAR · square & round">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+          <Avatar size="sm">
+            <AvatarFallback>S</AvatarFallback>
+          </Avatar>
+          <Avatar size="md">
+            <AvatarFallback>M</AvatarFallback>
+          </Avatar>
+          <Avatar size="lg">
+            <AvatarFallback>L</AvatarFallback>
+          </Avatar>
+          <Avatar size="xl">
+            <AvatarFallback>XL</AvatarFallback>
+          </Avatar>
+          <span style={{ width: 16 }} />
+          <Avatar shape="square">
+            <AvatarFallback>DM</AvatarFallback>
+          </Avatar>
+          <Avatar shape="square" size="lg">
+            <AvatarFallback>K</AvatarFallback>
+          </Avatar>
+        </div>
 
-        <SubPanel label="AVATAR · SHAPES">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-            <Avatar>
-              <AvatarFallback>DM</AvatarFallback>
-            </Avatar>
-            <Avatar shape="square">
-              <AvatarFallback>DM</AvatarFallback>
-            </Avatar>
-            <Avatar shape="square" size="lg">
-              <AvatarFallback>K</AvatarFallback>
-            </Avatar>
-          </div>
-        </SubPanel>
+        <div style={{ ...dsCardLabelStyle, marginTop: 32 }}>AVATAR GROUP</div>
+        <AvatarGroup max={4}>
+          <Avatar>
+            <AvatarFallback>A</AvatarFallback>
+          </Avatar>
+          <Avatar>
+            <AvatarFallback>K</AvatarFallback>
+          </Avatar>
+          <Avatar>
+            <AvatarFallback>M</AvatarFallback>
+          </Avatar>
+          <Avatar>
+            <AvatarFallback>P</AvatarFallback>
+          </Avatar>
+          <Avatar>
+            <AvatarFallback>X</AvatarFallback>
+          </Avatar>
+          <Avatar>
+            <AvatarFallback>Y</AvatarFallback>
+          </Avatar>
+        </AvatarGroup>
 
-        <SubPanel label="AVATAR GROUP">
-          <AvatarGroup max={4}>
-            <Avatar>
-              <AvatarFallback>A</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>K</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>M</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>P</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>X</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>Y</AvatarFallback>
-            </Avatar>
-          </AvatarGroup>
-        </SubPanel>
-      </div>
-      <p style={avatarFutureNoteStyle}>
-        Medaglie (badge utente) arriveranno in v0.2 come variante dedicata.
-      </p>
+        <div style={{ ...dsCardLabelStyle, marginTop: 32 }}>MEDAGLIE · rank</div>
+        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center' }}>
+          {MEDALS.map((m) => (
+            <Medal key={m.label} medal={m} />
+          ))}
+        </div>
+      </DsCard>
     </section>
   )
 }
@@ -1877,33 +2039,70 @@ function MascotSection() {
 // 10 · Pattern Memphis (data-app-pattern + decorazioni)
 // ═══════════════════════════════════════════════════════════
 
-const decorationTileStyle: CSSProperties = {
-  border: '1px dashed var(--border-strong)',
-  padding: 16,
-  background: 'var(--surface)',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: 8,
+// Tileable Memphis pattern swatch. We reproduce the original CSS-only
+// patterns from design-system.css (stripes, dots, grid, checker, weave).
+// The WAVES and SCATTER swatches are SVGs rendered inline.
+const patternSwatchStyle: CSSProperties = {
+  aspectRatio: '1 / 1',
+  border: '2px solid var(--border-memphis)',
+  boxShadow: '3px 3px 0 var(--black)',
+  position: 'relative',
+  overflow: 'hidden',
+  background: 'var(--paper-50)',
 }
 
-const decorationTileLabelStyle: CSSProperties = {
+const patternLabelStyle: CSSProperties = {
+  position: 'absolute',
+  bottom: 8,
+  left: 8,
   fontFamily: 'var(--font-mono)',
   fontSize: 10,
   letterSpacing: '0.1em',
-  color: 'var(--ink-muted)',
   textTransform: 'uppercase',
+  background: 'var(--border-memphis)',
+  color: '#fff',
+  padding: '3px 8px',
+  fontWeight: 700,
 }
 
-function DecorationTile({ name, children }: { name: string; children: ReactNode }) {
+function PatternSwatch({
+  name,
+  background,
+  backgroundSize,
+  backgroundPosition,
+  backgroundColor,
+  children,
+}: {
+  name: string
+  background?: string
+  backgroundSize?: string
+  backgroundPosition?: string
+  backgroundColor?: string
+  children?: ReactNode
+}) {
+  const style: CSSProperties = {
+    ...patternSwatchStyle,
+    ...(background ? { background } : {}),
+    ...(backgroundSize ? { backgroundSize } : {}),
+    ...(backgroundPosition ? { backgroundPosition } : {}),
+    ...(backgroundColor ? { backgroundColor } : {}),
+  }
   return (
-    <div style={decorationTileStyle}>
-      <div style={{ flex: 1, display: 'grid', placeItems: 'center', minHeight: 56 }}>
-        {children}
-      </div>
-      <span style={decorationTileLabelStyle}>{name}</span>
+    <div style={style}>
+      {children}
+      <span style={patternLabelStyle}>{name}</span>
     </div>
   )
+}
+
+// Shape primitive styles — faithful to original .shape variants.
+const shapeBaseStyle: CSSProperties = {
+  width: 64,
+  height: 64,
+  border: '2px solid var(--border-memphis)',
+  display: 'grid',
+  placeItems: 'center',
+  background: 'var(--surface)',
 }
 
 function PatternsSection() {
@@ -1912,92 +2111,166 @@ function PatternsSection() {
       <SectionHeader
         num="10"
         title="Pattern Memphis"
-        desc="Dots pattern via data-attribute + decorazioni SVG Memphis."
+        desc="Texture e forme che riempono gli spazi vuoti. Mai tutti assieme — uno per volta, con misura."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="DOTS PATTERN (ATTIVO)">
+      <DsCard label="PATTERN · tileable backgrounds">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 16,
+            marginTop: 8,
+          }}
+        >
+          <PatternSwatch
+            name="STRIPES 45°"
+            background="repeating-linear-gradient(45deg, var(--gold-500) 0 6px, transparent 6px 14px)"
+          />
+          <PatternSwatch
+            name="STRIPES H"
+            background="repeating-linear-gradient(0deg, var(--plum-900) 0 4px, transparent 4px 12px)"
+          />
+          <PatternSwatch
+            name="DOTS"
+            background="radial-gradient(var(--ink) 2px, transparent 2px)"
+            backgroundSize="14px 14px"
+          />
+          <PatternSwatch
+            name="GRID"
+            background="linear-gradient(var(--ink) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--ink) 1.5px, transparent 1.5px)"
+            backgroundSize="20px 20px"
+          />
+          <PatternSwatch
+            name="CHECKER"
+            background="linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%), linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%)"
+            backgroundColor="#fff"
+            backgroundSize="20px 20px"
+            backgroundPosition="0 0, 10px 10px"
+          />
+          <PatternSwatch
+            name="WEAVE"
+            background="linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%), linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%)"
+            backgroundSize="24px 24px"
+            backgroundPosition="0 0, 12px 12px"
+            backgroundColor="var(--paper-50)"
+          />
+          <PatternSwatch name="WAVES" background="var(--gold-500)">
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <path
+                d="M0 50 Q 12.5 20 25 50 T 50 50 T 75 50 T 100 50"
+                stroke="#000"
+                strokeWidth="4"
+                fill="none"
+              />
+              <path
+                d="M0 70 Q 12.5 40 25 70 T 50 70 T 75 70 T 100 70"
+                stroke="#fff"
+                strokeWidth="3"
+                fill="none"
+              />
+              <path
+                d="M0 30 Q 12.5 0 25 30 T 50 30 T 75 30 T 100 30"
+                stroke="var(--plum-900)"
+                strokeWidth="3"
+                fill="none"
+              />
+            </svg>
+          </PatternSwatch>
+          <PatternSwatch name="SCATTER" background="var(--paper-100)">
+            <svg width="100%" height="100%" viewBox="0 0 100 100">
+              <circle cx="20" cy="20" r="8" fill="var(--gold-500)" stroke="#000" strokeWidth="2" />
+              <rect
+                x="55"
+                y="10"
+                width="18"
+                height="18"
+                transform="rotate(45 64 19)"
+                fill="var(--plum-500)"
+                stroke="#000"
+                strokeWidth="2"
+              />
+              <polygon points="80,70 95,95 65,95" fill="var(--plum-900)" />
+              <path d="M10 60 Q 25 50 40 60 T 55 70" stroke="#000" strokeWidth="3" fill="none" />
+              <circle cx="72" cy="55" r="4" fill="#000" />
+              <path d="M15 85 l8 8 M23 85 l-8 8" stroke="var(--gold-500)" strokeWidth="3" />
+            </svg>
+          </PatternSwatch>
+        </div>
+      </DsCard>
+
+      <div style={{ height: 24 }} />
+
+      <DsCard label="SHAPE PRIMITIVES">
+        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center' }}>
           <div
-            data-app-pattern="on"
             style={{
-              minHeight: 260,
-              border: '2px solid var(--border-memphis)',
-              background: 'var(--paper-50)',
+              ...shapeBaseStyle,
+              transform: 'rotate(45deg)',
+              background: 'var(--gold-500)',
             }}
           />
-          <p
-            style={{
-              marginTop: 12,
-              marginBottom: 0,
-              fontFamily: 'var(--font-mono)',
-              fontSize: 11,
-              color: 'var(--ink-muted)',
-            }}
-          >
-            Attivabile con{' '}
-            <code style={{ background: 'var(--surface-2)', padding: '2px 6px' }}>
-              [data-app-pattern=&quot;on&quot;]
-            </code>
-          </p>
-        </SubPanel>
-
-        <SubPanel label="DECORAZIONI">
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 12,
+              ...shapeBaseStyle,
+              borderRadius: '50%',
+              background: 'var(--plum-500)',
             }}
-          >
-            <DecorationTile name="tilde">
-              <svg width="64" height="32" viewBox="0 0 64 32" aria-hidden>
-                <path
-                  d="M4 16 Q16 0 28 16 T52 16"
-                  stroke="var(--plum-900)"
-                  strokeWidth="3"
-                  fill="none"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </DecorationTile>
-            <DecorationTile name="circle">
-              <svg width="48" height="48" viewBox="0 0 48 48" aria-hidden>
-                <circle cx="24" cy="24" r="16" fill="var(--gold-500)" />
-              </svg>
-            </DecorationTile>
-            <DecorationTile name="diamond">
-              <svg width="48" height="48" viewBox="0 0 48 48" aria-hidden>
-                <path d="M24 4 L44 24 L24 44 L4 24 Z" fill="var(--plum-500)" />
-              </svg>
-            </DecorationTile>
-            <DecorationTile name="triangle">
-              <svg width="48" height="48" viewBox="0 0 48 48" aria-hidden>
-                <path d="M4 42 L24 8 L44 42 Z" fill="var(--plum-900)" />
-              </svg>
-            </DecorationTile>
-            <DecorationTile name="x">
-              <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden>
-                <path
-                  d="M8 8 L32 32 M32 8 L8 32"
-                  stroke="var(--gold-500)"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </DecorationTile>
-            <DecorationTile name="squiggle">
-              <svg width="64" height="24" viewBox="0 0 64 24" aria-hidden>
-                <path
-                  d="M4 12 Q12 4 20 12 T36 12 T52 12"
-                  stroke="var(--plum-500)"
-                  strokeWidth="3"
-                  fill="none"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </DecorationTile>
-          </div>
-        </SubPanel>
-      </div>
+          />
+          <div
+            style={{
+              width: 0,
+              height: 0,
+              background: 'transparent',
+              border: 'none',
+              borderLeft: '36px solid transparent',
+              borderRight: '36px solid transparent',
+              borderBottom: '64px solid var(--plum-900)',
+            }}
+          />
+          <div
+            style={{
+              ...shapeBaseStyle,
+              background: 'repeating-linear-gradient(45deg, var(--ink) 0 3px, transparent 3px 8px)',
+            }}
+          />
+          <div
+            style={{
+              ...shapeBaseStyle,
+              background: 'var(--success)',
+              borderRadius: '60% 40% 70% 30% / 40% 50% 50% 60%',
+            }}
+          />
+          <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden>
+            <path
+              d="M4 32 Q 14 4 24 32 T 44 32 T 60 32"
+              stroke="#000"
+              strokeWidth="4"
+              fill="none"
+            />
+          </svg>
+          <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden>
+            <polygon
+              points="32,4 40,24 60,24 44,36 50,56 32,44 14,56 20,36 4,24 24,24"
+              fill="var(--gold-500)"
+              stroke="#000"
+              strokeWidth="3"
+            />
+          </svg>
+          <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden>
+            <rect
+              x="10"
+              y="10"
+              width="44"
+              height="44"
+              fill="var(--plum-900)"
+              stroke="#000"
+              strokeWidth="3"
+            />
+            <rect x="18" y="18" width="14" height="14" fill="var(--gold-500)" />
+            <rect x="32" y="32" width="14" height="14" fill="var(--gold-500)" />
+          </svg>
+        </div>
+      </DsCard>
     </section>
   )
 }
@@ -2006,66 +2279,100 @@ function PatternsSection() {
 // 11 · Export → Figma (hint)
 // ═══════════════════════════════════════════════════════════
 
+// .hint — faithful port of the original .hint card (purple-100 bg, navy shadow)
+const hintStyle: CSSProperties = {
+  display: 'flex',
+  gap: 16,
+  padding: 20,
+  background: 'var(--plum-100)',
+  border: '2px solid var(--border-memphis)',
+  boxShadow: '4px 4px 0 var(--plum-900)',
+  alignItems: 'flex-start',
+  marginBottom: 24,
+}
+
+const hintIconStyle: CSSProperties = {
+  flexShrink: 0,
+  width: 40,
+  height: 40,
+  background: 'var(--plum-500)',
+  border: '2px solid var(--border-memphis)',
+  display: 'grid',
+  placeItems: 'center',
+  color: '#fff',
+  fontFamily: 'var(--font-display)',
+  fontSize: 18,
+}
+
+const hintTitleStyle: CSSProperties = {
+  fontFamily: 'var(--font-display)',
+  fontSize: 16,
+  margin: '0 0 4px',
+  color: 'var(--plum-700)',
+}
+
+const hintCodeStyle: CSSProperties = {
+  fontFamily: 'var(--font-mono)',
+  background: '#fff',
+  border: '1px solid var(--border-memphis)',
+  padding: '1px 6px',
+  fontSize: 12,
+}
+
+function Hint({ num, title, children }: { num: number; title: ReactNode; children: ReactNode }) {
+  return (
+    <div style={hintStyle}>
+      <div style={hintIconStyle}>{num}</div>
+      <div style={{ flex: 1 }}>
+        <h4 style={hintTitleStyle}>{title}</h4>
+        <p style={{ margin: 0, fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+          {children}
+        </p>
+      </div>
+    </div>
+  )
+}
+
 function FigmaSection() {
   return (
     <section id="figma" style={sectionStyle}>
       <SectionHeader
         num="11"
-        title="Export → Figma"
-        desc="Ponte tra codice e design file. Token CSS importabili via Design Tokens plugin."
+        title="Come portare tutto in Figma"
+        desc="Non posso generare un .fig direttamente, ma ecco 3 modi collaudati per importare il sistema."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="3 MODI DI IMPORTO">
-          <ol
-            style={{
-              paddingLeft: 20,
-              margin: 0,
-              fontSize: 14,
-              lineHeight: 1.6,
-              color: 'var(--ink-soft)',
-            }}
-          >
-            <li style={{ marginBottom: 12 }}>
-              <strong>Figma Tokens plugin</strong> — import <code>tokens.json</code> (derivato da{' '}
-              <code>tokens.css</code>)
-            </li>
-            <li style={{ marginBottom: 12 }}>
-              <strong>CSS variables diretto</strong> — copia <code>tokens.css</code> in una frame
-              Figma tipo &ldquo;Design Tokens&rdquo;
-            </li>
-            <li>
-              <strong>Style Dictionary</strong> — build step che trasforma <code>tokens.css</code>{' '}
-              in formato Figma Styles
-            </li>
-          </ol>
-        </SubPanel>
 
-        <SubPanel label="RELEASE">
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-              fontSize: 14,
-              lineHeight: 1.8,
-              color: 'var(--ink-soft)',
-            }}
-          >
-            <li>
-              <strong>v0.1.x</strong> — token CSS + componenti React
-            </li>
-            <li>
-              <strong>v0.2</strong> — mascotte Damo + medaglie
-            </li>
-            <li>
-              <strong>v0.3</strong> — Figma plugin ufficiale
-            </li>
-            <li>
-              <strong>v1.0</strong> — stable + Storybook + public launch
-            </li>
-          </ul>
-        </SubPanel>
-      </div>
+      <Hint
+        num={1}
+        title={
+          <>
+            Plugin <i>html.to.design</i> (la via più completa)
+          </>
+        }
+      >
+        In Figma apri <code style={hintCodeStyle}>Plugins → html.to.design → da URL</code>, incolla
+        il link di questa pagina. Importerà l&apos;intera pagina come frame Figma, con tutti gli SVG
+        e i colori già strutturati in layer. Gratis per i primi 3 import al giorno.
+      </Hint>
+
+      <Hint num={2} title="Copia-incolla SVG (1:1, perfetto per icone e medaglie)">
+        Ispeziona l&apos;elemento → copia il nodo <code style={hintCodeStyle}>&lt;svg&gt;</code> →
+        incolla in Figma con <code style={hintCodeStyle}>Cmd+V</code>. Figma lo converte in vettore
+        nativo con tutti i path editabili. Usalo per icone, medaglie, forme Memphis.
+      </Hint>
+
+      <Hint
+        num={3}
+        title={
+          <>
+            Plugin <i>Tokens Studio</i> (solo colori + tipografia)
+          </>
+        }
+      >
+        Copia le CSS variables da <code style={hintCodeStyle}>tokens.css</code> e incollale in
+        Tokens Studio (<code style={hintCodeStyle}>+ → Import → CSS Variables</code>). I token
+        diventano stili Figma nativi che puoi applicare ai tuoi componenti.
+      </Hint>
     </section>
   )
 }
