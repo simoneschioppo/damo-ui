@@ -10,12 +10,11 @@
  * Reference: /Users/simoneschioppo/Documents/damacchi-design/claude-design-system/design-system.css
  */
 
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { type CSSProperties, type ReactNode } from 'react'
 import {
   Button,
   IconButton,
   Input,
-  Label,
   Switch,
   Slider,
   SegmentedControl,
@@ -1344,27 +1343,40 @@ function CardsSection() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 05 · Inputs
+// 05 · Inputs — 4 sub-panel 2x2 (Text Field stati / Select+Segmented / Toggle / Slider)
 // ═══════════════════════════════════════════════════════════
 
-const fieldLabelStyle: CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  fontSize: 10,
-  letterSpacing: '0.22em',
-  textTransform: 'uppercase',
-  color: 'var(--ink-muted)',
+const inputLabelStyle: CSSProperties = {
   display: 'block',
-  marginBottom: 6,
+  fontSize: 12,
   fontWeight: 700,
+  letterSpacing: '0.05em',
+  textTransform: 'uppercase',
+  marginBottom: 6,
+  color: 'var(--ink)',
 }
 
-function InputsSection() {
-  const [segMode, setSegMode] = useState('blitz')
-  const [toggleA, setToggleA] = useState(false)
-  const [toggleB, setToggleB] = useState(true)
-  const [slider1, setSlider1] = useState([30])
-  const [slider2, setSlider2] = useState([60])
+const inputStateCaptionStyle: CSSProperties = {
+  display: 'block',
+  fontSize: 12,
+  color: 'var(--ink-muted)',
+  fontStyle: 'italic',
+  marginTop: 6,
+}
 
+const inputFocusOverrideStyle: CSSProperties = {
+  borderColor: 'var(--gold-500)',
+  boxShadow: '3px 3px 0 var(--gold-500)',
+  outline: 'none',
+}
+
+const inputDisabledOverrideStyle: CSSProperties = {
+  background: 'var(--paper-200)',
+}
+
+const SLIDER_VALUES = [30, 60, 90] as const
+
+function InputsSection() {
   return (
     <section id="inputs" style={sectionStyle}>
       <SectionHeader
@@ -1373,66 +1385,56 @@ function InputsSection() {
         desc="Text field, select, segmented, toggle minimalista, slider. Tutto risponde ai token."
       />
       <div style={sectionFrameStyle}>
-        <SubPanel label="Text Field · Stati">
+        <SubPanel label="TEXT FIELD · STATI">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div>
-              <Label htmlFor="nick-default" style={fieldLabelStyle}>
-                Nickname
-              </Label>
+              <label htmlFor="nick-default" style={inputLabelStyle}>
+                NICKNAME
+              </label>
               <Input id="nick-default" defaultValue="Damo42" />
-              <div style={stateNoteStyle}>Default</div>
+              <span style={inputStateCaptionStyle}>Default</span>
             </div>
             <div>
-              <Label htmlFor="nick-focus" style={fieldLabelStyle}>
-                Nickname
-              </Label>
-              <Input
-                id="nick-focus"
-                defaultValue="MarinaChess"
-                style={{
-                  borderColor: 'var(--gold-500)',
-                  boxShadow: '0 0 0 3px color-mix(in oklab, var(--gold-500) 35%, transparent)',
-                }}
-              />
-              <div style={stateNoteStyle}>Focus</div>
+              <label htmlFor="nick-focus" style={inputLabelStyle}>
+                NICKNAME
+              </label>
+              <Input id="nick-focus" defaultValue="MarinaChess" style={inputFocusOverrideStyle} />
+              <span style={inputStateCaptionStyle}>Focus</span>
             </div>
             <div>
-              <Label htmlFor="email-disabled" style={fieldLabelStyle}>
-                Email
-              </Label>
+              <label htmlFor="email-disabled" style={inputLabelStyle}>
+                EMAIL
+              </label>
               <Input
                 id="email-disabled"
                 defaultValue="mario@damacchi.it"
                 disabled
-                style={{ background: 'var(--paper-100)', color: 'var(--ink-muted)' }}
+                readOnly
+                style={inputDisabledOverrideStyle}
               />
-              <div style={stateNoteStyle}>Disabled</div>
+              <span style={inputStateCaptionStyle}>Disabled</span>
             </div>
           </div>
         </SubPanel>
 
-        <SubPanel label="Select · Segmented">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <SubPanel label="SELECT">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div>
-              <Label style={fieldLabelStyle}>Modalità</Label>
+              <label style={inputLabelStyle}>MODALITÀ</label>
               <Select defaultValue="classico">
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="classico">Classico</SelectItem>
-                  <SelectItem value="rapid">Rapid</SelectItem>
-                  <SelectItem value="rage">Rage</SelectItem>
+                  <SelectItem value="damacchi">Damacchi</SelectItem>
+                  <SelectItem value="blitz">Blitz 3+0</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label style={fieldLabelStyle}>Tempo</Label>
-              <SegmentedControl
-                value={segMode}
-                onValueChange={(v) => v && setSegMode(v)}
-                aria-label="Tempo"
-              >
+              <label style={inputLabelStyle}>SEGMENTED</label>
+              <SegmentedControl defaultValue="blitz" aria-label="Tempo">
                 <SegmentedControlItem value="bullet">BULLET</SegmentedControlItem>
                 <SegmentedControlItem value="blitz">BLITZ</SegmentedControlItem>
                 <SegmentedControlItem value="rapid">RAPID</SegmentedControlItem>
@@ -1441,33 +1443,43 @@ function InputsSection() {
           </div>
         </SubPanel>
 
-        <SubPanel label="Toggle · Minimalist">
+        <SubPanel label="TOGGLE">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <Switch checked={toggleA} onCheckedChange={setToggleA} aria-label="Toggle off" />
-              <span style={stateNoteStyle}>{toggleA ? 'ON' : 'OFF'}</span>
+              <Switch id="tg-off" aria-label="Toggle off" />
+              <label htmlFor="tg-off" style={inputLabelStyle}>
+                Off
+              </label>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <Switch checked={toggleB} onCheckedChange={setToggleB} aria-label="Toggle on" />
-              <span style={stateNoteStyle}>{toggleB ? 'ON' : 'OFF'}</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <Switch disabled aria-label="Toggle disabled" />
-              <span style={stateNoteStyle}>DISABLED</span>
+              <Switch id="tg-on" defaultChecked aria-label="Toggle on" />
+              <label htmlFor="tg-on" style={inputLabelStyle}>
+                On
+              </label>
             </div>
           </div>
         </SubPanel>
 
-        <SubPanel label="Slider">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <div>
-              <Slider value={slider1} onValueChange={setSlider1} min={0} max={100} />
-              <div style={stateNoteStyle}>{slider1[0]}%</div>
-            </div>
-            <div>
-              <Slider value={slider2} onValueChange={setSlider2} min={0} max={100} />
-              <div style={stateNoteStyle}>{slider2[0]}%</div>
-            </div>
+        <SubPanel label="SLIDER">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {SLIDER_VALUES.map((v) => (
+              <div key={v} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <Slider defaultValue={[v]} min={0} max={100} />
+                </div>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 12,
+                    color: 'var(--ink-muted)',
+                    minWidth: 32,
+                    textAlign: 'right',
+                  }}
+                >
+                  {v}%
+                </span>
+              </div>
+            ))}
           </div>
         </SubPanel>
       </div>
@@ -1476,8 +1488,13 @@ function InputsSection() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 06 · Badges & Chips
+// 06 · Badges & Chips — 2 sub-panel (BADGE count+featured / CHIP semantici+sizes)
 // ═══════════════════════════════════════════════════════════
+
+const badgeChipFrameStyle: CSSProperties = {
+  ...sectionFrameStyle,
+  gridTemplateColumns: 'repeat(2, 1fr)',
+}
 
 function BadgesSection() {
   return (
@@ -1487,39 +1504,59 @@ function BadgesSection() {
         title="Badge & Chip"
         desc="Etichette discrete per numeri, status, categorie. Chip per filtri, badge per conteggi."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="Badge · Default">
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+      <div style={badgeChipFrameStyle}>
+        <SubPanel label="BADGE">
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 12,
+              alignItems: 'center',
+            }}
+          >
             <Badge>12</Badge>
-            <Badge>NEW</Badge>
-            <Badge>99+</Badge>
-          </div>
-        </SubPanel>
-
-        <SubPanel label="Badge · Featured">
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            <Badge>7</Badge>
+            <Badge variant="featured">NEW</Badge>
             <Badge variant="featured">HOT</Badge>
-            <Badge variant="featured">PRO</Badge>
-            <Badge variant="featured">1°</Badge>
+            <Badge variant="featured">LIVE</Badge>
+          </div>
+          <div
+            style={{
+              marginTop: 24,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              flexWrap: 'wrap',
+            }}
+          >
+            <span style={{ fontFamily: 'var(--font-body)' }}>Messaggi</span>
+            <Badge>12</Badge>
+            <span style={{ marginLeft: 16, fontFamily: 'var(--font-body)' }}>Offerte</span>
+            <Badge variant="featured">HOT</Badge>
           </div>
         </SubPanel>
 
-        <SubPanel label="Chip · Variants">
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <SubPanel label="CHIP · SEMANTICI">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             <Chip>Default</Chip>
             <Chip variant="accent">Accent</Chip>
             <Chip variant="brand">Brand</Chip>
-            <Chip variant="success">Win</Chip>
-            <Chip variant="danger">Loss</Chip>
-            <Chip variant="warning">Draw</Chip>
+            <Chip variant="success">Vittoria</Chip>
+            <Chip variant="danger">Sconfitta</Chip>
+            <Chip variant="warning">Pareggio</Chip>
           </div>
-        </SubPanel>
-
-        <SubPanel label="Chip · Sizes">
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Chip size="sm">Small</Chip>
-            <Chip size="md">Medium</Chip>
-            <Chip size="lg">Large</Chip>
+          <div
+            style={{
+              marginTop: 16,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              flexWrap: 'wrap',
+            }}
+          >
+            <Chip size="sm">sm</Chip>
+            <Chip>md</Chip>
+            <Chip size="lg">lg</Chip>
           </div>
         </SubPanel>
       </div>
@@ -1528,41 +1565,67 @@ function BadgesSection() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 07 · Icons (full 30-icon grid)
+// 07 · Icons — grid of all 30 icons, each in a small card
 // ═══════════════════════════════════════════════════════════
 
-const ICON_LIST = [
-  { C: HomeIcon, name: 'home' },
-  { C: SearchIcon, name: 'search' },
-  { C: CloseIcon, name: 'close' },
-  { C: CheckIcon, name: 'check' },
-  { C: PlusIcon, name: 'plus' },
-  { C: MinusIcon, name: 'minus' },
-  { C: MenuIcon, name: 'menu' },
-  { C: ChevronUpIcon, name: 'chev-up' },
-  { C: ChevronDownIcon, name: 'chev-down' },
-  { C: ChevronLeftIcon, name: 'chev-left' },
-  { C: ChevronRightIcon, name: 'chev-right' },
-  { C: CrownIcon, name: 'crown' },
-  { C: PawnIcon, name: 'pawn' },
-  { C: TrophyIcon, name: 'trophy' },
-  { C: UserIcon, name: 'user' },
-  { C: HeartIcon, name: 'heart' },
-  { C: StarIcon, name: 'star' },
-  { C: BoltIcon, name: 'bolt' },
-  { C: BookmarkIcon, name: 'bookmark' },
-  { C: InfoIcon, name: 'info' },
-  { C: CogIcon, name: 'cog' },
-  { C: EditIcon, name: 'edit' },
-  { C: TrashIcon, name: 'trash' },
-  { C: FilterIcon, name: 'filter' },
-  { C: ExternalLinkIcon, name: 'external' },
-  { C: ArrowRightIcon, name: 'arrow-right' },
-  { C: PlayIcon, name: 'play' },
-  { C: PauseIcon, name: 'pause' },
-  { C: ClockIcon, name: 'clock' },
-  { C: TargetIcon, name: 'target' },
+const ICONS_GRID = [
+  { Cmp: HomeIcon, name: 'Home' },
+  { Cmp: SearchIcon, name: 'Search' },
+  { Cmp: CloseIcon, name: 'Close' },
+  { Cmp: CheckIcon, name: 'Check' },
+  { Cmp: PlusIcon, name: 'Plus' },
+  { Cmp: MinusIcon, name: 'Minus' },
+  { Cmp: MenuIcon, name: 'Menu' },
+  { Cmp: ChevronUpIcon, name: 'ChevronUp' },
+  { Cmp: ChevronDownIcon, name: 'ChevronDown' },
+  { Cmp: ChevronLeftIcon, name: 'ChevronLeft' },
+  { Cmp: ChevronRightIcon, name: 'ChevronRight' },
+  { Cmp: CrownIcon, name: 'Crown' },
+  { Cmp: PawnIcon, name: 'Pawn' },
+  { Cmp: TrophyIcon, name: 'Trophy' },
+  { Cmp: UserIcon, name: 'User' },
+  { Cmp: HeartIcon, name: 'Heart' },
+  { Cmp: StarIcon, name: 'Star' },
+  { Cmp: BoltIcon, name: 'Bolt' },
+  { Cmp: BookmarkIcon, name: 'Bookmark' },
+  { Cmp: InfoIcon, name: 'Info' },
+  { Cmp: CogIcon, name: 'Cog' },
+  { Cmp: EditIcon, name: 'Edit' },
+  { Cmp: TrashIcon, name: 'Trash' },
+  { Cmp: FilterIcon, name: 'Filter' },
+  { Cmp: ExternalLinkIcon, name: 'ExternalLink' },
+  { Cmp: ArrowRightIcon, name: 'ArrowRight' },
+  { Cmp: PlayIcon, name: 'Play' },
+  { Cmp: PauseIcon, name: 'Pause' },
+  { Cmp: ClockIcon, name: 'Clock' },
+  { Cmp: TargetIcon, name: 'Target' },
 ] as const
+
+const iconNoteStyle: CSSProperties = {
+  display: 'block',
+  fontFamily: 'var(--font-mono)',
+  fontSize: 12,
+  color: 'var(--ink-muted)',
+  marginBottom: 16,
+  letterSpacing: '0.04em',
+}
+
+const iconTileStyle: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 16,
+  border: '2px solid var(--border-memphis)',
+  background: 'var(--surface)',
+  gap: 8,
+}
+
+const iconTileLabelStyle: CSSProperties = {
+  fontFamily: 'var(--font-mono)',
+  fontSize: 11,
+  color: 'var(--ink-muted)',
+}
 
 function IconsSection() {
   return (
@@ -1570,43 +1633,22 @@ function IconsSection() {
       <SectionHeader
         num="07"
         title="Icone"
-        desc={`${ICON_LIST.length} icone line-style dal set damacchi-ui. Stroke 2px, grid 24×24.`}
+        desc="30 icone line-style dal set damacchi-ui, ideate per un tratto coerente."
       />
+      <span style={iconNoteStyle}>
+        {`${ICONS_GRID.length} icone SVG stroke-based, viewBox 24×24, stroke-width 1.75`}
+      </span>
       <div
         style={{
-          border: '2px solid var(--border-memphis)',
-          boxShadow: 'var(--shadow-memphis)',
-          background: 'var(--surface)',
           display: 'grid',
-          gridTemplateColumns: 'repeat(6, 1fr)',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
+          gap: 12,
         }}
       >
-        {ICON_LIST.map(({ C, name }) => (
-          <div
-            key={name}
-            style={{
-              aspectRatio: '1 / 1',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-              borderRight: '1px solid color-mix(in oklab, var(--ink) 12%, transparent)',
-              borderBottom: '1px solid color-mix(in oklab, var(--ink) 12%, transparent)',
-              padding: 16,
-            }}
-          >
-            <C size={28} />
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 10,
-                color: 'var(--ink-muted)',
-                letterSpacing: '0.05em',
-              }}
-            >
-              {name}
-            </span>
+        {ICONS_GRID.map(({ Cmp, name }) => (
+          <div key={name} style={iconTileStyle}>
+            <Cmp size={28} />
+            <span style={iconTileLabelStyle}>{name}</span>
           </div>
         ))}
       </div>
@@ -1615,8 +1657,22 @@ function IconsSection() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 08 · Avatars
+// 08 · Avatars — 3 sub-panel (Sizes / Shapes / Group) + future-medals note
 // ═══════════════════════════════════════════════════════════
+
+const avatarFrameStyle: CSSProperties = {
+  ...sectionFrameStyle,
+  gridTemplateColumns: 'repeat(3, 1fr)',
+}
+
+const avatarFutureNoteStyle: CSSProperties = {
+  marginTop: 16,
+  fontFamily: 'var(--font-mono)',
+  fontSize: 12,
+  color: 'var(--ink-muted)',
+  fontStyle: 'italic',
+  letterSpacing: '0.02em',
+}
 
 function AvatarsSection() {
   return (
@@ -1626,93 +1682,64 @@ function AvatarsSection() {
         title="Avatar & Medaglie"
         desc="Avatar in 4 size (sm, md, lg, xl) e 2 shape (circle, square). AvatarGroup per overlap."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="Sizes · Circle">
-          <div style={{ display: 'flex', gap: 16, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+      <div style={avatarFrameStyle}>
+        <SubPanel label="AVATAR · SIZES">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
             <Avatar size="sm">
-              <AvatarFallback>MR</AvatarFallback>
+              <AvatarFallback>S</AvatarFallback>
             </Avatar>
             <Avatar size="md">
-              <AvatarFallback>MR</AvatarFallback>
+              <AvatarFallback>M</AvatarFallback>
             </Avatar>
             <Avatar size="lg">
-              <AvatarFallback>MR</AvatarFallback>
+              <AvatarFallback>L</AvatarFallback>
             </Avatar>
             <Avatar size="xl">
-              <AvatarFallback>MR</AvatarFallback>
+              <AvatarFallback>XL</AvatarFallback>
             </Avatar>
           </div>
         </SubPanel>
 
-        <SubPanel label="Sizes · Square">
-          <div style={{ display: 'flex', gap: 16, alignItems: 'flex-end', flexWrap: 'wrap' }}>
-            <Avatar size="sm" shape="square">
-              <AvatarFallback>DA</AvatarFallback>
+        <SubPanel label="AVATAR · SHAPES">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <Avatar>
+              <AvatarFallback>DM</AvatarFallback>
             </Avatar>
-            <Avatar size="md" shape="square">
-              <AvatarFallback>DA</AvatarFallback>
+            <Avatar shape="square">
+              <AvatarFallback>DM</AvatarFallback>
             </Avatar>
-            <Avatar size="lg" shape="square">
-              <AvatarFallback>DA</AvatarFallback>
-            </Avatar>
-            <Avatar size="xl" shape="square">
-              <AvatarFallback>DA</AvatarFallback>
+            <Avatar shape="square" size="lg">
+              <AvatarFallback>K</AvatarFallback>
             </Avatar>
           </div>
         </SubPanel>
 
-        <SubPanel label="Group · Overlap">
+        <SubPanel label="AVATAR GROUP">
           <AvatarGroup max={4}>
             <Avatar>
               <AvatarFallback>A</AvatarFallback>
             </Avatar>
             <Avatar>
-              <AvatarFallback>B</AvatarFallback>
+              <AvatarFallback>K</AvatarFallback>
             </Avatar>
             <Avatar>
-              <AvatarFallback>C</AvatarFallback>
+              <AvatarFallback>M</AvatarFallback>
             </Avatar>
             <Avatar>
-              <AvatarFallback>D</AvatarFallback>
+              <AvatarFallback>P</AvatarFallback>
             </Avatar>
             <Avatar>
-              <AvatarFallback>E</AvatarFallback>
+              <AvatarFallback>X</AvatarFallback>
             </Avatar>
             <Avatar>
-              <AvatarFallback>F</AvatarFallback>
+              <AvatarFallback>Y</AvatarFallback>
             </Avatar>
           </AvatarGroup>
         </SubPanel>
-
-        <SubPanel label="Medaglie · Podium">
-          <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-            {[
-              { place: '1', color: 'var(--gold-500)', ink: '#000' },
-              { place: '2', color: 'var(--plum-300)', ink: '#fff' },
-              { place: '3', color: 'var(--gold-300)', ink: 'var(--ink)' },
-            ].map((m) => (
-              <div
-                key={m.place}
-                style={{
-                  width: 56,
-                  height: 56,
-                  border: '2px solid var(--border-memphis)',
-                  boxShadow: 'var(--shadow-memphis-sm)',
-                  borderRadius: '50%',
-                  display: 'grid',
-                  placeItems: 'center',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 22,
-                  background: m.color,
-                  color: m.ink,
-                }}
-              >
-                {m.place}°
-              </div>
-            ))}
-          </div>
-        </SubPanel>
       </div>
+      <p style={avatarFutureNoteStyle}>
+        Medaglie (badge utente) arriveranno in v0.2 come variante dedicata.
+      </p>
     </section>
   )
 }
