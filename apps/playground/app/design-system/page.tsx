@@ -1754,137 +1754,157 @@ function MascotSection() {
       <SectionHeader
         num="09"
         title="Mascotte Damo"
-        desc="Lo spirito del sistema. Asset SVG in arrivo — placeholder attuale per layout."
+        desc="Placeholder per la mascotte ufficiale. Gli asset SVG/PNG definitivi arriveranno in v0.2."
       />
-      <div
-        style={{
-          border: '2px solid var(--border-memphis)',
-          boxShadow: 'var(--shadow-memphis)',
-          background:
-            'linear-gradient(180deg, color-mix(in oklab, var(--plum-300) 32%, var(--surface)) 0%, var(--paper-50) 100%)',
-          padding: 48,
-          display: 'grid',
-          gridTemplateColumns: '1fr 320px',
-          gap: 32,
-          alignItems: 'center',
-        }}
-      >
-        <div>
+      <div style={sectionFrameStyle}>
+        <SubPanel label="PLACEHOLDER">
           <div
             style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 10,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: 'var(--plum-500)',
-              fontWeight: 700,
-              marginBottom: 12,
+              display: 'grid',
+              placeItems: 'center',
+              padding: 32,
+              background: 'var(--paper-50)',
+              border: '2px solid var(--border-memphis)',
+              minHeight: 240,
             }}
           >
-            Mascotte
+            {/* Glifo provvisorio: un pezzo a forma di pedina coronata */}
+            <svg
+              width="160"
+              height="180"
+              viewBox="0 0 160 180"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-label="Damo mascotte placeholder"
+            >
+              {/* crown */}
+              <path
+                d="M60 30 L70 45 L80 25 L90 45 L100 30 L100 55 L60 55 Z"
+                fill="var(--gold-500)"
+                stroke="var(--border-memphis)"
+                strokeWidth="2"
+                strokeLinejoin="round"
+              />
+              {/* head/body */}
+              <circle
+                cx="80"
+                cy="90"
+                r="32"
+                fill="var(--plum-500)"
+                stroke="var(--border-memphis)"
+                strokeWidth="2"
+              />
+              {/* eyes */}
+              <circle cx="70" cy="85" r="3" fill="var(--paper-50)" />
+              <circle cx="90" cy="85" r="3" fill="var(--paper-50)" />
+              {/* body base */}
+              <path
+                d="M50 135 L110 135 L120 170 L40 170 Z"
+                fill="var(--plum-700)"
+                stroke="var(--border-memphis)"
+                strokeWidth="2"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
-          <h3
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 44,
-              lineHeight: 1,
-              margin: '0 0 16px',
-              color: 'var(--plum-700)',
-            }}
-          >
-            Damo, il pezzo ibrido
-          </h3>
-          <p style={{ fontSize: 15, color: 'var(--ink-soft)', margin: '0 0 8px' }}>
-            Parte pedone, parte dama — muove di una casella, cattura in diagonale come una regina.
-          </p>
-          <p style={{ fontSize: 14, color: 'var(--ink-muted)', margin: 0 }}>
-            Gli asset grafici completi (idle, cheer, think, lose) verranno aggiunti a breve.
-          </p>
-        </div>
-        <div
-          style={{
-            aspectRatio: '1 / 1',
-            maxWidth: 320,
-            background: 'var(--surface)',
-            border: '2px dashed var(--border-strong)',
-            display: 'grid',
-            placeItems: 'center',
-            color: 'var(--ink-muted)',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 11,
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-          }}
-        >
-          asset placeholder
-        </div>
+        </SubPanel>
+
+        <SubPanel label="USAGE">
+          <div style={{ padding: 8 }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 14, lineHeight: 1.55, margin: 0 }}>
+              Damo è la mascotte ufficiale di Damacchi. Asset SVG/PNG arriveranno in v0.2 — per ora
+              usiamo un glifo provvisorio.
+            </p>
+            <h4
+              style={{
+                fontSize: 12,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                marginTop: 20,
+                marginBottom: 0,
+                color: 'var(--ink-muted)',
+              }}
+            >
+              Sizes
+            </h4>
+            <ul
+              style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: '8px 0 0',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 12,
+                color: 'var(--ink-soft)',
+                lineHeight: 1.7,
+              }}
+            >
+              <li>Small — 40px (avatar, toast)</li>
+              <li>Medium — 80px (card header)</li>
+              <li>Large — 160px (hero, empty state)</li>
+            </ul>
+            <h4
+              style={{
+                fontSize: 12,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                marginTop: 20,
+                marginBottom: 0,
+                color: 'var(--ink-muted)',
+              }}
+            >
+              Placement
+            </h4>
+            <ul
+              style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: '8px 0 0',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 12,
+                color: 'var(--ink-soft)',
+                lineHeight: 1.7,
+              }}
+            >
+              <li>Hero · onboarding · empty state</li>
+            </ul>
+          </div>
+        </SubPanel>
       </div>
     </section>
   )
 }
 
 // ═══════════════════════════════════════════════════════════
-// 10 · Memphis Patterns
+// 10 · Pattern Memphis (data-app-pattern + decorazioni)
 // ═══════════════════════════════════════════════════════════
 
-const PATTERNS: ReadonlyArray<{
-  label: string
-  style: CSSProperties
-}> = [
-  {
-    label: 'Dots',
-    style: {
-      backgroundImage: 'radial-gradient(var(--ink) 2px, transparent 2px)',
-      backgroundSize: '14px 14px',
-      backgroundColor: 'var(--paper-50)',
-    },
-  },
-  {
-    label: 'Grid',
-    style: {
-      backgroundImage:
-        'linear-gradient(var(--ink) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--ink) 1.5px, transparent 1.5px)',
-      backgroundSize: '20px 20px',
-      backgroundColor: 'var(--paper-50)',
-    },
-  },
-  {
-    label: 'Stripes 45°',
-    style: {
-      backgroundImage:
-        'repeating-linear-gradient(45deg, var(--gold-500) 0 6px, transparent 6px 14px)',
-      backgroundColor: 'var(--paper-50)',
-    },
-  },
-  {
-    label: 'Stripes 0°',
-    style: {
-      backgroundImage:
-        'repeating-linear-gradient(0deg, var(--plum-900) 0 4px, transparent 4px 12px)',
-      backgroundColor: 'var(--paper-50)',
-    },
-  },
-  {
-    label: 'Checker',
-    style: {
-      backgroundImage:
-        'linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%), linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%)',
-      backgroundSize: '20px 20px',
-      backgroundPosition: '0 0, 10px 10px',
-      backgroundColor: 'var(--surface)',
-    },
-  },
-  {
-    label: 'Diagonal Weave',
-    style: {
-      backgroundImage:
-        'linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%), linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%)',
-      backgroundSize: '24px 24px',
-      backgroundPosition: '0 0, 12px 12px',
-      backgroundColor: 'var(--paper-50)',
-    },
-  },
-]
+const decorationTileStyle: CSSProperties = {
+  border: '1px dashed var(--border-strong)',
+  padding: 16,
+  background: 'var(--surface)',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: 8,
+}
+
+const decorationTileLabelStyle: CSSProperties = {
+  fontFamily: 'var(--font-mono)',
+  fontSize: 10,
+  letterSpacing: '0.1em',
+  color: 'var(--ink-muted)',
+  textTransform: 'uppercase',
+}
+
+function DecorationTile({ name, children }: { name: string; children: ReactNode }) {
+  return (
+    <div style={decorationTileStyle}>
+      <div style={{ flex: 1, display: 'grid', placeItems: 'center', minHeight: 56 }}>
+        {children}
+      </div>
+      <span style={decorationTileLabelStyle}>{name}</span>
+    </div>
+  )
+}
 
 function PatternsSection() {
   return (
@@ -1892,46 +1912,91 @@ function PatternsSection() {
       <SectionHeader
         num="10"
         title="Pattern Memphis"
-        desc="Sfondi decorativi di supporto: dots, grid, stripes, checker, weave."
+        desc="Dots pattern via data-attribute + decorazioni SVG Memphis."
       />
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 16,
-        }}
-      >
-        {PATTERNS.map((p) => (
+      <div style={sectionFrameStyle}>
+        <SubPanel label="DOTS PATTERN (ATTIVO)">
           <div
-            key={p.label}
+            data-app-pattern="on"
             style={{
-              aspectRatio: '1 / 1',
+              minHeight: 260,
               border: '2px solid var(--border-memphis)',
-              boxShadow: 'var(--shadow-memphis-sm)',
-              position: 'relative',
-              overflow: 'hidden',
-              ...p.style,
+              background: 'var(--paper-50)',
+            }}
+          />
+          <p
+            style={{
+              marginTop: 12,
+              marginBottom: 0,
+              fontFamily: 'var(--font-mono)',
+              fontSize: 11,
+              color: 'var(--ink-muted)',
             }}
           >
-            <span
-              style={{
-                position: 'absolute',
-                bottom: 8,
-                left: 8,
-                fontFamily: 'var(--font-mono)',
-                fontSize: 10,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                background: 'var(--ink)',
-                color: '#fff',
-                padding: '3px 8px',
-                fontWeight: 700,
-              }}
-            >
-              {p.label}
-            </span>
+            Attivabile con{' '}
+            <code style={{ background: 'var(--surface-2)', padding: '2px 6px' }}>
+              [data-app-pattern=&quot;on&quot;]
+            </code>
+          </p>
+        </SubPanel>
+
+        <SubPanel label="DECORAZIONI">
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 12,
+            }}
+          >
+            <DecorationTile name="tilde">
+              <svg width="64" height="32" viewBox="0 0 64 32" aria-hidden>
+                <path
+                  d="M4 16 Q16 0 28 16 T52 16"
+                  stroke="var(--plum-900)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </DecorationTile>
+            <DecorationTile name="circle">
+              <svg width="48" height="48" viewBox="0 0 48 48" aria-hidden>
+                <circle cx="24" cy="24" r="16" fill="var(--gold-500)" />
+              </svg>
+            </DecorationTile>
+            <DecorationTile name="diamond">
+              <svg width="48" height="48" viewBox="0 0 48 48" aria-hidden>
+                <path d="M24 4 L44 24 L24 44 L4 24 Z" fill="var(--plum-500)" />
+              </svg>
+            </DecorationTile>
+            <DecorationTile name="triangle">
+              <svg width="48" height="48" viewBox="0 0 48 48" aria-hidden>
+                <path d="M4 42 L24 8 L44 42 Z" fill="var(--plum-900)" />
+              </svg>
+            </DecorationTile>
+            <DecorationTile name="x">
+              <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden>
+                <path
+                  d="M8 8 L32 32 M32 8 L8 32"
+                  stroke="var(--gold-500)"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </DecorationTile>
+            <DecorationTile name="squiggle">
+              <svg width="64" height="24" viewBox="0 0 64 24" aria-hidden>
+                <path
+                  d="M4 12 Q12 4 20 12 T36 12 T52 12"
+                  stroke="var(--plum-500)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </DecorationTile>
           </div>
-        ))}
+        </SubPanel>
       </div>
     </section>
   )
@@ -1949,64 +2014,57 @@ function FigmaSection() {
         title="Export → Figma"
         desc="Ponte tra codice e design file. Token CSS importabili via Design Tokens plugin."
       />
-      <div
-        style={{
-          display: 'flex',
-          gap: 16,
-          padding: 20,
-          background: 'color-mix(in oklab, var(--plum-300) 32%, var(--surface))',
-          border: '2px solid var(--border-memphis)',
-          boxShadow: 'var(--shadow-memphis)',
-          alignItems: 'flex-start',
-        }}
-      >
-        <div
-          style={{
-            flexShrink: 0,
-            width: 40,
-            height: 40,
-            background: 'var(--plum-500)',
-            border: '2px solid var(--border-memphis)',
-            display: 'grid',
-            placeItems: 'center',
-            color: '#fff',
-            fontFamily: 'var(--font-display)',
-            fontSize: 18,
-          }}
-        >
-          F
-        </div>
-        <div style={{ flex: 1 }}>
-          <h4
+      <div style={sectionFrameStyle}>
+        <SubPanel label="3 MODI DI IMPORTO">
+          <ol
             style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 16,
-              margin: '0 0 8px',
-              color: 'var(--plum-700)',
+              paddingLeft: 20,
+              margin: 0,
+              fontSize: 14,
+              lineHeight: 1.6,
+              color: 'var(--ink-soft)',
             }}
           >
-            Preset CSS → Figma
-          </h4>
-          <p style={{ margin: '0 0 8px', fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-            Importa i token CSS del pacchetto{' '}
-            <code
-              style={{
-                fontFamily: 'var(--font-mono)',
-                background: 'var(--surface)',
-                border: '1px solid var(--ink)',
-                padding: '1px 6px',
-                fontSize: 12,
-              }}
-            >
-              @damacchi/ui/styles/tokens.css
-            </code>{' '}
-            usando il plugin <strong>Design Tokens</strong> di Figma.
-          </p>
-          <p style={{ margin: 0, fontSize: 13, color: 'var(--ink-muted)' }}>
-            Le variabili color/space/radius/shadow vengono create automaticamente come Figma
-            Variables; le componenti React restano la fonte di verità.
-          </p>
-        </div>
+            <li style={{ marginBottom: 12 }}>
+              <strong>Figma Tokens plugin</strong> — import <code>tokens.json</code> (derivato da{' '}
+              <code>tokens.css</code>)
+            </li>
+            <li style={{ marginBottom: 12 }}>
+              <strong>CSS variables diretto</strong> — copia <code>tokens.css</code> in una frame
+              Figma tipo &ldquo;Design Tokens&rdquo;
+            </li>
+            <li>
+              <strong>Style Dictionary</strong> — build step che trasforma <code>tokens.css</code>{' '}
+              in formato Figma Styles
+            </li>
+          </ol>
+        </SubPanel>
+
+        <SubPanel label="RELEASE">
+          <ul
+            style={{
+              listStyle: 'none',
+              padding: 0,
+              margin: 0,
+              fontSize: 14,
+              lineHeight: 1.8,
+              color: 'var(--ink-soft)',
+            }}
+          >
+            <li>
+              <strong>v0.1.x</strong> — token CSS + componenti React
+            </li>
+            <li>
+              <strong>v0.2</strong> — mascotte Damo + medaglie
+            </li>
+            <li>
+              <strong>v0.3</strong> — Figma plugin ufficiale
+            </li>
+            <li>
+              <strong>v1.0</strong> — stable + Storybook + public launch
+            </li>
+          </ul>
+        </SubPanel>
       </div>
     </section>
   )
