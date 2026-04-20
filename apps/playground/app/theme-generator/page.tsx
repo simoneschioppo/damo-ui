@@ -21,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
   Chip,
+  ColorPicker,
   Container,
   CrownIcon,
   Input,
@@ -111,54 +112,6 @@ const stickyStyle: CSSProperties = {
   alignSelf: 'start',
 }
 
-// Native color swatch — styled to match the Memphis border language of
-// the rest of the library since there is no <ColorPicker> primitive.
-const colorSwatchStyle: CSSProperties = {
-  width: 44,
-  height: 40,
-  padding: 2,
-  border: '2px solid var(--border-memphis)',
-  background: 'var(--surface)',
-  cursor: 'pointer',
-}
-
-// ═══════════════════════════════════════════════════════════
-// Color picker row (native swatch + hex Input from the lib)
-// ═══════════════════════════════════════════════════════════
-
-function ColorPickerRow({
-  field,
-  value,
-  onChange,
-}: {
-  field: keyof ThemeState
-  value: string
-  onChange: (next: string) => void
-}) {
-  const inputId = `cp-${field}`
-  return (
-    <div>
-      <Label htmlFor={inputId}>{FIELD_LABEL[field]}</Label>
-      <div style={{ display: 'flex', gap: 8, marginTop: 6, alignItems: 'center' }}>
-        <input
-          type="color"
-          id={inputId}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          style={colorSwatchStyle}
-          aria-label={`Color picker for ${FIELD_LABEL[field]}`}
-        />
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          style={{ flex: 1, fontFamily: 'var(--font-mono)', fontSize: 12 }}
-          aria-label={`Hex value for ${FIELD_LABEL[field]}`}
-        />
-      </div>
-    </div>
-  )
-}
-
 // ═══════════════════════════════════════════════════════════
 // Page
 // ═══════════════════════════════════════════════════════════
@@ -217,9 +170,10 @@ export default function ThemeGeneratorPage() {
             <CardBody>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {fieldKeys.map((key) => (
-                  <ColorPickerRow
+                  <ColorPicker
                     key={key}
-                    field={key}
+                    id={`cp-${key}`}
+                    label={FIELD_LABEL[key]}
                     value={theme[key]}
                     onChange={(next) => updateField(key, next)}
                   />
