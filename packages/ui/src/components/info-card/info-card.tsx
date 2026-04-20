@@ -1,0 +1,65 @@
+import { forwardRef, type HTMLAttributes } from 'react'
+import { cn } from '../../lib/cn'
+
+export interface InfoCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  label: string
+  title: string
+  body: string
+}
+
+/**
+ * InfoCard — tooltip/popover style card. Memphis frame (2px border-memphis +
+ * 4px black shadow) with a gold diamond badge floating top-right.
+ */
+export const InfoCard = forwardRef<HTMLDivElement, InfoCardProps>(function InfoCard(
+  { label, title, body, className, ...rest },
+  ref,
+) {
+  return (
+    <div
+      ref={ref}
+      className={cn('relative', className)}
+      {...rest}
+    >
+      <div
+        aria-hidden
+        data-slot="diamond"
+        className="absolute bg-gold-500 border-2 border-border-memphis"
+        style={{
+          top: -10,
+          right: 20,
+          width: 16,
+          height: 16,
+          transform: 'rotate(45deg)',
+        }}
+      />
+      <div
+        data-slot="surface"
+        className="p-4 border-2 border-border-memphis bg-surface"
+        style={{ boxShadow: '4px 4px 0 var(--border-memphis)' }}
+      >
+        <div
+          data-slot="label"
+          className="font-mono font-bold uppercase text-ink-muted"
+          style={{ fontSize: 10, letterSpacing: '0.2em' }}
+        >
+          {label}
+        </div>
+        <div
+          data-slot="title"
+          className="font-display text-ink"
+          style={{ fontSize: 22, lineHeight: 1.15, marginTop: 8 }}
+        >
+          {title}
+        </div>
+        <p
+          data-slot="body"
+          className="text-ink-soft m-0"
+          style={{ fontSize: 13, lineHeight: 1.5, marginTop: 6 }}
+        >
+          {body}
+        </p>
+      </div>
+    </div>
+  )
+})
