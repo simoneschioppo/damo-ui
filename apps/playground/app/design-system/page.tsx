@@ -30,6 +30,7 @@ import {
   ColorScale,
   TokenSwatch,
   ShowcaseCard,
+  TypeSpecimen,
   HomeIcon,
   SearchIcon,
   CloseIcon,
@@ -843,64 +844,22 @@ function TypographySection() {
           marginBottom: 32,
         }}
       >
-        <div style={typeCardStyle}>
-          <div style={typeCardMetaStyle}>
-            <span>
-              DISPLAY · <b style={{ color: 'var(--accent)' }}>AUDIOWIDE</b>
-            </span>
-            <span>Google Fonts</span>
-          </div>
-          <p
-            style={{
-              margin: 0,
-              fontFamily: 'var(--font-display)',
-              fontSize: 72,
-              lineHeight: 1,
-              letterSpacing: '-0.01em',
-              color: 'var(--ink)',
-            }}
-          >
-            Damacchi
-          </p>
-          <div style={typeCardSmallStyle}>
-            <span style={typeChipStyle}>400 regular</span>
-            <span style={typeChipStyle}>letter-spacing: 0.02em</span>
-            <span style={typeChipStyle}>Solo display — mai body</span>
-          </div>
-        </div>
-
-        <div style={typeCardStyle}>
-          <div style={typeCardMetaStyle}>
-            <span>
-              BODY · <b style={{ color: 'var(--accent)' }}>EXO 2</b>
-            </span>
-            <span>Google Fonts</span>
-          </div>
-          <p
-            style={{
-              margin: 0,
-              fontFamily: 'var(--font-body)',
-              fontSize: 42,
-              fontWeight: 600,
-              lineHeight: 1,
-              color: 'var(--ink)',
-            }}
-          >
-            Cavallo, ma a spazzare.
-          </p>
-          <div style={typeCardSmallStyle}>
-            <span style={typeChipStyle}>300 / 400 / 500 / 600 / 700</span>
-            <span style={typeChipStyle}>Body + UI + eyebrow</span>
-          </div>
-        </div>
+        <TypeSpecimen
+          name="DISPLAY · AUDIOWIDE · GOOGLE FONTS"
+          sample="Damacchi"
+          fontFamily="var(--font-display)"
+          sampleSize={72}
+        />
+        <TypeSpecimen
+          name="BODY · EXO 2 · GOOGLE FONTS"
+          sample="Cavallo, ma a spazzare."
+          fontFamily="var(--font-body)"
+          sampleSize={42}
+        />
       </div>
 
       {/* Scale ladder — single card with 3-col rows */}
-      <div style={typeCardStyle}>
-        <div style={typeCardMetaStyle}>
-          <span>SCALA TIPOGRAFICA</span>
-          <span>10 stili · rem + px</span>
-        </div>
+      <ShowcaseCard label="SCALA TIPOGRAFICA · 10 stili">
         {TYPE_SCALE.map((t, idx) => (
           <div
             key={t.name}
@@ -944,7 +903,7 @@ function TypographySection() {
             </div>
           </div>
         ))}
-      </div>
+      </ShowcaseCard>
     </section>
   )
 }
