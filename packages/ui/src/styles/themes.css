@@ -19,6 +19,24 @@
   --shadow-memphis-color: var(--paper-50);
 }
 
+/* ── Scoped dark preview (theme-generator) ────────────
+ * Usage: <div data-theme-preview="dark">…</div>
+ * Re-maps semantic vars within the preview container so the
+ * generator can swap light/dark without changing the root theme.
+ */
+[data-theme-preview='dark'] {
+  --bg: var(--plum-900);
+  --surface: var(--plum-800);
+  --surface-2: var(--plum-700);
+  --ink: var(--paper-50);
+  --ink-soft: var(--paper-100);
+  --ink-muted: var(--plum-300);
+  --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
+  --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
+  --border-memphis: var(--paper-50);
+  --shadow-memphis-color: var(--paper-50);
+}
+
 /* ── Palette: Neon (magenta + lime, Memphis 80s puro) ── */
 :root[data-palette='neon'] {
   --plum-100: #f8c8e7;
