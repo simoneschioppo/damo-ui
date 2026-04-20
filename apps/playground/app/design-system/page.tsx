@@ -5,7 +5,7 @@
  *
  * All 11 sections consume @simoneschioppo/damo-ui components (ColorScale, TokenSwatch,
  * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, FeatureCard,
- * TooltipCard, RuleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
+ * TooltipCard, ArticleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
  * plus inputs + icons). Only hero / TOC / layout / section scroll-margin /
  * footer use inline style — every styled surface is a lib component.
  *
@@ -40,7 +40,7 @@ import {
   UserCard,
   FeatureCard,
   TooltipCard,
-  RuleCard,
+  ArticleCard,
   Badge,
   Chip,
   Medal,
@@ -791,12 +791,12 @@ function CardsSection() {
             </div>
           </div>
         </ShowcaseCard>
-        <ShowcaseCard label="RULE CARD · neutra">
+        <ShowcaseCard label="ARTICLE CARD · neutra">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <RuleCard label="REGOLA" title="Mangia come scacchi, muovi come dama">
+            <ArticleCard label="REGOLA" title="Mangia come scacchi, muovi come dama">
               Il pezzo cattura con le regole degli scacchi. Ma se arriva in fondo, promuove come
               nella dama italiana.
-            </RuleCard>
+            </ArticleCard>
           </div>
         </ShowcaseCard>
       </div>

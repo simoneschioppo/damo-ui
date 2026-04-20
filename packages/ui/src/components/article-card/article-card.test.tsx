@@ -1,31 +1,31 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import { RuleCard } from './rule-card'
+import { ArticleCard } from './article-card'
 
-describe('RuleCard', () => {
+describe('ArticleCard', () => {
   it('renders the title', () => {
     const { getByText } = render(
-      <RuleCard title="Regola base">
+      <ArticleCard title="Regola base">
         <p>Testo della regola</p>
-      </RuleCard>,
+      </ArticleCard>,
     )
     expect(getByText('Regola base')).toBeTruthy()
   })
 
   it('renders the children body', () => {
     const { getByText } = render(
-      <RuleCard title="Regola base">
+      <ArticleCard title="Regola base">
         <p>Testo della regola</p>
-      </RuleCard>,
+      </ArticleCard>,
     )
     expect(getByText('Testo della regola')).toBeTruthy()
   })
 
   it('renders the optional eyebrow label when provided', () => {
     const { getByText } = render(
-      <RuleCard label="REGOLA" title="Regola base">
+      <ArticleCard label="REGOLA" title="Regola base">
         <p>Testo</p>
-      </RuleCard>,
+      </ArticleCard>,
     )
     const label = getByText('REGOLA')
     expect(label).toBeTruthy()
@@ -35,18 +35,18 @@ describe('RuleCard', () => {
 
   it('does not render an eyebrow when label is omitted', () => {
     const { queryByTestId } = render(
-      <RuleCard title="Regola base">
+      <ArticleCard title="Regola base">
         <p>Testo</p>
-      </RuleCard>,
+      </ArticleCard>,
     )
-    expect(queryByTestId('rule-card-label')).toBeNull()
+    expect(queryByTestId('article-card-label')).toBeNull()
   })
 
   it('applies the display font to the title', () => {
     const { getByText } = render(
-      <RuleCard title="Regola base">
+      <ArticleCard title="Regola base">
         <p>Testo</p>
-      </RuleCard>,
+      </ArticleCard>,
     )
     const title = getByText('Regola base')
     expect(title.className).toContain('font-display')
@@ -54,9 +54,9 @@ describe('RuleCard', () => {
 
   it('applies Memphis frame + surface classes to the root', () => {
     const { container } = render(
-      <RuleCard title="Regola base">
+      <ArticleCard title="Regola base">
         <p>Testo</p>
-      </RuleCard>,
+      </ArticleCard>,
     )
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
@@ -66,9 +66,9 @@ describe('RuleCard', () => {
 
   it('caps the maxWidth to 420px via inline style', () => {
     const { container } = render(
-      <RuleCard title="Regola base">
+      <ArticleCard title="Regola base">
         <p>Testo</p>
-      </RuleCard>,
+      </ArticleCard>,
     )
     const root = container.firstChild as HTMLElement
     expect(root.style.maxWidth).toBe('420px')
@@ -76,11 +76,11 @@ describe('RuleCard', () => {
 
   it('forwards className', () => {
     const { container } = render(
-      <RuleCard title="Regola base" className="custom-rule">
+      <ArticleCard title="Regola base" className="custom-article">
         <p>Testo</p>
-      </RuleCard>,
+      </ArticleCard>,
     )
     const root = container.firstChild as HTMLElement
-    expect(root.className).toContain('custom-rule')
+    expect(root.className).toContain('custom-article')
   })
 })
