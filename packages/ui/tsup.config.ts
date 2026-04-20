@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/mocks/index.ts'],
   format: ['esm'],
   dts: true,
   sourcemap: true,
@@ -13,10 +13,12 @@ export default defineConfig({
   splitting: false,
   minify: false,
   async onSuccess() {
-    const distIndex = resolve('dist/index.js')
-    const current = readFileSync(distIndex, 'utf8')
-    if (!current.startsWith('"use client"')) {
-      writeFileSync(distIndex, `"use client";\n${current}`)
+    for (const relative of ['dist/index.js', 'dist/mocks/index.js']) {
+      const absolute = resolve(relative)
+      const current = readFileSync(absolute, 'utf8')
+      if (!current.startsWith('"use client"')) {
+        writeFileSync(absolute, `"use client";\n${current}`)
+      }
     }
   },
 })

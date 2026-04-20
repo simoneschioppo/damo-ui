@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardBody } from '../../components/card'
 import { Chip } from '../../components/chip'
 import { Stat } from '../../components/stat'
 
-export interface DashboardPreviewProps extends HTMLAttributes<HTMLDivElement> {}
+export type DashboardPreviewProps = HTMLAttributes<HTMLDivElement>
 
 type Bar = { height: number; highlight?: boolean; label: string }
 

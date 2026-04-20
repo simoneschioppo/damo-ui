@@ -8,7 +8,7 @@ import { Input } from '../../components/input'
 import { Chip } from '../../components/chip'
 import { Badge, type BadgeVariants } from '../../components/badge'
 
-export interface FeedPreviewProps extends HTMLAttributes<HTMLDivElement> {}
+export type FeedPreviewProps = HTMLAttributes<HTMLDivElement>
 
 type Filter = { key: string; label: string; dotColor: string }
 
