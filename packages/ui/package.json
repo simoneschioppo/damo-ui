@@ -22,6 +22,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./mocks": {
+      "types": "./dist/mocks/index.d.ts",
+      "import": "./dist/mocks/index.js"
+    },
     "./styles/tokens.css": "./dist/styles/tokens.css",
     "./styles/theme.css": "./dist/styles/theme.css",
     "./styles/themes.css": "./dist/styles/themes.css",

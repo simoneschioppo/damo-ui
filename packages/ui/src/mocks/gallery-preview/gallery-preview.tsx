@@ -25,7 +25,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage, AvatarGroup } from '../../components/avatar'
 import { PlusIcon } from '../../icons'
 
-export interface GalleryPreviewProps extends HTMLAttributes<HTMLDivElement> {}
+export type GalleryPreviewProps = HTMLAttributes<HTMLDivElement>
 
 const SECTION_TITLE =
   'font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted'

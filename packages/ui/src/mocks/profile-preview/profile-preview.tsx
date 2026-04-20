@@ -8,7 +8,7 @@ import { Chip } from '../../components/chip'
 import { UserCard } from '../../components/user-card'
 import { Medal, type MedalRank } from '../../components/medal'
 
-export interface ProfilePreviewProps extends HTMLAttributes<HTMLDivElement> {}
+export type ProfilePreviewProps = HTMLAttributes<HTMLDivElement>
 
 type Achievement = { rank: MedalRank; value: string; label: string }
 

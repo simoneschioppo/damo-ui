@@ -7,7 +7,7 @@ import { Input } from '../../components/input'
 import { Label } from '../../components/label'
 import { Separator } from '../../components/separator'
 
-export interface AuthPreviewProps extends HTMLAttributes<HTMLDivElement> {}
+export type AuthPreviewProps = HTMLAttributes<HTMLDivElement>
 
 export const AuthPreview = forwardRef<HTMLDivElement, AuthPreviewProps>(function AuthPreview(
   { className, ...rest },
