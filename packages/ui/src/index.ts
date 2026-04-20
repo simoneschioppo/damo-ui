@@ -245,6 +245,7 @@ export { ArticleCard, type ArticleCardProps } from './components/article-card'
 
 // Hooks
 export { useResolvedCssVars } from './hooks/use-resolved-css-vars'
+export { usePersistedAttr } from './hooks/use-persisted-attr'
 
 // Layout (Phase 9)
 export { AppShell, type AppShellProps } from './components/app-shell'
