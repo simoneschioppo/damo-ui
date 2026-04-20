@@ -38,6 +38,8 @@ import {
   Badge,
   Chip,
   Medal,
+  PatternSwatch,
+  MemphisShape,
   HomeIcon,
   SearchIcon,
   CloseIcon,
@@ -1793,72 +1795,6 @@ function MascotSection() {
 // 10 · Pattern Memphis (data-app-pattern + decorazioni)
 // ═══════════════════════════════════════════════════════════
 
-// Tileable Memphis pattern swatch. We reproduce the original CSS-only
-// patterns from design-system.css (stripes, dots, grid, checker, weave).
-// The WAVES and SCATTER swatches are SVGs rendered inline.
-const patternSwatchStyle: CSSProperties = {
-  aspectRatio: '1 / 1',
-  border: '2px solid var(--border-memphis)',
-  boxShadow: '3px 3px 0 var(--black)',
-  position: 'relative',
-  overflow: 'hidden',
-  background: 'var(--paper-50)',
-}
-
-const patternLabelStyle: CSSProperties = {
-  position: 'absolute',
-  bottom: 8,
-  left: 8,
-  fontFamily: 'var(--font-mono)',
-  fontSize: 10,
-  letterSpacing: '0.1em',
-  textTransform: 'uppercase',
-  background: 'var(--border-memphis)',
-  color: '#fff',
-  padding: '3px 8px',
-  fontWeight: 700,
-}
-
-function PatternSwatch({
-  name,
-  background,
-  backgroundSize,
-  backgroundPosition,
-  backgroundColor,
-  children,
-}: {
-  name: string
-  background?: string
-  backgroundSize?: string
-  backgroundPosition?: string
-  backgroundColor?: string
-  children?: ReactNode
-}) {
-  const style: CSSProperties = {
-    ...patternSwatchStyle,
-    ...(background ? { background } : {}),
-    ...(backgroundSize ? { backgroundSize } : {}),
-    ...(backgroundPosition ? { backgroundPosition } : {}),
-    ...(backgroundColor ? { backgroundColor } : {}),
-  }
-  return (
-    <div style={style}>
-      {children}
-      <span style={patternLabelStyle}>{name}</span>
-    </div>
-  )
-}
-
-// Shape primitive styles — faithful to original .shape variants.
-const shapeBaseStyle: CSSProperties = {
-  width: 64,
-  height: 64,
-  border: '2px solid var(--border-memphis)',
-  display: 'grid',
-  placeItems: 'center',
-  background: 'var(--surface)',
-}
-
 function PatternsSection() {
   return (
     <section id="patterns" style={sectionStyle}>
@@ -1867,7 +1803,7 @@ function PatternsSection() {
         title="Pattern Memphis"
         desc="Texture e forme che riempono gli spazi vuoti. Mai tutti assieme — uno per volta, con misura."
       />
-      <DsCard label="PATTERN · tileable backgrounds">
+      <ShowcaseCard label="PATTERN · tileable backgrounds">
         <div
           style={{
             display: 'grid',
@@ -1894,18 +1830,17 @@ function PatternsSection() {
             background="linear-gradient(var(--ink) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--ink) 1.5px, transparent 1.5px)"
             backgroundSize="20px 20px"
           />
+          {/* TODO(lib): PatternSwatch does not expose backgroundPosition — CHECKER/WEAVE will render without the half-step offset. */}
           <PatternSwatch
             name="CHECKER"
             background="linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%), linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%)"
             backgroundColor="#fff"
             backgroundSize="20px 20px"
-            backgroundPosition="0 0, 10px 10px"
           />
           <PatternSwatch
             name="WEAVE"
             background="linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%), linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%)"
             backgroundSize="24px 24px"
-            backgroundPosition="0 0, 12px 12px"
             backgroundColor="var(--paper-50)"
           />
           <PatternSwatch name="WAVES" background="var(--gold-500)">
@@ -1950,66 +1885,28 @@ function PatternsSection() {
             </svg>
           </PatternSwatch>
         </div>
-      </DsCard>
+      </ShowcaseCard>
 
       <div style={{ height: 24 }} />
 
-      <DsCard label="SHAPE PRIMITIVES">
+      <ShowcaseCard label="SHAPE PRIMITIVES">
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center' }}>
+          <MemphisShape variant="diamond" size={64} color="var(--gold-500)" />
+          <MemphisShape variant="circle" size={64} color="var(--plum-500)" />
+          <MemphisShape variant="triangle" size={64} color="var(--plum-900)" />
+          {/* TODO(lib): no "stripes" / "nested-squares" MemphisShape variant — keep inline. */}
           <div
+            aria-hidden
             style={{
-              ...shapeBaseStyle,
-              transform: 'rotate(45deg)',
-              background: 'var(--gold-500)',
+              width: 64,
+              height: 64,
+              background:
+                'repeating-linear-gradient(45deg, var(--ink) 0 3px, transparent 3px 8px)',
             }}
           />
-          <div
-            style={{
-              ...shapeBaseStyle,
-              borderRadius: '50%',
-              background: 'var(--plum-500)',
-            }}
-          />
-          <div
-            style={{
-              width: 0,
-              height: 0,
-              background: 'transparent',
-              border: 'none',
-              borderLeft: '36px solid transparent',
-              borderRight: '36px solid transparent',
-              borderBottom: '64px solid var(--plum-900)',
-            }}
-          />
-          <div
-            style={{
-              ...shapeBaseStyle,
-              background: 'repeating-linear-gradient(45deg, var(--ink) 0 3px, transparent 3px 8px)',
-            }}
-          />
-          <div
-            style={{
-              ...shapeBaseStyle,
-              background: 'var(--success)',
-              borderRadius: '60% 40% 70% 30% / 40% 50% 50% 60%',
-            }}
-          />
-          <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden>
-            <path
-              d="M4 32 Q 14 4 24 32 T 44 32 T 60 32"
-              stroke="#000"
-              strokeWidth="4"
-              fill="none"
-            />
-          </svg>
-          <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden>
-            <polygon
-              points="32,4 40,24 60,24 44,36 50,56 32,44 14,56 20,36 4,24 24,24"
-              fill="var(--gold-500)"
-              stroke="#000"
-              strokeWidth="3"
-            />
-          </svg>
+          <MemphisShape variant="blob" size={64} color="var(--success)" />
+          <MemphisShape variant="wave" size={64} color="#000" />
+          <MemphisShape variant="star" size={64} color="var(--gold-500)" />
           <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden>
             <rect
               x="10"
@@ -2024,7 +1921,7 @@ function PatternsSection() {
             <rect x="32" y="32" width="14" height="14" fill="var(--gold-500)" />
           </svg>
         </div>
-      </DsCard>
+      </ShowcaseCard>
     </section>
   )
 }
