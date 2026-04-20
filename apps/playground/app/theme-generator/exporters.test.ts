@@ -55,6 +55,14 @@ describe('buildTailwindExport', () => {
     expect(out).toContain('borderRadius:')
     expect(out).toContain('boxShadow:')
   })
+
+  it('emits fontFamily as plain CSS var strings (not runtime-executing .split calls)', () => {
+    const out = buildTailwindExport(DEFAULT_THEME)
+    expect(out).toContain("display: 'var(--font-display)'")
+    expect(out).toContain("body: 'var(--font-body)'")
+    expect(out).toContain("mono: 'var(--font-mono)'")
+    expect(out).not.toContain('.split(')
+  })
 })
 
 describe('buildJsonExport', () => {

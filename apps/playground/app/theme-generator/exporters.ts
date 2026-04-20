@@ -136,9 +136,9 @@ const preset = {
 ${colorPairs}
       },
       fontFamily: {
-        display: 'var(--font-display)'.split(',').map((s) => s.trim()),
-        body: 'var(--font-body)'.split(',').map((s) => s.trim()),
-        mono: 'var(--font-mono)'.split(',').map((s) => s.trim()),
+        display: 'var(--font-display)',
+        body: 'var(--font-body)',
+        mono: 'var(--font-mono)',
       },
       borderRadius: {
 ${radiusPairs}
