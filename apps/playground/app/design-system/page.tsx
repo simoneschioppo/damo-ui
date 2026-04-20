@@ -4,7 +4,7 @@
  * /design-system — Damacchi DS v1 on lib primitives only.
  *
  * All 11 sections consume @simoneschioppo/damo-ui components (ColorScale, TokenSwatch,
- * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, PlayerCard, ModeCard,
+ * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, ModeCard,
  * InfoCard, RuleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
  * plus inputs + icons). Only hero / TOC / layout / section scroll-margin /
  * footer use inline style — every styled surface is a lib component.
@@ -37,7 +37,7 @@ import {
   SectionHeader,
   SubPanel,
   TypeSpecimen,
-  PlayerCard,
+  UserCard,
   ModeCard,
   InfoCard,
   RuleCard,
@@ -746,9 +746,25 @@ function CardsSection() {
         desc="4 varianti principali. Tutte condividono bordo 2px + shadow Memphis, cambia solo accento e layout."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
-        <ShowcaseCard label="PLAYER CARD">
+        <ShowcaseCard label="USER CARD">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <PlayerCard name="Marini" color="bianco" elo={1842} mode="RAPID" clock="05:42" />
+            <UserCard
+              name="Marini · Bianco"
+              meta={<>ELO 1842 · RAPID</>}
+              trailing={
+                <span
+                  className="font-mono font-bold text-ink border-2 border-gold-500 bg-paper-50"
+                  style={{
+                    display: 'inline-block',
+                    padding: '8px 14px',
+                    fontSize: 14,
+                    boxShadow: '2px 2px 0 var(--gold-500)',
+                  }}
+                >
+                  05:42
+                </span>
+              }
+            />
           </div>
         </ShowcaseCard>
         <ShowcaseCard label="MODE CARD">
