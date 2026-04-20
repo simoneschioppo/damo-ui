@@ -10,7 +10,7 @@
  * Reference: /Users/simoneschioppo/Documents/damacchi-design/claude-design-system/design-system.css
  */
 
-import { type CSSProperties, type ReactNode, useEffect, useState } from 'react'
+import { type CSSProperties, type ReactNode, useState } from 'react'
 import {
   Button,
   IconButton,
@@ -30,6 +30,8 @@ import {
   ColorScale,
   TokenSwatch,
   ShowcaseCard,
+  SectionHeader,
+  SubPanel,
   TypeSpecimen,
   PlayerCard,
   ModeCard,
@@ -241,78 +243,9 @@ const sectionStyle: CSSProperties = {
   scrollMarginTop: 32,
 }
 
-const sectionHeaderStyle: CSSProperties = {
-  marginBottom: 40,
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'baseline',
-  gap: 16,
-}
-
-const sectionNumStyle: CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  fontSize: 14,
-  color: 'var(--gold-500)',
-  letterSpacing: '0.1em',
-  fontWeight: 700,
-}
-
-const sectionTitleStyle: CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: 44,
-  margin: 0,
-  color: 'var(--ink)',
-  letterSpacing: '0.01em',
-}
-
-const sectionDescStyle: CSSProperties = {
-  color: 'var(--ink-soft)',
-  maxWidth: 640,
-  margin: '8px 0 0',
-  fontSize: 15,
-  flexBasis: '100%',
-}
-
-const sectionFrameStyle: CSSProperties = {
-  border: '2px solid var(--border-memphis)',
-  boxShadow: 'var(--shadow-memphis)',
-  background: 'var(--surface)',
-  padding: 32,
-  display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: 24,
-}
-
-const subPanelStyle: CSSProperties = {
-  border: '1px dashed var(--border-strong)',
-  padding: 20,
-  background: 'var(--surface)',
-}
-
-const subPanelLabelStyle: CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  fontSize: 11,
-  fontWeight: 700,
-  letterSpacing: '0.22em',
-  textTransform: 'uppercase',
-  color: 'var(--ink-muted)',
-  marginBottom: 16,
-  display: 'block',
-}
-
-// Faithful port of .ds-card (CSS rule in design-system.css):
-//   background: #fff; border: 2px solid var(--ink);
-//   box-shadow: 4px 4px 0 #000; padding: 28px;
-const dsCardStyle: CSSProperties = {
-  background: 'var(--surface)',
-  border: '2px solid var(--border-memphis)',
-  boxShadow: '4px 4px 0 var(--black)',
-  padding: 28,
-  position: 'relative',
-}
-
-// Faithful port of .ds-card__label
-const dsCardLabelStyle: CSSProperties = {
+// Inline-styled mono eyebrow used inside ShowcaseCards as a secondary sub-heading
+// (e.g. "BADGE · rank / medal" inside "BADGE · status" showcase card).
+const subEyebrowStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 10,
   letterSpacing: '0.2em',
@@ -321,17 +254,6 @@ const dsCardLabelStyle: CSSProperties = {
   fontWeight: 700,
   marginBottom: 16,
   display: 'block',
-}
-
-// Faithful port of .showcase — paper-100 bg, dashed border
-const showcaseStyle: CSSProperties = {
-  display: 'flex',
-  gap: 16,
-  flexWrap: 'wrap',
-  padding: 24,
-  background: 'var(--paper-100)',
-  border: '2px dashed color-mix(in oklab, var(--ink) 25%, transparent)',
-  alignItems: 'center',
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -356,45 +278,6 @@ function Toc() {
         ))}
       </nav>
     </aside>
-  )
-}
-
-function SectionHeader({ num, title, desc }: { num: string; title: string; desc: string }) {
-  return (
-    <header style={sectionHeaderStyle}>
-      <span style={sectionNumStyle}>{num}</span>
-      <h2 style={sectionTitleStyle}>{title}</h2>
-      <p style={sectionDescStyle}>{desc}</p>
-    </header>
-  )
-}
-
-function SubPanel({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div style={subPanelStyle}>
-      <span style={subPanelLabelStyle}>{label}</span>
-      {children}
-    </div>
-  )
-}
-
-// DsCard — faithful port of `.ds-card` from the original design-system.css.
-// Structure: white bg, 2px black border, 4px solid black Memphis shadow,
-// 28px padding, optional label block at top.
-function DsCard({
-  label,
-  style,
-  children,
-}: {
-  label?: string
-  style?: CSSProperties
-  children: ReactNode
-}) {
-  return (
-    <div style={{ ...dsCardStyle, ...(style ?? {}) }}>
-      {label ? <div style={dsCardLabelStyle}>{label}</div> : null}
-      {children}
-    </div>
   )
 }
 
@@ -438,66 +321,6 @@ const PAPER_SCALE: ColorScaleDef = {
   stops: [{ k: 300 }, { k: 200 }, { k: 100 }, { k: 50 }],
 }
 
-// Resolve CSS custom properties at runtime. Re-reads whenever <html>
-// `data-theme` or `data-palette` changes (MutationObserver), so the hex
-// labels and contrast-aware text track palette switches.
-//
-// Why `key` (the joined names) is the *only* dependency: the `names` array
-// is recreated on every parent render (`.map(...)`) and using it directly
-// would make the effect rerun → setValues → rerender → effect rerun → …
-// Joining into a stable string lets us bail out cleanly while still picking
-// up genuine changes to the watched-var set.
-function useResolvedCssVars(names: ReadonlyArray<string>): Record<string, string> {
-  const key = names.join('|')
-  const [values, setValues] = useState<Record<string, string>>({})
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    const root = document.documentElement
-    const watched = key.split('|').filter(Boolean)
-    const read = () => {
-      const cs = getComputedStyle(root)
-      const next: Record<string, string> = {}
-      for (const n of watched) {
-        next[n] = cs.getPropertyValue(n).trim()
-      }
-      setValues((prev) => {
-        // Avoid a setState when nothing actually changed — keeps us out of
-        // React's "same value → bail" path and prevents needless rerenders.
-        const prevKeys = Object.keys(prev)
-        if (prevKeys.length === watched.length) {
-          let same = true
-          for (const n of watched) {
-            if (prev[n] !== next[n]) {
-              same = false
-              break
-            }
-          }
-          if (same) return prev
-        }
-        return next
-      })
-    }
-    read()
-    const obs = new MutationObserver(read)
-    obs.observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-palette'] })
-    return () => obs.disconnect()
-  }, [key])
-  return values
-}
-
-// Pick readable text color (black or white) for a given background hex.
-// Uses perceptual luminance. Falls back to dark ink for unknown inputs.
-function pickContrastText(hex: string): string {
-  const m = hex.replace(/\s+/g, '').match(/^#?([a-f\d]{6})$/i)
-  if (!m || !m[1]) return 'rgba(0,0,0,0.8)'
-  const hx = m[1]
-  const r = parseInt(hx.slice(0, 2), 16)
-  const g = parseInt(hx.slice(2, 4), 16)
-  const b = parseInt(hx.slice(4, 6), 16)
-  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-  return lum > 0.62 ? 'rgba(0,0,0,0.82)' : 'rgba(255,255,255,0.94)'
-}
-
 const SEMANTIC_BLOCKS: ReadonlyArray<{
   readonly token: string
   readonly name: string
@@ -533,166 +356,6 @@ const SEMANTIC_BLOCKS: ReadonlyArray<{
   },
   { token: '--accent', name: 'Accent', cssVar: '--accent', usage: 'Gold 500 — brand highlight' },
 ]
-
-function ColorBand({ scale }: { scale: ColorScaleDef }) {
-  const varNames = scale.stops.map((s) => `--${scale.token}-${s.k}`)
-  const resolved = useResolvedCssVars(varNames)
-  return (
-    <div style={{ marginBottom: 32 }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'baseline',
-          justifyContent: 'space-between',
-          marginBottom: 12,
-          flexWrap: 'wrap',
-          gap: 12,
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-          <h3 className="display" style={{ fontSize: 28, margin: 0, color: 'var(--ink)' }}>
-            {scale.name}
-          </h3>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 13,
-              color: 'var(--accent)',
-              fontWeight: 700,
-            }}
-          >
-            --{scale.token}-*
-          </span>
-        </div>
-        <div
-          style={{
-            color: 'var(--ink-muted)',
-            fontSize: 13,
-            fontStyle: 'italic',
-          }}
-        >
-          {scale.desc}
-        </div>
-      </div>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: `repeat(${scale.stops.length}, 1fr)`,
-          border: '2px solid var(--border-memphis)',
-          boxShadow: '6px 6px 0 var(--black)',
-          overflow: 'hidden',
-        }}
-      >
-        {scale.stops.map((s, idx) => {
-          const cssVar = `--${scale.token}-${s.k}`
-          const hex = resolved[cssVar] ?? ''
-          return (
-            <div
-              key={s.k}
-              style={{
-                background: `var(${cssVar})`,
-                color: pickContrastText(hex),
-                aspectRatio: '1.2 / 1',
-                padding: '14px 12px 12px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                borderLeft: idx === 0 ? 'none' : '2px solid var(--border-memphis)',
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 13,
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                }}
-              >
-                {scale.token}-{s.k}
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 11,
-                  opacity: 0.85,
-                  marginTop: 2,
-                }}
-              >
-                {hex || '\u00a0'}
-              </div>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-function SemanticBlock({
-  token,
-  name,
-  cssVar,
-  usage,
-}: {
-  token: string
-  name: string
-  cssVar: string
-  usage: string
-}) {
-  return (
-    <div
-      style={{
-        padding: 16,
-        border: '2px solid var(--border-memphis)',
-        background: 'var(--surface)',
-        boxShadow: '3px 3px 0 var(--black)',
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          height: 44,
-          background: `var(${cssVar})`,
-          border: '2px solid var(--border-memphis)',
-          marginBottom: 10,
-        }}
-      />
-      <div
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 10,
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          fontWeight: 700,
-          color: 'var(--ink)',
-        }}
-      >
-        {name}
-      </div>
-      <div
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 10,
-          color: 'var(--accent)',
-          marginTop: 2,
-          fontWeight: 700,
-        }}
-      >
-        {token}
-      </div>
-      <div
-        style={{
-          fontSize: 11,
-          color: 'var(--ink-muted)',
-          marginTop: 6,
-          lineHeight: 1.35,
-        }}
-      >
-        {usage}
-      </div>
-    </div>
-  )
-}
 
 function ColorsSection() {
   return (
@@ -781,42 +444,6 @@ const TYPE_SCALE: ReadonlyArray<TypeScaleRow> = [
   { name: 'Caption', size: 12, weight: 500, font: 'body' },
   { name: 'Mono / Eyebrow', size: 11, weight: 700, font: 'mono', upper: true, track: 0.22 },
 ]
-
-const typeCardStyle: CSSProperties = {
-  padding: 32,
-  background: 'var(--surface)',
-  border: '2px solid var(--border-memphis)',
-  boxShadow: '6px 6px 0 var(--black)',
-  position: 'relative',
-}
-
-const typeCardMetaStyle: CSSProperties = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  fontFamily: 'var(--font-mono)',
-  fontSize: 10,
-  letterSpacing: '0.2em',
-  textTransform: 'uppercase',
-  color: 'var(--ink-muted)',
-  marginBottom: 16,
-  fontWeight: 700,
-}
-
-const typeCardSmallStyle: CSSProperties = {
-  marginTop: 20,
-  fontFamily: 'var(--font-mono)',
-  fontSize: 11,
-  color: 'var(--ink-muted)',
-  display: 'flex',
-  gap: 12,
-  flexWrap: 'wrap',
-}
-
-const typeChipStyle: CSSProperties = {
-  padding: '4px 8px',
-  background: 'var(--paper-100)',
-  border: '1.5px solid var(--border-memphis)',
-}
 
 function typeSpecStyle(t: TypeScaleRow): CSSProperties {
   const family =
@@ -933,24 +560,6 @@ const stateLabelStyle: CSSProperties = {
   textAlign: 'center',
 }
 
-const sectionFrameSingleStyle: CSSProperties = {
-  border: '2px solid var(--border-memphis)',
-  boxShadow: 'var(--shadow-memphis)',
-  background: 'var(--surface)',
-  padding: 32,
-}
-
-const buttonSubPanelStyle: CSSProperties = {
-  border: '1px dashed var(--border-strong)',
-  padding: 24,
-  background: 'var(--paper-50)',
-}
-
-const buttonSubPanelLabelStyle: CSSProperties = {
-  ...subPanelLabelStyle,
-  marginBottom: 20,
-}
-
 type ButtonStateCell = { label: string; node: ReactNode }
 
 function ButtonStateRow({ cells }: { cells: ReadonlyArray<ButtonStateCell> }) {
@@ -977,6 +586,8 @@ function ButtonStateRow({ cells }: { cells: ReadonlyArray<ButtonStateCell> }) {
 }
 
 function ButtonsSection() {
+  // State simulations use className arbitrary-value shorthands (Tailwind v4)
+  // so we don't need inline style / boxShadow props.
   const primaryStates: ReadonlyArray<ButtonStateCell> = [
     { label: 'Default', node: <Button variant="primary">GIOCA</Button> },
     {
@@ -984,11 +595,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="primary"
-          style={{
-            transform: 'translate(-1px,-1px)',
-            boxShadow: '7px 7px 0 var(--black)',
-            background: 'var(--gold-400)',
-          }}
+          className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--black)] bg-[var(--gold-400)]"
         >
           GIOCA
         </Button>
@@ -999,10 +606,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="primary"
-          style={{
-            transform: 'translate(3px,3px)',
-            boxShadow: '2px 2px 0 var(--black)',
-          }}
+          className="translate-x-[3px] translate-y-[3px] shadow-[2px_2px_0_var(--black)]"
         >
           GIOCA
         </Button>
@@ -1013,10 +617,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="primary"
-          style={{
-            outline: '2px solid var(--ring)',
-            outlineOffset: 2,
-          }}
+          className="outline outline-2 outline-offset-2 outline-[var(--ring)]"
         >
           GIOCA
         </Button>
@@ -1039,11 +640,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="ghost"
-          style={{
-            transform: 'translate(-1px,-1px)',
-            boxShadow: '7px 7px 0 var(--gold-500)',
-            background: 'var(--surface-2)',
-          }}
+          className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--gold-500)] bg-[var(--surface-2)]"
         >
           INDIETRO
         </Button>
@@ -1054,10 +651,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="ghost"
-          style={{
-            transform: 'translate(3px,3px)',
-            boxShadow: '2px 2px 0 var(--gold-500)',
-          }}
+          className="translate-x-[3px] translate-y-[3px] shadow-[2px_2px_0_var(--gold-500)]"
         >
           INDIETRO
         </Button>
@@ -1068,10 +662,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="ghost"
-          style={{
-            outline: '2px solid var(--ring)',
-            outlineOffset: 2,
-          }}
+          className="outline outline-2 outline-offset-2 outline-[var(--ring)]"
         >
           INDIETRO
         </Button>
@@ -1094,23 +685,20 @@ function ButtonsSection() {
         title="Bottoni"
         desc="Bordo nero 2px + shadow Memphis di 4-6px. Offset si riduce a 2px su :active per la press response."
       />
-      <div style={sectionFrameSingleStyle}>
-        <div style={buttonSubPanelStyle}>
-          <div style={buttonSubPanelLabelStyle}>PRIMARY · GOLD BACKGROUND</div>
+      <ShowcaseCard>
+        <SubPanel label="PRIMARY · GOLD BACKGROUND">
           <ButtonStateRow cells={primaryStates} />
-        </div>
+        </SubPanel>
 
         <div style={{ height: 24 }} />
 
-        <div style={buttonSubPanelStyle}>
-          <div style={buttonSubPanelLabelStyle}>GHOST · OUTLINE NEUTRO</div>
+        <SubPanel label="GHOST · OUTLINE NEUTRO">
           <ButtonStateRow cells={ghostStates} />
-        </div>
+        </SubPanel>
 
         <div style={{ height: 24 }} />
 
-        <div style={buttonSubPanelStyle}>
-          <div style={buttonSubPanelLabelStyle}>SIZES</div>
+        <SubPanel label="SIZES">
           <div
             style={{
               display: 'flex',
@@ -1135,8 +723,8 @@ function ButtonsSection() {
               <CogIcon size={18} />
             </IconButton>
           </div>
-        </div>
-      </div>
+        </SubPanel>
+      </ShowcaseCard>
     </section>
   )
 }
@@ -1218,16 +806,6 @@ const inputStateCaptionStyle: CSSProperties = {
   marginTop: 6,
 }
 
-const inputFocusOverrideStyle: CSSProperties = {
-  borderColor: 'var(--gold-500)',
-  boxShadow: '3px 3px 0 var(--gold-500)',
-  outline: 'none',
-}
-
-const inputDisabledOverrideStyle: CSSProperties = {
-  background: 'var(--paper-200)',
-}
-
 const SLIDER_INITIAL = [30, 60, 90] as const
 
 function InputsSection() {
@@ -1253,7 +831,11 @@ function InputsSection() {
               <label htmlFor="nick-focus" style={inputLabelStyle}>
                 Nickname
               </label>
-              <Input id="nick-focus" defaultValue="MarinaChess" style={inputFocusOverrideStyle} />
+              <Input
+                id="nick-focus"
+                defaultValue="MarinaChess"
+                className="border-[var(--gold-500)] shadow-[3px_3px_0_var(--gold-500)] outline-none"
+              />
               <span style={inputStateCaptionStyle}>Focus</span>
             </div>
             <div>
@@ -1265,7 +847,7 @@ function InputsSection() {
                 defaultValue="mario@damacchi.it"
                 disabled
                 readOnly
-                style={inputDisabledOverrideStyle}
+                className="bg-[var(--paper-200)]"
               />
               <span style={inputStateCaptionStyle}>Disabled</span>
             </div>
@@ -1288,7 +870,7 @@ function InputsSection() {
               </Select>
             </div>
             <div>
-              <span style={dsCardLabelStyle}>SEGMENTED</span>
+              <span style={subEyebrowStyle}>SEGMENTED</span>
               <SegmentedControl defaultValue="blitz" aria-label="Tempo">
                 <SegmentedControlItem value="bullet">BULLET</SegmentedControlItem>
                 <SegmentedControlItem value="blitz">BLITZ</SegmentedControlItem>
@@ -1349,97 +931,8 @@ function InputsSection() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 06 · Badges & Chips — faithful to original .badge / .chip-ds
-// Uses raw styled spans so we can express all the color variants the
-// original design ships (default / copper / navy / win / loss / draw /
-// rank / outline). The @damacchi/ui <Badge /> only supports two variants.
+// 06 · Badges & Chips
 // ═══════════════════════════════════════════════════════════
-
-const badgeBaseStyle: CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
-  fontFamily: 'var(--font-mono)',
-  fontSize: 11,
-  fontWeight: 700,
-  letterSpacing: '0.08em',
-  textTransform: 'uppercase',
-  padding: '4px 10px',
-  border: '1.5px solid var(--border-memphis)',
-  background: 'var(--surface)',
-  color: 'var(--ink)',
-  whiteSpace: 'nowrap',
-}
-
-type BadgeFlavor = 'default' | 'copper' | 'navy' | 'win' | 'loss' | 'draw' | 'rank' | 'outline'
-
-function badgeFlavorStyle(flavor: BadgeFlavor): CSSProperties {
-  switch (flavor) {
-    case 'copper':
-      return { background: 'var(--gold-500)', color: '#fff' }
-    case 'navy':
-      return { background: 'var(--plum-900)', color: 'var(--gold-200)' }
-    case 'win':
-      return { background: 'var(--success)', color: '#fff' }
-    case 'loss':
-      return { background: 'var(--danger)', color: '#fff' }
-    case 'draw':
-      return { background: 'var(--paper-100)' }
-    case 'rank':
-      return { background: 'var(--gold-100)' }
-    case 'outline':
-      return { background: 'transparent' }
-    default:
-      return {}
-  }
-}
-
-function DsBadge({ flavor = 'default', children }: { flavor?: BadgeFlavor; children: ReactNode }) {
-  return <span style={{ ...badgeBaseStyle, ...badgeFlavorStyle(flavor) }}>{children}</span>
-}
-
-const chipBaseStyle: CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 8,
-  padding: '6px 12px',
-  background: 'var(--paper-100)',
-  border: '2px solid var(--border-memphis)',
-  fontSize: 12,
-  fontWeight: 500,
-  color: 'var(--ink)',
-}
-
-const chipActiveStyle: CSSProperties = {
-  background: 'var(--gold-500)',
-  color: '#fff',
-}
-
-const chipDotStyle: CSSProperties = {
-  width: 8,
-  height: 8,
-  borderRadius: '50%',
-  border: '1.5px solid var(--border-memphis)',
-  display: 'inline-block',
-}
-
-function DsChip({
-  active = false,
-  dotColor,
-  children,
-}: {
-  active?: boolean
-  dotColor: string
-  children: ReactNode
-}) {
-  const dotBorder = active ? '#fff' : 'var(--border-memphis)'
-  return (
-    <span style={{ ...chipBaseStyle, ...(active ? chipActiveStyle : {}) }}>
-      <span style={{ ...chipDotStyle, background: dotColor, borderColor: dotBorder }} />
-      {children}
-    </span>
-  )
-}
 
 function BadgesSection() {
   return (
@@ -1449,35 +942,43 @@ function BadgesSection() {
         title="Badge & Chip"
         desc="Status, rank, tag. Sempre maiuscoli, mono, tracking 0.08em."
       />
-      <ShowcaseCard label="BADGE · status">
-        <div style={showcaseStyle}>
-          <Badge>DEFAULT</Badge>
-          <Badge variant="copper">NUOVO</Badge>
-          <Badge variant="navy">BETA</Badge>
-          <Badge variant="win">VITTORIA</Badge>
-          <Badge variant="loss">SCONFITTA</Badge>
-          <Badge variant="draw">PAREGGIO</Badge>
-          <Badge variant="outline">OUTLINE</Badge>
-        </div>
+      <ShowcaseCard label="BADGE & CHIP">
+        <SubPanel label="BADGE · status">
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+            <Badge>DEFAULT</Badge>
+            <Badge variant="copper">NUOVO</Badge>
+            <Badge variant="navy">BETA</Badge>
+            <Badge variant="win">VITTORIA</Badge>
+            <Badge variant="loss">SCONFITTA</Badge>
+            <Badge variant="draw">PAREGGIO</Badge>
+            <Badge variant="outline">OUTLINE</Badge>
+          </div>
+        </SubPanel>
 
-        <div style={{ ...dsCardLabelStyle, marginTop: 24 }}>BADGE · rank / medal</div>
-        <div style={showcaseStyle}>
-          <Badge variant="rank">♛ GRAN MAESTRO</Badge>
-          <Badge variant="copper">★ TOP 100</Badge>
-          <Badge variant="navy">ELO 2100+</Badge>
-          <Badge variant="win">ON FIRE · 7W</Badge>
-        </div>
+        <div style={{ height: 16 }} />
 
-        <div style={{ ...dsCardLabelStyle, marginTop: 24 }}>CHIP · tag filtrabili</div>
-        <div style={showcaseStyle}>
-          <Chip dotColor="var(--gold-500)">Blitz</Chip>
-          <Chip active dotColor="#fff">
-            Rapid
-          </Chip>
-          <Chip dotColor="var(--plum-500)">Classico</Chip>
-          <Chip dotColor="var(--success)">Damacchi</Chip>
-          <Chip dotColor="var(--danger)">Torneo</Chip>
-        </div>
+        <SubPanel label="BADGE · rank / medal">
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+            <Badge variant="rank">♛ GRAN MAESTRO</Badge>
+            <Badge variant="copper">★ TOP 100</Badge>
+            <Badge variant="navy">ELO 2100+</Badge>
+            <Badge variant="win">ON FIRE · 7W</Badge>
+          </div>
+        </SubPanel>
+
+        <div style={{ height: 16 }} />
+
+        <SubPanel label="CHIP · tag filtrabili">
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+            <Chip dotColor="var(--gold-500)">Blitz</Chip>
+            <Chip active dotColor="#fff">
+              Rapid
+            </Chip>
+            <Chip dotColor="var(--plum-500)">Classico</Chip>
+            <Chip dotColor="var(--success)">Damacchi</Chip>
+            <Chip dotColor="var(--danger)">Torneo</Chip>
+          </div>
+        </SubPanel>
       </ShowcaseCard>
     </section>
   )
@@ -1529,20 +1030,6 @@ const iconNoteStyle: CSSProperties = {
   letterSpacing: '0.04em',
 }
 
-// Original .icon-tile — thin dividers, no outer borders on individual tiles.
-const iconTileStyle: CSSProperties = {
-  aspectRatio: '1 / 1',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: 8,
-  padding: 16,
-  borderRight: '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
-  borderBottom: '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
-  background: 'var(--surface)',
-}
-
 const iconTileLabelStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 10,
@@ -1561,22 +1048,28 @@ function IconsSection() {
       <span style={iconNoteStyle}>
         {`${ICONS_GRID.length} icone SVG stroke-based, viewBox 24×24, stroke-width 1.75`}
       </span>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(6, 1fr)',
-          border: '2px solid var(--border-memphis)',
-          boxShadow: '4px 4px 0 var(--black)',
-          background: 'var(--surface)',
-        }}
-      >
-        {ICONS_GRID.map(({ Cmp, name }) => (
-          <div key={name} style={iconTileStyle}>
-            <Cmp size={28} />
-            <span style={iconTileLabelStyle}>{name}</span>
-          </div>
-        ))}
-      </div>
+      <ShowcaseCard>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)' }}>
+          {ICONS_GRID.map(({ Cmp, name }) => (
+            <div
+              key={name}
+              style={{
+                aspectRatio: '1 / 1',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                borderRight: '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
+                borderBottom: '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
+              }}
+            >
+              <Cmp size={28} />
+              <span style={iconTileLabelStyle}>{name}</span>
+            </div>
+          ))}
+        </div>
+      </ShowcaseCard>
     </section>
   )
 }
@@ -1630,7 +1123,7 @@ function AvatarsSection() {
           </Avatar>
         </div>
 
-        <div style={{ ...dsCardLabelStyle, marginTop: 32 }}>AVATAR GROUP</div>
+        <div style={{ ...subEyebrowStyle, marginTop: 32 }}>AVATAR GROUP</div>
         <AvatarGroup max={4}>
           <Avatar>
             <AvatarFallback>A</AvatarFallback>
@@ -1652,7 +1145,7 @@ function AvatarsSection() {
           </Avatar>
         </AvatarGroup>
 
-        <div style={{ ...dsCardLabelStyle, marginTop: 32 }}>MEDAGLIE · rank</div>
+        <div style={{ ...subEyebrowStyle, marginTop: 32 }}>MEDAGLIE · rank</div>
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center' }}>
           {MEDALS.map((m) => (
             <Medal key={m.label} rank={m.rank} label={m.label} rankNumber={m.rankNumber} size={64} />
@@ -1675,60 +1168,57 @@ function MascotSection() {
         title="Mascotte Damo"
         desc="Placeholder per la mascotte ufficiale. Gli asset SVG/PNG definitivi arriveranno in v0.2."
       />
-      <div style={sectionFrameStyle}>
-        <SubPanel label="PLACEHOLDER">
-          <div
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              padding: 32,
-              background: 'var(--paper-50)',
-              border: '2px solid var(--border-memphis)',
-              minHeight: 240,
-            }}
-          >
-            {/* Glifo provvisorio: un pezzo a forma di pedina coronata */}
-            <svg
-              width="160"
-              height="180"
-              viewBox="0 0 160 180"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-label="Damo mascotte placeholder"
+      <ShowcaseCard>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+          <SubPanel label="PLACEHOLDER">
+            <div
+              style={{
+                display: 'grid',
+                placeItems: 'center',
+                minHeight: 240,
+              }}
             >
-              {/* crown */}
-              <path
-                d="M60 30 L70 45 L80 25 L90 45 L100 30 L100 55 L60 55 Z"
-                fill="var(--gold-500)"
-                stroke="var(--border-memphis)"
-                strokeWidth="2"
-                strokeLinejoin="round"
-              />
-              {/* head/body */}
-              <circle
-                cx="80"
-                cy="90"
-                r="32"
-                fill="var(--plum-500)"
-                stroke="var(--border-memphis)"
-                strokeWidth="2"
-              />
-              {/* eyes */}
-              <circle cx="70" cy="85" r="3" fill="var(--paper-50)" />
-              <circle cx="90" cy="85" r="3" fill="var(--paper-50)" />
-              {/* body base */}
-              <path
-                d="M50 135 L110 135 L120 170 L40 170 Z"
-                fill="var(--plum-700)"
-                stroke="var(--border-memphis)"
-                strokeWidth="2"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-        </SubPanel>
+              {/* Glifo provvisorio: un pezzo a forma di pedina coronata */}
+              <svg
+                width="160"
+                height="180"
+                viewBox="0 0 160 180"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-label="Damo mascotte placeholder"
+              >
+                {/* crown */}
+                <path
+                  d="M60 30 L70 45 L80 25 L90 45 L100 30 L100 55 L60 55 Z"
+                  fill="var(--gold-500)"
+                  stroke="var(--border-memphis)"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+                {/* head/body */}
+                <circle
+                  cx="80"
+                  cy="90"
+                  r="32"
+                  fill="var(--plum-500)"
+                  stroke="var(--border-memphis)"
+                  strokeWidth="2"
+                />
+                {/* eyes */}
+                <circle cx="70" cy="85" r="3" fill="var(--paper-50)" />
+                <circle cx="90" cy="85" r="3" fill="var(--paper-50)" />
+                {/* body base */}
+                <path
+                  d="M50 135 L110 135 L120 170 L40 170 Z"
+                  fill="var(--plum-700)"
+                  stroke="var(--border-memphis)"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          </SubPanel>
 
-        <SubPanel label="USAGE">
-          <div style={{ padding: 8 }}>
+          <SubPanel label="USAGE">
             <p style={{ color: 'var(--ink-soft)', fontSize: 14, lineHeight: 1.55, margin: 0 }}>
               Damo è la mascotte ufficiale di Damacchi. Asset SVG/PNG arriveranno in v0.2 — per ora
               usiamo un glifo provvisorio.
@@ -1748,7 +1238,6 @@ function MascotSection() {
             <ul
               style={{
                 listStyle: 'none',
-                padding: 0,
                 margin: '8px 0 0',
                 fontFamily: 'var(--font-mono)',
                 fontSize: 12,
@@ -1775,7 +1264,6 @@ function MascotSection() {
             <ul
               style={{
                 listStyle: 'none',
-                padding: 0,
                 margin: '8px 0 0',
                 fontFamily: 'var(--font-mono)',
                 fontSize: 12,
@@ -1785,9 +1273,9 @@ function MascotSection() {
             >
               <li>Hero · onboarding · empty state</li>
             </ul>
-          </div>
-        </SubPanel>
-      </div>
+          </SubPanel>
+        </div>
+      </ShowcaseCard>
     </section>
   )
 }
