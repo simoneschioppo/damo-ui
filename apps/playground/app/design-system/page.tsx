@@ -40,6 +40,7 @@ import {
   Medal,
   PatternSwatch,
   MemphisShape,
+  Hint,
   HomeIcon,
   SearchIcon,
   CloseIcon,
@@ -1930,41 +1931,6 @@ function PatternsSection() {
 // 11 · Export → Figma (hint)
 // ═══════════════════════════════════════════════════════════
 
-// .hint — faithful port of the original .hint card.
-// Uses color-mix + semantic tokens so it adapts to light/dark + palette.
-// In light: plum-500 @ 22% over white surface → soft lilac.
-// In dark:  plum-500 @ 22% over plum-900 surface → muted violet.
-const hintStyle: CSSProperties = {
-  display: 'flex',
-  gap: 16,
-  padding: 20,
-  background: 'color-mix(in oklab, var(--plum-500) 22%, var(--surface))',
-  border: '2px solid var(--border-memphis)',
-  boxShadow: '4px 4px 0 var(--shadow-memphis-color)',
-  alignItems: 'flex-start',
-  marginBottom: 24,
-}
-
-const hintIconStyle: CSSProperties = {
-  flexShrink: 0,
-  width: 40,
-  height: 40,
-  background: 'var(--plum-500)',
-  border: '2px solid var(--border-memphis)',
-  display: 'grid',
-  placeItems: 'center',
-  color: 'var(--paper-50)',
-  fontFamily: 'var(--font-display)',
-  fontSize: 18,
-}
-
-const hintTitleStyle: CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: 16,
-  margin: '0 0 4px',
-  color: 'var(--ink)',
-}
-
 const hintCodeStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   background: 'var(--surface)',
@@ -1972,20 +1938,6 @@ const hintCodeStyle: CSSProperties = {
   border: '1px solid var(--border-memphis)',
   padding: '1px 6px',
   fontSize: 12,
-}
-
-function Hint({ num, title, children }: { num: number; title: ReactNode; children: ReactNode }) {
-  return (
-    <div style={hintStyle}>
-      <div style={hintIconStyle}>{num}</div>
-      <div style={{ flex: 1 }}>
-        <h4 style={hintTitleStyle}>{title}</h4>
-        <p style={{ margin: 0, fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-          {children}
-        </p>
-      </div>
-    </div>
-  )
 }
 
 function FigmaSection() {
