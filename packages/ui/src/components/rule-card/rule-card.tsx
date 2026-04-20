@@ -1,0 +1,56 @@
+import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
+import { cn } from '../../lib/cn'
+
+export interface RuleCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  /** Optional eyebrow label shown above the title (e.g. 'REGOLA'). */
+  label?: string
+  title: string
+  /** Body content. Multi-paragraph allowed. */
+  children: ReactNode
+}
+
+/**
+ * RuleCard — neutral content card (max-width 420px). Memphis frame (2px
+ * border-memphis + 4px black shadow), optional eyebrow label, display-font
+ * title, and a relaxed-leading ink-soft body.
+ */
+export const RuleCard = forwardRef<HTMLDivElement, RuleCardProps>(function RuleCard(
+  { label, title, children, className, ...rest },
+  ref,
+) {
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'p-6 border-2 border-border-memphis bg-surface',
+        className,
+      )}
+      style={{ maxWidth: '420px', boxShadow: '4px 4px 0 var(--border-memphis)' }}
+      {...rest}
+    >
+      {label && (
+        <div
+          data-slot="label"
+          className="font-mono font-bold uppercase text-ink-muted"
+          style={{ fontSize: 10, letterSpacing: '0.2em', marginBottom: 8 }}
+        >
+          {label}
+        </div>
+      )}
+      <h4
+        data-slot="title"
+        className="font-display text-ink m-0"
+        style={{ fontSize: 20, lineHeight: 1.15, marginBottom: 12 }}
+      >
+        {title}
+      </h4>
+      <div
+        data-slot="body"
+        className="text-ink-soft leading-relaxed"
+        style={{ fontSize: 14 }}
+      >
+        {children}
+      </div>
+    </div>
+  )
+})
