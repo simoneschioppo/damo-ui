@@ -1,17 +1,17 @@
 import { forwardRef, type HTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
 
-export interface InfoCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface TooltipCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   label: string
   title: string
   body: string
 }
 
 /**
- * InfoCard — tooltip/popover style card. Memphis frame (2px border-memphis +
- * 4px black shadow) with a gold diamond badge floating top-right.
+ * TooltipCard — tooltip/popover style card. Memphis frame (2px border-memphis
+ * + 4px black shadow) with a gold diamond badge floating top-right.
  */
-export const InfoCard = forwardRef<HTMLDivElement, InfoCardProps>(function InfoCard(
+export const TooltipCard = forwardRef<HTMLDivElement, TooltipCardProps>(function TooltipCard(
   { label, title, body, className, ...rest },
   ref,
 ) {

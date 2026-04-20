@@ -5,7 +5,7 @@
  *
  * All 11 sections consume @simoneschioppo/damo-ui components (ColorScale, TokenSwatch,
  * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, FeatureCard,
- * InfoCard, RuleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
+ * TooltipCard, RuleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
  * plus inputs + icons). Only hero / TOC / layout / section scroll-margin /
  * footer use inline style — every styled surface is a lib component.
  *
@@ -39,7 +39,7 @@ import {
   TypeSpecimen,
   UserCard,
   FeatureCard,
-  InfoCard,
+  TooltipCard,
   RuleCard,
   Badge,
   Chip,
@@ -777,7 +777,7 @@ function CardsSection() {
             />
           </div>
         </ShowcaseCard>
-        <ShowcaseCard label="INFO CARD · tooltip/popover">
+        <ShowcaseCard label="TOOLTIP CARD · tooltip/popover">
           <div
             style={{
               display: 'flex',
@@ -787,7 +787,7 @@ function CardsSection() {
             }}
           >
             <div style={{ width: 200 }}>
-              <InfoCard label="Mosse rimanenti" title="23" body="" />
+              <TooltipCard label="Mosse rimanenti" title="23" body="" />
             </div>
           </div>
         </ShowcaseCard>

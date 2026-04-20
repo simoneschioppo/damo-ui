@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import { InfoCard } from './info-card'
+import { TooltipCard } from './tooltip-card'
 
-describe('InfoCard', () => {
+describe('TooltipCard', () => {
   it('renders the label, title and body', () => {
     const { getByText } = render(
-      <InfoCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
+      <TooltipCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
     )
     expect(getByText('TOOLTIP')).toBeTruthy()
     expect(getByText('Aiuto')).toBeTruthy()
@@ -14,7 +14,7 @@ describe('InfoCard', () => {
 
   it('renders a diamond badge (rotated square with gold-500 bg)', () => {
     const { container } = render(
-      <InfoCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
+      <TooltipCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
     )
     const badge = container.querySelector('[data-slot="diamond"]') as HTMLElement
     expect(badge).not.toBeNull()
@@ -29,7 +29,7 @@ describe('InfoCard', () => {
 
   it('applies Memphis frame on the content surface', () => {
     const { container } = render(
-      <InfoCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
+      <TooltipCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
     )
     const surface = container.querySelector('[data-slot="surface"]') as HTMLElement
     expect(surface).not.toBeNull()
@@ -40,7 +40,7 @@ describe('InfoCard', () => {
 
   it('renders the eyebrow label in mono font', () => {
     const { getByText } = render(
-      <InfoCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
+      <TooltipCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
     )
     const label = getByText('TOOLTIP')
     expect(label.className).toContain('font-mono')
@@ -49,14 +49,14 @@ describe('InfoCard', () => {
 
   it('forwards className to the outer wrapper', () => {
     const { container } = render(
-      <InfoCard
+      <TooltipCard
         label="TOOLTIP"
         title="Aiuto"
         body="Spiegazione rapida"
-        className="custom-info"
+        className="custom-tooltip"
       />,
     )
     const root = container.firstChild as HTMLElement
-    expect(root.className).toContain('custom-info')
+    expect(root.className).toContain('custom-tooltip')
   })
 })
