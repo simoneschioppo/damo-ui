@@ -1,13 +1,17 @@
 'use client'
 
 /**
- * /design-system — Damacchi DS v1 (faithful port of the original DS page).
+ * /design-system — Damacchi DS v1 on lib primitives only.
+ *
+ * All 11 sections consume @damacchi/ui components (ColorScale, TokenSwatch,
+ * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, PlayerCard, ModeCard,
+ * InfoCard, RuleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
+ * plus inputs + icons). Only hero / TOC / layout / section scroll-margin /
+ * footer use inline style — every styled surface is a lib component.
  *
  * Layout: 2-column grid
  *   - Left sidebar (240px, plum-900 bg, ivory text): brand block + numbered TOC
  *   - Right main (ivory bg): hero + 11 numbered sections
- *
- * Reference: /Users/simoneschioppo/Documents/damacchi-design/claude-design-system/design-system.css
  */
 
 import { type CSSProperties, type ReactNode, useState } from 'react'
@@ -94,9 +98,9 @@ const SECTIONS = [
 ] as const
 
 // ═══════════════════════════════════════════════════════════
-// Inline styles — faithful port of design-system.css.
-// Using inline styles keeps the file self-contained; tokens are
-// referenced via CSS custom properties so the global theme governs.
+// Layout-only inline styles (hero / TOC / main / footer).
+// All styled surfaces inside sections use lib components now; these
+// remaining styles only cover page chrome + section scroll anchor.
 // ═══════════════════════════════════════════════════════════
 
 const pageStyle: CSSProperties = {
