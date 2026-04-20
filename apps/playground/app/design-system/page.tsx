@@ -107,7 +107,7 @@ const pageStyle: CSSProperties = {
   display: 'grid',
   gridTemplateColumns: '240px 1fr',
   minHeight: '100vh',
-  background: 'var(--paper-50)',
+  background: 'var(--bg)',
   color: 'var(--ink)',
 }
 
@@ -115,8 +115,8 @@ const tocStyle: CSSProperties = {
   position: 'sticky',
   top: 0,
   height: '100vh',
-  background: 'var(--plum-900)',
-  color: '#fff',
+  background: 'var(--surface-2)',
+  color: 'var(--ink)',
   padding: '32px 20px',
   overflowY: 'auto',
 }
@@ -125,7 +125,7 @@ const tocBrandStyle: CSSProperties = {
   fontFamily: 'var(--font-display)',
   fontSize: 18,
   letterSpacing: '0.12em',
-  color: 'var(--gold-300)',
+  color: 'var(--accent)',
   marginBottom: 4,
 }
 
@@ -133,7 +133,7 @@ const tocSubStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 10,
   letterSpacing: '0.2em',
-  color: 'var(--gold-500)',
+  color: 'var(--accent)',
   textTransform: 'uppercase',
   marginBottom: 32,
 }
@@ -145,7 +145,7 @@ const tocListStyle: CSSProperties = {
 }
 
 const tocLinkStyle: CSSProperties = {
-  color: 'rgba(255,255,255,0.7)',
+  color: 'var(--ink-soft)',
   textDecoration: 'none',
   padding: '8px 12px',
   fontSize: 13,
@@ -156,15 +156,15 @@ const tocLinkStyle: CSSProperties = {
 }
 
 const tocLinkActiveStyle: CSSProperties = {
-  color: 'var(--gold-300)',
-  borderLeftColor: 'var(--gold-500)',
-  background: 'rgba(255,255,255,0.06)',
+  color: 'var(--ink)',
+  borderLeftColor: 'var(--accent)',
+  background: 'color-mix(in oklab, var(--ink) 6%, transparent)',
 }
 
 const tocNumStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 10,
-  color: 'var(--gold-500)',
+  color: 'var(--accent)',
   marginRight: 8,
 }
 
@@ -187,14 +187,14 @@ const heroAccentStyle: CSSProperties = {
   left: 0,
   width: 120,
   height: 2,
-  background: 'var(--gold-500)',
+  background: 'var(--accent)',
 }
 
 const heroEyebrowStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 11,
   letterSpacing: '0.28em',
-  color: 'var(--gold-500)',
+  color: 'var(--accent)',
   textTransform: 'uppercase',
   marginBottom: 16,
   fontWeight: 700,
