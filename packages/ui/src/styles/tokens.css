@@ -51,6 +51,23 @@
   --accent-strong: var(--gold-400);
   --ring: var(--gold-500);
 
+  /* ── Medal ranks (sezione 08 design-system) ──────── */
+  --medal-bronze-outer: #5a3f20;
+  --medal-bronze-inner: #8a6236;
+  --medal-bronze-text: #ffffff;
+  --medal-silver-outer: #4a4a55;
+  --medal-silver-inner: #8a8a9a;
+  --medal-silver-text: #ffffff;
+  --medal-gold-outer: var(--plum-900);
+  --medal-gold-inner: var(--gold-500);
+  --medal-gold-text: var(--plum-900);
+  --medal-master-outer: var(--plum-900);
+  --medal-master-inner: var(--plum-500);
+  --medal-master-text: var(--paper-50);
+  --medal-grandmaster-outer: #000000;
+  --medal-grandmaster-inner: var(--gold-500);
+  --medal-grandmaster-text: var(--plum-900);
+
   /* ── Typography: families ──────────────────────── */
   --font-display: 'Audiowide', system-ui, sans-serif;
   --font-body: 'Exo 2', system-ui, sans-serif;
