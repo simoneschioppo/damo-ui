@@ -240,7 +240,7 @@ export {
 } from './components/type-specimen'
 export { UserCard, type UserCardProps } from './components/user-card'
 export { FeatureCard, type FeatureCardProps } from './components/feature-card'
-export { InfoCard, type InfoCardProps } from './components/info-card'
+export { TooltipCard, type TooltipCardProps } from './components/tooltip-card'
 export { RuleCard, type RuleCardProps } from './components/rule-card'
 
 // Hooks
