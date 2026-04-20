@@ -195,6 +195,11 @@ export {
   type PageItem,
   type PageWindowOptions,
 } from './components/pagination'
+export {
+  ThemeSwitcher,
+  type ThemeSwitcherProps,
+  type ThemeOption,
+} from './components/theme-switcher'
 
 // Data display (Phase 8)
 export {
