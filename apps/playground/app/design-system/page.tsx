@@ -3,7 +3,7 @@
 /**
  * /design-system — Damacchi DS v1 on lib primitives only.
  *
- * All 11 sections consume @damacchi/ui components (ColorScale, TokenSwatch,
+ * All 11 sections consume @simoneschioppo/damo-ui components (ColorScale, TokenSwatch,
  * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, PlayerCard, ModeCard,
  * InfoCard, RuleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
  * plus inputs + icons). Only hero / TOC / layout / section scroll-margin /
@@ -77,7 +77,7 @@ import {
   PauseIcon,
   ClockIcon,
   TargetIcon,
-} from '@damacchi/ui'
+} from '@simoneschioppo/damo-ui'
 
 // ═══════════════════════════════════════════════════════════
 // Section registry (drives both the TOC and jump targets)
@@ -1047,7 +1047,7 @@ function IconsSection() {
       <SectionHeader
         num="07"
         title="Iconografia"
-        desc="24×24 viewport, stroke solido, path singolo. 30 icone dal set damacchi-ui."
+        desc="24×24 viewport, stroke solido, path singolo. 30 icone dal set damo-ui."
       />
       <span style={iconNoteStyle}>
         {`${ICONS_GRID.length} icone SVG stroke-based, viewBox 24×24, stroke-width 1.75`}

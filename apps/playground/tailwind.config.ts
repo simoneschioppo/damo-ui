@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss'
-import damacchi from '@damacchi/ui/tailwind.preset'
+import damacchi from '@simoneschioppo/damo-ui/tailwind.preset'
 
 const config: Config = {
   presets: [damacchi as Config],

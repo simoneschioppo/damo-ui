@@ -1,16 +1,16 @@
 {
-  "name": "@damacchi/ui",
+  "name": "@simoneschioppo/damo-ui",
   "version": "0.1.0",
   "private": false,
   "type": "module",
-  "description": "Memphis-inspired React component library",
+  "description": "Damo UI — a React component library heavily inspired by Memphis Design",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
     "access": "restricted"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/simoneschioppo/damacchi-ui.git",
+    "url": "https://github.com/simoneschioppo/damo-ui.git",
     "directory": "packages/ui"
   },
   "files": [

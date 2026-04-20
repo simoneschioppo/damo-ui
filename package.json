@@ -7,11 +7,11 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev:lib": "pnpm --filter @damacchi/ui dev",
+    "dev:lib": "pnpm --filter @simoneschioppo/damo-ui dev",
     "dev:playground": "pnpm --filter @damacchi/playground dev",
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
-    "build": "pnpm --filter @damacchi/ui build",
-    "test": "pnpm --filter @damacchi/ui test",
+    "build": "pnpm --filter @simoneschioppo/damo-ui build",
+    "test": "pnpm --filter @simoneschioppo/damo-ui test",
     "test:e2e": "pnpm --filter @damacchi/e2e test",
     "lint": "pnpm -r lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,json,md,css}\"",

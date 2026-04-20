@@ -1,4 +1,4 @@
-# Damacchi UI — Design Spec
+# Damo UI — Design Spec
 
 **Repo target:** `simoneschioppo/damacchi-ui` (privato, GitHub Packages)
 **Data:** 2026-04-18
@@ -243,7 +243,7 @@ Pattern Memphis (Tier 1):
 
 ### 8.1 Folder structure
 
-Il repo è un **pnpm workspace monorepo leggero**: la lib `@damacchi/ui` è l'unico pacchetto pubblicato. Playground Next.js e test e2e Playwright vivono nel repo ma non vengono rilasciati.
+Il repo è un **pnpm workspace monorepo leggero**: la lib `@simoneschioppo/damo-ui` è l'unico pacchetto pubblicato. Playground Next.js e test e2e Playwright vivono nel repo ma non vengono rilasciati.
 
 ```
 damacchi-ui/
@@ -252,7 +252,7 @@ damacchi-ui/
 ├─ tsconfig.base.json                ← shared TS config
 ├─ .github/workflows/                ← CI (lint, test unit, test e2e, build, publish)
 ├─ packages/
-│  └─ ui/                            ← LIB PUBBLICATA = @damacchi/ui
+│  └─ ui/                            ← LIB PUBBLICATA = @simoneschioppo/damo-ui
 │     ├─ package.json
 │     ├─ tsconfig.json
 │     ├─ tsup.config.ts
@@ -283,9 +283,9 @@ damacchi-ui/
 │     └─ dist/                        ← build output (tsup)
 ├─ apps/
 │  └─ playground/                     ← Next.js 15 showcase app (private)
-│     ├─ package.json                 ← depends on: "@damacchi/ui": "workspace:*"
+│     ├─ package.json                 ← depends on: "@simoneschioppo/damo-ui": "workspace:*"
 │     ├─ next.config.ts
-│     ├─ tailwind.config.ts           ← estende tailwind.preset di @damacchi/ui
+│     ├─ tailwind.config.ts           ← estende tailwind.preset di @simoneschioppo/damo-ui
 │     ├─ app/
 │     │  ├─ layout.tsx                ← importa tokens.css/themes.css/globals.css
 │     │  ├─ page.tsx                  ← landing dei showcase
@@ -316,7 +316,7 @@ packages:
 
 ```json
 {
-  "name": "@damacchi/ui",
+  "name": "@simoneschioppo/damo-ui",
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
@@ -340,18 +340,18 @@ Consumer usa entrambi gli stili:
 
 ```tsx
 // Tree-shake friendly (subpath)
-import { Button } from '@damacchi/ui/button'
+import { Button } from '@simoneschioppo/damo-ui/button'
 
 // Barrel (comodità)
-import { Button, Dialog } from '@damacchi/ui'
+import { Button, Dialog } from '@simoneschioppo/damo-ui'
 
 // Una tantum, in layout root
-import '@damacchi/ui/styles/tokens.css'
-import '@damacchi/ui/styles/themes.css'
-import '@damacchi/ui/styles/globals.css'
+import '@simoneschioppo/damo-ui/styles/tokens.css'
+import '@simoneschioppo/damo-ui/styles/themes.css'
+import '@simoneschioppo/damo-ui/styles/globals.css'
 
 // tailwind.config.ts
-import damacchi from '@damacchi/ui/tailwind.preset'
+import damacchi from '@simoneschioppo/damo-ui/tailwind.preset'
 export default { presets: [damacchi], content: [...] }
 ```
 
@@ -530,7 +530,7 @@ Nel progetto Next consumer:
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 
 # install
-pnpm add @damacchi/ui
+pnpm add @simoneschioppo/damo-ui
 ```
 
 ### 12.3 Release workflow
@@ -555,7 +555,7 @@ pnpm add @damacchi/ui
 | **8 — Data display**       | Avatar, AvatarGroup, Accordion, Table, Stat                                                                                                      |                                                                                     |
 | **9 — Layout**             | AppShell, PageHeader + pagina `/dashboard` del playground                                                                                        | Scenario dashboard completo                                                         |
 | **10 — E2E tests**         | Playwright specs per ogni componente + scenari (form-submit, overlay-stack, theme-switch, keyboard-nav)                                          | CI verde, e2e blocca merge                                                          |
-| **11 — Polish & release**  | A11y audit, dark mode audit, density audit, docs JSDoc, GitHub Action publish, `v0.1.0`                                                          | `@damacchi/ui@0.1.0` installabile da progetto consumer                              |
+| **11 — Polish & release**  | A11y audit, dark mode audit, density audit, docs JSDoc, GitHub Action publish, `v0.1.0`                                                          | `@simoneschioppo/damo-ui@0.1.0` installabile da progetto consumer                              |
 
 ---
 
@@ -565,7 +565,7 @@ pnpm add @damacchi/ui
 | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Tailwind v4 è ancora giovane, tutorial shadcn puntano a v3 | Portiamo i pattern shadcn manualmente. v4 ha CSS-native config più vicino al nostro stile.                                                                                         |
 | 47 componenti = tanto lavoro                               | Fasi incrementali; Phase 4 (8 componenti Tier 1) sblocca il 60% del look, il resto è aggiunta iterativa                                                                            |
-| Drift di token tra lib e app                               | Tutti i token definiti in lib, mai nell'app. L'app importa `@damacchi/ui/styles/tokens.css` e basta.                                                                               |
+| Drift di token tra lib e app                               | Tutti i token definiti in lib, mai nell'app. L'app importa `@simoneschioppo/damo-ui/styles/tokens.css` e basta.                                                                               |
 | Radius/shadow/border override accidentali                  | Solo i componenti leggono raw tokens; le CSS vars di customizzazione vivono nel consumer in `:root` override                                                                       |
 | Manutenzione da solo                                       | CI che fallisce su test/build/e2e. CHANGELOG disciplinato. Nessun publish manuale.                                                                                                 |
 | Monorepo aggiunge complessità                              | pnpm workspace è leggero (no Turborepo, no Nx). Solo 3 workspace: `ui`, `playground`, `e2e`.                                                                                       |

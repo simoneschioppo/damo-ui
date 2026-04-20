@@ -1,6 +1,6 @@
 # Damo UI — Full Redesign Spec
 
-**Context:** what was `@damacchi/ui` / `damacchi-ui` becomes **Damo UI**, a Memphis-inspired React component library that is fully decoupled from the Damacchi game. The playground is rewritten so every surface (pages + chrome) consumes only lib components. A new live-editing `theme-generator` replaces the current minimal one.
+**Context:** what was `@simoneschioppo/damo-ui` / `damo-ui` becomes **Damo UI**, a Memphis-inspired React component library that is fully decoupled from the Damacchi game. The playground is rewritten so every surface (pages + chrome) consumes only lib components. A new live-editing `theme-generator` replaces the current minimal one.
 
 **Non-goals:** redesign the lib visual language (Memphis stays). Support CSS-in-JS. Ship to npm public.
 
@@ -10,9 +10,9 @@
 
 ## 1. Rename + ownership
 
-**Repo:** `simoneschioppo/damacchi-ui` → `simoneschioppo/damo-ui`. Private.
+**Repo:** `simoneschioppo/damo-ui` → `simoneschioppo/damo-ui`. Private.
 
-**Package:** `@damacchi/ui` → `@simoneschioppo/damo-ui`. User-scope on GitHub Packages unlocks private publish without org setup.
+**Package:** `@simoneschioppo/damo-ui` → `@simoneschioppo/damo-ui`. User-scope on GitHub Packages unlocks private publish without org setup.
 
 **Brand line** (README, package.json description, HTML meta, CHANGELOG):
 
@@ -21,8 +21,8 @@
 **Migration touchpoints** (not exhaustive, plan will enumerate):
 
 - `packages/ui/package.json` — `name`, `description`, `repository`, `publishConfig.registry`
-- `apps/playground/package.json` — dependency `@damacchi/ui` → `@simoneschioppo/damo-ui`
-- All imports `from '@damacchi/ui'` → `from '@simoneschioppo/damo-ui'` (grep: ~30 occurrences)
+- `apps/playground/package.json` — dependency `@simoneschioppo/damo-ui` → `@simoneschioppo/damo-ui`
+- All imports `from '@simoneschioppo/damo-ui'` → `from '@simoneschioppo/damo-ui'` (grep: ~30 occurrences)
 - `README.md`, `CHANGELOG.md`, all `docs/specs/*.md`, all `docs/plans/*.md`
 - `.github/workflows/ci.yml` if it references the package name
 - GitHub repo rename via `gh repo rename damo-ui` (git remote auto-redirects, but we set it explicitly: `git remote set-url origin https://github.com/simoneschioppo/damo-ui.git`)

@@ -4,8 +4,8 @@ import { TopBar } from '@/components/TopBar'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Damacchi UI — Playground',
-  description: 'Showcase of the Damacchi UI component library',
+  title: 'Damo UI — Playground',
+  description: 'Showcase of the Damo UI component library',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

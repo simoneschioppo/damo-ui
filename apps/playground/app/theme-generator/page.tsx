@@ -4,7 +4,7 @@
  * /theme-generator — Live color palette editor.
  *
  * Layout: 2-column — left controls (Card with color pickers) + right live
- * preview built entirely from @damacchi/ui primitives (Button / Card /
+ * preview built entirely from @simoneschioppo/damo-ui primitives (Button / Card /
  * Badge / Chip / Input / Label / Switch). Mutates CSS variables on `:root`
  * via JS inline style for instant preview; restores defaults on unmount.
  *
@@ -27,7 +27,7 @@ import {
   Input,
   Label,
   Switch,
-} from '@damacchi/ui'
+} from '@simoneschioppo/damo-ui'
 
 // ═══════════════════════════════════════════════════════════
 // Theme state
@@ -195,7 +195,7 @@ export default function ThemeGeneratorPage() {
             </CardBody>
           </Card>
 
-          {/* Preview — every surface here comes from @damacchi/ui. */}
+          {/* Preview — every surface here comes from @simoneschioppo/damo-ui. */}
           <main style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
             <section>
               <h3 className="eyebrow">Buttons</h3>

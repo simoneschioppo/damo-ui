@@ -18,7 +18,7 @@ export default function IndexPage() {
         className="display"
         style={{ fontSize: 80, lineHeight: 0.95, marginBottom: 24, letterSpacing: '0.01em' }}
       >
-        Damacchi UI
+        Damo UI
       </h1>
       <p style={{ fontSize: 18, color: 'var(--ink-muted)', marginBottom: 40 }}>
         React component library Memphis-inspired per l&apos;app Damacchi. Esplora il design system o

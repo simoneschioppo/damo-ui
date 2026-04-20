@@ -1,4 +1,4 @@
-# Damacchi UI
+# Damo UI
 
 Memphis-inspired React component library for the Damacchi app.
 
@@ -6,7 +6,7 @@ Memphis-inspired React component library for the Damacchi app.
 
 ## Monorepo structure
 
-- `packages/ui` — the library, published as `@damacchi/ui` on GitHub Packages
+- `packages/ui` — the library, published as `@simoneschioppo/damo-ui` on GitHub Packages
 - `apps/playground` — Next 15 showcase app (private)
 - `e2e` — Playwright end-to-end tests (private)
 - `docs/specs/` — design spec
@@ -42,38 +42,38 @@ pnpm dev           # runs Ladle (port 61000) + Next playground (port 3000) in pa
 2. Install:
 
 ```bash
-pnpm add @damacchi/ui
+pnpm add @simoneschioppo/damo-ui
 ```
 
 3. Import styles once in your root layout:
 
 ```tsx
 // app/layout.tsx
-import '@damacchi/ui/styles/tokens.css'
-import '@damacchi/ui/styles/themes.css'
-import '@damacchi/ui/styles/globals.css'
-import '@damacchi/ui/styles/patterns.css'
+import '@simoneschioppo/damo-ui/styles/tokens.css'
+import '@simoneschioppo/damo-ui/styles/themes.css'
+import '@simoneschioppo/damo-ui/styles/globals.css'
+import '@simoneschioppo/damo-ui/styles/patterns.css'
 ```
 
 4. Wire Tailwind v4:
 
 ```css
 /* app/globals.css */
-@import '@damacchi/ui/styles/tokens.css';
-@import '@damacchi/ui/styles/themes.css';
-@import '@damacchi/ui/styles/globals.css';
-@import '@damacchi/ui/styles/patterns.css';
+@import '@simoneschioppo/damo-ui/styles/tokens.css';
+@import '@simoneschioppo/damo-ui/styles/themes.css';
+@import '@simoneschioppo/damo-ui/styles/globals.css';
+@import '@simoneschioppo/damo-ui/styles/patterns.css';
 
 @import 'tailwindcss';
-@import '@damacchi/ui/styles/theme.css';
+@import '@simoneschioppo/damo-ui/styles/theme.css';
 
-@source '../../node_modules/@damacchi/ui/dist/**/*.js';
+@source '../../node_modules/@simoneschioppo/damo-ui/dist/**/*.js';
 ```
 
 5. Use components:
 
 ```tsx
-import { Button, Card, Dialog } from '@damacchi/ui'
+import { Button, Card, Dialog } from '@simoneschioppo/damo-ui'
 
 export default function Page() {
   return (
