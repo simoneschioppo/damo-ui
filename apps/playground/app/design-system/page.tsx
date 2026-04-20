@@ -35,6 +35,8 @@ import {
   ModeCard,
   InfoCard,
   RuleCard,
+  Badge,
+  Chip,
   HomeIcon,
   SearchIcon,
   CloseIcon,
@@ -1234,7 +1236,7 @@ function InputsSection() {
         desc="Text, toggle, slider, select. Stesso linguaggio: bordo nero 2px, shadow hard."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
-        <DsCard label="TEXT FIELD · stati">
+        <ShowcaseCard label="TEXT FIELD · stati">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div>
               <label htmlFor="nick-default" style={inputLabelStyle}>
@@ -1264,9 +1266,9 @@ function InputsSection() {
               <span style={inputStateCaptionStyle}>Disabled</span>
             </div>
           </div>
-        </DsCard>
+        </ShowcaseCard>
 
-        <DsCard label="SELECT">
+        <ShowcaseCard label="SELECT">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div>
               <label style={inputLabelStyle}>Modalità</label>
@@ -1290,9 +1292,9 @@ function InputsSection() {
               </SegmentedControl>
             </div>
           </div>
-        </DsCard>
+        </ShowcaseCard>
 
-        <DsCard label="TOGGLE">
+        <ShowcaseCard label="TOGGLE">
           <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <Switch id="tg-off" aria-label="Toggle off" />
@@ -1303,9 +1305,9 @@ function InputsSection() {
               <span style={inputStateCaptionStyle}>On</span>
             </div>
           </div>
-        </DsCard>
+        </ShowcaseCard>
 
-        <DsCard label="SLIDER">
+        <ShowcaseCard label="SLIDER">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             {sliderValues.map((v, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -1336,7 +1338,7 @@ function InputsSection() {
               </div>
             ))}
           </div>
-        </DsCard>
+        </ShowcaseCard>
       </div>
     </section>
   )
@@ -1443,36 +1445,36 @@ function BadgesSection() {
         title="Badge & Chip"
         desc="Status, rank, tag. Sempre maiuscoli, mono, tracking 0.08em."
       />
-      <DsCard label="BADGE · status">
+      <ShowcaseCard label="BADGE · status">
         <div style={showcaseStyle}>
-          <DsBadge>DEFAULT</DsBadge>
-          <DsBadge flavor="copper">NUOVO</DsBadge>
-          <DsBadge flavor="navy">BETA</DsBadge>
-          <DsBadge flavor="win">VITTORIA</DsBadge>
-          <DsBadge flavor="loss">SCONFITTA</DsBadge>
-          <DsBadge flavor="draw">PAREGGIO</DsBadge>
-          <DsBadge flavor="outline">OUTLINE</DsBadge>
+          <Badge>DEFAULT</Badge>
+          <Badge variant="copper">NUOVO</Badge>
+          <Badge variant="navy">BETA</Badge>
+          <Badge variant="win">VITTORIA</Badge>
+          <Badge variant="loss">SCONFITTA</Badge>
+          <Badge variant="draw">PAREGGIO</Badge>
+          <Badge variant="outline">OUTLINE</Badge>
         </div>
 
         <div style={{ ...dsCardLabelStyle, marginTop: 24 }}>BADGE · rank / medal</div>
         <div style={showcaseStyle}>
-          <DsBadge flavor="rank">♛ GRAN MAESTRO</DsBadge>
-          <DsBadge flavor="copper">★ TOP 100</DsBadge>
-          <DsBadge flavor="navy">ELO 2100+</DsBadge>
-          <DsBadge flavor="win">ON FIRE · 7W</DsBadge>
+          <Badge variant="rank">♛ GRAN MAESTRO</Badge>
+          <Badge variant="copper">★ TOP 100</Badge>
+          <Badge variant="navy">ELO 2100+</Badge>
+          <Badge variant="win">ON FIRE · 7W</Badge>
         </div>
 
         <div style={{ ...dsCardLabelStyle, marginTop: 24 }}>CHIP · tag filtrabili</div>
         <div style={showcaseStyle}>
-          <DsChip dotColor="var(--gold-500)">Blitz</DsChip>
-          <DsChip active dotColor="#fff">
+          <Chip dotColor="var(--gold-500)">Blitz</Chip>
+          <Chip active dotColor="#fff">
             Rapid
-          </DsChip>
-          <DsChip dotColor="var(--plum-500)">Classico</DsChip>
-          <DsChip dotColor="var(--success)">Damacchi</DsChip>
-          <DsChip dotColor="var(--danger)">Torneo</DsChip>
+          </Chip>
+          <Chip dotColor="var(--plum-500)">Classico</Chip>
+          <Chip dotColor="var(--success)">Damacchi</Chip>
+          <Chip dotColor="var(--danger)">Torneo</Chip>
         </div>
-      </DsCard>
+      </ShowcaseCard>
     </section>
   )
 }
