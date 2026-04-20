@@ -222,6 +222,12 @@ export {
   TableCaption,
 } from './components/table'
 export { Stat, type StatProps } from './components/stat'
+export { Medal, type MedalProps, type MedalRank } from './components/medal'
+
+// Showcase / design-system primitives (Phase 10)
+export { ColorPicker, type ColorPickerProps } from './components/color-picker'
+export * from './components/pattern-swatch'
+export * from './components/memphis-shape'
 
 // Layout (Phase 9)
 export { AppShell, type AppShellProps } from './components/app-shell'
