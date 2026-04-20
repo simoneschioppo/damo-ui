@@ -4,7 +4,7 @@
 
 **Goal:** Scaffoldare il monorepo `damacchi-ui` (pnpm workspace con `packages/ui`, `apps/playground`, `e2e`) e implementare il Design System base (CSS token, theme/palette/density switchers, pagina `/tokens` del playground che mostra tutto).
 
-**Architecture:** pnpm workspace monorepo leggero. La lib `@simoneschioppo/damo-ui` contiene solo token + utilities + Ladle setup (nessun componente ancora — arrivano in Plan 2+). Il playground Next 15 importa la lib via `workspace:*`, mostra i token in una pagina showcase e permette di switchare tema/palette/density. L'e2e workspace Playwright è presente ma vuoto (0 test).
+**Architecture:** pnpm workspace monorepo leggero. La lib `@damo/ui` contiene solo token + utilities + Ladle setup (nessun componente ancora — arrivano in Plan 2+). Il playground Next 15 importa la lib via `workspace:*`, mostra i token in una pagina showcase e permette di switchare tema/palette/density. L'e2e workspace Playwright è presente ma vuoto (0 test).
 
 **Tech Stack:** pnpm 9+, Node 20 LTS, TypeScript 5.5+ strict, React 19, Tailwind v4, tsup, Ladle, Next 15 (App Router), Playwright (Chromium + WebKit), Vitest, ESLint flat, Prettier.
 
@@ -148,11 +148,11 @@ packages:
     "node": ">=20"
   },
   "scripts": {
-    "dev:lib": "pnpm --filter @simoneschioppo/damo-ui dev",
+    "dev:lib": "pnpm --filter @damo/ui dev",
     "dev:playground": "pnpm --filter @damacchi/playground dev",
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
-    "build": "pnpm --filter @simoneschioppo/damo-ui build",
-    "test": "pnpm --filter @simoneschioppo/damo-ui test",
+    "build": "pnpm --filter @damo/ui build",
+    "test": "pnpm --filter @damo/ui test",
     "test:e2e": "pnpm --filter @damacchi/e2e test",
     "lint": "pnpm -r lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,json,md,css}\"",
@@ -223,7 +223,7 @@ Memphis-inspired React component library for the Damacchi app.
 
 ## Monorepo structure
 
-- `packages/ui` — the library, published as `@simoneschioppo/damo-ui` to GitHub Packages
+- `packages/ui` — the library, published as `@damo/ui` to GitHub Packages
 - `apps/playground` — Next 15 showcase app (private, not published)
 - `e2e` — Playwright end-to-end tests (private)
 
@@ -433,7 +433,7 @@ Scrivere `packages/ui/package.json`:
 
 ```json
 {
-  "name": "@simoneschioppo/damo-ui",
+  "name": "@damo/ui",
   "version": "0.0.0",
   "private": false,
   "type": "module",
@@ -554,7 +554,7 @@ Expected: install succeeds. `packages/ui/node_modules/` popolato.
 
 - [ ] **Step 6: Verificare build passa**
 
-Run: `pnpm --filter @simoneschioppo/damo-ui build`
+Run: `pnpm --filter @damo/ui build`
 Expected: crea `packages/ui/dist/index.js` e `index.d.ts`. Nessun errore.
 
 - [ ] **Step 7: Commit**
@@ -629,7 +629,7 @@ Run:
 
 ```bash
 cd ~/Documents/damacchi-ui
-pnpm --filter @simoneschioppo/damo-ui dev
+pnpm --filter @damo/ui dev
 ```
 
 Expected: Ladle sale su `http://localhost:61000`, mostra error sul CSS import mancante. È OK — si risolverà al Task 12. Fermare con Ctrl+C.
@@ -689,12 +689,12 @@ import '@testing-library/jest-dom/vitest'
 Run:
 
 ```bash
-pnpm --filter @simoneschioppo/damo-ui add -D @vitejs/plugin-react@^4.3.0 @vitest/coverage-v8@^2.1.1
+pnpm --filter @damo/ui add -D @vitejs/plugin-react@^4.3.0 @vitest/coverage-v8@^2.1.1
 ```
 
 - [ ] **Step 4: Verificare Vitest gira (0 test)**
 
-Run: `pnpm --filter @simoneschioppo/damo-ui test`
+Run: `pnpm --filter @damo/ui test`
 Expected: output `No test files found`. Exit code 0 OK.
 
 - [ ] **Step 5: Commit**
@@ -743,7 +743,7 @@ mkdir -p ~/Documents/damacchi-ui/apps/playground/public
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@simoneschioppo/damo-ui": "workspace:*",
+    "@damo/ui": "workspace:*",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -788,7 +788,7 @@ import type { NextConfig } from 'next'
 
 const config: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@simoneschioppo/damo-ui'],
+  transpilePackages: ['@damo/ui'],
 }
 
 export default config
@@ -863,7 +863,7 @@ cd ~/Documents/damacchi-ui
 pnpm install
 ```
 
-Expected: `apps/playground/node_modules/` creato; `@simoneschioppo/damo-ui` linkato come workspace.
+Expected: `apps/playground/node_modules/` creato; `@damo/ui` linkato come workspace.
 
 - [ ] **Step 10: Verificare Next parte**
 
@@ -1042,7 +1042,7 @@ jobs:
         run: pnpm lint
 
       - name: Typecheck
-        run: pnpm --filter @simoneschioppo/damo-ui typecheck && pnpm --filter @damacchi/playground typecheck
+        run: pnpm --filter @damo/ui typecheck && pnpm --filter @damacchi/playground typecheck
 
       - name: Unit tests
         run: pnpm test
@@ -1578,7 +1578,7 @@ describe('cn', () => {
 
 - [ ] **Step 2: Run test — verificare FAIL**
 
-Run: `pnpm --filter @simoneschioppo/damo-ui test`
+Run: `pnpm --filter @damo/ui test`
 Expected: FAIL con errore `Cannot find module './cn'` o simile.
 
 - [ ] **Step 3: Implementare `cn.ts`**
@@ -1596,7 +1596,7 @@ export function cn(...inputs: ClassValue[]): string {
 
 - [ ] **Step 4: Run test — verificare PASS**
 
-Run: `pnpm --filter @simoneschioppo/damo-ui test`
+Run: `pnpm --filter @damo/ui test`
 Expected: tutti e 7 i test passano.
 
 - [ ] **Step 5: Commit**
@@ -1736,7 +1736,7 @@ export default preset
 
 - [ ] **Step 2: Build la lib e verificare preset esportato**
 
-Run: `pnpm --filter @simoneschioppo/damo-ui build`
+Run: `pnpm --filter @damo/ui build`
 Expected: `packages/ui/dist/tailwind.preset.js` esiste. Nessun errore.
 
 - [ ] **Step 3: Commit**
@@ -1759,10 +1759,10 @@ git commit -m "feat(ui): add Tailwind preset mapping tokens to Tailwind classes"
 - [ ] **Step 1: Scrivere `app/globals.css` con import dei CSS della lib + Tailwind v4 entry**
 
 ```css
-@import '@simoneschioppo/damo-ui/styles/tokens.css';
-@import '@simoneschioppo/damo-ui/styles/themes.css';
-@import '@simoneschioppo/damo-ui/styles/globals.css';
-@import '@simoneschioppo/damo-ui/styles/patterns.css';
+@import '@damo/ui/styles/tokens.css';
+@import '@damo/ui/styles/themes.css';
+@import '@damo/ui/styles/globals.css';
+@import '@damo/ui/styles/patterns.css';
 
 @import 'tailwindcss';
 ```
@@ -1806,7 +1806,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 ```ts
 import type { Config } from 'tailwindcss'
-import damacchi from '@simoneschioppo/damo-ui/tailwind.preset'
+import damacchi from '@damo/ui/tailwind.preset'
 
 const config: Config = {
   presets: [damacchi as Config],
@@ -2587,7 +2587,7 @@ export const __version = '0.0.0'
 
 - [ ] **Step 2: Rebuild lib**
 
-Run: `pnpm --filter @simoneschioppo/damo-ui build`
+Run: `pnpm --filter @damo/ui build`
 Expected: `dist/index.js` aggiornato, esporta `cn`.
 
 - [ ] **Step 3: Commit**
