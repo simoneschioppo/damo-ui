@@ -4,7 +4,7 @@
  * /design-system — Damacchi DS v1 on lib primitives only.
  *
  * All 11 sections consume @simoneschioppo/damo-ui components (ColorScale, TokenSwatch,
- * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, ModeCard,
+ * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, FeatureCard,
  * InfoCard, RuleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
  * plus inputs + icons). Only hero / TOC / layout / section scroll-margin /
  * footer use inline style — every styled surface is a lib component.
@@ -38,7 +38,7 @@ import {
   SubPanel,
   TypeSpecimen,
   UserCard,
-  ModeCard,
+  FeatureCard,
   InfoCard,
   RuleCard,
   Badge,
@@ -767,9 +767,9 @@ function CardsSection() {
             />
           </div>
         </ShowcaseCard>
-        <ShowcaseCard label="MODE CARD">
+        <ShowcaseCard label="FEATURE CARD">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <ModeCard
+            <FeatureCard
               title="CLASSICO"
               desc="Scacchi ortodossi, pezzi mangiati tornano come pedine"
               meta="10+5 MIN"
