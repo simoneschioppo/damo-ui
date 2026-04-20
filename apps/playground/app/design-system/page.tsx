@@ -27,6 +27,9 @@ import {
   Avatar,
   AvatarFallback,
   AvatarGroup,
+  ColorScale,
+  TokenSwatch,
+  ShowcaseCard,
   HomeIcon,
   SearchIcon,
   CloseIcon,
@@ -688,17 +691,25 @@ function ColorsSection() {
         title="Colori"
         desc="3 scale brand (Plum, Gold, Paper) in bande orizzontali + 8 token semantici. Plum per l'ink, Gold per l'accento, Paper per gli sfondi caldi."
       />
-      <div
-        style={{
-          border: '2px solid var(--border-memphis)',
-          boxShadow: 'var(--shadow-memphis)',
-          background: 'var(--surface)',
-          padding: 32,
-        }}
-      >
-        <ColorBand scale={PLUM_SCALE} />
-        <ColorBand scale={GOLD_SCALE} />
-        <ColorBand scale={PAPER_SCALE} />
+      <ShowcaseCard>
+        <ColorScale
+          name={PLUM_SCALE.name}
+          token={PLUM_SCALE.token}
+          desc={PLUM_SCALE.desc}
+          stops={PLUM_SCALE.stops}
+        />
+        <ColorScale
+          name={GOLD_SCALE.name}
+          token={GOLD_SCALE.token}
+          desc={GOLD_SCALE.desc}
+          stops={GOLD_SCALE.stops}
+        />
+        <ColorScale
+          name={PAPER_SCALE.name}
+          token={PAPER_SCALE.token}
+          desc={PAPER_SCALE.desc}
+          stops={PAPER_SCALE.stops}
+        />
 
         <div
           style={{
@@ -726,10 +737,10 @@ function ColorsSection() {
           }}
         >
           {SEMANTIC_BLOCKS.map((b) => (
-            <SemanticBlock key={b.token} {...b} />
+            <TokenSwatch key={b.token} name={b.name} cssVar={b.cssVar} usage={b.usage} />
           ))}
         </div>
-      </div>
+      </ShowcaseCard>
     </section>
   )
 }
