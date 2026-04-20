@@ -59,8 +59,8 @@ describe('Medal', () => {
     expect(root.children[0]!.tagName.toLowerCase()).toBe('svg')
   })
 
-  it('renders rankNumber inside the svg when provided', () => {
-    const { container } = render(<Medal rank="master" rankNumber={7} />)
+  it('renders numeric value inside the svg when provided', () => {
+    const { container } = render(<Medal rank="master" value={7} />)
     const svg = container.querySelector('svg')
     expect(svg).not.toBeNull()
     const text = svg!.querySelector('text')
@@ -69,7 +69,23 @@ describe('Medal', () => {
     expect(text!.getAttribute('fill')).toBe('var(--medal-master-text)')
   })
 
-  it('does not render a text element inside the svg without rankNumber', () => {
+  it('renders a letter value inside the svg (e.g. "M")', () => {
+    const { container } = render(<Medal rank="master" value="M" />)
+    const svg = container.querySelector('svg')
+    expect(svg).not.toBeNull()
+    const text = svg!.querySelector('text')
+    expect(text).not.toBeNull()
+    expect(text!.textContent).toBe('M')
+  })
+
+  it('renders a multi-letter value (e.g. "GM")', () => {
+    const { container } = render(<Medal rank="grandmaster" value="GM" />)
+    const text = container.querySelector('svg text')
+    expect(text).not.toBeNull()
+    expect(text!.textContent).toBe('GM')
+  })
+
+  it('does not render a text element inside the svg without value', () => {
     const { container } = render(<Medal rank="silver" />)
     const svg = container.querySelector('svg')
     expect(svg).not.toBeNull()
