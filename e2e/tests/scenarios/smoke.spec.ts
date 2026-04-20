@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test.describe('Smoke — playground boot', () => {
   test('home page renders TopBar brand', async ({ page }) => {
     await page.goto('/')
-    await expect(page.getByText('DAMACCHI · UI')).toBeVisible()
+    await expect(page.getByText('DAMO · UI')).toBeVisible()
   })
 
   test('home page links to Design System', async ({ page }) => {
