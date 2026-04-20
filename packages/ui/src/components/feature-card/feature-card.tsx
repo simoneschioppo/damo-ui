@@ -1,7 +1,7 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
-export interface ModeCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface FeatureCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: string
   desc: string
   /** Secondary meta line (mono), e.g. '15+10'. */
@@ -11,10 +11,11 @@ export interface ModeCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'tit
 }
 
 /**
- * ModeCard — 280px wide card for a game mode. Memphis frame with 4px gold-500
- * shadow. Display-font title, ink description, optional mono meta + icon.
+ * FeatureCard — 280px wide feature/highlight card. Memphis frame with 4px
+ * gold-500 shadow. Display-font title, ink description, optional mono meta
+ * + icon footer row.
  */
-export const ModeCard = forwardRef<HTMLDivElement, ModeCardProps>(function ModeCard(
+export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function FeatureCard(
   { title, desc, meta, icon, className, ...rest },
   ref,
 ) {
@@ -46,7 +47,7 @@ export const ModeCard = forwardRef<HTMLDivElement, ModeCardProps>(function ModeC
         <div className="flex items-center justify-between">
           {meta ? (
             <span
-              data-testid="mode-card-meta"
+              data-testid="feature-card-meta"
               data-slot="meta"
               className="font-mono font-bold text-ink-muted uppercase"
               style={{ fontSize: 12, letterSpacing: '0.08em' }}

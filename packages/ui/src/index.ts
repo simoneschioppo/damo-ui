@@ -239,7 +239,7 @@ export {
   type TypeSpecimenScaleRow,
 } from './components/type-specimen'
 export { UserCard, type UserCardProps } from './components/user-card'
-export { ModeCard, type ModeCardProps } from './components/mode-card'
+export { FeatureCard, type FeatureCardProps } from './components/feature-card'
 export { InfoCard, type InfoCardProps } from './components/info-card'
 export { RuleCard, type RuleCardProps } from './components/rule-card'
 
