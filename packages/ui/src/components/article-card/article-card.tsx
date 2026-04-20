@@ -1,7 +1,7 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
-export interface RuleCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface ArticleCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Optional eyebrow label shown above the title (e.g. 'REGOLA'). */
   label?: string
   title: string
@@ -10,11 +10,11 @@ export interface RuleCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'tit
 }
 
 /**
- * RuleCard — neutral content card (max-width 420px). Memphis frame (2px
+ * ArticleCard — neutral content card (max-width 420px). Memphis frame (2px
  * border-memphis + 4px black shadow), optional eyebrow label, display-font
  * title, and a relaxed-leading ink-soft body.
  */
-export const RuleCard = forwardRef<HTMLDivElement, RuleCardProps>(function RuleCard(
+export const ArticleCard = forwardRef<HTMLDivElement, ArticleCardProps>(function ArticleCard(
   { label, title, children, className, ...rest },
   ref,
 ) {
