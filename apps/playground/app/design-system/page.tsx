@@ -31,6 +31,10 @@ import {
   TokenSwatch,
   ShowcaseCard,
   TypeSpecimen,
+  PlayerCard,
+  ModeCard,
+  InfoCard,
+  RuleCard,
   HomeIcon,
   SearchIcon,
   CloseIcon,
@@ -1135,223 +1139,7 @@ function ButtonsSection() {
 // 04 · Cards — domain patterns (Player / Mode / Info / Content)
 // ═══════════════════════════════════════════════════════════
 
-function PlayerCard() {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        gap: 14,
-        alignItems: 'center',
-        padding: 16,
-        border: '2px solid var(--border-memphis)',
-        background: 'var(--surface)',
-        boxShadow: '4px 4px 0 var(--black)',
-        width: '100%',
-      }}
-    >
-      <div
-        style={{
-          width: 48,
-          height: 48,
-          borderRadius: '50%',
-          background: 'var(--plum-900)',
-          color: 'var(--paper-50)',
-          display: 'grid',
-          placeItems: 'center',
-          fontFamily: 'var(--font-display)',
-          fontWeight: 700,
-          fontSize: 20,
-          border: '2px solid var(--border-memphis)',
-          flexShrink: 0,
-        }}
-      >
-        M
-      </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--ink)' }}>Marini · Bianco</div>
-        <div
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 11,
-            color: 'var(--ink-muted)',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            marginTop: 2,
-          }}
-        >
-          ELO 1842 · RAPID
-        </div>
-      </div>
-      <div
-        style={{
-          padding: '8px 14px',
-          border: '2px solid var(--gold-500)',
-          background: 'var(--paper-50)',
-          fontFamily: 'var(--font-mono)',
-          fontSize: 14,
-          fontWeight: 700,
-          color: 'var(--ink)',
-          boxShadow: '2px 2px 0 var(--gold-500)',
-        }}
-      >
-        05:42
-      </div>
-    </div>
-  )
-}
-
-function ModeCard() {
-  return (
-    <div
-      style={{
-        padding: 20,
-        border: '2px solid var(--border-memphis)',
-        background: 'var(--surface)',
-        boxShadow: '4px 4px 0 var(--gold-500)',
-        width: 280,
-      }}
-    >
-      <h4
-        className="display"
-        style={{
-          fontSize: 24,
-          margin: '0 0 8px',
-          color: 'var(--ink)',
-          letterSpacing: '0.02em',
-        }}
-      >
-        CLASSICO
-      </h4>
-      <p
-        style={{
-          color: 'var(--ink-muted)',
-          fontSize: 13,
-          margin: '0 0 24px',
-          lineHeight: 1.4,
-        }}
-      >
-        Scacchi ortodossi, pezzi mangiati tornano come pedine
-      </p>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <span
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 12,
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            color: 'var(--accent)',
-          }}
-        >
-          10+5 MIN
-        </span>
-        <ArrowRightIcon size={18} style={{ color: 'var(--accent)' }} />
-      </div>
-    </div>
-  )
-}
-
-function InfoCard() {
-  return (
-    <div style={{ position: 'relative', width: 200 }}>
-      {/* Gold diamond indicator on top */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          top: -10,
-          right: 20,
-          width: 16,
-          height: 16,
-          background: 'var(--gold-500)',
-          transform: 'rotate(45deg)',
-          border: '2px solid var(--border-memphis)',
-        }}
-      />
-      <div
-        style={{
-          padding: 16,
-          border: '2px solid var(--border-memphis)',
-          background: 'var(--surface)',
-          boxShadow: '4px 4px 0 var(--black)',
-        }}
-      >
-        <div
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 10,
-            fontWeight: 700,
-            letterSpacing: '0.2em',
-            color: 'var(--ink-muted)',
-            textTransform: 'uppercase',
-          }}
-        >
-          Mosse rimanenti
-        </div>
-        <div
-          className="display"
-          style={{
-            fontSize: 40,
-            lineHeight: 1,
-            marginTop: 8,
-            color: 'var(--ink)',
-          }}
-        >
-          23
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ContentCardNeutra() {
-  return (
-    <div
-      style={{
-        padding: 24,
-        border: '2px solid var(--border-memphis)',
-        background: 'var(--surface)',
-        boxShadow: '4px 4px 0 var(--black)',
-        maxWidth: 420,
-      }}
-    >
-      <div className="eyebrow" style={{ marginBottom: 8 }}>
-        Regola
-      </div>
-      <h4
-        className="display"
-        style={{
-          fontSize: 22,
-          lineHeight: 1.15,
-          margin: '0 0 12px',
-          color: 'var(--ink)',
-        }}
-      >
-        Mangia come scacchi, muovi come dama
-      </h4>
-      <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--ink-soft)', margin: 0 }}>
-        Il pezzo cattura con le regole degli scacchi. Ma se arriva in fondo, promuove come nella
-        dama italiana.
-      </p>
-    </div>
-  )
-}
-
 function CardsSection() {
-  const sampleWrapStyle: CSSProperties = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-    background: 'var(--paper-50)',
-    border: '2px dashed color-mix(in oklab, var(--ink) 25%, transparent)',
-  }
-
   return (
     <section id="cards" style={sectionStyle}>
       <SectionHeader
@@ -1360,26 +1148,43 @@ function CardsSection() {
         desc="4 varianti principali. Tutte condividono bordo 2px + shadow Memphis, cambia solo accento e layout."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
-        <DsCard label="PLAYER CARD">
-          <div style={sampleWrapStyle}>
-            <PlayerCard />
+        <ShowcaseCard label="PLAYER CARD">
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <PlayerCard name="Marini" color="bianco" elo={1842} mode="RAPID" clock="05:42" />
           </div>
-        </DsCard>
-        <DsCard label="MODE CARD">
-          <div style={sampleWrapStyle}>
-            <ModeCard />
+        </ShowcaseCard>
+        <ShowcaseCard label="MODE CARD">
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <ModeCard
+              title="CLASSICO"
+              desc="Scacchi ortodossi, pezzi mangiati tornano come pedine"
+              meta="10+5 MIN"
+              icon={<ArrowRightIcon size={18} style={{ color: 'var(--accent)' }} />}
+            />
           </div>
-        </DsCard>
-        <DsCard label="INFO CARD · tooltip/popover">
-          <div style={{ ...sampleWrapStyle, paddingTop: 40 }}>
-            <InfoCard />
+        </ShowcaseCard>
+        <ShowcaseCard label="INFO CARD · tooltip/popover">
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingTop: 16,
+            }}
+          >
+            <div style={{ width: 200 }}>
+              <InfoCard label="Mosse rimanenti" title="23" body="" />
+            </div>
           </div>
-        </DsCard>
-        <DsCard label="CONTENT CARD · neutra">
-          <div style={sampleWrapStyle}>
-            <ContentCardNeutra />
+        </ShowcaseCard>
+        <ShowcaseCard label="RULE CARD · neutra">
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <RuleCard label="REGOLA" title="Mangia come scacchi, muovi come dama">
+              Il pezzo cattura con le regole degli scacchi. Ma se arriva in fondo, promuove come
+              nella dama italiana.
+            </RuleCard>
           </div>
-        </DsCard>
+        </ShowcaseCard>
       </div>
     </section>
   )
