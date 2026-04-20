@@ -241,7 +241,7 @@ export {
 export { UserCard, type UserCardProps } from './components/user-card'
 export { FeatureCard, type FeatureCardProps } from './components/feature-card'
 export { TooltipCard, type TooltipCardProps } from './components/tooltip-card'
-export { RuleCard, type RuleCardProps } from './components/rule-card'
+export { ArticleCard, type ArticleCardProps } from './components/article-card'
 
 // Hooks
 export { useResolvedCssVars } from './hooks/use-resolved-css-vars'
