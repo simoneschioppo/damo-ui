@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
-import { TopBar } from '@/components/TopBar'
+import Link from 'next/link'
+import {
+  AppTopBar,
+  ThemeSwitcher,
+  PaletteSwitcher,
+} from '@simoneschioppo/damo-ui'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -26,7 +31,28 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body suppressHydrationWarning>
-        <TopBar />
+        <AppTopBar
+          logo={<Link href="/">DAMO · UI</Link>}
+          nav={
+            <>
+              <Link href="/design-system">Design System</Link>
+              <Link href="/theme-generator">Theme Generator</Link>
+            </>
+          }
+          actions={
+            <>
+              <ThemeSwitcher />
+              <PaletteSwitcher
+                defaultValue="plum-gold"
+                options={[
+                  { value: 'plum-gold', label: 'Plum+Gold' },
+                  { value: 'neon', label: 'Neon' },
+                  { value: 'sunset', label: 'Sunset' },
+                ]}
+              />
+            </>
+          }
+        />
         {children}
       </body>
     </html>
