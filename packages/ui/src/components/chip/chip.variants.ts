@@ -2,14 +2,13 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 export const chipVariants = cva(
   [
-    'inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold',
-    'rounded-pill border whitespace-nowrap',
-    'font-mono tracking-wider',
+    'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium',
+    'rounded-pill border-2 whitespace-nowrap',
   ],
   {
     variants: {
       variant: {
-        default: 'bg-surface-2 text-ink border-border',
+        default: 'bg-paper-100 text-ink border-border-memphis',
         accent:
           'bg-[color-mix(in_oklab,var(--gold-500)_18%,var(--surface))] text-ink border-[color-mix(in_oklab,var(--gold-500)_40%,transparent)]',
         brand:
@@ -23,8 +22,8 @@ export const chipVariants = cva(
       },
       size: {
         sm: 'px-2 py-0.5 text-[10px]',
-        md: 'px-2.5 py-1 text-xs',
-        lg: 'px-3 py-1.5 text-sm',
+        md: 'px-3 py-1.5 text-xs',
+        lg: 'px-3.5 py-2 text-sm',
       },
     },
     defaultVariants: { variant: 'default', size: 'md' },
