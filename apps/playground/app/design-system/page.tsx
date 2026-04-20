@@ -1101,15 +1101,15 @@ function IconsSection() {
 type MedalEntry = {
   readonly rank: 'bronze' | 'silver' | 'gold' | 'master' | 'grandmaster'
   readonly label: string
-  readonly rankNumber?: number
+  readonly value?: ReactNode
 }
 
 const MEDALS: ReadonlyArray<MedalEntry> = [
-  { rank: 'bronze', label: 'BRONZO', rankNumber: 1 },
-  { rank: 'silver', label: 'ARGENTO', rankNumber: 2 },
-  { rank: 'gold', label: 'ORO', rankNumber: 3 },
-  { rank: 'master', label: 'MAESTRO' },
-  { rank: 'grandmaster', label: 'GRAN MAESTRO' },
+  { rank: 'bronze', label: 'BRONZO', value: 1 },
+  { rank: 'silver', label: 'ARGENTO', value: 2 },
+  { rank: 'gold', label: 'ORO', value: 3 },
+  { rank: 'master', label: 'MAESTRO', value: 'M' },
+  { rank: 'grandmaster', label: 'GRAN MAESTRO', value: 'GM' },
 ]
 
 function AvatarsSection() {
@@ -1168,7 +1168,7 @@ function AvatarsSection() {
         <div style={{ ...subEyebrowStyle, marginTop: 32 }}>MEDAGLIE · rank</div>
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center' }}>
           {MEDALS.map((m) => (
-            <Medal key={m.label} rank={m.rank} label={m.label} rankNumber={m.rankNumber} size={64} />
+            <Medal key={m.label} rank={m.rank} label={m.label} value={m.value} size={64} />
           ))}
         </div>
       </ShowcaseCard>
