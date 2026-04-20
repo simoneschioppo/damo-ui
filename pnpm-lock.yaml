@@ -38,7 +38,7 @@ importers:
 
   apps/playground:
     dependencies:
-      '@damacchi/ui':
+      '@simoneschioppo/damo-ui':
         specifier: workspace:*
         version: link:../../packages/ui
       next:

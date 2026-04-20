@@ -28,9 +28,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build lib
-        run: pnpm --filter @damacchi/ui build
+        run: pnpm --filter @simoneschioppo/damo-ui build
 
       - name: Publish to GitHub Packages
-        run: pnpm --filter @damacchi/ui publish --access restricted --no-git-checks
+        run: pnpm --filter @simoneschioppo/damo-ui publish --access restricted --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

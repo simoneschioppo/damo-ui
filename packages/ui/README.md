@@ -1,11 +1,11 @@
-# @damacchi/ui
+# @simoneschioppo/damo-ui
 
 Memphis-inspired React component library for Damacchi app.
 
 ## Install
 
 ```bash
-pnpm add @damacchi/ui
+pnpm add @simoneschioppo/damo-ui
 ```
 
 Requires `@damacchi` scope in `.npmrc`:
@@ -28,7 +28,7 @@ Import styles in your root layout and wire Tailwind v4 (see repo README for full
 ## Usage
 
 ```tsx
-import { Button, Card, Dialog } from '@damacchi/ui'
+import { Button, Card, Dialog } from '@simoneschioppo/damo-ui'
 ;<Button variant="primary">Click me</Button>
 ```
 
