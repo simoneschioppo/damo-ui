@@ -5,7 +5,7 @@ import {
   AppTopBar,
   ThemeSwitcher,
   PaletteSwitcher,
-} from '@simoneschioppo/damo-ui'
+} from '@damo/ui'
 import './globals.css'
 
 export const metadata: Metadata = {

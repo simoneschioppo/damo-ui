@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development with 3 Opus 4.7 agents (implementer + spec reviewer + code reviewer) per task. Every task uses tdd-workflow (RED → GREEN → REFACTOR).
 
-**Goal:** Portare in `@simoneschioppo/damo-ui` tutti i componenti oggi implementati come styled div/span nelle pagine `/design-system` e `/theme-generator`. Dopo il refactor le pagine devono contenere SOLO: markup di layout (grid/flex), import di componenti `@simoneschioppo/damo-ui`, e import di icone. Nessuna classe/stile inline che descriva la pelle Memphis.
+**Goal:** Portare in `@damo/ui` tutti i componenti oggi implementati come styled div/span nelle pagine `/design-system` e `/theme-generator`. Dopo il refactor le pagine devono contenere SOLO: markup di layout (grid/flex), import di componenti `@damo/ui`, e import di icone. Nessuna classe/stile inline che descriva la pelle Memphis.
 
 **Architecture:** Ogni componente rispetta 3 regole non negoziabili: (a) tutti i valori visuali arrivano da CSS custom properties — mai hex hardcoded (b) ogni componente usa `cva` + CSS vars per supportare customizzazione runtime stile shadcn (c) ogni file ≤ 400 righe, una responsabilità, export dal barrel `packages/ui/src/index.ts`.
 
@@ -73,7 +73,7 @@ describe('Badge variants', () => {
 })
 ```
 
-- [ ] **Step 2: Run test — verify FAIL** (`pnpm -F @simoneschioppo/damo-ui test badge`)
+- [ ] **Step 2: Run test — verify FAIL** (`pnpm -F @damo/ui test badge`)
 - [ ] **Step 3: Extend cva** — add 7 new variants in `badge.variants.ts` using CSS-var colors:
   - `copper`: bg `var(--gold-500)` text `var(--black)` border-memphis shadow-memphis-sm
   - `navy`: bg `var(--plum-900)` text `var(--paper-50)` border-memphis shadow-memphis-sm

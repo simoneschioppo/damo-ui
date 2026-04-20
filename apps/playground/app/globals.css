@@ -1,13 +1,13 @@
 /* Token variable assignments (raw CSS vars) */
-@import '@simoneschioppo/damo-ui/styles/tokens.css';
-@import '@simoneschioppo/damo-ui/styles/themes.css';
-@import '@simoneschioppo/damo-ui/styles/globals.css';
-@import '@simoneschioppo/damo-ui/styles/patterns.css';
+@import '@damo/ui/styles/tokens.css';
+@import '@damo/ui/styles/themes.css';
+@import '@damo/ui/styles/globals.css';
+@import '@damo/ui/styles/patterns.css';
 
 @import 'tailwindcss';
 
 /* Bridge tokens → Tailwind v4 utilities (must come after @import 'tailwindcss') */
-@import '@simoneschioppo/damo-ui/styles/theme.css';
+@import '@damo/ui/styles/theme.css';
 
 @source '../../../packages/ui/dist/**/*.js';
 @source '../../../packages/ui/src/**/*.{ts,tsx}';

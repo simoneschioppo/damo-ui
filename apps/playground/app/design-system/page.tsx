@@ -3,7 +3,7 @@
 /**
  * /design-system — Damacchi DS v1 on lib primitives only.
  *
- * All 11 sections consume @simoneschioppo/damo-ui components (ColorScale, TokenSwatch,
+ * All 11 sections consume @damo/ui components (ColorScale, TokenSwatch,
  * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, FeatureCard,
  * TooltipCard, ArticleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
  * plus inputs + icons). Only hero / TOC / layout / section scroll-margin /
@@ -77,7 +77,7 @@ import {
   PauseIcon,
   ClockIcon,
   TargetIcon,
-} from '@simoneschioppo/damo-ui'
+} from '@damo/ui'
 
 // ═══════════════════════════════════════════════════════════
 // Section registry (drives both the TOC and jump targets)

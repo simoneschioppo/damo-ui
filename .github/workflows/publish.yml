@@ -7,6 +7,8 @@ on:
 
 jobs:
   publish:
+    # Disabled: package not yet published. Flip to true after creating @damo org + Team plan.
+    if: false
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,15 +24,15 @@ jobs:
           node-version: 20
           cache: 'pnpm'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@simoneschioppo'
+          scope: '@damo'
 
       - name: Install
         run: pnpm install --frozen-lockfile
 
       - name: Build lib
-        run: pnpm --filter @simoneschioppo/damo-ui build
+        run: pnpm --filter @damo/ui build
 
       - name: Publish to GitHub Packages
-        run: pnpm --filter @simoneschioppo/damo-ui publish --access restricted --no-git-checks
+        run: pnpm --filter @damo/ui publish --access restricted --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

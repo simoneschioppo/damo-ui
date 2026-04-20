@@ -6,11 +6,11 @@
  * Lets the user author a complete theme (colors, typography, radius,
  * shadow, spacing, motion), switch between curated presets, and preview
  * the result on five stock scenes (Gallery / Auth / Dashboard / Profile /
- * Feed) sourced from `@simoneschioppo/damo-ui/mocks`. The theme can be
+ * Feed) sourced from `@damo/ui/mocks`. The theme can be
  * exported as CSS custom properties, a Tailwind preset, flat JSON, or
  * Figma Tokens Studio JSON.
  *
- * All UI surfaces come from `@simoneschioppo/damo-ui`. Inline styles are
+ * All UI surfaces come from `@damo/ui`. Inline styles are
  * only used for layout primitives (grid, flex, gap).
  */
 
@@ -43,14 +43,14 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@simoneschioppo/damo-ui'
+} from '@damo/ui'
 import {
   AuthPreview,
   DashboardPreview,
   FeedPreview,
   GalleryPreview,
   ProfilePreview,
-} from '@simoneschioppo/damo-ui/mocks'
+} from '@damo/ui/mocks'
 
 import { useThemeState } from './use-theme-state'
 import { PRESET_LABELS, type PresetName } from './presets'

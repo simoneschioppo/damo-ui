@@ -1,6 +1,6 @@
 # Damo UI — Full Redesign Spec
 
-**Context:** what was `@simoneschioppo/damo-ui` / `damo-ui` becomes **Damo UI**, a Memphis-inspired React component library that is fully decoupled from the Damacchi game. The playground is rewritten so every surface (pages + chrome) consumes only lib components. A new live-editing `theme-generator` replaces the current minimal one.
+**Context:** what was `@damo/ui` / `damo-ui` becomes **Damo UI**, a Memphis-inspired React component library that is fully decoupled from the Damacchi game. The playground is rewritten so every surface (pages + chrome) consumes only lib components. A new live-editing `theme-generator` replaces the current minimal one.
 
 **Non-goals:** redesign the lib visual language (Memphis stays). Support CSS-in-JS. Ship to npm public.
 
@@ -12,7 +12,7 @@
 
 **Repo:** `simoneschioppo/damo-ui` → `simoneschioppo/damo-ui`. Private.
 
-**Package:** `@simoneschioppo/damo-ui` → `@simoneschioppo/damo-ui`. User-scope on GitHub Packages unlocks private publish without org setup.
+**Package:** `@damo/ui` → `@damo/ui`. User-scope on GitHub Packages unlocks private publish without org setup.
 
 **Brand line** (README, package.json description, HTML meta, CHANGELOG):
 
@@ -21,8 +21,8 @@
 **Migration touchpoints** (not exhaustive, plan will enumerate):
 
 - `packages/ui/package.json` — `name`, `description`, `repository`, `publishConfig.registry`
-- `apps/playground/package.json` — dependency `@simoneschioppo/damo-ui` → `@simoneschioppo/damo-ui`
-- All imports `from '@simoneschioppo/damo-ui'` → `from '@simoneschioppo/damo-ui'` (grep: ~30 occurrences)
+- `apps/playground/package.json` — dependency `@damo/ui` → `@damo/ui`
+- All imports `from '@damo/ui'` → `from '@damo/ui'` (grep: ~30 occurrences)
 - `README.md`, `CHANGELOG.md`, all `docs/specs/*.md`, all `docs/plans/*.md`
 - `.github/workflows/ci.yml` if it references the package name
 - GitHub repo rename via `gh repo rename damo-ui` (git remote auto-redirects, but we set it explicitly: `git remote set-url origin https://github.com/simoneschioppo/damo-ui.git`)
@@ -131,7 +131,7 @@ Local `TopBar.tsx`, `ThemeSwitcher.tsx`, `PaletteSwitcher.tsx`, `lib/use-persist
 
 ## 4. Mock preview pages (new sub-entrypoint)
 
-**Path:** `packages/ui/src/mocks/` → exported as `@simoneschioppo/damo-ui/mocks`.
+**Path:** `packages/ui/src/mocks/` → exported as `@damo/ui/mocks`.
 
 Five agnostic, self-contained preview components built only from lib primitives. They serve the theme-generator (as preview scenes) but can also be imported by any consumer for demos or screenshots.
 
@@ -280,7 +280,7 @@ Derived helpers:
 ## 8. Acceptance criteria
 
 1. `pnpm -r typecheck && pnpm -r lint && pnpm -r test` green
-2. `pnpm --filter @simoneschioppo/damo-ui test` — existing 189+ unit tests still pass (renamed components included)
+2. `pnpm --filter @damo/ui test` — existing 189+ unit tests still pass (renamed components included)
 3. `pnpm --filter @damacchi/e2e test` — all scenarios pass on chromium + webkit (spec names updated where relevant)
 4. `grep -r "@damacchi" apps packages docs e2e` returns zero matches
 5. `/design-system` and `/theme-generator` render correctly in 6 theme × palette combos (screenshots archived)

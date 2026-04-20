@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: superpowers:subagent-driven-development. Fresh implementer subagent per task + spec review + code-quality review. Model: Opus 4.7 for implementers and reviewers. Every task uses TDD (tdd-workflow): write failing test → implement → green → refactor → commit.
 
-**Goal:** Rename `damo-ui` / `@simoneschioppo/damo-ui` to `damo-ui` / `@simoneschioppo/damo-ui`, decouple the lib from the Damacchi game (rename 5 domain cards), extract the playground chrome (TopBar + switchers + hook) into the lib, add 5 agnostic mock preview pages, rewrite `/theme-generator` as a full token editor with live preview, and fix the `/design-system` dark-mode regression.
+**Goal:** Rename `damo-ui` / `@damo/ui` to `damo-ui` / `@damo/ui`, decouple the lib from the Damacchi game (rename 5 domain cards), extract the playground chrome (TopBar + switchers + hook) into the lib, add 5 agnostic mock preview pages, rewrite `/theme-generator` as a full token editor with live preview, and fix the `/design-system` dark-mode regression.
 
-**Architecture:** Each component stays file-per-responsibility (≤400 LOC). Zero hex literals outside `tokens.css` + test fixtures. Every component: `forwardRef`, `cn(className)`, `...rest` spread. Theme-generator state is a single immutable object; mutations go through `setTheme` + `applyThemeToRoot`. Rename is atomic — no compat shim for `@simoneschioppo/damo-ui`.
+**Architecture:** Each component stays file-per-responsibility (≤400 LOC). Zero hex literals outside `tokens.css` + test fixtures. Every component: `forwardRef`, `cn(className)`, `...rest` spread. Theme-generator state is a single immutable object; mutations go through `setTheme` + `applyThemeToRoot`. Rename is atomic — no compat shim for `@damo/ui`.
 
 **Tech Stack:** TypeScript strict, Tailwind v4, CVA, Radix UI (only where behavior is needed), Vitest + @testing-library, Playwright, pnpm workspace monorepo.
 
@@ -52,7 +52,7 @@
 - `apps/playground/package.json` (dependency)
 - `README.md`, `CHANGELOG.md`
 - All `docs/specs/*.md`, `docs/plans/*.md`
-- All imports `from '@simoneschioppo/damo-ui'` → `from '@simoneschioppo/damo-ui'` (grep + replace)
+- All imports `from '@damo/ui'` → `from '@damo/ui'` (grep + replace)
 - `.github/workflows/ci.yml` if it references the package name
 - `e2e/tests/**/*.ts` if any test imports types from the lib
 
@@ -71,7 +71,7 @@
 - Modify: `packages/ui/package.json`
 - Modify: `apps/playground/package.json`
 - Modify: `packages/ui/src/` (imports) — there are no such imports (lib is self-contained via relative paths)
-- Modify: `apps/playground/**/*.tsx` — every `from '@simoneschioppo/damo-ui'` becomes `from '@simoneschioppo/damo-ui'`
+- Modify: `apps/playground/**/*.tsx` — every `from '@damo/ui'` becomes `from '@damo/ui'`
 - Modify: `e2e/tests/**/*.ts` — if any
 - Modify: `README.md`, `CHANGELOG.md`, `docs/**/*.md`
 - Modify: `.github/workflows/ci.yml` (if referenced)
@@ -80,7 +80,7 @@
 - [ ] **Step 1: grep to enumerate imports**
 
 ```bash
-grep -rln "@simoneschioppo/damo-ui" apps packages e2e docs README.md CHANGELOG.md 2>/dev/null
+grep -rln "@damo/ui" apps packages e2e docs README.md CHANGELOG.md 2>/dev/null
 ```
 
 Expected: ~30 matches.
@@ -95,8 +95,8 @@ grep -rln "damo-ui\|@damacchi\|Damo UI" README.md CHANGELOG.md docs packages/ui/
 
 ```diff
 // packages/ui/package.json
-- "name": "@simoneschioppo/damo-ui",
-+ "name": "@simoneschioppo/damo-ui",
+- "name": "@damo/ui",
++ "name": "@damo/ui",
 - "description": "Memphis-inspired React component library",
 + "description": "Damo UI — a React component library heavily inspired by Memphis Design",
   "repository": {
@@ -110,8 +110,8 @@ grep -rln "damo-ui\|@damacchi\|Damo UI" README.md CHANGELOG.md docs packages/ui/
 ```diff
 // apps/playground/package.json
   "dependencies": {
--   "@simoneschioppo/damo-ui": "workspace:*",
-+   "@simoneschioppo/damo-ui": "workspace:*",
+-   "@damo/ui": "workspace:*",
++   "@damo/ui": "workspace:*",
   }
 ```
 
@@ -119,8 +119,8 @@ grep -rln "damo-ui\|@damacchi\|Damo UI" README.md CHANGELOG.md docs packages/ui/
 
 ```bash
 # Files to update
-rg -l "@simoneschioppo/damo-ui" apps packages e2e docs | while read f; do
-  sed -i '' 's|@simoneschioppo/damo-ui|@simoneschioppo/damo-ui|g' "$f"
+rg -l "@damo/ui" apps packages e2e docs | while read f; do
+  sed -i '' 's|@damo/ui|@damo/ui|g' "$f"
 done
 
 rg -l "damo-ui\|Damo UI" README.md CHANGELOG.md docs | while read f; do
@@ -136,7 +136,7 @@ done
 pnpm install
 ```
 
-Expected: no errors, new symlink `node_modules/@simoneschioppo/damo-ui` → `packages/ui`.
+Expected: no errors, new symlink `node_modules/@damo/ui` → `packages/ui`.
 
 - [ ] **Step 6: typecheck + lint + tests — all green**
 
@@ -144,7 +144,7 @@ Expected: no errors, new symlink `node_modules/@simoneschioppo/damo-ui` → `pac
 pnpm -r typecheck && pnpm -r lint && pnpm -r test
 ```
 
-If any test or type fails due to a lingering `@simoneschioppo/damo-ui` reference, fix and re-run.
+If any test or type fails due to a lingering `@damo/ui` reference, fix and re-run.
 
 - [ ] **Step 7: GitHub repo rename**
 
@@ -158,7 +158,7 @@ git remote -v  # verify
 
 ```bash
 git add -A
-git commit -m "chore: rename damo-ui → damo-ui, @simoneschioppo/damo-ui → @simoneschioppo/damo-ui"
+git commit -m "chore: rename damo-ui → damo-ui, @damo/ui → @damo/ui"
 git push
 ```
 
@@ -212,7 +212,7 @@ describe('UserCard', () => {
 
 - [ ] **Step 2: Verify FAIL**
 
-`pnpm --filter @simoneschioppo/damo-ui test user-card -- --run` → fail (no such module).
+`pnpm --filter @damo/ui test user-card -- --run` → fail (no such module).
 
 - [ ] **Step 3: Rename folder + rewrite component**
 
@@ -288,8 +288,8 @@ export { UserCard, type UserCardProps } from './user-card'
 - [ ] **Step 5: verify tests PASS + typecheck**
 
 ```bash
-pnpm --filter @simoneschioppo/damo-ui test user-card -- --run
-pnpm --filter @simoneschioppo/damo-ui typecheck
+pnpm --filter @damo/ui test user-card -- --run
+pnpm --filter @damo/ui typecheck
 ```
 
 - [ ] **Step 6: commit**
@@ -351,8 +351,8 @@ rg -n "PlayerCard|ModeCard|InfoCard|RuleCard|rankNumber" apps/playground
 - [ ] **Step 2: Replace in `apps/playground/app/design-system/page.tsx`**
 
 ```diff
-- import { PlayerCard, ModeCard, InfoCard, RuleCard, Medal } from '@simoneschioppo/damo-ui'
-+ import { UserCard, FeatureCard, TooltipCard, ArticleCard, Medal } from '@simoneschioppo/damo-ui'
+- import { PlayerCard, ModeCard, InfoCard, RuleCard, Medal } from '@damo/ui'
++ import { UserCard, FeatureCard, TooltipCard, ArticleCard, Medal } from '@damo/ui'
 ```
 
 Update every JSX usage; for `UserCard` adapt to the new slot API.
@@ -603,7 +603,7 @@ import {
   AppTopBar,
   ThemeSwitcher,
   PaletteSwitcher,
-} from '@simoneschioppo/damo-ui'
+} from '@damo/ui'
 import './globals.css'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -716,7 +716,7 @@ import {
   Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
   GalleryPreview, AuthPreview, DashboardPreview, ProfilePreview, FeedPreview,
   Slider, Select, SelectTrigger, SelectContent, SelectItem, SelectValue,
-} from '@simoneschioppo/damo-ui'
+} from '@damo/ui'
 // + local hooks / reducer
 
 export default function ThemeGeneratorPage() {
@@ -783,9 +783,9 @@ git commit -m "fix(playground): design-system page reacts to dark mode correctly
 
 ### Task 7: Final polish + publish test
 
-- [ ] **Step 1:** `pnpm --filter @simoneschioppo/damo-ui build` succeeds; `dist/index.d.ts` contains all new exports including `AppTopBar`, `ThemeSwitcher`, `PaletteSwitcher`, `usePersistedAttr`, `UserCard`, `FeatureCard`, `TooltipCard`, `ArticleCard`.
-- [ ] **Step 2:** `pnpm --filter @simoneschioppo/damo-ui build:mocks` (or equivalent — add script) builds `dist/mocks/index.js` and `.d.ts`.
-- [ ] **Step 3:** Verify `node -e "import('@simoneschioppo/damo-ui').then(m => console.log(Object.keys(m).sort()))"` (from the monorepo root via a temporary script) prints the full new API surface.
+- [ ] **Step 1:** `pnpm --filter @damo/ui build` succeeds; `dist/index.d.ts` contains all new exports including `AppTopBar`, `ThemeSwitcher`, `PaletteSwitcher`, `usePersistedAttr`, `UserCard`, `FeatureCard`, `TooltipCard`, `ArticleCard`.
+- [ ] **Step 2:** `pnpm --filter @damo/ui build:mocks` (or equivalent — add script) builds `dist/mocks/index.js` and `.d.ts`.
+- [ ] **Step 3:** Verify `node -e "import('@damo/ui').then(m => console.log(Object.keys(m).sort()))"` (from the monorepo root via a temporary script) prints the full new API surface.
 - [ ] **Step 4:** Dispatch `everything-claude-code:code-reviewer` across Tasks 2-6.
 - [ ] **Step 5:** Dispatch `everything-claude-code:security-reviewer` focused on theme-generator exporters (no CSS injection via user-typed hex values) + `applyThemeToRoot` (CSS-var injection safe via `setProperty`).
 - [ ] **Step 6:** Re-run `pnpm --filter @damacchi/e2e test` — all smoke specs green on chromium + webkit. Update `e2e/tests/scenarios/design-system-sections.spec.ts` if the section ids changed.
@@ -798,7 +798,7 @@ git push
 - [ ] **Step 8:** Attempt a dry-run publish to confirm registry config:
 
 ```bash
-pnpm --filter @simoneschioppo/damo-ui publish --dry-run
+pnpm --filter @damo/ui publish --dry-run
 ```
 
 Expected: "Would publish ... to https://npm.pkg.github.com" with no auth errors if env is set. If auth missing, document in README without failing the plan.
@@ -810,7 +810,7 @@ Expected: "Would publish ... to https://npm.pkg.github.com" with no auth errors 
 1. `grep -r "@damacchi\|damo-ui\|Damo UI" apps packages docs e2e README.md CHANGELOG.md | grep -v '.git\|node_modules\|dist\|\.superpowers'` → zero matches
 2. `gh repo view simoneschioppo/damo-ui` succeeds; `git remote -v` shows the new URL
 3. `pnpm -r typecheck && pnpm -r lint && pnpm -r test` green
-4. `pnpm --filter @simoneschioppo/damo-ui test -- --run` — unit tests ≥ 220 passing (previous 189 + ~30 new mocks/switchers)
+4. `pnpm --filter @damo/ui test -- --run` — unit tests ≥ 220 passing (previous 189 + ~30 new mocks/switchers)
 5. `pnpm --filter @damacchi/e2e test` — all scenarios pass on chromium + webkit
 6. Visual diff (6 combos × 5 scenes) — no unexpected regressions; dark mode on `/design-system` no longer shows ivory main pane
 7. `/theme-generator` round-trip works: pick Preset → tweak color → Export CSS → paste into `tokens.css` → reload → values persist
