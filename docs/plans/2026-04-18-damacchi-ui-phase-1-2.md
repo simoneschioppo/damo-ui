@@ -1,10 +1,10 @@
-# Damacchi UI — Implementation Plan — Phase 1 + 2
+# Damo UI — Implementation Plan — Phase 1 + 2
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Scaffoldare il monorepo `damacchi-ui` (pnpm workspace con `packages/ui`, `apps/playground`, `e2e`) e implementare il Design System base (CSS token, theme/palette/density switchers, pagina `/tokens` del playground che mostra tutto).
 
-**Architecture:** pnpm workspace monorepo leggero. La lib `@damacchi/ui` contiene solo token + utilities + Ladle setup (nessun componente ancora — arrivano in Plan 2+). Il playground Next 15 importa la lib via `workspace:*`, mostra i token in una pagina showcase e permette di switchare tema/palette/density. L'e2e workspace Playwright è presente ma vuoto (0 test).
+**Architecture:** pnpm workspace monorepo leggero. La lib `@simoneschioppo/damo-ui` contiene solo token + utilities + Ladle setup (nessun componente ancora — arrivano in Plan 2+). Il playground Next 15 importa la lib via `workspace:*`, mostra i token in una pagina showcase e permette di switchare tema/palette/density. L'e2e workspace Playwright è presente ma vuoto (0 test).
 
 **Tech Stack:** pnpm 9+, Node 20 LTS, TypeScript 5.5+ strict, React 19, Tailwind v4, tsup, Ladle, Next 15 (App Router), Playwright (Chromium + WebKit), Vitest, ESLint flat, Prettier.
 
@@ -90,7 +90,7 @@ Run:
 ```bash
 gh repo create simoneschioppo/damacchi-ui \
   --private \
-  --description "Damacchi UI — Memphis-inspired React component library" \
+  --description "Damo UI — Memphis-inspired React component library" \
   --add-readme=false \
   --license=""
 ```
@@ -148,11 +148,11 @@ packages:
     "node": ">=20"
   },
   "scripts": {
-    "dev:lib": "pnpm --filter @damacchi/ui dev",
+    "dev:lib": "pnpm --filter @simoneschioppo/damo-ui dev",
     "dev:playground": "pnpm --filter @damacchi/playground dev",
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
-    "build": "pnpm --filter @damacchi/ui build",
-    "test": "pnpm --filter @damacchi/ui test",
+    "build": "pnpm --filter @simoneschioppo/damo-ui build",
+    "test": "pnpm --filter @simoneschioppo/damo-ui test",
     "test:e2e": "pnpm --filter @damacchi/e2e test",
     "lint": "pnpm -r lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,json,md,css}\"",
@@ -215,7 +215,7 @@ prefer-workspace-packages=true
 - [ ] **Step 5: Scrivere `README.md`**
 
 ```markdown
-# Damacchi UI
+# Damo UI
 
 Memphis-inspired React component library for the Damacchi app.
 
@@ -223,7 +223,7 @@ Memphis-inspired React component library for the Damacchi app.
 
 ## Monorepo structure
 
-- `packages/ui` — the library, published as `@damacchi/ui` to GitHub Packages
+- `packages/ui` — the library, published as `@simoneschioppo/damo-ui` to GitHub Packages
 - `apps/playground` — Next 15 showcase app (private, not published)
 - `e2e` — Playwright end-to-end tests (private)
 
@@ -433,7 +433,7 @@ Scrivere `packages/ui/package.json`:
 
 ```json
 {
-  "name": "@damacchi/ui",
+  "name": "@simoneschioppo/damo-ui",
   "version": "0.0.0",
   "private": false,
   "type": "module",
@@ -554,7 +554,7 @@ Expected: install succeeds. `packages/ui/node_modules/` popolato.
 
 - [ ] **Step 6: Verificare build passa**
 
-Run: `pnpm --filter @damacchi/ui build`
+Run: `pnpm --filter @simoneschioppo/damo-ui build`
 Expected: crea `packages/ui/dist/index.js` e `index.d.ts`. Nessun errore.
 
 - [ ] **Step 7: Commit**
@@ -615,7 +615,7 @@ export const Provider: GlobalProvider = ({ children, globalState }) => {
 ```tsx
 export const Welcome = () => (
   <div style={{ fontFamily: 'system-ui', padding: 24 }}>
-    <h1>Damacchi UI — Ladle</h1>
+    <h1>Damo UI — Ladle</h1>
     <p>Placeholder: qui saranno visibili tutte le storie dei componenti.</p>
   </div>
 )
@@ -629,7 +629,7 @@ Run:
 
 ```bash
 cd ~/Documents/damacchi-ui
-pnpm --filter @damacchi/ui dev
+pnpm --filter @simoneschioppo/damo-ui dev
 ```
 
 Expected: Ladle sale su `http://localhost:61000`, mostra error sul CSS import mancante. È OK — si risolverà al Task 12. Fermare con Ctrl+C.
@@ -689,12 +689,12 @@ import '@testing-library/jest-dom/vitest'
 Run:
 
 ```bash
-pnpm --filter @damacchi/ui add -D @vitejs/plugin-react@^4.3.0 @vitest/coverage-v8@^2.1.1
+pnpm --filter @simoneschioppo/damo-ui add -D @vitejs/plugin-react@^4.3.0 @vitest/coverage-v8@^2.1.1
 ```
 
 - [ ] **Step 4: Verificare Vitest gira (0 test)**
 
-Run: `pnpm --filter @damacchi/ui test`
+Run: `pnpm --filter @simoneschioppo/damo-ui test`
 Expected: output `No test files found`. Exit code 0 OK.
 
 - [ ] **Step 5: Commit**
@@ -743,7 +743,7 @@ mkdir -p ~/Documents/damacchi-ui/apps/playground/public
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@damacchi/ui": "workspace:*",
+    "@simoneschioppo/damo-ui": "workspace:*",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -788,7 +788,7 @@ import type { NextConfig } from 'next'
 
 const config: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@damacchi/ui'],
+  transpilePackages: ['@simoneschioppo/damo-ui'],
 }
 
 export default config
@@ -828,8 +828,8 @@ import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Damacchi UI — Playground',
-  description: 'Showcase of the Damacchi UI component library',
+  title: 'Damo UI — Playground',
+  description: 'Showcase of the Damo UI component library',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -847,7 +847,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 export default function IndexPage() {
   return (
     <main style={{ padding: 32, fontFamily: 'system-ui' }}>
-      <h1>Damacchi UI — Playground</h1>
+      <h1>Damo UI — Playground</h1>
       <p>Work in progress. Verrà popolato con showcase di token e componenti.</p>
     </main>
   )
@@ -863,7 +863,7 @@ cd ~/Documents/damacchi-ui
 pnpm install
 ```
 
-Expected: `apps/playground/node_modules/` creato; `@damacchi/ui` linkato come workspace.
+Expected: `apps/playground/node_modules/` creato; `@simoneschioppo/damo-ui` linkato come workspace.
 
 - [ ] **Step 10: Verificare Next parte**
 
@@ -1042,7 +1042,7 @@ jobs:
         run: pnpm lint
 
       - name: Typecheck
-        run: pnpm --filter @damacchi/ui typecheck && pnpm --filter @damacchi/playground typecheck
+        run: pnpm --filter @simoneschioppo/damo-ui typecheck && pnpm --filter @damacchi/playground typecheck
 
       - name: Unit tests
         run: pnpm test
@@ -1139,7 +1139,7 @@ git push
 - [ ] **Step 1: Scrivere il file**
 
 ```css
-/* Damacchi UI — Design Tokens
+/* Damo UI — Design Tokens
  * CSS variables che definiscono palette, typography, radius, shadow, spacing, motion, z-index.
  * Sorgente unica di verità: override queste per customizzare (vedi themes.css per dark + palette alt).
  */
@@ -1290,7 +1290,7 @@ git commit -m "feat(ui): add design tokens (colors, type, radius, shadow, spacin
 - [ ] **Step 1: Scrivere il file**
 
 ```css
-/* Damacchi UI — Theme Overrides
+/* Damo UI — Theme Overrides
  * Dark mode e palette alternative. Si attivano con data-attributes sul <html>.
  *   <html data-theme="dark">
  *   <html data-palette="frost">
@@ -1374,7 +1374,7 @@ git commit -m "feat(ui): add dark mode + frost + circuit palette overrides"
 - [ ] **Step 1: Scrivere il file**
 
 ```css
-/* Damacchi UI — Memphis Background Pattern
+/* Damo UI — Memphis Background Pattern
  * Si attiva con [data-app-pattern="on"] sull'elemento contenitore.
  */
 
@@ -1431,7 +1431,7 @@ git commit -m "feat(ui): add Memphis radial-gradient background pattern"
 - [ ] **Step 1: Scrivere il file**
 
 ```css
-/* Damacchi UI — Global Base Styles
+/* Damo UI — Global Base Styles
  * Reset + base styles + typography utility classes.
  * Importare UNA VOLTA nel layout root del consumer.
  */
@@ -1578,7 +1578,7 @@ describe('cn', () => {
 
 - [ ] **Step 2: Run test — verificare FAIL**
 
-Run: `pnpm --filter @damacchi/ui test`
+Run: `pnpm --filter @simoneschioppo/damo-ui test`
 Expected: FAIL con errore `Cannot find module './cn'` o simile.
 
 - [ ] **Step 3: Implementare `cn.ts`**
@@ -1596,7 +1596,7 @@ export function cn(...inputs: ClassValue[]): string {
 
 - [ ] **Step 4: Run test — verificare PASS**
 
-Run: `pnpm --filter @damacchi/ui test`
+Run: `pnpm --filter @simoneschioppo/damo-ui test`
 Expected: tutti e 7 i test passano.
 
 - [ ] **Step 5: Commit**
@@ -1736,7 +1736,7 @@ export default preset
 
 - [ ] **Step 2: Build la lib e verificare preset esportato**
 
-Run: `pnpm --filter @damacchi/ui build`
+Run: `pnpm --filter @simoneschioppo/damo-ui build`
 Expected: `packages/ui/dist/tailwind.preset.js` esiste. Nessun errore.
 
 - [ ] **Step 3: Commit**
@@ -1759,10 +1759,10 @@ git commit -m "feat(ui): add Tailwind preset mapping tokens to Tailwind classes"
 - [ ] **Step 1: Scrivere `app/globals.css` con import dei CSS della lib + Tailwind v4 entry**
 
 ```css
-@import '@damacchi/ui/styles/tokens.css';
-@import '@damacchi/ui/styles/themes.css';
-@import '@damacchi/ui/styles/globals.css';
-@import '@damacchi/ui/styles/patterns.css';
+@import '@simoneschioppo/damo-ui/styles/tokens.css';
+@import '@simoneschioppo/damo-ui/styles/themes.css';
+@import '@simoneschioppo/damo-ui/styles/globals.css';
+@import '@simoneschioppo/damo-ui/styles/patterns.css';
 
 @import 'tailwindcss';
 ```
@@ -1775,8 +1775,8 @@ import type { ReactNode } from 'react'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Damacchi UI — Playground',
-  description: 'Showcase of the Damacchi UI component library',
+  title: 'Damo UI — Playground',
+  description: 'Showcase of the Damo UI component library',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -1806,7 +1806,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 ```ts
 import type { Config } from 'tailwindcss'
-import damacchi from '@damacchi/ui/tailwind.preset'
+import damacchi from '@simoneschioppo/damo-ui/tailwind.preset'
 
 const config: Config = {
   presets: [damacchi as Config],
@@ -1825,7 +1825,7 @@ Expected: pagina home renderizza con font Exo 2 applicato (se presente), nessun 
 
 ```bash
 git add apps/playground/app/globals.css apps/playground/app/layout.tsx apps/playground/tailwind.config.ts
-git commit -m "feat(playground): wire Damacchi UI tokens + Tailwind preset + Google Fonts"
+git commit -m "feat(playground): wire Damo UI tokens + Tailwind preset + Google Fonts"
 ```
 
 ---
@@ -2217,8 +2217,8 @@ import { TopBar } from '@/components/TopBar'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Damacchi UI — Playground',
-  description: 'Showcase of the Damacchi UI component library',
+  title: 'Damo UI — Playground',
+  description: 'Showcase of the Damo UI component library',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -2534,7 +2534,7 @@ export default function IndexPage() {
   return (
     <main style={{ padding: 48, maxWidth: 800, margin: '0 auto' }}>
       <h1 className="display" style={{ fontSize: 56, marginBottom: 16 }}>
-        Damacchi UI
+        Damo UI
       </h1>
       <p style={{ fontSize: 18, color: 'var(--ink-muted)', marginBottom: 32 }}>
         Showcase di componenti in stile Memphis. Usa la top bar per cambiare tema, palette e density
@@ -2587,7 +2587,7 @@ export const __version = '0.0.0'
 
 - [ ] **Step 2: Rebuild lib**
 
-Run: `pnpm --filter @damacchi/ui build`
+Run: `pnpm --filter @simoneschioppo/damo-ui build`
 Expected: `dist/index.js` aggiornato, esporta `cn`.
 
 - [ ] **Step 3: Commit**

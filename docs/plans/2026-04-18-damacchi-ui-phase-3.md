@@ -1,4 +1,4 @@
-# Damacchi UI — Implementation Plan — Phase 3 Foundations
+# Damo UI — Implementation Plan — Phase 3 Foundations
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task.
 

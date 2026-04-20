@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: superpowers:subagent-driven-development. Fresh implementer subagent per task + spec review + code-quality review. Model: Opus 4.7 for implementers and reviewers. Every task uses TDD (tdd-workflow): write failing test → implement → green → refactor → commit.
 
-**Goal:** Rename `damacchi-ui` / `@damacchi/ui` to `damo-ui` / `@simoneschioppo/damo-ui`, decouple the lib from the Damacchi game (rename 5 domain cards), extract the playground chrome (TopBar + switchers + hook) into the lib, add 5 agnostic mock preview pages, rewrite `/theme-generator` as a full token editor with live preview, and fix the `/design-system` dark-mode regression.
+**Goal:** Rename `damo-ui` / `@simoneschioppo/damo-ui` to `damo-ui` / `@simoneschioppo/damo-ui`, decouple the lib from the Damacchi game (rename 5 domain cards), extract the playground chrome (TopBar + switchers + hook) into the lib, add 5 agnostic mock preview pages, rewrite `/theme-generator` as a full token editor with live preview, and fix the `/design-system` dark-mode regression.
 
-**Architecture:** Each component stays file-per-responsibility (≤400 LOC). Zero hex literals outside `tokens.css` + test fixtures. Every component: `forwardRef`, `cn(className)`, `...rest` spread. Theme-generator state is a single immutable object; mutations go through `setTheme` + `applyThemeToRoot`. Rename is atomic — no compat shim for `@damacchi/ui`.
+**Architecture:** Each component stays file-per-responsibility (≤400 LOC). Zero hex literals outside `tokens.css` + test fixtures. Every component: `forwardRef`, `cn(className)`, `...rest` spread. Theme-generator state is a single immutable object; mutations go through `setTheme` + `applyThemeToRoot`. Rename is atomic — no compat shim for `@simoneschioppo/damo-ui`.
 
 **Tech Stack:** TypeScript strict, Tailwind v4, CVA, Radix UI (only where behavior is needed), Vitest + @testing-library, Playwright, pnpm workspace monorepo.
 
@@ -52,7 +52,7 @@
 - `apps/playground/package.json` (dependency)
 - `README.md`, `CHANGELOG.md`
 - All `docs/specs/*.md`, `docs/plans/*.md`
-- All imports `from '@damacchi/ui'` → `from '@simoneschioppo/damo-ui'` (grep + replace)
+- All imports `from '@simoneschioppo/damo-ui'` → `from '@simoneschioppo/damo-ui'` (grep + replace)
 - `.github/workflows/ci.yml` if it references the package name
 - `e2e/tests/**/*.ts` if any test imports types from the lib
 
@@ -71,7 +71,7 @@
 - Modify: `packages/ui/package.json`
 - Modify: `apps/playground/package.json`
 - Modify: `packages/ui/src/` (imports) — there are no such imports (lib is self-contained via relative paths)
-- Modify: `apps/playground/**/*.tsx` — every `from '@damacchi/ui'` becomes `from '@simoneschioppo/damo-ui'`
+- Modify: `apps/playground/**/*.tsx` — every `from '@simoneschioppo/damo-ui'` becomes `from '@simoneschioppo/damo-ui'`
 - Modify: `e2e/tests/**/*.ts` — if any
 - Modify: `README.md`, `CHANGELOG.md`, `docs/**/*.md`
 - Modify: `.github/workflows/ci.yml` (if referenced)
@@ -80,7 +80,7 @@
 - [ ] **Step 1: grep to enumerate imports**
 
 ```bash
-grep -rln "@damacchi/ui" apps packages e2e docs README.md CHANGELOG.md 2>/dev/null
+grep -rln "@simoneschioppo/damo-ui" apps packages e2e docs README.md CHANGELOG.md 2>/dev/null
 ```
 
 Expected: ~30 matches.
@@ -88,20 +88,20 @@ Expected: ~30 matches.
 - [ ] **Step 2: grep to enumerate README / metadata**
 
 ```bash
-grep -rln "damacchi-ui\|@damacchi\|Damacchi UI" README.md CHANGELOG.md docs packages/ui/package.json apps/playground/package.json
+grep -rln "damo-ui\|@damacchi\|Damo UI" README.md CHANGELOG.md docs packages/ui/package.json apps/playground/package.json
 ```
 
 - [ ] **Step 3: package.json updates**
 
 ```diff
 // packages/ui/package.json
-- "name": "@damacchi/ui",
+- "name": "@simoneschioppo/damo-ui",
 + "name": "@simoneschioppo/damo-ui",
 - "description": "Memphis-inspired React component library",
 + "description": "Damo UI — a React component library heavily inspired by Memphis Design",
   "repository": {
     "type": "git",
--   "url": "https://github.com/simoneschioppo/damacchi-ui.git",
+-   "url": "https://github.com/simoneschioppo/damo-ui.git",
 +   "url": "https://github.com/simoneschioppo/damo-ui.git",
     "directory": "packages/ui"
   }
@@ -110,7 +110,7 @@ grep -rln "damacchi-ui\|@damacchi\|Damacchi UI" README.md CHANGELOG.md docs pack
 ```diff
 // apps/playground/package.json
   "dependencies": {
--   "@damacchi/ui": "workspace:*",
+-   "@simoneschioppo/damo-ui": "workspace:*",
 +   "@simoneschioppo/damo-ui": "workspace:*",
   }
 ```
@@ -119,12 +119,12 @@ grep -rln "damacchi-ui\|@damacchi\|Damacchi UI" README.md CHANGELOG.md docs pack
 
 ```bash
 # Files to update
-rg -l "@damacchi/ui" apps packages e2e docs | while read f; do
-  sed -i '' 's|@damacchi/ui|@simoneschioppo/damo-ui|g' "$f"
+rg -l "@simoneschioppo/damo-ui" apps packages e2e docs | while read f; do
+  sed -i '' 's|@simoneschioppo/damo-ui|@simoneschioppo/damo-ui|g' "$f"
 done
 
-rg -l "damacchi-ui\|Damacchi UI" README.md CHANGELOG.md docs | while read f; do
-  sed -i '' -e 's|damacchi-ui|damo-ui|g' -e 's|Damacchi UI|Damo UI|g' "$f"
+rg -l "damo-ui\|Damo UI" README.md CHANGELOG.md docs | while read f; do
+  sed -i '' -e 's|damo-ui|damo-ui|g' -e 's|Damo UI|Damo UI|g' "$f"
 done
 ```
 
@@ -144,12 +144,12 @@ Expected: no errors, new symlink `node_modules/@simoneschioppo/damo-ui` → `pac
 pnpm -r typecheck && pnpm -r lint && pnpm -r test
 ```
 
-If any test or type fails due to a lingering `@damacchi/ui` reference, fix and re-run.
+If any test or type fails due to a lingering `@simoneschioppo/damo-ui` reference, fix and re-run.
 
 - [ ] **Step 7: GitHub repo rename**
 
 ```bash
-gh repo rename damo-ui --repo simoneschioppo/damacchi-ui
+gh repo rename damo-ui --repo simoneschioppo/damo-ui
 git remote set-url origin https://github.com/simoneschioppo/damo-ui.git
 git remote -v  # verify
 ```
@@ -158,7 +158,7 @@ git remote -v  # verify
 
 ```bash
 git add -A
-git commit -m "chore: rename damacchi-ui → damo-ui, @damacchi/ui → @simoneschioppo/damo-ui"
+git commit -m "chore: rename damo-ui → damo-ui, @simoneschioppo/damo-ui → @simoneschioppo/damo-ui"
 git push
 ```
 
@@ -807,7 +807,7 @@ Expected: "Would publish ... to https://npm.pkg.github.com" with no auth errors 
 
 ## Definition of Done
 
-1. `grep -r "@damacchi\|damacchi-ui\|Damacchi UI" apps packages docs e2e README.md CHANGELOG.md | grep -v '.git\|node_modules\|dist\|\.superpowers'` → zero matches
+1. `grep -r "@damacchi\|damo-ui\|Damo UI" apps packages docs e2e README.md CHANGELOG.md | grep -v '.git\|node_modules\|dist\|\.superpowers'` → zero matches
 2. `gh repo view simoneschioppo/damo-ui` succeeds; `git remote -v` shows the new URL
 3. `pnpm -r typecheck && pnpm -r lint && pnpm -r test` green
 4. `pnpm --filter @simoneschioppo/damo-ui test -- --run` — unit tests ≥ 220 passing (previous 189 + ~30 new mocks/switchers)

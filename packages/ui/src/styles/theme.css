@@ -1,4 +1,4 @@
-/* Damacchi UI — Tailwind v4 theme bridge
+/* Damo UI — Tailwind v4 theme bridge
  * Exposes design tokens as Tailwind custom utilities.
  * The actual token values live in tokens.css (so theme/palette/density overrides work).
  * This file only tells Tailwind which classes to generate.
