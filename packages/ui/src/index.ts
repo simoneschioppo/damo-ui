@@ -200,6 +200,11 @@ export {
   type ThemeSwitcherProps,
   type ThemeOption,
 } from './components/theme-switcher'
+export {
+  PaletteSwitcher,
+  type PaletteSwitcherProps,
+  type PaletteOption,
+} from './components/palette-switcher'
 
 // Data display (Phase 8)
 export {
