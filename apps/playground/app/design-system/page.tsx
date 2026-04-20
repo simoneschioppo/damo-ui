@@ -37,6 +37,7 @@ import {
   RuleCard,
   Badge,
   Chip,
+  Medal,
   HomeIcon,
   SearchIcon,
   CloseIcon,
@@ -1581,107 +1582,19 @@ function IconsSection() {
 // 08 · Avatars & medals — avatars in 4 sizes × 4 colors, plus octagonal medals.
 // ═══════════════════════════════════════════════════════════
 
-// Octagonal medal — faithful port of the original .medal SVG (sections.jsx).
-// Each medal has outer polygon (ring), inner polygon (core), and label text.
-type MedalDef = {
+type MedalEntry = {
+  readonly rank: 'bronze' | 'silver' | 'gold' | 'master' | 'grandmaster'
   readonly label: string
-  readonly outerFill: string
-  readonly innerFill: string
-  readonly innerStroke: string
-  readonly text: string
-  readonly textColor: string
-  readonly textSize: number
+  readonly rankNumber?: number
 }
 
-const MEDALS: ReadonlyArray<MedalDef> = [
-  {
-    label: 'BRONZO',
-    outerFill: '#e5bc6d',
-    innerFill: '#c4942a',
-    innerStroke: '#000',
-    text: 'I',
-    textColor: '#fff',
-    textSize: 18,
-  },
-  {
-    label: 'ARGENTO',
-    outerFill: '#c5d2e0',
-    innerFill: '#6f8aa9',
-    innerStroke: '#000',
-    text: 'II',
-    textColor: '#fff',
-    textSize: 18,
-  },
-  {
-    label: 'ORO',
-    outerFill: '#f8e5bc',
-    innerFill: '#d5a845',
-    innerStroke: '#000',
-    text: 'III',
-    textColor: '#fff',
-    textSize: 18,
-  },
-  {
-    label: 'MAESTRO',
-    outerFill: '#b17cb5',
-    innerFill: '#522357',
-    innerStroke: '#000',
-    text: 'M',
-    textColor: '#fff',
-    textSize: 18,
-  },
-  {
-    label: 'GRAN MAESTRO',
-    outerFill: '#2a0f2d',
-    innerFill: '#3d1a40',
-    innerStroke: '#e5bc6d',
-    text: 'GM',
-    textColor: '#e5bc6d',
-    textSize: 16,
-  },
+const MEDALS: ReadonlyArray<MedalEntry> = [
+  { rank: 'bronze', label: 'BRONZO', rankNumber: 1 },
+  { rank: 'silver', label: 'ARGENTO', rankNumber: 2 },
+  { rank: 'gold', label: 'ORO', rankNumber: 3 },
+  { rank: 'master', label: 'MAESTRO' },
+  { rank: 'grandmaster', label: 'GRAN MAESTRO' },
 ]
-
-function Medal({ medal }: { medal: MedalDef }) {
-  return (
-    <div
-      style={{
-        textAlign: 'center',
-        fontFamily: 'var(--font-mono)',
-        fontSize: 10,
-        letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-        color: 'var(--ink-muted)',
-        fontWeight: 700,
-      }}
-    >
-      <svg viewBox="0 0 64 64" width={64} height={64} aria-label={medal.label}>
-        <polygon
-          points="32,4 54,14 58,38 42,58 22,58 6,38 10,14"
-          fill={medal.outerFill}
-          stroke="#000"
-          strokeWidth="3"
-        />
-        <polygon
-          points="32,14 48,20 50,36 40,50 24,50 14,36 16,20"
-          fill={medal.innerFill}
-          stroke={medal.innerStroke}
-          strokeWidth="2"
-        />
-        <text
-          x="32"
-          y="40"
-          textAnchor="middle"
-          fontFamily="Audiowide"
-          fontSize={medal.textSize}
-          fill={medal.textColor}
-        >
-          {medal.text}
-        </text>
-      </svg>
-      <span style={{ display: 'block', marginTop: 8 }}>{medal.label}</span>
-    </div>
-  )
-}
 
 function AvatarsSection() {
   return (
@@ -1691,7 +1604,7 @@ function AvatarsSection() {
         title="Avatar & medaglie"
         desc="Avatar in 4 taglie × 4 colori. Medaglie per ranking e achievement, forma ottagonale con bordo nero."
       />
-      <DsCard label="AVATAR · square & round">
+      <ShowcaseCard label="AVATAR · square & round">
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <Avatar size="sm">
             <AvatarFallback>S</AvatarFallback>
@@ -1739,10 +1652,10 @@ function AvatarsSection() {
         <div style={{ ...dsCardLabelStyle, marginTop: 32 }}>MEDAGLIE · rank</div>
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center' }}>
           {MEDALS.map((m) => (
-            <Medal key={m.label} medal={m} />
+            <Medal key={m.label} rank={m.rank} label={m.label} rankNumber={m.rankNumber} size={64} />
           ))}
         </div>
-      </DsCard>
+      </ShowcaseCard>
     </section>
   )
 }
