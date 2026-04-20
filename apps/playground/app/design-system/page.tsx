@@ -10,7 +10,7 @@
  * Reference: /Users/simoneschioppo/Documents/damacchi-design/claude-design-system/design-system.css
  */
 
-import { type CSSProperties, type ReactNode } from 'react'
+import { type CSSProperties, type ReactNode, useEffect, useState } from 'react'
 import {
   Button,
   IconButton,
@@ -389,8 +389,13 @@ function DsCard({
 // ═══════════════════════════════════════════════════════════
 // Ogni scala è una banda orizzontale piena: left col (nome + token + desc),
 // right col grid di stops con background colore + nome/hex inline.
+//
+// Colors are rendered via CSS variables (`var(--plum-500)` etc.) so the
+// bands react live to `data-theme` and `data-palette` changes. The hex
+// label next to each stop is resolved at runtime via getComputedStyle and
+// kept in sync by observing <html> attribute mutations.
 
-type ColorStop = { readonly k: number; readonly hex: string; readonly text: 'dark' | 'light' }
+type ColorStop = { readonly k: number }
 type ColorScaleDef = {
   readonly name: string
   readonly token: string
@@ -402,39 +407,59 @@ const PLUM_SCALE: ColorScaleDef = {
   name: 'Plum',
   token: 'plum',
   desc: 'Primario scuro — ink, testo, sfondi notturni',
-  stops: [
-    { k: 900, hex: '#2a0f2d', text: 'dark' },
-    { k: 800, hex: '#3d1a40', text: 'dark' },
-    { k: 700, hex: '#522357', text: 'dark' },
-    { k: 500, hex: '#7a3980', text: 'dark' },
-    { k: 300, hex: '#b17cb5', text: 'dark' },
-    { k: 100, hex: '#e0c6e2', text: 'light' },
-  ],
+  stops: [{ k: 900 }, { k: 800 }, { k: 700 }, { k: 500 }, { k: 300 }, { k: 100 }],
 }
 
 const GOLD_SCALE: ColorScaleDef = {
   name: 'Gold',
   token: 'gold',
   desc: 'Accent brand — bottoni, bordi dorati, highlight',
-  stops: [
-    { k: 500, hex: '#c4942a', text: 'dark' },
-    { k: 400, hex: '#d5a845', text: 'dark' },
-    { k: 300, hex: '#e5bc6d', text: 'light' },
-    { k: 200, hex: '#f0d49a', text: 'light' },
-    { k: 100, hex: '#f8e5bc', text: 'light' },
-  ],
+  stops: [{ k: 500 }, { k: 400 }, { k: 300 }, { k: 200 }, { k: 100 }],
 }
 
 const PAPER_SCALE: ColorScaleDef = {
   name: 'Paper',
   token: 'paper',
   desc: 'Sfondi caldi ivory/cream — base del prodotto',
-  stops: [
-    { k: 300, hex: '#ddd0ae', text: 'light' },
-    { k: 200, hex: '#ece2c6', text: 'light' },
-    { k: 100, hex: '#f5efde', text: 'light' },
-    { k: 50, hex: '#fbf7ee', text: 'light' },
-  ],
+  stops: [{ k: 300 }, { k: 200 }, { k: 100 }, { k: 50 }],
+}
+
+// Resolve CSS custom properties at runtime. Re-reads whenever <html>
+// `data-theme` or `data-palette` changes (MutationObserver), so the hex
+// labels and contrast-aware text track palette switches.
+function useResolvedCssVars(names: ReadonlyArray<string>): Record<string, string> {
+  const key = names.join('|')
+  const [values, setValues] = useState<Record<string, string>>({})
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const root = document.documentElement
+    const read = () => {
+      const cs = getComputedStyle(root)
+      const next: Record<string, string> = {}
+      for (const n of names) {
+        next[n] = cs.getPropertyValue(n).trim()
+      }
+      setValues(next)
+    }
+    read()
+    const obs = new MutationObserver(read)
+    obs.observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-palette'] })
+    return () => obs.disconnect()
+  }, [key, names])
+  return values
+}
+
+// Pick readable text color (black or white) for a given background hex.
+// Uses perceptual luminance. Falls back to dark ink for unknown inputs.
+function pickContrastText(hex: string): string {
+  const m = hex.replace(/\s+/g, '').match(/^#?([a-f\d]{6})$/i)
+  if (!m || !m[1]) return 'rgba(0,0,0,0.8)'
+  const hx = m[1]
+  const r = parseInt(hx.slice(0, 2), 16)
+  const g = parseInt(hx.slice(2, 4), 16)
+  const b = parseInt(hx.slice(4, 6), 16)
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+  return lum > 0.62 ? 'rgba(0,0,0,0.82)' : 'rgba(255,255,255,0.94)'
 }
 
 const SEMANTIC_BLOCKS: ReadonlyArray<{
@@ -474,6 +499,8 @@ const SEMANTIC_BLOCKS: ReadonlyArray<{
 ]
 
 function ColorBand({ scale }: { scale: ColorScaleDef }) {
+  const varNames = scale.stops.map((s) => `--${scale.token}-${s.k}`)
+  const resolved = useResolvedCssVars(varNames)
   return (
     <div style={{ marginBottom: 32 }}>
       <div
@@ -520,42 +547,46 @@ function ColorBand({ scale }: { scale: ColorScaleDef }) {
           overflow: 'hidden',
         }}
       >
-        {scale.stops.map((s, idx) => (
-          <div
-            key={s.k}
-            style={{
-              background: s.hex,
-              color: s.text === 'dark' ? 'rgba(255,255,255,0.92)' : 'rgba(0,0,0,0.75)',
-              aspectRatio: '1.2 / 1',
-              padding: '14px 12px 12px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-              borderLeft: idx === 0 ? 'none' : '2px solid var(--border-memphis)',
-            }}
-          >
+        {scale.stops.map((s, idx) => {
+          const cssVar = `--${scale.token}-${s.k}`
+          const hex = resolved[cssVar] ?? ''
+          return (
             <div
+              key={s.k}
               style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: '0.08em',
+                background: `var(${cssVar})`,
+                color: pickContrastText(hex),
+                aspectRatio: '1.2 / 1',
+                padding: '14px 12px 12px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+                borderLeft: idx === 0 ? 'none' : '2px solid var(--border-memphis)',
               }}
             >
-              {scale.token}-{s.k}
+              <div
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                }}
+              >
+                {scale.token}-{s.k}
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11,
+                  opacity: 0.85,
+                  marginTop: 2,
+                }}
+              >
+                {hex || '\u00a0'}
+              </div>
             </div>
-            <div
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 11,
-                opacity: 0.85,
-                marginTop: 2,
-              }}
-            >
-              {s.hex}
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )
@@ -1394,9 +1425,10 @@ const inputDisabledOverrideStyle: CSSProperties = {
   background: 'var(--paper-200)',
 }
 
-const SLIDER_VALUES = [30, 60, 90] as const
+const SLIDER_INITIAL = [30, 60, 90] as const
 
 function InputsSection() {
+  const [sliderValues, setSliderValues] = useState<readonly number[]>(SLIDER_INITIAL)
   return (
     <section id="inputs" style={sectionStyle}>
       <SectionHeader
@@ -1478,18 +1510,28 @@ function InputsSection() {
 
         <DsCard label="SLIDER">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            {SLIDER_VALUES.map((v) => (
-              <div key={v} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            {sliderValues.map((v, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{ flex: 1 }}>
-                  <Slider defaultValue={[v]} min={0} max={100} />
+                  <Slider
+                    value={[v]}
+                    min={0}
+                    max={100}
+                    onValueChange={(next) => {
+                      const head = next[0]
+                      if (typeof head !== 'number') return
+                      setSliderValues((prev) => prev.map((x, j) => (j === i ? head : x)))
+                    }}
+                  />
                 </div>
                 <span
                   style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: 12,
                     color: 'var(--ink-muted)',
-                    minWidth: 32,
+                    minWidth: 36,
                     textAlign: 'right',
+                    fontVariantNumeric: 'tabular-nums',
                   }}
                 >
                   {v}%
@@ -2279,14 +2321,17 @@ function PatternsSection() {
 // 11 · Export → Figma (hint)
 // ═══════════════════════════════════════════════════════════
 
-// .hint — faithful port of the original .hint card (purple-100 bg, navy shadow)
+// .hint — faithful port of the original .hint card.
+// Uses color-mix + semantic tokens so it adapts to light/dark + palette.
+// In light: plum-500 @ 22% over white surface → soft lilac.
+// In dark:  plum-500 @ 22% over plum-900 surface → muted violet.
 const hintStyle: CSSProperties = {
   display: 'flex',
   gap: 16,
   padding: 20,
-  background: 'var(--plum-100)',
+  background: 'color-mix(in oklab, var(--plum-500) 22%, var(--surface))',
   border: '2px solid var(--border-memphis)',
-  boxShadow: '4px 4px 0 var(--plum-900)',
+  boxShadow: '4px 4px 0 var(--shadow-memphis-color)',
   alignItems: 'flex-start',
   marginBottom: 24,
 }
@@ -2299,7 +2344,7 @@ const hintIconStyle: CSSProperties = {
   border: '2px solid var(--border-memphis)',
   display: 'grid',
   placeItems: 'center',
-  color: '#fff',
+  color: 'var(--paper-50)',
   fontFamily: 'var(--font-display)',
   fontSize: 18,
 }
@@ -2308,12 +2353,13 @@ const hintTitleStyle: CSSProperties = {
   fontFamily: 'var(--font-display)',
   fontSize: 16,
   margin: '0 0 4px',
-  color: 'var(--plum-700)',
+  color: 'var(--ink)',
 }
 
 const hintCodeStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
-  background: '#fff',
+  background: 'var(--surface)',
+  color: 'var(--ink)',
   border: '1px solid var(--border-memphis)',
   padding: '1px 6px',
   fontSize: 12,

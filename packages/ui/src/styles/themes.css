@@ -1,8 +1,8 @@
 /* Damacchi UI — Theme Overrides
  * Dark mode e palette alternative. Si attivano con data-attributes sul <html>.
  *   <html data-theme="dark">
- *   <html data-palette="frost">
- *   <html data-theme="dark" data-palette="circuit">
+ *   <html data-palette="neon">
+ *   <html data-theme="dark" data-palette="sunset">
  */
 
 /* ── Dark theme (riassegna semantici, palette resta) ── */
@@ -19,36 +19,36 @@
   --shadow-memphis-color: var(--paper-50);
 }
 
-/* ── Palette: Frost (blu ghiaccio) ─────────────────── */
-:root[data-palette='frost'] {
-  --plum-100: #c6e0e2;
-  --plum-300: #7cadb5;
-  --plum-500: #398080;
-  --plum-700: #235757;
-  --plum-800: #1a4040;
-  --plum-900: #0f2d2d;
+/* ── Palette: Neon (magenta + lime, Memphis 80s puro) ── */
+:root[data-palette='neon'] {
+  --plum-100: #f8c8e7;
+  --plum-300: #e26dbb;
+  --plum-500: #b01680;
+  --plum-700: #491a40;
+  --plum-800: #321029;
+  --plum-900: #1f0819;
 
-  --gold-100: #bcf8e5;
-  --gold-200: #9af0d4;
-  --gold-300: #6de5bc;
-  --gold-400: #45d5a8;
-  --gold-500: #2ac494;
+  --gold-100: #e3facb;
+  --gold-200: #ccf2a6;
+  --gold-300: #b4ea7e;
+  --gold-400: #9be04a;
+  --gold-500: #7fd321;
 }
 
-/* ── Palette: Circuit (neon cyber) ─────────────────── */
-:root[data-palette='circuit'] {
-  --plum-100: #d8c6e2;
-  --plum-300: #8f7cb5;
-  --plum-500: #5a39a0;
-  --plum-700: #3e2370;
-  --plum-800: #2a1a50;
-  --plum-900: #160f30;
+/* ── Palette: Sunset (terracotta + arancio caldo) ────── */
+:root[data-palette='sunset'] {
+  --plum-100: #f8d4c0;
+  --plum-300: #dd8a6d;
+  --plum-500: #a8402a;
+  --plum-700: #5a2514;
+  --plum-800: #3f170d;
+  --plum-900: #2a0d07;
 
-  --gold-100: #bcd5f8;
-  --gold-200: #9abaf0;
-  --gold-300: #6d9ae5;
-  --gold-400: #457bd5;
-  --gold-500: #2a62c4;
+  --gold-100: #ffe7cd;
+  --gold-200: #ffd2a3;
+  --gold-300: #ffbb75;
+  --gold-400: #fda047;
+  --gold-500: #f58a1e;
 }
 
 /* ── Reduced motion ───────────────────────────────── */
