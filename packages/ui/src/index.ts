@@ -137,6 +137,7 @@ export { Spinner, type SpinnerProps } from './components/spinner'
 export { Skeleton, type SkeletonProps } from './components/skeleton'
 export { Badge, type BadgeProps, badgeVariants, type BadgeVariants } from './components/badge'
 export { Chip, type ChipProps, chipVariants, type ChipVariants } from './components/chip'
+export { Hint, type HintProps } from './components/hint'
 
 // Navigation (Phase 7)
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './components/tabs'
