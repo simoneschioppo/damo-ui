@@ -3,9 +3,10 @@
 /**
  * /theme-generator — Live color palette editor.
  *
- * Layout: 2-column — left controls (color pickers) + right live preview.
- * Mutates CSS variables on `:root` via JS inline style for instant preview.
- * On unmount, restores the default tokens.
+ * Layout: 2-column — left controls (Card with color pickers) + right live
+ * preview built entirely from @damacchi/ui primitives (Button / Card /
+ * Badge / Chip / Input / Label / Switch). Mutates CSS variables on `:root`
+ * via JS inline style for instant preview; restores defaults on unmount.
  *
  * Inspired by https://shadcnstudio.com/theme-generator.
  */
@@ -55,98 +56,13 @@ const THEME_KEY_TO_VAR: Readonly<Record<keyof ThemeState, string>> = {
   paper50: '--paper-50',
 } as const
 
-// ═══════════════════════════════════════════════════════════
-// Styles
-// ═══════════════════════════════════════════════════════════
-
-const wrapperStyle: CSSProperties = {
-  padding: '32px 0 64px',
-}
-
-const titleStyle: CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: 56,
-  margin: '0 0 8px',
-  lineHeight: 1,
-  color: 'var(--ink)',
-}
-
-const leadStyle: CSSProperties = {
-  color: 'var(--ink-muted)',
-  margin: '0 0 32px',
-  fontSize: 15,
-  maxWidth: 640,
-}
-
-const layoutStyle: CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: '320px 1fr',
-  gap: 32,
-  alignItems: 'start',
-}
-
-const controlsStyle: CSSProperties = {
-  padding: 24,
-  border: '2px solid var(--border-memphis)',
-  background: 'var(--surface)',
-  boxShadow: '6px 6px 0 var(--black)',
-  position: 'sticky',
-  top: 24,
-  alignSelf: 'start',
-}
-
-const controlsHeadingStyle: CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: 22,
-  margin: '0 0 16px',
-  color: 'var(--ink)',
-}
-
-const pickerRowStyle: CSSProperties = {
-  marginBottom: 16,
-}
-
-const pickerInputsStyle: CSSProperties = {
-  display: 'flex',
-  gap: 8,
-  marginTop: 6,
-  alignItems: 'center',
-}
-
-const colorInputStyle: CSSProperties = {
-  width: 48,
-  height: 40,
-  border: '2px solid var(--border-memphis)',
-  padding: 2,
-  cursor: 'pointer',
-  background: 'var(--surface)',
-}
-
-const eyebrowStyle: CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  fontSize: 11,
-  letterSpacing: '0.22em',
-  textTransform: 'uppercase',
-  color: 'var(--gold-500)',
-  fontWeight: 700,
-  margin: 0,
-}
-
-const previewStyle: CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 24,
-}
-
-const copyFeedbackStyle: CSSProperties = {
-  marginTop: 8,
-  fontFamily: 'var(--font-mono)',
-  fontSize: 11,
-  letterSpacing: '0.1em',
-  color: 'var(--ink-muted)',
-  textTransform: 'uppercase',
-  textAlign: 'center',
-}
+const FIELD_LABEL: Readonly<Record<keyof ThemeState, string>> = {
+  plum500: 'Plum 500',
+  plum900: 'Plum 900',
+  gold500: 'Gold 500',
+  gold400: 'Gold 400',
+  paper50: 'Paper 50',
+} as const
 
 // ═══════════════════════════════════════════════════════════
 // Helpers (pure, immutable)
@@ -177,6 +93,73 @@ function resetRootTheme(): void {
 }
 
 // ═══════════════════════════════════════════════════════════
+// Local styles (only for layout + the one control the lib doesn't
+// ship: the native HTML <input type="color"> swatch).
+// ═══════════════════════════════════════════════════════════
+
+const layoutStyle: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '320px 1fr',
+  gap: 32,
+  alignItems: 'start',
+  marginTop: 32,
+}
+
+const stickyStyle: CSSProperties = {
+  position: 'sticky',
+  top: 24,
+  alignSelf: 'start',
+}
+
+// Native color swatch — styled to match the Memphis border language of
+// the rest of the library since there is no <ColorPicker> primitive.
+const colorSwatchStyle: CSSProperties = {
+  width: 44,
+  height: 40,
+  padding: 2,
+  border: '2px solid var(--border-memphis)',
+  background: 'var(--surface)',
+  cursor: 'pointer',
+}
+
+// ═══════════════════════════════════════════════════════════
+// Color picker row (native swatch + hex Input from the lib)
+// ═══════════════════════════════════════════════════════════
+
+function ColorPickerRow({
+  field,
+  value,
+  onChange,
+}: {
+  field: keyof ThemeState
+  value: string
+  onChange: (next: string) => void
+}) {
+  const inputId = `cp-${field}`
+  return (
+    <div>
+      <Label htmlFor={inputId}>{FIELD_LABEL[field]}</Label>
+      <div style={{ display: 'flex', gap: 8, marginTop: 6, alignItems: 'center' }}>
+        <input
+          type="color"
+          id={inputId}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={colorSwatchStyle}
+          aria-label={`Color picker for ${FIELD_LABEL[field]}`}
+        />
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={{ flex: 1, fontFamily: 'var(--font-mono)', fontSize: 12 }}
+          aria-label={`Hex value for ${FIELD_LABEL[field]}`}
+        />
+      </div>
+    </div>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════
 // Page
 // ═══════════════════════════════════════════════════════════
 
@@ -197,8 +180,8 @@ export default function ThemeGeneratorPage() {
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2000)
     } catch {
-      // Fallback: no-op; user can manually copy from DevTools. Swallowed on
-      // purpose because clipboard API can be blocked in iframes/insecure contexts.
+      // Swallowed on purpose: clipboard API can be blocked in iframes or
+      // insecure contexts. User can still copy manually from DevTools.
       setCopied(false)
     }
   }
@@ -207,64 +190,61 @@ export default function ThemeGeneratorPage() {
     setTheme(DEFAULT_THEME)
   }
 
-  function updateField(key: keyof ThemeState, value: string) {
-    setTheme((prev) => ({ ...prev, [key]: value }))
+  function updateField(key: keyof ThemeState, next: string) {
+    setTheme((prev) => ({ ...prev, [key]: next }))
   }
+
+  const fieldKeys = Object.keys(theme) as Array<keyof ThemeState>
 
   return (
     <Container size="xl">
-      <div style={wrapperStyle}>
-        <h1 style={titleStyle}>Theme Generator</h1>
-        <p style={leadStyle}>
-          Componi la tua palette custom e scarica le CSS vars. Cambia i valori e vedi
-          l&apos;anteprima a destra aggiornarsi live.
+      <div style={{ padding: '32px 0 64px' }}>
+        <h1 className="display" style={{ fontSize: 56, margin: '0 0 8px', lineHeight: 1 }}>
+          Theme Generator
+        </h1>
+        <p style={{ color: 'var(--ink-muted)', margin: '0 0 8px', maxWidth: 640 }}>
+          Componi la tua palette custom e scarica le CSS vars. Cambia i valori e vedi l&apos;anteprima
+          a destra aggiornarsi live.
         </p>
 
         <div style={layoutStyle}>
-          {/* Controls */}
-          <aside style={controlsStyle}>
-            <h2 style={controlsHeadingStyle}>Colori</h2>
+          {/* Controls — Card from the lib, not an inline <aside>. */}
+          <Card variant="default" padding="md" style={stickyStyle}>
+            <CardHeader>
+              <CardTitle>Colori</CardTitle>
+              <CardDescription>Trascina i picker o incolla un hex.</CardDescription>
+            </CardHeader>
+            <CardBody>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {fieldKeys.map((key) => (
+                  <ColorPickerRow
+                    key={key}
+                    field={key}
+                    value={theme[key]}
+                    onChange={(next) => updateField(key, next)}
+                  />
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20 }}>
+                <Button fullWidth onClick={handleCopyCss}>
+                  Copia CSS
+                </Button>
+                <Button variant="ghost" fullWidth onClick={handleReset}>
+                  Reset
+                </Button>
+                {copied ? (
+                  <span className="eyebrow" style={{ textAlign: 'center', marginTop: 4 }}>
+                    Copiato negli appunti
+                  </span>
+                ) : null}
+              </div>
+            </CardBody>
+          </Card>
 
-            {(Object.keys(theme) as Array<keyof ThemeState>).map((key) => {
-              const value = theme[key]
-              return (
-                <div key={key} style={pickerRowStyle}>
-                  <Label htmlFor={key}>{key}</Label>
-                  <div style={pickerInputsStyle}>
-                    <input
-                      type="color"
-                      id={key}
-                      value={value}
-                      onChange={(e) => updateField(key, e.target.value)}
-                      style={colorInputStyle}
-                      aria-label={`Color picker for ${key}`}
-                    />
-                    <Input
-                      value={value}
-                      onChange={(e) => updateField(key, e.target.value)}
-                      style={{ flex: 1, fontFamily: 'var(--font-mono)', fontSize: 12 }}
-                      aria-label={`Hex value for ${key}`}
-                    />
-                  </div>
-                </div>
-              )
-            })}
-
-            <Button fullWidth onClick={handleCopyCss} style={{ marginTop: 16 }}>
-              Copia CSS
-            </Button>
-
-            <Button variant="ghost" fullWidth onClick={handleReset} style={{ marginTop: 8 }}>
-              Reset
-            </Button>
-
-            {copied ? <div style={copyFeedbackStyle}>Copiato negli appunti</div> : null}
-          </aside>
-
-          {/* Preview */}
-          <main style={previewStyle}>
+          {/* Preview — every surface here comes from @damacchi/ui. */}
+          <main style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
             <section>
-              <h3 style={eyebrowStyle}>BUTTONS</h3>
+              <h3 className="eyebrow">Buttons</h3>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 12 }}>
                 <Button>Primary</Button>
                 <Button variant="accent">Accent</Button>
@@ -275,7 +255,7 @@ export default function ThemeGeneratorPage() {
             </section>
 
             <section>
-              <h3 style={eyebrowStyle}>CARD + BADGES</h3>
+              <h3 className="eyebrow">Card + Badges</h3>
               <div
                 style={{
                   display: 'grid',
@@ -316,30 +296,26 @@ export default function ThemeGeneratorPage() {
             </section>
 
             <section>
-              <h3 style={eyebrowStyle}>FORM</h3>
-              <div
-                style={{
-                  marginTop: 12,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 12,
-                  maxWidth: 360,
-                }}
-              >
-                <div>
-                  <Label htmlFor="preview-email">EMAIL</Label>
-                  <Input
-                    id="preview-email"
-                    type="email"
-                    placeholder="you@damacchi.app"
-                    style={{ marginTop: 6 }}
-                  />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <Switch id="preview-notifications" defaultChecked />
-                  <Label htmlFor="preview-notifications">Notifiche push</Label>
-                </div>
-              </div>
+              <h3 className="eyebrow">Form</h3>
+              <Card variant="default" style={{ marginTop: 12, maxWidth: 420 }}>
+                <CardBody>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    <div>
+                      <Label htmlFor="preview-email">Email</Label>
+                      <Input
+                        id="preview-email"
+                        type="email"
+                        placeholder="you@damacchi.app"
+                        style={{ marginTop: 6 }}
+                      />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <Switch id="preview-notifications" defaultChecked />
+                      <Label htmlFor="preview-notifications">Notifiche push</Label>
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
             </section>
           </main>
         </div>
