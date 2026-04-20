@@ -228,6 +228,23 @@ export { Medal, type MedalProps, type MedalRank } from './components/medal'
 export { ColorPicker, type ColorPickerProps } from './components/color-picker'
 export * from './components/pattern-swatch'
 export * from './components/memphis-shape'
+export { ColorScale, type ColorScaleProps, type ColorStop } from './components/color-scale'
+export { TokenSwatch, type TokenSwatchProps } from './components/token-swatch'
+export { SectionHeader, type SectionHeaderProps } from './components/section-header'
+export { SubPanel, type SubPanelProps } from './components/sub-panel'
+export { ShowcaseCard, type ShowcaseCardProps } from './components/showcase-card'
+export {
+  TypeSpecimen,
+  type TypeSpecimenProps,
+  type TypeSpecimenScaleRow,
+} from './components/type-specimen'
+export { PlayerCard, type PlayerCardProps } from './components/player-card'
+export { ModeCard, type ModeCardProps } from './components/mode-card'
+export { InfoCard, type InfoCardProps } from './components/info-card'
+export { RuleCard, type RuleCardProps } from './components/rule-card'
+
+// Hooks
+export { useResolvedCssVars } from './hooks/use-resolved-css-vars'
 
 // Layout (Phase 9)
 export { AppShell, type AppShellProps } from './components/app-shell'
