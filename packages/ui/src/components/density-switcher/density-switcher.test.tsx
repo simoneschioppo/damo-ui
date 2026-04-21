@@ -79,4 +79,18 @@ describe('DensitySwitcher', () => {
     const { getByText } = render(<DensitySwitcher />)
     expect(getByText('Density')).toBeTruthy()
   })
+
+  it('exposes aria-pressed on each option so SRs announce active state', () => {
+    localStorage.setItem('density', 'compact')
+    const { getByRole } = render(<DensitySwitcher />)
+    expect(getByRole('button', { name: 'Compatta' }).getAttribute('aria-pressed')).toBe('true')
+    expect(getByRole('button', { name: 'Normale' }).getAttribute('aria-pressed')).toBe('false')
+    expect(getByRole('button', { name: 'Ampia' }).getAttribute('aria-pressed')).toBe('false')
+  })
+
+  it('wraps buttons in a labeled role=group landmark', () => {
+    const { getByRole } = render(<DensitySwitcher />)
+    const group = getByRole('group', { name: 'Density' })
+    expect(group).toBeTruthy()
+  })
 })
