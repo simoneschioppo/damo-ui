@@ -69,18 +69,21 @@ import {
 const pageStyle: CSSProperties = { padding: '32px 0 64px' }
 const layoutStyle: CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '320px 1fr',
-  gap: 32,
+  gridTemplateColumns: '300px 1fr',
+  gap: 24,
   alignItems: 'start',
   marginTop: 32,
 }
 const sidebarStyle: CSSProperties = {
   position: 'sticky',
-  top: 24,
+  top: 16,
   alignSelf: 'start',
   display: 'flex',
   flexDirection: 'column',
-  gap: 16,
+  gap: 12,
+  maxHeight: 'calc(100vh - 32px)',
+  overflowY: 'auto',
+  paddingRight: 4,
 }
 const previewColStyle: CSSProperties = {
   display: 'flex',
@@ -183,7 +186,7 @@ export default function ThemeGeneratorPage() {
   }
 
   return (
-    <Container size="xl">
+    <Container size="2xl">
       <div style={pageStyle}>
         <h1 className="display" style={{ fontSize: 56, margin: '0 0 8px', lineHeight: 1 }}>
           Theme Generator

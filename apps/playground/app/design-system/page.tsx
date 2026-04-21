@@ -267,8 +267,8 @@ const subEyebrowStyle: CSSProperties = {
 function Toc() {
   return (
     <aside style={tocStyle}>
-      <div style={tocBrandStyle}>DAMACCHI</div>
-      <div style={tocSubStyle}>DESIGN SYSTEM V1</div>
+      <div style={tocBrandStyle}>DAMO · UI</div>
+      <div style={tocSubStyle}>DESIGN SYSTEM</div>
       <nav style={tocListStyle}>
         {SECTIONS.map((s, idx) => (
           <a
@@ -864,7 +864,7 @@ function InputsSection() {
               </label>
               <Input
                 id="email-disabled"
-                defaultValue="mario@damacchi.it"
+                defaultValue="mario@damo.design"
                 disabled
                 readOnly
                 className="bg-[var(--paper-200)]"
@@ -884,7 +884,7 @@ function InputsSection() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="classico">Classico</SelectItem>
-                  <SelectItem value="damacchi">Damacchi</SelectItem>
+                  <SelectItem value="torneo">Torneo</SelectItem>
                   <SelectItem value="blitz">Blitz 3+0</SelectItem>
                 </SelectContent>
               </Select>
@@ -1554,7 +1554,7 @@ export default function DesignSystemPage() {
       <main style={mainStyle}>
         <header style={heroStyle}>
           <HeroDecor />
-          <div style={heroEyebrowStyle}>DAMACCHI · DESIGN SYSTEM · V1.0</div>
+          <div style={heroEyebrowStyle}>DAMO · UI · DESIGN SYSTEM</div>
           <h1 style={heroTitleStyle}>
             Scacchi + dama,
             <br />
@@ -1609,7 +1609,7 @@ export default function DesignSystemPage() {
             flexWrap: 'wrap',
           }}
         >
-          <span>DAMACCHI · DESIGN SYSTEM v1.0</span>
+          <span>DAMO · UI · DESIGN SYSTEM</span>
           <span>
             MADE WITH <span style={{ color: 'var(--danger)' }}>♥</span> BY DAMO
           </span>

@@ -195,12 +195,36 @@ const radiusToCss = (key: RadiusKey, value: number): string => {
   return `${value}px`
 }
 
+// Semantic tokens are derived from the palette via CSS rules in tokens.css /
+// themes.css (e.g. `--bg: var(--plum-900)` under `[data-theme='dark']`). Writing
+// them inline on `:root` would clobber the dark-mode cascade, so we skip them
+// here — the user can still edit them live on the preview container only.
+const SEMANTIC_COLOR_KEYS = new Set([
+  'bg',
+  'surface',
+  'surface-2',
+  'ink',
+  'ink-soft',
+  'ink-muted',
+  'border-memphis',
+  'accent',
+  'ring',
+  'success',
+  'danger',
+  'warning',
+  'rage',
+  'info',
+])
+
 export function applyThemeToRoot(theme: Theme): void {
   if (typeof document === 'undefined') return
   const root = document.documentElement
   const set = (name: string, value: string) => root.style.setProperty(name, value)
 
-  Object.entries(theme.colors).forEach(([k, v]) => set(`--${k}`, v))
+  Object.entries(theme.colors).forEach(([k, v]) => {
+    if (SEMANTIC_COLOR_KEYS.has(k)) return
+    set(`--${k}`, v)
+  })
 
   set('--font-display', theme.typography.fontDisplay)
   set('--font-body', theme.typography.fontBody)
