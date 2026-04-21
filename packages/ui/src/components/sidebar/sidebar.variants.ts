@@ -1,12 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 
 export const sidebarVariants = cva(
-  [
-    'flex flex-col gap-5',
-    'px-5 py-8',
-    'bg-surface-2 text-ink',
-    'overflow-hidden',
-  ],
+  ['flex flex-col gap-5', 'px-5 py-8', 'bg-surface-2 text-ink', 'overflow-hidden'],
   {
     variants: {
       sticky: {

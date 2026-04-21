@@ -1,12 +1,9 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
-import { sidebarVariants } from './sidebar.variants'
+import { sidebarVariants, type SidebarVariants } from './sidebar.variants'
 
-export interface SidebarProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
-  /** When true (default) the sidebar sticks to `--header-height`. */
-  sticky?: boolean
-  /** Memphis border side. Defaults to `right` (matches theme-generator reference). */
-  border?: 'right' | 'left' | 'none'
+export interface SidebarProps
+  extends Omit<HTMLAttributes<HTMLElement>, 'children'>, SidebarVariants {
   /** Optional fixed width (number → px, string → raw CSS value). */
   width?: number | string
   children?: ReactNode
@@ -69,10 +66,7 @@ export const SidebarSubtitle = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDiv
     return (
       <div
         ref={ref}
-        className={cn(
-          'font-mono text-[10px] tracking-[0.2em] uppercase text-accent',
-          className,
-        )}
+        className={cn('font-mono text-[10px] tracking-[0.2em] uppercase text-accent', className)}
         {...rest}
       />
     )
@@ -81,9 +75,7 @@ export const SidebarSubtitle = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDiv
 
 export const SidebarBody = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function SidebarBody({ className, ...rest }, ref) {
-    return (
-      <div ref={ref} className={cn('flex-1 min-h-0 overflow-y-auto', className)} {...rest} />
-    )
+    return <div ref={ref} className={cn('flex-1 min-h-0 overflow-y-auto', className)} {...rest} />
   },
 )
 
