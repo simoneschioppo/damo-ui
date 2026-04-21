@@ -89,7 +89,7 @@ export default function Page() {
 Three switchers via html data-attributes:
 
 - `<html data-theme="light|dark">` — light/dark mode
-- `<html data-palette="plum-gold|frost|circuit">` — palette alt
+- `<html data-palette="plum-gold|neon|sunset">` — palette alt
 - `<html data-density="compact|normal|comfortable">` — spacing density
 
 ## Component inventory (~47)
