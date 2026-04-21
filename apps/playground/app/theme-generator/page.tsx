@@ -21,12 +21,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
   ColorPicker,
-  Container,
   Dialog,
   DialogContent,
   DialogHeader,
@@ -66,35 +61,66 @@ import {
 // Layout (inline styles, layout only — no color/border/shadow)
 // ═══════════════════════════════════════════════════════════
 
-const pageStyle: CSSProperties = { padding: '32px 0 64px' }
-const layoutStyle: CSSProperties = {
+const pageStyle: CSSProperties = {
   display: 'grid',
   gridTemplateColumns: '300px 1fr',
-  gap: 24,
-  alignItems: 'start',
-  marginTop: 32,
+  minHeight: '100vh',
+  background: 'var(--bg)',
+  color: 'var(--ink)',
 }
 const sidebarStyle: CSSProperties = {
   position: 'sticky',
-  top: 16,
+  top: 'var(--header-height)',
   alignSelf: 'start',
+  height: 'calc(100vh - var(--header-height))',
+  background: 'var(--surface-2)',
+  color: 'var(--ink)',
+  padding: '32px 20px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 20,
+  overflowY: 'auto',
+  borderRight: '2px solid var(--border-memphis)',
+}
+const sidebarBrandStyle: CSSProperties = {
+  fontFamily: 'var(--font-display)',
+  fontSize: 18,
+  letterSpacing: '0.12em',
+  color: 'var(--accent)',
+  marginBottom: 2,
+}
+const sidebarSubStyle: CSSProperties = {
+  fontFamily: 'var(--font-mono)',
+  fontSize: 10,
+  letterSpacing: '0.2em',
+  color: 'var(--accent)',
+  textTransform: 'uppercase',
+  marginBottom: 12,
+}
+const sidebarFooterStyle: CSSProperties = {
+  marginTop: 'auto',
+  paddingTop: 20,
+  borderTop: '2px solid var(--border-memphis)',
   display: 'flex',
   flexDirection: 'column',
   gap: 12,
-  maxHeight: 'calc(100vh - 32px)',
-  overflowY: 'auto',
-  paddingRight: 4,
+}
+const mainStyle: CSSProperties = {
+  padding: '32px 48px 64px',
+  minWidth: 0,
 }
 const previewColStyle: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   gap: 16,
+  marginTop: 24,
 }
 const previewHeaderStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 16,
+  flexWrap: 'wrap',
 }
 const stackStyle: CSSProperties = { display: 'flex', flexDirection: 'column', gap: 12 }
 const rowStyle: CSSProperties = { display: 'flex', alignItems: 'center', gap: 8 }
@@ -186,26 +212,13 @@ export default function ThemeGeneratorPage() {
   }
 
   return (
-    <Container size="2xl">
+    <>
       <div style={pageStyle}>
-        <h1 className="display" style={{ fontSize: 56, margin: '0 0 8px', lineHeight: 1 }}>
-          Theme Generator
-        </h1>
-        <p style={{ color: 'var(--ink-muted)', margin: '0 0 8px', maxWidth: 680 }}>
-          Componi la tua palette, la tipografia, i radius, le ombre, la spaziatura e il
-          motion. Scegli un preset, usa la preview dark e scarica il tema nel formato
-          che preferisci.
-        </p>
-
-        <div style={layoutStyle}>
-          {/* ─── Sidebar ─────────────────────────────────── */}
-          <div style={sidebarStyle}>
-            <Card variant="default" padding="md">
-              <CardHeader>
-                <CardTitle>Tokens</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Accordion type="multiple" defaultValue={['colors']}>
+        {/* ─── Sidebar (DS TOC aesthetic) ──────────────── */}
+        <aside style={sidebarStyle}>
+          <div style={sidebarBrandStyle}>DAMO · UI</div>
+          <div style={sidebarSubStyle}>THEME GENERATOR</div>
+          <Accordion type="multiple" defaultValue={['colors']}>
                   {/* Colors */}
                   <AccordionItem value="colors">
                     <AccordionTrigger>Colors</AccordionTrigger>
@@ -458,45 +471,49 @@ export default function ThemeGeneratorPage() {
                       </div>
                     </AccordionContent>
                   </AccordionItem>
-                </Accordion>
-              </CardBody>
-            </Card>
+          </Accordion>
 
-            <Card variant="default" padding="md">
-              <CardBody>
-                <div style={stackStyle}>
-                  <div>
-                    <Label>Preset</Label>
-                    <Select value={activePreset} onValueChange={handlePresetChange}>
-                      <SelectTrigger aria-label="Preset">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {(Object.keys(PRESET_LABELS) as Array<PresetName>).map((key) => (
-                          <SelectItem key={key} value={key}>
-                            {PRESET_LABELS[key]}
-                          </SelectItem>
-                        ))}
-                        {activePreset === 'custom' ? (
-                          <SelectItem value="custom" disabled>
-                            Custom
-                          </SelectItem>
-                        ) : null}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <Button variant="ghost" onClick={reset} fullWidth>
-                    Reset
-                  </Button>
-                  <Button onClick={() => setExportOpen(true)} fullWidth>
-                    Export
-                  </Button>
-                </div>
-              </CardBody>
-            </Card>
+          <div style={sidebarFooterStyle}>
+            <div>
+              <Label>Preset</Label>
+              <Select value={activePreset} onValueChange={handlePresetChange}>
+                <SelectTrigger aria-label="Preset">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {(Object.keys(PRESET_LABELS) as Array<PresetName>).map((key) => (
+                    <SelectItem key={key} value={key}>
+                      {PRESET_LABELS[key]}
+                    </SelectItem>
+                  ))}
+                  {activePreset === 'custom' ? (
+                    <SelectItem value="custom" disabled>
+                      Custom
+                    </SelectItem>
+                  ) : null}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button variant="ghost" onClick={reset} fullWidth>
+              Reset
+            </Button>
+            <Button onClick={() => setExportOpen(true)} fullWidth>
+              Export
+            </Button>
           </div>
+        </aside>
 
-          {/* ─── Preview ─────────────────────────────────── */}
+        {/* ─── Main ────────────────────────────────────── */}
+        <main style={mainStyle}>
+          <h1 className="display" style={{ fontSize: 56, margin: '0 0 8px', lineHeight: 1 }}>
+            Theme Generator
+          </h1>
+          <p style={{ color: 'var(--ink-muted)', margin: '0 0 8px', maxWidth: 680 }}>
+            Componi la tua palette, la tipografia, i radius, le ombre, la spaziatura e il
+            motion. Scegli un preset, usa la preview dark e scarica il tema nel formato
+            che preferisci.
+          </p>
+
           <div style={previewColStyle}>
             <div style={previewHeaderStyle}>
               <Tabs value={sceneTab} onValueChange={(v) => setSceneTab(v as SceneTab)}>
@@ -538,7 +555,7 @@ export default function ThemeGeneratorPage() {
               {sceneTab === 'feed' && <FeedPreview />}
             </div>
           </div>
-        </div>
+        </main>
       </div>
 
       {/* ─── Export dialog ─────────────────────────────── */}
@@ -573,6 +590,6 @@ export default function ThemeGeneratorPage() {
           </Tabs>
         </DialogContent>
       </Dialog>
-    </Container>
+    </>
   )
 }

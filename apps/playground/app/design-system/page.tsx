@@ -113,8 +113,8 @@ const pageStyle: CSSProperties = {
 
 const tocStyle: CSSProperties = {
   position: 'sticky',
-  top: 0,
-  height: '100vh',
+  top: 'var(--header-height)',
+  height: 'calc(100vh - var(--header-height))',
   background: 'var(--surface-2)',
   color: 'var(--ink)',
   padding: '32px 20px',
