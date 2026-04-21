@@ -29,6 +29,11 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
+  Sidebar,
+  SidebarBody,
+  SidebarBrand,
+  SidebarHeader,
+  SidebarSubtitle,
   Avatar,
   AvatarFallback,
   AvatarGroup,
@@ -107,37 +112,10 @@ const SECTIONS = [
 
 const pageStyle: CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '240px 1fr',
+  gridTemplateColumns: '300px 1fr',
   minHeight: '100vh',
   background: 'var(--bg)',
   color: 'var(--ink)',
-}
-
-const tocStyle: CSSProperties = {
-  position: 'sticky',
-  top: 'var(--header-height)',
-  height: 'calc(100vh - var(--header-height))',
-  background: 'var(--surface-2)',
-  color: 'var(--ink)',
-  padding: '32px 20px',
-  overflowY: 'auto',
-}
-
-const tocBrandStyle: CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: 18,
-  letterSpacing: '0.12em',
-  color: 'var(--accent)',
-  marginBottom: 4,
-}
-
-const tocSubStyle: CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  fontSize: 10,
-  letterSpacing: '0.2em',
-  color: 'var(--accent)',
-  textTransform: 'uppercase',
-  marginBottom: 32,
 }
 
 const tocListStyle: CSSProperties = {
@@ -305,27 +283,31 @@ function useActiveSection(): string {
 
 function Toc({ activeId }: { activeId: string }) {
   return (
-    <aside style={tocStyle}>
-      <div style={tocBrandStyle}>DAMO · UI</div>
-      <div style={tocSubStyle}>DESIGN SYSTEM</div>
-      <nav aria-label="Page sections" style={tocListStyle}>
-        {SECTIONS.map((s) => {
-          const isActive = s.id === activeId
-          return (
-            <a
-              key={s.id}
-              href={`#${s.id}`}
-              aria-current={isActive ? 'true' : undefined}
-              data-active={isActive ? 'true' : undefined}
-              style={{ ...tocLinkStyle, ...(isActive ? tocLinkActiveStyle : {}) }}
-            >
-              <span style={tocNumStyle}>{s.num}</span>
-              {s.title}
-            </a>
-          )
-        })}
-      </nav>
-    </aside>
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarBrand>DAMO · UI</SidebarBrand>
+        <SidebarSubtitle>DESIGN SYSTEM</SidebarSubtitle>
+      </SidebarHeader>
+      <SidebarBody>
+        <nav aria-label="Page sections" style={tocListStyle}>
+          {SECTIONS.map((s) => {
+            const isActive = s.id === activeId
+            return (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                aria-current={isActive ? 'true' : undefined}
+                data-active={isActive ? 'true' : undefined}
+                style={{ ...tocLinkStyle, ...(isActive ? tocLinkActiveStyle : {}) }}
+              >
+                <span style={tocNumStyle}>{s.num}</span>
+                {s.title}
+              </a>
+            )
+          })}
+        </nav>
+      </SidebarBody>
+    </Sidebar>
   )
 }
 

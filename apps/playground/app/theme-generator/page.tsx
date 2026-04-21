@@ -33,6 +33,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Sidebar,
+  SidebarBody,
+  SidebarBrand,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarSubtitle,
   Slider,
   Tabs,
   TabsContent,
@@ -67,43 +73,6 @@ const pageStyle: CSSProperties = {
   minHeight: '100vh',
   background: 'var(--bg)',
   color: 'var(--ink)',
-}
-const sidebarStyle: CSSProperties = {
-  position: 'sticky',
-  top: 'var(--header-height)',
-  alignSelf: 'start',
-  height: 'calc(100vh - var(--header-height))',
-  background: 'var(--surface-2)',
-  color: 'var(--ink)',
-  padding: '32px 20px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 20,
-  overflowY: 'auto',
-  borderRight: '2px solid var(--border-memphis)',
-}
-const sidebarBrandStyle: CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: 18,
-  letterSpacing: '0.12em',
-  color: 'var(--accent)',
-  marginBottom: 2,
-}
-const sidebarSubStyle: CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  fontSize: 10,
-  letterSpacing: '0.2em',
-  color: 'var(--accent)',
-  textTransform: 'uppercase',
-  marginBottom: 12,
-}
-const sidebarFooterStyle: CSSProperties = {
-  marginTop: 'auto',
-  paddingTop: 20,
-  borderTop: '2px solid var(--border-memphis)',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 12,
 }
 const mainStyle: CSSProperties = {
   padding: '32px 48px 64px',
@@ -215,9 +184,12 @@ export default function ThemeGeneratorPage() {
     <>
       <div style={pageStyle}>
         {/* ─── Sidebar (DS TOC aesthetic) ──────────────── */}
-        <aside style={sidebarStyle}>
-          <div style={sidebarBrandStyle}>DAMO · UI</div>
-          <div style={sidebarSubStyle}>THEME GENERATOR</div>
+        <Sidebar>
+          <SidebarHeader>
+            <SidebarBrand>DAMO · UI</SidebarBrand>
+            <SidebarSubtitle>THEME GENERATOR</SidebarSubtitle>
+          </SidebarHeader>
+          <SidebarBody>
           <Accordion type="multiple" defaultValue={['colors']}>
                   {/* Colors */}
                   <AccordionItem value="colors">
@@ -472,8 +444,9 @@ export default function ThemeGeneratorPage() {
                     </AccordionContent>
                   </AccordionItem>
           </Accordion>
+          </SidebarBody>
 
-          <div style={sidebarFooterStyle}>
+          <SidebarFooter>
             <div>
               <Label>Preset</Label>
               <Select value={activePreset} onValueChange={handlePresetChange}>
@@ -500,8 +473,8 @@ export default function ThemeGeneratorPage() {
             <Button onClick={() => setExportOpen(true)} fullWidth>
               Export
             </Button>
-          </div>
-        </aside>
+          </SidebarFooter>
+        </Sidebar>
 
         {/* ─── Main ────────────────────────────────────── */}
         <main style={mainStyle}>
