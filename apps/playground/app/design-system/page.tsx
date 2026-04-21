@@ -306,14 +306,14 @@ function Toc({ activeId }: { activeId: string }) {
     <aside style={tocStyle}>
       <div style={tocBrandStyle}>DAMO · UI</div>
       <div style={tocSubStyle}>DESIGN SYSTEM</div>
-      <nav style={tocListStyle}>
+      <nav aria-label="Page sections" style={tocListStyle}>
         {SECTIONS.map((s) => {
           const isActive = s.id === activeId
           return (
             <a
               key={s.id}
               href={`#${s.id}`}
-              aria-current={isActive ? 'location' : undefined}
+              aria-current={isActive ? 'true' : undefined}
               data-active={isActive ? 'true' : undefined}
               style={{ ...tocLinkStyle, ...(isActive ? tocLinkActiveStyle : {}) }}
             >
