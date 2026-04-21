@@ -42,14 +42,21 @@ export const DensitySwitcher = forwardRef<HTMLDivElement, DensitySwitcherProps>(
         className={cn('inline-flex gap-2 items-center', className)}
         {...rest}
       >
-        <span className="eyebrow">Density</span>
-        <div className="inline-flex border-2 border-border-memphis">
+        <span className="eyebrow" id="density-switcher-label">
+          Density
+        </span>
+        <div
+          role="group"
+          aria-labelledby="density-switcher-label"
+          className="inline-flex border-2 border-border-memphis"
+        >
           {options.map((opt) => {
             const isActive = current === opt.value
             return (
               <button
                 key={opt.value}
                 type="button"
+                aria-pressed={isActive}
                 onClick={() => setCurrent(opt.value)}
                 className={cn(
                   'px-3 py-1.5 text-[13px] font-semibold capitalize cursor-pointer border-0',
