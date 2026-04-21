@@ -134,6 +134,12 @@
   --z-toast: 2000;
   --z-tooltip: 3000;
 
+  /* ── Chrome geometry ──────────────────────────────
+   * Page-level sticky elements (side nav, TOC) read this to offset under
+   * the top bar. Update `AppTopBar` CSS if you change these.
+   */
+  --header-height: 56px;
+
   /* ── Density (hook trasversale) ────────────────── */
   --density-scale-y: 1;
   --density-scale-x: 1;

@@ -30,7 +30,8 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
     <header
       ref={ref}
       className={cn(
-        'flex items-center justify-between gap-6 flex-wrap px-6 py-3',
+        'flex items-center justify-between gap-6 flex-wrap px-6',
+        'h-[var(--header-height)] min-h-[var(--header-height)]',
         'border-b-2 border-border-memphis bg-surface text-ink',
         sticky && 'sticky top-0 z-sticky',
         className,
