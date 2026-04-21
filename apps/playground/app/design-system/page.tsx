@@ -10,7 +10,7 @@
  * footer use inline style — every styled surface is a lib component.
  *
  * Layout: 2-column grid
- *   - Left sidebar (240px, plum-900 bg, ivory text): brand block + numbered TOC
+ *   - Left sidebar (300px, surface-2 bg, ink text): lib `Sidebar` with brand block + numbered TOC
  *   - Right main (ivory bg): hero + 11 numbered sections
  */
 
@@ -283,7 +283,7 @@ function useActiveSection(): string {
 
 function Toc({ activeId }: { activeId: string }) {
   return (
-    <Sidebar>
+    <Sidebar aria-label="Design system navigation">
       <SidebarHeader>
         <SidebarBrand>DAMO · UI</SidebarBrand>
         <SidebarSubtitle>DESIGN SYSTEM</SidebarSubtitle>
@@ -1374,8 +1374,7 @@ function PatternsSection() {
             style={{
               width: 64,
               height: 64,
-              background:
-                'repeating-linear-gradient(45deg, var(--ink) 0 3px, transparent 3px 8px)',
+              background: 'repeating-linear-gradient(45deg, var(--ink) 0 3px, transparent 3px 8px)',
             }}
           />
           <MemphisShape variant="blob" size={64} color="var(--success)" />

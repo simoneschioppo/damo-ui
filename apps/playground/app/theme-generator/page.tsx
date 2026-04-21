@@ -56,12 +56,7 @@ import {
 import { useThemeState } from './use-theme-state'
 import { PRESET_LABELS, type PresetName } from './presets'
 import { COLOR_GROUPS, type TypographySizeKey, type RadiusKey } from './theme-state'
-import {
-  buildCssExport,
-  buildFigmaExport,
-  buildJsonExport,
-  buildTailwindExport,
-} from './exporters'
+import { buildCssExport, buildFigmaExport, buildJsonExport, buildTailwindExport } from './exporters'
 
 // ═══════════════════════════════════════════════════════════
 // Layout (inline styles, layout only — no color/border/shadow)
@@ -112,15 +107,7 @@ const preBoxStyle: CSSProperties = {
 type SceneTab = 'gallery' | 'auth' | 'dashboard' | 'profile' | 'feed'
 type ExportTab = 'css' | 'tailwind' | 'json' | 'figma'
 
-const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = [
-  'xs',
-  'sm',
-  'base',
-  'lg',
-  'xl',
-  '2xl',
-  '3xl',
-]
+const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl']
 const RADIUS_KEYS: ReadonlyArray<RadiusKey> = ['none', 'sm', 'md', 'lg', 'pill', 'full']
 const SHADOW_MEMPHIS_KEYS = ['sm', 'md', 'lg', 'hover', 'active'] as const
 const DURATION_KEYS = ['snap', 'fast', 'base', 'slow'] as const
@@ -135,15 +122,8 @@ const EASING_CHOICES: ReadonlyArray<{ value: string; label: string }> = [
 ]
 
 export default function ThemeGeneratorPage() {
-  const {
-    theme,
-    activePreset,
-    updateToken,
-    loadPreset,
-    reset,
-    darkPreview,
-    setDarkPreview,
-  } = useThemeState()
+  const { theme, activePreset, updateToken, loadPreset, reset, darkPreview, setDarkPreview } =
+    useThemeState()
   const [sceneTab, setSceneTab] = useState<SceneTab>('gallery')
   const [exportTab, setExportTab] = useState<ExportTab>('css')
   const [exportOpen, setExportOpen] = useState(false)
@@ -184,266 +164,243 @@ export default function ThemeGeneratorPage() {
     <>
       <div style={pageStyle}>
         {/* ─── Sidebar (DS TOC aesthetic) ──────────────── */}
-        <Sidebar>
+        <Sidebar aria-label="Theme controls">
           <SidebarHeader>
             <SidebarBrand>DAMO · UI</SidebarBrand>
             <SidebarSubtitle>THEME GENERATOR</SidebarSubtitle>
           </SidebarHeader>
           <SidebarBody>
-          <Accordion type="multiple" defaultValue={['colors']}>
-                  {/* Colors */}
-                  <AccordionItem value="colors">
-                    <AccordionTrigger>Colors</AccordionTrigger>
-                    <AccordionContent>
-                      <div style={stackStyle}>
-                        {(Object.keys(COLOR_GROUPS) as Array<keyof typeof COLOR_GROUPS>).map(
-                          (group) => (
-                            <div key={group} style={stackStyle}>
-                              <span className="eyebrow">{group}</span>
-                              {COLOR_GROUPS[group].map((key) => (
-                                <ColorPicker
-                                  key={key}
-                                  id={`cp-${key}`}
-                                  label={key}
-                                  value={theme.colors[key] ?? '#000000'}
-                                  onChange={(next) =>
-                                    updateToken(`colors.${key}`, next)
-                                  }
-                                />
-                              ))}
-                            </div>
-                          ),
-                        )}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  {/* Typography */}
-                  <AccordionItem value="typography">
-                    <AccordionTrigger>Typography</AccordionTrigger>
-                    <AccordionContent>
-                      <div style={stackStyle}>
-                        <div>
-                          <Label htmlFor="tg-font-display">Display</Label>
-                          <Input
-                            id="tg-font-display"
-                            value={theme.typography.fontDisplay}
-                            onChange={(e) =>
-                              updateToken('typography.fontDisplay', e.target.value)
-                            }
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="tg-font-body">Body</Label>
-                          <Input
-                            id="tg-font-body"
-                            value={theme.typography.fontBody}
-                            onChange={(e) =>
-                              updateToken('typography.fontBody', e.target.value)
-                            }
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="tg-font-mono">Mono</Label>
-                          <Input
-                            id="tg-font-mono"
-                            value={theme.typography.fontMono}
-                            onChange={(e) =>
-                              updateToken('typography.fontMono', e.target.value)
-                            }
-                          />
-                        </div>
-                        {SIZE_KEYS.map((k) => (
-                          <div key={k}>
-                            <Label>
-                              {k} · {theme.typography.sizes[k]}px
-                            </Label>
-                            <Slider
-                              value={[theme.typography.sizes[k]]}
-                              min={10}
-                              max={64}
-                              step={1}
-                              onValueChange={(v) => {
-                                const n = v[0]
-                                if (typeof n === 'number') {
-                                  updateToken(`typography.sizes.${k}`, n)
-                                }
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  {/* Radius */}
-                  <AccordionItem value="radius">
-                    <AccordionTrigger>Radius</AccordionTrigger>
-                    <AccordionContent>
-                      <div style={stackStyle}>
-                        {RADIUS_KEYS.map((k) => (
-                          <div key={k}>
-                            <Label>
-                              {k} · {theme.radius[k]}px
-                            </Label>
-                            <Slider
-                              value={[theme.radius[k]]}
-                              min={0}
-                              max={k === 'pill' ? 1000 : 64}
-                              step={1}
-                              onValueChange={(v) => {
-                                const n = v[0]
-                                if (typeof n === 'number') {
-                                  updateToken(`radius.${k}`, n)
-                                }
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  {/* Shadow */}
-                  <AccordionItem value="shadow">
-                    <AccordionTrigger>Shadow</AccordionTrigger>
-                    <AccordionContent>
-                      <div style={stackStyle}>
-                        <span className="eyebrow">Memphis</span>
-                        {SHADOW_MEMPHIS_KEYS.map((k) => (
-                          <div key={k} style={stackStyle}>
-                            <Label>{k}</Label>
-                            <div style={rowStyle}>
-                              <Input
-                                type="number"
-                                aria-label={`${k} offset x`}
-                                value={theme.shadowMemphis[k].x}
-                                onChange={(e) =>
-                                  updateToken(
-                                    `shadowMemphis.${k}.x`,
-                                    Number(e.target.value),
-                                  )
-                                }
-                              />
-                              <Input
-                                type="number"
-                                aria-label={`${k} offset y`}
-                                value={theme.shadowMemphis[k].y}
-                                onChange={(e) =>
-                                  updateToken(
-                                    `shadowMemphis.${k}.y`,
-                                    Number(e.target.value),
-                                  )
-                                }
-                              />
-                            </div>
+            <Accordion type="multiple" defaultValue={['colors']}>
+              {/* Colors */}
+              <AccordionItem value="colors">
+                <AccordionTrigger>Colors</AccordionTrigger>
+                <AccordionContent>
+                  <div style={stackStyle}>
+                    {(Object.keys(COLOR_GROUPS) as Array<keyof typeof COLOR_GROUPS>).map(
+                      (group) => (
+                        <div key={group} style={stackStyle}>
+                          <span className="eyebrow">{group}</span>
+                          {COLOR_GROUPS[group].map((key) => (
                             <ColorPicker
-                              id={`cp-sh-${k}`}
-                              label={`${k} color`}
-                              value={theme.shadowMemphis[k].color}
-                              onChange={(next) =>
-                                updateToken(`shadowMemphis.${k}.color`, next)
-                              }
+                              key={key}
+                              id={`cp-${key}`}
+                              label={key}
+                              value={theme.colors[key] ?? '#000000'}
+                              onChange={(next) => updateToken(`colors.${key}`, next)}
                             />
-                          </div>
-                        ))}
-                        <span className="eyebrow">Soft</span>
-                        {(['sm', 'md', 'lg'] as const).map((k) => (
-                          <div key={k}>
-                            <Label>
-                              {k} opacity · {theme.shadowSoft[k].toFixed(2)}
-                            </Label>
-                            <Slider
-                              value={[Math.round(theme.shadowSoft[k] * 100)]}
-                              min={0}
-                              max={50}
-                              step={1}
-                              onValueChange={(v) => {
-                                const n = v[0]
-                                if (typeof n === 'number') {
-                                  updateToken(`shadowSoft.${k}`, Number((n / 100).toFixed(2)))
-                                }
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                          ))}
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
 
-                  {/* Spacing */}
-                  <AccordionItem value="spacing">
-                    <AccordionTrigger>Spacing</AccordionTrigger>
-                    <AccordionContent>
-                      <div style={stackStyle}>
+              {/* Typography */}
+              <AccordionItem value="typography">
+                <AccordionTrigger>Typography</AccordionTrigger>
+                <AccordionContent>
+                  <div style={stackStyle}>
+                    <div>
+                      <Label htmlFor="tg-font-display">Display</Label>
+                      <Input
+                        id="tg-font-display"
+                        value={theme.typography.fontDisplay}
+                        onChange={(e) => updateToken('typography.fontDisplay', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="tg-font-body">Body</Label>
+                      <Input
+                        id="tg-font-body"
+                        value={theme.typography.fontBody}
+                        onChange={(e) => updateToken('typography.fontBody', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="tg-font-mono">Mono</Label>
+                      <Input
+                        id="tg-font-mono"
+                        value={theme.typography.fontMono}
+                        onChange={(e) => updateToken('typography.fontMono', e.target.value)}
+                      />
+                    </div>
+                    {SIZE_KEYS.map((k) => (
+                      <div key={k}>
                         <Label>
-                          Scale · {theme.spacing.scale.toFixed(2)}×
+                          {k} · {theme.typography.sizes[k]}px
                         </Label>
                         <Slider
-                          value={[Math.round(theme.spacing.scale * 100)]}
-                          min={50}
-                          max={200}
-                          step={5}
+                          value={[theme.typography.sizes[k]]}
+                          min={10}
+                          max={64}
+                          step={1}
                           onValueChange={(v) => {
                             const n = v[0]
                             if (typeof n === 'number') {
-                              updateToken('spacing.scale', Number((n / 100).toFixed(2)))
+                              updateToken(`typography.sizes.${k}`, n)
                             }
                           }}
                         />
                       </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
 
-                  {/* Motion */}
-                  <AccordionItem value="motion">
-                    <AccordionTrigger>Motion</AccordionTrigger>
-                    <AccordionContent>
-                      <div style={stackStyle}>
-                        <span className="eyebrow">Durations (ms)</span>
-                        {DURATION_KEYS.map((k) => (
-                          <div key={k}>
-                            <Label htmlFor={`tg-dur-${k}`}>{k}</Label>
-                            <Input
-                              id={`tg-dur-${k}`}
-                              type="number"
-                              value={theme.motion.durations[k]}
-                              onChange={(e) =>
-                                updateToken(
-                                  `motion.durations.${k}`,
-                                  Number(e.target.value),
-                                )
-                              }
-                            />
-                          </div>
-                        ))}
-                        <span className="eyebrow">Easings</span>
-                        {(['memphis', 'out', 'in-out'] as const).map((k) => (
-                          <div key={k}>
-                            <Label>{k}</Label>
-                            <Select
-                              value={theme.motion.easings[k]}
-                              onValueChange={(v) =>
-                                updateToken(`motion.easings.${k}`, v)
-                              }
-                            >
-                              <SelectTrigger aria-label={`easing ${k}`}>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {EASING_CHOICES.map((opt) => (
-                                  <SelectItem key={opt.value} value={opt.value}>
-                                    {opt.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        ))}
+              {/* Radius */}
+              <AccordionItem value="radius">
+                <AccordionTrigger>Radius</AccordionTrigger>
+                <AccordionContent>
+                  <div style={stackStyle}>
+                    {RADIUS_KEYS.map((k) => (
+                      <div key={k}>
+                        <Label>
+                          {k} · {theme.radius[k]}px
+                        </Label>
+                        <Slider
+                          value={[theme.radius[k]]}
+                          min={0}
+                          max={k === 'pill' ? 1000 : 64}
+                          step={1}
+                          onValueChange={(v) => {
+                            const n = v[0]
+                            if (typeof n === 'number') {
+                              updateToken(`radius.${k}`, n)
+                            }
+                          }}
+                        />
                       </div>
-                    </AccordionContent>
-                  </AccordionItem>
-          </Accordion>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Shadow */}
+              <AccordionItem value="shadow">
+                <AccordionTrigger>Shadow</AccordionTrigger>
+                <AccordionContent>
+                  <div style={stackStyle}>
+                    <span className="eyebrow">Memphis</span>
+                    {SHADOW_MEMPHIS_KEYS.map((k) => (
+                      <div key={k} style={stackStyle}>
+                        <Label>{k}</Label>
+                        <div style={rowStyle}>
+                          <Input
+                            type="number"
+                            aria-label={`${k} offset x`}
+                            value={theme.shadowMemphis[k].x}
+                            onChange={(e) =>
+                              updateToken(`shadowMemphis.${k}.x`, Number(e.target.value))
+                            }
+                          />
+                          <Input
+                            type="number"
+                            aria-label={`${k} offset y`}
+                            value={theme.shadowMemphis[k].y}
+                            onChange={(e) =>
+                              updateToken(`shadowMemphis.${k}.y`, Number(e.target.value))
+                            }
+                          />
+                        </div>
+                        <ColorPicker
+                          id={`cp-sh-${k}`}
+                          label={`${k} color`}
+                          value={theme.shadowMemphis[k].color}
+                          onChange={(next) => updateToken(`shadowMemphis.${k}.color`, next)}
+                        />
+                      </div>
+                    ))}
+                    <span className="eyebrow">Soft</span>
+                    {(['sm', 'md', 'lg'] as const).map((k) => (
+                      <div key={k}>
+                        <Label>
+                          {k} opacity · {theme.shadowSoft[k].toFixed(2)}
+                        </Label>
+                        <Slider
+                          value={[Math.round(theme.shadowSoft[k] * 100)]}
+                          min={0}
+                          max={50}
+                          step={1}
+                          onValueChange={(v) => {
+                            const n = v[0]
+                            if (typeof n === 'number') {
+                              updateToken(`shadowSoft.${k}`, Number((n / 100).toFixed(2)))
+                            }
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Spacing */}
+              <AccordionItem value="spacing">
+                <AccordionTrigger>Spacing</AccordionTrigger>
+                <AccordionContent>
+                  <div style={stackStyle}>
+                    <Label>Scale · {theme.spacing.scale.toFixed(2)}×</Label>
+                    <Slider
+                      value={[Math.round(theme.spacing.scale * 100)]}
+                      min={50}
+                      max={200}
+                      step={5}
+                      onValueChange={(v) => {
+                        const n = v[0]
+                        if (typeof n === 'number') {
+                          updateToken('spacing.scale', Number((n / 100).toFixed(2)))
+                        }
+                      }}
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Motion */}
+              <AccordionItem value="motion">
+                <AccordionTrigger>Motion</AccordionTrigger>
+                <AccordionContent>
+                  <div style={stackStyle}>
+                    <span className="eyebrow">Durations (ms)</span>
+                    {DURATION_KEYS.map((k) => (
+                      <div key={k}>
+                        <Label htmlFor={`tg-dur-${k}`}>{k}</Label>
+                        <Input
+                          id={`tg-dur-${k}`}
+                          type="number"
+                          value={theme.motion.durations[k]}
+                          onChange={(e) =>
+                            updateToken(`motion.durations.${k}`, Number(e.target.value))
+                          }
+                        />
+                      </div>
+                    ))}
+                    <span className="eyebrow">Easings</span>
+                    {(['memphis', 'out', 'in-out'] as const).map((k) => (
+                      <div key={k}>
+                        <Label>{k}</Label>
+                        <Select
+                          value={theme.motion.easings[k]}
+                          onValueChange={(v) => updateToken(`motion.easings.${k}`, v)}
+                        >
+                          <SelectTrigger aria-label={`easing ${k}`}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {EASING_CHOICES.map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </SidebarBody>
 
           <SidebarFooter>
@@ -482,9 +439,8 @@ export default function ThemeGeneratorPage() {
             Theme Generator
           </h1>
           <p style={{ color: 'var(--ink-muted)', margin: '0 0 8px', maxWidth: 680 }}>
-            Componi la tua palette, la tipografia, i radius, le ombre, la spaziatura e il
-            motion. Scegli un preset, usa la preview dark e scarica il tema nel formato
-            che preferisci.
+            Componi la tua palette, la tipografia, i radius, le ombre, la spaziatura e il motion.
+            Scegli un preset, usa la preview dark e scarica il tema nel formato che preferisci.
           </p>
 
           <div style={previewColStyle}>
