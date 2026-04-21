@@ -152,7 +152,9 @@ const tocLinkStyle: CSSProperties = {
   padding: '8px 12px',
   fontSize: 13,
   letterSpacing: '0.02em',
-  borderLeft: '2px solid transparent',
+  borderLeftWidth: 2,
+  borderLeftStyle: 'solid',
+  borderLeftColor: 'transparent',
   display: 'block',
   transition: 'all .15s',
 }
