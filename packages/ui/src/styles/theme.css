@@ -84,4 +84,9 @@
   --z-index-modal: var(--z-modal);
   --z-index-toast: var(--z-toast);
   --z-index-tooltip: var(--z-tooltip);
+
+  /* Density — re-bind Tailwind's foundational spacing unit (Tailwind v4
+   * computes every spacing utility as `calc(--spacing × n)`). A single
+   * override here cascades through every component when [data-density] flips. */
+  --spacing: calc(0.25rem * var(--density-scale-y));
 }
