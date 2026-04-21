@@ -266,5 +266,16 @@ export { usePersistedAttr } from './hooks/use-persisted-attr'
 export { AppShell, type AppShellProps } from './components/app-shell'
 export { AppTopBar, type AppTopBarProps } from './components/app-top-bar'
 export { PageHeader, type PageHeaderProps } from './components/page-header'
+export {
+  Sidebar,
+  SidebarHeader,
+  SidebarBrand,
+  SidebarSubtitle,
+  SidebarBody,
+  SidebarFooter,
+  type SidebarProps,
+  sidebarVariants,
+  type SidebarVariants,
+} from './components/sidebar'
 
 export const __version = '0.1.0'
