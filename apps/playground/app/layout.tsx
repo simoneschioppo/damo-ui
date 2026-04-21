@@ -5,6 +5,7 @@ import {
   AppTopBar,
   ThemeSwitcher,
   PaletteSwitcher,
+  DensitySwitcher,
 } from '@damo/ui'
 import './globals.css'
 
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   { value: 'sunset', label: 'Sunset' },
                 ]}
               />
+              <DensitySwitcher />
             </>
           }
         />

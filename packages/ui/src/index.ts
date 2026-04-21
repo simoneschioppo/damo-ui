@@ -205,6 +205,11 @@ export {
   type PaletteSwitcherProps,
   type PaletteOption,
 } from './components/palette-switcher'
+export {
+  DensitySwitcher,
+  type DensitySwitcherProps,
+  type DensityOption,
+} from './components/density-switcher'
 
 // Data display (Phase 8)
 export {
