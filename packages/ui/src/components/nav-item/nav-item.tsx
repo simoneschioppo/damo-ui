@@ -1,3 +1,5 @@
+'use client'
+
 import { forwardRef, type AnchorHTMLAttributes, type ElementType, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 import { navItemVariants, type NavItemVariants } from './nav-item.variants'
