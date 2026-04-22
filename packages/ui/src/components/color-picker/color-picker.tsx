@@ -1,3 +1,5 @@
+'use client'
+
 import { forwardRef, useId, type CSSProperties } from 'react'
 import { cn } from '../../lib/cn'
 import { Label } from '../label'
