@@ -37,13 +37,12 @@ describe('Medal', () => {
     }
   })
 
-  it('applies memphis border stroke on both polygons', () => {
+  it('applies a thin memphis border stroke only on the outer polygon', () => {
     const { container } = render(<Medal rank="gold" />)
     const polygons = container.querySelectorAll('polygon')
     expect(polygons[0]!.getAttribute('stroke')).toBe('var(--border-memphis)')
-    expect(polygons[0]!.getAttribute('stroke-width')).toBe('2')
-    expect(polygons[1]!.getAttribute('stroke')).toBe('var(--border-memphis)')
-    expect(polygons[1]!.getAttribute('stroke-width')).toBe('1')
+    expect(polygons[0]!.getAttribute('stroke-width')).toBe('0.5')
+    expect(polygons[1]!.getAttribute('stroke')).toBeNull()
   })
 
   it('renders the label as a text node below the medal when provided', () => {
