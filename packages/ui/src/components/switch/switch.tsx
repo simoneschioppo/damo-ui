@@ -1,3 +1,5 @@
+'use client'
+
 import * as SwitchPrimitive from '@radix-ui/react-switch'
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react'
 import { cn } from '../../lib/cn'
