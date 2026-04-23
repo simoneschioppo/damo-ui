@@ -38,7 +38,11 @@ export const Switch = forwardRef<
           'border-2 border-border-memphis',
           'data-[state=checked]:bg-paper-50',
           'translate-x-0.5 transition-transform duration-fast',
-          'data-[state=checked]:translate-x-[30px]',
+          // Checked distance scales with --spacing so thumb lands flush
+          // against the right inner edge at every density (compact/normal/comfy).
+          // Track inner width (w-14 minus 2×2px border) minus thumb (w-5) minus
+          // 2×unchecked offset (0.5*spacing) equals (8.5 * spacing − 4px).
+          'data-[state=checked]:translate-x-[calc(var(--spacing)*8.5-4px)]',
         )}
       />
     </SwitchPrimitive.Root>
