@@ -132,7 +132,11 @@ export const GalleryPreview = forwardRef<HTMLDivElement, GalleryPreviewProps>(
             </div>
             <div className="flex flex-col gap-2">
               <Label>Densità</Label>
-              <SegmentedControl defaultValue="comoda" aria-label="Densità">
+              <SegmentedControl
+                className="self-start"
+                defaultValue="comoda"
+                aria-label="Densità"
+              >
                 <SegmentedControlItem value="compatta">Compatta</SegmentedControlItem>
                 <SegmentedControlItem value="comoda">Comoda</SegmentedControlItem>
                 <SegmentedControlItem value="ampia">Ampia</SegmentedControlItem>
