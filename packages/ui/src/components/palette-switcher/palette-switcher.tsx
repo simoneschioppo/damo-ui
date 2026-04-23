@@ -64,7 +64,7 @@ export const PaletteSwitcher = forwardRef<HTMLDivElement, PaletteSwitcherProps>(
       >
         <span className="eyebrow">Palette</span>
         <Select value={current} onValueChange={setCurrent}>
-          <SelectTrigger className="h-9 w-auto min-w-[9rem] text-[13px] font-semibold">
+          <SelectTrigger className="h-auto w-auto min-w-[9rem] py-1.5 text-[13px] font-semibold">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
