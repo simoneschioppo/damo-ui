@@ -18,12 +18,12 @@ export const SelectTrigger = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex h-10 w-full items-center justify-between gap-2',
-        'px-3 py-2 text-base text-ink',
-        'bg-surface border-2 border-border-memphis rounded-none',
+        'px-3 py-2 text-base text-foreground',
+        'bg-card border-2 border-memphis rounded-none',
         'transition-colors duration-fast cursor-pointer',
-        'hover:bg-surface-2',
-        'data-[placeholder]:text-ink-muted',
-        'focus-visible:outline-none focus-visible:border-accent focus-visible:[--shadow-memphis-color:var(--gold-500)] focus-visible:shadow-memphis',
+        'hover:bg-muted',
+        'data-[placeholder]:text-muted-foreground',
+        'focus-visible:outline-none focus-visible:border-primary focus-visible:[--memphis-shadow-color:var(--primary)] focus-visible:shadow-memphis',
         'disabled:opacity-50 disabled:pointer-events-none',
         className,
       )}
@@ -78,8 +78,8 @@ export const SelectContent = forwardRef<
         position={position}
         className={cn(
           'relative z-dropdown min-w-[8rem] overflow-hidden',
-          'bg-surface text-ink',
-          'border-2 border-border-memphis shadow-memphis rounded-none',
+          'bg-card text-foreground',
+          'border-2 border-memphis shadow-memphis rounded-none',
           position === 'popper' &&
             'data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
           className,
@@ -109,7 +109,7 @@ export const SelectLabel = forwardRef<
     <SelectPrimitive.Label
       ref={ref}
       className={cn(
-        'px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink-muted',
+        'px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground',
         className,
       )}
       {...rest}
@@ -127,7 +127,7 @@ export const SelectItem = forwardRef<
       className={cn(
         'relative flex w-full cursor-pointer select-none items-center',
         'py-1.5 pl-8 pr-2 text-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink',
+        'focus:bg-muted focus:text-foreground',
         'data-[state=checked]:font-semibold',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         className,
