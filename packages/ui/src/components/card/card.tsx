@@ -7,7 +7,7 @@ import { cardVariants, type CardVariants } from './card.variants'
 export interface CardProps extends HTMLAttributes<HTMLDivElement>, CardVariants {}
 
 /**
- * Card — surface container with 5 Memphis variants (default, featured, dashed, chunky, frame).
+ * Card — surface container with 5 variants (default, elevated, featured, interactive, inverse).
  * Compose with CardHeader, CardTitle, CardDescription, CardBody, CardFooter.
  *
  * @example
