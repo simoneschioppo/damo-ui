@@ -81,9 +81,9 @@ export const AllIcons = () => (
           alignItems: 'center',
           gap: 8,
           padding: 16,
-          border: '2px solid var(--border-memphis)',
-          background: 'var(--surface)',
-          color: 'var(--ink)',
+          border: '2px solid var(--memphis-border-color)',
+          background: 'var(--card)',
+          color: 'var(--foreground)',
         }}
       >
         <Cmp size={32} />
@@ -109,9 +109,9 @@ export const Sizes = () => (
 export const Colors = () => (
   <div style={{ display: 'flex', gap: 12, fontSize: 24 }}>
     <CrownIcon size={32} style={{ color: 'var(--gold-500)' }} />
-    <HeartIcon size={32} style={{ color: 'var(--danger)' }} />
+    <HeartIcon size={32} style={{ color: 'var(--destructive)' }} />
     <BoltIcon size={32} style={{ color: 'var(--rage)' }} />
-    <StarIcon size={32} style={{ color: 'var(--accent)' }} />
+    <StarIcon size={32} style={{ color: 'var(--primary)' }} />
     <CheckIcon size={32} style={{ color: 'var(--success)' }} />
   </div>
 )

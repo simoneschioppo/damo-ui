@@ -24,8 +24,8 @@
   }
 
   body {
-    background: var(--bg);
-    color: var(--ink);
+    background: var(--background);
+    color: var(--foreground);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.5;
@@ -74,7 +74,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--primary);
 }
 
 /* ── Scrollbars (Memphis style) ────────────────── */
@@ -88,10 +88,10 @@
 ::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: var(--radius-pill);
-  border: 3px solid var(--bg);
+  border: 3px solid var(--background);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--ink-muted);
+  background: var(--muted-foreground);
 }
 
 /* Skeleton shimmer */
