@@ -38,11 +38,11 @@ describe('ColorScale', () => {
       <ColorScale
         name="Plum"
         token="plum"
-        desc="Ink base for Damacchi"
+        desc="Ink base for Damo UI"
         stops={[{ k: 500 }]}
       />,
     )
-    expect(screen.getByText('Ink base for Damacchi')).toBeInTheDocument()
+    expect(screen.getByText('Ink base for Damo UI')).toBeInTheDocument()
   })
 
   it('renders one stop per entry', () => {

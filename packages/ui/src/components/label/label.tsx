@@ -1,3 +1,5 @@
+'use client'
+
 import { forwardRef, type LabelHTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
 

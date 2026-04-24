@@ -26,7 +26,7 @@ export const Sizes = () => (
 export const WithIcon = () => (
   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
     <Button>
-      <PlayIcon size={18} /> Gioca
+      <PlayIcon size={18} /> Avvia
     </Button>
     <Button variant="ghost">
       Continua <ArrowRightIcon size={18} />

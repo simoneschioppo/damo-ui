@@ -32,7 +32,7 @@ jobs:
         run: pnpm build
 
       - name: Typecheck
-        run: pnpm --filter @damo/ui typecheck && pnpm --filter @damacchi/playground typecheck
+        run: pnpm --filter @damo/ui typecheck && pnpm --filter @damo/playground typecheck
 
       - name: Unit tests
         run: pnpm test
@@ -57,7 +57,7 @@ jobs:
         run: pnpm build
 
       - name: Install Playwright browsers
-        run: pnpm --filter @damacchi/e2e exec playwright install --with-deps chromium webkit
+        run: pnpm --filter @damo/e2e exec playwright install --with-deps chromium webkit
 
       - name: Run e2e
         run: pnpm test:e2e

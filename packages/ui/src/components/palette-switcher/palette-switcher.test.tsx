@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest'
-import { render, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { PaletteSwitcher } from './palette-switcher'
 
 const OPTIONS = [
@@ -13,90 +13,71 @@ describe('PaletteSwitcher', () => {
     localStorage.clear()
     document.documentElement.removeAttribute('data-palette')
     document.documentElement.removeAttribute('data-theme')
+    document.documentElement.removeAttribute('data-colors')
   })
 
-  it('renders a select populated from the provided options', () => {
-    const { container } = render(
-      <PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />,
-    )
-    const select = container.querySelector('select')
-    expect(select).not.toBeNull()
-    const optionEls = select!.querySelectorAll('option')
-    expect(optionEls.length).toBe(3)
-    expect(optionEls[0]!.getAttribute('value')).toBe('plum-gold')
-    expect(optionEls[0]!.textContent).toBe('Plum+Gold')
-    expect(optionEls[1]!.getAttribute('value')).toBe('neon')
-    expect(optionEls[2]!.getAttribute('value')).toBe('sunset')
+  it('renders a combobox trigger showing the current label', () => {
+    render(<PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />)
+    const trigger = screen.getByRole('combobox')
+    expect(trigger.textContent).toContain('Plum+Gold')
   })
 
   it('renders the "Palette" eyebrow label', () => {
-    const { getByText } = render(
-      <PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />,
-    )
-    expect(getByText('Palette')).toBeTruthy()
+    render(<PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />)
+    expect(screen.getByText('Palette')).toBeTruthy()
   })
 
-  it('updates the persisted value and the data-palette attribute on change', () => {
-    const { container } = render(
-      <PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />,
-    )
-    const select = container.querySelector('select') as HTMLSelectElement
-    fireEvent.change(select, { target: { value: 'neon' } })
-    expect(localStorage.getItem('palette')).toBe('neon')
-    expect(document.documentElement.getAttribute('data-palette')).toBe('neon')
+  it('mirrors the current value onto the <html> data attribute', () => {
+    render(<PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />)
+    expect(document.documentElement.getAttribute('data-palette')).toBe('plum-gold')
   })
 
   it('sanitizes an unknown persisted value back to the defaultValue', () => {
     localStorage.setItem('palette', 'some-legacy-palette')
-    const { container } = render(
-      <PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />,
-    )
-    const select = container.querySelector('select') as HTMLSelectElement
-    expect(select.value).toBe('plum-gold')
+    render(<PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />)
+    const trigger = screen.getByRole('combobox')
+    expect(trigger.textContent).toContain('Plum+Gold')
     expect(localStorage.getItem('palette')).toBe('plum-gold')
     expect(document.documentElement.getAttribute('data-palette')).toBe('plum-gold')
   })
 
-  it('defaults defaultValue to the first option when not provided', () => {
-    const { container } = render(<PaletteSwitcher options={OPTIONS} />)
-    const select = container.querySelector('select') as HTMLSelectElement
-    expect(select.value).toBe('plum-gold')
+  it('defaults to the first option when defaultValue is not provided', () => {
+    render(<PaletteSwitcher options={OPTIONS} />)
+    const trigger = screen.getByRole('combobox')
+    expect(trigger.textContent).toContain('Plum+Gold')
+    expect(document.documentElement.getAttribute('data-palette')).toBe('plum-gold')
   })
 
-  it('honors a custom storageKey', () => {
-    const { container } = render(
+  it('writes sanitized values under a custom storageKey', () => {
+    localStorage.setItem('my-palette', 'legacy-value')
+    render(
       <PaletteSwitcher
         options={OPTIONS}
-        defaultValue="plum-gold"
+        defaultValue="sunset"
         storageKey="my-palette"
       />,
     )
-    const select = container.querySelector('select') as HTMLSelectElement
-    fireEvent.change(select, { target: { value: 'sunset' } })
     expect(localStorage.getItem('my-palette')).toBe('sunset')
     expect(localStorage.getItem('palette')).toBeNull()
   })
 
-  it('honors a custom attribute', () => {
-    const { container } = render(
+  it('mirrors the current value onto a custom attribute', () => {
+    render(
       <PaletteSwitcher
         options={OPTIONS}
-        defaultValue="plum-gold"
+        defaultValue="neon"
         attribute="data-colors"
       />,
     )
-    const select = container.querySelector('select') as HTMLSelectElement
-    fireEvent.change(select, { target: { value: 'neon' } })
     expect(document.documentElement.getAttribute('data-colors')).toBe('neon')
+    expect(document.documentElement.getAttribute('data-palette')).toBeNull()
   })
 
   it('reads a valid persisted value on mount', () => {
     localStorage.setItem('palette', 'sunset')
-    const { container } = render(
-      <PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />,
-    )
-    const select = container.querySelector('select') as HTMLSelectElement
-    expect(select.value).toBe('sunset')
+    render(<PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" />)
+    const trigger = screen.getByRole('combobox')
+    expect(trigger.textContent).toContain('Sunset')
     expect(document.documentElement.getAttribute('data-palette')).toBe('sunset')
   })
 

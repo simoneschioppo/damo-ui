@@ -2,24 +2,25 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './
 
 export const Single = () => (
   <div style={{ width: 480 }}>
-    <Accordion type="single" collapsible defaultValue="rules">
-      <AccordionItem value="rules">
-        <AccordionTrigger>Regole base</AccordionTrigger>
+    <Accordion type="single" collapsible defaultValue="install">
+      <AccordionItem value="install">
+        <AccordionTrigger>Installazione</AccordionTrigger>
         <AccordionContent>
-          Damacchi è una dama ibrida che diventa scacchi. Ogni pedina che raggiunge l&apos;ultima
-          riga promuove in un pezzo scacchistico.
+          Installa la libreria con <code>pnpm add @damo/ui</code> e importa i fogli di stile nella
+          root del tuo layout Next.js.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="modes">
-        <AccordionTrigger>Modalità di gioco</AccordionTrigger>
+      <AccordionItem value="theming">
+        <AccordionTrigger>Theming</AccordionTrigger>
         <AccordionContent>
-          Classic 8×8, Classic 10×10, Rage. Ognuna con regole specifiche.
+          Tre switcher via <code>data-*</code>: <code>data-theme</code>, <code>data-palette</code> e{' '}
+          <code>data-density</code>. Ogni token è una CSS variable.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="pieces">
-        <AccordionTrigger>Pezzi e promozione</AccordionTrigger>
+      <AccordionItem value="components">
+        <AccordionTrigger>Componenti</AccordionTrigger>
         <AccordionContent>
-          Cavallo, Alfiere, Torre, Regina. Promozione a esclusione sequenziale.
+          47 componenti divisi in Foundations, Tier 1, Forms, Feedback, Navigation, Data e Layout.
         </AccordionContent>
       </AccordionItem>
     </Accordion>

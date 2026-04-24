@@ -13,12 +13,12 @@ export const Basic = () => (
   <div style={{ width: 220 }}>
     <Select>
       <SelectTrigger>
-        <SelectValue placeholder="Scegli modalità" />
+        <SelectValue placeholder="Scegli tema" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="classic8">Classic 8×8</SelectItem>
-        <SelectItem value="classic10">Classic 10×10</SelectItem>
-        <SelectItem value="rage">Rage</SelectItem>
+        <SelectItem value="light">Light</SelectItem>
+        <SelectItem value="dark">Dark</SelectItem>
+        <SelectItem value="system">System</SelectItem>
       </SelectContent>
     </Select>
   </div>

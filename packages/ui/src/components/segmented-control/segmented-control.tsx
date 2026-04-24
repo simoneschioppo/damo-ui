@@ -1,3 +1,5 @@
+'use client'
+
 import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group'
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react'
 import { cn } from '../../lib/cn'

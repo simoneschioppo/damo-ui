@@ -17,8 +17,8 @@ export const Basic = () => {
       <Button onClick={() => setOpen(true)}>Mostra toast</Button>
       <Toast open={open} onOpenChange={setOpen}>
         <div style={{ flex: 1 }}>
-          <ToastTitle>Partita salvata</ToastTitle>
-          <ToastDescription>Puoi riprenderla dalla dashboard.</ToastDescription>
+          <ToastTitle>Modifiche salvate</ToastTitle>
+          <ToastDescription>Le tue modifiche sono state applicate.</ToastDescription>
         </div>
         <ToastClose />
       </Toast>

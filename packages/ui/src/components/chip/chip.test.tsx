@@ -4,17 +4,17 @@ import { Chip } from './chip'
 
 describe('Chip', () => {
   it('renders without dot by default', () => {
-    const { container } = render(<Chip>Blitz</Chip>)
+    const { container } = render(<Chip>Tag</Chip>)
     const root = container.firstChild as HTMLElement
     expect(root).toBeTruthy()
     // No preceding <span> before the text node
     const innerSpans = root.querySelectorAll('span')
     expect(innerSpans.length).toBe(0)
-    expect(root.textContent).toBe('Blitz')
+    expect(root.textContent).toBe('Tag')
   })
 
   it('renders a dot when dotColor is set', () => {
-    const { container } = render(<Chip dotColor="var(--gold-500)">Blitz</Chip>)
+    const { container } = render(<Chip dotColor="var(--gold-500)">Tag</Chip>)
     const root = container.firstChild as HTMLElement
     const dot = root.querySelector('span[data-chip-dot]') as HTMLElement | null
     expect(dot).not.toBeNull()
@@ -23,7 +23,7 @@ describe('Chip', () => {
   })
 
   it('accepts hex color values for dotColor', () => {
-    const { container } = render(<Chip dotColor="#fff">Blitz</Chip>)
+    const { container } = render(<Chip dotColor="#fff">Tag</Chip>)
     const dot = container.querySelector('span[data-chip-dot]') as HTMLElement
     expect(dot).toBeTruthy()
     // jsdom normalises "#fff" → "rgb(255, 255, 255)"
@@ -44,7 +44,7 @@ describe('Chip', () => {
   })
 
   it('uses memphis border color for dot when inactive', () => {
-    const { container } = render(<Chip dotColor="var(--plum-500)">Classico</Chip>)
+    const { container } = render(<Chip dotColor="var(--plum-500)">Primary</Chip>)
     const dot = container.querySelector('span[data-chip-dot]') as HTMLElement
     expect(dot.style.borderColor).toContain('var(--border-memphis)')
   })
@@ -73,9 +73,9 @@ describe('Chip', () => {
   })
 
   it('forwards children alongside the dot', () => {
-    const { container } = render(<Chip dotColor="var(--success)">Damacchi</Chip>)
+    const { container } = render(<Chip dotColor="var(--success)">Component</Chip>)
     const root = container.firstChild as HTMLElement
-    expect(root.textContent).toBe('Damacchi')
+    expect(root.textContent).toBe('Component')
     expect(root.querySelector('span[data-chip-dot]')).toBeTruthy()
   })
 })

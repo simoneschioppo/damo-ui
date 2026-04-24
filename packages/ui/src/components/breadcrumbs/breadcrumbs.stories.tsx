@@ -15,16 +15,16 @@ export const WithIcon = () => (
       <HomeIcon size={14} style={{ marginRight: 4 }} />
       Home
     </BreadcrumbItem>
-    <BreadcrumbItem href="#">Partite</BreadcrumbItem>
-    <BreadcrumbItem current>Classic 8×8</BreadcrumbItem>
+    <BreadcrumbItem href="#">Componenti</BreadcrumbItem>
+    <BreadcrumbItem current>Button</BreadcrumbItem>
   </Breadcrumbs>
 )
 
 export const CustomSeparator = () => (
   <Breadcrumbs separator={<span aria-hidden>›</span>}>
     <BreadcrumbItem href="#">Home</BreadcrumbItem>
-    <BreadcrumbItem href="#">Shop</BreadcrumbItem>
-    <BreadcrumbItem current>Set Gelo</BreadcrumbItem>
+    <BreadcrumbItem href="#">Library</BreadcrumbItem>
+    <BreadcrumbItem current>Foundations</BreadcrumbItem>
   </Breadcrumbs>
 )
 
