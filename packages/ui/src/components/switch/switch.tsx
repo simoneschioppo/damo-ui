@@ -10,7 +10,7 @@ import { cn } from '../../lib/cn'
  * OFF: square plum knob on the left (dark), ivory track.
  * ON:  ivory square knob on the right, gold track.
  *
- * Matches the Damacchi Design System spec: no pill track, thick black border,
+ * Matches the Damo UI design system spec: no pill track, thick black border,
  * knob is a square (not a circle) with a physical-click feel.
  */
 export const Switch = forwardRef<

@@ -25,6 +25,6 @@ All notable changes to this project will be documented in this file.
 
 ### Infrastructure
 
-- Published on GitHub Packages (`@damacchi` scope).
+- Published on GitHub Packages (`@damo` scope).
 - TypeScript strict, ESLint flat config, Prettier.
 - tsup build (ESM + .d.ts + sourcemaps).

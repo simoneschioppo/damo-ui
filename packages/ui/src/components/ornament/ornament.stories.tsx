@@ -10,9 +10,9 @@ const text = {
 
 export const Default = () => (
   <div style={{ width: 420 }}>
-    <p style={text}>Damacchi</p>
+    <p style={text}>Damo UI</p>
     <Ornament />
-    <p style={text}>Il gioco</p>
+    <p style={text}>Design System</p>
   </div>
 )
 

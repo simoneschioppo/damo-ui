@@ -17,20 +17,21 @@ export const Basic = () => (
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Conferma la partita</DialogTitle>
+        <DialogTitle>Conferma azione</DialogTitle>
         <DialogDescription>
-          Stai per iniziare una nuova partita di Damacchi in modalità classic 8×8.
+          Stai per salvare le modifiche correnti al tema. Puoi sempre ripristinare il preset
+          iniziale con Reset.
         </DialogDescription>
       </DialogHeader>
       <div style={{ fontSize: 14 }}>
-        La partita verrà salvata automaticamente. Puoi abbandonare in qualsiasi momento.
+        Il tema verrà esportato come CSS variables e Tailwind preset.
       </div>
       <DialogFooter>
         <DialogClose asChild>
           <Button variant="ghost">Annulla</Button>
         </DialogClose>
         <DialogClose asChild>
-          <Button variant="accent">Inizia</Button>
+          <Button variant="accent">Conferma</Button>
         </DialogClose>
       </DialogFooter>
     </DialogContent>
@@ -49,7 +50,7 @@ export const NoCloseButton = () => (
       </DialogHeader>
       <DialogFooter>
         <DialogClose asChild>
-          <Button variant="danger">Rinuncia</Button>
+          <Button variant="danger">Annulla</Button>
         </DialogClose>
         <DialogClose asChild>
           <Button>Continua</Button>
@@ -62,27 +63,28 @@ export const NoCloseButton = () => (
 export const LongContent = () => (
   <Dialog>
     <DialogTrigger asChild>
-      <Button>Termini di gioco</Button>
+      <Button>Leggi la documentazione</Button>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Termini di gioco</DialogTitle>
-        <DialogDescription>Leggi attentamente prima di iniziare.</DialogDescription>
+        <DialogTitle>Guida introduttiva</DialogTitle>
+        <DialogDescription>Panoramica della libreria Damo UI.</DialogDescription>
       </DialogHeader>
       <div style={{ fontSize: 14, lineHeight: 1.6, maxHeight: 300, overflow: 'auto' }}>
         <p>
-          Damacchi è un ibrido tra dama e scacchi. Le regole base prevedono cattura obbligatoria,
-          promozione a esclusione sequenziale, cooldown di 1 turno sui pezzi scacchistici, e
-          condizioni di vittoria per eliminazione o stallo.
+          Damo UI è una libreria React e Next.js di ispirazione Memphis. Include 47 componenti,
+          30+ icone, un sistema di token CSS-first e tre switcher runtime per tema, palette e
+          densità.
         </p>
         <p>
-          La pedina reale, se catturata, fa perdere la partita immediatamente. Nelle modalità
-          avanzate esiste il Final Round, attivo quando il numero di pezzi scende sotto una certa
-          soglia.
+          Ogni componente è tipizzato con TypeScript strict, testato con Vitest per le unit e con
+          Playwright per i flussi end-to-end. Gli stili viaggiano come CSS variables, quindi il
+          tema cambia live senza rebuild.
         </p>
         <p>
-          La modalità Rage disattiva la promozione sequenziale e sostituisce la promozione con
-          sacrificio: il giocatore sceglie quale pezzo evocare pagando in pedine proprie.
+          Il Theme Generator in questa playground permette di comporre palette, tipografia,
+          radius, shadow, spacing e motion, e di esportare il risultato come CSS, Tailwind preset,
+          JSON flat o Figma Tokens Studio.
         </p>
       </div>
       <DialogFooter>

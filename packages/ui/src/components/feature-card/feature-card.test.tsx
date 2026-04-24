@@ -5,7 +5,7 @@ import { FeatureCard } from './feature-card'
 describe('FeatureCard', () => {
   it('renders the title uppercased in the display font', () => {
     const { getByText } = render(
-      <FeatureCard title="CLASSICO" desc="Scacchi ortodossi" />,
+      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
     )
     const heading = getByText('CLASSICO')
     expect(heading).toBeTruthy()
@@ -15,21 +15,21 @@ describe('FeatureCard', () => {
 
   it('renders the description', () => {
     const { getByText } = render(
-      <FeatureCard title="CLASSICO" desc="Scacchi ortodossi" />,
+      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
     )
-    expect(getByText('Scacchi ortodossi')).toBeTruthy()
+    expect(getByText('Esempio descrizione')).toBeTruthy()
   })
 
   it('renders the meta when provided', () => {
     const { getByText } = render(
-      <FeatureCard title="CLASSICO" desc="Scacchi ortodossi" meta="15+10" />,
+      <FeatureCard title="CLASSICO" desc="Esempio descrizione" meta="15+10" />,
     )
     expect(getByText('15+10')).toBeTruthy()
   })
 
   it('does not render a meta node when meta not provided', () => {
     const { queryByTestId } = render(
-      <FeatureCard title="CLASSICO" desc="Scacchi ortodossi" />,
+      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
     )
     expect(queryByTestId('feature-card-meta')).toBeNull()
   })
@@ -38,7 +38,7 @@ describe('FeatureCard', () => {
     const { getByTestId } = render(
       <FeatureCard
         title="CLASSICO"
-        desc="Scacchi ortodossi"
+        desc="Esempio descrizione"
         icon={<span data-testid="feature-icon">→</span>}
       />,
     )
@@ -47,7 +47,7 @@ describe('FeatureCard', () => {
 
   it('applies Memphis frame + gold shadow on the root', () => {
     const { container } = render(
-      <FeatureCard title="CLASSICO" desc="Scacchi ortodossi" />,
+      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
     )
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
@@ -57,7 +57,7 @@ describe('FeatureCard', () => {
 
   it('has a fixed width of 280px via inline style', () => {
     const { container } = render(
-      <FeatureCard title="CLASSICO" desc="Scacchi ortodossi" />,
+      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
     )
     const root = container.firstChild as HTMLElement
     expect(root.style.width).toBe('280px')
@@ -65,7 +65,7 @@ describe('FeatureCard', () => {
 
   it('uses the gold-500 CSS var for the shadow', () => {
     const { container } = render(
-      <FeatureCard title="CLASSICO" desc="Scacchi ortodossi" />,
+      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
     )
     const root = container.firstChild as HTMLElement
     expect(root.style.boxShadow).toContain('var(--gold-500)')
@@ -73,7 +73,7 @@ describe('FeatureCard', () => {
 
   it('forwards className', () => {
     const { container } = render(
-      <FeatureCard title="CLASSICO" desc="Scacchi ortodossi" className="extra-feature" />,
+      <FeatureCard title="CLASSICO" desc="Esempio descrizione" className="extra-feature" />,
     )
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('extra-feature')
