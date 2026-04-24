@@ -13,7 +13,7 @@ export const Table = forwardRef<HTMLTableElement, HTMLAttributes<HTMLTableElemen
   ref,
 ) {
   return (
-    <div className="w-full overflow-x-auto border-2 border-border-memphis">
+    <div className="w-full overflow-x-auto border-2 border-memphis">
       <table ref={ref} className={cn('w-full caption-bottom text-sm', className)} {...rest} />
     </div>
   )
@@ -27,8 +27,8 @@ export const TableHeader = forwardRef<
     <thead
       ref={ref}
       className={cn(
-        'bg-plum-900 text-paper-50',
-        '[&_tr]:border-b [&_tr]:border-border-memphis',
+        'bg-foreground text-background',
+        '[&_tr]:border-b [&_tr]:border-memphis',
         className,
       )}
       {...rest}
@@ -50,7 +50,7 @@ export const TableFooter = forwardRef<
   return (
     <tfoot
       ref={ref}
-      className={cn('bg-surface-2 font-semibold border-t-2 border-border-memphis', className)}
+      className={cn('bg-muted font-semibold border-t-2 border-memphis', className)}
       {...rest}
     />
   )
@@ -63,8 +63,8 @@ export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTable
         ref={ref}
         className={cn(
           'border-b border-border transition-colors',
-          'hover:bg-surface-2',
-          'data-[state=selected]:bg-surface-2',
+          'hover:bg-muted',
+          'data-[state=selected]:bg-muted',
           className,
         )}
         {...rest}
@@ -99,5 +99,5 @@ export const TableCaption = forwardRef<
   HTMLTableCaptionElement,
   HTMLAttributes<HTMLTableCaptionElement>
 >(function TableCaption({ className, ...rest }, ref) {
-  return <caption ref={ref} className={cn('mt-3 text-sm text-ink-muted', className)} {...rest} />
+  return <caption ref={ref} className={cn('mt-3 text-sm text-muted-foreground', className)} {...rest} />
 })
