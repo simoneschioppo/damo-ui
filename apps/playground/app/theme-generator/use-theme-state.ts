@@ -1,19 +1,12 @@
 'use client'
 
-/**
- * useThemeState — reducer-backed hook for the theme generator page.
- *
- * Responsibilities:
- * - Hold the current `Theme`, the active preset label, and the dark-preview flag.
- * - Expose a generic `updateToken(path, value)` for any nested token.
- * - Apply changes to `document.documentElement` as CSS custom properties
- *   so the preview updates instantly. Resets on unmount to avoid polluting
- *   the rest of the playground.
- */
-
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
+import { useCallback, useReducer, useEffect, useState } from 'react'
 import {
+  DEFAULT_THEME,
   type Theme,
+  type SemanticTheme,
+  type RawPalette,
+  type MedalRank,
   type TypographySizeKey,
   type RadiusKey,
   type ShadowMemphisKey,
@@ -21,304 +14,263 @@ import {
   type MotionEasingKey,
   SPACING_BASE_PX,
 } from './theme-state'
-import { PRESETS, type PresetName } from './presets'
-
-export type ActivePreset = PresetName | 'custom'
-
-interface State {
-  theme: Theme
-  activePreset: ActivePreset
-}
+import { type PresetName, applyPreset } from './presets'
 
 type Action =
-  | { type: 'update'; path: string; value: string | number }
-  | { type: 'load-preset'; preset: PresetName }
-  | { type: 'reset' }
+  | { type: 'SET_PRESET'; preset: PresetName }
+  | { type: 'SET_PALETTE_STEP'; group: 'plum' | 'gold' | 'paper'; step: string; value: string }
+  | { type: 'SET_SEMANTIC'; mode: 'light' | 'dark'; key: keyof SemanticTheme; value: string }
+  | { type: 'SET_MEDAL'; rank: MedalRank; slot: 'outer' | 'inner' | 'text'; value: string }
+  | { type: 'SET_CHART'; index: '1' | '2' | '3' | '4' | '5'; value: string }
+  | { type: 'SET_NAV_ON_DARK'; key: 'accent' | 'accentStrong' | 'foreground' | 'foregroundStrong'; value: string }
+  | { type: 'SET_TYPOGRAPHY_FONT'; slot: 'display' | 'body' | 'mono'; value: string }
+  | { type: 'SET_TYPOGRAPHY_SIZE'; key: TypographySizeKey; value: number }
+  | { type: 'SET_RADIUS'; key: RadiusKey; value: number }
+  | { type: 'SET_SHADOW_MEMPHIS'; key: ShadowMemphisKey; slot: 'x' | 'y' | 'color'; value: number | string }
+  | { type: 'SET_SHADOW_SOFT'; key: 'sm' | 'md' | 'lg'; value: number }
+  | { type: 'SET_SPACING_SCALE'; value: number }
+  | { type: 'SET_DURATION'; key: MotionDurationKey; value: number }
+  | { type: 'SET_EASING'; key: MotionEasingKey; value: string }
+  | { type: 'RESET' }
 
-/**
- * Internal mutable mirror of Theme used only inside the reducer.
- * The public API keeps the readonly surface intact.
- */
-interface MutableTheme {
-  colors: Record<string, string>
-  typography: {
-    fontDisplay: string
-    fontBody: string
-    fontMono: string
-    sizes: Record<TypographySizeKey, number>
-  }
-  radius: Record<RadiusKey, number>
-  shadowMemphis: Record<ShadowMemphisKey, { x: number; y: number; color: string }>
-  shadowSoft: { sm: number; md: number; lg: number }
-  spacing: { scale: number }
-  motion: {
-    durations: Record<MotionDurationKey, number>
-    easings: Record<MotionEasingKey, string>
-  }
-}
-
-const clone = (theme: Theme): MutableTheme => ({
-  colors: { ...theme.colors },
-  typography: {
-    fontDisplay: theme.typography.fontDisplay,
-    fontBody: theme.typography.fontBody,
-    fontMono: theme.typography.fontMono,
-    sizes: { ...theme.typography.sizes },
-  },
-  radius: { ...theme.radius },
-  shadowMemphis: {
-    sm: { ...theme.shadowMemphis.sm },
-    md: { ...theme.shadowMemphis.md },
-    lg: { ...theme.shadowMemphis.lg },
-    hover: { ...theme.shadowMemphis.hover },
-    active: { ...theme.shadowMemphis.active },
-  },
-  shadowSoft: { ...theme.shadowSoft },
-  spacing: { ...theme.spacing },
-  motion: {
-    durations: { ...theme.motion.durations },
-    easings: { ...theme.motion.easings },
-  },
-})
-
-/**
- * Apply a dot-path update to the theme, returning a new object.
- * Silently ignores unknown paths rather than throwing in the UI thread.
- */
-function applyUpdate(theme: Theme, path: string, value: string | number): Theme {
-  const [group, a, b] = path.split('.')
-  const next = clone(theme)
-
-  switch (group) {
-    case 'colors':
-      if (a && typeof value === 'string') next.colors[a] = value
-      return next
-    case 'typography':
-      if (a === 'fontDisplay' && typeof value === 'string') next.typography.fontDisplay = value
-      else if (a === 'fontBody' && typeof value === 'string') next.typography.fontBody = value
-      else if (a === 'fontMono' && typeof value === 'string') next.typography.fontMono = value
-      else if (a === 'sizes' && b && typeof value === 'number') {
-        next.typography.sizes[b as TypographySizeKey] = value
-      }
-      return next
-    case 'radius':
-      if (a && typeof value === 'number') next.radius[a as RadiusKey] = value
-      return next
-    case 'shadowMemphis':
-      if (a && b) {
-        const key = a as ShadowMemphisKey
-        if (b === 'x' && typeof value === 'number') next.shadowMemphis[key].x = value
-        else if (b === 'y' && typeof value === 'number') next.shadowMemphis[key].y = value
-        else if (b === 'color' && typeof value === 'string') next.shadowMemphis[key].color = value
-      }
-      return next
-    case 'shadowSoft':
-      if ((a === 'sm' || a === 'md' || a === 'lg') && typeof value === 'number') {
-        next.shadowSoft[a] = value
-      }
-      return next
-    case 'spacing':
-      if (a === 'scale' && typeof value === 'number') next.spacing.scale = value
-      return next
-    case 'motion':
-      if (a === 'durations' && b && typeof value === 'number') {
-        next.motion.durations[b as MotionDurationKey] = value
-      } else if (a === 'easings' && b && typeof value === 'string') {
-        next.motion.easings[b as MotionEasingKey] = value
-      }
-      return next
-    default:
-      return next
-  }
-}
-
-function reducer(state: State, action: Action): State {
+function reducer(state: Theme, action: Action): Theme {
   switch (action.type) {
-    case 'update':
+    case 'SET_PRESET':
+      return applyPreset(state, action.preset)
+
+    case 'SET_PALETTE_STEP': {
+      const group = state.palette[action.group] as Readonly<Record<string, string>>
       return {
-        theme: applyUpdate(state.theme, action.path, action.value),
-        activePreset: 'custom',
+        ...state,
+        palette: {
+          ...state.palette,
+          [action.group]: { ...group, [action.step]: action.value },
+        } as RawPalette,
       }
-    case 'load-preset':
-      return { theme: PRESETS[action.preset], activePreset: action.preset }
-    case 'reset': {
-      const target = state.activePreset === 'custom' ? 'plum-gold' : state.activePreset
-      return { theme: PRESETS[target], activePreset: target }
     }
+
+    case 'SET_SEMANTIC':
+      return {
+        ...state,
+        semantic: {
+          ...state.semantic,
+          [action.mode]: { ...state.semantic[action.mode], [action.key]: action.value },
+        },
+      }
+
+    case 'SET_MEDAL':
+      return {
+        ...state,
+        identity: {
+          ...state.identity,
+          medals: {
+            ...state.identity.medals,
+            [action.rank]: { ...state.identity.medals[action.rank], [action.slot]: action.value },
+          },
+        },
+      }
+
+    case 'SET_CHART':
+      return {
+        ...state,
+        identity: {
+          ...state.identity,
+          charts: { ...state.identity.charts, [action.index]: action.value },
+        },
+      }
+
+    case 'SET_NAV_ON_DARK':
+      return {
+        ...state,
+        identity: {
+          ...state.identity,
+          navOnDark: { ...state.identity.navOnDark, [action.key]: action.value },
+        },
+      }
+
+    case 'SET_TYPOGRAPHY_FONT':
+      return {
+        ...state,
+        typography: {
+          ...state.typography,
+          [action.slot === 'display' ? 'fontDisplay' :
+           action.slot === 'body' ? 'fontBody' : 'fontMono']: action.value,
+        },
+      }
+
+    case 'SET_TYPOGRAPHY_SIZE':
+      return {
+        ...state,
+        typography: {
+          ...state.typography,
+          sizes: { ...state.typography.sizes, [action.key]: action.value },
+        },
+      }
+
+    case 'SET_RADIUS':
+      return { ...state, radius: { ...state.radius, [action.key]: action.value } }
+
+    case 'SET_SHADOW_MEMPHIS':
+      return {
+        ...state,
+        shadowMemphis: {
+          ...state.shadowMemphis,
+          [action.key]: { ...state.shadowMemphis[action.key], [action.slot]: action.value },
+        },
+      }
+
+    case 'SET_SHADOW_SOFT':
+      return {
+        ...state,
+        shadowSoft: { ...state.shadowSoft, [action.key]: action.value },
+      }
+
+    case 'SET_SPACING_SCALE':
+      return { ...state, spacing: { scale: action.value } }
+
+    case 'SET_DURATION':
+      return {
+        ...state,
+        motion: {
+          ...state.motion,
+          durations: { ...state.motion.durations, [action.key]: action.value },
+        },
+      }
+
+    case 'SET_EASING':
+      return {
+        ...state,
+        motion: {
+          ...state.motion,
+          easings: { ...state.motion.easings, [action.key]: action.value },
+        },
+      }
+
+    case 'RESET':
+      return DEFAULT_THEME
+
     default:
       return state
   }
 }
 
 /**
- * Collect every CSS var name written by {@link applyThemeToRoot}.
- * Kept in sync with the list below — if you add a property there,
- * add it here too so unmount cleanup stays complete.
+ * Write theme values to :root and :root[data-theme='dark'] so the live
+ * preview updates. Uses the passed `previewMode` to decide which
+ * semantic set is active on :root (so changing the preview toggle flips
+ * the visible styling without waiting for a re-render cycle).
  */
-export const MANAGED_CSS_VARS: ReadonlyArray<string> = (() => {
-  const names: string[] = []
-  // Colors — every key in DEFAULT_THEME.colors is always present.
-  Object.keys(PRESETS['plum-gold'].colors).forEach((k) => names.push(`--${k}`))
-
-  names.push('--font-display', '--font-body', '--font-mono')
-  ;(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'] as const).forEach((k) =>
-    names.push(k === 'base' ? '--text-base' : `--text-${k}`),
-  )
-
-  ;(['none', 'sm', 'md', 'lg', 'pill', 'full'] as const).forEach((k) =>
-    names.push(`--radius-${k}`),
-  )
-
-  names.push(
-    '--shadow-memphis-color',
-    '--shadow-memphis-sm',
-    '--shadow-memphis',
-    '--shadow-memphis-lg',
-    '--shadow-memphis-hover',
-    '--shadow-memphis-active',
-    '--shadow-sm',
-    '--shadow-md',
-    '--shadow-lg',
-  )
-
-  SPACING_BASE_PX.forEach(([name]) => names.push(`--${name}`))
-
-  ;(['snap', 'fast', 'base', 'slow'] as const).forEach((k) => names.push(`--duration-${k}`))
-  ;(['memphis', 'out', 'in-out'] as const).forEach((k) => names.push(`--ease-${k}`))
-  return names
-})()
-
-const radiusToCss = (key: RadiusKey, value: number): string => {
-  if (key === 'pill') return '999px'
-  if (key === 'full') return '50%'
-  if (value === 0) return '0'
-  return `${value}px`
-}
-
-// Semantic tokens are derived from the palette via CSS rules in tokens.css /
-// themes.css (e.g. `--bg: var(--plum-900)` under `[data-theme='dark']`). Writing
-// them inline on `:root` would clobber the dark-mode cascade, so we skip them
-// here — the user can still edit them live on the preview container only.
-const SEMANTIC_COLOR_KEYS = new Set([
-  'bg',
-  'surface',
-  'surface-2',
-  'ink',
-  'ink-soft',
-  'ink-muted',
-  'border-memphis',
-  'accent',
-  'ring',
-  'success',
-  'danger',
-  'warning',
-  'rage',
-  'info',
-])
-
-export function applyThemeToRoot(theme: Theme): void {
+function applyThemeToRoot(theme: Theme, previewMode: 'light' | 'dark'): void {
   if (typeof document === 'undefined') return
   const root = document.documentElement
-  const set = (name: string, value: string) => root.style.setProperty(name, value)
 
-  Object.entries(theme.colors).forEach(([k, v]) => {
-    if (SEMANTIC_COLOR_KEYS.has(k)) return
-    set(`--${k}`, v)
+  const setVar = (name: string, value: string | number): void => {
+    root.style.setProperty(name, String(value))
+  }
+  const toKebab = (s: string): string => s.replace(/([A-Z])/g, '-$1').toLowerCase()
+
+  // Layer 1 — raw palette
+  for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
+    setVar(`--plum-${step}`, theme.palette.plum[step])
+  }
+  for (const step of ['100', '200', '300', '400', '500'] as const) {
+    setVar(`--gold-${step}`, theme.palette.gold[step])
+  }
+  for (const step of ['50', '100', '200', '300'] as const) {
+    setVar(`--paper-${step}`, theme.palette.paper[step])
+  }
+
+  // Layer 2 — semantic (apply the preview mode)
+  const active = previewMode === 'dark' ? theme.semantic.dark : theme.semantic.light
+  Object.entries(active).forEach(([k, v]) => {
+    setVar(`--${toKebab(k)}`, v as string)
   })
 
-  set('--font-display', theme.typography.fontDisplay)
-  set('--font-body', theme.typography.fontBody)
-  set('--font-mono', theme.typography.fontMono)
+  // Layer 3 — identity (theme-agnostic)
+  const ranks: ReadonlyArray<MedalRank> = ['bronze', 'silver', 'gold', 'master', 'grandmaster']
+  ranks.forEach((rank) => {
+    setVar(`--medal-${rank}-outer`, theme.identity.medals[rank].outer)
+    setVar(`--medal-${rank}-inner`, theme.identity.medals[rank].inner)
+    setVar(`--medal-${rank}-text`, theme.identity.medals[rank].text)
+  })
+  ;(['1', '2', '3', '4', '5'] as const).forEach((k) => {
+    setVar(`--chart-${k}`, theme.identity.charts[k])
+  })
+  setVar(`--nav-on-dark-accent`, theme.identity.navOnDark.accent)
+  setVar(`--nav-on-dark-accent-strong`, theme.identity.navOnDark.accentStrong)
+  setVar(`--nav-on-dark-foreground`, theme.identity.navOnDark.foreground)
+  setVar(`--nav-on-dark-foreground-strong`, theme.identity.navOnDark.foregroundStrong)
+
+  // Typography, radius, shadow, spacing, motion — same as before but
+  // referencing the new shape
+  setVar('--font-display', theme.typography.fontDisplay)
+  setVar('--font-body', theme.typography.fontBody)
+  setVar('--font-mono', theme.typography.fontMono)
   ;(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'] as const).forEach((k) => {
-    const cssKey = k === 'base' ? '--text-base' : `--text-${k}`
-    set(cssKey, `${theme.typography.sizes[k]}px`)
+    setVar(k === 'base' ? '--text-base' : `--text-${k}`, `${theme.typography.sizes[k]}px`)
   })
-
   ;(['none', 'sm', 'md', 'lg', 'pill', 'full'] as const).forEach((k) => {
-    set(`--radius-${k}`, radiusToCss(k, theme.radius[k]))
+    const v = theme.radius[k]
+    const css = k === 'pill' ? '999px' : k === 'full' ? '50%' : v === 0 ? '0' : `${v}px`
+    setVar(`--radius-${k}`, css)
   })
-
-  set('--shadow-memphis-color', theme.shadowMemphis.md.color)
   ;(['sm', 'md', 'lg', 'hover', 'active'] as const).forEach((k) => {
     const s = theme.shadowMemphis[k]
-    const cssKey = k === 'md' ? '--shadow-memphis' : `--shadow-memphis-${k}`
-    set(cssKey, `${s.x}px ${s.y}px 0 ${s.color}`)
+    const cssName = k === 'md' ? '--shadow-memphis' : `--shadow-memphis-${k}`
+    setVar(cssName, `${s.x}px ${s.y}px 0 ${s.color}`)
   })
-  set('--shadow-sm', `0 1px 2px rgba(0, 0, 0, ${theme.shadowSoft.sm})`)
-  set('--shadow-md', `0 2px 8px rgba(0, 0, 0, ${theme.shadowSoft.md})`)
-  set('--shadow-lg', `0 8px 24px rgba(0, 0, 0, ${theme.shadowSoft.lg})`)
-
-  SPACING_BASE_PX.forEach(([name, px]) => {
-    set(`--${name}`, `${Math.round(px * theme.spacing.scale)}px`)
+  SPACING_BASE_PX.forEach(([k, px]) => {
+    setVar(`--${k}`, `${px * theme.spacing.scale}px`)
   })
-
   ;(['snap', 'fast', 'base', 'slow'] as const).forEach((k) => {
-    set(`--duration-${k}`, `${theme.motion.durations[k]}ms`)
+    setVar(`--duration-${k}`, `${theme.motion.durations[k]}ms`)
   })
   ;(['memphis', 'out', 'in-out'] as const).forEach((k) => {
-    set(`--ease-${k}`, theme.motion.easings[k])
+    setVar(`--ease-${k}`, theme.motion.easings[k])
   })
-}
-
-export function resetRootTheme(): void {
-  if (typeof document === 'undefined') return
-  const root = document.documentElement
-  MANAGED_CSS_VARS.forEach((name) => root.style.removeProperty(name))
-}
-
-export interface UseThemeStateReturn {
-  theme: Theme
-  activePreset: ActivePreset
-  updateToken: (path: string, value: string | number) => void
-  loadPreset: (name: PresetName) => void
-  reset: () => void
-  darkPreview: boolean
-  setDarkPreview: (v: boolean) => void
 }
 
 /**
- * Reducer-backed theme state + imperative DOM sync.
- *
- * Starts from the Plum+Gold preset and cleans up on unmount.
+ * Build a legacy `colors` map from the three-layer theme for backward
+ * compatibility with page.tsx until it is rewritten in Task 23.
+ * @deprecated Removed in Task 23.
  */
-export function useThemeState(): UseThemeStateReturn {
-  const [state, dispatch] = useReducer(reducer, {
-    theme: PRESETS['plum-gold'],
-    activePreset: 'plum-gold',
-  })
-  const [darkPreview, setDarkPreview] = useState(false)
+function buildLegacyColors(theme: Theme): Record<string, string> {
+  const { plum, gold, paper } = theme.palette
+  const s = theme.semantic.light
+  return {
+    'plum-100': plum['100'], 'plum-300': plum['300'], 'plum-500': plum['500'],
+    'plum-700': plum['700'], 'plum-800': plum['800'], 'plum-900': plum['900'],
+    'gold-100': gold['100'], 'gold-200': gold['200'], 'gold-300': gold['300'],
+    'gold-400': gold['400'], 'gold-500': gold['500'],
+    'paper-50': paper['50'], 'paper-100': paper['100'],
+    'paper-200': paper['200'], 'paper-300': paper['300'],
+    bg: s.background, surface: s.card, 'surface-2': s.muted,
+    ink: s.foreground, 'ink-soft': s.mutedForeground, 'ink-muted': s.mutedForeground,
+    'border-memphis': s.memphisBorderColor,
+    accent: s.primary, ring: s.ring,
+    success: s.success, danger: s.destructive, warning: s.warning,
+    rage: s.rage, info: s.info,
+  }
+}
 
-  // Sync the theme to :root on every change. Cleanup runs on unmount.
+export function useThemeState() {
+  const [theme, dispatch] = useReducer(reducer, DEFAULT_THEME)
+
+  // The generator previews light or dark independently of the rest of the app.
+  const [previewMode, setPreviewMode] = useState<'light' | 'dark'>('light')
+
+  const applyLive = useCallback(() => {
+    applyThemeToRoot(theme, previewMode)
+  }, [theme, previewMode])
+
   useEffect(() => {
-    applyThemeToRoot(state.theme)
-  }, [state.theme])
+    applyLive()
+  }, [applyLive])
 
-  useEffect(() => {
-    return () => {
-      resetRootTheme()
-    }
-  }, [])
+  // Attach legacy `colors` shim so page.tsx (rewritten in Task 23) can still
+  // render without crashing during the transient state.
+  const themeWithLegacy = { ...theme, colors: buildLegacyColors(theme) } as Theme & { colors: Record<string, string> }
 
-  const updateToken = useCallback((path: string, value: string | number) => {
-    dispatch({ type: 'update', path, value })
-  }, [])
-  const loadPreset = useCallback((name: PresetName) => {
-    dispatch({ type: 'load-preset', preset: name })
-  }, [])
-  const reset = useCallback(() => {
-    dispatch({ type: 'reset' })
-  }, [])
-
-  return useMemo(
-    () => ({
-      theme: state.theme,
-      activePreset: state.activePreset,
-      updateToken,
-      loadPreset,
-      reset,
-      darkPreview,
-      setDarkPreview,
-    }),
-    [state.theme, state.activePreset, updateToken, loadPreset, reset, darkPreview],
-  )
+  return { theme: themeWithLegacy, dispatch, previewMode, setPreviewMode }
 }
