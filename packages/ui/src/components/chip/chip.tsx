@@ -12,7 +12,7 @@ export interface ChipProps extends HTMLAttributes<HTMLSpanElement>, ChipVariants
   dotColor?: string
   /**
    * When true, swaps the base surface to the active look:
-   * `bg-gold-500 text-white border-border-memphis`. If a `dotColor`
+   * `bg-primary text-primary-foreground border-memphis`. If a `dotColor`
    * is also set, the dot border flips to white for contrast.
    */
   active?: boolean
@@ -44,7 +44,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(function Chip(
       ref={ref}
       className={cn(
         chipVariants({ variant, size }),
-        active && 'bg-gold-500 text-white border-border-memphis',
+        active && 'bg-primary text-primary-foreground border-memphis',
         className,
       )}
       {...rest}
