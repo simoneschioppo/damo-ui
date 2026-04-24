@@ -1,3 +1,5 @@
+'use client'
+
 import { forwardRef, type HTMLAttributes, type ReactNode, useState } from 'react'
 import { cn } from '../../lib/cn'
 import { bannerVariants, type BannerVariants } from './banner.variants'

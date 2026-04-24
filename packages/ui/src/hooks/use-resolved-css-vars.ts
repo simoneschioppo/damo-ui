@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 
 // Resolve CSS custom properties at runtime. Re-reads whenever <html>

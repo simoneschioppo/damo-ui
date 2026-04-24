@@ -1,3 +1,5 @@
+'use client'
+
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react'
 import { cn } from '../../lib/cn'

@@ -47,8 +47,8 @@ test.describe('Design System — lib-first refactor smoke', () => {
     await expect(page).toHaveURL(/\/design-system$/)
   })
 
-  test('sidebar shows DAMACCHI brand block', async ({ page }) => {
-    await expect(page.getByText('DAMACCHI', { exact: true }).first()).toBeVisible()
+  test('sidebar shows DAMO · UI brand block', async ({ page }) => {
+    await expect(page.getByText('DAMO · UI').first()).toBeVisible()
   })
 
   test('all 11 sections are anchor-reachable (#colors → #figma)', async ({ page }) => {

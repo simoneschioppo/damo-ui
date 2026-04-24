@@ -101,6 +101,7 @@ const preset: Partial<Config> = {
         base: 'var(--z-base)',
         dropdown: 'var(--z-dropdown)',
         sticky: 'var(--z-sticky)',
+        header: 'var(--z-header)',
         overlay: 'var(--z-overlay)',
         modal: 'var(--z-modal)',
         toast: 'var(--z-toast)',

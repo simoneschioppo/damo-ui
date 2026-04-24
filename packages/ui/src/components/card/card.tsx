@@ -1,3 +1,5 @@
+'use client'
+
 import { forwardRef, type HTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
 import { cardVariants, type CardVariants } from './card.variants'

@@ -14,13 +14,13 @@ import { Button } from '../button/button'
 export const Default = () => (
   <AlertDialog>
     <AlertDialogTrigger asChild>
-      <Button>Termina partita</Button>
+      <Button>Ripristina default</Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Terminare la partita?</AlertDialogTitle>
+        <AlertDialogTitle>Ripristinare i default?</AlertDialogTitle>
         <AlertDialogDescription>
-          La partita in corso verrà abbandonata e contata come sconfitta.
+          Tutte le modifiche al tema corrente andranno perse e verrà ricaricato il preset iniziale.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
@@ -44,12 +44,12 @@ export const Danger = () => (
       <AlertDialogHeader>
         <AlertDialogTitle>Eliminare il profilo?</AlertDialogTitle>
         <AlertDialogDescription>
-          Questa azione è irreversibile. Perderai ELO, classifica, partite salvate e set sbloccati.
+          Questa azione è irreversibile. Perderai preferenze, cronologia e temi salvati.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel asChild>
-          <Button variant="ghost">Tieni il profilo</Button>
+          <Button variant="ghost">Annulla</Button>
         </AlertDialogCancel>
         <AlertDialogAction asChild>
           <Button variant="danger">Elimina</Button>

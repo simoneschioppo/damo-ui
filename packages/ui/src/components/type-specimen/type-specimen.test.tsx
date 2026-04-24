@@ -7,7 +7,7 @@ describe('TypeSpecimen', () => {
     render(
       <TypeSpecimen
         name="Display / Audiowide"
-        sample="Damacchi"
+        sample="Damo UI"
         fontFamily="var(--font-display)"
       />,
     )
@@ -18,22 +18,22 @@ describe('TypeSpecimen', () => {
     render(
       <TypeSpecimen
         name="Display / Audiowide"
-        sample="Damacchi · Cavallo e pedona"
+        sample="Damo UI · token e componenti"
         fontFamily="var(--font-display)"
       />,
     )
-    expect(screen.getByText('Damacchi · Cavallo e pedona')).toBeInTheDocument()
+    expect(screen.getByText('Damo UI · token e componenti')).toBeInTheDocument()
   })
 
   it('applies the target fontFamily inline on the sample element', () => {
     render(
       <TypeSpecimen
         name="Display / Audiowide"
-        sample="Damacchi"
+        sample="Damo UI"
         fontFamily="var(--font-display)"
       />,
     )
-    const sample = screen.getByText('Damacchi')
+    const sample = screen.getByText('Damo UI')
     const styleAttr = sample.getAttribute('style') ?? ''
     expect(styleAttr).toContain('font-family')
     expect(styleAttr).toContain('--font-display')

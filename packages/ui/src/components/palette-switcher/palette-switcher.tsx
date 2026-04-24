@@ -3,6 +3,13 @@
 import { forwardRef, useEffect, useMemo, type HTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
 import { usePersistedAttr } from '../../hooks/use-persisted-attr'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '../select/select'
 
 export interface PaletteOption {
   value: string
@@ -21,8 +28,8 @@ export interface PaletteSwitcherProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * PaletteSwitcher — `<select>` that toggles an HTML data attribute and
- * persists the value in localStorage. Sanitizes unknown persisted values
+ * PaletteSwitcher — design-system Select that toggles an HTML data attribute
+ * and persists the value in localStorage. Sanitizes unknown persisted values
  * back to `defaultValue` so the dropdown never shows a stale option.
  */
 export const PaletteSwitcher = forwardRef<HTMLDivElement, PaletteSwitcherProps>(
@@ -45,9 +52,6 @@ export const PaletteSwitcher = forwardRef<HTMLDivElement, PaletteSwitcherProps>(
 
     const [current, setCurrent] = usePersistedAttr<string>(storageKey, attribute, fallback)
 
-    // Sanitize: migrate legacy / unknown values (stored before the caller's
-    // option set was known) back to the fallback so the <select> never shows
-    // a value that isn't part of the current option set.
     useEffect(() => {
       if (!validValues.has(current)) setCurrent(fallback)
     }, [current, fallback, validValues, setCurrent])
@@ -59,20 +63,18 @@ export const PaletteSwitcher = forwardRef<HTMLDivElement, PaletteSwitcherProps>(
         {...rest}
       >
         <span className="eyebrow">Palette</span>
-        <select
-          value={current}
-          onChange={(e) => setCurrent(e.target.value)}
-          className={cn(
-            'px-2.5 py-1.5 text-[13px] font-semibold cursor-pointer',
-            'border-2 border-border-memphis bg-surface text-ink',
-          )}
-        >
-          {options.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
+        <Select value={current} onValueChange={setCurrent}>
+          <SelectTrigger className="h-auto w-auto min-w-[9rem] py-1.5 text-[13px] font-semibold">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {options.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     )
   },

@@ -1,3 +1,5 @@
+'use client'
+
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
@@ -18,11 +20,32 @@ export interface MedalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
 
 const DEFAULT_SIZE = 96
 
-// Octagon point coordinates on a 64x64 viewBox — ported from the reference
-// MedalSvg (apps/playground/app/design-system/page.tsx). The viewBox is held
-// constant and `size` scales width/height so proportions remain identical.
-const OUTER_POINTS = '32,4 54,14 58,38 42,58 22,58 6,38 10,14'
-const INNER_POINTS = '32,14 48,20 50,36 40,50 24,50 14,36 16,20'
+// Heptagon vertices on a 64x64 viewBox centered at (32, 32).
+// INNER_SCALE controls border thickness: inner polygon is OUTER scaled toward
+// the center. Higher = thinner border (closer to the outer edge).
+const CENTER = 32
+const INNER_SCALE = 0.85
+
+const OUTER_COORDS: ReadonlyArray<readonly [number, number]> = [
+  [32, 4],
+  [54, 14],
+  [58, 38],
+  [42, 58],
+  [22, 58],
+  [6, 38],
+  [10, 14],
+]
+
+const toPoints = (coords: ReadonlyArray<readonly [number, number]>) =>
+  coords.map(([x, y]) => `${x},${y}`).join(' ')
+
+const OUTER_POINTS = toPoints(OUTER_COORDS)
+const INNER_POINTS = toPoints(
+  OUTER_COORDS.map(([x, y]) => [
+    CENTER + (x - CENTER) * INNER_SCALE,
+    CENTER + (y - CENTER) * INNER_SCALE,
+  ]),
+)
 
 export const Medal = forwardRef<HTMLDivElement, MedalProps>(function Medal(
   { rank, label, value, size = DEFAULT_SIZE, className, ...rest },
@@ -49,14 +72,9 @@ export const Medal = forwardRef<HTMLDivElement, MedalProps>(function Medal(
           points={OUTER_POINTS}
           fill={outerFill}
           stroke="var(--border-memphis)"
-          strokeWidth="2"
+          strokeWidth="0.5"
         />
-        <polygon
-          points={INNER_POINTS}
-          fill={innerFill}
-          stroke="var(--border-memphis)"
-          strokeWidth="1"
-        />
+        <polygon points={INNER_POINTS} fill={innerFill} />
         {value !== undefined && value !== null && (
           <text
             x="32"
