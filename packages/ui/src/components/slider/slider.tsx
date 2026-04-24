@@ -21,17 +21,17 @@ export const Slider = forwardRef<
     >
       <SliderPrimitive.Track
         className={cn(
-          'relative grow overflow-hidden bg-surface',
-          'border-2 border-border-memphis',
+          'relative grow overflow-hidden bg-card',
+          'border-2 border-memphis',
           'data-[orientation=horizontal]:h-3 data-[orientation=horizontal]:w-full',
           'data-[orientation=vertical]:w-3 data-[orientation=vertical]:h-full',
         )}
       >
-        <SliderPrimitive.Range className="absolute bg-gold-500 data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full" />
+        <SliderPrimitive.Range className="absolute bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full" />
       </SliderPrimitive.Track>
       <SliderPrimitive.Thumb
         className={cn(
-          'block h-5 w-5 bg-paper-50 border-2 border-border-memphis',
+          'block h-5 w-5 bg-background border-2 border-memphis',
           'cursor-grab active:cursor-grabbing',
           'transition-[transform,box-shadow] duration-snap ease-memphis',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
