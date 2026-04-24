@@ -35,8 +35,8 @@ export const AppShell = forwardRef<HTMLDivElement, AppShellProps>(function AppSh
         className={cn(
           'sticky top-0 h-screen flex flex-col gap-1 p-4',
           sidebarTone === 'onDark'
-            ? 'bg-plum-900 text-paper-50'
-            : 'bg-surface text-ink border-r border-border',
+            ? 'bg-foreground text-background'
+            : 'bg-card text-foreground border-r border-border',
         )}
       >
         {sidebar}
