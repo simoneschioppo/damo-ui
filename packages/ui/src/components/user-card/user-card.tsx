@@ -30,7 +30,7 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
       ref={ref}
       className={cn(
         'flex items-center gap-[14px] w-full p-4',
-        'border-2 border-border-memphis bg-surface',
+        'border-2 border-memphis bg-card',
         className,
       )}
       style={{ boxShadow: '4px 4px 0 var(--border-memphis)' }}
@@ -39,14 +39,14 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
       {avatar ? (
         <div
           data-slot="avatar"
-          className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-full border-2 border-border-memphis bg-plum-900 text-paper-50"
+          className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-full border-2 border-memphis bg-foreground text-background"
         >
           {avatar}
         </div>
       ) : (
         <div
           data-slot="avatar"
-          className="shrink-0 grid place-items-center w-12 h-12 rounded-full border-2 border-border-memphis bg-plum-900 text-paper-50 font-display font-bold"
+          className="shrink-0 grid place-items-center w-12 h-12 rounded-full border-2 border-memphis bg-foreground text-background font-display font-bold"
           style={{ fontSize: 20 }}
         >
           {initial}
@@ -55,7 +55,7 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
       <div className="flex-1 min-w-0">
         <div
           data-slot="name"
-          className="font-bold text-ink"
+          className="font-bold text-card-foreground"
           style={{ fontSize: 15 }}
         >
           {name}
@@ -63,7 +63,7 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
         {meta !== undefined && meta !== null && (
           <div
             data-slot="meta"
-            className="font-mono uppercase text-ink-muted mt-0.5"
+            className="font-mono uppercase text-muted-foreground mt-0.5"
             style={{ fontSize: 11, letterSpacing: '0.08em' }}
           >
             {meta}
