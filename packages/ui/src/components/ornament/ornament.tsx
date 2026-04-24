@@ -22,7 +22,7 @@ export const Ornament = forwardRef<HTMLDivElement, OrnamentProps>(function Ornam
       ref={ref}
       role="separator"
       aria-hidden="true"
-      className={cn('flex items-center gap-3 text-accent', className)}
+      className={cn('flex items-center gap-3 text-primary', className)}
       {...rest}
     >
       <span
@@ -30,7 +30,7 @@ export const Ornament = forwardRef<HTMLDivElement, OrnamentProps>(function Ornam
         style={{
           flex: 1,
           height: 1,
-          background: 'linear-gradient(90deg, transparent, var(--accent-strong), transparent)',
+          background: 'linear-gradient(90deg, transparent, var(--primary), transparent)',
         }}
       />
       <span style={{ flexShrink: 0, display: 'grid', placeItems: 'center' }}>
@@ -41,7 +41,7 @@ export const Ornament = forwardRef<HTMLDivElement, OrnamentProps>(function Ornam
         style={{
           flex: 1,
           height: 1,
-          background: 'linear-gradient(90deg, transparent, var(--accent-strong), transparent)',
+          background: 'linear-gradient(90deg, transparent, var(--primary), transparent)',
         }}
       />
     </div>

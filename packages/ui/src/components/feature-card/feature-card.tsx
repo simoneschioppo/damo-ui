@@ -25,7 +25,7 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
     <div
       ref={ref}
       className={cn(
-        'p-5 border-2 border-border-memphis bg-surface',
+        'p-5 border-2 border-memphis bg-card',
         className,
       )}
       style={{ width: '280px', boxShadow: '4px 4px 0 var(--primary)' }}
@@ -33,14 +33,14 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
     >
       <h4
         data-slot="title"
-        className="font-display uppercase text-ink m-0"
+        className="font-display uppercase text-foreground m-0"
         style={{ fontSize: 24, letterSpacing: '0.02em', marginBottom: 8 }}
       >
         {title}
       </h4>
       <p
         data-slot="desc"
-        className="text-ink-muted m-0"
+        className="text-muted-foreground m-0"
         style={{ fontSize: 13, lineHeight: 1.4, marginBottom: 24 }}
       >
         {desc}
@@ -51,7 +51,7 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
             <span
               data-testid="feature-card-meta"
               data-slot="meta"
-              className="font-mono font-bold text-ink-muted uppercase"
+              className="font-mono font-bold text-muted-foreground uppercase"
               style={{ fontSize: 12, letterSpacing: '0.08em' }}
             >
               {meta}
@@ -60,7 +60,7 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
             <span />
           )}
           {icon && (
-            <span data-slot="icon" className="text-ink-muted inline-flex items-center">
+            <span data-slot="icon" className="text-muted-foreground inline-flex items-center">
               {icon}
             </span>
           )}

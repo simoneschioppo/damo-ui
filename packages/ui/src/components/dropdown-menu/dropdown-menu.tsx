@@ -95,7 +95,7 @@ export const DropdownMenuRadioItem = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center',
         'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink',
+        'focus:bg-muted focus:text-foreground',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         className,
       )}

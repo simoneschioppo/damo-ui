@@ -26,15 +26,15 @@ export const ShowcaseCard = forwardRef<HTMLDivElement, ShowcaseCardProps>(functi
       ref={ref}
       className={cn('p-7 relative', className)}
       style={{
-        background: 'var(--surface)',
-        border: '2px solid var(--border-memphis)',
+        background: 'var(--card)',
+        border: '2px solid var(--memphis-border-color)',
         boxShadow: '4px 4px 0 var(--memphis-shadow-color)',
         ...style,
       }}
       {...rest}
     >
       {label ? (
-        <div className="font-mono text-[11px] tracking-[0.22em] uppercase text-accent mb-4 font-bold block">
+        <div className="font-mono text-[11px] tracking-[0.22em] uppercase text-primary mb-4 font-bold block">
           {label}
         </div>
       ) : null}

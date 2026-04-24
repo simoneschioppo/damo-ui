@@ -28,7 +28,7 @@ export const ToastViewport = forwardRef<
 const toastVariants = cva(
   [
     'group pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden',
-    'p-4 border-2 border-border-memphis shadow-memphis rounded-none',
+    'p-4 border-2 border-memphis shadow-memphis rounded-none',
     'data-[state=open]:animate-in data-[state=open]:slide-in-from-top-full sm:data-[state=open]:slide-in-from-bottom-full',
     'data-[state=closed]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full',
     'data-[swipe=move]:transition-none data-[swipe=cancel]:translate-x-0',
@@ -37,13 +37,13 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-surface text-ink',
+        default: 'bg-card text-foreground',
         success:
-          'bg-[color-mix(in_oklab,var(--success)_12%,var(--surface))] text-ink [--shadow-memphis-color:var(--success)]',
+          'bg-[color-mix(in_oklab,var(--success)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--success)]',
         warning:
-          'bg-[color-mix(in_oklab,var(--warning)_12%,var(--surface))] text-ink [--shadow-memphis-color:var(--warning)]',
+          'bg-[color-mix(in_oklab,var(--warning)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--warning)]',
         danger:
-          'bg-[color-mix(in_oklab,var(--danger)_12%,var(--surface))] text-ink [--shadow-memphis-color:var(--danger)]',
+          'bg-[color-mix(in_oklab,var(--destructive)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--destructive)]',
       },
     },
     defaultVariants: { variant: 'default' },
@@ -88,7 +88,7 @@ export const ToastDescription = forwardRef<
   return (
     <ToastPrimitive.Description
       ref={ref}
-      className={cn('mt-1 text-sm text-ink-soft', className)}
+      className={cn('mt-1 text-sm text-muted-foreground', className)}
       {...rest}
     />
   )
@@ -103,8 +103,8 @@ export const ToastAction = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex h-8 shrink-0 items-center justify-center px-3 text-xs font-semibold',
-        'border-2 border-border-memphis bg-surface cursor-pointer',
-        'hover:bg-surface-2',
+        'border-2 border-memphis bg-card cursor-pointer',
+        'hover:bg-muted',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         className,
       )}
@@ -123,7 +123,7 @@ export const ToastClose = forwardRef<
       aria-label="Chiudi"
       className={cn(
         'shrink-0 inline-flex h-8 w-8 items-center justify-center',
-        'text-ink-muted hover:text-ink cursor-pointer',
+        'text-muted-foreground hover:text-foreground cursor-pointer',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         className,
       )}

@@ -31,7 +31,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(function Br
               <li
                 role="presentation"
                 aria-hidden="true"
-                className="text-ink-muted inline-flex items-center"
+                className="text-muted-foreground inline-flex items-center"
               >
                 {sep}
               </li>
@@ -55,7 +55,7 @@ export const BreadcrumbItem = forwardRef<HTMLSpanElement, BreadcrumbItemProps>(
         <span
           ref={ref}
           aria-current="page"
-          className={cn('text-ink font-semibold', className)}
+          className={cn('text-foreground font-semibold', className)}
           {...rest}
         >
           {children}
@@ -67,7 +67,7 @@ export const BreadcrumbItem = forwardRef<HTMLSpanElement, BreadcrumbItemProps>(
         ref={ref as unknown as React.Ref<HTMLAnchorElement>}
         href={href}
         className={cn(
-          'text-ink-muted hover:text-ink hover:underline underline-offset-2',
+          'text-muted-foreground hover:text-foreground hover:underline underline-offset-2',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           className,
         )}

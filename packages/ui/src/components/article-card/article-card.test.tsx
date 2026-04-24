@@ -60,8 +60,8 @@ describe('ArticleCard', () => {
     )
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
-    expect(root.className).toContain('border-border-memphis')
-    expect(root.className).toContain('bg-surface')
+    expect(root.className).toContain('border-memphis')
+    expect(root.className).toContain('bg-card')
   })
 
   it('caps the maxWidth to 420px via inline style', () => {

@@ -71,7 +71,7 @@ export const Medal = forwardRef<HTMLDivElement, MedalProps>(function Medal(
         <polygon
           points={OUTER_POINTS}
           fill={outerFill}
-          stroke="var(--border-memphis)"
+          stroke="var(--memphis-border-color)"
           strokeWidth="0.5"
         />
         <polygon points={INNER_POINTS} fill={innerFill} />
@@ -90,7 +90,7 @@ export const Medal = forwardRef<HTMLDivElement, MedalProps>(function Medal(
         )}
       </svg>
       {label && (
-        <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ink-muted">
+        <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
       )}
