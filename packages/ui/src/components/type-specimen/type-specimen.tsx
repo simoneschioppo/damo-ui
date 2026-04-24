@@ -42,7 +42,7 @@ export const TypeSpecimen = forwardRef<HTMLDivElement, TypeSpecimenProps>(functi
       style={{
         background: 'var(--surface)',
         border: '2px solid var(--border-memphis)',
-        boxShadow: '6px 6px 0 var(--black)',
+        boxShadow: '6px 6px 0 var(--memphis-shadow-color)',
         ...style,
       }}
       {...rest}

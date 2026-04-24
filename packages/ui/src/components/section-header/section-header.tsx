@@ -17,8 +17,8 @@ export interface SectionHeaderProps extends Omit<HTMLAttributes<HTMLElement>, 't
 // Layout: flex-wrap row with a mono `num` eyebrow, a large display h2, and a
 // description paragraph that wraps onto its own line (flex-basis:100%).
 //
-// The gold accent color on `num` goes through inline style because Tailwind
-// doesn't expose the raw `var(--gold-500)` token as a text color utility.
+// The eyebrow color on `num` goes through inline style because it uses
+// var(--primary) directly as an explicit primary accent regardless of theme context.
 export const SectionHeader = forwardRef<HTMLElement, SectionHeaderProps>(function SectionHeader(
   { num, title, desc, className, ...rest },
   ref,
@@ -31,7 +31,7 @@ export const SectionHeader = forwardRef<HTMLElement, SectionHeaderProps>(functio
     >
       <span
         className="font-mono text-sm font-bold tracking-[0.1em]"
-        style={{ color: 'var(--gold-500)' }}
+        style={{ color: 'var(--primary)' }}
       >
         {num}
       </span>
