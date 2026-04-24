@@ -230,30 +230,6 @@ function applyThemeToRoot(theme: Theme, previewMode: 'light' | 'dark'): void {
   })
 }
 
-/**
- * Build a legacy `colors` map from the three-layer theme for backward
- * compatibility with page.tsx until it is rewritten in Task 23.
- * @deprecated Removed in Task 23.
- */
-function buildLegacyColors(theme: Theme): Record<string, string> {
-  const { plum, gold, paper } = theme.palette
-  const s = theme.semantic.light
-  return {
-    'plum-100': plum['100'], 'plum-300': plum['300'], 'plum-500': plum['500'],
-    'plum-700': plum['700'], 'plum-800': plum['800'], 'plum-900': plum['900'],
-    'gold-100': gold['100'], 'gold-200': gold['200'], 'gold-300': gold['300'],
-    'gold-400': gold['400'], 'gold-500': gold['500'],
-    'paper-50': paper['50'], 'paper-100': paper['100'],
-    'paper-200': paper['200'], 'paper-300': paper['300'],
-    bg: s.background, surface: s.card, 'surface-2': s.muted,
-    ink: s.foreground, 'ink-soft': s.mutedForeground, 'ink-muted': s.mutedForeground,
-    'border-memphis': s.memphisBorderColor,
-    accent: s.primary, ring: s.ring,
-    success: s.success, danger: s.destructive, warning: s.warning,
-    rage: s.rage, info: s.info,
-  }
-}
-
 export function useThemeState() {
   const [theme, dispatch] = useReducer(reducer, DEFAULT_THEME)
 
@@ -268,9 +244,5 @@ export function useThemeState() {
     applyLive()
   }, [applyLive])
 
-  // Attach legacy `colors` shim so page.tsx (rewritten in Task 23) can still
-  // render without crashing during the transient state.
-  const themeWithLegacy = { ...theme, colors: buildLegacyColors(theme) } as Theme & { colors: Record<string, string> }
-
-  return { theme: themeWithLegacy, dispatch, previewMode, setPreviewMode }
+  return { theme, dispatch, previewMode, setPreviewMode }
 }
