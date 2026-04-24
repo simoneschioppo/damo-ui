@@ -26,9 +26,9 @@ export const RadioGroupItem = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex items-center justify-center shrink-0',
-        'h-5 w-5 rounded-full border-2 border-border-memphis bg-surface',
+        'h-5 w-5 rounded-full border-2 border-memphis bg-card',
         'transition-colors duration-fast cursor-pointer',
-        'hover:bg-surface-2',
+        'hover:bg-muted',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         'disabled:opacity-50 disabled:pointer-events-none',
         className,
@@ -36,7 +36,7 @@ export const RadioGroupItem = forwardRef<
       {...rest}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-        <span className="block h-2.5 w-2.5 rounded-full bg-plum-900" />
+        <span className="block h-2.5 w-2.5 rounded-full bg-foreground" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )
