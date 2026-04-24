@@ -30,7 +30,7 @@ const DEFAULT_SAMPLE_SIZE = 28
 // and an optional meta table showing each scale entry's label/size/weight.
 //
 // The Memphis frame (2px border + 6px shadow) lives in inline style so the
-// `--border-memphis` and `--black` tokens resolve correctly across themes.
+// `--memphis-border-color` and `--memphis-shadow-color` tokens resolve correctly across themes.
 export const TypeSpecimen = forwardRef<HTMLDivElement, TypeSpecimenProps>(function TypeSpecimen(
   { name, sample, fontFamily, sampleSize = DEFAULT_SAMPLE_SIZE, scale, className, style, ...rest },
   ref,

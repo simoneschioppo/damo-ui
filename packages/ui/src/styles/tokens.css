@@ -32,23 +32,13 @@
 
   /* ── Status ────────────────────────────────────── */
   --success: #4f8a3c;
-  --danger: #a13a2c;
   --warning: #8a6326;
   --rage: #c94a2f;
   --info: var(--plum-500);
 
-  /* ── Semantic aliases (componenti leggono questi) ─ */
-  --bg: var(--paper-50);
-  --surface: var(--white);
-  --surface-2: var(--paper-100);
-  --ink: var(--plum-900);
-  --ink-soft: var(--plum-700);
-  --ink-muted: var(--plum-300);
+  /* ── Chrome primitives ─────────────────────────── */
   --border: color-mix(in oklab, var(--plum-900) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--plum-900) 22%, transparent);
-  --border-memphis: var(--black);
-  --accent: var(--gold-500);
-  --accent-strong: var(--gold-400);
   --ring: var(--gold-500);
 
   /* ── Medal ranks (sezione 08 design-system) ──────── */
@@ -103,12 +93,11 @@
   /* ── Shadow: memphis (tier 1 signature) ───────── */
   /* Pure-black offset shadow — when button overlays, only the bottom+right strip
    * peeks out, producing the signature L-shape Memphis corner. */
-  --shadow-memphis-color: var(--black);
-  --shadow-memphis-sm: 3px 3px 0 var(--shadow-memphis-color);
-  --shadow-memphis: 6px 6px 0 var(--shadow-memphis-color);
-  --shadow-memphis-lg: 9px 9px 0 var(--shadow-memphis-color);
-  --shadow-memphis-hover: 7px 7px 0 var(--shadow-memphis-color);
-  --shadow-memphis-active: 2px 2px 0 var(--shadow-memphis-color);
+  --shadow-memphis-sm: 3px 3px 0 var(--memphis-shadow-color);
+  --shadow-memphis: 6px 6px 0 var(--memphis-shadow-color);
+  --shadow-memphis-lg: 9px 9px 0 var(--memphis-shadow-color);
+  --shadow-memphis-hover: 7px 7px 0 var(--memphis-shadow-color);
+  --shadow-memphis-active: 2px 2px 0 var(--memphis-shadow-color);
 
   /* ── Spacing (4px grid) ────────────────────────── */
   --space-0: 0;

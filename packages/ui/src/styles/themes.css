@@ -6,9 +6,9 @@
  */
 
 /* ════════════════════════════════════════════════════════════════
- * New semantic layer (shadcn-style, paired bg↔fg)
- * Added alongside the legacy semantic vars until component migration
- * completes. See docs/specs/2026-04-24-theme-architecture-refactor-design.md
+ * Semantic layer (shadcn-style, paired bg↔fg)
+ * Single canonical token taxonomy — legacy aliases removed in Task 24.
+ * See docs/specs/2026-04-24-theme-architecture-refactor-design.md
  * ════════════════════════════════════════════════════════════════ */
 
 :root,
@@ -28,8 +28,8 @@
   --primary-foreground: var(--white);
   --secondary: var(--plum-500);
   --secondary-foreground: var(--paper-50);
-  --accent-new: var(--gold-100);
-  --accent-new-foreground: var(--plum-900);
+  --accent: var(--gold-100);
+  --accent-foreground: var(--plum-900);
   --destructive: #a13a2c;
   --destructive-foreground: var(--paper-50);
 
@@ -61,18 +61,10 @@
 
 /* ── Dark theme (riassegna semantici, palette resta) ── */
 :root[data-theme='dark'] {
-  --bg: var(--plum-900);
-  --surface: var(--plum-800);
-  --surface-2: var(--plum-700);
-  --ink: var(--paper-50);
-  --ink-soft: var(--paper-100);
-  --ink-muted: var(--plum-300);
   --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
-  --border-memphis: var(--paper-50);
-  --shadow-memphis-color: var(--paper-50);
 
-  /* New semantic layer — dark values */
+  /* Semantic layer — dark values */
   --background: var(--plum-900);
   --foreground: var(--paper-50);
   --card: var(--plum-800);
@@ -86,8 +78,8 @@
   --primary-foreground: var(--plum-900);
   --secondary: var(--plum-500);
   --secondary-foreground: var(--paper-50);
-  --accent-new: var(--plum-700);
-  --accent-new-foreground: var(--gold-200);
+  --accent: var(--plum-700);
+  --accent-foreground: var(--gold-200);
   --destructive: #c94a2f;
   --destructive-foreground: var(--paper-50);
 
@@ -123,18 +115,10 @@
  * generator can swap light/dark without changing the root theme.
  */
 [data-theme-preview='dark'] {
-  --bg: var(--plum-900);
-  --surface: var(--plum-800);
-  --surface-2: var(--plum-700);
-  --ink: var(--paper-50);
-  --ink-soft: var(--paper-100);
-  --ink-muted: var(--plum-300);
   --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
-  --border-memphis: var(--paper-50);
-  --shadow-memphis-color: var(--paper-50);
 
-  /* New semantic layer — dark values */
+  /* Semantic layer — dark values */
   --background: var(--plum-900);
   --foreground: var(--paper-50);
   --card: var(--plum-800);
@@ -148,8 +132,8 @@
   --primary-foreground: var(--plum-900);
   --secondary: var(--plum-500);
   --secondary-foreground: var(--paper-50);
-  --accent-new: var(--plum-700);
-  --accent-new-foreground: var(--gold-200);
+  --accent: var(--plum-700);
+  --accent-foreground: var(--gold-200);
   --destructive: #c94a2f;
   --destructive-foreground: var(--paper-50);
 

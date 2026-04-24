@@ -42,7 +42,7 @@ export const ProfilePreview = forwardRef<HTMLDivElement, ProfilePreviewProps>(
         </div>
 
         <section className="flex flex-col gap-3">
-          <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted m-0">
+          <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground m-0">
             Riconoscimenti
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -53,7 +53,7 @@ export const ProfilePreview = forwardRef<HTMLDivElement, ProfilePreviewProps>(
         </section>
 
         <section className="flex flex-col gap-3">
-          <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted m-0">
+          <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground m-0">
             Interessi
           </h3>
           <div className="flex flex-wrap items-center gap-2">

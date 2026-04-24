@@ -28,7 +28,7 @@ import { PlusIcon } from '../../icons'
 export type GalleryPreviewProps = HTMLAttributes<HTMLDivElement>
 
 const SECTION_TITLE =
-  'font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-ink-muted'
+  'font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground'
 
 const SectionHeading = ({ children }: { children: string }) => (
   <div className={SECTION_TITLE}>{children}</div>
@@ -108,7 +108,7 @@ export const GalleryPreview = forwardRef<HTMLDivElement, GalleryPreviewProps>(
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Chip dotColor="var(--success)">Attivo</Chip>
-            <Chip dotColor="var(--danger)">Errore</Chip>
+            <Chip dotColor="var(--destructive)">Errore</Chip>
             <Chip dotColor="var(--warning)">Attenzione</Chip>
             <Chip dotColor="var(--plum-500)">Brand</Chip>
             <Chip dotColor="var(--gold-500)">Accento</Chip>
