@@ -22,9 +22,9 @@ export const Switch = forwardRef<
       ref={ref}
       className={cn(
         'relative inline-flex h-7 w-14 shrink-0 cursor-pointer items-center',
-        'border-2 border-border-memphis rounded-none bg-surface',
+        'border-2 border-memphis rounded-none bg-card',
         'transition-colors duration-fast',
-        'data-[state=checked]:bg-gold-500',
+        'data-[state=checked]:bg-primary',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         'disabled:opacity-50 disabled:pointer-events-none',
         className,
@@ -34,9 +34,9 @@ export const Switch = forwardRef<
       <SwitchPrimitive.Thumb
         className={cn(
           'pointer-events-none block h-5 w-5',
-          'rounded-none bg-plum-900',
-          'border-2 border-border-memphis',
-          'data-[state=checked]:bg-paper-50',
+          'rounded-none bg-foreground',
+          'border-2 border-memphis',
+          'data-[state=checked]:bg-background',
           'translate-x-0.5 transition-transform duration-fast',
           // Checked distance scales with --spacing so thumb lands flush
           // against the right inner edge at every density (compact/normal/comfy).
