@@ -12,7 +12,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, Bu
  * @example
  * ```tsx
  * <Button variant="primary" size="md">Start</Button>
- * <Button variant="accent" onClick={handleClick}>Submit</Button>
+ * <Button variant="secondary" onClick={handleClick}>Submit</Button>
  * ```
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
