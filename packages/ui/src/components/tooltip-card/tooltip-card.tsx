@@ -26,7 +26,7 @@ export const TooltipCard = forwardRef<HTMLDivElement, TooltipCardProps>(function
       <div
         aria-hidden
         data-slot="diamond"
-        className="absolute bg-gold-500 border-2 border-border-memphis"
+        className="absolute bg-primary border-2 border-memphis"
         style={{
           top: -7,
           right: 20,
@@ -37,26 +37,26 @@ export const TooltipCard = forwardRef<HTMLDivElement, TooltipCardProps>(function
       />
       <div
         data-slot="surface"
-        className="p-4 border-2 border-border-memphis bg-surface"
-        style={{ boxShadow: '4px 4px 0 var(--border-memphis)' }}
+        className="p-4 border-2 border-memphis bg-card"
+        style={{ boxShadow: '4px 4px 0 var(--memphis-border-color)' }}
       >
         <div
           data-slot="label"
-          className="font-mono font-bold uppercase text-ink-muted"
+          className="font-mono font-bold uppercase text-muted-foreground"
           style={{ fontSize: 10, letterSpacing: '0.2em' }}
         >
           {label}
         </div>
         <div
           data-slot="title"
-          className="font-display text-ink"
+          className="font-display text-card-foreground"
           style={{ fontSize: 22, lineHeight: 1.15, marginTop: 8 }}
         >
           {title}
         </div>
         <p
           data-slot="body"
-          className="text-ink-soft m-0"
+          className="text-muted-foreground m-0"
           style={{ fontSize: 13, lineHeight: 1.5, marginTop: 6 }}
         >
           {body}
