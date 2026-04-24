@@ -3,7 +3,7 @@ import { HomeIcon, SearchIcon, CogIcon, TrophyIcon } from '../../icons'
 import { Badge } from '../badge/badge'
 
 export const Default = () => (
-  <nav style={{ width: 240, background: 'var(--surface)', padding: 12 }}>
+  <nav style={{ width: 240, background: 'var(--card)', padding: 12 }}>
     <NavItem href="#" icon={<HomeIcon size={18} />} active>
       Home
     </NavItem>
@@ -43,7 +43,7 @@ export const OnDark = () => (
 )
 
 export const AsButton = () => (
-  <nav style={{ width: 240, background: 'var(--surface)', padding: 12 }}>
+  <nav style={{ width: 240, background: 'var(--card)', padding: 12 }}>
     <NavItem as="button" type="button" icon={<HomeIcon size={18} />} active>
       Button Home
     </NavItem>

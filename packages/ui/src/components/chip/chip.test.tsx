@@ -46,7 +46,7 @@ describe('Chip', () => {
   it('uses memphis border color for dot when inactive', () => {
     const { container } = render(<Chip dotColor="var(--plum-500)">Primary</Chip>)
     const dot = container.querySelector('span[data-chip-dot]') as HTMLElement
-    expect(dot.style.borderColor).toContain('var(--border-memphis)')
+    expect(dot.style.borderColor).toContain('var(--memphis-border-color)')
   })
 
   it('flips dot border to white when both active and dotColor set', () => {

@@ -14,14 +14,14 @@ describe('PatternSwatch', () => {
     expect(header.className).toContain('font-mono')
     expect(header.className).toContain('uppercase')
     expect(header.className).toContain('font-bold')
-    expect(header.className).toContain('text-accent')
+    expect(header.className).toContain('text-primary')
   })
 
   it('applies Memphis border styling to the root', () => {
     const { container } = render(<PatternSwatch name="GRID" />)
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
-    expect(root.className).toContain('border-border-memphis')
+    expect(root.className).toContain('border-memphis')
     expect(root.className).toContain('inline-flex')
     expect(root.className).toContain('flex-col')
   })
@@ -30,7 +30,7 @@ describe('PatternSwatch', () => {
     render(<PatternSwatch name="X" />)
     const header = screen.getByText('X')
     expect(header.className).toContain('border-b-2')
-    expect(header.className).toContain('border-border-memphis')
+    expect(header.className).toContain('border-memphis')
     expect(header.className).toContain('px-3')
     expect(header.className).toContain('py-2')
   })

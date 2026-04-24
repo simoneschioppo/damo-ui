@@ -70,9 +70,9 @@ describe('AppTopBar', () => {
     expect(header.className).toContain('h-[var(--header-height)]')
     expect(header.className).toContain('min-h-[var(--header-height)]')
     expect(header.className).toContain('border-b-2')
-    expect(header.className).toContain('border-border-memphis')
-    expect(header.className).toContain('bg-surface')
-    expect(header.className).toContain('text-ink')
+    expect(header.className).toContain('border-memphis')
+    expect(header.className).toContain('bg-card')
+    expect(header.className).toContain('text-foreground')
   })
 
   it('applies the logo wrapper typography classes', () => {

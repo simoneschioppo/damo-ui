@@ -5,7 +5,7 @@ const text = {
   textAlign: 'center' as const,
   fontFamily: 'var(--font-display)',
   fontSize: 32,
-  color: 'var(--ink)',
+  color: 'var(--foreground)',
 }
 
 export const Default = () => (

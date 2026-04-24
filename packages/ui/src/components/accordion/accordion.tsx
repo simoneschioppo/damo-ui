@@ -30,9 +30,9 @@ export const AccordionTrigger = forwardRef<
         ref={ref}
         className={cn(
           'flex flex-1 items-center justify-between py-4 text-left',
-          'font-semibold text-base text-ink',
+          'font-semibold text-base text-foreground',
           'transition-colors duration-fast cursor-pointer',
-          'hover:text-accent',
+          'hover:text-primary',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           '[&[data-state=open]>svg]:rotate-180',
           className,
@@ -57,7 +57,7 @@ export const AccordionContent = forwardRef<
     <AccordionPrimitive.Content
       ref={ref}
       className={cn(
-        'overflow-hidden text-sm text-ink-soft',
+        'overflow-hidden text-sm text-muted-foreground',
         'data-[state=open]:animate-in data-[state=open]:fade-in-0',
         'data-[state=closed]:animate-out data-[state=closed]:fade-out-0',
         className,

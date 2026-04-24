@@ -33,7 +33,7 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
         'border-2 border-memphis bg-card',
         className,
       )}
-      style={{ boxShadow: '4px 4px 0 var(--border-memphis)' }}
+      style={{ boxShadow: '4px 4px 0 var(--memphis-border-color)' }}
       {...rest}
     >
       {avatar ? (

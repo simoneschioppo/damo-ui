@@ -20,7 +20,7 @@ export const Spinner = forwardRef<SVGSVGElement, SpinnerProps>(function Spinner(
       viewBox="0 0 24 24"
       width={size}
       height={size}
-      className={cn('animate-spin text-accent', className)}
+      className={cn('animate-spin text-primary', className)}
       {...rest}
     >
       <circle

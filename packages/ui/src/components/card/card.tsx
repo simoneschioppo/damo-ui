@@ -54,7 +54,7 @@ export const CardDescription = forwardRef<
   HTMLParagraphElement,
   HTMLAttributes<HTMLParagraphElement>
 >(function CardDescription({ className, ...rest }, ref) {
-  return <p ref={ref} className={cn('text-sm text-ink-muted', className)} {...rest} />
+  return <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...rest} />
 })
 
 export const CardBody = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(

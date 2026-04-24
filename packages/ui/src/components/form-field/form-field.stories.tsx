@@ -4,8 +4,8 @@ const inputStyle = {
   padding: '8px 10px',
   border: '1.5px solid var(--border)',
   borderRadius: 'var(--radius-md)',
-  background: 'var(--surface)',
-  color: 'var(--ink)',
+  background: 'var(--card)',
+  color: 'var(--foreground)',
   fontSize: 14,
 }
 

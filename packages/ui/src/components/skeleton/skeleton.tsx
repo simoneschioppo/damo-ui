@@ -14,9 +14,9 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skele
       ref={ref}
       aria-hidden="true"
       className={cn(
-        'relative overflow-hidden bg-surface-2 rounded-md',
+        'relative overflow-hidden bg-muted rounded-md',
         'before:absolute before:inset-0 before:-translate-x-full',
-        'before:bg-gradient-to-r before:from-transparent before:via-[color-mix(in_oklab,var(--ink)_6%,transparent)] before:to-transparent',
+        'before:bg-gradient-to-r before:from-transparent before:via-[color-mix(in_oklab,var(--foreground)_6%,transparent)] before:to-transparent',
         'before:animate-[shimmer_1.5s_infinite]',
         className,
       )}

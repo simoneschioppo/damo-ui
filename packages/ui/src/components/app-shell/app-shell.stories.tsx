@@ -34,18 +34,18 @@ function SidebarContent({ tone }: { tone: 'default' | 'onDark' }) {
 const mainContent = (
   <div style={{ padding: 32 }}>
     <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 40, margin: 0 }}>Benvenuto</h1>
-    <p style={{ color: 'var(--ink-muted)', marginTop: 8 }}>Contenuto principale dell&apos;app.</p>
+    <p style={{ color: 'var(--muted-foreground)', marginTop: 8 }}>Contenuto principale dell&apos;app.</p>
   </div>
 )
 
 export const Light = () => (
-  <div style={{ height: 480, width: 720, border: '2px solid var(--border-memphis)' }}>
+  <div style={{ height: 480, width: 720, border: '2px solid var(--memphis-border-color)' }}>
     <AppShell sidebar={<SidebarContent tone="default" />}>{mainContent}</AppShell>
   </div>
 )
 
 export const Dark = () => (
-  <div style={{ height: 480, width: 720, border: '2px solid var(--border-memphis)' }}>
+  <div style={{ height: 480, width: 720, border: '2px solid var(--memphis-border-color)' }}>
     <AppShell sidebarTone="onDark" sidebar={<SidebarContent tone="onDark" />}>
       {mainContent}
     </AppShell>
@@ -53,7 +53,7 @@ export const Dark = () => (
 )
 
 export const WideSidebar = () => (
-  <div style={{ height: 480, width: 840, border: '2px solid var(--border-memphis)' }}>
+  <div style={{ height: 480, width: 840, border: '2px solid var(--memphis-border-color)' }}>
     <AppShell sidebarWidth={280} sidebar={<SidebarContent tone="default" />}>
       {mainContent}
     </AppShell>

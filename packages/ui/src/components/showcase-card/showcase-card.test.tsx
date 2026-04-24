@@ -42,7 +42,7 @@ describe('ShowcaseCard', () => {
     const label = screen.getByText('LABEL')
     expect(label.className).toContain('font-mono')
     expect(label.className).toContain('uppercase')
-    expect(label.className).toContain('text-accent')
+    expect(label.className).toContain('text-primary')
   })
 
   it('applies white surface bg, 2px border-memphis, 4px black shadow via inline style', () => {
@@ -53,8 +53,8 @@ describe('ShowcaseCard', () => {
     )
     const root = container.firstChild as HTMLElement
     const styleAttr = root.getAttribute('style') ?? ''
-    expect(styleAttr).toContain('--surface')
-    expect(styleAttr).toContain('--border-memphis')
+    expect(styleAttr).toContain('--card')
+    expect(styleAttr).toContain('--memphis-border-color')
     expect(styleAttr).toContain('4px 4px 0')
   })
 

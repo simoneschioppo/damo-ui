@@ -27,11 +27,11 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(function P
     >
       <div className="flex flex-col gap-1 min-w-0">
         {eyebrow && <span className="eyebrow">{eyebrow}</span>}
-        <h1 className="font-display text-4xl md:text-5xl leading-tight tracking-wide text-ink m-0">
+        <h1 className="font-display text-4xl md:text-5xl leading-tight tracking-wide text-foreground m-0">
           {title}
         </h1>
         {description && (
-          <p className="text-ink-muted text-base max-w-[60ch] m-0 mt-1">{description}</p>
+          <p className="text-muted-foreground text-base max-w-[60ch] m-0 mt-1">{description}</p>
         )}
       </div>
       {actions && <div className="flex gap-2 items-center shrink-0">{actions}</div>}

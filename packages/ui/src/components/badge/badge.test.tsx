@@ -26,7 +26,7 @@ describe('Badge', () => {
       ).toContain(marker)
       // Shared base classes — applied across all 9 variants
       expect(el.className, `variant ${variant} base`).toContain('border-2')
-      expect(el.className, `variant ${variant} base`).toContain('border-border-memphis')
+      expect(el.className, `variant ${variant} base`).toContain('border-memphis')
       expect(el.className, `variant ${variant} base`).toContain('shadow-memphis-sm')
       expect(el.className, `variant ${variant} base`).toContain('rounded-none')
       expect(el.className, `variant ${variant} base`).toContain('font-mono')

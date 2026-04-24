@@ -42,9 +42,9 @@ export const GalleryPreview = forwardRef<HTMLDivElement, GalleryPreviewProps>(
           <SectionHeading>BUTTONS</SectionHeading>
           <div className="flex flex-wrap items-center gap-3">
             <Button variant="primary">Primary</Button>
-            <Button variant="accent">Accent</Button>
+            <Button variant="secondary">Accent</Button>
             <Button variant="ghost">Ghost</Button>
-            <Button variant="danger">Danger</Button>
+            <Button variant="destructive">Danger</Button>
             <Button variant="outline">Outline</Button>
             <Button variant="link">Link</Button>
             <IconButton aria-label="Aggiungi">
