@@ -33,14 +33,14 @@ describe('Chip', () => {
   it('applies active styling when active', () => {
     const { container } = render(<Chip active>Rapid</Chip>)
     const root = container.firstChild as HTMLElement
-    expect(root.className).toContain('bg-gold-500')
-    expect(root.className).toContain('text-white')
+    expect(root.className).toContain('bg-primary')
+    expect(root.className).toContain('text-primary-foreground')
   })
 
   it('does not apply active styling by default', () => {
     const { container } = render(<Chip>Rapid</Chip>)
     const root = container.firstChild as HTMLElement
-    expect(root.className).not.toContain('bg-gold-500')
+    expect(root.className).not.toContain('bg-primary')
   })
 
   it('uses memphis border color for dot when inactive', () => {
