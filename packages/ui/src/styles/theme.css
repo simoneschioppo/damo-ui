@@ -47,6 +47,56 @@
   --color-rage: var(--rage);
   --color-info: var(--info);
 
+  /* ── NEW semantic color bridge (shadcn-style, paired) ── */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent-new: var(--accent-new);
+  --color-accent-new-foreground: var(--accent-new-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Status foregrounds (bg utilities already exist) */
+  --color-success-foreground: var(--success-foreground);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info-foreground: var(--info-foreground);
+  --color-rage-foreground: var(--rage-foreground);
+
+  /* Chrome primitives */
+  --color-input: var(--input);
+
+  /* Memphis identity */
+  --color-memphis: var(--memphis-border-color);
+  --color-memphis-shadow: var(--memphis-shadow-color);
+
+  /* Badge-specific */
+  --color-badge-featured: var(--badge-featured);
+  --color-badge-featured-foreground: var(--badge-featured-foreground);
+  --color-badge-copper: var(--badge-copper);
+  --color-badge-copper-foreground: var(--badge-copper-foreground);
+  --color-badge-navy: var(--badge-navy);
+  --color-badge-navy-foreground: var(--badge-navy-foreground);
+  --color-badge-draw: var(--badge-draw);
+  --color-badge-draw-foreground: var(--badge-draw-foreground);
+  --color-badge-rank: var(--badge-rank);
+  --color-badge-rank-foreground: var(--badge-rank-foreground);
+
+  /* Charts */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
   /* Fonts */
   --font-display: var(--font-display);
   --font-body: var(--font-body);
