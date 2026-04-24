@@ -5,7 +5,7 @@
  */
 
 @theme inline {
-  /* Colors: plum */
+  /* Colors: plum (raw palette) */
   --color-plum-100: var(--plum-100);
   --color-plum-300: var(--plum-300);
   --color-plum-500: var(--plum-500);
@@ -13,41 +13,31 @@
   --color-plum-800: var(--plum-800);
   --color-plum-900: var(--plum-900);
 
-  /* Colors: gold */
+  /* Colors: gold (raw palette) */
   --color-gold-100: var(--gold-100);
   --color-gold-200: var(--gold-200);
   --color-gold-300: var(--gold-300);
   --color-gold-400: var(--gold-400);
   --color-gold-500: var(--gold-500);
 
-  /* Colors: paper */
+  /* Colors: paper (raw palette) */
   --color-paper-50: var(--paper-50);
   --color-paper-100: var(--paper-100);
   --color-paper-200: var(--paper-200);
   --color-paper-300: var(--paper-300);
 
-  /* Semantic colors */
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-ink-muted: var(--ink-muted);
+  /* Chrome primitives */
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
-  --color-border-memphis: var(--border-memphis);
-  --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
   --color-ring: var(--ring);
 
   /* Status colors */
   --color-success: var(--success);
-  --color-danger: var(--danger);
   --color-warning: var(--warning);
   --color-rage: var(--rage);
   --color-info: var(--info);
 
-  /* ── NEW semantic color bridge (shadcn-style, paired) ── */
+  /* ── Semantic color bridge (shadcn-style, paired) ── */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -60,8 +50,8 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-accent-new: var(--accent-new);
-  --color-accent-new-foreground: var(--accent-new-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 

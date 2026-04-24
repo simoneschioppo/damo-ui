@@ -16,7 +16,7 @@ const FILTERS: readonly Filter[] = [
   { key: 'all', label: 'Tutti', dotColor: 'var(--plum-500)' },
   { key: 'new', label: 'Nuovi', dotColor: 'var(--success)' },
   { key: 'top', label: 'Popolari', dotColor: 'var(--warning)' },
-  { key: 'archive', label: 'Archiviati', dotColor: 'var(--danger)' },
+  { key: 'archive', label: 'Archiviati', dotColor: 'var(--destructive)' },
 ]
 
 type Item = {
@@ -92,13 +92,13 @@ export const FeedPreview = forwardRef<HTMLDivElement, FeedPreviewProps>(function
               <div className="flex items-center gap-3">
                 <div
                   aria-hidden
-                  className="shrink-0 w-8 h-8 bg-plum-500 border-2 border-border-memphis"
+                  className="shrink-0 w-8 h-8 bg-secondary border-2 border-memphis"
                 />
                 <div className="flex-1 min-w-0">
-                  <div className="font-display text-base leading-tight text-ink truncate">
+                  <div className="font-display text-base leading-tight text-foreground truncate">
                     {item.title}
                   </div>
-                  <div className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+                  <div className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                     {item.author} · {item.timestamp}
                   </div>
                 </div>
