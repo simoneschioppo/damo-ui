@@ -23,7 +23,7 @@ const avatarVariants = cva(
       },
       shape: {
         circle: 'rounded-full',
-        square: 'rounded-none border-2 border-border-memphis',
+        square: 'rounded-none border-2 border-memphis',
       },
     },
     defaultVariants: { size: 'md', shape: 'circle' },
@@ -69,7 +69,7 @@ export const AvatarFallback = forwardRef<
       ref={ref}
       className={cn(
         'flex h-full w-full items-center justify-center',
-        'bg-plum-900 text-paper-50 font-semibold font-display tracking-wide',
+        'bg-foreground text-background font-semibold font-display tracking-wide',
         className,
       )}
       {...rest}

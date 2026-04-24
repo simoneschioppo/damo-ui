@@ -67,8 +67,8 @@ describe('UserCard', () => {
     const { container } = render(<UserCard name="Mario" />)
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
-    expect(root.className).toContain('border-border-memphis')
-    expect(root.className).toContain('bg-surface')
+    expect(root.className).toContain('border-memphis')
+    expect(root.className).toContain('bg-card')
   })
 
   it('forwards className to the root', () => {
@@ -93,7 +93,7 @@ describe('UserCard', () => {
     expect(avatar).not.toBeNull()
     expect(avatar.className).toContain('w-12')
     expect(avatar.className).toContain('h-12')
-    expect(avatar.className).toContain('bg-plum-900')
+    expect(avatar.className).toContain('bg-foreground')
     expect(avatar.className).toContain('rounded-full')
   })
 })
