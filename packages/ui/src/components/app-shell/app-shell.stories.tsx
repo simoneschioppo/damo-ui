@@ -14,7 +14,7 @@ const brandStyle = {
 function SidebarContent({ tone }: { tone: 'default' | 'onDark' }) {
   return (
     <>
-      <div style={brandStyle}>DAMACCHI</div>
+      <div style={brandStyle}>DAMO UI</div>
       <NavItem href="#" tone={tone} icon={<HomeIcon size={18} />} active>
         Home
       </NavItem>
@@ -22,7 +22,7 @@ function SidebarContent({ tone }: { tone: 'default' | 'onDark' }) {
         Cerca
       </NavItem>
       <NavItem href="#" tone={tone} icon={<TrophyIcon size={18} />}>
-        Classifica
+        Traguardi
       </NavItem>
       <NavItem href="#" tone={tone} icon={<CogIcon size={18} />}>
         Impostazioni

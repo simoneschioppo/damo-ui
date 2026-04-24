@@ -8,7 +8,7 @@
 
 **Tech Stack:** Radix primitives aggiuntivi (`@radix-ui/react-aspect-ratio`, `@radix-ui/react-scroll-area`, `@radix-ui/react-separator`).
 
-**Rif. spec:** `docs/specs/2026-04-18-damacchi-ui-design.md` sezioni 3 (Memphis Tier 3), 10 (Inventory), 11 (Testing).
+**Rif. spec:** `docs/specs/2026-04-18-damo-ui-design.md` sezioni 3 (Memphis Tier 3), 10 (Inventory), 11 (Testing).
 
 ---
 

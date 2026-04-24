@@ -1,6 +1,6 @@
 # Damo UI — Full Redesign Spec
 
-**Context:** what was `@damo/ui` / `damo-ui` becomes **Damo UI**, a Memphis-inspired React component library that is fully decoupled from the Damacchi game. The playground is rewritten so every surface (pages + chrome) consumes only lib components. A new live-editing `theme-generator` replaces the current minimal one.
+**Context:** what was `@damo/ui` / `damo-ui` becomes **Damo UI**, a Memphis-inspired React component library that works as a standalone, generic UI toolkit. The playground is rewritten so every surface (pages + chrome) consumes only lib components. A new live-editing `theme-generator` replaces the current minimal one.
 
 **Non-goals:** redesign the lib visual language (Memphis stays). Support CSS-in-JS. Ship to npm public.
 
@@ -33,7 +33,7 @@
 
 ## 2. Lib decoupling (domain → generic)
 
-Existing domain-specific cards in the lib are renamed to neutral names. No behavior change — only identifiers and copy in stories.
+Existing domain-specific cards in the lib are renamed to neutral names so the library works as a standalone Damo UI library independent of any consumer app. No behavior change — only identifiers and copy in stories.
 
 | Current | New | API change |
 |---------|-----|------------|

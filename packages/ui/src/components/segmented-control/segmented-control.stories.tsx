@@ -2,24 +2,24 @@ import { useState } from 'react'
 import { SegmentedControl, SegmentedControlItem } from './segmented-control'
 
 export const Basic = () => (
-  <SegmentedControl defaultValue="normal" aria-label="Mode">
-    <SegmentedControlItem value="easy">Easy</SegmentedControlItem>
+  <SegmentedControl defaultValue="normal" aria-label="Density">
+    <SegmentedControlItem value="compact">Compact</SegmentedControlItem>
     <SegmentedControlItem value="normal">Normal</SegmentedControlItem>
-    <SegmentedControlItem value="rage">Rage</SegmentedControlItem>
+    <SegmentedControlItem value="comfortable">Comfortable</SegmentedControlItem>
   </SegmentedControl>
 )
 
 export const Controlled = () => {
-  const [v, setV] = useState('classic8')
+  const [v, setV] = useState('md')
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <span className="mono" style={{ fontSize: 11, color: 'var(--ink-muted)' }}>
         Current: {v}
       </span>
-      <SegmentedControl value={v} onValueChange={(val) => val && setV(val)} aria-label="Board mode">
-        <SegmentedControlItem value="classic8">8×8</SegmentedControlItem>
-        <SegmentedControlItem value="classic10">10×10</SegmentedControlItem>
-        <SegmentedControlItem value="rage">Rage</SegmentedControlItem>
+      <SegmentedControl value={v} onValueChange={(val) => val && setV(val)} aria-label="Size">
+        <SegmentedControlItem value="sm">SM</SegmentedControlItem>
+        <SegmentedControlItem value="md">MD</SegmentedControlItem>
+        <SegmentedControlItem value="lg">LG</SegmentedControlItem>
       </SegmentedControl>
     </div>
   )

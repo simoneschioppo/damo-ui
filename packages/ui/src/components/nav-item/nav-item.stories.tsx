@@ -11,7 +11,7 @@ export const Default = () => (
       Cerca
     </NavItem>
     <NavItem href="#" icon={<TrophyIcon size={18} />} endAdornment={<Badge>12</Badge>}>
-      Classifica
+      Traguardi
     </NavItem>
     <NavItem href="#" icon={<CogIcon size={18} />}>
       Impostazioni
@@ -34,7 +34,7 @@ export const OnDark = () => (
       Cerca
     </NavItem>
     <NavItem href="#" tone="onDark" icon={<TrophyIcon size={18} />}>
-      Classifica
+      Traguardi
     </NavItem>
     <NavItem href="#" tone="onDark" icon={<CogIcon size={18} />}>
       Impostazioni
