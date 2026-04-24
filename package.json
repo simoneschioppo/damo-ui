@@ -1,5 +1,5 @@
 {
-  "name": "damacchi-ui-monorepo",
+  "name": "damo-ui-monorepo",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.12.0",
@@ -8,11 +8,11 @@
   },
   "scripts": {
     "dev:lib": "pnpm --filter @damo/ui dev",
-    "dev:playground": "pnpm --filter @damacchi/playground dev",
+    "dev:playground": "pnpm --filter @damo/playground dev",
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
     "build": "pnpm --filter @damo/ui build",
     "test": "pnpm --filter @damo/ui test",
-    "test:e2e": "pnpm --filter @damacchi/e2e test",
+    "test:e2e": "pnpm --filter @damo/e2e test",
     "lint": "pnpm -r lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,json,md,css}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,mjs,json,md,css}\""

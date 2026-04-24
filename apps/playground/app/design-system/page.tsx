@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * /design-system — Damacchi DS v1 on lib primitives only.
+ * /design-system — Damo UI DS v1 on lib primitives only.
  *
  * All 11 sections consume @damo/ui components (ColorScale, TokenSwatch,
  * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, FeatureCard,
@@ -10,11 +10,12 @@
  * footer use inline style — every styled surface is a lib component.
  *
  * Layout: 2-column grid
- *   - Left sidebar (240px, plum-900 bg, ivory text): brand block + numbered TOC
+ *   - Left sidebar (300px, surface-2 bg, ink text): lib `Sidebar` with brand block + numbered TOC
  *   - Right main (ivory bg): hero + 11 numbered sections
  */
 
-import { type CSSProperties, type ReactNode, useState } from 'react'
+import { type CSSProperties, type ReactNode, useEffect, useState } from 'react'
+import { computeActiveSection } from './active-section'
 import {
   Button,
   IconButton,
@@ -28,6 +29,11 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
+  Sidebar,
+  SidebarBody,
+  SidebarBrand,
+  SidebarHeader,
+  SidebarSubtitle,
   Avatar,
   AvatarFallback,
   AvatarGroup,
@@ -78,6 +84,7 @@ import {
   ClockIcon,
   TargetIcon,
 } from '@damo/ui'
+import { PATTERNS } from './patterns'
 
 // ═══════════════════════════════════════════════════════════
 // Section registry (drives both the TOC and jump targets)
@@ -105,37 +112,10 @@ const SECTIONS = [
 
 const pageStyle: CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '240px 1fr',
+  gridTemplateColumns: '300px 1fr',
   minHeight: '100vh',
   background: 'var(--bg)',
   color: 'var(--ink)',
-}
-
-const tocStyle: CSSProperties = {
-  position: 'sticky',
-  top: 'var(--header-height)',
-  height: 'calc(100vh - var(--header-height))',
-  background: 'var(--surface-2)',
-  color: 'var(--ink)',
-  padding: '32px 20px',
-  overflowY: 'auto',
-}
-
-const tocBrandStyle: CSSProperties = {
-  fontFamily: 'var(--font-display)',
-  fontSize: 18,
-  letterSpacing: '0.12em',
-  color: 'var(--accent)',
-  marginBottom: 4,
-}
-
-const tocSubStyle: CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  fontSize: 10,
-  letterSpacing: '0.2em',
-  color: 'var(--accent)',
-  textTransform: 'uppercase',
-  marginBottom: 32,
 }
 
 const tocListStyle: CSSProperties = {
@@ -150,7 +130,9 @@ const tocLinkStyle: CSSProperties = {
   padding: '8px 12px',
   fontSize: 13,
   letterSpacing: '0.02em',
-  borderLeft: '2px solid transparent',
+  borderLeftWidth: 2,
+  borderLeftStyle: 'solid',
+  borderLeftColor: 'transparent',
   display: 'block',
   transition: 'all .15s',
 }
@@ -264,24 +246,68 @@ const subEyebrowStyle: CSSProperties = {
 // Shared primitives
 // ═══════════════════════════════════════════════════════════
 
-function Toc() {
+function useActiveSection(): string {
+  const [activeId, setActiveId] = useState<string>(SECTIONS[0].id)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const visible = new Set<string>()
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visible.add(entry.target.id)
+          else visible.delete(entry.target.id)
+        })
+        setActiveId((prev) => computeActiveSection(SECTIONS, prev, Array.from(visible)))
+      },
+      {
+        // Activate a section when its top crosses ~15% from the viewport top
+        // (below the header) and keep it active until it scrolls past ~40% up.
+        rootMargin: '-15% 0px -55% 0px',
+        threshold: 0,
+      },
+    )
+
+    SECTIONS.forEach((s) => {
+      const el = document.getElementById(s.id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  return activeId
+}
+
+function Toc({ activeId }: { activeId: string }) {
   return (
-    <aside style={tocStyle}>
-      <div style={tocBrandStyle}>DAMO · UI</div>
-      <div style={tocSubStyle}>DESIGN SYSTEM</div>
-      <nav style={tocListStyle}>
-        {SECTIONS.map((s, idx) => (
-          <a
-            key={s.id}
-            href={`#${s.id}`}
-            style={{ ...tocLinkStyle, ...(idx === 0 ? tocLinkActiveStyle : {}) }}
-          >
-            <span style={tocNumStyle}>{s.num}</span>
-            {s.title}
-          </a>
-        ))}
-      </nav>
-    </aside>
+    <Sidebar aria-label="Design system navigation">
+      <SidebarHeader>
+        <SidebarBrand>DAMO · UI</SidebarBrand>
+        <SidebarSubtitle>DESIGN SYSTEM</SidebarSubtitle>
+      </SidebarHeader>
+      <SidebarBody>
+        <nav aria-label="Page sections" style={tocListStyle}>
+          {SECTIONS.map((s) => {
+            const isActive = s.id === activeId
+            return (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                aria-current={isActive ? 'true' : undefined}
+                data-active={isActive ? 'true' : undefined}
+                style={{ ...tocLinkStyle, ...(isActive ? tocLinkActiveStyle : {}) }}
+              >
+                <span style={tocNumStyle}>{s.num}</span>
+                {s.title}
+              </a>
+            )
+          })}
+        </nav>
+      </SidebarBody>
+    </Sidebar>
   )
 }
 
@@ -487,13 +513,13 @@ function TypographySection() {
       >
         <TypeSpecimen
           name="DISPLAY · AUDIOWIDE · GOOGLE FONTS"
-          sample="Damacchi"
+          sample="Damo UI"
           fontFamily="var(--font-display)"
           sampleSize={72}
         />
         <TypeSpecimen
           name="BODY · EXO 2 · GOOGLE FONTS"
-          sample="Cavallo, ma a spazzare."
+          sample="Ogni token al suo posto."
           fontFamily="var(--font-body)"
           sampleSize={42}
         />
@@ -527,7 +553,7 @@ function TypographySection() {
               {t.name}
             </div>
             <div style={typeSpecStyle(t)}>
-              {t.upper ? 'SCACCHI + DAMA' : 'Damacchi · Cavallo e pedona'}
+              {t.upper ? 'DAMO · UI · DESIGN' : 'Damo UI · token e componenti'}
             </div>
             <div
               style={{
@@ -593,7 +619,7 @@ function ButtonsSection() {
   // State simulations use className arbitrary-value shorthands (Tailwind v4)
   // so we don't need inline style / boxShadow props.
   const primaryStates: ReadonlyArray<ButtonStateCell> = [
-    { label: 'Default', node: <Button variant="primary">GIOCA</Button> },
+    { label: 'Default', node: <Button variant="primary">SALVA</Button> },
     {
       label: 'Hover',
       node: (
@@ -601,7 +627,7 @@ function ButtonsSection() {
           variant="primary"
           className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--black)] bg-[var(--gold-400)]"
         >
-          GIOCA
+          SALVA
         </Button>
       ),
     },
@@ -612,7 +638,7 @@ function ButtonsSection() {
           variant="primary"
           className="translate-x-[3px] translate-y-[3px] shadow-[2px_2px_0_var(--black)]"
         >
-          GIOCA
+          SALVA
         </Button>
       ),
     },
@@ -623,7 +649,7 @@ function ButtonsSection() {
           variant="primary"
           className="outline outline-2 outline-offset-2 outline-[var(--ring)]"
         >
-          GIOCA
+          SALVA
         </Button>
       ),
     },
@@ -631,7 +657,7 @@ function ButtonsSection() {
       label: 'Disabled',
       node: (
         <Button variant="primary" disabled>
-          GIOCA
+          SALVA
         </Button>
       ),
     },
@@ -749,8 +775,8 @@ function CardsSection() {
         <ShowcaseCard label="USER CARD">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <UserCard
-              name="Marini · Bianco"
-              meta={<>ELO 1842 · RAPID</>}
+              name="Mario Rossi"
+              meta={<>Designer · Team Lead</>}
               trailing={
                 <span
                   className="font-mono font-bold text-ink border-2 border-gold-500 bg-paper-50"
@@ -761,7 +787,7 @@ function CardsSection() {
                     boxShadow: '2px 2px 0 var(--gold-500)',
                   }}
                 >
-                  05:42
+                  PRO
                 </span>
               }
             />
@@ -770,9 +796,9 @@ function CardsSection() {
         <ShowcaseCard label="FEATURE CARD">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <FeatureCard
-              title="CLASSICO"
-              desc="Scacchi ortodossi, pezzi mangiati tornano come pedine"
-              meta="10+5 MIN"
+              title="TIPOGRAFIA"
+              desc="Due famiglie, dieci scale — dal caption al display XL."
+              meta="10 STILI"
               icon={<ArrowRightIcon size={18} style={{ color: 'var(--accent)' }} />}
             />
           </div>
@@ -787,15 +813,15 @@ function CardsSection() {
             }}
           >
             <div style={{ width: 200 }}>
-              <TooltipCard label="Mosse rimanenti" title="23" body="" />
+              <TooltipCard label="Componenti totali" title="47" body="" />
             </div>
           </div>
         </ShowcaseCard>
         <ShowcaseCard label="ARTICLE CARD · neutra">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <ArticleCard label="REGOLA" title="Mangia come scacchi, muovi come dama">
-              Il pezzo cattura con le regole degli scacchi. Ma se arriva in fondo, promuove come
-              nella dama italiana.
+            <ArticleCard label="GUIDA" title="Un import, un componente">
+              Ogni componente è importabile con una riga da <code>@damo/ui</code>. Tutti i token
+              sono CSS variables, quindi il tema cambia live senza rebuild.
             </ArticleCard>
           </div>
         </ShowcaseCard>
@@ -853,7 +879,7 @@ function InputsSection() {
               </label>
               <Input
                 id="nick-focus"
-                defaultValue="MarinaChess"
+                defaultValue="MarioRossi"
                 className="border-[var(--gold-500)] shadow-[3px_3px_0_var(--gold-500)] outline-none"
               />
               <span style={inputStateCaptionStyle}>Focus</span>
@@ -877,24 +903,24 @@ function InputsSection() {
         <ShowcaseCard label="SELECT">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div>
-              <label style={inputLabelStyle}>Modalità</label>
-              <Select defaultValue="classico">
+              <label style={inputLabelStyle}>Tema</label>
+              <Select defaultValue="light">
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="classico">Classico</SelectItem>
-                  <SelectItem value="torneo">Torneo</SelectItem>
-                  <SelectItem value="blitz">Blitz 3+0</SelectItem>
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
               <span style={subEyebrowStyle}>SEGMENTED</span>
-              <SegmentedControl defaultValue="blitz" aria-label="Tempo">
-                <SegmentedControlItem value="bullet">BULLET</SegmentedControlItem>
-                <SegmentedControlItem value="blitz">BLITZ</SegmentedControlItem>
-                <SegmentedControlItem value="rapid">RAPID</SegmentedControlItem>
+              <SegmentedControl defaultValue="md" aria-label="Size">
+                <SegmentedControlItem value="sm">SMALL</SegmentedControlItem>
+                <SegmentedControlItem value="md">MEDIUM</SegmentedControlItem>
+                <SegmentedControlItem value="lg">LARGE</SegmentedControlItem>
               </SegmentedControl>
             </div>
           </div>
@@ -968,9 +994,9 @@ function BadgesSection() {
             <Badge>DEFAULT</Badge>
             <Badge variant="copper">NUOVO</Badge>
             <Badge variant="navy">BETA</Badge>
-            <Badge variant="win">VITTORIA</Badge>
-            <Badge variant="loss">SCONFITTA</Badge>
-            <Badge variant="draw">PAREGGIO</Badge>
+            <Badge variant="win">SUCCESSO</Badge>
+            <Badge variant="loss">ERRORE</Badge>
+            <Badge variant="draw">AVVISO</Badge>
             <Badge variant="outline">OUTLINE</Badge>
           </div>
         </SubPanel>
@@ -979,10 +1005,10 @@ function BadgesSection() {
 
         <SubPanel label="BADGE · rank / medal">
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Badge variant="rank">♛ GRAN MAESTRO</Badge>
-            <Badge variant="copper">★ TOP 100</Badge>
-            <Badge variant="navy">ELO 2100+</Badge>
-            <Badge variant="win">ON FIRE · 7W</Badge>
+            <Badge variant="rank">♛ PREMIUM</Badge>
+            <Badge variant="copper">★ TOP PICK</Badge>
+            <Badge variant="navy">PRO</Badge>
+            <Badge variant="win">LIVE · 7D</Badge>
           </div>
         </SubPanel>
 
@@ -990,13 +1016,13 @@ function BadgesSection() {
 
         <SubPanel label="CHIP · tag filtrabili">
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Chip dotColor="var(--gold-500)">Blitz</Chip>
+            <Chip dotColor="var(--gold-500)">Button</Chip>
             <Chip active dotColor="#fff">
-              Rapid
+              Card
             </Chip>
-            <Chip dotColor="var(--plum-500)">Classico</Chip>
-            <Chip dotColor="var(--success)">Damacchi</Chip>
-            <Chip dotColor="var(--danger)">Torneo</Chip>
+            <Chip dotColor="var(--plum-500)">Dialog</Chip>
+            <Chip dotColor="var(--success)">Input</Chip>
+            <Chip dotColor="var(--danger)">Table</Chip>
           </div>
         </SubPanel>
       </ShowcaseCard>
@@ -1109,7 +1135,7 @@ const MEDALS: ReadonlyArray<MedalEntry> = [
   { rank: 'silver', label: 'ARGENTO', value: 2 },
   { rank: 'gold', label: 'ORO', value: 3 },
   { rank: 'master', label: 'MAESTRO', value: 'M' },
-  { rank: 'grandmaster', label: 'GRAN MAESTRO', value: 'GM' },
+  { rank: 'grandmaster', label: 'LEGGENDA', value: 'GM' },
 ]
 
 function AvatarsSection() {
@@ -1198,7 +1224,7 @@ function MascotSection() {
                 minHeight: 240,
               }}
             >
-              {/* Glifo provvisorio: un pezzo a forma di pedina coronata */}
+              {/* Glifo provvisorio: figura coronata che rappresenta la mascotte */}
               <svg
                 width="160"
                 height="180"
@@ -1240,8 +1266,8 @@ function MascotSection() {
 
           <SubPanel label="USAGE">
             <p style={{ color: 'var(--ink-soft)', fontSize: 14, lineHeight: 1.55, margin: 0 }}>
-              Damo è la mascotte ufficiale di Damacchi. Asset SVG/PNG arriveranno in v0.2 — per ora
-              usiamo un glifo provvisorio.
+              Damo è la mascotte della libreria. Asset SVG/PNG arriveranno in v0.2 — per ora usiamo
+              un glifo provvisorio.
             </p>
             <h4
               style={{
@@ -1321,78 +1347,17 @@ function PatternsSection() {
             marginTop: 8,
           }}
         >
-          <PatternSwatch
-            name="STRIPES 45°"
-            background="repeating-linear-gradient(45deg, var(--gold-500) 0 6px, transparent 6px 14px)"
-          />
-          <PatternSwatch
-            name="STRIPES H"
-            background="repeating-linear-gradient(0deg, var(--plum-900) 0 4px, transparent 4px 12px)"
-          />
-          <PatternSwatch
-            name="DOTS"
-            background="radial-gradient(var(--ink) 2px, transparent 2px)"
-            backgroundSize="14px 14px"
-          />
-          <PatternSwatch
-            name="GRID"
-            background="linear-gradient(var(--ink) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--ink) 1.5px, transparent 1.5px)"
-            backgroundSize="20px 20px"
-          />
-          {/* TODO(lib): PatternSwatch does not expose backgroundPosition — CHECKER/WEAVE will render without the half-step offset. */}
-          <PatternSwatch
-            name="CHECKER"
-            background="linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%), linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%)"
-            backgroundColor="#fff"
-            backgroundSize="20px 20px"
-          />
-          <PatternSwatch
-            name="WEAVE"
-            background="linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%), linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%)"
-            backgroundSize="24px 24px"
-            backgroundColor="var(--paper-50)"
-          />
-          <PatternSwatch name="WAVES" background="var(--gold-500)">
-            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <path
-                d="M0 50 Q 12.5 20 25 50 T 50 50 T 75 50 T 100 50"
-                stroke="#000"
-                strokeWidth="4"
-                fill="none"
-              />
-              <path
-                d="M0 70 Q 12.5 40 25 70 T 50 70 T 75 70 T 100 70"
-                stroke="#fff"
-                strokeWidth="3"
-                fill="none"
-              />
-              <path
-                d="M0 30 Q 12.5 0 25 30 T 50 30 T 75 30 T 100 30"
-                stroke="var(--plum-900)"
-                strokeWidth="3"
-                fill="none"
-              />
-            </svg>
-          </PatternSwatch>
-          <PatternSwatch name="SCATTER" background="var(--paper-100)">
-            <svg width="100%" height="100%" viewBox="0 0 100 100">
-              <circle cx="20" cy="20" r="8" fill="var(--gold-500)" stroke="#000" strokeWidth="2" />
-              <rect
-                x="55"
-                y="10"
-                width="18"
-                height="18"
-                transform="rotate(45 64 19)"
-                fill="var(--plum-500)"
-                stroke="#000"
-                strokeWidth="2"
-              />
-              <polygon points="80,70 95,95 65,95" fill="var(--plum-900)" />
-              <path d="M10 60 Q 25 50 40 60 T 55 70" stroke="#000" strokeWidth="3" fill="none" />
-              <circle cx="72" cy="55" r="4" fill="#000" />
-              <path d="M15 85 l8 8 M23 85 l-8 8" stroke="var(--gold-500)" strokeWidth="3" />
-            </svg>
-          </PatternSwatch>
+          {PATTERNS.map((p) => (
+            <PatternSwatch
+              key={p.name}
+              name={p.name}
+              background={p.background}
+              backgroundSize={p.backgroundSize}
+              backgroundColor={p.backgroundColor}
+            >
+              {p.children}
+            </PatternSwatch>
+          ))}
         </div>
       </ShowcaseCard>
 
@@ -1409,8 +1374,7 @@ function PatternsSection() {
             style={{
               width: 64,
               height: 64,
-              background:
-                'repeating-linear-gradient(45deg, var(--ink) 0 3px, transparent 3px 8px)',
+              background: 'repeating-linear-gradient(45deg, var(--ink) 0 3px, transparent 3px 8px)',
             }}
           />
           <MemphisShape variant="blob" size={64} color="var(--success)" />
@@ -1548,21 +1512,22 @@ function HeroDecor() {
 // ═══════════════════════════════════════════════════════════
 
 export default function DesignSystemPage() {
+  const activeId = useActiveSection()
   return (
     <div style={pageStyle}>
-      <Toc />
+      <Toc activeId={activeId} />
       <main style={mainStyle}>
         <header style={heroStyle}>
           <HeroDecor />
           <div style={heroEyebrowStyle}>DAMO · UI · DESIGN SYSTEM</div>
           <h1 style={heroTitleStyle}>
-            Scacchi + dama,
+            Token, componenti,
             <br />
             un sistema solo.
           </h1>
           <p style={heroLeadStyle}>
-            Linguaggio visivo completo: token, componenti, mascotte e pattern. Pensato per essere
-            importato in Figma in 3 modi diversi — vedi sezione 11.
+            Linguaggio visivo completo per React e Next.js: token, componenti, icone e pattern
+            Memphis. Pensato per essere importato in Figma in 3 modi diversi — vedi sezione 11.
           </p>
           <div style={heroMetaStyle}>
             <span>
@@ -1575,7 +1540,7 @@ export default function DesignSystemPage() {
               <b style={heroMetaBoldStyle}>30</b> icone
             </span>
             <span>
-              <b style={heroMetaBoldStyle}>6</b> pattern
+              <b style={heroMetaBoldStyle}>{PATTERNS.length}</b> pattern
             </span>
           </div>
           <span style={heroAccentStyle} aria-hidden />

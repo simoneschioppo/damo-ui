@@ -47,7 +47,7 @@ describe('AppTopBar', () => {
     expect(header).not.toBeNull()
     expect(header!.className).toContain('sticky')
     expect(header!.className).toContain('top-0')
-    expect(header!.className).toContain('z-sticky')
+    expect(header!.className).toContain('z-header')
   })
 
   it('omits sticky classes when sticky={false}', () => {
@@ -55,7 +55,7 @@ describe('AppTopBar', () => {
     const header = container.querySelector('header')
     expect(header).not.toBeNull()
     expect(header!.className).not.toContain('sticky')
-    expect(header!.className).not.toContain('z-sticky')
+    expect(header!.className).not.toContain('z-header')
   })
 
   it('applies the Memphis chrome classes on the header', () => {

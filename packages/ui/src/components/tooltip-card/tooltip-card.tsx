@@ -1,3 +1,5 @@
+'use client'
+
 import { forwardRef, type HTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
 
@@ -26,7 +28,7 @@ export const TooltipCard = forwardRef<HTMLDivElement, TooltipCardProps>(function
         data-slot="diamond"
         className="absolute bg-gold-500 border-2 border-border-memphis"
         style={{
-          top: -10,
+          top: -7,
           right: 20,
           width: 16,
           height: 16,

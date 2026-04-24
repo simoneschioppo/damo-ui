@@ -4,7 +4,7 @@ import { PlusIcon, SearchIcon, CogIcon } from '../../icons'
 
 export const Basic = () => (
   <div style={{ width: 720 }}>
-    <PageHeader title="Classifica" description="Top players del mese con ELO più alto." />
+    <PageHeader title="Team" description="Membri attivi ordinati per contributi recenti." />
   </div>
 )
 
@@ -13,7 +13,7 @@ export const WithEyebrow = () => (
     <PageHeader
       eyebrow="Dashboard"
       title="Panoramica"
-      description="Riepilogo delle tue ultime partite e statistiche."
+      description="Riepilogo degli eventi recenti e delle metriche chiave."
     />
   </div>
 )
@@ -21,9 +21,9 @@ export const WithEyebrow = () => (
 export const WithActions = () => (
   <div style={{ width: 720 }}>
     <PageHeader
-      eyebrow="Shop"
-      title="Set di pezzi"
-      description="Sblocca nuovi set per personalizzare la tua scacchiera."
+      eyebrow="Library"
+      title="Componenti"
+      description="Esplora i 47 componenti Damo UI, raggruppati per categoria."
       actions={
         <>
           <Button variant="ghost" size="sm">
@@ -41,9 +41,9 @@ export const WithActions = () => (
 export const FullStack = () => (
   <div style={{ width: 720 }}>
     <PageHeader
-      eyebrow="Partite recenti"
-      title="Damacchi · Classic 8×8"
-      description="Le tue ultime 10 partite classiche ordinate per data."
+      eyebrow="Attività recenti"
+      title="Damo UI · Componenti"
+      description="Le ultime 10 modifiche alla libreria, ordinate per data."
       actions={
         <Button variant="ghost" size="icon" aria-label="Settings">
           <CogIcon size={18} />

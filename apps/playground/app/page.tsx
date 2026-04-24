@@ -21,8 +21,8 @@ export default function IndexPage() {
         Damo UI
       </h1>
       <p style={{ fontSize: 18, color: 'var(--ink-muted)', marginBottom: 40 }}>
-        React component library Memphis-inspired per l&apos;app Damacchi. Esplora il design system o
-        genera il tuo tema custom.
+        Libreria React e Next.js di ispirazione Memphis: token, componenti e pattern pronti
+        all&apos;uso. Esplora il design system o genera il tuo tema custom.
       </p>
 
       <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 16 }}>

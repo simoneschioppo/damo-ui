@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: superpowers:subagent-driven-development. Fresh implementer subagent per task + spec review + code-quality review. Model: Opus 4.7 for implementers and reviewers. Every task uses TDD (tdd-workflow): write failing test → implement → green → refactor → commit.
 
-**Goal:** Rename `damo-ui` / `@damo/ui` to `damo-ui` / `@damo/ui`, decouple the lib from the Damacchi game (rename 5 domain cards), extract the playground chrome (TopBar + switchers + hook) into the lib, add 5 agnostic mock preview pages, rewrite `/theme-generator` as a full token editor with live preview, and fix the `/design-system` dark-mode regression.
+**Goal:** Rename `damo-ui` / `@damo/ui` to `damo-ui` / `@damo/ui`, decouple the lib so it works as a standalone Damo UI library (rename 5 domain cards), extract the playground chrome (TopBar + switchers + hook) into the lib, add 5 agnostic mock preview pages, rewrite `/theme-generator` as a full token editor with live preview, and fix the `/design-system` dark-mode regression.
 
 **Architecture:** Each component stays file-per-responsibility (≤400 LOC). Zero hex literals outside `tokens.css` + test fixtures. Every component: `forwardRef`, `cn(className)`, `...rest` spread. Theme-generator state is a single immutable object; mutations go through `setTheme` + `applyThemeToRoot`. Rename is atomic — no compat shim for `@damo/ui`.
 

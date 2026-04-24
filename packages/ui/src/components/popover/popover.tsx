@@ -1,3 +1,5 @@
+'use client'
+
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react'
 import { cn } from '../../lib/cn'

@@ -8,7 +8,7 @@
 
 ## 1. Obiettivo
 
-Costruire una libreria di componenti UI React, portable come un pacchetto npm privato, che incarna il design language **Memphis** del prodotto Damacchi. La libreria è consumata dall'app principale (Next.js) e deve essere copiabile/installabile come `packages/ui` in un futuro monorepo senza rework.
+Costruire una libreria di componenti UI React, portable come un pacchetto npm privato, che incarna il design language **Memphis** di Damo UI. La libreria è consumata da app Next.js consumer e deve essere copiabile/installabile come `packages/ui` in un futuro monorepo senza rework.
 
 **Ispirazione tecnica:** shadcn/ui. La customizzazione avviene tramite CSS variables; i componenti sono owned by consumer (copy-paste friendly) ma distribuiti come pacchetto versionato per comodità d'uso tra progetti.
 
@@ -19,8 +19,8 @@ Costruire una libreria di componenti UI React, portable come un pacchetto npm pr
 - Internazionalizzazione interna ai componenti (niente i18n library dentro la lib — tutti i testi visibili sono props)
 - RTL explicit support (ma uso di `margin-inline-*` dove naturale)
 - Supporto browser legacy (IE, Safari <14)
-- Animazioni di dominio gioco (Board, pezzi, rage aura): stanno nell'app consumer, non qui
-- Componenti di dominio Damacchi (Board, PieceView, HUD, PlayerCard, MoveHistory): stanno nell'app consumer
+- Animazioni di dominio specifiche dell'app consumer: stanno nell'app consumer, non qui
+- Componenti di dominio specifici dell'app consumer: stanno nell'app consumer
 - Publish pubblico su npm
 
 ---
@@ -351,8 +351,8 @@ import '@damo/ui/styles/themes.css'
 import '@damo/ui/styles/globals.css'
 
 // tailwind.config.ts
-import damacchi from '@damo/ui/tailwind.preset'
-export default { presets: [damacchi], content: [...] }
+import damoPreset from '@damo/ui/tailwind.preset'
+export default { presets: [damoPreset], content: [...] }
 ```
 
 ### 8.3 Build
@@ -520,13 +520,13 @@ Non implementato in v1. Hook ready: la struttura Playwright permette l'aggiunta 
 
 Privato su **GitHub Packages** (`npm.pkg.github.com`). Semver rigoroso.
 
-### 12.2 Consumo dal progetto damacchi
+### 12.2 Consumo da un progetto consumer
 
 Nel progetto Next consumer:
 
 ```bash
 # .npmrc
-@damacchi:registry=https://npm.pkg.github.com
+@damo:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 
 # install

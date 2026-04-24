@@ -33,7 +33,7 @@ RIMUOVERE queste pagine:
 
 Solo:
 
-- Logo DAMACCHI · UI a sinistra
+- Logo DAMO · UI a sinistra
 - 2 link: "Design System" + "Theme Generator"
 - 2 switcher: Theme (light/dark) + Palette (Plum+Gold/Frost/Circuit)
 - Rimosso Density switcher (troppo granulare per main nav)

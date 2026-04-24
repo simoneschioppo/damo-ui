@@ -3,11 +3,11 @@ import { TrophyIcon, TargetIcon, ClockIcon } from '../../icons'
 
 export const Basic = () => (
   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32, width: 600 }}>
-    <Stat label="ELO rating" value="1842" delta="+42 questa settimana" deltaTone="positive" />
+    <Stat label="Utenti attivi" value="1842" delta="+42 questa settimana" deltaTone="positive" />
     <Stat
-      label="Vittorie"
+      label="Conversioni"
       value="72"
-      delta="70% win rate"
+      delta="70% rate"
       deltaTone="neutral"
       icon={<TrophyIcon size={14} />}
     />
@@ -23,14 +23,14 @@ export const Basic = () => (
 
 export const WithNegativeDelta = () => (
   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 32, width: 400 }}>
-    <Stat label="Sconfitte" value="31" delta="+5 vs scorsa settimana" deltaTone="negative" />
-    <Stat label="Pareggi" value="8" delta="stable" deltaTone="neutral" />
+    <Stat label="Errori" value="31" delta="+5 vs scorsa settimana" deltaTone="negative" />
+    <Stat label="Pending" value="8" delta="stable" deltaTone="neutral" />
   </div>
 )
 
 export const LargeNumbers = () => (
   <div style={{ display: 'flex', gap: 32 }}>
-    <Stat label="Partite totali" value="12,847" />
-    <Stat label="Mosse giocate" value="428K" icon={<TargetIcon size={14} />} />
+    <Stat label="Eventi totali" value="12,847" />
+    <Stat label="Interazioni" value="428K" icon={<TargetIcon size={14} />} />
   </div>
 )
