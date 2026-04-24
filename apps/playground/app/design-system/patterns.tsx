@@ -11,40 +11,40 @@ export interface PatternDef {
 export const PATTERNS: ReadonlyArray<PatternDef> = [
   {
     name: 'STRIPES 45°',
-    background: 'repeating-linear-gradient(45deg, var(--gold-500) 0 6px, transparent 6px 14px)',
+    background: 'repeating-linear-gradient(45deg, var(--primary) 0 6px, transparent 6px 14px)',
   },
   {
     name: 'STRIPES H',
-    background: 'repeating-linear-gradient(0deg, var(--plum-900) 0 4px, transparent 4px 12px)',
+    background: 'repeating-linear-gradient(0deg, var(--foreground) 0 4px, transparent 4px 12px)',
   },
   {
     name: 'DOTS',
-    background: 'radial-gradient(var(--ink) 2px, transparent 2px)',
+    background: 'radial-gradient(var(--foreground) 2px, transparent 2px)',
     backgroundSize: '14px 14px',
   },
   {
     name: 'GRID',
     background:
-      'linear-gradient(var(--ink) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--ink) 1.5px, transparent 1.5px)',
+      'linear-gradient(var(--foreground) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--foreground) 1.5px, transparent 1.5px)',
     backgroundSize: '20px 20px',
   },
   {
     name: 'CHECKER',
     background:
-      'linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%), linear-gradient(45deg, var(--paper-200) 25%, transparent 25%, transparent 75%, var(--paper-200) 75%)',
+      'linear-gradient(45deg, var(--muted) 25%, transparent 25%, transparent 75%, var(--muted) 75%), linear-gradient(45deg, var(--muted) 25%, transparent 25%, transparent 75%, var(--muted) 75%)',
     backgroundColor: '#fff',
     backgroundSize: '20px 20px',
   },
   {
     name: 'WEAVE',
     background:
-      'linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%), linear-gradient(45deg, var(--gold-500) 25%, transparent 25%, transparent 75%, var(--gold-500) 75%)',
+      'linear-gradient(45deg, var(--primary) 25%, transparent 25%, transparent 75%, var(--primary) 75%), linear-gradient(45deg, var(--primary) 25%, transparent 25%, transparent 75%, var(--primary) 75%)',
     backgroundSize: '24px 24px',
-    backgroundColor: 'var(--paper-50)',
+    backgroundColor: 'var(--background)',
   },
   {
     name: 'WAVES',
-    background: 'var(--gold-500)',
+    background: 'var(--primary)',
     children: (
       <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
         <path
@@ -61,7 +61,7 @@ export const PATTERNS: ReadonlyArray<PatternDef> = [
         />
         <path
           d="M0 30 Q 12.5 0 25 30 T 50 30 T 75 30 T 100 30"
-          stroke="var(--plum-900)"
+          stroke="var(--foreground)"
           strokeWidth="3"
           fill="none"
         />
@@ -70,24 +70,24 @@ export const PATTERNS: ReadonlyArray<PatternDef> = [
   },
   {
     name: 'SCATTER',
-    background: 'var(--paper-100)',
+    background: 'var(--card)',
     children: (
       <svg width="100%" height="100%" viewBox="0 0 100 100">
-        <circle cx="20" cy="20" r="8" fill="var(--gold-500)" stroke="#000" strokeWidth="2" />
+        <circle cx="20" cy="20" r="8" fill="var(--primary)" stroke="#000" strokeWidth="2" />
         <rect
           x="55"
           y="10"
           width="18"
           height="18"
           transform="rotate(45 64 19)"
-          fill="var(--plum-500)"
+          fill="var(--secondary)"
           stroke="#000"
           strokeWidth="2"
         />
-        <polygon points="80,70 95,95 65,95" fill="var(--plum-900)" />
+        <polygon points="80,70 95,95 65,95" fill="var(--foreground)" />
         <path d="M10 60 Q 25 50 40 60 T 55 70" stroke="#000" strokeWidth="3" fill="none" />
         <circle cx="72" cy="55" r="4" fill="#000" />
-        <path d="M15 85 l8 8 M23 85 l-8 8" stroke="var(--gold-500)" strokeWidth="3" />
+        <path d="M15 85 l8 8 M23 85 l-8 8" stroke="var(--primary)" strokeWidth="3" />
       </svg>
     ),
   },
