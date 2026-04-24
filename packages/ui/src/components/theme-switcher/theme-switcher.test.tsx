@@ -65,9 +65,9 @@ describe('ThemeSwitcher', () => {
     const { getByRole } = render(<ThemeSwitcher />)
     const darkBtn = getByRole('button', { name: 'Dark' }) as HTMLButtonElement
     const lightBtn = getByRole('button', { name: 'Light' }) as HTMLButtonElement
-    expect(darkBtn.className).toContain('bg-plum-500')
-    expect(darkBtn.className).toContain('text-paper-50')
-    expect(lightBtn.className).toContain('bg-surface')
-    expect(lightBtn.className).toContain('text-ink')
+    expect(darkBtn.className).toContain('bg-secondary')
+    expect(darkBtn.className).toContain('text-secondary-foreground')
+    expect(lightBtn.className).toContain('bg-card')
+    expect(lightBtn.className).toContain('text-card-foreground')
   })
 })
