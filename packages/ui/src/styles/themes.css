@@ -5,6 +5,60 @@
  *   <html data-theme="dark" data-palette="sunset">
  */
 
+/* ════════════════════════════════════════════════════════════════
+ * New semantic layer (shadcn-style, paired bg↔fg)
+ * Added alongside the legacy semantic vars until component migration
+ * completes. See docs/specs/2026-04-24-theme-architecture-refactor-design.md
+ * ════════════════════════════════════════════════════════════════ */
+
+:root,
+:root[data-theme='light'] {
+  /* Surfaces */
+  --background: var(--paper-50);
+  --foreground: var(--plum-900);
+  --card: var(--white);
+  --card-foreground: var(--plum-900);
+  --popover: var(--white);
+  --popover-foreground: var(--plum-900);
+  --muted: var(--paper-100);
+  --muted-foreground: var(--plum-700);
+
+  /* Intent */
+  --primary: var(--gold-500);
+  --primary-foreground: var(--white);
+  --secondary: var(--plum-500);
+  --secondary-foreground: var(--paper-50);
+  --accent-new: var(--gold-100);
+  --accent-new-foreground: var(--plum-900);
+  --destructive: #a13a2c;
+  --destructive-foreground: var(--paper-50);
+
+  /* Status (paired) */
+  --success-foreground: var(--paper-50);
+  --warning-foreground: var(--paper-50);
+  --info-foreground: var(--paper-50);
+  --rage-foreground: var(--paper-50);
+
+  /* Chrome primitives */
+  --input: color-mix(in oklab, var(--plum-900) 12%, transparent);
+
+  /* Memphis identity */
+  --memphis-shadow-color: var(--black);
+  --memphis-border-color: var(--black);
+
+  /* Badge-specific */
+  --badge-featured: var(--gold-500);
+  --badge-featured-foreground: var(--black);
+  --badge-copper: var(--gold-500);
+  --badge-copper-foreground: var(--white);
+  --badge-navy: var(--plum-900);
+  --badge-navy-foreground: var(--gold-200);
+  --badge-draw: var(--paper-100);
+  --badge-draw-foreground: var(--plum-900);
+  --badge-rank: var(--gold-100);
+  --badge-rank-foreground: var(--plum-900);
+}
+
 /* ── Dark theme (riassegna semantici, palette resta) ── */
 :root[data-theme='dark'] {
   --bg: var(--plum-900);
@@ -17,6 +71,50 @@
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
   --border-memphis: var(--paper-50);
   --shadow-memphis-color: var(--paper-50);
+
+  /* New semantic layer — dark values */
+  --background: var(--plum-900);
+  --foreground: var(--paper-50);
+  --card: var(--plum-800);
+  --card-foreground: var(--paper-50);
+  --popover: var(--plum-800);
+  --popover-foreground: var(--paper-50);
+  --muted: var(--plum-700);
+  --muted-foreground: var(--plum-300);
+
+  --primary: var(--gold-500);
+  --primary-foreground: var(--plum-900);
+  --secondary: var(--plum-500);
+  --secondary-foreground: var(--paper-50);
+  --accent-new: var(--plum-700);
+  --accent-new-foreground: var(--gold-200);
+  --destructive: #c94a2f;
+  --destructive-foreground: var(--paper-50);
+
+  --success: #6fa85c;
+  --success-foreground: var(--plum-900);
+  --warning: var(--gold-500);
+  --warning-foreground: var(--plum-900);
+  --info: var(--plum-300);
+  --info-foreground: var(--plum-900);
+  --rage: #e06b4f;
+  --rage-foreground: var(--plum-900);
+
+  --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
+
+  --memphis-shadow-color: var(--paper-50);
+  --memphis-border-color: var(--paper-50);
+
+  --badge-featured: var(--gold-500);
+  --badge-featured-foreground: var(--plum-900);
+  --badge-copper: var(--gold-500);
+  --badge-copper-foreground: var(--paper-50);
+  --badge-navy: var(--plum-700);
+  --badge-navy-foreground: var(--gold-200);
+  --badge-draw: var(--plum-700);
+  --badge-draw-foreground: var(--paper-50);
+  --badge-rank: var(--plum-700);
+  --badge-rank-foreground: var(--gold-200);
 }
 
 /* ── Scoped dark preview (theme-generator) ────────────
@@ -35,6 +133,50 @@
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
   --border-memphis: var(--paper-50);
   --shadow-memphis-color: var(--paper-50);
+
+  /* New semantic layer — dark values */
+  --background: var(--plum-900);
+  --foreground: var(--paper-50);
+  --card: var(--plum-800);
+  --card-foreground: var(--paper-50);
+  --popover: var(--plum-800);
+  --popover-foreground: var(--paper-50);
+  --muted: var(--plum-700);
+  --muted-foreground: var(--plum-300);
+
+  --primary: var(--gold-500);
+  --primary-foreground: var(--plum-900);
+  --secondary: var(--plum-500);
+  --secondary-foreground: var(--paper-50);
+  --accent-new: var(--plum-700);
+  --accent-new-foreground: var(--gold-200);
+  --destructive: #c94a2f;
+  --destructive-foreground: var(--paper-50);
+
+  --success: #6fa85c;
+  --success-foreground: var(--plum-900);
+  --warning: var(--gold-500);
+  --warning-foreground: var(--plum-900);
+  --info: var(--plum-300);
+  --info-foreground: var(--plum-900);
+  --rage: #e06b4f;
+  --rage-foreground: var(--plum-900);
+
+  --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
+
+  --memphis-shadow-color: var(--paper-50);
+  --memphis-border-color: var(--paper-50);
+
+  --badge-featured: var(--gold-500);
+  --badge-featured-foreground: var(--plum-900);
+  --badge-copper: var(--gold-500);
+  --badge-copper-foreground: var(--paper-50);
+  --badge-navy: var(--plum-700);
+  --badge-navy-foreground: var(--gold-200);
+  --badge-draw: var(--plum-700);
+  --badge-draw-foreground: var(--paper-50);
+  --badge-rank: var(--plum-700);
+  --badge-rank-foreground: var(--gold-200);
 }
 
 /* ── Palette: Neon (magenta + lime, Memphis 80s puro) ── */

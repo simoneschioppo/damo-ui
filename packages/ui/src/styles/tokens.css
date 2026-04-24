@@ -68,6 +68,19 @@
   --medal-grandmaster-inner: var(--gold-500);
   --medal-grandmaster-text: var(--plum-900);
 
+  /* ── Chart colors (data viz, theme-agnostic) ──────── */
+  --chart-1: #7a3980;
+  --chart-2: #c4942a;
+  --chart-3: #4f8a3c;
+  --chart-4: #a13a2c;
+  --chart-5: #522357;
+
+  /* ── Nav-on-dark identity (always on dark surface) ─── */
+  --nav-on-dark-accent: var(--gold-200);
+  --nav-on-dark-accent-strong: var(--gold-400);
+  --nav-on-dark-foreground: rgba(255, 255, 255, 0.72);
+  --nav-on-dark-foreground-strong: var(--white);
+
   /* ── Typography: families ──────────────────────── */
   --font-display: 'Audiowide', system-ui, sans-serif;
   --font-body: 'Exo 2', system-ui, sans-serif;
