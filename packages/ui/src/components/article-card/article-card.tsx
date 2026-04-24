@@ -24,16 +24,16 @@ export const ArticleCard = forwardRef<HTMLDivElement, ArticleCardProps>(function
     <div
       ref={ref}
       className={cn(
-        'p-6 border-2 border-border-memphis bg-surface',
+        'p-6 border-2 border-memphis bg-card',
         className,
       )}
-      style={{ maxWidth: '420px', boxShadow: '4px 4px 0 var(--border-memphis)' }}
+      style={{ maxWidth: '420px', boxShadow: '4px 4px 0 var(--memphis-border-color)' }}
       {...rest}
     >
       {label && (
         <div
           data-slot="label"
-          className="font-mono font-bold uppercase text-ink-muted"
+          className="font-mono font-bold uppercase text-muted-foreground"
           style={{ fontSize: 10, letterSpacing: '0.2em', marginBottom: 8 }}
         >
           {label}
@@ -41,14 +41,14 @@ export const ArticleCard = forwardRef<HTMLDivElement, ArticleCardProps>(function
       )}
       <h4
         data-slot="title"
-        className="font-display text-ink m-0"
+        className="font-display text-foreground m-0"
         style={{ fontSize: 20, lineHeight: 1.15, marginBottom: 12 }}
       >
         {title}
       </h4>
       <div
         data-slot="body"
-        className="text-ink-soft leading-relaxed"
+        className="text-muted-foreground leading-relaxed"
         style={{ fontSize: 14 }}
       >
         {children}

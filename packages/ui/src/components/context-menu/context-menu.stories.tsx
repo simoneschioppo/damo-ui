@@ -16,7 +16,7 @@ const targetStyle = {
   border: '2px dashed var(--border-strong)',
   fontFamily: 'var(--font-mono)',
   fontSize: 12,
-  color: 'var(--ink-muted)',
+  color: 'var(--muted-foreground)',
   userSelect: 'none' as const,
 }
 

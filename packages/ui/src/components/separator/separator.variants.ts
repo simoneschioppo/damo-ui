@@ -11,7 +11,7 @@ export const separatorVariants = cva('shrink-0 bg-border', {
       dashed:
         'bg-transparent border-t border-dashed border-border-strong data-[orientation=vertical]:border-t-0 data-[orientation=vertical]:border-l',
       'memphis-double':
-        'bg-transparent border-y-2 border-border-memphis h-1 data-[orientation=vertical]:border-y-0 data-[orientation=vertical]:border-x-2 data-[orientation=vertical]:w-1 data-[orientation=vertical]:h-full',
+        'bg-transparent border-y-2 border-memphis h-1 data-[orientation=vertical]:border-y-0 data-[orientation=vertical]:border-x-2 data-[orientation=vertical]:w-1 data-[orientation=vertical]:h-full',
     },
   },
   defaultVariants: {

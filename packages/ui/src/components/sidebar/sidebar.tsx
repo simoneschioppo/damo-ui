@@ -56,7 +56,7 @@ export const SidebarBrand = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEle
     return (
       <div
         ref={ref}
-        className={cn('font-display text-lg tracking-[0.12em] text-accent', className)}
+        className={cn('font-display text-lg tracking-[0.12em] text-primary', className)}
         {...rest}
       />
     )
@@ -68,7 +68,7 @@ export const SidebarSubtitle = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDiv
     return (
       <div
         ref={ref}
-        className={cn('font-mono text-[10px] tracking-[0.2em] uppercase text-accent', className)}
+        className={cn('font-mono text-[10px] tracking-[0.2em] uppercase text-primary', className)}
         {...rest}
       />
     )
@@ -87,7 +87,7 @@ export const SidebarFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivEl
       <div
         ref={ref}
         className={cn(
-          'mt-auto pt-5 border-t-2 border-border-memphis flex flex-col gap-3',
+          'mt-auto pt-5 border-t-2 border-memphis flex flex-col gap-3',
           className,
         )}
         {...rest}

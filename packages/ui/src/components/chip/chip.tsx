@@ -32,7 +32,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(function Chip(
   { className, variant, size, dotColor, active = false, children, ...rest },
   ref,
 ) {
-  const dotBorderColor = active ? 'white' : 'var(--border-memphis)'
+  const dotBorderColor = active ? 'white' : 'var(--memphis-border-color)'
   const dotStyle: CSSProperties = {
     ...DOT_BASE_STYLE,
     background: dotColor ?? 'transparent',

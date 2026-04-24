@@ -40,7 +40,7 @@ describe('Medal', () => {
   it('applies a thin memphis border stroke only on the outer polygon', () => {
     const { container } = render(<Medal rank="gold" />)
     const polygons = container.querySelectorAll('polygon')
-    expect(polygons[0]!.getAttribute('stroke')).toBe('var(--border-memphis)')
+    expect(polygons[0]!.getAttribute('stroke')).toBe('var(--memphis-border-color)')
     expect(polygons[0]!.getAttribute('stroke-width')).toBe('0.5')
     expect(polygons[1]!.getAttribute('stroke')).toBeNull()
   })

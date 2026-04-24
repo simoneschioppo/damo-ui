@@ -16,7 +16,7 @@ export const chipVariants = cva(
         success:
           'bg-[color-mix(in_oklab,var(--success)_28%,var(--card))] text-[color-mix(in_oklab,var(--success)_65%,var(--foreground))] border-[color-mix(in_oklab,var(--success)_50%,transparent)]',
         danger:
-          'bg-[color-mix(in_oklab,var(--danger)_28%,var(--card))] text-[color-mix(in_oklab,var(--danger)_65%,var(--foreground))] border-[color-mix(in_oklab,var(--danger)_50%,transparent)]',
+          'bg-[color-mix(in_oklab,var(--destructive)_28%,var(--card))] text-[color-mix(in_oklab,var(--destructive)_65%,var(--foreground))] border-[color-mix(in_oklab,var(--destructive)_50%,transparent)]',
         warning:
           'bg-[color-mix(in_oklab,var(--warning)_28%,var(--card))] text-[color-mix(in_oklab,var(--warning)_65%,var(--foreground))] border-[color-mix(in_oklab,var(--warning)_50%,transparent)]',
       },

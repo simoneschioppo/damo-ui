@@ -19,7 +19,7 @@ import { HomeIcon, SearchIcon, CogIcon, TrophyIcon } from '../../icons'
 const frameStyle = {
   height: 560,
   width: 320,
-  border: '2px solid var(--border-memphis)',
+  border: '2px solid var(--memphis-border-color)',
   // Provide a fallback for stories since --header-height lives on the playground layout.
   ['--header-height' as string]: '0px',
 } as const

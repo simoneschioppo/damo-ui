@@ -22,8 +22,8 @@ describe('Sidebar', () => {
     const aside = container.querySelector('aside')!
     expect(aside.className).toContain('flex')
     expect(aside.className).toContain('flex-col')
-    expect(aside.className).toContain('bg-surface-2')
-    expect(aside.className).toContain('text-ink')
+    expect(aside.className).toContain('bg-muted')
+    expect(aside.className).toContain('text-foreground')
     expect(aside.className).toContain('overflow-hidden')
   })
 
@@ -42,18 +42,18 @@ describe('Sidebar', () => {
     expect(aside.className).not.toContain('top-[var(--header-height)]')
   })
 
-  it('applies border-right-2 border-border-memphis by default', () => {
+  it('applies border-right-2 border-memphis by default', () => {
     const { container } = render(<Sidebar>x</Sidebar>)
     const aside = container.querySelector('aside')!
     expect(aside.className).toContain('border-r-2')
-    expect(aside.className).toContain('border-border-memphis')
+    expect(aside.className).toContain('border-memphis')
   })
 
   it('applies border-left when border="left"', () => {
     const { container } = render(<Sidebar border="left">x</Sidebar>)
     const aside = container.querySelector('aside')!
     expect(aside.className).toContain('border-l-2')
-    expect(aside.className).toContain('border-border-memphis')
+    expect(aside.className).toContain('border-memphis')
     expect(aside.className).not.toContain('border-r-2')
   })
 
@@ -128,7 +128,7 @@ describe('SidebarBrand', () => {
     const el = container.firstElementChild!
     expect(el.className).toContain('font-display')
     expect(el.className).toContain('tracking-[0.12em]')
-    expect(el.className).toContain('text-accent')
+    expect(el.className).toContain('text-primary')
   })
 
   it('renders as a div by default', () => {
@@ -143,7 +143,7 @@ describe('SidebarSubtitle', () => {
     const el = container.firstElementChild!
     expect(el.className).toContain('font-mono')
     expect(el.className).toContain('uppercase')
-    expect(el.className).toContain('text-accent')
+    expect(el.className).toContain('text-primary')
   })
 })
 
@@ -163,7 +163,7 @@ describe('SidebarFooter', () => {
     const el = container.firstElementChild!
     expect(el.className).toContain('mt-auto')
     expect(el.className).toContain('border-t-2')
-    expect(el.className).toContain('border-border-memphis')
+    expect(el.className).toContain('border-memphis')
     expect(el.className).toContain('pt-5')
     expect(el.className).toContain('flex')
     expect(el.className).toContain('flex-col')

@@ -62,22 +62,22 @@ export const ColorScale = forwardRef<HTMLDivElement, ColorScaleProps>(function C
     alignItems: 'baseline',
     gap: 12,
   }
-  const titleStyle: CSSProperties = { fontSize: 28, margin: 0, color: 'var(--ink)' }
+  const titleStyle: CSSProperties = { fontSize: 28, margin: 0, color: 'var(--foreground)' }
   const tokenLabelStyle: CSSProperties = {
     fontFamily: 'var(--font-mono)',
     fontSize: 13,
-    color: 'var(--accent)',
+    color: 'var(--primary)',
     fontWeight: 700,
   }
   const descStyle: CSSProperties = {
-    color: 'var(--ink-muted)',
+    color: 'var(--muted-foreground)',
     fontSize: 13,
     fontStyle: 'italic',
   }
   const gridStyle: CSSProperties = {
     display: 'grid',
     gridTemplateColumns: `repeat(${stops.length}, 1fr)`,
-    border: '2px solid var(--border-memphis)',
+    border: '2px solid var(--memphis-border-color)',
     boxShadow: '6px 6px 0 var(--memphis-shadow-color)',
     overflow: 'hidden',
   }
@@ -106,7 +106,7 @@ export const ColorScale = forwardRef<HTMLDivElement, ColorScaleProps>(function C
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-end',
-            borderLeft: idx === 0 ? 'none' : '2px solid var(--border-memphis)',
+            borderLeft: idx === 0 ? 'none' : '2px solid var(--memphis-border-color)',
           }
           return (
             <div key={s.k} data-color-scale-stop style={cellStyle}>

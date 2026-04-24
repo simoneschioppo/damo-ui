@@ -42,7 +42,7 @@ describe('SectionHeader', () => {
   it('renders the desc with ink-soft color', () => {
     render(<SectionHeader num="01" title="Colori" desc="Color palette" />)
     const desc = screen.getByText('Color palette')
-    expect(desc.className).toContain('text-ink-soft')
+    expect(desc.className).toContain('text-muted-foreground')
   })
 
   it('applies flex wrap layout on the root', () => {

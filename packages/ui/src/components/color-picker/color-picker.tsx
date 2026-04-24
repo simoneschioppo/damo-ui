@@ -17,8 +17,8 @@ const swatchStyle: CSSProperties = {
   width: 44,
   height: 40,
   padding: 2,
-  border: '2px solid var(--border-memphis)',
-  background: 'var(--surface)',
+  border: '2px solid var(--memphis-border-color)',
+  background: 'var(--card)',
   cursor: 'pointer',
 }
 

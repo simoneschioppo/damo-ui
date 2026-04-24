@@ -5,7 +5,7 @@ export const badgeVariants = cva(
     'inline-flex items-center gap-1 px-2 py-0.5',
     'text-[11px] font-mono font-bold uppercase tracking-[0.08em]',
     'rounded-none whitespace-nowrap',
-    'border-2 border-border-memphis shadow-memphis-sm',
+    'border-2 border-memphis shadow-memphis-sm',
   ],
   {
     variants: {

@@ -5,7 +5,7 @@ const Demo = ({ label }: { label: string }) => (
     style={{
       padding: 16,
       background: 'var(--gold-100)',
-      border: '2px solid var(--border-memphis)',
+      border: '2px solid var(--memphis-border-color)',
       fontFamily: 'var(--font-mono)',
       fontSize: 13,
     }}

@@ -51,8 +51,8 @@ describe('FeatureCard', () => {
     )
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
-    expect(root.className).toContain('border-border-memphis')
-    expect(root.className).toContain('bg-surface')
+    expect(root.className).toContain('border-memphis')
+    expect(root.className).toContain('bg-card')
   })
 
   it('has a fixed width of 280px via inline style', () => {

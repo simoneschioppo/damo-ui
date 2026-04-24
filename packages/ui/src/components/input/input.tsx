@@ -24,7 +24,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         'hover:bg-muted',
         'focus-visible:outline-none focus-visible:border-primary focus-visible:[--memphis-shadow-color:var(--primary)] focus-visible:shadow-memphis',
         'disabled:bg-muted disabled:text-muted-foreground disabled:pointer-events-none',
-        'aria-invalid:border-danger aria-invalid:[--memphis-shadow-color:var(--danger)] aria-invalid:shadow-memphis',
+        'aria-invalid:border-destructive aria-invalid:[--memphis-shadow-color:var(--destructive)] aria-invalid:shadow-memphis',
         className,
       )}
       {...rest}
