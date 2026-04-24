@@ -28,7 +28,7 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
         'p-5 border-2 border-border-memphis bg-surface',
         className,
       )}
-      style={{ width: '280px', boxShadow: '4px 4px 0 var(--gold-500)' }}
+      style={{ width: '280px', boxShadow: '4px 4px 0 var(--primary)' }}
       {...rest}
     >
       <h4
