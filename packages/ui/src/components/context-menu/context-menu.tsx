@@ -26,7 +26,7 @@ export const ContextMenuContent = forwardRef<
       <ContextMenuPrimitive.Content
         ref={ref}
         className={cn(
-          'z-dropdown min-w-[10rem] overflow-hidden bg-surface text-ink',
+          'z-dropdown min-w-[10rem] overflow-hidden bg-card text-foreground',
           'border border-border rounded-md shadow-md p-1',
           className,
         )}
@@ -46,7 +46,7 @@ export const ContextMenuItem = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center gap-2',
         'px-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink',
+        'focus:bg-muted focus:text-foreground',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         inset && 'pl-8',
         className,
@@ -67,7 +67,7 @@ export const ContextMenuCheckboxItem = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center',
         'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink',
+        'focus:bg-muted focus:text-foreground',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         className,
       )}
@@ -93,7 +93,7 @@ export const ContextMenuRadioItem = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center',
         'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink',
+        'focus:bg-muted focus:text-foreground',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         className,
       )}
@@ -101,7 +101,7 @@ export const ContextMenuRadioItem = forwardRef<
     >
       <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
         <ContextMenuPrimitive.ItemIndicator>
-          <span className="h-2 w-2 rounded-full bg-plum-500" />
+          <span className="h-2 w-2 rounded-full bg-secondary" />
         </ContextMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -117,7 +117,7 @@ export const ContextMenuLabel = forwardRef<
     <ContextMenuPrimitive.Label
       ref={ref}
       className={cn(
-        'px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink-muted',
+        'px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground',
         inset && 'pl-8',
         className,
       )}
@@ -142,7 +142,7 @@ export const ContextMenuSeparator = forwardRef<
 export function ContextMenuShortcut({ className, ...rest }: HTMLAttributes<HTMLSpanElement>) {
   return (
     <span
-      className={cn('ml-auto text-xs text-ink-muted font-mono tracking-wider', className)}
+      className={cn('ml-auto text-xs text-muted-foreground font-mono tracking-wider', className)}
       {...rest}
     />
   )
@@ -158,7 +158,7 @@ export const ContextMenuSubTrigger = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center gap-2',
         'px-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink data-[state=open]:bg-surface-2',
+        'focus:bg-muted focus:text-foreground data-[state=open]:bg-muted',
         inset && 'pl-8',
         className,
       )}
@@ -178,7 +178,7 @@ export const ContextMenuSubContent = forwardRef<
     <ContextMenuPrimitive.SubContent
       ref={ref}
       className={cn(
-        'z-dropdown min-w-[8rem] overflow-hidden bg-surface text-ink',
+        'z-dropdown min-w-[8rem] overflow-hidden bg-card text-foreground',
         'border border-border rounded-md shadow-md p-1',
         className,
       )}
