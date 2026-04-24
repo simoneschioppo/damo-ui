@@ -45,10 +45,10 @@ describe('MemphisShape', () => {
     expect(svg.getAttribute('height')).toBe('128')
   })
 
-  it('uses default color var(--plum-500)', () => {
+  it('uses default color var(--secondary)', () => {
     const { container } = render(<MemphisShape variant="circle" />)
     const filled = container.querySelector('[fill]') as SVGElement
-    expect(filled.getAttribute('fill')).toBe('var(--plum-500)')
+    expect(filled.getAttribute('fill')).toBe('var(--secondary)')
   })
 
   it.each(FILLED_VARIANTS)('applies color as fill on filled variant %s', (variant) => {

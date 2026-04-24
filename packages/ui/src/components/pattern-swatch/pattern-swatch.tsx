@@ -49,7 +49,7 @@ export const PatternSwatch = forwardRef<HTMLDivElement, PatternSwatchProps>(func
       >
         {name}
       </span>
-      <div className="aspect-square bg-paper-50 relative overflow-hidden" style={tileStyle}>
+      <div className="aspect-square bg-background relative overflow-hidden" style={tileStyle}>
         {children}
       </div>
     </div>

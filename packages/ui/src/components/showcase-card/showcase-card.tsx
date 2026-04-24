@@ -28,7 +28,7 @@ export const ShowcaseCard = forwardRef<HTMLDivElement, ShowcaseCardProps>(functi
       style={{
         background: 'var(--surface)',
         border: '2px solid var(--border-memphis)',
-        boxShadow: '4px 4px 0 var(--black)',
+        boxShadow: '4px 4px 0 var(--memphis-shadow-color)',
         ...style,
       }}
       {...rest}

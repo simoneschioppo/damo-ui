@@ -42,7 +42,7 @@ describe('PatternSwatch', () => {
     const tile = root.children[1] as HTMLElement
     expect(tile).toBeTruthy()
     expect(tile.className).toContain('aspect-square')
-    expect(tile.className).toContain('bg-paper-50')
+    expect(tile.className).toContain('bg-background')
   })
 
   it('forwards background prop to tile inline style', () => {

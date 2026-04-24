@@ -63,12 +63,12 @@ describe('FeatureCard', () => {
     expect(root.style.width).toBe('280px')
   })
 
-  it('uses the gold-500 CSS var for the shadow', () => {
+  it('uses the primary CSS var for the shadow', () => {
     const { container } = render(
       <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
     )
     const root = container.firstChild as HTMLElement
-    expect(root.style.boxShadow).toContain('var(--gold-500)')
+    expect(root.style.boxShadow).toContain('var(--primary)')
   })
 
   it('forwards className', () => {
