@@ -10,15 +10,15 @@ export const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-surface-2 text-ink',
-        featured: 'bg-gold-500 text-black',
-        copper: 'bg-gold-500 text-white',
-        navy: 'bg-plum-900 text-gold-200',
-        win: 'bg-[var(--success)] text-white',
-        loss: 'bg-[var(--danger)] text-white',
-        draw: 'bg-paper-100 text-plum-900',
-        rank: 'bg-gold-100 text-plum-900',
-        outline: 'bg-transparent text-ink',
+        default: 'bg-muted text-muted-foreground',
+        featured: 'bg-badge-featured text-badge-featured-foreground',
+        copper: 'bg-badge-copper text-badge-copper-foreground',
+        navy: 'bg-badge-navy text-badge-navy-foreground',
+        win: 'bg-success text-success-foreground',
+        loss: 'bg-destructive text-destructive-foreground',
+        draw: 'bg-badge-draw text-badge-draw-foreground',
+        rank: 'bg-badge-rank text-badge-rank-foreground',
+        outline: 'bg-transparent text-foreground',
       },
     },
     defaultVariants: {
