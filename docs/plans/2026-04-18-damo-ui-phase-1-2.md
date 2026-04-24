@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Scaffoldare il monorepo `damacchi-ui` (pnpm workspace con `packages/ui`, `apps/playground`, `e2e`) e implementare il Design System base (CSS token, theme/palette/density switchers, pagina `/tokens` del playground che mostra tutto).
+**Goal:** Scaffoldare il monorepo Damo UI (pnpm workspace con `packages/ui`, `apps/playground`, `e2e`) e implementare il Design System base (CSS token, theme/palette/density switchers, pagina `/tokens` del playground che mostra tutto).
 
 **Architecture:** pnpm workspace monorepo leggero. La lib `@damo/ui` contiene solo token + utilities + Ladle setup (nessun componente ancora — arrivano in Plan 2+). Il playground Next 15 importa la lib via `workspace:*`, mostra i token in una pagina showcase e permette di switchare tema/palette/density. L'e2e workspace Playwright è presente ma vuoto (0 test).
 
@@ -140,7 +140,7 @@ packages:
 
 ```json
 {
-  "name": "damacchi-ui-monorepo",
+  "name": "damo-ui-monorepo",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.12.0",
@@ -149,11 +149,11 @@ packages:
   },
   "scripts": {
     "dev:lib": "pnpm --filter @damo/ui dev",
-    "dev:playground": "pnpm --filter @damacchi/playground dev",
+    "dev:playground": "pnpm --filter @damo/playground dev",
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
     "build": "pnpm --filter @damo/ui build",
     "test": "pnpm --filter @damo/ui test",
-    "test:e2e": "pnpm --filter @damacchi/e2e test",
+    "test:e2e": "pnpm --filter @damo/e2e test",
     "lint": "pnpm -r lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,json,md,css}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,mjs,json,md,css}\""
@@ -217,7 +217,7 @@ prefer-workspace-packages=true
 ```markdown
 # Damo UI
 
-Memphis-inspired React component library for the Damacchi app.
+Memphis-inspired React component library.
 
 **Status:** pre-alpha (v0.0.0) — under active development.
 
@@ -732,7 +732,7 @@ mkdir -p ~/Documents/damacchi-ui/apps/playground/public
 
 ```json
 {
-  "name": "@damacchi/playground",
+  "name": "@damo/playground",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -870,7 +870,7 @@ Expected: `apps/playground/node_modules/` creato; `@damo/ui` linkato come worksp
 Run:
 
 ```bash
-pnpm --filter @damacchi/playground dev
+pnpm --filter @damo/playground dev
 ```
 
 Expected: Next su `http://localhost:3000`, pagina "Work in progress" visibile. Ctrl+C.
@@ -907,7 +907,7 @@ touch ~/Documents/damacchi-ui/e2e/tests/.gitkeep
 
 ```json
 {
-  "name": "@damacchi/e2e",
+  "name": "@damo/e2e",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -962,7 +962,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'pnpm --filter @damacchi/playground dev',
+    command: 'pnpm --filter @damo/playground dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
@@ -977,14 +977,14 @@ Run:
 ```bash
 cd ~/Documents/damacchi-ui
 pnpm install
-pnpm --filter @damacchi/e2e install-browsers
+pnpm --filter @damo/e2e install-browsers
 ```
 
 Expected: chromium + webkit scaricati (~200MB).
 
 - [ ] **Step 6: Verificare Playwright gira (0 test)**
 
-Run: `pnpm --filter @damacchi/e2e test`
+Run: `pnpm --filter @damo/e2e test`
 Expected: output `No tests found`. Exit 0.
 
 - [ ] **Step 7: Commit**
@@ -1042,7 +1042,7 @@ jobs:
         run: pnpm lint
 
       - name: Typecheck
-        run: pnpm --filter @damo/ui typecheck && pnpm --filter @damacchi/playground typecheck
+        run: pnpm --filter @damo/ui typecheck && pnpm --filter @damo/playground typecheck
 
       - name: Unit tests
         run: pnpm test
@@ -1069,7 +1069,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: pnpm --filter @damacchi/e2e exec playwright install --with-deps chromium webkit
+        run: pnpm --filter @damo/e2e exec playwright install --with-deps chromium webkit
 
       - name: Run e2e
         run: pnpm test:e2e
@@ -1806,10 +1806,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 ```ts
 import type { Config } from 'tailwindcss'
-import damacchi from '@damo/ui/tailwind.preset'
+import damoPreset from '@damo/ui/tailwind.preset'
 
 const config: Config = {
-  presets: [damacchi as Config],
+  presets: [damoPreset as Config],
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', '../../packages/ui/dist/**/*.js'],
 }
 
@@ -1818,7 +1818,7 @@ export default config
 
 - [ ] **Step 4: Verificare dev server**
 
-Run: `pnpm --filter @damacchi/playground dev`
+Run: `pnpm --filter @damo/playground dev`
 Expected: pagina home renderizza con font Exo 2 applicato (se presente), nessun errore console. Ctrl+C.
 
 - [ ] **Step 5: Commit**
@@ -1846,7 +1846,7 @@ Per ora il playground non ha vitest. Aggiungere:
 Run:
 
 ```bash
-pnpm --filter @damacchi/playground add -D vitest@^2.1.1 @vitejs/plugin-react@^4.3.0 @testing-library/react@^16.0.1 @testing-library/jest-dom@^6.5.0 jsdom@^25.0.0 @vitest/coverage-v8@^2.1.1
+pnpm --filter @damo/playground add -D vitest@^2.1.1 @vitejs/plugin-react@^4.3.0 @testing-library/react@^16.0.1 @testing-library/jest-dom@^6.5.0 jsdom@^25.0.0 @vitest/coverage-v8@^2.1.1
 ```
 
 Creare `apps/playground/vitest.config.ts`:
@@ -1930,7 +1930,7 @@ describe('usePersistedAttr', () => {
 
 - [ ] **Step 3: Run test — FAIL**
 
-Run: `pnpm --filter @damacchi/playground test`
+Run: `pnpm --filter @damo/playground test`
 Expected: FAIL con `Cannot find module './use-persisted-attr'`.
 
 - [ ] **Step 4: Implementare `use-persisted-attr.ts`**
@@ -1968,7 +1968,7 @@ export function usePersistedAttr<T extends string>(
 
 - [ ] **Step 5: Run test — PASS**
 
-Run: `pnpm --filter @damacchi/playground test`
+Run: `pnpm --filter @damo/playground test`
 Expected: tutti i 5 test passano.
 
 - [ ] **Step 6: Commit**
@@ -2249,7 +2249,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 - [ ] **Step 3: Verificare**
 
-Run: `pnpm --filter @damacchi/playground dev`
+Run: `pnpm --filter @damo/playground dev`
 Expected:
 
 - Top bar visibile con DAMACCHI·UI + link Tokens + 3 switcher
@@ -2423,7 +2423,7 @@ export default function TokensPage() {
               >
                 {t.label} · {t.size}
               </span>
-              <span style={{ fontSize: t.size, fontWeight: 500 }}>Damacchi · regina e cavallo</span>
+              <span style={{ fontSize: t.size, fontWeight: 500 }}>Damo UI · typography sample</span>
             </div>
           ))}
         </div>
@@ -2431,7 +2431,7 @@ export default function TokensPage() {
 
       <Section title="Display font — Audiowide">
         <div className="display" style={{ fontSize: 72 }}>
-          Damacchi
+          Damo UI
         </div>
       </Section>
 
@@ -2511,7 +2511,7 @@ export default function TokensPage() {
 
 - [ ] **Step 2: Verificare in browser**
 
-Run: `pnpm --filter @damacchi/playground dev`
+Run: `pnpm --filter @damo/playground dev`
 Browse: `http://localhost:3000/tokens`
 
 Expected:

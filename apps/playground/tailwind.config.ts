@@ -1,8 +1,8 @@
 import type { Config } from 'tailwindcss'
-import damacchi from '@damo/ui/tailwind.preset'
+import damo from '@damo/ui/tailwind.preset'
 
 const config: Config = {
-  presets: [damacchi as Config],
+  presets: [damo as Config],
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', '../../packages/ui/dist/**/*.js'],
 }
 

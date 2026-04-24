@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * /design-system — Damacchi DS v1 on lib primitives only.
+ * /design-system — Damo UI DS v1 on lib primitives only.
  *
  * All 11 sections consume @damo/ui components (ColorScale, TokenSwatch,
  * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, FeatureCard,
@@ -513,13 +513,13 @@ function TypographySection() {
       >
         <TypeSpecimen
           name="DISPLAY · AUDIOWIDE · GOOGLE FONTS"
-          sample="Damacchi"
+          sample="Damo UI"
           fontFamily="var(--font-display)"
           sampleSize={72}
         />
         <TypeSpecimen
           name="BODY · EXO 2 · GOOGLE FONTS"
-          sample="Cavallo, ma a spazzare."
+          sample="Ogni token al suo posto."
           fontFamily="var(--font-body)"
           sampleSize={42}
         />
@@ -553,7 +553,7 @@ function TypographySection() {
               {t.name}
             </div>
             <div style={typeSpecStyle(t)}>
-              {t.upper ? 'SCACCHI + DAMA' : 'Damacchi · Cavallo e pedona'}
+              {t.upper ? 'DAMO · UI · DESIGN' : 'Damo UI · token e componenti'}
             </div>
             <div
               style={{
@@ -619,7 +619,7 @@ function ButtonsSection() {
   // State simulations use className arbitrary-value shorthands (Tailwind v4)
   // so we don't need inline style / boxShadow props.
   const primaryStates: ReadonlyArray<ButtonStateCell> = [
-    { label: 'Default', node: <Button variant="primary">GIOCA</Button> },
+    { label: 'Default', node: <Button variant="primary">SALVA</Button> },
     {
       label: 'Hover',
       node: (
@@ -627,7 +627,7 @@ function ButtonsSection() {
           variant="primary"
           className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--black)] bg-[var(--gold-400)]"
         >
-          GIOCA
+          SALVA
         </Button>
       ),
     },
@@ -638,7 +638,7 @@ function ButtonsSection() {
           variant="primary"
           className="translate-x-[3px] translate-y-[3px] shadow-[2px_2px_0_var(--black)]"
         >
-          GIOCA
+          SALVA
         </Button>
       ),
     },
@@ -649,7 +649,7 @@ function ButtonsSection() {
           variant="primary"
           className="outline outline-2 outline-offset-2 outline-[var(--ring)]"
         >
-          GIOCA
+          SALVA
         </Button>
       ),
     },
@@ -657,7 +657,7 @@ function ButtonsSection() {
       label: 'Disabled',
       node: (
         <Button variant="primary" disabled>
-          GIOCA
+          SALVA
         </Button>
       ),
     },
@@ -775,8 +775,8 @@ function CardsSection() {
         <ShowcaseCard label="USER CARD">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <UserCard
-              name="Marini · Bianco"
-              meta={<>ELO 1842 · RAPID</>}
+              name="Mario Rossi"
+              meta={<>Designer · Team Lead</>}
               trailing={
                 <span
                   className="font-mono font-bold text-ink border-2 border-gold-500 bg-paper-50"
@@ -787,7 +787,7 @@ function CardsSection() {
                     boxShadow: '2px 2px 0 var(--gold-500)',
                   }}
                 >
-                  05:42
+                  PRO
                 </span>
               }
             />
@@ -796,9 +796,9 @@ function CardsSection() {
         <ShowcaseCard label="FEATURE CARD">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <FeatureCard
-              title="CLASSICO"
-              desc="Scacchi ortodossi, pezzi mangiati tornano come pedine"
-              meta="10+5 MIN"
+              title="TIPOGRAFIA"
+              desc="Due famiglie, dieci scale — dal caption al display XL."
+              meta="10 STILI"
               icon={<ArrowRightIcon size={18} style={{ color: 'var(--accent)' }} />}
             />
           </div>
@@ -813,15 +813,15 @@ function CardsSection() {
             }}
           >
             <div style={{ width: 200 }}>
-              <TooltipCard label="Mosse rimanenti" title="23" body="" />
+              <TooltipCard label="Componenti totali" title="47" body="" />
             </div>
           </div>
         </ShowcaseCard>
         <ShowcaseCard label="ARTICLE CARD · neutra">
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <ArticleCard label="REGOLA" title="Mangia come scacchi, muovi come dama">
-              Il pezzo cattura con le regole degli scacchi. Ma se arriva in fondo, promuove come
-              nella dama italiana.
+            <ArticleCard label="GUIDA" title="Un import, un componente">
+              Ogni componente è importabile con una riga da <code>@damo/ui</code>. Tutti i token
+              sono CSS variables, quindi il tema cambia live senza rebuild.
             </ArticleCard>
           </div>
         </ShowcaseCard>
@@ -879,7 +879,7 @@ function InputsSection() {
               </label>
               <Input
                 id="nick-focus"
-                defaultValue="MarinaChess"
+                defaultValue="MarioRossi"
                 className="border-[var(--gold-500)] shadow-[3px_3px_0_var(--gold-500)] outline-none"
               />
               <span style={inputStateCaptionStyle}>Focus</span>
@@ -903,24 +903,24 @@ function InputsSection() {
         <ShowcaseCard label="SELECT">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div>
-              <label style={inputLabelStyle}>Modalità</label>
-              <Select defaultValue="classico">
+              <label style={inputLabelStyle}>Tema</label>
+              <Select defaultValue="light">
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="classico">Classico</SelectItem>
-                  <SelectItem value="torneo">Torneo</SelectItem>
-                  <SelectItem value="blitz">Blitz 3+0</SelectItem>
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
               <span style={subEyebrowStyle}>SEGMENTED</span>
-              <SegmentedControl defaultValue="blitz" aria-label="Tempo">
-                <SegmentedControlItem value="bullet">BULLET</SegmentedControlItem>
-                <SegmentedControlItem value="blitz">BLITZ</SegmentedControlItem>
-                <SegmentedControlItem value="rapid">RAPID</SegmentedControlItem>
+              <SegmentedControl defaultValue="md" aria-label="Size">
+                <SegmentedControlItem value="sm">SMALL</SegmentedControlItem>
+                <SegmentedControlItem value="md">MEDIUM</SegmentedControlItem>
+                <SegmentedControlItem value="lg">LARGE</SegmentedControlItem>
               </SegmentedControl>
             </div>
           </div>
@@ -994,9 +994,9 @@ function BadgesSection() {
             <Badge>DEFAULT</Badge>
             <Badge variant="copper">NUOVO</Badge>
             <Badge variant="navy">BETA</Badge>
-            <Badge variant="win">VITTORIA</Badge>
-            <Badge variant="loss">SCONFITTA</Badge>
-            <Badge variant="draw">PAREGGIO</Badge>
+            <Badge variant="win">SUCCESSO</Badge>
+            <Badge variant="loss">ERRORE</Badge>
+            <Badge variant="draw">AVVISO</Badge>
             <Badge variant="outline">OUTLINE</Badge>
           </div>
         </SubPanel>
@@ -1005,10 +1005,10 @@ function BadgesSection() {
 
         <SubPanel label="BADGE · rank / medal">
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Badge variant="rank">♛ GRAN MAESTRO</Badge>
-            <Badge variant="copper">★ TOP 100</Badge>
-            <Badge variant="navy">ELO 2100+</Badge>
-            <Badge variant="win">ON FIRE · 7W</Badge>
+            <Badge variant="rank">♛ PREMIUM</Badge>
+            <Badge variant="copper">★ TOP PICK</Badge>
+            <Badge variant="navy">PRO</Badge>
+            <Badge variant="win">LIVE · 7D</Badge>
           </div>
         </SubPanel>
 
@@ -1016,13 +1016,13 @@ function BadgesSection() {
 
         <SubPanel label="CHIP · tag filtrabili">
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Chip dotColor="var(--gold-500)">Blitz</Chip>
+            <Chip dotColor="var(--gold-500)">Button</Chip>
             <Chip active dotColor="#fff">
-              Rapid
+              Card
             </Chip>
-            <Chip dotColor="var(--plum-500)">Classico</Chip>
-            <Chip dotColor="var(--success)">Damacchi</Chip>
-            <Chip dotColor="var(--danger)">Torneo</Chip>
+            <Chip dotColor="var(--plum-500)">Dialog</Chip>
+            <Chip dotColor="var(--success)">Input</Chip>
+            <Chip dotColor="var(--danger)">Table</Chip>
           </div>
         </SubPanel>
       </ShowcaseCard>
@@ -1135,7 +1135,7 @@ const MEDALS: ReadonlyArray<MedalEntry> = [
   { rank: 'silver', label: 'ARGENTO', value: 2 },
   { rank: 'gold', label: 'ORO', value: 3 },
   { rank: 'master', label: 'MAESTRO', value: 'M' },
-  { rank: 'grandmaster', label: 'GRAN MAESTRO', value: 'GM' },
+  { rank: 'grandmaster', label: 'LEGGENDA', value: 'GM' },
 ]
 
 function AvatarsSection() {
@@ -1224,7 +1224,7 @@ function MascotSection() {
                 minHeight: 240,
               }}
             >
-              {/* Glifo provvisorio: un pezzo a forma di pedina coronata */}
+              {/* Glifo provvisorio: figura coronata che rappresenta la mascotte */}
               <svg
                 width="160"
                 height="180"
@@ -1266,8 +1266,8 @@ function MascotSection() {
 
           <SubPanel label="USAGE">
             <p style={{ color: 'var(--ink-soft)', fontSize: 14, lineHeight: 1.55, margin: 0 }}>
-              Damo è la mascotte ufficiale di Damacchi. Asset SVG/PNG arriveranno in v0.2 — per ora
-              usiamo un glifo provvisorio.
+              Damo è la mascotte della libreria. Asset SVG/PNG arriveranno in v0.2 — per ora usiamo
+              un glifo provvisorio.
             </p>
             <h4
               style={{
@@ -1521,13 +1521,13 @@ export default function DesignSystemPage() {
           <HeroDecor />
           <div style={heroEyebrowStyle}>DAMO · UI · DESIGN SYSTEM</div>
           <h1 style={heroTitleStyle}>
-            Scacchi + dama,
+            Token, componenti,
             <br />
             un sistema solo.
           </h1>
           <p style={heroLeadStyle}>
-            Linguaggio visivo completo: token, componenti, mascotte e pattern. Pensato per essere
-            importato in Figma in 3 modi diversi — vedi sezione 11.
+            Linguaggio visivo completo per React e Next.js: token, componenti, icone e pattern
+            Memphis. Pensato per essere importato in Figma in 3 modi diversi — vedi sezione 11.
           </p>
           <div style={heroMetaStyle}>
             <span>

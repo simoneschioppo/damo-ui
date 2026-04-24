@@ -12,15 +12,15 @@ const inputStyle = {
 export const Basic = () => (
   <div style={{ width: 320 }}>
     <FormField label="Email">
-      <input type="email" placeholder="you@damacchi.app" style={inputStyle} />
+      <input type="email" placeholder="you@example.com" style={inputStyle} />
     </FormField>
   </div>
 )
 
 export const WithDescription = () => (
   <div style={{ width: 320 }}>
-    <FormField label="Username" description="Usato per la classifica pubblica">
-      <input type="text" placeholder="damo_the_king" style={inputStyle} />
+    <FormField label="Username" description="Visibile pubblicamente nel profilo">
+      <input type="text" placeholder="mario_rossi" style={inputStyle} />
     </FormField>
   </div>
 )

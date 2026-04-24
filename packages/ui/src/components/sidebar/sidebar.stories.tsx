@@ -42,7 +42,7 @@ export const Default = () => (
             Cerca
           </NavItem>
           <NavItem href="#" icon={<TrophyIcon size={18} />}>
-            Classifica
+            Traguardi
           </NavItem>
           <NavItem href="#" icon={<CogIcon size={18} />}>
             Impostazioni

@@ -1,6 +1,6 @@
 # @damo/ui
 
-Memphis-inspired React component library for Damacchi app.
+Memphis-inspired React and Next.js component library.
 
 ## Install
 
@@ -8,10 +8,10 @@ Memphis-inspired React component library for Damacchi app.
 pnpm add @damo/ui
 ```
 
-Requires `@damacchi` scope in `.npmrc`:
+Requires `@damo` scope in `.npmrc`:
 
 ```
-@damacchi:registry=https://npm.pkg.github.com
+@damo:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 

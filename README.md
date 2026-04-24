@@ -1,6 +1,6 @@
 # Damo UI
 
-Memphis-inspired React component library for the Damacchi app.
+Memphis-inspired React and Next.js component library — token, componenti e pattern pronti all'uso.
 
 **Current version:** 0.1.0 — first tagged release
 
@@ -35,7 +35,7 @@ pnpm dev           # runs Ladle (port 61000) + Next playground (port 3000) in pa
 1. Configure `.npmrc` at the consumer repo root:
 
 ```
-@damacchi:registry=https://npm.pkg.github.com
+@damo:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
@@ -118,7 +118,7 @@ Three switchers via html data-attributes:
 
 ## Design Spec
 
-See `docs/specs/2026-04-18-damacchi-ui-design.md`.
+See `docs/specs/2026-04-18-damo-ui-design.md`.
 
 ## License
 

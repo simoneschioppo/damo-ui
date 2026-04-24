@@ -5,26 +5,26 @@ export const Info = () => (
 )
 
 export const Success = () => (
-  <Banner variant="success" title="Partita salvata">
-    Puoi riprenderla dalla tua dashboard.
+  <Banner variant="success" title="Modifiche salvate">
+    Le tue modifiche sono state applicate con successo.
   </Banner>
 )
 
 export const Warning = () => (
   <Banner variant="warning" title="Connessione instabile">
-    La partita potrebbe essere interrotta.
+    Alcune azioni potrebbero richiedere più tempo.
   </Banner>
 )
 
 export const Danger = () => (
   <Banner variant="danger" title="Errore">
-    Impossibile contattare il server di gioco.
+    Impossibile contattare il server. Riprova tra qualche istante.
   </Banner>
 )
 
 export const Rage = () => (
-  <Banner variant="rage" title="Rage attivo!">
-    I tuoi pezzi non hanno più cooldown.
+  <Banner variant="rage" title="Modalità intensa!">
+    Ritmo accelerato: tutte le animazioni sono ridotte al minimo.
   </Banner>
 )
 

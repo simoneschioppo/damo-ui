@@ -49,7 +49,7 @@ export const WithCheckboxes = () => {
         <DropdownMenuLabel>Preferenze audio</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem checked={sound} onCheckedChange={setSound}>
-          Suoni di gioco
+          Suoni di sistema
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem checked={music} onCheckedChange={setMusic}>
           Musica
@@ -85,14 +85,14 @@ export const WithSubmenu = () => (
       <Button variant="ghost">Più opzioni</Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent>
-      <DropdownMenuItem>Nuova partita</DropdownMenuItem>
+      <DropdownMenuItem>Nuovo progetto</DropdownMenuItem>
       <DropdownMenuSub>
-        <DropdownMenuSubTrigger>Modalità</DropdownMenuSubTrigger>
+        <DropdownMenuSubTrigger>Template</DropdownMenuSubTrigger>
         <DropdownMenuPortal>
           <DropdownMenuSubContent>
-            <DropdownMenuItem>Classic 8×8</DropdownMenuItem>
-            <DropdownMenuItem>Classic 10×10</DropdownMenuItem>
-            <DropdownMenuItem>Rage</DropdownMenuItem>
+            <DropdownMenuItem>Landing page</DropdownMenuItem>
+            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+            <DropdownMenuItem>Blog</DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>

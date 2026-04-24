@@ -1,6 +1,6 @@
 import { ScrollArea } from './scroll-area'
 
-const LONG = Array.from({ length: 40 }, (_, i) => `Riga ${i + 1} — Damacchi è un gioco ibrido.`)
+const LONG = Array.from({ length: 40 }, (_, i) => `Riga ${i + 1} — contenuto demo della lista.`)
 const WIDE = Array.from({ length: 20 }, (_, i) => `Colonna ${i + 1}`)
 
 export const Vertical = () => (
