@@ -10,7 +10,7 @@
  * (medals, charts, nav-on-dark, typography, radius, shadows, spacing, motion).
  *
  * Right main pane has two tabs: Preview (scene selector + preview-mode toggle)
- * / Export (CSS | Tailwind | JSON | Figma sub-tabs).
+ * / Export (CSS | Tailwind | JSON sub-tabs).
  */
 
 import { useMemo, useState, type CSSProperties } from 'react'
@@ -123,6 +123,11 @@ const DEFAULT_INCLUDE: IncludeFlags = {
   foundations: true,
 }
 
+// camelCase → "Title case" (Label component uppercases on render)
+function humanize(key: string): string {
+  return key.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase())
+}
+
 // ═══════════════════════════════════════════════════════════
 // Layout styles (inline, layout primitives only — no color)
 // ═══════════════════════════════════════════════════════════
@@ -137,29 +142,41 @@ const pageStyle: CSSProperties = {
 const mainStyle: CSSProperties = { padding: '32px 48px 64px', minWidth: 0 }
 const stackStyle: CSSProperties = { display: 'flex', flexDirection: 'column', gap: 12 }
 const rowStyle: CSSProperties = { display: 'flex', alignItems: 'center', gap: 8 }
-const pairedRowStyle: CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr auto',
-  gap: 10,
-  alignItems: 'end',
-}
 
-const pairedRowWrapperStyle: CSSProperties = {
+const pairBlockStyle: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  gap: 4,
-  paddingBottom: 8,
+  gap: 6,
+  paddingBottom: 10,
   borderBottom: '1px solid var(--border)',
 }
 
-const subLabelStyle: CSSProperties = {
-  fontSize: 9,
+const pairHeaderStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 8,
+}
+
+const pairRowStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+}
+
+const pairPrefixBaseStyle: CSSProperties = {
+  fontSize: 10,
   fontWeight: 700,
   letterSpacing: '0.08em',
   textTransform: 'uppercase',
   color: 'var(--muted-foreground)',
-  marginBottom: 2,
+  fontFamily: 'var(--font-mono)',
+  flexShrink: 0,
 }
+
+const pairPrefixShortStyle: CSSProperties = { ...pairPrefixBaseStyle, width: 22 }
+
+const pairPrefixWideStyle: CSSProperties = { ...pairPrefixBaseStyle, width: 48 }
 const preBoxStyle: CSSProperties = {
   maxHeight: 360,
   overflow: 'auto',
@@ -280,36 +297,36 @@ function ThemeEditor({ semantic, onChange }: ThemeEditorProps) {
               {groupKey}
             </AccordionTrigger>
             <AccordionContent>
-              <div style={{ ...stackStyle, gap: 6 }}>
+              <div style={{ ...stackStyle, gap: 12 }}>
                 {SEMANTIC_GROUPS[groupKey].map((entry) => {
                   if ('bg' in entry && 'fg' in entry) {
                     const bgVal = semantic[entry.bg as keyof SemanticTheme]
                     const fgVal = semantic[entry.fg as keyof SemanticTheme]
                     return (
-                      <div key={entry.label} style={pairedRowWrapperStyle}>
-                        <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--foreground)' }}>
-                          {entry.label}
-                        </span>
-                        <div style={pairedRowStyle}>
-                          <div>
-                            <div style={subLabelStyle}>BG</div>
-                            <ColorPicker
-                              label={`${entry.label} background`}
-                              value={bgVal}
-                              onChange={(v) => onChange(entry.bg as keyof SemanticTheme, v)}
-                              showInput={false}
-                            />
-                          </div>
-                          <div>
-                            <div style={subLabelStyle}>FG</div>
-                            <ColorPicker
-                              label={`${entry.label} foreground`}
-                              value={fgVal}
-                              onChange={(v) => onChange(entry.fg as keyof SemanticTheme, v)}
-                              showInput={false}
-                            />
-                          </div>
+                      <div key={entry.label} style={pairBlockStyle}>
+                        <div style={pairHeaderStyle}>
+                          <Label>{entry.label}</Label>
                           <ContrastBadge fg={fgVal} bg={bgVal} />
+                        </div>
+                        <div style={pairRowStyle}>
+                          <span style={pairPrefixShortStyle}>BG</span>
+                          <ColorPicker
+                            label={`${entry.label} background`}
+                            value={bgVal}
+                            onChange={(v) => onChange(entry.bg as keyof SemanticTheme, v)}
+                            showLabel={false}
+                            className="flex-1"
+                          />
+                        </div>
+                        <div style={pairRowStyle}>
+                          <span style={pairPrefixShortStyle}>FG</span>
+                          <ColorPicker
+                            label={`${entry.label} foreground`}
+                            value={fgVal}
+                            onChange={(v) => onChange(entry.fg as keyof SemanticTheme, v)}
+                            showLabel={false}
+                            className="flex-1"
+                          />
                         </div>
                       </div>
                     )
@@ -317,15 +334,12 @@ function ThemeEditor({ semantic, onChange }: ThemeEditorProps) {
                   // Chrome / memphis primitives — single color, no foreground pair
                   const singleVal = semantic[entry.key as keyof SemanticTheme]
                   return (
-                    <div key={entry.label} style={rowStyle}>
-                      <Label style={{ minWidth: 120, fontSize: 11 }}>{entry.label}</Label>
-                      <ColorPicker
-                        label={entry.label}
-                        value={singleVal}
-                        onChange={(v) => onChange(entry.key as keyof SemanticTheme, v)}
-                        showInput={false}
-                      />
-                    </div>
+                    <ColorPicker
+                      key={entry.label}
+                      label={entry.label}
+                      value={singleVal}
+                      onChange={(v) => onChange(entry.key as keyof SemanticTheme, v)}
+                    />
                   )
                 })}
               </div>
@@ -353,24 +367,22 @@ function IdentityEditor({ theme, dispatch }: IdentityEditorProps) {
       <AccordionItem value="medals">
         <AccordionTrigger>Medals</AccordionTrigger>
         <AccordionContent>
-          <div style={stackStyle}>
+          <div style={{ ...stackStyle, gap: 12 }}>
             {(['bronze', 'silver', 'gold', 'master', 'grandmaster'] as const).map((rank) => (
-              <div key={rank}>
-                <Label style={{ textTransform: 'capitalize', display: 'block', marginBottom: 4 }}>
-                  {rank}
-                </Label>
-                <div style={stackStyle}>
-                  {(['outer', 'inner', 'text'] as const).map((slot) => (
-                    <div key={slot} style={rowStyle}>
-                      <Label style={{ minWidth: 60 }}>{slot}</Label>
-                      <ColorPicker
-                        label={`${rank} ${slot}`}
-                        value={theme.identity.medals[rank][slot]}
-                        onChange={(v) => dispatch({ type: 'SET_MEDAL', rank, slot, value: v })}
-                      />
-                    </div>
-                  ))}
-                </div>
+              <div key={rank} style={pairBlockStyle}>
+                <Label>{rank}</Label>
+                {(['outer', 'inner', 'text'] as const).map((slot) => (
+                  <div key={slot} style={pairRowStyle}>
+                    <span style={pairPrefixWideStyle}>{slot}</span>
+                    <ColorPicker
+                      label={`${rank} ${slot}`}
+                      value={theme.identity.medals[rank][slot]}
+                      onChange={(v) => dispatch({ type: 'SET_MEDAL', rank, slot, value: v })}
+                      showLabel={false}
+                      className="flex-1"
+                    />
+                  </div>
+                ))}
               </div>
             ))}
           </div>
@@ -402,7 +414,7 @@ function IdentityEditor({ theme, dispatch }: IdentityEditorProps) {
             {(['accent', 'accentStrong', 'foreground', 'foregroundStrong'] as const).map((key) => (
               <ColorPicker
                 key={key}
-                label={key}
+                label={humanize(key)}
                 value={theme.identity.navOnDark[key]}
                 onChange={(v) => dispatch({ type: 'SET_NAV_ON_DARK', key, value: v })}
               />
@@ -501,12 +513,13 @@ function IdentityEditor({ theme, dispatch }: IdentityEditorProps) {
       <AccordionItem value="shadow">
         <AccordionTrigger>Shadow</AccordionTrigger>
         <AccordionContent>
-          <div style={stackStyle}>
+          <div style={{ ...stackStyle, gap: 12 }}>
             <span className="eyebrow">Memphis</span>
             {SHADOW_MEMPHIS_KEYS.map((k) => (
-              <div key={k} style={stackStyle}>
+              <div key={k} style={pairBlockStyle}>
                 <Label>{k}</Label>
-                <div style={rowStyle}>
+                <div style={pairRowStyle}>
+                  <span style={pairPrefixShortStyle}>X</span>
                   <Input
                     type="number"
                     aria-label={`${k} offset x`}
@@ -519,7 +532,9 @@ function IdentityEditor({ theme, dispatch }: IdentityEditorProps) {
                         value: Number(e.target.value),
                       })
                     }
+                    className="flex-1"
                   />
+                  <span style={pairPrefixShortStyle}>Y</span>
                   <Input
                     type="number"
                     aria-label={`${k} offset y`}
@@ -532,6 +547,7 @@ function IdentityEditor({ theme, dispatch }: IdentityEditorProps) {
                         value: Number(e.target.value),
                       })
                     }
+                    className="flex-1"
                   />
                 </div>
                 <ColorPicker
@@ -540,6 +556,7 @@ function IdentityEditor({ theme, dispatch }: IdentityEditorProps) {
                   onChange={(next) =>
                     dispatch({ type: 'SET_SHADOW_MEMPHIS', key: k, slot: 'color', value: next })
                   }
+                  showLabel={false}
                 />
               </div>
             ))}

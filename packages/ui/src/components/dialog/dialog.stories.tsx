@@ -83,8 +83,8 @@ export const LongContent = () => (
         </p>
         <p>
           Il Theme Generator in questa playground permette di comporre palette, tipografia,
-          radius, shadow, spacing e motion, e di esportare il risultato come CSS, Tailwind preset,
-          JSON flat o Figma Tokens Studio.
+          radius, shadow, spacing e motion, e di esportare il risultato come CSS, Tailwind preset
+          o JSON flat.
         </p>
       </div>
       <DialogFooter>
