@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useReducer, useEffect, useState } from 'react'
+import { useCallback, useReducer, useEffect } from 'react'
 import {
   DEFAULT_THEME,
   type Theme,
@@ -155,94 +155,118 @@ function reducer(state: Theme, action: Action): Theme {
 }
 
 /**
- * Write theme values to :root and :root[data-theme='dark'] so the live
- * preview updates. Uses the passed `previewMode` to decide which
- * semantic set is active on :root (so changing the preview toggle flips
- * the visible styling without waiting for a re-render cycle).
+ * Inject a single <style id="theme-generator-overrides"> element into
+ * <head> containing both light and dark semantic blocks. CSS specificity
+ * then picks the right values based on the global data-theme attribute set
+ * by the navbar ThemeSwitcher — no inline-style conflict.
  */
-function applyThemeToRoot(theme: Theme, previewMode: 'light' | 'dark'): void {
+function applyThemeToRoot(theme: Theme): void {
   if (typeof document === 'undefined') return
-  const root = document.documentElement
 
-  const setVar = (name: string, value: string | number): void => {
-    root.style.setProperty(name, String(value))
+  const STYLE_ID = 'theme-generator-overrides'
+  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null
+  if (!style) {
+    style = document.createElement('style')
+    style.id = STYLE_ID
+    document.head.appendChild(style)
   }
+
   const toKebab = (s: string): string => s.replace(/([A-Z])/g, '-$1').toLowerCase()
 
-  // Layer 1 — raw palette
+  const lines: string[] = []
+
+  // Section 1: :root — raw palette + identity + scales + light semantic
+  lines.push(':root {')
+
+  // Raw palette
   for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
-    setVar(`--plum-${step}`, theme.palette.plum[step])
+    lines.push(`  --plum-${step}: ${theme.palette.plum[step]};`)
   }
   for (const step of ['100', '200', '300', '400', '500'] as const) {
-    setVar(`--gold-${step}`, theme.palette.gold[step])
+    lines.push(`  --gold-${step}: ${theme.palette.gold[step]};`)
   }
   for (const step of ['50', '100', '200', '300'] as const) {
-    setVar(`--paper-${step}`, theme.palette.paper[step])
+    lines.push(`  --paper-${step}: ${theme.palette.paper[step]};`)
   }
 
-  // Layer 2 — semantic (apply the preview mode)
-  const active = previewMode === 'dark' ? theme.semantic.dark : theme.semantic.light
-  Object.entries(active).forEach(([k, v]) => {
-    setVar(`--${toKebab(k)}`, v as string)
+  // Light semantic
+  Object.entries(theme.semantic.light).forEach(([k, v]) => {
+    lines.push(`  --${toKebab(k)}: ${v};`)
   })
 
-  // Layer 3 — identity (theme-agnostic)
-  const ranks: ReadonlyArray<MedalRank> = ['bronze', 'silver', 'gold', 'master', 'grandmaster']
-  ranks.forEach((rank) => {
-    setVar(`--medal-${rank}-outer`, theme.identity.medals[rank].outer)
-    setVar(`--medal-${rank}-inner`, theme.identity.medals[rank].inner)
-    setVar(`--medal-${rank}-text`, theme.identity.medals[rank].text)
+  // Identity (theme-agnostic)
+  ;(['bronze', 'silver', 'gold', 'master', 'grandmaster'] as const).forEach((rank) => {
+    lines.push(`  --medal-${rank}-outer: ${theme.identity.medals[rank].outer};`)
+    lines.push(`  --medal-${rank}-inner: ${theme.identity.medals[rank].inner};`)
+    lines.push(`  --medal-${rank}-text: ${theme.identity.medals[rank].text};`)
   })
   ;(['1', '2', '3', '4', '5'] as const).forEach((k) => {
-    setVar(`--chart-${k}`, theme.identity.charts[k])
+    lines.push(`  --chart-${k}: ${theme.identity.charts[k]};`)
   })
-  setVar(`--nav-on-dark-accent`, theme.identity.navOnDark.accent)
-  setVar(`--nav-on-dark-accent-strong`, theme.identity.navOnDark.accentStrong)
-  setVar(`--nav-on-dark-foreground`, theme.identity.navOnDark.foreground)
-  setVar(`--nav-on-dark-foreground-strong`, theme.identity.navOnDark.foregroundStrong)
+  lines.push(`  --nav-on-dark-accent: ${theme.identity.navOnDark.accent};`)
+  lines.push(`  --nav-on-dark-accent-strong: ${theme.identity.navOnDark.accentStrong};`)
+  lines.push(`  --nav-on-dark-foreground: ${theme.identity.navOnDark.foreground};`)
+  lines.push(`  --nav-on-dark-foreground-strong: ${theme.identity.navOnDark.foregroundStrong};`)
 
-  // Typography, radius, shadow, spacing, motion — same as before but
-  // referencing the new shape
-  setVar('--font-display', theme.typography.fontDisplay)
-  setVar('--font-body', theme.typography.fontBody)
-  setVar('--font-mono', theme.typography.fontMono)
+  // Typography
+  lines.push(`  --font-display: ${theme.typography.fontDisplay};`)
+  lines.push(`  --font-body: ${theme.typography.fontBody};`)
+  lines.push(`  --font-mono: ${theme.typography.fontMono};`)
   ;(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'] as const).forEach((k) => {
-    setVar(k === 'base' ? '--text-base' : `--text-${k}`, `${theme.typography.sizes[k]}px`)
+    const cssName = k === 'base' ? '--text-base' : `--text-${k}`
+    lines.push(`  ${cssName}: ${theme.typography.sizes[k]}px;`)
   })
+
+  // Radius
   ;(['none', 'sm', 'md', 'lg', 'pill', 'full'] as const).forEach((k) => {
     const v = theme.radius[k]
     const css = k === 'pill' ? '999px' : k === 'full' ? '50%' : v === 0 ? '0' : `${v}px`
-    setVar(`--radius-${k}`, css)
+    lines.push(`  --radius-${k}: ${css};`)
   })
+
+  // Shadow memphis
   ;(['sm', 'md', 'lg', 'hover', 'active'] as const).forEach((k) => {
     const s = theme.shadowMemphis[k]
     const cssName = k === 'md' ? '--shadow-memphis' : `--shadow-memphis-${k}`
-    setVar(cssName, `${s.x}px ${s.y}px 0 ${s.color}`)
+    lines.push(`  ${cssName}: ${s.x}px ${s.y}px 0 ${s.color};`)
   })
+
+  // Spacing (uses SPACING_BASE_PX)
   SPACING_BASE_PX.forEach(([k, px]) => {
-    setVar(`--${k}`, `${px * theme.spacing.scale}px`)
+    lines.push(`  --${k}: ${px * theme.spacing.scale}px;`)
   })
+
+  // Motion
   ;(['snap', 'fast', 'base', 'slow'] as const).forEach((k) => {
-    setVar(`--duration-${k}`, `${theme.motion.durations[k]}ms`)
+    lines.push(`  --duration-${k}: ${theme.motion.durations[k]}ms;`)
   })
   ;(['memphis', 'out', 'in-out'] as const).forEach((k) => {
-    setVar(`--ease-${k}`, theme.motion.easings[k])
+    lines.push(`  --ease-${k}: ${theme.motion.easings[k]};`)
   })
+
+  lines.push('}')
+
+  // Section 2: :root[data-theme='dark'] — dark semantic only
+  lines.push('')
+  lines.push(":root[data-theme='dark'] {")
+  Object.entries(theme.semantic.dark).forEach(([k, v]) => {
+    lines.push(`  --${toKebab(k)}: ${v};`)
+  })
+  lines.push('}')
+
+  style.textContent = lines.join('\n')
 }
 
 export function useThemeState() {
   const [theme, dispatch] = useReducer(reducer, DEFAULT_THEME)
 
-  // The generator previews light or dark independently of the rest of the app.
-  const [previewMode, setPreviewMode] = useState<'light' | 'dark'>('light')
-
   const applyLive = useCallback(() => {
-    applyThemeToRoot(theme, previewMode)
-  }, [theme, previewMode])
+    applyThemeToRoot(theme)
+  }, [theme])
 
   useEffect(() => {
     applyLive()
   }, [applyLive])
 
-  return { theme, dispatch, previewMode, setPreviewMode }
+  return { theme, dispatch }
 }

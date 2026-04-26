@@ -617,7 +617,7 @@ function IdentityEditor({ theme, dispatch }: IdentityEditorProps) {
 // ═══════════════════════════════════════════════════════════
 
 export default function ThemeGeneratorPage() {
-  const { theme, dispatch, previewMode, setPreviewMode } = useThemeState()
+  const { theme, dispatch } = useThemeState()
 
   const [editorTab, setEditorTab] = useState<EditorTab>('theme')
   const [editMode, setEditMode] = useState<EditMode>('light')
@@ -768,24 +768,6 @@ export default function ThemeGeneratorPage() {
                   </TabsList>
                 </Tabs>
 
-                {/* Preview-mode toggle (independent of edit mode) */}
-                <div style={rowStyle} aria-label="Preview theme toggle">
-                  <Label>Preview:</Label>
-                  <Button
-                    variant={previewMode === 'light' ? 'primary' : 'outline'}
-                    size="sm"
-                    onClick={() => setPreviewMode('light')}
-                  >
-                    Light
-                  </Button>
-                  <Button
-                    variant={previewMode === 'dark' ? 'primary' : 'outline'}
-                    size="sm"
-                    onClick={() => setPreviewMode('dark')}
-                  >
-                    Dark
-                  </Button>
-                </div>
               </div>
 
               {/* Scene preview */}
