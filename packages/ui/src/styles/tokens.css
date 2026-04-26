@@ -170,15 +170,12 @@
 
   /* ── Density (hook trasversale) ────────────────── */
   --density-scale-y: 1;
-  --density-scale-x: 1;
 }
 
 :root[data-density='compact'] {
   --density-scale-y: 0.75;
-  --density-scale-x: 0.85;
 }
 
 :root[data-density='comfortable'] {
   --density-scale-y: 1.25;
-  --density-scale-x: 1.15;
 }
