@@ -26,7 +26,7 @@ export const SegmentedControl = forwardRef<
       type="single"
       orientation={orientation}
       className={cn(
-        'inline-flex border-2 border-border-memphis bg-surface',
+        'inline-flex border-2 border-memphis bg-card',
         'data-[orientation=vertical]:flex-col',
         className,
       )}
@@ -44,14 +44,14 @@ export const SegmentedControlItem = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex items-center justify-center px-3 py-1.5 text-sm font-semibold',
-        'cursor-pointer text-ink-soft',
+        'cursor-pointer text-muted-foreground',
         'transition-colors duration-fast',
-        'hover:bg-surface-2 hover:text-ink',
-        'data-[state=on]:bg-plum-900 data-[state=on]:text-paper-50',
+        'hover:bg-muted hover:text-foreground',
+        'data-[state=on]:bg-foreground data-[state=on]:text-background',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring',
         'disabled:opacity-50 disabled:pointer-events-none',
-        'not-first:border-l-2 not-first:border-l-border-memphis',
-        'data-[orientation=vertical]:not-first:border-l-0 data-[orientation=vertical]:not-first:border-t-2 data-[orientation=vertical]:not-first:border-t-border-memphis',
+        'not-first:border-l-2 not-first:border-l-memphis',
+        'data-[orientation=vertical]:not-first:border-l-0 data-[orientation=vertical]:not-first:border-t-2 data-[orientation=vertical]:not-first:border-t-memphis',
         className,
       )}
       {...rest}

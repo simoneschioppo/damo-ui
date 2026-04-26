@@ -2,7 +2,7 @@
 
 Memphis-inspired React and Next.js component library — token, componenti e pattern pronti all'uso.
 
-**Current version:** 0.1.0 — first tagged release
+**Current version:** 0.3.0 — theme architecture refactor
 
 ## Monorepo structure
 
@@ -50,9 +50,7 @@ pnpm add @damo/ui
 ```tsx
 // app/layout.tsx
 import '@damo/ui/styles/tokens.css'
-import '@damo/ui/styles/themes.css'
 import '@damo/ui/styles/globals.css'
-import '@damo/ui/styles/patterns.css'
 ```
 
 4. Wire Tailwind v4:
@@ -60,9 +58,7 @@ import '@damo/ui/styles/patterns.css'
 ```css
 /* app/globals.css */
 @import '@damo/ui/styles/tokens.css';
-@import '@damo/ui/styles/themes.css';
 @import '@damo/ui/styles/globals.css';
-@import '@damo/ui/styles/patterns.css';
 
 @import 'tailwindcss';
 @import '@damo/ui/styles/theme.css';
@@ -78,7 +74,7 @@ import { Button, Card, Dialog } from '@damo/ui'
 export default function Page() {
   return (
     <Card variant="featured">
-      <Button variant="accent">Clicca</Button>
+      <Button variant="primary">Clicca</Button>
     </Card>
   )
 }
@@ -89,8 +85,24 @@ export default function Page() {
 Three switchers via html data-attributes:
 
 - `<html data-theme="light|dark">` — light/dark mode
-- `<html data-palette="plum-gold|neon|sunset">` — palette alt
+- `<html data-palette="default|neon|sunset">` — palette alt
 - `<html data-density="compact|normal|comfortable">` — spacing density
+
+### Token architecture
+
+The design system uses a three-layer architecture:
+
+1. **Raw palette** (`--plum-*`, `--gold-*`, `--paper-*`) — private scale defined in `tokens.css`. Not exposed as Tailwind utilities; used only to compute semantic values.
+2. **Semantic tokens** — public, paired bg+fg utilities (`bg-background` / `text-foreground`, `bg-primary` / `text-primary-foreground`, etc.). These are the correct layer to use in product code.
+3. **Identity tokens** — component-specific overrides (`--nav-on-dark-*`, `--badge-*`, `--chart-*`).
+
+Switching theme and palette are fully orthogonal — all six combinations work automatically:
+
+```html
+<html data-theme="dark" data-palette="neon">
+```
+
+See `docs/specs/2026-04-24-theme-architecture-refactor-design.md` for the full token taxonomy and migration guide from 0.1.0 names.
 
 ## Component inventory (~47)
 
@@ -118,7 +130,8 @@ Three switchers via html data-attributes:
 
 ## Design Spec
 
-See `docs/specs/2026-04-18-damo-ui-design.md`.
+- `docs/specs/2026-04-18-damo-ui-design.md` — original design spec
+- `docs/specs/2026-04-24-theme-architecture-refactor-design.md` — token taxonomy and 0.1→0.2 migration guide
 
 ## License
 

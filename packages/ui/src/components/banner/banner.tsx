@@ -59,7 +59,7 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(function Banner(
       )}
       <div className="flex-1 min-w-0">
         {title && <div className="font-semibold text-base leading-snug">{title}</div>}
-        {children && <div className={cn('text-sm text-ink-soft', title && 'mt-1')}>{children}</div>}
+        {children && <div className={cn('text-sm text-muted-foreground', title && 'mt-1')}>{children}</div>}
       </div>
       {dismissible && (
         <button
@@ -68,7 +68,7 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(function Banner(
           onClick={handleDismiss}
           className={cn(
             'shrink-0 inline-flex h-8 w-8 items-center justify-center',
-            'text-ink-muted hover:text-ink hover:bg-surface-2 cursor-pointer',
+            'text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer',
             'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           )}
         >

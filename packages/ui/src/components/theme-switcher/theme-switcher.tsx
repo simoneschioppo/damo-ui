@@ -50,7 +50,7 @@ export const ThemeSwitcher = forwardRef<HTMLDivElement, ThemeSwitcherProps>(
         {...rest}
       >
         <span className="eyebrow">Theme</span>
-        <div className="inline-flex border-2 border-border-memphis">
+        <div className="inline-flex border-2 border-memphis">
           {options.map((opt) => {
             const isActive = current === opt.value
             return (
@@ -60,7 +60,7 @@ export const ThemeSwitcher = forwardRef<HTMLDivElement, ThemeSwitcherProps>(
                 onClick={() => setCurrent(opt.value)}
                 className={cn(
                   'px-3 py-1.5 text-[13px] font-semibold capitalize cursor-pointer border-0',
-                  isActive ? 'bg-plum-500 text-paper-50' : 'bg-surface text-ink',
+                  isActive ? 'bg-secondary text-secondary-foreground' : 'bg-card text-card-foreground',
                 )}
               >
                 {opt.label}

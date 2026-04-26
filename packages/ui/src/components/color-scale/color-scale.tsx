@@ -13,9 +13,9 @@ export interface ColorStop {
 }
 
 export interface ColorScaleProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
-  /** Human-readable scale name, e.g. "Plum". */
+  /** Human-readable scale name, e.g. "Ink". */
   name: string
-  /** Token root, e.g. "plum" (yields CSS vars `--plum-{k}`). */
+  /** Token root, e.g. "ink" (yields CSS vars `--ink-{k}`). */
   token: string
   /** Optional tagline rendered in italic at the top-right. */
   desc?: string
@@ -37,7 +37,7 @@ function pickContrastText(hex: string): string {
   return lum > 0.62 ? 'rgba(0,0,0,0.82)' : 'rgba(255,255,255,0.94)'
 }
 
-// Renders a horizontal band of color stops for a scale (Plum, Gold, …).
+// Renders a horizontal band of color stops for a scale (Ink, Brand, …).
 // Header shows the scale name + `--{token}-*` + optional italic desc.
 // Body is a grid with one cell per stop — each cell resolves its CSS var at
 // runtime to render the hex and pick a contrast-aware text color so labels
@@ -62,23 +62,23 @@ export const ColorScale = forwardRef<HTMLDivElement, ColorScaleProps>(function C
     alignItems: 'baseline',
     gap: 12,
   }
-  const titleStyle: CSSProperties = { fontSize: 28, margin: 0, color: 'var(--ink)' }
+  const titleStyle: CSSProperties = { fontSize: 28, margin: 0, color: 'var(--foreground)' }
   const tokenLabelStyle: CSSProperties = {
     fontFamily: 'var(--font-mono)',
     fontSize: 13,
-    color: 'var(--accent)',
+    color: 'var(--primary)',
     fontWeight: 700,
   }
   const descStyle: CSSProperties = {
-    color: 'var(--ink-muted)',
+    color: 'var(--muted-foreground)',
     fontSize: 13,
     fontStyle: 'italic',
   }
   const gridStyle: CSSProperties = {
     display: 'grid',
     gridTemplateColumns: `repeat(${stops.length}, 1fr)`,
-    border: '2px solid var(--border-memphis)',
-    boxShadow: '6px 6px 0 var(--black)',
+    border: '2px solid var(--memphis-border-color)',
+    boxShadow: '6px 6px 0 var(--memphis-shadow-color)',
     overflow: 'hidden',
   }
   const rootStyle: CSSProperties = { marginBottom: 32 }
@@ -106,7 +106,7 @@ export const ColorScale = forwardRef<HTMLDivElement, ColorScaleProps>(function C
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-end',
-            borderLeft: idx === 0 ? 'none' : '2px solid var(--border-memphis)',
+            borderLeft: idx === 0 ? 'none' : '2px solid var(--memphis-border-color)',
           }
           return (
             <div key={s.k} data-color-scale-stop style={cellStyle}>

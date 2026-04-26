@@ -62,7 +62,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(function For
       <label
         htmlFor={fieldId}
         className={cn(
-          'text-xs font-semibold uppercase tracking-wider text-ink-muted',
+          'text-xs font-semibold uppercase tracking-wider text-muted-foreground',
           labelClassName,
         )}
       >
@@ -70,12 +70,12 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(function For
       </label>
       {slot}
       {description && (
-        <span id={descriptionId} className="text-xs text-ink-muted">
+        <span id={descriptionId} className="text-xs text-muted-foreground">
           {description}
         </span>
       )}
       {error && (
-        <span id={errorId} className="text-xs font-semibold text-danger">
+        <span id={errorId} className="text-xs font-semibold text-destructive">
           {error}
         </span>
       )}

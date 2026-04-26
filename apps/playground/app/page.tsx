@@ -3,11 +3,11 @@ import Link from 'next/link'
 const cardStyle = {
   display: 'block',
   padding: 20,
-  border: '2px solid var(--border-memphis)',
+  border: '2px solid var(--memphis-border-color)',
   boxShadow: '6px 6px 0 var(--black)',
-  background: 'var(--surface)',
+  background: 'var(--card)',
   fontWeight: 600,
-  color: 'var(--ink)',
+  color: 'var(--foreground)',
   textDecoration: 'none',
 }
 
@@ -20,7 +20,7 @@ export default function IndexPage() {
       >
         Damo UI
       </h1>
-      <p style={{ fontSize: 18, color: 'var(--ink-muted)', marginBottom: 40 }}>
+      <p style={{ fontSize: 18, color: 'var(--muted-foreground)', marginBottom: 40 }}>
         Libreria React e Next.js di ispirazione Memphis: token, componenti e pattern pronti
         all&apos;uso. Esplora il design system o genera il tuo tema custom.
       </p>

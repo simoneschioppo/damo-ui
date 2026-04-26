@@ -1,11 +1,11 @@
-/* Damo UI — Memphis Background Pattern
- * Si attiva con [data-app-pattern="on"] sull'elemento contenitore.
+/* Damo UI Playground — Memphis background pattern
+ * Activate with [data-app-pattern="on"] on a container.
  */
 
 :root {
-  --app-pattern-color-1: var(--gold-500);
-  --app-pattern-color-2: var(--plum-500);
-  --app-pattern-color-3: var(--plum-700);
+  --app-pattern-color-1: var(--primary);
+  --app-pattern-color-2: var(--secondary);
+  --app-pattern-color-3: var(--foreground);
   --app-pattern-size: 140px;
 }
 

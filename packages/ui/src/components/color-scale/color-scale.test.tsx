@@ -4,40 +4,40 @@ import { ColorScale } from './color-scale'
 
 describe('ColorScale', () => {
   beforeEach(() => {
-    document.documentElement.style.setProperty('--plum-500', '#6d2f6a')
-    document.documentElement.style.setProperty('--plum-400', '#8a4a87')
-    document.documentElement.style.setProperty('--plum-300', '#a364a0')
+    document.documentElement.style.setProperty('--ink-500', '#6d2f6a')
+    document.documentElement.style.setProperty('--ink-400', '#8a4a87')
+    document.documentElement.style.setProperty('--ink-300', '#a364a0')
   })
 
   afterEach(() => {
-    document.documentElement.style.removeProperty('--plum-500')
-    document.documentElement.style.removeProperty('--plum-400')
-    document.documentElement.style.removeProperty('--plum-300')
+    document.documentElement.style.removeProperty('--ink-500')
+    document.documentElement.style.removeProperty('--ink-400')
+    document.documentElement.style.removeProperty('--ink-300')
   })
 
   it('renders the scale name', () => {
     render(
       <ColorScale
-        name="Plum"
-        token="plum"
+        name="Ink"
+        token="ink"
         stops={[{ k: 500 }]}
       />,
     )
-    expect(screen.getByText('Plum')).toBeInTheDocument()
+    expect(screen.getByText('Ink')).toBeInTheDocument()
   })
 
   it('renders the token label prefixed with -- and * suffix', () => {
     render(
-      <ColorScale name="Plum" token="plum" stops={[{ k: 500 }]} />,
+      <ColorScale name="Ink" token="ink" stops={[{ k: 500 }]} />,
     )
-    expect(screen.getByText('--plum-*')).toBeInTheDocument()
+    expect(screen.getByText('--ink-*')).toBeInTheDocument()
   })
 
   it('renders the optional description', () => {
     render(
       <ColorScale
-        name="Plum"
-        token="plum"
+        name="Ink"
+        token="ink"
         desc="Ink base for Damo UI"
         stops={[{ k: 500 }]}
       />,
@@ -48,21 +48,21 @@ describe('ColorScale', () => {
   it('renders one stop per entry', () => {
     render(
       <ColorScale
-        name="Plum"
-        token="plum"
+        name="Ink"
+        token="ink"
         stops={[{ k: 300 }, { k: 400 }, { k: 500 }]}
       />,
     )
-    expect(screen.getByText('plum-300')).toBeInTheDocument()
-    expect(screen.getByText('plum-400')).toBeInTheDocument()
-    expect(screen.getByText('plum-500')).toBeInTheDocument()
+    expect(screen.getByText('ink-300')).toBeInTheDocument()
+    expect(screen.getByText('ink-400')).toBeInTheDocument()
+    expect(screen.getByText('ink-500')).toBeInTheDocument()
   })
 
   it('uses the correct CSS var as inline background for each stop', () => {
     const { container } = render(
       <ColorScale
-        name="Plum"
-        token="plum"
+        name="Ink"
+        token="ink"
         stops={[{ k: 300 }, { k: 500 }]}
       />,
     )
@@ -70,15 +70,15 @@ describe('ColorScale', () => {
     expect(stopLabels.length).toBe(2)
     const first = stopLabels[0] as HTMLElement
     const second = stopLabels[1] as HTMLElement
-    expect(first.getAttribute('style') ?? '').toContain('var(--plum-300)')
-    expect(second.getAttribute('style') ?? '').toContain('var(--plum-500)')
+    expect(first.getAttribute('style') ?? '').toContain('var(--ink-300)')
+    expect(second.getAttribute('style') ?? '').toContain('var(--ink-500)')
   })
 
   it('forwards className to the root element', () => {
     const { container } = render(
       <ColorScale
-        name="Plum"
-        token="plum"
+        name="Ink"
+        token="ink"
         stops={[{ k: 500 }]}
         className="custom-scale"
       />,
@@ -90,8 +90,8 @@ describe('ColorScale', () => {
   it('uses grid layout with one column per stop', () => {
     const { container } = render(
       <ColorScale
-        name="Plum"
-        token="plum"
+        name="Ink"
+        token="ink"
         stops={[{ k: 100 }, { k: 200 }, { k: 300 }, { k: 400 }]}
       />,
     )

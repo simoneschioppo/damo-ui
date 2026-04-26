@@ -24,10 +24,10 @@ const BARS: readonly Bar[] = [
 type Filter = { key: string; label: string; dotColor?: string }
 
 const FILTERS: readonly Filter[] = [
-  { key: 'all', label: 'Tutti', dotColor: 'var(--plum-500)' },
+  { key: 'all', label: 'Tutti', dotColor: 'var(--ink-500)' },
   { key: '7g', label: '7g', dotColor: 'var(--success)' },
   { key: '30g', label: '30g', dotColor: 'var(--warning)' },
-  { key: '90g', label: '90g', dotColor: 'var(--danger)' },
+  { key: '90g', label: '90g', dotColor: 'var(--destructive)' },
 ]
 
 export const DashboardPreview = forwardRef<HTMLDivElement, DashboardPreviewProps>(
@@ -35,7 +35,7 @@ export const DashboardPreview = forwardRef<HTMLDivElement, DashboardPreviewProps
     return (
       <div ref={ref} className={cn('flex flex-col gap-6 w-full', className)} {...rest}>
         <header className="flex items-center justify-between gap-3">
-          <h2 className="font-display text-3xl leading-tight text-ink m-0">Dashboard</h2>
+          <h2 className="font-display text-3xl leading-tight text-foreground m-0">Dashboard</h2>
           <Button variant="primary">+ Nuovo</Button>
         </header>
 
@@ -62,12 +62,12 @@ export const DashboardPreview = forwardRef<HTMLDivElement, DashboardPreviewProps
                   <div
                     data-testid="dashboard-bar"
                     className={cn(
-                      'w-full border-2 border-border-memphis',
-                      bar.highlight ? 'bg-gold-500' : 'bg-plum-500',
+                      'w-full border-2 border-memphis',
+                      bar.highlight ? 'bg-primary' : 'bg-secondary',
                     )}
                     style={{ height: bar.height }}
                   />
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                     {bar.label}
                   </span>
                 </div>

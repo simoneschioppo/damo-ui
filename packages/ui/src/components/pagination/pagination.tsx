@@ -51,9 +51,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         onClick={() => onPageChange(currentPage - 1)}
         className={cn(
           'inline-flex h-9 w-9 items-center justify-center',
-          'border-2 border-border-memphis rounded-none bg-surface text-ink',
+          'border-2 border-memphis rounded-none bg-card text-foreground',
           'transition-colors duration-fast cursor-pointer',
-          'hover:bg-surface-2',
+          'hover:bg-muted',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           'disabled:opacity-50 disabled:pointer-events-none',
         )}
@@ -66,7 +66,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
           <span
             key={`ellipsis-${idx}`}
             aria-hidden="true"
-            className="inline-flex h-9 w-9 items-center justify-center text-ink-muted"
+            className="inline-flex h-9 w-9 items-center justify-center text-muted-foreground"
           >
             …
           </span>
@@ -80,11 +80,11 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
             onClick={() => onPageChange(item)}
             className={cn(
               'inline-flex h-9 min-w-9 items-center justify-center px-3',
-              'border-2 border-border-memphis rounded-none bg-surface text-ink',
+              'border-2 border-memphis rounded-none bg-card text-foreground',
               'font-mono text-sm cursor-pointer',
               'transition-colors duration-fast',
-              'hover:bg-surface-2',
-              'aria-[current=page]:bg-plum-900 aria-[current=page]:text-paper-50 aria-[current=page]:border-border-memphis',
+              'hover:bg-muted',
+              'aria-[current=page]:bg-foreground aria-[current=page]:text-background aria-[current=page]:border-memphis',
               'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
               'disabled:opacity-50 disabled:pointer-events-none',
             )}
@@ -101,9 +101,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         onClick={() => onPageChange(currentPage + 1)}
         className={cn(
           'inline-flex h-9 w-9 items-center justify-center',
-          'border-2 border-border-memphis rounded-none bg-surface text-ink',
+          'border-2 border-memphis rounded-none bg-card text-foreground',
           'transition-colors duration-fast cursor-pointer',
-          'hover:bg-surface-2',
+          'hover:bg-muted',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
           'disabled:opacity-50 disabled:pointer-events-none',
         )}
@@ -111,7 +111,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         <ChevronRightIcon size={16} />
       </button>
 
-      <span className="ml-3 text-xs text-ink-muted font-mono">
+      <span className="ml-3 text-xs text-muted-foreground font-mono">
         {L.pageOf(currentPage, totalPages)}
       </span>
     </nav>

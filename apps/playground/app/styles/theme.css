@@ -1,0 +1,212 @@
+/* ════════════════════════════════════════════════════════════════
+ * Damo UI Playground — Ink + Brand theme
+ *
+ * The library (`@damo/ui`) ships only neutral grayscale light defaults
+ * for every semantic token. This file is the playground's own theme
+ * layer that re-skins the lib in the Memphis "ink + brand" identity.
+ *
+ * Structure:
+ *   :root, :root[data-theme='light']  → light values (default)
+ *   :root[data-theme='dark']          → dark values (full re-declaration)
+ *   :root[data-palette='neon']        → raw palette overrides (orthogonal to theme)
+ *   :root[data-palette='sunset']      → raw palette overrides
+ *
+ * Consumers of the lib who want this theme can copy this file into
+ * their own app. The /theme-generator page can also produce custom
+ * palettes that follow the same structure.
+ * ════════════════════════════════════════════════════════════════ */
+
+:root,
+:root[data-theme='light'] {
+  /* ── Raw palette (used internally to derive semantic values) ── */
+  --ink-100: #e0c6e2;
+  --ink-300: #c590c9;
+  --ink-500: #7a3980;
+  --ink-700: #522357;
+  --ink-800: #3d1a40;
+  --ink-900: #2a0f2d;
+
+  --brand-100: #f8e5bc;
+  --brand-200: #f0d49a;
+  --brand-300: #e5bc6d;
+  --brand-400: #d5a845;
+  --brand-500: #c4942a;
+
+  --paper-50: #fbf7ee;
+  --paper-100: #f5efde;
+  --paper-200: #ece2c6;
+  --paper-300: #ddd0ae;
+
+  /* ── Semantic — light ─────────────────────────────────── */
+  --background: var(--paper-50);
+  --foreground: var(--ink-900);
+  --card: #ffffff;
+  --card-foreground: var(--ink-900);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink-900);
+  --muted: var(--paper-100);
+  --muted-foreground: var(--ink-700);
+
+  --primary: var(--brand-500);
+  --primary-foreground: #ffffff;
+  --secondary: var(--ink-500);
+  --secondary-foreground: var(--paper-50);
+  --accent: var(--brand-100);
+  --accent-foreground: var(--ink-900);
+  --destructive: #a13a2c;
+  --destructive-foreground: var(--paper-50);
+
+  --success: #4f8a3c;
+  --success-foreground: var(--paper-50);
+  --warning: #8a6326;
+  --warning-foreground: var(--paper-50);
+  --info: var(--ink-500);
+  --info-foreground: var(--paper-50);
+  --rage: #c94a2f;
+  --rage-foreground: var(--paper-50);
+
+  --border: color-mix(in oklab, var(--ink-900) 12%, transparent);
+  --border-strong: color-mix(in oklab, var(--ink-900) 22%, transparent);
+  --input: color-mix(in oklab, var(--ink-900) 12%, transparent);
+  --ring: var(--brand-500);
+
+  --memphis-shadow-color: #000000;
+  --memphis-border-color: #000000;
+
+  --badge-featured: var(--brand-500);
+  --badge-featured-foreground: #000000;
+  --badge-copper: var(--brand-500);
+  --badge-copper-foreground: #ffffff;
+  --badge-navy: var(--ink-900);
+  --badge-navy-foreground: var(--brand-200);
+  --badge-draw: var(--paper-100);
+  --badge-draw-foreground: var(--ink-900);
+  --badge-rank: var(--brand-100);
+  --badge-rank-foreground: var(--ink-900);
+
+  --chart-1: var(--ink-500);
+  --chart-2: var(--brand-500);
+  --chart-3: #4f8a3c;
+  --chart-4: #a13a2c;
+  --chart-5: var(--ink-700);
+
+  --nav-on-dark-accent: var(--brand-200);
+  --nav-on-dark-accent-strong: var(--brand-400);
+  --nav-on-dark-foreground: rgba(255, 255, 255, 0.72);
+  --nav-on-dark-foreground-strong: #ffffff;
+
+  --medal-bronze-outer: #5a3f20;
+  --medal-bronze-inner: #8a6236;
+  --medal-bronze-text: #ffffff;
+  --medal-silver-outer: #4a4a55;
+  --medal-silver-inner: #8a8a9a;
+  --medal-silver-text: #ffffff;
+  --medal-gold-outer: var(--ink-900);
+  --medal-gold-inner: var(--brand-500);
+  --medal-gold-text: var(--ink-900);
+  --medal-master-outer: var(--ink-900);
+  --medal-master-inner: var(--ink-500);
+  --medal-master-text: var(--paper-50);
+  --medal-grandmaster-outer: #000000;
+  --medal-grandmaster-inner: var(--brand-500);
+  --medal-grandmaster-text: var(--ink-900);
+
+  --font-display: 'Audiowide', system-ui, sans-serif;
+  --font-body: 'Exo 2', system-ui, sans-serif;
+  --font-mono: 'Exo 2', ui-monospace, monospace;
+}
+
+/* ── Dark theme ─────────────────────────────────────────── */
+
+:root[data-theme='dark'] {
+  --background: var(--ink-900);
+  --foreground: var(--paper-50);
+  --card: var(--ink-800);
+  --card-foreground: var(--paper-50);
+  --popover: var(--ink-800);
+  --popover-foreground: var(--paper-50);
+  --muted: var(--ink-700);
+  --muted-foreground: var(--ink-300);
+
+  --primary: var(--brand-500);
+  --primary-foreground: var(--ink-900);
+  --secondary: var(--ink-500);
+  --secondary-foreground: var(--paper-50);
+  --accent: var(--ink-700);
+  --accent-foreground: var(--brand-200);
+  --destructive: #c94a2f;
+  --destructive-foreground: var(--paper-50);
+
+  --success: #6fa85c;
+  --success-foreground: var(--ink-900);
+  --warning: var(--brand-500);
+  --warning-foreground: var(--ink-900);
+  --info: var(--ink-300);
+  --info-foreground: var(--ink-900);
+  --rage: #e06b4f;
+  --rage-foreground: var(--ink-900);
+
+  --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
+  --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
+  --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
+  --ring: var(--brand-500);
+
+  --memphis-shadow-color: var(--paper-50);
+  --memphis-border-color: var(--paper-50);
+
+  --badge-featured: var(--brand-500);
+  --badge-featured-foreground: var(--ink-900);
+  --badge-copper: var(--brand-500);
+  --badge-copper-foreground: var(--paper-50);
+  --badge-navy: var(--ink-700);
+  --badge-navy-foreground: var(--brand-200);
+  --badge-draw: var(--ink-700);
+  --badge-draw-foreground: var(--paper-50);
+  --badge-rank: var(--ink-700);
+  --badge-rank-foreground: var(--brand-200);
+}
+
+
+/* ── Palette: Neon (magenta + lime) ─────────────────────── */
+
+:root[data-palette='neon'] {
+  --ink-100: #f8c8e7;
+  --ink-300: #e26dbb;
+  --ink-500: #b01680;
+  --ink-700: #491a40;
+  --ink-800: #321029;
+  --ink-900: #1f0819;
+
+  --brand-100: #e3facb;
+  --brand-200: #ccf2a6;
+  --brand-300: #b4ea7e;
+  --brand-400: #9be04a;
+  --brand-500: #7fd321;
+}
+
+/* ── Palette: Sunset (terracotta + warm orange) ─────────── */
+
+:root[data-palette='sunset'] {
+  --ink-100: #f8d4c0;
+  --ink-300: #dd8a6d;
+  --ink-500: #a8402a;
+  --ink-700: #5a2514;
+  --ink-800: #3f170d;
+  --ink-900: #2a0d07;
+
+  --brand-100: #ffe7cd;
+  --brand-200: #ffd2a3;
+  --brand-300: #ffbb75;
+  --brand-400: #fda047;
+  --brand-500: #f58a1e;
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}

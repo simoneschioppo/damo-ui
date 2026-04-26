@@ -3,7 +3,7 @@ import { Separator } from './separator'
 const label = {
   fontFamily: 'var(--font-mono)',
   fontSize: 12,
-  color: 'var(--ink-muted)',
+  color: 'var(--muted-foreground)',
 }
 
 export const HorizontalSolid = () => (

@@ -1,19 +1,12 @@
 'use client'
 
-/**
- * useThemeState — reducer-backed hook for the theme generator page.
- *
- * Responsibilities:
- * - Hold the current `Theme`, the active preset label, and the dark-preview flag.
- * - Expose a generic `updateToken(path, value)` for any nested token.
- * - Apply changes to `document.documentElement` as CSS custom properties
- *   so the preview updates instantly. Resets on unmount to avoid polluting
- *   the rest of the playground.
- */
-
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
+import { useCallback, useReducer, useEffect } from 'react'
 import {
+  DEFAULT_THEME,
   type Theme,
+  type SemanticTheme,
+  type RawPalette,
+  type MedalRank,
   type TypographySizeKey,
   type RadiusKey,
   type ShadowMemphisKey,
@@ -21,304 +14,293 @@ import {
   type MotionEasingKey,
   SPACING_BASE_PX,
 } from './theme-state'
-import { PRESETS, type PresetName } from './presets'
-
-export type ActivePreset = PresetName | 'custom'
-
-interface State {
-  theme: Theme
-  activePreset: ActivePreset
-}
+import { type PresetName, applyPreset } from './presets'
 
 type Action =
-  | { type: 'update'; path: string; value: string | number }
-  | { type: 'load-preset'; preset: PresetName }
-  | { type: 'reset' }
+  | { type: 'SET_PRESET'; preset: PresetName }
+  | { type: 'SET_PALETTE_STEP'; group: 'ink' | 'brand' | 'paper'; step: string; value: string }
+  | { type: 'SET_SEMANTIC'; mode: 'light' | 'dark'; key: keyof SemanticTheme; value: string }
+  | { type: 'SET_MEDAL'; rank: MedalRank; slot: 'outer' | 'inner' | 'text'; value: string }
+  | { type: 'SET_CHART'; index: '1' | '2' | '3' | '4' | '5'; value: string }
+  | { type: 'SET_NAV_ON_DARK'; key: 'accent' | 'accentStrong' | 'foreground' | 'foregroundStrong'; value: string }
+  | { type: 'SET_TYPOGRAPHY_FONT'; slot: 'display' | 'body' | 'mono'; value: string }
+  | { type: 'SET_TYPOGRAPHY_SIZE'; key: TypographySizeKey; value: number }
+  | { type: 'SET_RADIUS'; key: RadiusKey; value: number }
+  | { type: 'SET_SHADOW_MEMPHIS'; key: ShadowMemphisKey; slot: 'x' | 'y' | 'color'; value: number | string }
+  | { type: 'SET_SHADOW_SOFT'; key: 'sm' | 'md' | 'lg'; value: number }
+  | { type: 'SET_SPACING_SCALE'; value: number }
+  | { type: 'SET_DURATION'; key: MotionDurationKey; value: number }
+  | { type: 'SET_EASING'; key: MotionEasingKey; value: string }
+  | { type: 'RESET'; preset: PresetName }
 
-/**
- * Internal mutable mirror of Theme used only inside the reducer.
- * The public API keeps the readonly surface intact.
- */
-interface MutableTheme {
-  colors: Record<string, string>
-  typography: {
-    fontDisplay: string
-    fontBody: string
-    fontMono: string
-    sizes: Record<TypographySizeKey, number>
-  }
-  radius: Record<RadiusKey, number>
-  shadowMemphis: Record<ShadowMemphisKey, { x: number; y: number; color: string }>
-  shadowSoft: { sm: number; md: number; lg: number }
-  spacing: { scale: number }
-  motion: {
-    durations: Record<MotionDurationKey, number>
-    easings: Record<MotionEasingKey, string>
-  }
-}
-
-const clone = (theme: Theme): MutableTheme => ({
-  colors: { ...theme.colors },
-  typography: {
-    fontDisplay: theme.typography.fontDisplay,
-    fontBody: theme.typography.fontBody,
-    fontMono: theme.typography.fontMono,
-    sizes: { ...theme.typography.sizes },
-  },
-  radius: { ...theme.radius },
-  shadowMemphis: {
-    sm: { ...theme.shadowMemphis.sm },
-    md: { ...theme.shadowMemphis.md },
-    lg: { ...theme.shadowMemphis.lg },
-    hover: { ...theme.shadowMemphis.hover },
-    active: { ...theme.shadowMemphis.active },
-  },
-  shadowSoft: { ...theme.shadowSoft },
-  spacing: { ...theme.spacing },
-  motion: {
-    durations: { ...theme.motion.durations },
-    easings: { ...theme.motion.easings },
-  },
-})
-
-/**
- * Apply a dot-path update to the theme, returning a new object.
- * Silently ignores unknown paths rather than throwing in the UI thread.
- */
-function applyUpdate(theme: Theme, path: string, value: string | number): Theme {
-  const [group, a, b] = path.split('.')
-  const next = clone(theme)
-
-  switch (group) {
-    case 'colors':
-      if (a && typeof value === 'string') next.colors[a] = value
-      return next
-    case 'typography':
-      if (a === 'fontDisplay' && typeof value === 'string') next.typography.fontDisplay = value
-      else if (a === 'fontBody' && typeof value === 'string') next.typography.fontBody = value
-      else if (a === 'fontMono' && typeof value === 'string') next.typography.fontMono = value
-      else if (a === 'sizes' && b && typeof value === 'number') {
-        next.typography.sizes[b as TypographySizeKey] = value
-      }
-      return next
-    case 'radius':
-      if (a && typeof value === 'number') next.radius[a as RadiusKey] = value
-      return next
-    case 'shadowMemphis':
-      if (a && b) {
-        const key = a as ShadowMemphisKey
-        if (b === 'x' && typeof value === 'number') next.shadowMemphis[key].x = value
-        else if (b === 'y' && typeof value === 'number') next.shadowMemphis[key].y = value
-        else if (b === 'color' && typeof value === 'string') next.shadowMemphis[key].color = value
-      }
-      return next
-    case 'shadowSoft':
-      if ((a === 'sm' || a === 'md' || a === 'lg') && typeof value === 'number') {
-        next.shadowSoft[a] = value
-      }
-      return next
-    case 'spacing':
-      if (a === 'scale' && typeof value === 'number') next.spacing.scale = value
-      return next
-    case 'motion':
-      if (a === 'durations' && b && typeof value === 'number') {
-        next.motion.durations[b as MotionDurationKey] = value
-      } else if (a === 'easings' && b && typeof value === 'string') {
-        next.motion.easings[b as MotionEasingKey] = value
-      }
-      return next
-    default:
-      return next
-  }
-}
-
-function reducer(state: State, action: Action): State {
+function reducer(state: Theme, action: Action): Theme {
   switch (action.type) {
-    case 'update':
+    case 'SET_PRESET':
+      return applyPreset(state, action.preset)
+
+    case 'SET_PALETTE_STEP': {
+      const group = state.palette[action.group] as Readonly<Record<string, string>>
       return {
-        theme: applyUpdate(state.theme, action.path, action.value),
-        activePreset: 'custom',
+        ...state,
+        palette: {
+          ...state.palette,
+          [action.group]: { ...group, [action.step]: action.value },
+        } as RawPalette,
       }
-    case 'load-preset':
-      return { theme: PRESETS[action.preset], activePreset: action.preset }
-    case 'reset': {
-      const target = state.activePreset === 'custom' ? 'plum-gold' : state.activePreset
-      return { theme: PRESETS[target], activePreset: target }
     }
+
+    case 'SET_SEMANTIC':
+      return {
+        ...state,
+        semantic: {
+          ...state.semantic,
+          [action.mode]: { ...state.semantic[action.mode], [action.key]: action.value },
+        },
+      }
+
+    case 'SET_MEDAL':
+      return {
+        ...state,
+        identity: {
+          ...state.identity,
+          medals: {
+            ...state.identity.medals,
+            [action.rank]: { ...state.identity.medals[action.rank], [action.slot]: action.value },
+          },
+        },
+      }
+
+    case 'SET_CHART':
+      return {
+        ...state,
+        identity: {
+          ...state.identity,
+          charts: { ...state.identity.charts, [action.index]: action.value },
+        },
+      }
+
+    case 'SET_NAV_ON_DARK':
+      return {
+        ...state,
+        identity: {
+          ...state.identity,
+          navOnDark: { ...state.identity.navOnDark, [action.key]: action.value },
+        },
+      }
+
+    case 'SET_TYPOGRAPHY_FONT':
+      return {
+        ...state,
+        typography: {
+          ...state.typography,
+          [action.slot === 'display' ? 'fontDisplay' :
+           action.slot === 'body' ? 'fontBody' : 'fontMono']: action.value,
+        },
+      }
+
+    case 'SET_TYPOGRAPHY_SIZE':
+      return {
+        ...state,
+        typography: {
+          ...state.typography,
+          sizes: { ...state.typography.sizes, [action.key]: action.value },
+        },
+      }
+
+    case 'SET_RADIUS':
+      return { ...state, radius: { ...state.radius, [action.key]: action.value } }
+
+    case 'SET_SHADOW_MEMPHIS':
+      return {
+        ...state,
+        shadowMemphis: {
+          ...state.shadowMemphis,
+          [action.key]: { ...state.shadowMemphis[action.key], [action.slot]: action.value },
+        },
+      }
+
+    case 'SET_SHADOW_SOFT':
+      return {
+        ...state,
+        shadowSoft: { ...state.shadowSoft, [action.key]: action.value },
+      }
+
+    case 'SET_SPACING_SCALE':
+      return { ...state, spacing: { scale: action.value } }
+
+    case 'SET_DURATION':
+      return {
+        ...state,
+        motion: {
+          ...state.motion,
+          durations: { ...state.motion.durations, [action.key]: action.value },
+        },
+      }
+
+    case 'SET_EASING':
+      return {
+        ...state,
+        motion: {
+          ...state.motion,
+          easings: { ...state.motion.easings, [action.key]: action.value },
+        },
+      }
+
+    case 'RESET':
+      return applyPreset(DEFAULT_THEME, action.preset)
+
     default:
       return state
   }
 }
 
 /**
- * Collect every CSS var name written by {@link applyThemeToRoot}.
- * Kept in sync with the list below — if you add a property there,
- * add it here too so unmount cleanup stays complete.
+ * Inject a single <style id="theme-generator-overrides"> element into
+ * <head> containing both light and dark semantic blocks. The selector is
+ * scoped to match the active data-palette attribute so the overrides win
+ * the cascade over static rules in theme.css that use :root[data-palette='…']
+ * (specificity 0,2,0 vs bare :root 0,1,0).
  */
-export const MANAGED_CSS_VARS: ReadonlyArray<string> = (() => {
-  const names: string[] = []
-  // Colors — every key in DEFAULT_THEME.colors is always present.
-  Object.keys(PRESETS['plum-gold'].colors).forEach((k) => names.push(`--${k}`))
-
-  names.push('--font-display', '--font-body', '--font-mono')
-  ;(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'] as const).forEach((k) =>
-    names.push(k === 'base' ? '--text-base' : `--text-${k}`),
-  )
-
-  ;(['none', 'sm', 'md', 'lg', 'pill', 'full'] as const).forEach((k) =>
-    names.push(`--radius-${k}`),
-  )
-
-  names.push(
-    '--shadow-memphis-color',
-    '--shadow-memphis-sm',
-    '--shadow-memphis',
-    '--shadow-memphis-lg',
-    '--shadow-memphis-hover',
-    '--shadow-memphis-active',
-    '--shadow-sm',
-    '--shadow-md',
-    '--shadow-lg',
-  )
-
-  SPACING_BASE_PX.forEach(([name]) => names.push(`--${name}`))
-
-  ;(['snap', 'fast', 'base', 'slow'] as const).forEach((k) => names.push(`--duration-${k}`))
-  ;(['memphis', 'out', 'in-out'] as const).forEach((k) => names.push(`--ease-${k}`))
-  return names
-})()
-
-const radiusToCss = (key: RadiusKey, value: number): string => {
-  if (key === 'pill') return '999px'
-  if (key === 'full') return '50%'
-  if (value === 0) return '0'
-  return `${value}px`
-}
-
-// Semantic tokens are derived from the palette via CSS rules in tokens.css /
-// themes.css (e.g. `--bg: var(--plum-900)` under `[data-theme='dark']`). Writing
-// them inline on `:root` would clobber the dark-mode cascade, so we skip them
-// here — the user can still edit them live on the preview container only.
-const SEMANTIC_COLOR_KEYS = new Set([
-  'bg',
-  'surface',
-  'surface-2',
-  'ink',
-  'ink-soft',
-  'ink-muted',
-  'border-memphis',
-  'accent',
-  'ring',
-  'success',
-  'danger',
-  'warning',
-  'rage',
-  'info',
-])
-
-export function applyThemeToRoot(theme: Theme): void {
+function applyThemeToRoot(theme: Theme): void {
   if (typeof document === 'undefined') return
+
+  const STYLE_ID = 'theme-generator-overrides'
+  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null
+  if (!style) {
+    style = document.createElement('style')
+    style.id = STYLE_ID
+    document.head.appendChild(style)
+  }
+
   const root = document.documentElement
-  const set = (name: string, value: string) => root.style.setProperty(name, value)
+  const currentPalette = root.getAttribute('data-palette')
+  const lightSelector = currentPalette
+    ? `:root[data-palette='${currentPalette}']`
+    : ':root'
+  const darkSelector = currentPalette
+    ? `:root[data-palette='${currentPalette}'][data-theme='dark']`
+    : `:root[data-theme='dark']`
 
-  Object.entries(theme.colors).forEach(([k, v]) => {
-    if (SEMANTIC_COLOR_KEYS.has(k)) return
-    set(`--${k}`, v)
+  const toKebab = (s: string): string => s.replace(/([A-Z])/g, '-$1').toLowerCase()
+
+  const lines: string[] = []
+
+  lines.push(`${lightSelector} {`)
+
+  // Raw palette
+  for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
+    lines.push(`  --ink-${step}: ${theme.palette.ink[step]};`)
+  }
+  for (const step of ['100', '200', '300', '400', '500'] as const) {
+    lines.push(`  --brand-${step}: ${theme.palette.brand[step]};`)
+  }
+  for (const step of ['50', '100', '200', '300'] as const) {
+    lines.push(`  --paper-${step}: ${theme.palette.paper[step]};`)
+  }
+
+  // Light semantic
+  Object.entries(theme.semantic.light).forEach(([k, v]) => {
+    lines.push(`  --${toKebab(k)}: ${v};`)
   })
 
-  set('--font-display', theme.typography.fontDisplay)
-  set('--font-body', theme.typography.fontBody)
-  set('--font-mono', theme.typography.fontMono)
+  // Identity (theme-agnostic)
+  ;(['bronze', 'silver', 'gold', 'master', 'grandmaster'] as const).forEach((rank) => {
+    lines.push(`  --medal-${rank}-outer: ${theme.identity.medals[rank].outer};`)
+    lines.push(`  --medal-${rank}-inner: ${theme.identity.medals[rank].inner};`)
+    lines.push(`  --medal-${rank}-text: ${theme.identity.medals[rank].text};`)
+  })
+  ;(['1', '2', '3', '4', '5'] as const).forEach((k) => {
+    lines.push(`  --chart-${k}: ${theme.identity.charts[k]};`)
+  })
+  lines.push(`  --nav-on-dark-accent: ${theme.identity.navOnDark.accent};`)
+  lines.push(`  --nav-on-dark-accent-strong: ${theme.identity.navOnDark.accentStrong};`)
+  lines.push(`  --nav-on-dark-foreground: ${theme.identity.navOnDark.foreground};`)
+  lines.push(`  --nav-on-dark-foreground-strong: ${theme.identity.navOnDark.foregroundStrong};`)
+
+  // Typography
+  lines.push(`  --font-display: ${theme.typography.fontDisplay};`)
+  lines.push(`  --font-body: ${theme.typography.fontBody};`)
+  lines.push(`  --font-mono: ${theme.typography.fontMono};`)
   ;(['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'] as const).forEach((k) => {
-    const cssKey = k === 'base' ? '--text-base' : `--text-${k}`
-    set(cssKey, `${theme.typography.sizes[k]}px`)
+    const cssName = k === 'base' ? '--text-base' : `--text-${k}`
+    lines.push(`  ${cssName}: ${theme.typography.sizes[k]}px;`)
   })
 
+  // Radius
   ;(['none', 'sm', 'md', 'lg', 'pill', 'full'] as const).forEach((k) => {
-    set(`--radius-${k}`, radiusToCss(k, theme.radius[k]))
+    const v = theme.radius[k]
+    const css = k === 'pill' ? '999px' : k === 'full' ? '50%' : v === 0 ? '0' : `${v}px`
+    lines.push(`  --radius-${k}: ${css};`)
   })
 
-  set('--shadow-memphis-color', theme.shadowMemphis.md.color)
+  // Shadow memphis
   ;(['sm', 'md', 'lg', 'hover', 'active'] as const).forEach((k) => {
     const s = theme.shadowMemphis[k]
-    const cssKey = k === 'md' ? '--shadow-memphis' : `--shadow-memphis-${k}`
-    set(cssKey, `${s.x}px ${s.y}px 0 ${s.color}`)
-  })
-  set('--shadow-sm', `0 1px 2px rgba(0, 0, 0, ${theme.shadowSoft.sm})`)
-  set('--shadow-md', `0 2px 8px rgba(0, 0, 0, ${theme.shadowSoft.md})`)
-  set('--shadow-lg', `0 8px 24px rgba(0, 0, 0, ${theme.shadowSoft.lg})`)
-
-  SPACING_BASE_PX.forEach(([name, px]) => {
-    set(`--${name}`, `${Math.round(px * theme.spacing.scale)}px`)
+    const cssName = k === 'md' ? '--shadow-memphis' : `--shadow-memphis-${k}`
+    lines.push(`  ${cssName}: ${s.x}px ${s.y}px 0 ${s.color};`)
   })
 
+  // Spacing (uses SPACING_BASE_PX)
+  SPACING_BASE_PX.forEach(([k, px]) => {
+    lines.push(`  --${k}: ${px * theme.spacing.scale}px;`)
+  })
+
+  // Motion
   ;(['snap', 'fast', 'base', 'slow'] as const).forEach((k) => {
-    set(`--duration-${k}`, `${theme.motion.durations[k]}ms`)
+    lines.push(`  --duration-${k}: ${theme.motion.durations[k]}ms;`)
   })
   ;(['memphis', 'out', 'in-out'] as const).forEach((k) => {
-    set(`--ease-${k}`, theme.motion.easings[k])
+    lines.push(`  --ease-${k}: ${theme.motion.easings[k]};`)
   })
-}
 
-export function resetRootTheme(): void {
-  if (typeof document === 'undefined') return
-  const root = document.documentElement
-  MANAGED_CSS_VARS.forEach((name) => root.style.removeProperty(name))
-}
+  lines.push('}')
 
-export interface UseThemeStateReturn {
-  theme: Theme
-  activePreset: ActivePreset
-  updateToken: (path: string, value: string | number) => void
-  loadPreset: (name: PresetName) => void
-  reset: () => void
-  darkPreview: boolean
-  setDarkPreview: (v: boolean) => void
-}
-
-/**
- * Reducer-backed theme state + imperative DOM sync.
- *
- * Starts from the Plum+Gold preset and cleans up on unmount.
- */
-export function useThemeState(): UseThemeStateReturn {
-  const [state, dispatch] = useReducer(reducer, {
-    theme: PRESETS['plum-gold'],
-    activePreset: 'plum-gold',
+  // Dark semantic
+  lines.push('')
+  lines.push(`${darkSelector} {`)
+  Object.entries(theme.semantic.dark).forEach(([k, v]) => {
+    lines.push(`  --${toKebab(k)}: ${v};`)
   })
-  const [darkPreview, setDarkPreview] = useState(false)
+  lines.push('}')
 
-  // Sync the theme to :root on every change. Cleanup runs on unmount.
-  useEffect(() => {
-    applyThemeToRoot(state.theme)
-  }, [state.theme])
+  style.textContent = lines.join('\n')
+}
+
+export function useThemeState() {
+  const [theme, dispatch] = useReducer(reducer, DEFAULT_THEME)
+
+  const applyLive = useCallback(() => {
+    applyThemeToRoot(theme)
+  }, [theme])
 
   useEffect(() => {
-    return () => {
-      resetRootTheme()
+    applyLive()
+  }, [applyLive])
+
+  // Sync the generator's palette state to whatever data-palette the navbar sets.
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+
+    const root = document.documentElement
+    const presetFromAttr = (attr: string | null): PresetName => {
+      if (attr === 'neon') return 'neon'
+      if (attr === 'sunset') return 'sunset'
+      return 'default'
     }
-  }, [])
 
-  const updateToken = useCallback((path: string, value: string | number) => {
-    dispatch({ type: 'update', path, value })
-  }, [])
-  const loadPreset = useCallback((name: PresetName) => {
-    dispatch({ type: 'load-preset', preset: name })
-  }, [])
-  const reset = useCallback(() => {
-    dispatch({ type: 'reset' })
-  }, [])
+    // Initial sync
+    dispatch({ type: 'SET_PRESET', preset: presetFromAttr(root.getAttribute('data-palette')) })
 
-  return useMemo(
-    () => ({
-      theme: state.theme,
-      activePreset: state.activePreset,
-      updateToken,
-      loadPreset,
-      reset,
-      darkPreview,
-      setDarkPreview,
-    }),
-    [state.theme, state.activePreset, updateToken, loadPreset, reset, darkPreview],
-  )
+    // Observe future changes
+    const observer = new MutationObserver(() => {
+      dispatch({ type: 'SET_PRESET', preset: presetFromAttr(root.getAttribute('data-palette')) })
+      // Note: applyThemeToRoot is called by the useEffect([applyLive]) dependency
+      // after the reducer updates state. No need to call it here with stale theme.
+    })
+    observer.observe(root, { attributes: true, attributeFilter: ['data-palette'] })
+
+    return () => observer.disconnect()
+  }, []) // mount-only; dispatch is stable, no external deps needed
+
+  return { theme, dispatch }
 }

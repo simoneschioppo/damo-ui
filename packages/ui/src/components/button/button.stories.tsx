@@ -4,10 +4,10 @@ import { PlayIcon, ArrowRightIcon, TrashIcon, CogIcon } from '../../icons'
 export const Variants = () => (
   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
     <Button variant="primary">Primary</Button>
-    <Button variant="accent">Accent</Button>
+    <Button variant="secondary">Secondary</Button>
     <Button variant="outline">Outline</Button>
     <Button variant="ghost">Ghost</Button>
-    <Button variant="danger">Danger</Button>
+    <Button variant="destructive">Destructive</Button>
     <Button variant="link">Link</Button>
   </div>
 )
@@ -31,7 +31,7 @@ export const WithIcon = () => (
     <Button variant="ghost">
       Continua <ArrowRightIcon size={18} />
     </Button>
-    <Button variant="danger">
+    <Button variant="destructive">
       <TrashIcon size={18} /> Elimina
     </Button>
   </div>
@@ -40,8 +40,8 @@ export const WithIcon = () => (
 export const Disabled = () => (
   <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
     <Button disabled>Primary</Button>
-    <Button variant="accent" disabled>
-      Accent
+    <Button variant="secondary" disabled>
+      Secondary
     </Button>
     <Button variant="ghost" disabled>
       Ghost

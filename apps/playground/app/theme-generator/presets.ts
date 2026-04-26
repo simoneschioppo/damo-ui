@@ -1,77 +1,59 @@
 /**
- * Theme presets — three curated palettes the user can snap to.
+ * Theme presets — raw palette overrides.
  *
- * "plum-gold" is the identity default (identical to DEFAULT_THEME).
- * "neon" and "sunset" re-map Plum+Gold palette groups while keeping
- * every non-color token identical, mirroring the overrides defined in
- * `packages/ui/src/styles/themes.css`.
+ * Each preset overrides ONLY the raw palette (Layer 1). Semantic mapping
+ * (Layer 2) is applied uniformly via themes.css in the lib. This matches
+ * the new architecture where palette and theme are orthogonal.
  */
 
-import { DEFAULT_THEME, type Theme } from './theme-state'
+import { DEFAULT_THEME, computeSemanticLight, computeSemanticDark, type Theme, type RawPalette } from './theme-state'
 
-export type PresetName = 'plum-gold' | 'neon' | 'sunset'
+export type PresetName = 'default' | 'neon' | 'sunset'
 
-const withColors = (overrides: Record<string, string>): Theme => ({
-  ...DEFAULT_THEME,
-  colors: { ...DEFAULT_THEME.colors, ...overrides },
-})
-
-/**
- * Neon — magenta + lime (Memphis 80s pure).
- * Note: paper / semantic / status come from DEFAULT_THEME unchanged.
- */
-const NEON_COLORS: Record<string, string> = {
-  'plum-100': '#f8c8e7',
-  'plum-300': '#e26dbb',
-  'plum-500': '#b01680',
-  'plum-700': '#491a40',
-  'plum-800': '#321029',
-  'plum-900': '#1f0819',
-  'gold-100': '#e3facb',
-  'gold-200': '#ccf2a6',
-  'gold-300': '#b4ea7e',
-  'gold-400': '#9be04a',
-  'gold-500': '#7fd321',
-  // Semantic re-resolution so live editor shows consistent values
-  ink: '#1f0819',
-  'ink-soft': '#491a40',
-  'ink-muted': '#e26dbb',
-  accent: '#7fd321',
-  ring: '#7fd321',
-  info: '#b01680',
+export const PRESET_LABELS: Record<PresetName, string> = {
+  default: 'Plum + Gold (default)',
+  neon: 'Neon (magenta + lime)',
+  sunset: 'Sunset (terracotta + orange)',
 }
 
-/**
- * Sunset — terracotta + warm orange.
- */
-const SUNSET_COLORS: Record<string, string> = {
-  'plum-100': '#f8d4c0',
-  'plum-300': '#dd8a6d',
-  'plum-500': '#a8402a',
-  'plum-700': '#5a2514',
-  'plum-800': '#3f170d',
-  'plum-900': '#2a0d07',
-  'gold-100': '#ffe7cd',
-  'gold-200': '#ffd2a3',
-  'gold-300': '#ffbb75',
-  'gold-400': '#fda047',
-  'gold-500': '#f58a1e',
-  ink: '#2a0d07',
-  'ink-soft': '#5a2514',
-  'ink-muted': '#dd8a6d',
-  accent: '#f58a1e',
-  ring: '#f58a1e',
-  info: '#a8402a',
+const NEON_PALETTE: RawPalette = {
+  ink: {
+    '100': '#f8c8e7', '300': '#e26dbb', '500': '#b01680',
+    '700': '#491a40', '800': '#321029', '900': '#1f0819',
+  },
+  brand: {
+    '100': '#e3facb', '200': '#ccf2a6', '300': '#b4ea7e',
+    '400': '#9be04a', '500': '#7fd321',
+  },
+  paper: DEFAULT_THEME.palette.paper,
 }
 
-export const PRESETS: Readonly<Record<PresetName, Theme>> = {
-  'plum-gold': DEFAULT_THEME,
-  neon: withColors(NEON_COLORS),
-  sunset: withColors(SUNSET_COLORS),
-} as const
+const SUNSET_PALETTE: RawPalette = {
+  ink: {
+    '100': '#f8d4c0', '300': '#dd8a6d', '500': '#a8402a',
+    '700': '#5a2514', '800': '#3f170d', '900': '#2a0d07',
+  },
+  brand: {
+    '100': '#ffe7cd', '200': '#ffd2a3', '300': '#ffbb75',
+    '400': '#fda047', '500': '#f58a1e',
+  },
+  paper: DEFAULT_THEME.palette.paper,
+}
 
-export const PRESET_LABELS: Readonly<Record<PresetName, string>> = {
-  'plum-gold': 'Plum + Gold',
-  neon: 'Neon',
-  sunset: 'Sunset',
-} as const
+export const PRESET_PALETTES: Record<PresetName, RawPalette> = {
+  default: DEFAULT_THEME.palette,
+  neon: NEON_PALETTE,
+  sunset: SUNSET_PALETTE,
+}
+
+export function applyPreset(theme: Theme, preset: PresetName): Theme {
+  const newPalette = PRESET_PALETTES[preset]
+  return {
+    ...theme,
+    palette: newPalette,
+    semantic: {
+      light: computeSemanticLight(newPalette),
+      dark: computeSemanticDark(newPalette),
+    },
+  }
+}

@@ -36,20 +36,20 @@ export const PatternSwatch = forwardRef<HTMLDivElement, PatternSwatchProps>(func
     <div
       ref={ref}
       className={cn(
-        'inline-flex flex-col border-2 border-border-memphis rounded-none',
+        'inline-flex flex-col border-2 border-memphis rounded-none',
         className,
       )}
       {...rest}
     >
       <span
         className={cn(
-          'font-mono text-[11px] tracking-[0.22em] uppercase font-bold text-accent',
-          'px-3 py-2 border-b-2 border-border-memphis',
+          'font-mono text-[11px] tracking-[0.22em] uppercase font-bold text-primary',
+          'px-3 py-2 border-b-2 border-memphis',
         )}
       >
         {name}
       </span>
-      <div className="aspect-square bg-paper-50 relative overflow-hidden" style={tileStyle}>
+      <div className="aspect-square bg-background relative overflow-hidden" style={tileStyle}>
         {children}
       </div>
     </div>

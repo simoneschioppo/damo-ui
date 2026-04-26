@@ -69,10 +69,10 @@ describe('DensitySwitcher', () => {
     const { getByRole } = render(<DensitySwitcher />)
     const compactBtn = getByRole('button', { name: 'Compatta' }) as HTMLButtonElement
     const normalBtn = getByRole('button', { name: 'Normale' }) as HTMLButtonElement
-    expect(compactBtn.className).toContain('bg-plum-500')
-    expect(compactBtn.className).toContain('text-paper-50')
-    expect(normalBtn.className).toContain('bg-surface')
-    expect(normalBtn.className).toContain('text-ink')
+    expect(compactBtn.className).toContain('bg-secondary')
+    expect(compactBtn.className).toContain('text-secondary-foreground')
+    expect(normalBtn.className).toContain('bg-card')
+    expect(normalBtn.className).toContain('text-card-foreground')
   })
 
   it('shows "Density" eyebrow label', () => {

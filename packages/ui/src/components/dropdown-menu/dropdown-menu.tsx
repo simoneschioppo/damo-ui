@@ -27,7 +27,7 @@ export const DropdownMenuContent = forwardRef<
         ref={ref}
         sideOffset={sideOffset}
         className={cn(
-          'z-dropdown min-w-[10rem] overflow-hidden bg-surface text-ink',
+          'z-dropdown min-w-[10rem] overflow-hidden bg-card text-foreground',
           'border border-border rounded-md shadow-md',
           'p-1',
           className,
@@ -48,7 +48,7 @@ export const DropdownMenuItem = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center gap-2',
         'px-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink',
+        'focus:bg-muted focus:text-foreground',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         inset && 'pl-8',
         className,
@@ -69,7 +69,7 @@ export const DropdownMenuCheckboxItem = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center',
         'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink',
+        'focus:bg-muted focus:text-foreground',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         className,
       )}
@@ -95,7 +95,7 @@ export const DropdownMenuRadioItem = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center',
         'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink',
+        'focus:bg-muted focus:text-foreground',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         className,
       )}
@@ -103,7 +103,7 @@ export const DropdownMenuRadioItem = forwardRef<
     >
       <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <span className="h-2 w-2 rounded-full bg-plum-500" />
+          <span className="h-2 w-2 rounded-full bg-secondary" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -119,7 +119,7 @@ export const DropdownMenuLabel = forwardRef<
     <DropdownMenuPrimitive.Label
       ref={ref}
       className={cn(
-        'px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink-muted',
+        'px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground',
         inset && 'pl-8',
         className,
       )}
@@ -144,7 +144,7 @@ export const DropdownMenuSeparator = forwardRef<
 export function DropdownMenuShortcut({ className, ...rest }: HTMLAttributes<HTMLSpanElement>) {
   return (
     <span
-      className={cn('ml-auto text-xs text-ink-muted font-mono tracking-wider', className)}
+      className={cn('ml-auto text-xs text-muted-foreground font-mono tracking-wider', className)}
       {...rest}
     />
   )
@@ -160,7 +160,7 @@ export const DropdownMenuSubTrigger = forwardRef<
       className={cn(
         'relative flex cursor-pointer select-none items-center gap-2',
         'px-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-surface-2 focus:text-ink data-[state=open]:bg-surface-2',
+        'focus:bg-muted focus:text-foreground data-[state=open]:bg-muted',
         inset && 'pl-8',
         className,
       )}
@@ -180,7 +180,7 @@ export const DropdownMenuSubContent = forwardRef<
     <DropdownMenuPrimitive.SubContent
       ref={ref}
       className={cn(
-        'z-dropdown min-w-[8rem] overflow-hidden bg-surface text-ink',
+        'z-dropdown min-w-[8rem] overflow-hidden bg-card text-foreground',
         'border border-border rounded-md shadow-md p-1',
         className,
       )}

@@ -114,8 +114,8 @@ const pageStyle: CSSProperties = {
   display: 'grid',
   gridTemplateColumns: '300px 1fr',
   minHeight: '100vh',
-  background: 'var(--bg)',
-  color: 'var(--ink)',
+  background: 'var(--background)',
+  color: 'var(--foreground)',
 }
 
 const tocListStyle: CSSProperties = {
@@ -125,7 +125,7 @@ const tocListStyle: CSSProperties = {
 }
 
 const tocLinkStyle: CSSProperties = {
-  color: 'var(--ink-soft)',
+  color: 'var(--muted-foreground)',
   textDecoration: 'none',
   padding: '8px 12px',
   fontSize: 13,
@@ -138,15 +138,15 @@ const tocLinkStyle: CSSProperties = {
 }
 
 const tocLinkActiveStyle: CSSProperties = {
-  color: 'var(--ink)',
-  borderLeftColor: 'var(--accent)',
-  background: 'color-mix(in oklab, var(--ink) 6%, transparent)',
+  color: 'var(--foreground)',
+  borderLeftColor: 'var(--primary)',
+  background: 'color-mix(in oklab, var(--foreground) 6%, transparent)',
 }
 
 const tocNumStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 10,
-  color: 'var(--accent)',
+  color: 'var(--primary)',
   marginRight: 8,
 }
 
@@ -160,7 +160,7 @@ const mainStyle: CSSProperties = {
 const heroStyle: CSSProperties = {
   padding: '72px 0 56px',
   position: 'relative',
-  borderBottom: '2px solid var(--ink)',
+  borderBottom: '2px solid var(--foreground)',
 }
 
 const heroAccentStyle: CSSProperties = {
@@ -169,14 +169,14 @@ const heroAccentStyle: CSSProperties = {
   left: 0,
   width: 120,
   height: 2,
-  background: 'var(--accent)',
+  background: 'var(--primary)',
 }
 
 const heroEyebrowStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 11,
   letterSpacing: '0.28em',
-  color: 'var(--accent)',
+  color: 'var(--primary)',
   textTransform: 'uppercase',
   marginBottom: 16,
   fontWeight: 700,
@@ -187,13 +187,13 @@ const heroTitleStyle: CSSProperties = {
   fontSize: 72,
   lineHeight: 0.95,
   margin: '0 0 20px',
-  color: 'var(--ink)',
+  color: 'var(--foreground)',
   letterSpacing: '-0.01em',
 }
 
 const heroLeadStyle: CSSProperties = {
   fontSize: 18,
-  color: 'var(--ink-soft)',
+  color: 'var(--muted-foreground)',
   maxWidth: 640,
   margin: 0,
   lineHeight: 1.5,
@@ -207,12 +207,12 @@ const heroMetaStyle: CSSProperties = {
   fontSize: 11,
   letterSpacing: '0.15em',
   textTransform: 'uppercase',
-  color: 'var(--ink-muted)',
+  color: 'var(--muted-foreground)',
   flexWrap: 'wrap',
 }
 
 const heroMetaBoldStyle: CSSProperties = {
-  color: 'var(--ink)',
+  color: 'var(--foreground)',
   fontWeight: 700,
 }
 
@@ -236,7 +236,7 @@ const subEyebrowStyle: CSSProperties = {
   fontSize: 10,
   letterSpacing: '0.2em',
   textTransform: 'uppercase',
-  color: 'var(--ink-muted)',
+  color: 'var(--muted-foreground)',
   fontWeight: 700,
   marginBottom: 16,
   display: 'block',
@@ -317,7 +317,7 @@ function Toc({ activeId }: { activeId: string }) {
 // Ogni scala è una banda orizzontale piena: left col (nome + token + desc),
 // right col grid di stops con background colore + nome/hex inline.
 //
-// Colors are rendered via CSS variables (`var(--plum-500)` etc.) so the
+// Colors are rendered via CSS variables (`var(--ink-500)` etc.) so the
 // bands react live to `data-theme` and `data-palette` changes. The hex
 // label next to each stop is resolved at runtime via getComputedStyle and
 // kept in sync by observing <html> attribute mutations.
@@ -331,16 +331,16 @@ type ColorScaleDef = {
 }
 
 const PLUM_SCALE: ColorScaleDef = {
-  name: 'Plum',
-  token: 'plum',
-  desc: 'Primario scuro — ink, testo, sfondi notturni',
+  name: 'Ink',
+  token: 'ink',
+  desc: 'Primario scuro — foreground, testo, sfondi notturni',
   stops: [{ k: 900 }, { k: 800 }, { k: 700 }, { k: 500 }, { k: 300 }, { k: 100 }],
 }
 
 const GOLD_SCALE: ColorScaleDef = {
-  name: 'Gold',
-  token: 'gold',
-  desc: 'Accent brand — bottoni, bordi dorati, highlight',
+  name: 'Brand',
+  token: 'brand',
+  desc: 'Accent brand — bottoni, bordi, highlight',
   stops: [{ k: 500 }, { k: 400 }, { k: 300 }, { k: 200 }, { k: 100 }],
 }
 
@@ -357,34 +357,29 @@ const SEMANTIC_BLOCKS: ReadonlyArray<{
   readonly cssVar: string
   readonly usage: string
 }> = [
-  { token: '--bg', name: 'Background', cssVar: '--bg', usage: "Sfondo principale dell'app" },
+  { token: '--background', name: 'Background', cssVar: '--background', usage: "Sfondo principale dell'app" },
   {
-    token: '--surface',
-    name: 'Surface',
-    cssVar: '--surface',
+    token: '--card',
+    name: 'Card',
+    cssVar: '--card',
     usage: 'Card, modali, superfici elevate',
   },
   {
-    token: '--surface-2',
-    name: 'Surface 2',
-    cssVar: '--surface-2',
+    token: '--muted',
+    name: 'Muted',
+    cssVar: '--muted',
     usage: 'Superficie secondaria, hover',
   },
-  { token: '--ink', name: 'Ink', cssVar: '--ink', usage: 'Testo primario, bordi' },
-  { token: '--ink-soft', name: 'Ink Soft', cssVar: '--ink-soft', usage: 'Testo secondario' },
+  { token: '--foreground', name: 'Foreground', cssVar: '--foreground', usage: 'Testo primario, bordi' },
+  { token: '--muted-foreground', name: 'Muted Foreground', cssVar: '--muted-foreground', usage: 'Testo secondario e hint' },
   {
-    token: '--ink-muted',
-    name: 'Ink Muted',
-    cssVar: '--ink-muted',
-    usage: 'Hint, placeholder, meta',
-  },
-  {
-    token: '--border-memphis',
-    name: 'Border Memphis',
-    cssVar: '--border-memphis',
+    token: '--memphis-border-color',
+    name: 'Memphis Border',
+    cssVar: '--memphis-border-color',
     usage: 'Bordo 2px Memphis nero',
   },
-  { token: '--accent', name: 'Accent', cssVar: '--accent', usage: 'Gold 500 — brand highlight' },
+  { token: '--primary', name: 'Primary', cssVar: '--primary', usage: 'Gold 500 — brand highlight' },
+  { token: '--secondary', name: 'Secondary', cssVar: '--secondary', usage: 'Plum 500 — brand secondario' },
 ]
 
 function ColorsSection() {
@@ -426,10 +421,10 @@ function ColorsSection() {
             gap: 12,
           }}
         >
-          <h3 className="display" style={{ fontSize: 24, margin: 0, color: 'var(--ink)' }}>
+          <h3 className="display" style={{ fontSize: 24, margin: 0, color: 'var(--foreground)' }}>
             Semantici
           </h3>
-          <div style={{ color: 'var(--ink-muted)', fontSize: 13, fontStyle: 'italic' }}>
+          <div style={{ color: 'var(--muted-foreground)', fontSize: 13, fontStyle: 'italic' }}>
             Alias di livello prodotto — usa questi nei componenti
           </div>
         </div>
@@ -489,7 +484,7 @@ function typeSpecStyle(t: TypeScaleRow): CSSProperties {
     textTransform: t.upper ? 'uppercase' : 'none',
     letterSpacing: t.track ? `${t.track}em` : '0',
     lineHeight: 1.1,
-    color: 'var(--ink)',
+    color: 'var(--foreground)',
   }
 }
 
@@ -537,7 +532,7 @@ function TypographySection() {
               alignItems: 'baseline',
               padding: '18px 0',
               borderTop:
-                idx === 0 ? 'none' : '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
+                idx === 0 ? 'none' : '1.5px solid color-mix(in oklab, var(--foreground) 12%, transparent)',
             }}
           >
             <div
@@ -546,7 +541,7 @@ function TypographySection() {
                 fontSize: 11,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'var(--ink-muted)',
+                color: 'var(--muted-foreground)',
                 fontWeight: 700,
               }}
             >
@@ -559,14 +554,14 @@ function TypographySection() {
               style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: 11,
-                color: 'var(--accent)',
+                color: 'var(--primary)',
                 textAlign: 'right',
                 fontWeight: 700,
               }}
             >
               {t.size}px / {t.weight}
               <br />
-              <span style={{ color: 'var(--ink-muted)', fontWeight: 400 }}>--font-{t.font}</span>
+              <span style={{ color: 'var(--muted-foreground)', fontWeight: 400 }}>--font-{t.font}</span>
             </div>
           </div>
         ))}
@@ -584,7 +579,7 @@ const stateLabelStyle: CSSProperties = {
   fontSize: 10,
   letterSpacing: '0.18em',
   textTransform: 'uppercase',
-  color: 'var(--ink-muted)',
+  color: 'var(--muted-foreground)',
   fontWeight: 700,
   marginTop: 8,
   textAlign: 'center',
@@ -625,7 +620,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="primary"
-          className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--black)] bg-[var(--gold-400)]"
+          className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--black)] bg-[var(--brand-400)]"
         >
           SALVA
         </Button>
@@ -670,7 +665,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="ghost"
-          className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--gold-500)] bg-[var(--surface-2)]"
+          className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--primary)] bg-[var(--muted)]"
         >
           INDIETRO
         </Button>
@@ -681,7 +676,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="ghost"
-          className="translate-x-[3px] translate-y-[3px] shadow-[2px_2px_0_var(--gold-500)]"
+          className="translate-x-[3px] translate-y-[3px] shadow-[2px_2px_0_var(--primary)]"
         >
           INDIETRO
         </Button>
@@ -779,12 +774,12 @@ function CardsSection() {
               meta={<>Designer · Team Lead</>}
               trailing={
                 <span
-                  className="font-mono font-bold text-ink border-2 border-gold-500 bg-paper-50"
+                  className="font-mono font-bold text-foreground border-2 border-primary bg-background"
                   style={{
                     display: 'inline-block',
                     padding: '8px 14px',
                     fontSize: 14,
-                    boxShadow: '2px 2px 0 var(--gold-500)',
+                    boxShadow: '2px 2px 0 var(--primary)',
                   }}
                 >
                   PRO
@@ -799,7 +794,7 @@ function CardsSection() {
               title="TIPOGRAFIA"
               desc="Due famiglie, dieci scale — dal caption al display XL."
               meta="10 STILI"
-              icon={<ArrowRightIcon size={18} style={{ color: 'var(--accent)' }} />}
+              icon={<ArrowRightIcon size={18} style={{ color: 'var(--primary)' }} />}
             />
           </div>
         </ShowcaseCard>
@@ -841,13 +836,13 @@ const inputLabelStyle: CSSProperties = {
   letterSpacing: '0.05em',
   textTransform: 'uppercase',
   marginBottom: 6,
-  color: 'var(--ink)',
+  color: 'var(--foreground)',
 }
 
 const inputStateCaptionStyle: CSSProperties = {
   display: 'block',
   fontSize: 12,
-  color: 'var(--ink-muted)',
+  color: 'var(--muted-foreground)',
   fontStyle: 'italic',
   marginTop: 6,
 }
@@ -880,7 +875,7 @@ function InputsSection() {
               <Input
                 id="nick-focus"
                 defaultValue="MarioRossi"
-                className="border-[var(--gold-500)] shadow-[3px_3px_0_var(--gold-500)] outline-none"
+                className="border-[var(--primary)] shadow-[3px_3px_0_var(--primary)] outline-none"
               />
               <span style={inputStateCaptionStyle}>Focus</span>
             </div>
@@ -893,7 +888,7 @@ function InputsSection() {
                 defaultValue="mario@damo.design"
                 disabled
                 readOnly
-                className="bg-[var(--paper-200)]"
+                className="bg-[var(--muted)]"
               />
               <span style={inputStateCaptionStyle}>Disabled</span>
             </div>
@@ -959,7 +954,7 @@ function InputsSection() {
                   style={{
                     fontFamily: 'var(--font-mono)',
                     fontSize: 12,
-                    color: 'var(--ink-muted)',
+                    color: 'var(--muted-foreground)',
                     minWidth: 36,
                     textAlign: 'right',
                     fontVariantNumeric: 'tabular-nums',
@@ -1016,13 +1011,13 @@ function BadgesSection() {
 
         <SubPanel label="CHIP · tag filtrabili">
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-            <Chip dotColor="var(--gold-500)">Button</Chip>
+            <Chip dotColor="var(--primary)">Button</Chip>
             <Chip active dotColor="#fff">
               Card
             </Chip>
-            <Chip dotColor="var(--plum-500)">Dialog</Chip>
+            <Chip dotColor="var(--secondary)">Dialog</Chip>
             <Chip dotColor="var(--success)">Input</Chip>
-            <Chip dotColor="var(--danger)">Table</Chip>
+            <Chip dotColor="var(--destructive)">Table</Chip>
           </div>
         </SubPanel>
       </ShowcaseCard>
@@ -1071,7 +1066,7 @@ const iconNoteStyle: CSSProperties = {
   display: 'block',
   fontFamily: 'var(--font-mono)',
   fontSize: 12,
-  color: 'var(--ink-muted)',
+  color: 'var(--muted-foreground)',
   marginBottom: 16,
   letterSpacing: '0.04em',
 }
@@ -1079,7 +1074,7 @@ const iconNoteStyle: CSSProperties = {
 const iconTileLabelStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
   fontSize: 10,
-  color: 'var(--ink-muted)',
+  color: 'var(--muted-foreground)',
   letterSpacing: '0.05em',
 }
 
@@ -1106,8 +1101,8 @@ function IconsSection() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 8,
-                borderRight: '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
-                borderBottom: '1.5px solid color-mix(in oklab, var(--ink) 12%, transparent)',
+                borderRight: '1.5px solid color-mix(in oklab, var(--foreground) 12%, transparent)',
+                borderBottom: '1.5px solid color-mix(in oklab, var(--foreground) 12%, transparent)',
               }}
             >
               <Cmp size={28} />
@@ -1235,8 +1230,8 @@ function MascotSection() {
                 {/* crown */}
                 <path
                   d="M60 30 L70 45 L80 25 L90 45 L100 30 L100 55 L60 55 Z"
-                  fill="var(--gold-500)"
-                  stroke="var(--border-memphis)"
+                  fill="var(--primary)"
+                  stroke="var(--memphis-border-color)"
                   strokeWidth="2"
                   strokeLinejoin="round"
                 />
@@ -1245,18 +1240,18 @@ function MascotSection() {
                   cx="80"
                   cy="90"
                   r="32"
-                  fill="var(--plum-500)"
-                  stroke="var(--border-memphis)"
+                  fill="var(--secondary)"
+                  stroke="var(--memphis-border-color)"
                   strokeWidth="2"
                 />
                 {/* eyes */}
-                <circle cx="70" cy="85" r="3" fill="var(--paper-50)" />
-                <circle cx="90" cy="85" r="3" fill="var(--paper-50)" />
+                <circle cx="70" cy="85" r="3" fill="var(--background)" />
+                <circle cx="90" cy="85" r="3" fill="var(--background)" />
                 {/* body base */}
                 <path
                   d="M50 135 L110 135 L120 170 L40 170 Z"
-                  fill="var(--plum-700)"
-                  stroke="var(--border-memphis)"
+                  fill="var(--secondary-foreground)"
+                  stroke="var(--memphis-border-color)"
                   strokeWidth="2"
                   strokeLinejoin="round"
                 />
@@ -1265,7 +1260,7 @@ function MascotSection() {
           </SubPanel>
 
           <SubPanel label="USAGE">
-            <p style={{ color: 'var(--ink-soft)', fontSize: 14, lineHeight: 1.55, margin: 0 }}>
+            <p style={{ color: 'var(--muted-foreground)', fontSize: 14, lineHeight: 1.55, margin: 0 }}>
               Damo è la mascotte della libreria. Asset SVG/PNG arriveranno in v0.2 — per ora usiamo
               un glifo provvisorio.
             </p>
@@ -1276,7 +1271,7 @@ function MascotSection() {
                 letterSpacing: '0.1em',
                 marginTop: 20,
                 marginBottom: 0,
-                color: 'var(--ink-muted)',
+                color: 'var(--muted-foreground)',
               }}
             >
               Sizes
@@ -1287,7 +1282,7 @@ function MascotSection() {
                 margin: '8px 0 0',
                 fontFamily: 'var(--font-mono)',
                 fontSize: 12,
-                color: 'var(--ink-soft)',
+                color: 'var(--muted-foreground)',
                 lineHeight: 1.7,
               }}
             >
@@ -1302,7 +1297,7 @@ function MascotSection() {
                 letterSpacing: '0.1em',
                 marginTop: 20,
                 marginBottom: 0,
-                color: 'var(--ink-muted)',
+                color: 'var(--muted-foreground)',
               }}
             >
               Placement
@@ -1313,7 +1308,7 @@ function MascotSection() {
                 margin: '8px 0 0',
                 fontFamily: 'var(--font-mono)',
                 fontSize: 12,
-                color: 'var(--ink-soft)',
+                color: 'var(--muted-foreground)',
                 lineHeight: 1.7,
               }}
             >
@@ -1365,33 +1360,33 @@ function PatternsSection() {
 
       <ShowcaseCard label="SHAPE PRIMITIVES">
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center' }}>
-          <MemphisShape variant="diamond" size={64} color="var(--gold-500)" />
-          <MemphisShape variant="circle" size={64} color="var(--plum-500)" />
-          <MemphisShape variant="triangle" size={64} color="var(--plum-900)" />
+          <MemphisShape variant="diamond" size={64} color="var(--primary)" />
+          <MemphisShape variant="circle" size={64} color="var(--secondary)" />
+          <MemphisShape variant="triangle" size={64} color="var(--foreground)" />
           {/* TODO(lib): no "stripes" / "nested-squares" MemphisShape variant — keep inline. */}
           <div
             aria-hidden
             style={{
               width: 64,
               height: 64,
-              background: 'repeating-linear-gradient(45deg, var(--ink) 0 3px, transparent 3px 8px)',
+              background: 'repeating-linear-gradient(45deg, var(--foreground) 0 3px, transparent 3px 8px)',
             }}
           />
           <MemphisShape variant="blob" size={64} color="var(--success)" />
           <MemphisShape variant="wave" size={64} color="#000" />
-          <MemphisShape variant="star" size={64} color="var(--gold-500)" />
+          <MemphisShape variant="star" size={64} color="var(--primary)" />
           <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden>
             <rect
               x="10"
               y="10"
               width="44"
               height="44"
-              fill="var(--plum-900)"
+              fill="var(--foreground)"
               stroke="#000"
               strokeWidth="3"
             />
-            <rect x="18" y="18" width="14" height="14" fill="var(--gold-500)" />
-            <rect x="32" y="32" width="14" height="14" fill="var(--gold-500)" />
+            <rect x="18" y="18" width="14" height="14" fill="var(--primary)" />
+            <rect x="32" y="32" width="14" height="14" fill="var(--primary)" />
           </svg>
         </div>
       </ShowcaseCard>
@@ -1405,9 +1400,9 @@ function PatternsSection() {
 
 const hintCodeStyle: CSSProperties = {
   fontFamily: 'var(--font-mono)',
-  background: 'var(--surface)',
-  color: 'var(--ink)',
-  border: '1px solid var(--border-memphis)',
+  background: 'var(--card)',
+  color: 'var(--foreground)',
+  border: '1px solid var(--memphis-border-color)',
   padding: '1px 6px',
   fontSize: 12,
 }
@@ -1473,33 +1468,33 @@ function HeroDecor() {
       {/* tilde wave */}
       <path
         d="M20 30 Q40 10 60 30 T100 30"
-        stroke="var(--plum-900)"
+        stroke="var(--foreground)"
         strokeWidth="3"
         fill="none"
         strokeLinecap="round"
       />
-      {/* gold circle */}
+      {/* brand circle */}
       <circle
         cx="200"
         cy="30"
         r="18"
-        fill="var(--gold-500)"
-        stroke="var(--plum-900)"
+        fill="var(--primary)"
+        stroke="var(--foreground)"
         strokeWidth="2"
       />
       {/* violet diamond */}
       <path
         d="M60 90 L90 60 L120 90 L90 120 Z"
-        fill="var(--plum-500)"
-        stroke="var(--plum-900)"
+        fill="var(--secondary)"
+        stroke="var(--foreground)"
         strokeWidth="2"
       />
-      {/* plum triangle */}
-      <path d="M170 110 L200 70 L230 110 Z" fill="var(--plum-900)" />
+      {/* ink triangle */}
+      <path d="M170 110 L200 70 L230 110 Z" fill="var(--foreground)" />
       {/* x mark */}
       <path
         d="M240 50 L255 65 M255 50 L240 65"
-        stroke="var(--gold-500)"
+        stroke="var(--primary)"
         strokeWidth="3"
         strokeLinecap="round"
       />
@@ -1561,13 +1556,13 @@ export default function DesignSystemPage() {
         <footer
           style={{
             padding: '80px 0 40px',
-            borderTop: '2px solid var(--ink)',
+            borderTop: '2px solid var(--foreground)',
             marginTop: 80,
             fontFamily: 'var(--font-mono)',
             fontSize: 11,
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
-            color: 'var(--ink-muted)',
+            color: 'var(--muted-foreground)',
             display: 'flex',
             justifyContent: 'space-between',
             gap: 16,
@@ -1576,7 +1571,7 @@ export default function DesignSystemPage() {
         >
           <span>DAMO · UI · DESIGN SYSTEM</span>
           <span>
-            MADE WITH <span style={{ color: 'var(--danger)' }}>♥</span> BY DAMO
+            MADE WITH <span style={{ color: 'var(--destructive)' }}>♥</span> BY DAMO
           </span>
         </footer>
       </main>

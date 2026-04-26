@@ -15,15 +15,15 @@ export const Progress = forwardRef<ElementRef<typeof ProgressPrimitive.Root>, Pr
         ref={ref}
         value={value}
         className={cn(
-          'relative h-3 w-full overflow-hidden bg-surface-2',
-          'border border-border-memphis rounded-md',
+          'relative h-3 w-full overflow-hidden bg-muted',
+          'border border-memphis rounded-md',
           className,
         )}
         {...rest}
       >
         <ProgressPrimitive.Indicator
           className={cn(
-            'h-full w-full flex-1 bg-plum-500 transition-transform duration-slow ease-out',
+            'h-full w-full flex-1 bg-secondary transition-transform duration-slow ease-out',
             indicatorClassName,
           )}
           style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}

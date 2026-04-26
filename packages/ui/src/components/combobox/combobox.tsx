@@ -59,13 +59,13 @@ export function Combobox({
           aria-expanded={open}
           className={cn(
             'inline-flex h-10 w-full items-center justify-between gap-2',
-            'px-3 py-2 text-base text-ink text-left',
-            'bg-surface border-2 border-border-memphis rounded-none',
+            'px-3 py-2 text-base text-foreground text-left',
+            'bg-card border-2 border-memphis rounded-none',
             'transition-colors duration-fast cursor-pointer',
-            'hover:bg-surface-2',
-            'focus-visible:outline-none focus-visible:border-accent focus-visible:[--shadow-memphis-color:var(--gold-500)] focus-visible:shadow-memphis',
+            'hover:bg-muted',
+            'focus-visible:outline-none focus-visible:border-primary focus-visible:[--memphis-shadow-color:var(--primary)] focus-visible:shadow-memphis',
             'disabled:opacity-50 disabled:pointer-events-none',
-            !selectedOption && 'text-ink-muted',
+            !selectedOption && 'text-muted-foreground',
             className,
           )}
         >
@@ -79,11 +79,11 @@ export function Combobox({
             <SearchIcon size={16} />
             <CommandPrimitive.Input
               placeholder={searchPlaceholder}
-              className="flex-1 bg-transparent outline-none placeholder:text-ink-muted text-sm"
+              className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground text-sm"
             />
           </div>
           <CommandPrimitive.List className="max-h-60 overflow-y-auto p-1">
-            <CommandPrimitive.Empty className="py-4 text-center text-sm text-ink-muted">
+            <CommandPrimitive.Empty className="py-4 text-center text-sm text-muted-foreground">
               {emptyMessage}
             </CommandPrimitive.Empty>
             {options.map((o) => (
@@ -95,7 +95,7 @@ export function Combobox({
                 className={cn(
                   'relative flex cursor-pointer select-none items-center',
                   'py-1.5 pl-8 pr-2 text-sm outline-none rounded-sm',
-                  'data-[selected=true]:bg-surface-2',
+                  'data-[selected=true]:bg-muted',
                   'data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50',
                 )}
               >

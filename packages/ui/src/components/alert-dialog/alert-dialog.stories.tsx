@@ -38,7 +38,7 @@ export const Default = () => (
 export const Danger = () => (
   <AlertDialog>
     <AlertDialogTrigger asChild>
-      <Button variant="danger">Elimina profilo</Button>
+      <Button variant="destructive">Elimina profilo</Button>
     </AlertDialogTrigger>
     <AlertDialogContent tone="danger">
       <AlertDialogHeader>
@@ -52,7 +52,7 @@ export const Danger = () => (
           <Button variant="ghost">Annulla</Button>
         </AlertDialogCancel>
         <AlertDialogAction asChild>
-          <Button variant="danger">Elimina</Button>
+          <Button variant="destructive">Elimina</Button>
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>

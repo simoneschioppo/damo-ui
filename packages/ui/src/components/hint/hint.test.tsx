@@ -67,7 +67,7 @@ describe('Hint', () => {
     expect(root.className).toContain('items-start')
     expect(root.className).toContain('mb-6')
     expect(root.className).toContain('border-2')
-    expect(root.className).toContain('border-border-memphis')
+    expect(root.className).toContain('border-memphis')
   })
 
   it('applies icon block styling (size, bg, border, typography)', () => {
@@ -81,9 +81,9 @@ describe('Hint', () => {
     expect(icon.className).toContain('w-10')
     expect(icon.className).toContain('h-10')
     expect(icon.className).toContain('border-2')
-    expect(icon.className).toContain('border-border-memphis')
-    expect(icon.className).toContain('bg-plum-500')
-    expect(icon.className).toContain('text-paper-50')
+    expect(icon.className).toContain('border-memphis')
+    expect(icon.className).toContain('bg-secondary')
+    expect(icon.className).toContain('text-secondary-foreground')
     expect(icon.className).toContain('font-display')
     expect(icon.className).toContain('text-lg')
   })
@@ -98,7 +98,7 @@ describe('Hint', () => {
     expect(heading.className).toContain('font-display')
     expect(heading.className).toContain('text-base')
     expect(heading.className).toContain('mb-1')
-    expect(heading.className).toContain('text-ink')
+    expect(heading.className).toContain('text-foreground')
   })
 
   it('applies body typography classes', () => {
@@ -109,7 +109,7 @@ describe('Hint', () => {
     )
     const body = screen.getByText('Body paragraph content')
     expect(body.className).toContain('text-sm')
-    expect(body.className).toContain('text-ink-soft')
+    expect(body.className).toContain('text-muted-foreground')
     expect(body.className).toContain('leading-relaxed')
     expect(body.className).toContain('m-0')
   })
@@ -124,11 +124,11 @@ describe('Hint', () => {
     // jsdom exposes inline styles via the style attribute
     const styleAttr = root.getAttribute('style') ?? ''
     expect(styleAttr).toContain('color-mix')
-    expect(styleAttr).toContain('--plum-500')
-    expect(styleAttr).toContain('--surface')
+    expect(styleAttr).toContain('--secondary')
+    expect(styleAttr).toContain('--card')
   })
 
-  it('sets 4px solid shadow using --shadow-memphis-color on the root', () => {
+  it('sets 4px solid shadow using --memphis-shadow-color on the root', () => {
     const { container } = render(
       <Hint num={1} title="t">
         body
@@ -137,6 +137,6 @@ describe('Hint', () => {
     const root = container.firstChild as HTMLElement
     const styleAttr = root.getAttribute('style') ?? ''
     expect(styleAttr).toContain('4px 4px 0')
-    expect(styleAttr).toContain('--shadow-memphis-color')
+    expect(styleAttr).toContain('--memphis-shadow-color')
   })
 })

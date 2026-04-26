@@ -30,7 +30,7 @@ const DEFAULT_SAMPLE_SIZE = 28
 // and an optional meta table showing each scale entry's label/size/weight.
 //
 // The Memphis frame (2px border + 6px shadow) lives in inline style so the
-// `--border-memphis` and `--black` tokens resolve correctly across themes.
+// `--memphis-border-color` and `--memphis-shadow-color` tokens resolve correctly across themes.
 export const TypeSpecimen = forwardRef<HTMLDivElement, TypeSpecimenProps>(function TypeSpecimen(
   { name, sample, fontFamily, sampleSize = DEFAULT_SAMPLE_SIZE, scale, className, style, ...rest },
   ref,
@@ -40,18 +40,18 @@ export const TypeSpecimen = forwardRef<HTMLDivElement, TypeSpecimenProps>(functi
       ref={ref}
       className={cn('p-8 relative', className)}
       style={{
-        background: 'var(--surface)',
-        border: '2px solid var(--border-memphis)',
-        boxShadow: '6px 6px 0 var(--black)',
+        background: 'var(--card)',
+        border: '2px solid var(--memphis-border-color)',
+        boxShadow: '6px 6px 0 var(--memphis-shadow-color)',
         ...style,
       }}
       {...rest}
     >
-      <div className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-ink-muted mb-4">
+      <div className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-muted-foreground mb-4">
         {name}
       </div>
       <p
-        className="m-0 leading-none text-ink"
+        className="m-0 leading-none text-foreground"
         style={{ fontFamily, fontSize: sampleSize }}
       >
         {sample}
@@ -61,10 +61,10 @@ export const TypeSpecimen = forwardRef<HTMLDivElement, TypeSpecimenProps>(functi
           {scale.map((row) => (
             <div
               key={row.label}
-              className="grid grid-cols-[1fr_auto] gap-4 items-baseline font-mono text-[11px] text-ink-muted"
+              className="grid grid-cols-[1fr_auto] gap-4 items-baseline font-mono text-[11px] text-muted-foreground"
             >
               <span className="uppercase tracking-[0.15em] font-bold">{row.label}</span>
-              <span className="text-accent font-bold text-right">
+              <span className="text-primary font-bold text-right">
                 {row.size}px{row.weight !== undefined ? ` / ${row.weight}` : ''}
               </span>
             </div>
