@@ -77,7 +77,13 @@ export const SidebarSubtitle = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDiv
 
 export const SidebarBody = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function SidebarBody({ className, ...rest }, ref) {
-    return <div ref={ref} className={cn('flex-1 min-h-0 overflow-y-auto', className)} {...rest} />
+    return (
+      <div
+        ref={ref}
+        className={cn('flex-1 min-h-0 overflow-y-auto pr-3', className)}
+        {...rest}
+      />
+    )
   },
 )
 
