@@ -18,7 +18,7 @@ import { type PresetName, applyPreset } from './presets'
 
 type Action =
   | { type: 'SET_PRESET'; preset: PresetName }
-  | { type: 'SET_PALETTE_STEP'; group: 'plum' | 'gold' | 'paper'; step: string; value: string }
+  | { type: 'SET_PALETTE_STEP'; group: 'ink' | 'brand' | 'paper'; step: string; value: string }
   | { type: 'SET_SEMANTIC'; mode: 'light' | 'dark'; key: keyof SemanticTheme; value: string }
   | { type: 'SET_MEDAL'; rank: MedalRank; slot: 'outer' | 'inner' | 'text'; value: string }
   | { type: 'SET_CHART'; index: '1' | '2' | '3' | '4' | '5'; value: string }
@@ -189,10 +189,10 @@ function applyThemeToRoot(theme: Theme): void {
 
   // Raw palette
   for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
-    lines.push(`  --plum-${step}: ${theme.palette.plum[step]};`)
+    lines.push(`  --ink-${step}: ${theme.palette.ink[step]};`)
   }
   for (const step of ['100', '200', '300', '400', '500'] as const) {
-    lines.push(`  --gold-${step}: ${theme.palette.gold[step]};`)
+    lines.push(`  --brand-${step}: ${theme.palette.brand[step]};`)
   }
   for (const step of ['50', '100', '200', '300'] as const) {
     lines.push(`  --paper-${step}: ${theme.palette.paper[step]};`)

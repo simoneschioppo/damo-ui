@@ -1,9 +1,9 @@
 /* ════════════════════════════════════════════════════════════════
- * Damo UI Playground — Plum + Gold theme
+ * Damo UI Playground — Ink + Brand theme
  *
  * The library (`@damo/ui`) ships only neutral grayscale light defaults
  * for every semantic token. This file is the playground's own theme
- * layer that re-skins the lib in the Memphis "plum + gold" identity.
+ * layer that re-skins the lib in the Memphis "ink + brand" identity.
  *
  * Structure:
  *   :root, :root[data-theme='light']  → light values (default)
@@ -19,18 +19,18 @@
 :root,
 :root[data-theme='light'] {
   /* ── Raw palette (used internally to derive semantic values) ── */
-  --plum-100: #e0c6e2;
-  --plum-300: #c590c9;
-  --plum-500: #7a3980;
-  --plum-700: #522357;
-  --plum-800: #3d1a40;
-  --plum-900: #2a0f2d;
+  --ink-100: #e0c6e2;
+  --ink-300: #c590c9;
+  --ink-500: #7a3980;
+  --ink-700: #522357;
+  --ink-800: #3d1a40;
+  --ink-900: #2a0f2d;
 
-  --gold-100: #f8e5bc;
-  --gold-200: #f0d49a;
-  --gold-300: #e5bc6d;
-  --gold-400: #d5a845;
-  --gold-500: #c4942a;
+  --brand-100: #f8e5bc;
+  --brand-200: #f0d49a;
+  --brand-300: #e5bc6d;
+  --brand-400: #d5a845;
+  --brand-500: #c4942a;
 
   --paper-50: #fbf7ee;
   --paper-100: #f5efde;
@@ -39,20 +39,20 @@
 
   /* ── Semantic — light ─────────────────────────────────── */
   --background: var(--paper-50);
-  --foreground: var(--plum-900);
+  --foreground: var(--ink-900);
   --card: #ffffff;
-  --card-foreground: var(--plum-900);
+  --card-foreground: var(--ink-900);
   --popover: #ffffff;
-  --popover-foreground: var(--plum-900);
+  --popover-foreground: var(--ink-900);
   --muted: var(--paper-100);
-  --muted-foreground: var(--plum-700);
+  --muted-foreground: var(--ink-700);
 
-  --primary: var(--gold-500);
+  --primary: var(--brand-500);
   --primary-foreground: #ffffff;
-  --secondary: var(--plum-500);
+  --secondary: var(--ink-500);
   --secondary-foreground: var(--paper-50);
-  --accent: var(--gold-100);
-  --accent-foreground: var(--plum-900);
+  --accent: var(--brand-100);
+  --accent-foreground: var(--ink-900);
   --destructive: #a13a2c;
   --destructive-foreground: var(--paper-50);
 
@@ -60,38 +60,38 @@
   --success-foreground: var(--paper-50);
   --warning: #8a6326;
   --warning-foreground: var(--paper-50);
-  --info: var(--plum-500);
+  --info: var(--ink-500);
   --info-foreground: var(--paper-50);
   --rage: #c94a2f;
   --rage-foreground: var(--paper-50);
 
-  --border: color-mix(in oklab, var(--plum-900) 12%, transparent);
-  --border-strong: color-mix(in oklab, var(--plum-900) 22%, transparent);
-  --input: color-mix(in oklab, var(--plum-900) 12%, transparent);
-  --ring: var(--gold-500);
+  --border: color-mix(in oklab, var(--ink-900) 12%, transparent);
+  --border-strong: color-mix(in oklab, var(--ink-900) 22%, transparent);
+  --input: color-mix(in oklab, var(--ink-900) 12%, transparent);
+  --ring: var(--brand-500);
 
   --memphis-shadow-color: #000000;
   --memphis-border-color: #000000;
 
-  --badge-featured: var(--gold-500);
+  --badge-featured: var(--brand-500);
   --badge-featured-foreground: #000000;
-  --badge-copper: var(--gold-500);
+  --badge-copper: var(--brand-500);
   --badge-copper-foreground: #ffffff;
-  --badge-navy: var(--plum-900);
-  --badge-navy-foreground: var(--gold-200);
+  --badge-navy: var(--ink-900);
+  --badge-navy-foreground: var(--brand-200);
   --badge-draw: var(--paper-100);
-  --badge-draw-foreground: var(--plum-900);
-  --badge-rank: var(--gold-100);
-  --badge-rank-foreground: var(--plum-900);
+  --badge-draw-foreground: var(--ink-900);
+  --badge-rank: var(--brand-100);
+  --badge-rank-foreground: var(--ink-900);
 
-  --chart-1: var(--plum-500);
-  --chart-2: var(--gold-500);
+  --chart-1: var(--ink-500);
+  --chart-2: var(--brand-500);
   --chart-3: #4f8a3c;
   --chart-4: #a13a2c;
-  --chart-5: var(--plum-700);
+  --chart-5: var(--ink-700);
 
-  --nav-on-dark-accent: var(--gold-200);
-  --nav-on-dark-accent-strong: var(--gold-400);
+  --nav-on-dark-accent: var(--brand-200);
+  --nav-on-dark-accent-strong: var(--brand-400);
   --nav-on-dark-foreground: rgba(255, 255, 255, 0.72);
   --nav-on-dark-foreground-strong: #ffffff;
 
@@ -101,15 +101,15 @@
   --medal-silver-outer: #4a4a55;
   --medal-silver-inner: #8a8a9a;
   --medal-silver-text: #ffffff;
-  --medal-gold-outer: var(--plum-900);
-  --medal-gold-inner: var(--gold-500);
-  --medal-gold-text: var(--plum-900);
-  --medal-master-outer: var(--plum-900);
-  --medal-master-inner: var(--plum-500);
+  --medal-gold-outer: var(--ink-900);
+  --medal-gold-inner: var(--brand-500);
+  --medal-gold-text: var(--ink-900);
+  --medal-master-outer: var(--ink-900);
+  --medal-master-inner: var(--ink-500);
   --medal-master-text: var(--paper-50);
   --medal-grandmaster-outer: #000000;
-  --medal-grandmaster-inner: var(--gold-500);
-  --medal-grandmaster-text: var(--plum-900);
+  --medal-grandmaster-inner: var(--brand-500);
+  --medal-grandmaster-text: var(--ink-900);
 
   --font-display: 'Audiowide', system-ui, sans-serif;
   --font-body: 'Exo 2', system-ui, sans-serif;
@@ -119,134 +119,134 @@
 /* ── Dark theme ─────────────────────────────────────────── */
 
 :root[data-theme='dark'] {
-  --background: var(--plum-900);
+  --background: var(--ink-900);
   --foreground: var(--paper-50);
-  --card: var(--plum-800);
+  --card: var(--ink-800);
   --card-foreground: var(--paper-50);
-  --popover: var(--plum-800);
+  --popover: var(--ink-800);
   --popover-foreground: var(--paper-50);
-  --muted: var(--plum-700);
-  --muted-foreground: var(--plum-300);
+  --muted: var(--ink-700);
+  --muted-foreground: var(--ink-300);
 
-  --primary: var(--gold-500);
-  --primary-foreground: var(--plum-900);
-  --secondary: var(--plum-500);
+  --primary: var(--brand-500);
+  --primary-foreground: var(--ink-900);
+  --secondary: var(--ink-500);
   --secondary-foreground: var(--paper-50);
-  --accent: var(--plum-700);
-  --accent-foreground: var(--gold-200);
+  --accent: var(--ink-700);
+  --accent-foreground: var(--brand-200);
   --destructive: #c94a2f;
   --destructive-foreground: var(--paper-50);
 
   --success: #6fa85c;
-  --success-foreground: var(--plum-900);
-  --warning: var(--gold-500);
-  --warning-foreground: var(--plum-900);
-  --info: var(--plum-300);
-  --info-foreground: var(--plum-900);
+  --success-foreground: var(--ink-900);
+  --warning: var(--brand-500);
+  --warning-foreground: var(--ink-900);
+  --info: var(--ink-300);
+  --info-foreground: var(--ink-900);
   --rage: #e06b4f;
-  --rage-foreground: var(--plum-900);
+  --rage-foreground: var(--ink-900);
 
   --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
   --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
-  --ring: var(--gold-500);
+  --ring: var(--brand-500);
 
   --memphis-shadow-color: var(--paper-50);
   --memphis-border-color: var(--paper-50);
 
-  --badge-featured: var(--gold-500);
-  --badge-featured-foreground: var(--plum-900);
-  --badge-copper: var(--gold-500);
+  --badge-featured: var(--brand-500);
+  --badge-featured-foreground: var(--ink-900);
+  --badge-copper: var(--brand-500);
   --badge-copper-foreground: var(--paper-50);
-  --badge-navy: var(--plum-700);
-  --badge-navy-foreground: var(--gold-200);
-  --badge-draw: var(--plum-700);
+  --badge-navy: var(--ink-700);
+  --badge-navy-foreground: var(--brand-200);
+  --badge-draw: var(--ink-700);
   --badge-draw-foreground: var(--paper-50);
-  --badge-rank: var(--plum-700);
-  --badge-rank-foreground: var(--gold-200);
+  --badge-rank: var(--ink-700);
+  --badge-rank-foreground: var(--brand-200);
 }
 
 /* ── Scoped dark preview (for theme-generator) ────────── */
 [data-theme-preview='dark'] {
-  --background: var(--plum-900);
+  --background: var(--ink-900);
   --foreground: var(--paper-50);
-  --card: var(--plum-800);
+  --card: var(--ink-800);
   --card-foreground: var(--paper-50);
-  --popover: var(--plum-800);
+  --popover: var(--ink-800);
   --popover-foreground: var(--paper-50);
-  --muted: var(--plum-700);
-  --muted-foreground: var(--plum-300);
+  --muted: var(--ink-700);
+  --muted-foreground: var(--ink-300);
 
-  --primary: var(--gold-500);
-  --primary-foreground: var(--plum-900);
-  --secondary: var(--plum-500);
+  --primary: var(--brand-500);
+  --primary-foreground: var(--ink-900);
+  --secondary: var(--ink-500);
   --secondary-foreground: var(--paper-50);
-  --accent: var(--plum-700);
-  --accent-foreground: var(--gold-200);
+  --accent: var(--ink-700);
+  --accent-foreground: var(--brand-200);
   --destructive: #c94a2f;
   --destructive-foreground: var(--paper-50);
 
   --success: #6fa85c;
-  --success-foreground: var(--plum-900);
-  --warning: var(--gold-500);
-  --warning-foreground: var(--plum-900);
-  --info: var(--plum-300);
-  --info-foreground: var(--plum-900);
+  --success-foreground: var(--ink-900);
+  --warning: var(--brand-500);
+  --warning-foreground: var(--ink-900);
+  --info: var(--ink-300);
+  --info-foreground: var(--ink-900);
   --rage: #e06b4f;
-  --rage-foreground: var(--plum-900);
+  --rage-foreground: var(--ink-900);
 
   --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
   --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
-  --ring: var(--gold-500);
+  --ring: var(--brand-500);
 
   --memphis-shadow-color: var(--paper-50);
   --memphis-border-color: var(--paper-50);
 
-  --badge-featured: var(--gold-500);
-  --badge-featured-foreground: var(--plum-900);
-  --badge-copper: var(--gold-500);
+  --badge-featured: var(--brand-500);
+  --badge-featured-foreground: var(--ink-900);
+  --badge-copper: var(--brand-500);
   --badge-copper-foreground: var(--paper-50);
-  --badge-navy: var(--plum-700);
-  --badge-navy-foreground: var(--gold-200);
-  --badge-draw: var(--plum-700);
+  --badge-navy: var(--ink-700);
+  --badge-navy-foreground: var(--brand-200);
+  --badge-draw: var(--ink-700);
   --badge-draw-foreground: var(--paper-50);
-  --badge-rank: var(--plum-700);
-  --badge-rank-foreground: var(--gold-200);
+  --badge-rank: var(--ink-700);
+  --badge-rank-foreground: var(--brand-200);
 }
 
 /* ── Palette: Neon (magenta + lime) ─────────────────────── */
 
 :root[data-palette='neon'] {
-  --plum-100: #f8c8e7;
-  --plum-300: #e26dbb;
-  --plum-500: #b01680;
-  --plum-700: #491a40;
-  --plum-800: #321029;
-  --plum-900: #1f0819;
+  --ink-100: #f8c8e7;
+  --ink-300: #e26dbb;
+  --ink-500: #b01680;
+  --ink-700: #491a40;
+  --ink-800: #321029;
+  --ink-900: #1f0819;
 
-  --gold-100: #e3facb;
-  --gold-200: #ccf2a6;
-  --gold-300: #b4ea7e;
-  --gold-400: #9be04a;
-  --gold-500: #7fd321;
+  --brand-100: #e3facb;
+  --brand-200: #ccf2a6;
+  --brand-300: #b4ea7e;
+  --brand-400: #9be04a;
+  --brand-500: #7fd321;
 }
 
 /* ── Palette: Sunset (terracotta + warm orange) ─────────── */
 
 :root[data-palette='sunset'] {
-  --plum-100: #f8d4c0;
-  --plum-300: #dd8a6d;
-  --plum-500: #a8402a;
-  --plum-700: #5a2514;
-  --plum-800: #3f170d;
-  --plum-900: #2a0d07;
+  --ink-100: #f8d4c0;
+  --ink-300: #dd8a6d;
+  --ink-500: #a8402a;
+  --ink-700: #5a2514;
+  --ink-800: #3f170d;
+  --ink-900: #2a0d07;
 
-  --gold-100: #ffe7cd;
-  --gold-200: #ffd2a3;
-  --gold-300: #ffbb75;
-  --gold-400: #fda047;
-  --gold-500: #f58a1e;
+  --brand-100: #ffe7cd;
+  --brand-200: #ffd2a3;
+  --brand-300: #ffbb75;
+  --brand-400: #fda047;
+  --brand-500: #f58a1e;
 }
 
 /* ── Reduced motion ──────────────────────────────────────── */

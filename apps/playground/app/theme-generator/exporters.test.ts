@@ -7,8 +7,8 @@ describe('exporters', () => {
     it('emits a :root block with raw palette and identity tokens', () => {
       const css = buildCssExport(DEFAULT_THEME)
       expect(css).toContain(':root {')
-      expect(css).toContain('--plum-500: #7a3980;')
-      expect(css).toContain('--gold-500: #c4942a;')
+      expect(css).toContain('--ink-500: #7a3980;')
+      expect(css).toContain('--brand-500: #c4942a;')
       expect(css).toContain('--paper-50: #fbf7ee;')
       expect(css).toContain('--medal-bronze-outer: #5a3f20;')
       expect(css).toContain('--chart-1: #7a3980;')
@@ -34,7 +34,7 @@ describe('exporters', () => {
   describe('buildJsonExport', () => {
     it('produces a nested object matching the three-layer shape', () => {
       const json = JSON.parse(buildJsonExport(DEFAULT_THEME))
-      expect(json.palette.plum['500']).toBe('#7a3980')
+      expect(json.palette.ink['500']).toBe('#7a3980')
       expect(json.semantic.light.background).toBe('#fbf7ee')
       expect(json.semantic.dark.background).toBe('#2a0f2d')
       expect(json.identity.medals.gold.inner).toBe('#c4942a')
@@ -52,8 +52,8 @@ describe('exporters', () => {
 
     it('does NOT emit raw palette as tailwind utilities', () => {
       const tw = buildTailwindExport(DEFAULT_THEME)
-      expect(tw).not.toMatch(/--color-plum-\d+:/)
-      expect(tw).not.toMatch(/--color-gold-\d+:/)
+      expect(tw).not.toMatch(/--color-ink-\d+:/)
+      expect(tw).not.toMatch(/--color-brand-\d+:/)
     })
   })
 
@@ -66,8 +66,8 @@ describe('exporters', () => {
         identity: true,
         foundations: true,
       })
-      expect(css).not.toMatch(/--plum-\d+:/)
-      expect(css).not.toMatch(/--gold-\d+:/)
+      expect(css).not.toMatch(/--ink-\d+:/)
+      expect(css).not.toMatch(/--brand-\d+:/)
     })
 
     it('omits dark semantic block when flag is false', () => {

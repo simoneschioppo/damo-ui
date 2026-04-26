@@ -75,10 +75,10 @@ const toKebab = (s: string): string => s.replace(/([A-Z])/g, '-$1').toLowerCase(
 
 function emitRawPalette(palette: RawPalette, lines: string[]): void {
   for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
-    lines.push(`  --plum-${step}: ${palette.plum[step]};`)
+    lines.push(`  --ink-${step}: ${palette.ink[step]};`)
   }
   for (const step of ['100', '200', '300', '400', '500'] as const) {
-    lines.push(`  --gold-${step}: ${palette.gold[step]};`)
+    lines.push(`  --brand-${step}: ${palette.brand[step]};`)
   }
   for (const step of ['50', '100', '200', '300'] as const) {
     lines.push(`  --paper-${step}: ${palette.paper[step]};`)

@@ -101,7 +101,7 @@ const EASING_CHOICES: ReadonlyArray<{ value: string; label: string }> = [
 
 const INCLUDE_OPTIONS: Record<'css' | 'tailwind', ReadonlyArray<{ key: IncludeKey; label: string }>> = {
   css: [
-    { key: 'rawPalette', label: 'Raw palette (plum / gold / paper)' },
+    { key: 'rawPalette', label: 'Raw palette (ink / brand / paper)' },
     { key: 'semanticLight', label: 'Semantic — light' },
     { key: 'semanticDark', label: 'Semantic — dark' },
     { key: 'identity', label: 'Identity (medals / charts / nav-on-dark / pattern)' },
@@ -224,8 +224,8 @@ interface PaletteEditorProps {
 
 function PaletteEditor({ theme, dispatch }: PaletteEditorProps) {
   return (
-    <Accordion type="multiple" defaultValue={['plum', 'gold', 'paper']}>
-      {(['plum', 'gold', 'paper'] as const).map((group) => (
+    <Accordion type="multiple" defaultValue={['ink', 'brand', 'paper']}>
+      {(['ink', 'brand', 'paper'] as const).map((group) => (
         <AccordionItem key={group} value={group}>
           <AccordionTrigger>
             {group} ({PALETTE_STEPS[group].length} steps)

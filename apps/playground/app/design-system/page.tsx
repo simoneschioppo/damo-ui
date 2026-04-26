@@ -317,7 +317,7 @@ function Toc({ activeId }: { activeId: string }) {
 // Ogni scala è una banda orizzontale piena: left col (nome + token + desc),
 // right col grid di stops con background colore + nome/hex inline.
 //
-// Colors are rendered via CSS variables (`var(--plum-500)` etc.) so the
+// Colors are rendered via CSS variables (`var(--ink-500)` etc.) so the
 // bands react live to `data-theme` and `data-palette` changes. The hex
 // label next to each stop is resolved at runtime via getComputedStyle and
 // kept in sync by observing <html> attribute mutations.
@@ -331,16 +331,16 @@ type ColorScaleDef = {
 }
 
 const PLUM_SCALE: ColorScaleDef = {
-  name: 'Plum',
-  token: 'plum',
-  desc: 'Primario scuro — ink, testo, sfondi notturni',
+  name: 'Ink',
+  token: 'ink',
+  desc: 'Primario scuro — foreground, testo, sfondi notturni',
   stops: [{ k: 900 }, { k: 800 }, { k: 700 }, { k: 500 }, { k: 300 }, { k: 100 }],
 }
 
 const GOLD_SCALE: ColorScaleDef = {
-  name: 'Gold',
-  token: 'gold',
-  desc: 'Accent brand — bottoni, bordi dorati, highlight',
+  name: 'Brand',
+  token: 'brand',
+  desc: 'Accent brand — bottoni, bordi, highlight',
   stops: [{ k: 500 }, { k: 400 }, { k: 300 }, { k: 200 }, { k: 100 }],
 }
 
@@ -620,7 +620,7 @@ function ButtonsSection() {
       node: (
         <Button
           variant="primary"
-          className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--black)] bg-[var(--gold-400)]"
+          className="translate-x-[-1px] translate-y-[-1px] shadow-[7px_7px_0_var(--black)] bg-[var(--brand-400)]"
         >
           SALVA
         </Button>
@@ -1473,7 +1473,7 @@ function HeroDecor() {
         fill="none"
         strokeLinecap="round"
       />
-      {/* gold circle */}
+      {/* brand circle */}
       <circle
         cx="200"
         cy="30"
@@ -1489,7 +1489,7 @@ function HeroDecor() {
         stroke="var(--foreground)"
         strokeWidth="2"
       />
-      {/* plum triangle */}
+      {/* ink triangle */}
       <path d="M170 110 L200 70 L230 110 Z" fill="var(--foreground)" />
       {/* x mark */}
       <path

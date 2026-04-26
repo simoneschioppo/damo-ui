@@ -23,7 +23,7 @@ export const OnDark = () => (
   <nav
     style={{
       width: 240,
-      background: 'var(--plum-900)',
+      background: 'var(--ink-900)',
       padding: 12,
     }}
   >

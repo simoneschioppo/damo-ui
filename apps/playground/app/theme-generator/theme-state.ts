@@ -3,7 +3,7 @@
  *
  * Models the three-layer architecture from
  * docs/specs/2026-04-24-theme-architecture-refactor-design.md:
- *   Layer 1 — raw palette (plum/gold/paper scales, swap per preset)
+ *   Layer 1 — raw palette (ink/brand/paper scales, swap per preset)
  *   Layer 2 — semantic (paired bg+fg, separate light/dark values)
  *   Layer 3 — identity (medals, charts, nav-on-dark, theme-agnostic)
  * plus typography / radius / shadow / spacing / motion scales.
@@ -30,8 +30,8 @@ export interface ShadowMemphisValue {
 // ─── Layer 1: Raw palette ────────────────────────────────────
 
 export interface RawPalette {
-  readonly plum: Readonly<Record<'100' | '300' | '500' | '700' | '800' | '900', string>>
-  readonly gold: Readonly<Record<'100' | '200' | '300' | '400' | '500', string>>
+  readonly ink: Readonly<Record<'100' | '300' | '500' | '700' | '800' | '900', string>>
+  readonly brand: Readonly<Record<'100' | '200' | '300' | '400' | '500', string>>
   readonly paper: Readonly<Record<'50' | '100' | '200' | '300', string>>
 }
 
@@ -118,8 +118,8 @@ export interface Theme {
 // ─── Iteration helpers ───────────────────────────────────────
 
 export const PALETTE_STEPS = {
-  plum: ['100', '300', '500', '700', '800', '900'] as const,
-  gold: ['100', '200', '300', '400', '500'] as const,
+  ink: ['100', '300', '500', '700', '800', '900'] as const,
+  brand: ['100', '200', '300', '400', '500'] as const,
   paper: ['50', '100', '200', '300'] as const,
 }
 
@@ -170,20 +170,20 @@ export const SEMANTIC_GROUPS = {
 export function computeSemanticLight(p: RawPalette): SemanticTheme {
   return {
     background: p.paper['50'],
-    foreground: p.plum['900'],
+    foreground: p.ink['900'],
     card: '#ffffff',
-    cardForeground: p.plum['900'],
+    cardForeground: p.ink['900'],
     popover: '#ffffff',
-    popoverForeground: p.plum['900'],
+    popoverForeground: p.ink['900'],
     muted: p.paper['100'],
-    mutedForeground: p.plum['700'],
+    mutedForeground: p.ink['700'],
 
-    primary: p.gold['500'],
+    primary: p.brand['500'],
     primaryForeground: '#ffffff',
-    secondary: p.plum['500'],
+    secondary: p.ink['500'],
     secondaryForeground: p.paper['50'],
-    accent: p.gold['100'],
-    accentForeground: p.plum['900'],
+    accent: p.brand['100'],
+    accentForeground: p.ink['900'],
     destructive: '#a13a2c',
     destructiveForeground: p.paper['50'],
 
@@ -191,91 +191,91 @@ export function computeSemanticLight(p: RawPalette): SemanticTheme {
     successForeground: p.paper['50'],
     warning: '#8a6326',
     warningForeground: p.paper['50'],
-    info: p.plum['500'],
+    info: p.ink['500'],
     infoForeground: p.paper['50'],
     rage: '#c94a2f',
     rageForeground: p.paper['50'],
 
     // color-mix in CSS is approximated with hex alpha suffixes
-    border: p.plum['900'] + '1f',
-    borderStrong: p.plum['900'] + '38',
-    input: p.plum['900'] + '1f',
-    ring: p.gold['500'],
+    border: p.ink['900'] + '1f',
+    borderStrong: p.ink['900'] + '38',
+    input: p.ink['900'] + '1f',
+    ring: p.brand['500'],
 
     memphisShadowColor: '#000000',
     memphisBorderColor: '#000000',
 
-    badgeFeatured: p.gold['500'],
+    badgeFeatured: p.brand['500'],
     badgeFeaturedForeground: '#000000',
-    badgeCopper: p.gold['500'],
+    badgeCopper: p.brand['500'],
     badgeCopperForeground: '#ffffff',
-    badgeNavy: p.plum['900'],
-    badgeNavyForeground: p.gold['200'],
+    badgeNavy: p.ink['900'],
+    badgeNavyForeground: p.brand['200'],
     badgeDraw: p.paper['100'],
-    badgeDrawForeground: p.plum['900'],
-    badgeRank: p.gold['100'],
-    badgeRankForeground: p.plum['900'],
+    badgeDrawForeground: p.ink['900'],
+    badgeRank: p.brand['100'],
+    badgeRankForeground: p.ink['900'],
   }
 }
 
 export function computeSemanticDark(p: RawPalette): SemanticTheme {
   return {
-    background: p.plum['900'],
+    background: p.ink['900'],
     foreground: p.paper['50'],
-    card: p.plum['800'],
+    card: p.ink['800'],
     cardForeground: p.paper['50'],
-    popover: p.plum['800'],
+    popover: p.ink['800'],
     popoverForeground: p.paper['50'],
-    muted: p.plum['700'],
-    mutedForeground: p.plum['300'],
+    muted: p.ink['700'],
+    mutedForeground: p.ink['300'],
 
-    primary: p.gold['500'],
-    primaryForeground: p.plum['900'],
-    secondary: p.plum['500'],
+    primary: p.brand['500'],
+    primaryForeground: p.ink['900'],
+    secondary: p.ink['500'],
     secondaryForeground: p.paper['50'],
-    accent: p.plum['700'],
-    accentForeground: p.gold['200'],
+    accent: p.ink['700'],
+    accentForeground: p.brand['200'],
     destructive: '#c94a2f',
     destructiveForeground: p.paper['50'],
 
     success: '#6fa85c',
-    successForeground: p.plum['900'],
-    warning: p.gold['500'],
-    warningForeground: p.plum['900'],
-    info: p.plum['300'],
-    infoForeground: p.plum['900'],
+    successForeground: p.ink['900'],
+    warning: p.brand['500'],
+    warningForeground: p.ink['900'],
+    info: p.ink['300'],
+    infoForeground: p.ink['900'],
     rage: '#e06b4f',
-    rageForeground: p.plum['900'],
+    rageForeground: p.ink['900'],
 
     border: p.paper['50'] + '1f',
     borderStrong: p.paper['50'] + '38',
     input: p.paper['50'] + '1f',
-    ring: p.gold['500'],
+    ring: p.brand['500'],
 
     memphisShadowColor: p.paper['50'],
     memphisBorderColor: p.paper['50'],
 
-    badgeFeatured: p.gold['500'],
-    badgeFeaturedForeground: p.plum['900'],
-    badgeCopper: p.gold['500'],
+    badgeFeatured: p.brand['500'],
+    badgeFeaturedForeground: p.ink['900'],
+    badgeCopper: p.brand['500'],
     badgeCopperForeground: p.paper['50'],
-    badgeNavy: p.plum['700'],
-    badgeNavyForeground: p.gold['200'],
-    badgeDraw: p.plum['700'],
+    badgeNavy: p.ink['700'],
+    badgeNavyForeground: p.brand['200'],
+    badgeDraw: p.ink['700'],
     badgeDrawForeground: p.paper['50'],
-    badgeRank: p.plum['700'],
-    badgeRankForeground: p.gold['200'],
+    badgeRank: p.ink['700'],
+    badgeRankForeground: p.brand['200'],
   }
 }
 
 // ─── Canonical default values ────────────────────────────────
 
 const DEFAULT_PALETTE: RawPalette = {
-  plum: {
+  ink: {
     '100': '#e0c6e2', '300': '#c590c9', '500': '#7a3980',
     '700': '#522357', '800': '#3d1a40', '900': '#2a0f2d',
   },
-  gold: {
+  brand: {
     '100': '#f8e5bc', '200': '#f0d49a', '300': '#e5bc6d',
     '400': '#d5a845', '500': '#c4942a',
   },
@@ -349,8 +349,8 @@ export const SPACING_BASE_PX: ReadonlyArray<readonly [string, number]> = [
 
 /** @deprecated Use PALETTE_STEPS instead. Removed in Task 23. */
 export const COLOR_GROUPS = {
-  plum: ['plum-100', 'plum-300', 'plum-500', 'plum-700', 'plum-800', 'plum-900'],
-  gold: ['gold-100', 'gold-200', 'gold-300', 'gold-400', 'gold-500'],
+  ink: ['ink-100', 'ink-300', 'ink-500', 'ink-700', 'ink-800', 'ink-900'],
+  brand: ['brand-100', 'brand-200', 'brand-300', 'brand-400', 'brand-500'],
   paper: ['paper-50', 'paper-100', 'paper-200', 'paper-300'],
   semantic: ['bg', 'surface', 'surface-2', 'ink', 'ink-soft', 'ink-muted', 'border-memphis', 'accent', 'ring'],
   status: ['success', 'danger', 'warning', 'rage', 'info'],
@@ -358,8 +358,8 @@ export const COLOR_GROUPS = {
 
 /** @deprecated Removed in Task 23. */
 export const ALL_COLOR_KEYS: ReadonlyArray<string> = [
-  ...COLOR_GROUPS.plum,
-  ...COLOR_GROUPS.gold,
+  ...COLOR_GROUPS.ink,
+  ...COLOR_GROUPS.brand,
   ...COLOR_GROUPS.paper,
   ...COLOR_GROUPS.semantic,
   ...COLOR_GROUPS.status,

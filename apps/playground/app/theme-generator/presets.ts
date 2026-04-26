@@ -17,11 +17,11 @@ export const PRESET_LABELS: Record<PresetName, string> = {
 }
 
 const NEON_PALETTE: RawPalette = {
-  plum: {
+  ink: {
     '100': '#f8c8e7', '300': '#e26dbb', '500': '#b01680',
     '700': '#491a40', '800': '#321029', '900': '#1f0819',
   },
-  gold: {
+  brand: {
     '100': '#e3facb', '200': '#ccf2a6', '300': '#b4ea7e',
     '400': '#9be04a', '500': '#7fd321',
   },
@@ -29,11 +29,11 @@ const NEON_PALETTE: RawPalette = {
 }
 
 const SUNSET_PALETTE: RawPalette = {
-  plum: {
+  ink: {
     '100': '#f8d4c0', '300': '#dd8a6d', '500': '#a8402a',
     '700': '#5a2514', '800': '#3f170d', '900': '#2a0d07',
   },
-  gold: {
+  brand: {
     '100': '#ffe7cd', '200': '#ffd2a3', '300': '#ffbb75',
     '400': '#fda047', '500': '#f58a1e',
   },

@@ -36,7 +36,7 @@ export const Horizontal = () => (
           key={t}
           style={{
             padding: '16px 20px',
-            background: 'var(--gold-100)',
+            background: 'var(--brand-100)',
             border: '2px solid var(--memphis-border-color)',
             whiteSpace: 'nowrap',
             fontSize: 13,
@@ -73,7 +73,7 @@ export const Both = () => (
           key={i}
           style={{
             padding: 12,
-            background: 'var(--plum-100)',
+            background: 'var(--ink-100)',
             border: '2px solid var(--memphis-border-color)',
             fontFamily: 'var(--font-mono)',
             fontSize: 11,
