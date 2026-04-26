@@ -13,7 +13,7 @@ export type FeedPreviewProps = HTMLAttributes<HTMLDivElement>
 type Filter = { key: string; label: string; dotColor: string }
 
 const FILTERS: readonly Filter[] = [
-  { key: 'all', label: 'Tutti', dotColor: 'var(--plum-500)' },
+  { key: 'all', label: 'Tutti', dotColor: 'var(--ink-500)' },
   { key: 'new', label: 'Nuovi', dotColor: 'var(--success)' },
   { key: 'top', label: 'Popolari', dotColor: 'var(--warning)' },
   { key: 'archive', label: 'Archiviati', dotColor: 'var(--destructive)' },

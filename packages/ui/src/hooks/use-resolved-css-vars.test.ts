@@ -4,30 +4,30 @@ import { useResolvedCssVars } from './use-resolved-css-vars'
 
 describe('useResolvedCssVars', () => {
   beforeEach(() => {
-    document.documentElement.style.setProperty('--plum-500', '#6d2f6a')
-    document.documentElement.style.setProperty('--gold-500', '#d9a441')
+    document.documentElement.style.setProperty('--ink-500', '#6d2f6a')
+    document.documentElement.style.setProperty('--brand-500', '#d9a441')
     document.documentElement.removeAttribute('data-theme')
     document.documentElement.removeAttribute('data-palette')
   })
 
   afterEach(() => {
-    document.documentElement.style.removeProperty('--plum-500')
-    document.documentElement.style.removeProperty('--gold-500')
+    document.documentElement.style.removeProperty('--ink-500')
+    document.documentElement.style.removeProperty('--brand-500')
   })
 
   it('returns an object keyed by the requested var names', async () => {
-    const { result } = renderHook(() => useResolvedCssVars(['--plum-500', '--gold-500']))
+    const { result } = renderHook(() => useResolvedCssVars(['--ink-500', '--brand-500']))
     await waitFor(() => {
       expect(Object.keys(result.current)).toEqual(
-        expect.arrayContaining(['--plum-500', '--gold-500']),
+        expect.arrayContaining(['--ink-500', '--brand-500']),
       )
     })
   })
 
   it('reads initial values from document.documentElement computed style', async () => {
-    const { result } = renderHook(() => useResolvedCssVars(['--plum-500']))
+    const { result } = renderHook(() => useResolvedCssVars(['--ink-500']))
     await waitFor(() => {
-      expect(result.current['--plum-500']).toBe('#6d2f6a')
+      expect(result.current['--ink-500']).toBe('#6d2f6a')
     })
   })
 
@@ -37,49 +37,49 @@ describe('useResolvedCssVars', () => {
   })
 
   it('re-reads values when data-theme attribute changes', async () => {
-    const { result } = renderHook(() => useResolvedCssVars(['--plum-500']))
+    const { result } = renderHook(() => useResolvedCssVars(['--ink-500']))
     await waitFor(() => {
-      expect(result.current['--plum-500']).toBe('#6d2f6a')
+      expect(result.current['--ink-500']).toBe('#6d2f6a')
     })
 
     act(() => {
-      document.documentElement.style.setProperty('--plum-500', '#123456')
+      document.documentElement.style.setProperty('--ink-500', '#123456')
       document.documentElement.setAttribute('data-theme', 'dark')
     })
 
     await waitFor(() => {
-      expect(result.current['--plum-500']).toBe('#123456')
+      expect(result.current['--ink-500']).toBe('#123456')
     })
   })
 
   it('re-reads values when data-palette attribute changes', async () => {
-    const { result } = renderHook(() => useResolvedCssVars(['--gold-500']))
+    const { result } = renderHook(() => useResolvedCssVars(['--brand-500']))
     await waitFor(() => {
-      expect(result.current['--gold-500']).toBe('#d9a441')
+      expect(result.current['--brand-500']).toBe('#d9a441')
     })
 
     act(() => {
-      document.documentElement.style.setProperty('--gold-500', '#abcdef')
+      document.documentElement.style.setProperty('--brand-500', '#abcdef')
       document.documentElement.setAttribute('data-palette', 'alt')
     })
 
     await waitFor(() => {
-      expect(result.current['--gold-500']).toBe('#abcdef')
+      expect(result.current['--brand-500']).toBe('#abcdef')
     })
   })
 
   it('updates the returned map when the list of names changes', async () => {
     const { result, rerender } = renderHook(
       ({ names }: { names: ReadonlyArray<string> }) => useResolvedCssVars(names),
-      { initialProps: { names: ['--plum-500'] } },
+      { initialProps: { names: ['--ink-500'] } },
     )
     await waitFor(() => {
-      expect(result.current['--plum-500']).toBe('#6d2f6a')
+      expect(result.current['--ink-500']).toBe('#6d2f6a')
     })
 
-    rerender({ names: ['--gold-500'] })
+    rerender({ names: ['--brand-500'] })
     await waitFor(() => {
-      expect(result.current['--gold-500']).toBe('#d9a441')
+      expect(result.current['--brand-500']).toBe('#d9a441')
     })
   })
 })

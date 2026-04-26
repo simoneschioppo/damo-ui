@@ -12,8 +12,8 @@ export const Sizes = () => (
 
 export const Colors = () => (
   <div style={{ display: 'flex', gap: 16 }}>
-    <Spinner size={32} style={{ color: 'var(--plum-500)' }} />
-    <Spinner size={32} style={{ color: 'var(--gold-500)' }} />
+    <Spinner size={32} style={{ color: 'var(--ink-500)' }} />
+    <Spinner size={32} style={{ color: 'var(--brand-500)' }} />
     <Spinner size={32} style={{ color: 'var(--destructive)' }} />
     <Spinner size={32} style={{ color: 'var(--success)' }} />
   </div>

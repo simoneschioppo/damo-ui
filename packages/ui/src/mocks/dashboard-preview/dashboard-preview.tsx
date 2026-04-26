@@ -24,7 +24,7 @@ const BARS: readonly Bar[] = [
 type Filter = { key: string; label: string; dotColor?: string }
 
 const FILTERS: readonly Filter[] = [
-  { key: 'all', label: 'Tutti', dotColor: 'var(--plum-500)' },
+  { key: 'all', label: 'Tutti', dotColor: 'var(--ink-500)' },
   { key: '7g', label: '7g', dotColor: 'var(--success)' },
   { key: '30g', label: '30g', dotColor: 'var(--warning)' },
   { key: '90g', label: '90g', dotColor: 'var(--destructive)' },

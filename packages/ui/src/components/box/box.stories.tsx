@@ -5,7 +5,7 @@ const Chip = ({ label }: { label: string }) => (
     style={{
       padding: '6px 12px',
       border: '2px solid var(--memphis-border-color)',
-      background: 'var(--gold-100)',
+      background: 'var(--brand-100)',
       fontSize: 12,
       fontWeight: 600,
     }}
@@ -52,9 +52,9 @@ export const AlignCenter = () => (
     align="center"
     style={{ height: 120, background: 'var(--muted)', padding: 12 }}
   >
-    <div style={{ height: 40, width: 40, background: 'var(--plum-500)' }} />
-    <div style={{ height: 80, width: 40, background: 'var(--gold-500)' }} />
-    <div style={{ height: 24, width: 40, background: 'var(--plum-300)' }} />
+    <div style={{ height: 40, width: 40, background: 'var(--ink-500)' }} />
+    <div style={{ height: 80, width: 40, background: 'var(--brand-500)' }} />
+    <div style={{ height: 24, width: 40, background: 'var(--ink-300)' }} />
   </Box>
 )
 
