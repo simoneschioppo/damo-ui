@@ -8,14 +8,14 @@ export const bannerVariants = cva(
   {
     variants: {
       variant: {
-        info: 'bg-card text-foreground [--shadow-memphis-color:var(--info)]',
+        info: 'bg-card text-foreground [--memphis-shadow-color:var(--info)]',
         success:
-          'bg-[color-mix(in_oklab,var(--success)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--success)]',
+          'bg-[color-mix(in_oklab,var(--success)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--success)]',
         warning:
-          'bg-[color-mix(in_oklab,var(--warning)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--warning)]',
+          'bg-[color-mix(in_oklab,var(--warning)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--warning)]',
         danger:
-          'bg-[color-mix(in_oklab,var(--destructive)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--destructive)]',
-        rage: 'bg-[color-mix(in_oklab,var(--rage)_15%,var(--card))] text-foreground [--shadow-memphis-color:var(--rage)]',
+          'bg-[color-mix(in_oklab,var(--destructive)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--destructive)]',
+        rage: 'bg-[color-mix(in_oklab,var(--rage)_15%,var(--card))] text-foreground [--memphis-shadow-color:var(--rage)]',
       },
     },
     defaultVariants: {
