@@ -13,6 +13,8 @@ export interface ColorPickerProps {
   className?: string
   /** Hide the hex text input; show only the color swatch. Defaults to false. */
   showInput?: boolean
+  /** Hide the visual label while preserving accessibility via aria-label. Defaults to true. */
+  showLabel?: boolean
 }
 
 const swatchStyle: CSSProperties = {
@@ -28,6 +30,12 @@ const rowStyle: CSSProperties = {
   display: 'flex',
   gap: 8,
   marginTop: 6,
+  alignItems: 'center',
+}
+
+const rowStyleNoLabel: CSSProperties = {
+  display: 'flex',
+  gap: 8,
   alignItems: 'center',
 }
 
@@ -54,7 +62,7 @@ const hexInputStyle: CSSProperties = {
  * ```
  */
 export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(function ColorPicker(
-  { id, label, value, onChange, className, showInput = true },
+  { id, label, value, onChange, className, showInput = true, showLabel = true },
   ref,
 ) {
   const autoId = useId()
@@ -62,8 +70,8 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(function
 
   return (
     <div ref={ref} className={cn(className)}>
-      <Label htmlFor={colorId}>{label}</Label>
-      <div style={rowStyle}>
+      {showLabel && <Label htmlFor={colorId}>{label}</Label>}
+      <div style={showLabel ? rowStyle : rowStyleNoLabel}>
         <input
           type="color"
           id={colorId}
