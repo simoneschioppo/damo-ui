@@ -154,6 +154,7 @@ describe('SidebarBody', () => {
     expect(el.className).toContain('flex-1')
     expect(el.className).toContain('min-h-0')
     expect(el.className).toContain('overflow-y-auto')
+    expect(el.className).toContain('pr-3')
   })
 })
 
