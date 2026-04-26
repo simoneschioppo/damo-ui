@@ -3,15 +3,15 @@
 /**
  * /design-system — Damo UI DS v1 on lib primitives only.
  *
- * All 11 sections consume @damo/ui components (ColorScale, TokenSwatch,
+ * All 10 sections consume @damo/ui components (ColorScale, TokenSwatch,
  * ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, UserCard, FeatureCard,
- * TooltipCard, ArticleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape, Hint,
+ * TooltipCard, ArticleCard, Badge, Chip, Medal, PatternSwatch, MemphisShape,
  * plus inputs + icons). Only hero / TOC / layout / section scroll-margin /
  * footer use inline style — every styled surface is a lib component.
  *
  * Layout: 2-column grid
  *   - Left sidebar (300px, surface-2 bg, ink text): lib `Sidebar` with brand block + numbered TOC
- *   - Right main (ivory bg): hero + 11 numbered sections
+ *   - Right main (ivory bg): hero + 10 numbered sections
  */
 
 import { type CSSProperties, type ReactNode, useEffect, useState } from 'react'
@@ -52,7 +52,6 @@ import {
   Medal,
   PatternSwatch,
   MemphisShape,
-  Hint,
   HomeIcon,
   SearchIcon,
   CloseIcon,
@@ -101,7 +100,6 @@ const SECTIONS = [
   { id: 'avatars', num: '08', title: 'Avatar & Medaglie' },
   { id: 'mascot', num: '09', title: 'Mascotte Damo' },
   { id: 'patterns', num: '10', title: 'Pattern Memphis' },
-  { id: 'figma', num: '11', title: 'Export → Figma' },
 ] as const
 
 // ═══════════════════════════════════════════════════════════
@@ -1395,63 +1393,6 @@ function PatternsSection() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 11 · Export → Figma (hint)
-// ═══════════════════════════════════════════════════════════
-
-const hintCodeStyle: CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  background: 'var(--card)',
-  color: 'var(--foreground)',
-  border: '1px solid var(--memphis-border-color)',
-  padding: '1px 6px',
-  fontSize: 12,
-}
-
-function FigmaSection() {
-  return (
-    <section id="figma" style={sectionStyle}>
-      <SectionHeader
-        num="11"
-        title="Come portare tutto in Figma"
-        desc="Non posso generare un .fig direttamente, ma ecco 3 modi collaudati per importare il sistema."
-      />
-
-      <Hint
-        num={1}
-        title={
-          <>
-            Plugin <i>html.to.design</i> (la via più completa)
-          </>
-        }
-      >
-        In Figma apri <code style={hintCodeStyle}>Plugins → html.to.design → da URL</code>, incolla
-        il link di questa pagina. Importerà l&apos;intera pagina come frame Figma, con tutti gli SVG
-        e i colori già strutturati in layer. Gratis per i primi 3 import al giorno.
-      </Hint>
-
-      <Hint num={2} title="Copia-incolla SVG (1:1, perfetto per icone e medaglie)">
-        Ispeziona l&apos;elemento → copia il nodo <code style={hintCodeStyle}>&lt;svg&gt;</code> →
-        incolla in Figma con <code style={hintCodeStyle}>Cmd+V</code>. Figma lo converte in vettore
-        nativo con tutti i path editabili. Usalo per icone, medaglie, forme Memphis.
-      </Hint>
-
-      <Hint
-        num={3}
-        title={
-          <>
-            Plugin <i>Tokens Studio</i> (solo colori + tipografia)
-          </>
-        }
-      >
-        Copia le CSS variables da <code style={hintCodeStyle}>tokens.css</code> e incollale in
-        Tokens Studio (<code style={hintCodeStyle}>+ → Import → CSS Variables</code>). I token
-        diventano stili Figma nativi che puoi applicare ai tuoi componenti.
-      </Hint>
-    </section>
-  )
-}
-
-// ═══════════════════════════════════════════════════════════
 // Hero decoration (inline SVG Memphis)
 // ═══════════════════════════════════════════════════════════
 
@@ -1522,11 +1463,11 @@ export default function DesignSystemPage() {
           </h1>
           <p style={heroLeadStyle}>
             Linguaggio visivo completo per React e Next.js: token, componenti, icone e pattern
-            Memphis. Pensato per essere importato in Figma in 3 modi diversi — vedi sezione 11.
+            Memphis. Esportabile come CSS, Tailwind preset o JSON dal Theme Generator.
           </p>
           <div style={heroMetaStyle}>
             <span>
-              <b style={heroMetaBoldStyle}>11</b> sezioni
+              <b style={heroMetaBoldStyle}>10</b> sezioni
             </span>
             <span>
               <b style={heroMetaBoldStyle}>4</b> scale colore
@@ -1551,7 +1492,6 @@ export default function DesignSystemPage() {
         <AvatarsSection />
         <MascotSection />
         <PatternsSection />
-        <FigmaSection />
 
         <footer
           style={{
