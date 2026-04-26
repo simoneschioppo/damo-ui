@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - **No dark mode in the lib.** Consumers are responsible for declaring `[data-theme='dark']` (or any selector they prefer) with their own override values. The lib no longer ships a built-in dark mode.
 - `themes.css` and `patterns.css` deleted from the lib. `tokens.css` rewritten with neutral defaults only.
 - Internal `__tests__/contrast.test.ts` removed. Per-theme contrast assertion now belongs in the consumer (the playground continues to test its own theme).
+- **Raw palette variables renamed:** `--plum-*` → `--ink-*`, `--gold-*` → `--brand-*`. The names are now functional/role-based ("ink" = dark scale for foreground/text; "brand" = primary CTA/highlight) rather than color-specific (which was confusing under neon/sunset palettes where "plum-500" was magenta and "gold-500" was orange). The `--paper-*` scale is unchanged.
 
 ### Migration
 
@@ -54,7 +55,7 @@ All notable changes to this project will be documented in this file.
 
 ### Internal
 
-- Raw palette (`--plum-*`, `--gold-*`, `--paper-*`) still defined in `tokens.css` — used internally to compute semantic values, not exposed as utilities.
+- Raw palette (`--plum-*`, `--gold-*`, `--paper-*`) still defined in `tokens.css` — used internally to compute semantic values, not exposed as utilities. (later renamed to `--ink-*` / `--brand-*` in 0.3.0)
 - Palette presets (`default`, `neon`, `sunset`) now override only the raw palette and are orthogonal to `[data-theme]`, so all six palette × theme combinations work automatically.
 
 ## [0.1.0] — 2026-04-18
