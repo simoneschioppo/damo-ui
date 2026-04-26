@@ -1,80 +1,110 @@
-/* Damo UI — Design Tokens
- * CSS variables che definiscono palette, typography, radius, shadow, spacing, motion, z-index.
- * Sorgente unica di verità: override queste per customizzare (vedi themes.css per dark + palette alt).
+/* Damo UI — Tokens (lib defaults)
+ *
+ * The lib ships ONLY:
+ * - Neutral grayscale LIGHT semantic defaults for every public token
+ *   (background/foreground, card, popover, muted, primary, secondary,
+ *   accent, destructive, status colors, chrome, badge variants, charts,
+ *   medals, nav-on-dark, memphis identity).
+ * - Typography / radius / shadow / spacing / motion / z-index / density
+ *   scales — these are the lib's "tech identity", not its visual brand.
+ *
+ * The lib does NOT ship:
+ * - Raw palette (plum/gold/paper) — consumers compose their own.
+ * - Dark mode — consumers add [data-theme='dark'] (or any selector) and
+ *   redeclare each semantic var.
+ * - Palette variants — same as dark, consumer's choice.
+ * - Memphis pattern — moves to consumer styles (e.g., the playground).
+ *
+ * Override anything by redeclaring the var on a parent (or :root).
  */
 
-:root,
-:root[data-theme='light'] {
-  /* ── Raw palette: Plum ─────────────────────────── */
-  --plum-100: #e0c6e2;
-  --plum-300: #c590c9;
-  --plum-500: #7a3980;
-  --plum-700: #522357;
-  --plum-800: #3d1a40;
-  --plum-900: #2a0f2d;
+:root {
+  /* ── Surfaces ────────────────────────────────────── */
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
 
-  /* ── Raw palette: Gold ─────────────────────────── */
-  --gold-100: #f8e5bc;
-  --gold-200: #f0d49a;
-  --gold-300: #e5bc6d;
-  --gold-400: #d5a845;
-  --gold-500: #c4942a;
+  /* ── Intent ──────────────────────────────────────── */
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #dc2626;
+  --destructive-foreground: #fafafa;
 
-  /* ── Raw palette: Paper (neutri ivory/cream) ──── */
-  --paper-50: #fbf7ee;
-  --paper-100: #f5efde;
-  --paper-200: #ece2c6;
-  --paper-300: #ddd0ae;
+  /* ── Status (paired) ─────────────────────────────── */
+  --success: #16a34a;
+  --success-foreground: #fafafa;
+  --warning: #d97706;
+  --warning-foreground: #fafafa;
+  --info: #2563eb;
+  --info-foreground: #fafafa;
+  --rage: #ea580c;
+  --rage-foreground: #fafafa;
 
-  /* ── Black & white ─────────────────────────────── */
-  --white: #ffffff;
-  --black: #000000;
+  /* ── Chrome primitives ───────────────────────────── */
+  --border: #e4e4e7;
+  --border-strong: #a1a1aa;
+  --input: #e4e4e7;
+  --ring: #18181b;
 
-  /* ── Status ────────────────────────────────────── */
-  --success: #4f8a3c;
-  --warning: #8a6326;
-  --rage: #c94a2f;
-  --info: var(--plum-500);
+  /* ── Memphis identity ────────────────────────────── */
+  --memphis-shadow-color: #000000;
+  --memphis-border-color: #000000;
 
-  /* ── Chrome primitives ─────────────────────────── */
-  --border: color-mix(in oklab, var(--plum-900) 12%, transparent);
-  --border-strong: color-mix(in oklab, var(--plum-900) 22%, transparent);
-  --ring: var(--gold-500);
+  /* ── Badge variants ──────────────────────────────── */
+  --badge-featured: #18181b;
+  --badge-featured-foreground: #fafafa;
+  --badge-copper: #18181b;
+  --badge-copper-foreground: #fafafa;
+  --badge-navy: #18181b;
+  --badge-navy-foreground: #fafafa;
+  --badge-draw: #f4f4f5;
+  --badge-draw-foreground: #18181b;
+  --badge-rank: #f4f4f5;
+  --badge-rank-foreground: #18181b;
 
-  /* ── Medal ranks (sezione 08 design-system) ──────── */
+  /* ── Charts (data-viz palette) ──────────────────── */
+  --chart-1: #18181b;
+  --chart-2: #71717a;
+  --chart-3: #2563eb;
+  --chart-4: #16a34a;
+  --chart-5: #dc2626;
+
+  /* ── Nav-on-dark (always on dark surface) ────────── */
+  --nav-on-dark-accent: #fafafa;
+  --nav-on-dark-accent-strong: #ffffff;
+  --nav-on-dark-foreground: rgba(255, 255, 255, 0.72);
+  --nav-on-dark-foreground-strong: #ffffff;
+
+  /* ── Medal ranks (universal-ish defaults) ────────── */
   --medal-bronze-outer: #5a3f20;
   --medal-bronze-inner: #8a6236;
   --medal-bronze-text: #ffffff;
   --medal-silver-outer: #4a4a55;
   --medal-silver-inner: #8a8a9a;
   --medal-silver-text: #ffffff;
-  --medal-gold-outer: var(--plum-900);
-  --medal-gold-inner: var(--gold-500);
-  --medal-gold-text: var(--plum-900);
-  --medal-master-outer: var(--plum-900);
-  --medal-master-inner: var(--plum-500);
-  --medal-master-text: var(--paper-50);
+  --medal-gold-outer: #18181b;
+  --medal-gold-inner: #d4af37;
+  --medal-gold-text: #18181b;
+  --medal-master-outer: #18181b;
+  --medal-master-inner: #5b21b6;
+  --medal-master-text: #fafafa;
   --medal-grandmaster-outer: #000000;
-  --medal-grandmaster-inner: var(--gold-500);
-  --medal-grandmaster-text: var(--plum-900);
-
-  /* ── Chart colors (data viz, theme-agnostic) ──────── */
-  --chart-1: #7a3980;
-  --chart-2: #c4942a;
-  --chart-3: #4f8a3c;
-  --chart-4: #a13a2c;
-  --chart-5: #522357;
-
-  /* ── Nav-on-dark identity (always on dark surface) ─── */
-  --nav-on-dark-accent: var(--gold-200);
-  --nav-on-dark-accent-strong: var(--gold-400);
-  --nav-on-dark-foreground: rgba(255, 255, 255, 0.72);
-  --nav-on-dark-foreground-strong: var(--white);
+  --medal-grandmaster-inner: #d4af37;
+  --medal-grandmaster-text: #18181b;
 
   /* ── Typography: families ──────────────────────── */
-  --font-display: 'Audiowide', system-ui, sans-serif;
-  --font-body: 'Exo 2', system-ui, sans-serif;
-  --font-mono: 'Exo 2', ui-monospace, monospace;
+  --font-display: system-ui, sans-serif;
+  --font-body: system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* ── Radius ────────────────────────────────────── */
   --radius-none: 0;
@@ -91,8 +121,6 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 
   /* ── Shadow: memphis (tier 1 signature) ───────── */
-  /* Pure-black offset shadow — when button overlays, only the bottom+right strip
-   * peeks out, producing the signature L-shape Memphis corner. */
   --shadow-memphis-sm: 3px 3px 0 var(--memphis-shadow-color);
   --shadow-memphis: 6px 6px 0 var(--memphis-shadow-color);
   --shadow-memphis-lg: 9px 9px 0 var(--memphis-shadow-color);
@@ -127,11 +155,7 @@
   --ease-out: cubic-bezier(0.2, 0.9, 0.3, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* ── Z-index ───────────────────────────────────────
-   * Order matters: dropdowns must sit ABOVE header/sticky chrome so that
-   * menus opened from the top bar are not clipped. Overlays sit above
-   * dropdowns so a modal's backdrop dims them too.
-   */
+  /* ── Z-index ─────────────────────────────────────── */
   --z-base: 0;
   --z-sticky: 100;
   --z-header: 200;
@@ -141,10 +165,7 @@
   --z-toast: 600;
   --z-tooltip: 700;
 
-  /* ── Chrome geometry ──────────────────────────────
-   * Page-level sticky elements (side nav, TOC) read this to offset under
-   * the top bar. Update `AppTopBar` CSS if you change these.
-   */
+  /* ── Chrome geometry ─────────────────────────────── */
   --header-height: 56px;
 
   /* ── Density (hook trasversale) ────────────────── */
