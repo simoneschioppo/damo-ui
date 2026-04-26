@@ -5,27 +5,6 @@
  */
 
 @theme inline {
-  /* Colors: plum (raw palette) */
-  --color-plum-100: var(--plum-100);
-  --color-plum-300: var(--plum-300);
-  --color-plum-500: var(--plum-500);
-  --color-plum-700: var(--plum-700);
-  --color-plum-800: var(--plum-800);
-  --color-plum-900: var(--plum-900);
-
-  /* Colors: gold (raw palette) */
-  --color-gold-100: var(--gold-100);
-  --color-gold-200: var(--gold-200);
-  --color-gold-300: var(--gold-300);
-  --color-gold-400: var(--gold-400);
-  --color-gold-500: var(--gold-500);
-
-  /* Colors: paper (raw palette) */
-  --color-paper-50: var(--paper-50);
-  --color-paper-100: var(--paper-100);
-  --color-paper-200: var(--paper-200);
-  --color-paper-300: var(--paper-300);
-
   /* Chrome primitives */
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);

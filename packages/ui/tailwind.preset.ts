@@ -4,28 +4,7 @@ const preset: Partial<Config> = {
   theme: {
     extend: {
       colors: {
-        plum: {
-          100: 'var(--plum-100)',
-          300: 'var(--plum-300)',
-          500: 'var(--plum-500)',
-          700: 'var(--plum-700)',
-          800: 'var(--plum-800)',
-          900: 'var(--plum-900)',
-        },
-        gold: {
-          100: 'var(--gold-100)',
-          200: 'var(--gold-200)',
-          300: 'var(--gold-300)',
-          400: 'var(--gold-400)',
-          500: 'var(--gold-500)',
-        },
-        paper: {
-          50: 'var(--paper-50)',
-          100: 'var(--paper-100)',
-          200: 'var(--paper-200)',
-          300: 'var(--paper-300)',
-        },
-        // Semantic (new shadcn-style taxonomy)
+        // Semantic (shadcn-style taxonomy)
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         card: 'var(--card)',
