@@ -51,7 +51,7 @@ export const Left = () => (
 export const Top = () => (
   <Drawer>
     <DrawerTrigger asChild>
-      <Button variant="accent">Apri dall'alto</Button>
+      <Button variant="secondary">Apri dall'alto</Button>
     </DrawerTrigger>
     <DrawerContent side="top">
       <DrawerHeader>
@@ -65,7 +65,7 @@ export const Top = () => (
 export const Bottom = () => (
   <Drawer>
     <DrawerTrigger asChild>
-      <Button variant="danger">Apri dal basso</Button>
+      <Button variant="destructive">Apri dal basso</Button>
     </DrawerTrigger>
     <DrawerContent side="bottom">
       <DrawerHeader>
