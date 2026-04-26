@@ -7,7 +7,7 @@ import { chipVariants, type ChipVariants } from './chip.variants'
 export interface ChipProps extends HTMLAttributes<HTMLSpanElement>, ChipVariants {
   /**
    * When set, prepends a small round dot (8x8px) before children.
-   * Accepts any CSS color string, e.g. `"var(--gold-500)"`, `"#fff"`.
+   * Accepts any CSS color string, e.g. `"var(--brand-500)"`, `"#fff"`.
    */
   dotColor?: string
   /**

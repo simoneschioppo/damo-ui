@@ -13,9 +13,9 @@ export interface ColorStop {
 }
 
 export interface ColorScaleProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
-  /** Human-readable scale name, e.g. "Plum". */
+  /** Human-readable scale name, e.g. "Ink". */
   name: string
-  /** Token root, e.g. "plum" (yields CSS vars `--plum-{k}`). */
+  /** Token root, e.g. "ink" (yields CSS vars `--ink-{k}`). */
   token: string
   /** Optional tagline rendered in italic at the top-right. */
   desc?: string
@@ -37,7 +37,7 @@ function pickContrastText(hex: string): string {
   return lum > 0.62 ? 'rgba(0,0,0,0.82)' : 'rgba(255,255,255,0.94)'
 }
 
-// Renders a horizontal band of color stops for a scale (Plum, Gold, …).
+// Renders a horizontal band of color stops for a scale (Ink, Brand, …).
 // Header shows the scale name + `--{token}-*` + optional italic desc.
 // Body is a grid with one cell per stop — each cell resolves its CSS var at
 // runtime to render the hex and pick a contrast-aware text color so labels

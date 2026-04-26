@@ -108,7 +108,7 @@ export const Sizes = () => (
 
 export const Colors = () => (
   <div style={{ display: 'flex', gap: 12, fontSize: 24 }}>
-    <CrownIcon size={32} style={{ color: 'var(--gold-500)' }} />
+    <CrownIcon size={32} style={{ color: 'var(--brand-500)' }} />
     <HeartIcon size={32} style={{ color: 'var(--destructive)' }} />
     <BoltIcon size={32} style={{ color: 'var(--rage)' }} />
     <StarIcon size={32} style={{ color: 'var(--primary)' }} />

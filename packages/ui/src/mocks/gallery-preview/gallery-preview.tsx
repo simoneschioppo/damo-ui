@@ -110,8 +110,8 @@ export const GalleryPreview = forwardRef<HTMLDivElement, GalleryPreviewProps>(
             <Chip dotColor="var(--success)">Attivo</Chip>
             <Chip dotColor="var(--destructive)">Errore</Chip>
             <Chip dotColor="var(--warning)">Attenzione</Chip>
-            <Chip dotColor="var(--plum-500)">Brand</Chip>
-            <Chip dotColor="var(--gold-500)">Accento</Chip>
+            <Chip dotColor="var(--ink-500)">Brand</Chip>
+            <Chip dotColor="var(--brand-500)">Accento</Chip>
           </div>
         </section>
 

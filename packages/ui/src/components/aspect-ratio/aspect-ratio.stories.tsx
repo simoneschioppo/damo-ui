@@ -1,7 +1,7 @@
 import { AspectRatio } from './aspect-ratio'
 
 const box = {
-  background: 'linear-gradient(135deg, var(--plum-500), var(--gold-500))',
+  background: 'linear-gradient(135deg, var(--ink-500), var(--brand-500))',
   border: '2px solid var(--memphis-border-color)',
   display: 'grid',
   placeItems: 'center',
