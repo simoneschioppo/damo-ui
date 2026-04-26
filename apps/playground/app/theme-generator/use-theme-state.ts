@@ -31,7 +31,7 @@ type Action =
   | { type: 'SET_SPACING_SCALE'; value: number }
   | { type: 'SET_DURATION'; key: MotionDurationKey; value: number }
   | { type: 'SET_EASING'; key: MotionEasingKey; value: string }
-  | { type: 'RESET' }
+  | { type: 'RESET'; preset: PresetName }
 
 function reducer(state: Theme, action: Action): Theme {
   switch (action.type) {
@@ -147,7 +147,7 @@ function reducer(state: Theme, action: Action): Theme {
       }
 
     case 'RESET':
-      return DEFAULT_THEME
+      return applyPreset(DEFAULT_THEME, action.preset)
 
     default:
       return state

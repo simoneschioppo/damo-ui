@@ -61,6 +61,7 @@ import {
   type TypographySizeKey,
 } from './theme-state'
 import { contrastLevel, contrastRatio } from './contrast'
+import { type PresetName } from './presets'
 import {
   buildCssExport,
   buildJsonExport,
@@ -753,7 +754,10 @@ export default function ThemeGeneratorPage() {
           <Button
             variant="ghost"
             onClick={() => {
-              dispatch({ type: 'RESET' })
+              const root = typeof document !== 'undefined' ? document.documentElement : null
+              const attr = root?.getAttribute('data-palette')
+              const preset: PresetName = attr === 'neon' ? 'neon' : attr === 'sunset' ? 'sunset' : 'default'
+              dispatch({ type: 'RESET', preset })
             }}
           >
             Reset
