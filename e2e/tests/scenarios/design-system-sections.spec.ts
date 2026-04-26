@@ -6,11 +6,10 @@ import { test, expect } from '@playwright/test'
  * Guards against regressions in the lib-first DS rewrite by verifying:
  *   - the /design-system route renders
  *   - the DAMACCHI brand block in the sidebar TOC is mounted
- *   - all 11 sections are anchor-reachable via their #id
+ *   - all 10 sections are anchor-reachable via their #id
  *   - buttons section (#buttons) has at least 3 rendered/visible buttons
  *   - patterns section (#patterns) exposes ≥ 6 pattern swatches (falls back to
  *     matching the header eyebrow text `STRIPES`, `DOTS`, `GRID`, etc.)
- *   - figma section (#figma) renders exactly 3 Hint cards (3 <h4>s)
  */
 
 const SECTION_IDS = [
@@ -24,7 +23,6 @@ const SECTION_IDS = [
   'avatars',
   'mascot',
   'patterns',
-  'figma',
 ] as const
 
 const PATTERN_HEADERS = [
@@ -51,7 +49,7 @@ test.describe('Design System — lib-first refactor smoke', () => {
     await expect(page.getByText('DAMO · UI').first()).toBeVisible()
   })
 
-  test('all 11 sections are anchor-reachable (#colors → #figma)', async ({ page }) => {
+  test('all 10 sections are anchor-reachable (#colors → #patterns)', async ({ page }) => {
     for (const id of SECTION_IDS) {
       const section = page.locator(`section#${id}`)
       await expect(section).toHaveCount(1)
@@ -86,11 +84,5 @@ test.describe('Design System — lib-first refactor smoke', () => {
       if ((await header.count()) > 0) matched += 1
     }
     expect(matched).toBeGreaterThanOrEqual(6)
-  })
-
-  test('section 11 Figma renders 3 Hint cards with titles', async ({ page }) => {
-    const hintTitles = page.locator('section#figma h4')
-    await expect(hintTitles).toHaveCount(3)
-    await expect(hintTitles.first()).toBeVisible()
   })
 })
