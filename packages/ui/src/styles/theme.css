@@ -91,8 +91,12 @@
 
   /* Motion */
   --animate-duration-snap: var(--duration-snap);
+  --animate-duration-fast: var(--duration-fast);
+  --animate-duration-base: var(--duration-base);
+  --animate-duration-slow: var(--duration-slow);
   --ease-memphis: var(--ease-memphis);
   --ease-out-memphis: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
 
   /* Z-index */
   --z-index-base: var(--z-base);
