@@ -156,9 +156,10 @@ function reducer(state: Theme, action: Action): Theme {
 
 /**
  * Inject a single <style id="theme-generator-overrides"> element into
- * <head> containing both light and dark semantic blocks. CSS specificity
- * then picks the right values based on the global data-theme attribute set
- * by the navbar ThemeSwitcher — no inline-style conflict.
+ * <head> containing both light and dark semantic blocks. The selector is
+ * scoped to match the active data-palette attribute so the overrides win
+ * the cascade over static rules in theme.css that use :root[data-palette='…']
+ * (specificity 0,2,0 vs bare :root 0,1,0).
  */
 function applyThemeToRoot(theme: Theme): void {
   if (typeof document === 'undefined') return
@@ -171,12 +172,20 @@ function applyThemeToRoot(theme: Theme): void {
     document.head.appendChild(style)
   }
 
+  const root = document.documentElement
+  const currentPalette = root.getAttribute('data-palette')
+  const lightSelector = currentPalette
+    ? `:root[data-palette='${currentPalette}']`
+    : ':root'
+  const darkSelector = currentPalette
+    ? `:root[data-palette='${currentPalette}'][data-theme='dark']`
+    : `:root[data-theme='dark']`
+
   const toKebab = (s: string): string => s.replace(/([A-Z])/g, '-$1').toLowerCase()
 
   const lines: string[] = []
 
-  // Section 1: :root — raw palette + identity + scales + light semantic
-  lines.push(':root {')
+  lines.push(`${lightSelector} {`)
 
   // Raw palette
   for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
@@ -246,9 +255,9 @@ function applyThemeToRoot(theme: Theme): void {
 
   lines.push('}')
 
-  // Section 2: :root[data-theme='dark'] — dark semantic only
+  // Dark semantic
   lines.push('')
-  lines.push(":root[data-theme='dark'] {")
+  lines.push(`${darkSelector} {`)
   Object.entries(theme.semantic.dark).forEach(([k, v]) => {
     lines.push(`  --${toKebab(k)}: ${v};`)
   })
@@ -267,6 +276,32 @@ export function useThemeState() {
   useEffect(() => {
     applyLive()
   }, [applyLive])
+
+  // Sync the generator's palette state to whatever data-palette the navbar sets.
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+
+    const root = document.documentElement
+    const presetFromAttr = (attr: string | null): PresetName => {
+      if (attr === 'neon') return 'neon'
+      if (attr === 'sunset') return 'sunset'
+      return 'default'
+    }
+
+    // Initial sync
+    dispatch({ type: 'SET_PRESET', preset: presetFromAttr(root.getAttribute('data-palette')) })
+
+    // Observe future changes
+    const observer = new MutationObserver(() => {
+      dispatch({ type: 'SET_PRESET', preset: presetFromAttr(root.getAttribute('data-palette')) })
+      // Defensive re-apply with the new selector in case of race conditions
+      applyThemeToRoot(theme)
+    })
+    observer.observe(root, { attributes: true, attributeFilter: ['data-palette'] })
+
+    return () => observer.disconnect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // mount-only; the inner closure reads theme at call time
 
   return { theme, dispatch }
 }

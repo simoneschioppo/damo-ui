@@ -49,7 +49,6 @@ import {
 } from '@damo/ui/mocks'
 
 import { useThemeState } from './use-theme-state'
-import { PRESET_LABELS, type PresetName } from './presets'
 import {
   PALETTE_STEPS,
   SEMANTIC_GROUPS,
@@ -626,9 +625,6 @@ export default function ThemeGeneratorPage() {
   const [previewPaneTab, setPreviewPaneTab] = useState<'preview' | 'export'>('preview')
   const [copyState, setCopyState] = useState<ExportTab | null>(null)
 
-  // Best-effort active-preset detection via plum-500 sentinel value
-  const [selectedPreset, setSelectedPreset] = useState<PresetName>('default')
-
   const semantic = theme.semantic[editMode]
 
   const exports = useMemo(
@@ -651,12 +647,6 @@ export default function ThemeGeneratorPage() {
     }
   }
 
-  function handlePresetChange(name: string) {
-    const preset = name as PresetName
-    setSelectedPreset(preset)
-    dispatch({ type: 'SET_PRESET', preset })
-  }
-
   return (
     <div style={pageStyle}>
       {/* ─── Sidebar ──────────────────────────────────── */}
@@ -667,23 +657,6 @@ export default function ThemeGeneratorPage() {
         </SidebarHeader>
 
         <SidebarBody>
-          {/* Preset selector */}
-          <div style={{ ...stackStyle, marginBottom: 16 }}>
-            <Label>Preset</Label>
-            <Select value={selectedPreset} onValueChange={handlePresetChange}>
-              <SelectTrigger aria-label="Preset">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {(Object.keys(PRESET_LABELS) as ReadonlyArray<PresetName>).map((p) => (
-                  <SelectItem key={p} value={p}>
-                    {PRESET_LABELS[p]}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
           {/* Editor tabs: Palette / Theme / Identity */}
           <Tabs value={editorTab} onValueChange={(v) => setEditorTab(v as EditorTab)}>
             <TabsList>
@@ -734,7 +707,6 @@ export default function ThemeGeneratorPage() {
             variant="ghost"
             onClick={() => {
               dispatch({ type: 'RESET' })
-              setSelectedPreset('default')
             }}
           >
             Reset
