@@ -125,7 +125,7 @@ export const PALETTE_STEPS = {
 
 export const SEMANTIC_GROUPS = {
   surfaces: [
-    { bg: 'background', fg: 'foreground', label: 'Page background' },
+    { bg: 'background', fg: 'foreground', label: 'Background' },
     { bg: 'card', fg: 'cardForeground', label: 'Card' },
     { bg: 'popover', fg: 'popoverForeground', label: 'Popover' },
     { bg: 'muted', fg: 'mutedForeground', label: 'Muted' },
@@ -133,7 +133,7 @@ export const SEMANTIC_GROUPS = {
   intents: [
     { bg: 'primary', fg: 'primaryForeground', label: 'Primary' },
     { bg: 'secondary', fg: 'secondaryForeground', label: 'Secondary' },
-    { bg: 'accent', fg: 'accentForeground', label: 'Accent (highlight)' },
+    { bg: 'accent', fg: 'accentForeground', label: 'Accent' },
     { bg: 'destructive', fg: 'destructiveForeground', label: 'Destructive' },
   ],
   statuses: [
@@ -144,20 +144,20 @@ export const SEMANTIC_GROUPS = {
   ],
   chrome: [
     { key: 'border', label: 'Border' },
-    { key: 'borderStrong', label: 'Border (strong)' },
+    { key: 'borderStrong', label: 'Border strong' },
     { key: 'input', label: 'Input border' },
     { key: 'ring', label: 'Focus ring' },
   ],
   memphis: [
-    { key: 'memphisShadowColor', label: 'Memphis shadow' },
-    { key: 'memphisBorderColor', label: 'Memphis border' },
+    { key: 'memphisShadowColor', label: 'Shadow' },
+    { key: 'memphisBorderColor', label: 'Border' },
   ],
   badges: [
-    { bg: 'badgeFeatured', fg: 'badgeFeaturedForeground', label: 'Badge featured' },
-    { bg: 'badgeCopper', fg: 'badgeCopperForeground', label: 'Badge copper' },
-    { bg: 'badgeNavy', fg: 'badgeNavyForeground', label: 'Badge navy' },
-    { bg: 'badgeDraw', fg: 'badgeDrawForeground', label: 'Badge draw' },
-    { bg: 'badgeRank', fg: 'badgeRankForeground', label: 'Badge rank' },
+    { bg: 'badgeFeatured', fg: 'badgeFeaturedForeground', label: 'Featured' },
+    { bg: 'badgeCopper', fg: 'badgeCopperForeground', label: 'Copper' },
+    { bg: 'badgeNavy', fg: 'badgeNavyForeground', label: 'Navy' },
+    { bg: 'badgeDraw', fg: 'badgeDrawForeground', label: 'Draw' },
+    { bg: 'badgeRank', fg: 'badgeRankForeground', label: 'Rank' },
   ],
 } as const
 

@@ -113,9 +113,26 @@ const stackStyle: CSSProperties = { display: 'flex', flexDirection: 'column', ga
 const rowStyle: CSSProperties = { display: 'flex', alignItems: 'center', gap: 8 }
 const pairedRowStyle: CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr 72px',
-  gap: 8,
-  alignItems: 'center',
+  gridTemplateColumns: '1fr 1fr auto',
+  gap: 10,
+  alignItems: 'end',
+}
+
+const pairedRowWrapperStyle: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 4,
+  paddingBottom: 8,
+  borderBottom: '1px solid var(--border)',
+}
+
+const subLabelStyle: CSSProperties = {
+  fontSize: 9,
+  fontWeight: 700,
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase',
+  color: 'var(--muted-foreground)',
+  marginBottom: 2,
 }
 const preBoxStyle: CSSProperties = {
   maxHeight: 360,
@@ -231,25 +248,35 @@ function ThemeEditor({ semantic, onChange }: ThemeEditorProps) {
               {groupKey}
             </AccordionTrigger>
             <AccordionContent>
-              <div style={stackStyle}>
+              <div style={{ ...stackStyle, gap: 6 }}>
                 {SEMANTIC_GROUPS[groupKey].map((entry) => {
                   if ('bg' in entry && 'fg' in entry) {
                     const bgVal = semantic[entry.bg as keyof SemanticTheme]
                     const fgVal = semantic[entry.fg as keyof SemanticTheme]
                     return (
-                      <div key={entry.label}>
-                        <Label>{entry.label}</Label>
+                      <div key={entry.label} style={pairedRowWrapperStyle}>
+                        <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--foreground)' }}>
+                          {entry.label}
+                        </span>
                         <div style={pairedRowStyle}>
-                          <ColorPicker
-                            label={`${entry.label} background`}
-                            value={bgVal}
-                            onChange={(v) => onChange(entry.bg as keyof SemanticTheme, v)}
-                          />
-                          <ColorPicker
-                            label={`${entry.label} foreground`}
-                            value={fgVal}
-                            onChange={(v) => onChange(entry.fg as keyof SemanticTheme, v)}
-                          />
+                          <div>
+                            <div style={subLabelStyle}>BG</div>
+                            <ColorPicker
+                              label={`${entry.label} background`}
+                              value={bgVal}
+                              onChange={(v) => onChange(entry.bg as keyof SemanticTheme, v)}
+                              showInput={false}
+                            />
+                          </div>
+                          <div>
+                            <div style={subLabelStyle}>FG</div>
+                            <ColorPicker
+                              label={`${entry.label} foreground`}
+                              value={fgVal}
+                              onChange={(v) => onChange(entry.fg as keyof SemanticTheme, v)}
+                              showInput={false}
+                            />
+                          </div>
                           <ContrastBadge fg={fgVal} bg={bgVal} />
                         </div>
                       </div>
@@ -259,11 +286,12 @@ function ThemeEditor({ semantic, onChange }: ThemeEditorProps) {
                   const singleVal = semantic[entry.key as keyof SemanticTheme]
                   return (
                     <div key={entry.label} style={rowStyle}>
-                      <Label style={{ minWidth: 140 }}>{entry.label}</Label>
+                      <Label style={{ minWidth: 120, fontSize: 11 }}>{entry.label}</Label>
                       <ColorPicker
                         label={entry.label}
                         value={singleVal}
                         onChange={(v) => onChange(entry.key as keyof SemanticTheme, v)}
+                        showInput={false}
                       />
                     </div>
                   )
