@@ -6,6 +6,11 @@
 
 **Status:** drafted 2026-04-24.
 
+> **Updates after this spec was approved (post-implementation):**
+> - Raw palette variables renamed: `--plum-*` → `--ink-*`, `--gold-*` → `--brand-*` (functional naming). See CHANGELOG 0.3.0.
+> - `Button.variant="danger"` was renamed to `variant="destructive"` for shadcn alignment (the spec contradicts this — implementation is correct).
+> - The library no longer ships any opinionated theme. Plum/gold defaults moved to playground. See CHANGELOG 0.3.0.
+
 ---
 
 ## 1. Problem

@@ -48,7 +48,7 @@ Use these Tailwind classes (sourced from semantic CSS variables):
 
 **Charts:** `bg-chart-1` through `bg-chart-5`.
 
-Raw palette (`plum-*`, `gold-*`, `paper-*`) is NOT exposed as utilities. Use semantic tokens.
+Raw palette variables are NOT exposed as utilities. Use semantic tokens exclusively. The lib ships only neutral grayscale defaults; bring your own palette via CSS overrides.
 
 Palette presets (default / neon / sunset) and theme (light / dark) are orthogonal — set both as data attributes on `<html>`:
 
