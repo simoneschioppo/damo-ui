@@ -128,7 +128,7 @@ describe('Hint', () => {
     expect(styleAttr).toContain('--card')
   })
 
-  it('sets 4px solid shadow using --shadow-memphis-color on the root', () => {
+  it('sets 4px solid shadow using --memphis-shadow-color on the root', () => {
     const { container } = render(
       <Hint num={1} title="t">
         body
