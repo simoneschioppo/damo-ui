@@ -54,12 +54,12 @@ export const Interactive = () => (
   </Card>
 )
 
-export const Dark = () => (
-  <Card variant="dark" style={{ width: 320 }}>
+export const Inverse = () => (
+  <Card variant="inverse" style={{ width: 320 }}>
     <CardHeader>
-      <CardTitle style={{ color: 'var(--paper-50)' }}>Dark</CardTitle>
-      <CardDescription style={{ color: 'var(--paper-100)' }}>
-        Tier 2 soft — per panel scuri annidati.
+      <CardTitle>Inverse</CardTitle>
+      <CardDescription>
+        Inverse of current theme — per panel scuri annidati.
       </CardDescription>
     </CardHeader>
     <CardBody>Bordo sottile e shadow diffusa.</CardBody>

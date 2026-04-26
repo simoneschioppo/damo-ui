@@ -12,15 +12,15 @@ describe('TooltipCard', () => {
     expect(getByText('Spiegazione rapida')).toBeTruthy()
   })
 
-  it('renders a diamond badge (rotated square with gold-500 bg)', () => {
+  it('renders a diamond badge (rotated square with primary bg)', () => {
     const { container } = render(
       <TooltipCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
     )
     const badge = container.querySelector('[data-slot="diamond"]') as HTMLElement
     expect(badge).not.toBeNull()
-    expect(badge.className).toContain('bg-gold-500')
+    expect(badge.className).toContain('bg-primary')
     expect(badge.className).toContain('border-2')
-    expect(badge.className).toContain('border-border-memphis')
+    expect(badge.className).toContain('border-memphis')
     // rotated via inline style or class
     const rotated =
       badge.style.transform.includes('rotate(45deg)') || badge.className.includes('rotate-45')
@@ -34,8 +34,8 @@ describe('TooltipCard', () => {
     const surface = container.querySelector('[data-slot="surface"]') as HTMLElement
     expect(surface).not.toBeNull()
     expect(surface.className).toContain('border-2')
-    expect(surface.className).toContain('border-border-memphis')
-    expect(surface.className).toContain('bg-surface')
+    expect(surface.className).toContain('border-memphis')
+    expect(surface.className).toContain('bg-card')
   })
 
   it('renders the eyebrow label in mono font', () => {

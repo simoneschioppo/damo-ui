@@ -17,7 +17,7 @@ export interface MemphisShapeProps extends Omit<SVGAttributes<SVGSVGElement>, 'f
   variant: MemphisShapeVariant
   /** px size applied to both width + height. Default 64. */
   size?: number
-  /** CSS color applied as fill (or stroke on stroke-only variants). Default var(--plum-500). */
+  /** CSS color applied as fill (or stroke on stroke-only variants). Default var(--secondary). */
   color?: string
   className?: string
 }
@@ -27,7 +27,7 @@ export interface MemphisShapeProps extends Omit<SVGAttributes<SVGSVGElement>, 'f
 // (diamond, circle, triangle, blob, star, lbar) receive `fill={color}`, while
 // stroke-only variants (zigzag, wave) receive `stroke={color}` with `fill=none`.
 export const MemphisShape = forwardRef<SVGSVGElement, MemphisShapeProps>(function MemphisShape(
-  { variant, size = 64, color = 'var(--plum-500)', className, ...rest },
+  { variant, size = 64, color = 'var(--secondary)', className, ...rest },
   ref,
 ) {
   return (

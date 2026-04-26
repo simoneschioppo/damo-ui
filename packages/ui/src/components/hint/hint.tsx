@@ -25,12 +25,12 @@ export const Hint = forwardRef<HTMLDivElement, HintProps>(function Hint(
     <div
       ref={ref}
       className={cn(
-        'flex gap-4 p-5 items-start mb-6 border-2 border-border-memphis',
+        'flex gap-4 p-5 items-start mb-6 border-2 border-memphis',
         className,
       )}
       style={{
-        background: 'color-mix(in oklab, var(--plum-500) 22%, var(--surface))',
-        boxShadow: '4px 4px 0 var(--shadow-memphis-color)',
+        background: 'color-mix(in oklab, var(--secondary) 22%, var(--card))',
+        boxShadow: '4px 4px 0 var(--memphis-shadow-color)',
         ...style,
       }}
       {...rest}
@@ -38,15 +38,15 @@ export const Hint = forwardRef<HTMLDivElement, HintProps>(function Hint(
       <div
         className={cn(
           'shrink-0 w-10 h-10 grid place-items-center',
-          'border-2 border-border-memphis bg-plum-500 text-paper-50',
+          'border-2 border-memphis bg-secondary text-secondary-foreground',
           'font-display text-lg',
         )}
       >
         {num}
       </div>
       <div className="flex-1">
-        <h4 className="font-display text-base mb-1 text-ink">{title}</h4>
-        <p className="text-sm text-ink-soft leading-relaxed m-0">{children}</p>
+        <h4 className="font-display text-base mb-1 text-foreground">{title}</h4>
+        <p className="text-sm text-muted-foreground leading-relaxed m-0">{children}</p>
       </div>
     </div>
   )

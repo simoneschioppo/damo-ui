@@ -36,8 +36,8 @@ export const DrawerOverlay = forwardRef<
 
 const drawerContentVariants = cva(
   [
-    'fixed z-modal bg-surface text-ink',
-    'border-border-memphis shadow-m-lg rounded-none',
+    'fixed z-modal bg-card text-foreground',
+    'border-memphis shadow-memphis-lg rounded-none',
     'p-6 flex flex-col gap-4',
     'focus:outline-none',
   ],
@@ -101,8 +101,8 @@ export const DrawerContent = forwardRef<
             aria-label="Chiudi"
             className={cn(
               'absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center',
-              'border border-transparent rounded-none text-ink-muted cursor-pointer',
-              'hover:text-ink hover:bg-surface-2',
+              'border border-transparent rounded-none text-muted-foreground cursor-pointer',
+              'hover:text-foreground hover:bg-muted',
               'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
             )}
           >
@@ -167,7 +167,7 @@ export const DrawerDescription = forwardRef<
   return (
     <DialogPrimitive.Description
       ref={ref}
-      className={cn('text-sm text-ink-muted', className)}
+      className={cn('text-sm text-muted-foreground', className)}
       {...rest}
     />
   )

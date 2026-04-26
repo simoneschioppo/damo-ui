@@ -11,14 +11,16 @@ export interface ColorPickerProps {
   value: string
   onChange: (next: string) => void
   className?: string
+  /** Hide the hex text input; show only the color swatch. Defaults to false. */
+  showInput?: boolean
 }
 
 const swatchStyle: CSSProperties = {
   width: 44,
-  height: 40,
+  height: 'calc(var(--spacing) * 10)',
   padding: 2,
-  border: '2px solid var(--border-memphis)',
-  background: 'var(--surface)',
+  border: '2px solid var(--memphis-border-color)',
+  background: 'var(--card)',
   cursor: 'pointer',
 }
 
@@ -30,9 +32,9 @@ const rowStyle: CSSProperties = {
 }
 
 const hexInputStyle: CSSProperties = {
+  minWidth: '6ch',
   flex: 1,
   fontFamily: 'var(--font-mono)',
-  fontSize: 12,
 }
 
 /**
@@ -52,7 +54,7 @@ const hexInputStyle: CSSProperties = {
  * ```
  */
 export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(function ColorPicker(
-  { id, label, value, onChange, className },
+  { id, label, value, onChange, className, showInput = true },
   ref,
 ) {
   const autoId = useId()
@@ -70,13 +72,15 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(function
           style={swatchStyle}
           aria-label={`Color picker for ${label}`}
         />
-        <Input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          style={hexInputStyle}
-          aria-label={`Hex value for ${label}`}
-        />
+        {showInput && (
+          <Input
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            style={hexInputStyle}
+            aria-label={`Hex value for ${label}`}
+          />
+        )}
       </div>
     </div>
   )

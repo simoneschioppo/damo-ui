@@ -8,17 +8,17 @@ export const chipVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-[var(--surface)] text-ink border-border-memphis',
+        default: 'bg-[var(--card)] text-foreground border-memphis',
         accent:
-          'bg-[color-mix(in_oklab,var(--gold-500)_28%,var(--surface))] text-[color-mix(in_oklab,var(--gold-500)_55%,var(--ink))] border-[color-mix(in_oklab,var(--gold-500)_50%,transparent)]',
+          'bg-[color-mix(in_oklab,var(--primary)_28%,var(--card))] text-[color-mix(in_oklab,var(--primary)_55%,var(--foreground))] border-[color-mix(in_oklab,var(--primary)_50%,transparent)]',
         brand:
-          'bg-[color-mix(in_oklab,var(--plum-500)_28%,var(--surface))] text-[color-mix(in_oklab,var(--plum-500)_55%,var(--ink))] border-[color-mix(in_oklab,var(--plum-500)_50%,transparent)]',
+          'bg-[color-mix(in_oklab,var(--secondary)_28%,var(--card))] text-[color-mix(in_oklab,var(--secondary)_55%,var(--foreground))] border-[color-mix(in_oklab,var(--secondary)_50%,transparent)]',
         success:
-          'bg-[color-mix(in_oklab,var(--success)_28%,var(--surface))] text-[color-mix(in_oklab,var(--success)_65%,var(--ink))] border-[color-mix(in_oklab,var(--success)_50%,transparent)]',
+          'bg-[color-mix(in_oklab,var(--success)_28%,var(--card))] text-[color-mix(in_oklab,var(--success)_65%,var(--foreground))] border-[color-mix(in_oklab,var(--success)_50%,transparent)]',
         danger:
-          'bg-[color-mix(in_oklab,var(--danger)_28%,var(--surface))] text-[color-mix(in_oklab,var(--danger)_65%,var(--ink))] border-[color-mix(in_oklab,var(--danger)_50%,transparent)]',
+          'bg-[color-mix(in_oklab,var(--destructive)_28%,var(--card))] text-[color-mix(in_oklab,var(--destructive)_65%,var(--foreground))] border-[color-mix(in_oklab,var(--destructive)_50%,transparent)]',
         warning:
-          'bg-[color-mix(in_oklab,var(--warning)_28%,var(--surface))] text-[color-mix(in_oklab,var(--warning)_65%,var(--ink))] border-[color-mix(in_oklab,var(--warning)_50%,transparent)]',
+          'bg-[color-mix(in_oklab,var(--warning)_28%,var(--card))] text-[color-mix(in_oklab,var(--warning)_65%,var(--foreground))] border-[color-mix(in_oklab,var(--warning)_50%,transparent)]',
       },
       size: {
         sm: 'px-2 py-0.5 text-[10px]',

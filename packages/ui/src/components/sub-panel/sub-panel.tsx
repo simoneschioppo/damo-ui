@@ -32,7 +32,7 @@ export const SubPanel = forwardRef<HTMLDivElement, SubPanelProps>(function SubPa
       }}
       {...rest}
     >
-      <span className="font-mono text-[11px] font-bold tracking-[0.22em] uppercase text-ink-muted mb-4 block">
+      <span className="font-mono text-[11px] font-bold tracking-[0.22em] uppercase text-muted-foreground mb-4 block">
         {label}
       </span>
       {children}

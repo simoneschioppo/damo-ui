@@ -14,12 +14,12 @@ describe('Chip', () => {
   })
 
   it('renders a dot when dotColor is set', () => {
-    const { container } = render(<Chip dotColor="var(--gold-500)">Tag</Chip>)
+    const { container } = render(<Chip dotColor="var(--brand-500)">Tag</Chip>)
     const root = container.firstChild as HTMLElement
     const dot = root.querySelector('span[data-chip-dot]') as HTMLElement | null
     expect(dot).not.toBeNull()
     // Inline style should set background to the passed color
-    expect(dot!.style.background).toContain('var(--gold-500)')
+    expect(dot!.style.background).toContain('var(--brand-500)')
   })
 
   it('accepts hex color values for dotColor', () => {
@@ -33,20 +33,20 @@ describe('Chip', () => {
   it('applies active styling when active', () => {
     const { container } = render(<Chip active>Rapid</Chip>)
     const root = container.firstChild as HTMLElement
-    expect(root.className).toContain('bg-gold-500')
-    expect(root.className).toContain('text-white')
+    expect(root.className).toContain('bg-primary')
+    expect(root.className).toContain('text-primary-foreground')
   })
 
   it('does not apply active styling by default', () => {
     const { container } = render(<Chip>Rapid</Chip>)
     const root = container.firstChild as HTMLElement
-    expect(root.className).not.toContain('bg-gold-500')
+    expect(root.className).not.toContain('bg-primary')
   })
 
   it('uses memphis border color for dot when inactive', () => {
-    const { container } = render(<Chip dotColor="var(--plum-500)">Primary</Chip>)
+    const { container } = render(<Chip dotColor="var(--ink-500)">Primary</Chip>)
     const dot = container.querySelector('span[data-chip-dot]') as HTMLElement
-    expect(dot.style.borderColor).toContain('var(--border-memphis)')
+    expect(dot.style.borderColor).toContain('var(--memphis-border-color)')
   })
 
   it('flips dot border to white when both active and dotColor set', () => {

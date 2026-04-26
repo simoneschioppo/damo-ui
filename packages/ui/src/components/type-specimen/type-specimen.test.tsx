@@ -118,7 +118,7 @@ describe('TypeSpecimen', () => {
     )
     const root = container.firstChild as HTMLElement
     const styleAttr = root.getAttribute('style') ?? ''
-    expect(styleAttr).toContain('--border-memphis')
+    expect(styleAttr).toContain('--memphis-border-color')
     expect(styleAttr).toContain('6px 6px 0')
   })
 
