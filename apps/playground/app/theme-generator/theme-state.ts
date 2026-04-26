@@ -343,24 +343,3 @@ export const SPACING_BASE_PX: ReadonlyArray<readonly [string, number]> = [
   ['space-10', 40], ['space-12', 48], ['space-16', 64], ['space-20', 80],
 ]
 
-// ─── Compatibility shims (removed in Task 23) ─────────────────────────────
-// page.tsx still imports these legacy identifiers; they will be deleted once
-// the page is rewritten in Task 23.
-
-/** @deprecated Use PALETTE_STEPS instead. Removed in Task 23. */
-export const COLOR_GROUPS = {
-  ink: ['ink-100', 'ink-300', 'ink-500', 'ink-700', 'ink-800', 'ink-900'],
-  brand: ['brand-100', 'brand-200', 'brand-300', 'brand-400', 'brand-500'],
-  paper: ['paper-50', 'paper-100', 'paper-200', 'paper-300'],
-  semantic: ['bg', 'surface', 'surface-2', 'ink', 'ink-soft', 'ink-muted', 'border-memphis', 'accent', 'ring'],
-  status: ['success', 'danger', 'warning', 'rage', 'info'],
-} as const
-
-/** @deprecated Removed in Task 23. */
-export const ALL_COLOR_KEYS: ReadonlyArray<string> = [
-  ...COLOR_GROUPS.ink,
-  ...COLOR_GROUPS.brand,
-  ...COLOR_GROUPS.paper,
-  ...COLOR_GROUPS.semantic,
-  ...COLOR_GROUPS.status,
-]

@@ -166,54 +166,6 @@
   --badge-rank-foreground: var(--brand-200);
 }
 
-/* ── Scoped dark preview (for theme-generator) ────────── */
-[data-theme-preview='dark'] {
-  --background: var(--ink-900);
-  --foreground: var(--paper-50);
-  --card: var(--ink-800);
-  --card-foreground: var(--paper-50);
-  --popover: var(--ink-800);
-  --popover-foreground: var(--paper-50);
-  --muted: var(--ink-700);
-  --muted-foreground: var(--ink-300);
-
-  --primary: var(--brand-500);
-  --primary-foreground: var(--ink-900);
-  --secondary: var(--ink-500);
-  --secondary-foreground: var(--paper-50);
-  --accent: var(--ink-700);
-  --accent-foreground: var(--brand-200);
-  --destructive: #c94a2f;
-  --destructive-foreground: var(--paper-50);
-
-  --success: #6fa85c;
-  --success-foreground: var(--ink-900);
-  --warning: var(--brand-500);
-  --warning-foreground: var(--ink-900);
-  --info: var(--ink-300);
-  --info-foreground: var(--ink-900);
-  --rage: #e06b4f;
-  --rage-foreground: var(--ink-900);
-
-  --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
-  --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
-  --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
-  --ring: var(--brand-500);
-
-  --memphis-shadow-color: var(--paper-50);
-  --memphis-border-color: var(--paper-50);
-
-  --badge-featured: var(--brand-500);
-  --badge-featured-foreground: var(--ink-900);
-  --badge-copper: var(--brand-500);
-  --badge-copper-foreground: var(--paper-50);
-  --badge-navy: var(--ink-700);
-  --badge-navy-foreground: var(--brand-200);
-  --badge-draw: var(--ink-700);
-  --badge-draw-foreground: var(--paper-50);
-  --badge-rank: var(--ink-700);
-  --badge-rank-foreground: var(--brand-200);
-}
 
 /* ── Palette: Neon (magenta + lime) ─────────────────────── */
 
