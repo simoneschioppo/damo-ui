@@ -161,79 +161,135 @@ export const SEMANTIC_GROUPS = {
   ],
 } as const
 
+// ─── Semantic derivation helpers ─────────────────────────────
+//
+// These mirror the cascade in apps/playground/app/styles/theme.css.
+// They let the generator keep semantic values in sync when the user
+// switches presets — instead of staying frozen at plum-gold hex.
+
+export function computeSemanticLight(p: RawPalette): SemanticTheme {
+  return {
+    background: p.paper['50'],
+    foreground: p.plum['900'],
+    card: '#ffffff',
+    cardForeground: p.plum['900'],
+    popover: '#ffffff',
+    popoverForeground: p.plum['900'],
+    muted: p.paper['100'],
+    mutedForeground: p.plum['700'],
+
+    primary: p.gold['500'],
+    primaryForeground: '#ffffff',
+    secondary: p.plum['500'],
+    secondaryForeground: p.paper['50'],
+    accent: p.gold['100'],
+    accentForeground: p.plum['900'],
+    destructive: '#a13a2c',
+    destructiveForeground: p.paper['50'],
+
+    success: '#4f8a3c',
+    successForeground: p.paper['50'],
+    warning: '#8a6326',
+    warningForeground: p.paper['50'],
+    info: p.plum['500'],
+    infoForeground: p.paper['50'],
+    rage: '#c94a2f',
+    rageForeground: p.paper['50'],
+
+    // color-mix in CSS is approximated with hex alpha suffixes
+    border: p.plum['900'] + '1f',
+    borderStrong: p.plum['900'] + '38',
+    input: p.plum['900'] + '1f',
+    ring: p.gold['500'],
+
+    memphisShadowColor: '#000000',
+    memphisBorderColor: '#000000',
+
+    badgeFeatured: p.gold['500'],
+    badgeFeaturedForeground: '#000000',
+    badgeCopper: p.gold['500'],
+    badgeCopperForeground: '#ffffff',
+    badgeNavy: p.plum['900'],
+    badgeNavyForeground: p.gold['200'],
+    badgeDraw: p.paper['100'],
+    badgeDrawForeground: p.plum['900'],
+    badgeRank: p.gold['100'],
+    badgeRankForeground: p.plum['900'],
+  }
+}
+
+export function computeSemanticDark(p: RawPalette): SemanticTheme {
+  return {
+    background: p.plum['900'],
+    foreground: p.paper['50'],
+    card: p.plum['800'],
+    cardForeground: p.paper['50'],
+    popover: p.plum['800'],
+    popoverForeground: p.paper['50'],
+    muted: p.plum['700'],
+    mutedForeground: p.plum['300'],
+
+    primary: p.gold['500'],
+    primaryForeground: p.plum['900'],
+    secondary: p.plum['500'],
+    secondaryForeground: p.paper['50'],
+    accent: p.plum['700'],
+    accentForeground: p.gold['200'],
+    destructive: '#c94a2f',
+    destructiveForeground: p.paper['50'],
+
+    success: '#6fa85c',
+    successForeground: p.plum['900'],
+    warning: p.gold['500'],
+    warningForeground: p.plum['900'],
+    info: p.plum['300'],
+    infoForeground: p.plum['900'],
+    rage: '#e06b4f',
+    rageForeground: p.plum['900'],
+
+    border: p.paper['50'] + '1f',
+    borderStrong: p.paper['50'] + '38',
+    input: p.paper['50'] + '1f',
+    ring: p.gold['500'],
+
+    memphisShadowColor: p.paper['50'],
+    memphisBorderColor: p.paper['50'],
+
+    badgeFeatured: p.gold['500'],
+    badgeFeaturedForeground: p.plum['900'],
+    badgeCopper: p.gold['500'],
+    badgeCopperForeground: p.paper['50'],
+    badgeNavy: p.plum['700'],
+    badgeNavyForeground: p.gold['200'],
+    badgeDraw: p.plum['700'],
+    badgeDrawForeground: p.paper['50'],
+    badgeRank: p.plum['700'],
+    badgeRankForeground: p.gold['200'],
+  }
+}
+
 // ─── Canonical default values ────────────────────────────────
 
-const LIGHT_SEMANTIC: SemanticTheme = {
-  background: '#fbf7ee', foreground: '#2a0f2d',
-  card: '#ffffff', cardForeground: '#2a0f2d',
-  popover: '#ffffff', popoverForeground: '#2a0f2d',
-  muted: '#f5efde', mutedForeground: '#522357',
-
-  primary: '#c4942a', primaryForeground: '#ffffff',
-  secondary: '#7a3980', secondaryForeground: '#fbf7ee',
-  accent: '#f8e5bc', accentForeground: '#2a0f2d',
-  destructive: '#a13a2c', destructiveForeground: '#fbf7ee',
-
-  success: '#4f8a3c', successForeground: '#fbf7ee',
-  warning: '#8a6326', warningForeground: '#fbf7ee',
-  info: '#7a3980', infoForeground: '#fbf7ee',
-  rage: '#c94a2f', rageForeground: '#fbf7ee',
-
-  border: '#2a0f2d1f', borderStrong: '#2a0f2d38',
-  input: '#2a0f2d1f', ring: '#c4942a',
-
-  memphisShadowColor: '#000000', memphisBorderColor: '#000000',
-
-  badgeFeatured: '#c4942a', badgeFeaturedForeground: '#000000',
-  badgeCopper: '#c4942a', badgeCopperForeground: '#ffffff',
-  badgeNavy: '#2a0f2d', badgeNavyForeground: '#f0d49a',
-  badgeDraw: '#f5efde', badgeDrawForeground: '#2a0f2d',
-  badgeRank: '#f8e5bc', badgeRankForeground: '#2a0f2d',
-} as const
-
-const DARK_SEMANTIC: SemanticTheme = {
-  background: '#2a0f2d', foreground: '#fbf7ee',
-  card: '#3d1a40', cardForeground: '#fbf7ee',
-  popover: '#3d1a40', popoverForeground: '#fbf7ee',
-  muted: '#522357', mutedForeground: '#c590c9',
-
-  primary: '#c4942a', primaryForeground: '#2a0f2d',
-  secondary: '#7a3980', secondaryForeground: '#fbf7ee',
-  accent: '#522357', accentForeground: '#f0d49a',
-  destructive: '#c94a2f', destructiveForeground: '#fbf7ee',
-
-  success: '#6fa85c', successForeground: '#2a0f2d',
-  warning: '#c4942a', warningForeground: '#2a0f2d',
-  info: '#c590c9', infoForeground: '#2a0f2d',
-  rage: '#e06b4f', rageForeground: '#2a0f2d',
-
-  border: '#fbf7ee1f', borderStrong: '#fbf7ee38',
-  input: '#fbf7ee1f', ring: '#c4942a',
-
-  memphisShadowColor: '#fbf7ee', memphisBorderColor: '#fbf7ee',
-
-  badgeFeatured: '#c4942a', badgeFeaturedForeground: '#2a0f2d',
-  badgeCopper: '#c4942a', badgeCopperForeground: '#fbf7ee',
-  badgeNavy: '#522357', badgeNavyForeground: '#f0d49a',
-  badgeDraw: '#522357', badgeDrawForeground: '#fbf7ee',
-  badgeRank: '#522357', badgeRankForeground: '#f0d49a',
-} as const
+const DEFAULT_PALETTE: RawPalette = {
+  plum: {
+    '100': '#e0c6e2', '300': '#c590c9', '500': '#7a3980',
+    '700': '#522357', '800': '#3d1a40', '900': '#2a0f2d',
+  },
+  gold: {
+    '100': '#f8e5bc', '200': '#f0d49a', '300': '#e5bc6d',
+    '400': '#d5a845', '500': '#c4942a',
+  },
+  paper: {
+    '50': '#fbf7ee', '100': '#f5efde', '200': '#ece2c6', '300': '#ddd0ae',
+  },
+}
 
 export const DEFAULT_THEME: Theme = {
-  palette: {
-    plum: {
-      '100': '#e0c6e2', '300': '#c590c9', '500': '#7a3980',
-      '700': '#522357', '800': '#3d1a40', '900': '#2a0f2d',
-    },
-    gold: {
-      '100': '#f8e5bc', '200': '#f0d49a', '300': '#e5bc6d',
-      '400': '#d5a845', '500': '#c4942a',
-    },
-    paper: {
-      '50': '#fbf7ee', '100': '#f5efde', '200': '#ece2c6', '300': '#ddd0ae',
-    },
+  palette: DEFAULT_PALETTE,
+  semantic: {
+    light: computeSemanticLight(DEFAULT_PALETTE),
+    dark: computeSemanticDark(DEFAULT_PALETTE),
   },
-  semantic: { light: LIGHT_SEMANTIC, dark: DARK_SEMANTIC },
   identity: {
     medals: {
       bronze: { outer: '#5a3f20', inner: '#8a6236', text: '#ffffff' },

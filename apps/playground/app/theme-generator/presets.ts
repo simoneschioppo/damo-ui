@@ -6,7 +6,7 @@
  * the new architecture where palette and theme are orthogonal.
  */
 
-import { DEFAULT_THEME, type Theme, type RawPalette } from './theme-state'
+import { DEFAULT_THEME, computeSemanticLight, computeSemanticDark, type Theme, type RawPalette } from './theme-state'
 
 export type PresetName = 'default' | 'neon' | 'sunset'
 
@@ -47,5 +47,13 @@ export const PRESET_PALETTES: Record<PresetName, RawPalette> = {
 }
 
 export function applyPreset(theme: Theme, preset: PresetName): Theme {
-  return { ...theme, palette: PRESET_PALETTES[preset] }
+  const newPalette = PRESET_PALETTES[preset]
+  return {
+    ...theme,
+    palette: newPalette,
+    semantic: {
+      light: computeSemanticLight(newPalette),
+      dark: computeSemanticDark(newPalette),
+    },
+  }
 }

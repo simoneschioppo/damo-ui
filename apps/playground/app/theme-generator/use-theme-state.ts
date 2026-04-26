@@ -294,14 +294,13 @@ export function useThemeState() {
     // Observe future changes
     const observer = new MutationObserver(() => {
       dispatch({ type: 'SET_PRESET', preset: presetFromAttr(root.getAttribute('data-palette')) })
-      // Defensive re-apply with the new selector in case of race conditions
-      applyThemeToRoot(theme)
+      // Note: applyThemeToRoot is called by the useEffect([applyLive]) dependency
+      // after the reducer updates state. No need to call it here with stale theme.
     })
     observer.observe(root, { attributes: true, attributeFilter: ['data-palette'] })
 
     return () => observer.disconnect()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // mount-only; the inner closure reads theme at call time
+  }, []) // mount-only; dispatch is stable, no external deps needed
 
   return { theme, dispatch }
 }
