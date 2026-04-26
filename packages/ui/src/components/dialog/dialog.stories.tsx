@@ -31,7 +31,7 @@ export const Basic = () => (
           <Button variant="ghost">Annulla</Button>
         </DialogClose>
         <DialogClose asChild>
-          <Button variant="accent">Conferma</Button>
+          <Button variant="secondary">Conferma</Button>
         </DialogClose>
       </DialogFooter>
     </DialogContent>
@@ -50,7 +50,7 @@ export const NoCloseButton = () => (
       </DialogHeader>
       <DialogFooter>
         <DialogClose asChild>
-          <Button variant="danger">Annulla</Button>
+          <Button variant="destructive">Annulla</Button>
         </DialogClose>
         <DialogClose asChild>
           <Button>Continua</Button>

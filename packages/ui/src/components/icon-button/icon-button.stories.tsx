@@ -6,13 +6,13 @@ export const Variants = () => (
     <IconButton aria-label="Home">
       <HomeIcon size={20} />
     </IconButton>
-    <IconButton variant="accent" aria-label="Search">
+    <IconButton variant="secondary" aria-label="Search">
       <SearchIcon size={20} />
     </IconButton>
     <IconButton variant="ghost" aria-label="Settings">
       <CogIcon size={20} />
     </IconButton>
-    <IconButton variant="danger" aria-label="Delete">
+    <IconButton variant="destructive" aria-label="Delete">
       <TrashIcon size={20} />
     </IconButton>
   </div>
@@ -23,7 +23,7 @@ export const Toggle = () => (
     <IconButton aria-label="Play">
       <PlayIcon size={20} />
     </IconButton>
-    <IconButton variant="accent" aria-label="Pause">
+    <IconButton variant="secondary" aria-label="Pause">
       <PauseIcon size={20} />
     </IconButton>
   </div>
