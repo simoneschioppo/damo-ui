@@ -25,7 +25,7 @@ describe('Card', () => {
     expect(card.className).toContain('bg-card')
     expect(card.className).toContain('border-2')
     expect(card.className).toContain('border-memphis')
-    expect(card.className).toContain('shadow-m-lg')
+    expect(card.className).toContain('shadow-memphis-lg')
     expect(card.className).toContain('rounded-none')
   })
 

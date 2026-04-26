@@ -52,8 +52,14 @@ const preset: Partial<Config> = {
         thick: 'var(--border-thick)',
       },
       boxShadow: {
-        'm-sm': 'var(--shadow-memphis-sm)',
+        // Canonical v4 names
+        'memphis-sm': 'var(--shadow-memphis-sm)',
         memphis: 'var(--shadow-memphis)',
+        'memphis-lg': 'var(--shadow-memphis-lg)',
+        'memphis-hover': 'var(--shadow-memphis-hover)',
+        'memphis-active': 'var(--shadow-memphis-active)',
+        // Backward-compat aliases (deprecated, v3 consumers)
+        'm-sm': 'var(--shadow-memphis-sm)',
         'm-lg': 'var(--shadow-memphis-lg)',
         'm-hover': 'var(--shadow-memphis-hover)',
         'm-active': 'var(--shadow-memphis-active)',

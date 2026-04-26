@@ -37,7 +37,7 @@ export const DrawerOverlay = forwardRef<
 const drawerContentVariants = cva(
   [
     'fixed z-modal bg-card text-foreground',
-    'border-memphis shadow-m-lg rounded-none',
+    'border-memphis shadow-memphis-lg rounded-none',
     'p-6 flex flex-col gap-4',
     'focus:outline-none',
   ],
