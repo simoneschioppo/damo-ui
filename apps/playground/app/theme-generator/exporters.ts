@@ -49,6 +49,12 @@ const MEDAL_RANKS: ReadonlyArray<MedalRank> = ['bronze', 'silver', 'gold', 'mast
 
 const CHART_KEYS = ['1', '2', '3', '4', '5'] as const
 
+// ─── Tailwind semantic excludes ──────────────────────────────
+// memphisShadowColor and memphisBorderColor are emitted separately in the
+// identity block as --color-memphis and --color-memphis-shadow. Including
+// them in the semantic loop would produce duplicate (differently named) utilities.
+const TAILWIND_SEMANTIC_EXCLUDES = new Set(['memphisShadowColor', 'memphisBorderColor'])
+
 // ─── Helpers ─────────────────────────────────────────────────
 
 const shadowMemphisToCss = (s: { x: number; y: number; color: string }): string =>
@@ -199,9 +205,7 @@ export function buildCssExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRU
   }
 
   if (rootLines.length > 0) {
-    segments.push(':root {')
-    segments.push(...rootLines)
-    segments.push('}')
+    segments.push([':root {', ...rootLines, '}'].join('\n'))
   }
 
   // ─── :root[data-theme='light'] block ───
@@ -246,9 +250,10 @@ export function buildJsonExport(theme: Theme): string {
 export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRUE): string {
   const inner: string[] = []
 
-  // Semantic colors
+  // Semantic colors (excluding memphis bridges emitted separately in identity block)
   if (flags.semanticLight) {
-    const semanticKeys = Object.keys(theme.semantic.light) as ReadonlyArray<keyof SemanticTheme>
+    const semanticKeys = (Object.keys(theme.semantic.light) as Array<keyof SemanticTheme>)
+      .filter((k) => !TAILWIND_SEMANTIC_EXCLUDES.has(k as string))
     semanticKeys.forEach((k) => {
       const cssName = toKebab(k as string)
       inner.push(`  --color-${cssName}: var(--${cssName});`)
