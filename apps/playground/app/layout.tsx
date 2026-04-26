@@ -19,7 +19,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="it"
       data-theme="light"
-      data-palette="plum-gold"
       data-density="normal"
       suppressHydrationWarning
     >
@@ -44,9 +43,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <>
               <ThemeSwitcher />
               <PaletteSwitcher
-                defaultValue="plum-gold"
+                defaultValue="default"
                 options={[
-                  { value: 'plum-gold', label: 'Plum+Gold' },
+                  { value: 'default', label: 'Plum+Gold' },
                   { value: 'neon', label: 'Neon' },
                   { value: 'sunset', label: 'Sunset' },
                 ]}
