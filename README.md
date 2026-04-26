@@ -2,7 +2,7 @@
 
 Memphis-inspired React and Next.js component library — token, componenti e pattern pronti all'uso.
 
-**Current version:** 0.2.0 — theme architecture refactor
+**Current version:** 0.3.0 — theme architecture refactor
 
 ## Monorepo structure
 
@@ -50,9 +50,7 @@ pnpm add @damo/ui
 ```tsx
 // app/layout.tsx
 import '@damo/ui/styles/tokens.css'
-import '@damo/ui/styles/themes.css'
 import '@damo/ui/styles/globals.css'
-import '@damo/ui/styles/patterns.css'
 ```
 
 4. Wire Tailwind v4:
@@ -60,9 +58,7 @@ import '@damo/ui/styles/patterns.css'
 ```css
 /* app/globals.css */
 @import '@damo/ui/styles/tokens.css';
-@import '@damo/ui/styles/themes.css';
 @import '@damo/ui/styles/globals.css';
-@import '@damo/ui/styles/patterns.css';
 
 @import 'tailwindcss';
 @import '@damo/ui/styles/theme.css';
