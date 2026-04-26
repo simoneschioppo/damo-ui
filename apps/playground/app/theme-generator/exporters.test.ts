@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { DEFAULT_THEME } from './theme-state'
-import { buildCssExport, buildJsonExport, buildTailwindExport, buildFigmaExport } from './exporters'
+import { buildCssExport, buildJsonExport, buildTailwindExport } from './exporters'
 
 describe('exporters', () => {
   describe('buildCssExport', () => {
@@ -57,13 +57,102 @@ describe('exporters', () => {
     })
   })
 
-  describe('buildFigmaExport', () => {
-    it('produces Tokens Studio format with separate light and dark sets', () => {
-      const fig = JSON.parse(buildFigmaExport(DEFAULT_THEME))
-      expect(fig.light).toBeDefined()
-      expect(fig.dark).toBeDefined()
-      expect(fig.light.colors.background.value).toBe('#fbf7ee')
-      expect(fig.dark.colors.background.value).toBe('#2a0f2d')
+  describe('buildCssExport with flags', () => {
+    it('omits raw palette when flag is false', () => {
+      const css = buildCssExport(DEFAULT_THEME, {
+        rawPalette: false,
+        semanticLight: true,
+        semanticDark: true,
+        identity: true,
+        foundations: true,
+      })
+      expect(css).not.toMatch(/--plum-\d+:/)
+      expect(css).not.toMatch(/--gold-\d+:/)
+    })
+
+    it('omits dark semantic block when flag is false', () => {
+      const css = buildCssExport(DEFAULT_THEME, {
+        rawPalette: true,
+        semanticLight: true,
+        semanticDark: false,
+        identity: true,
+        foundations: true,
+      })
+      expect(css).not.toContain(":root[data-theme='dark']")
+    })
+
+    it('emits foundations when flag is true', () => {
+      const css = buildCssExport(DEFAULT_THEME, {
+        rawPalette: false,
+        semanticLight: false,
+        semanticDark: false,
+        identity: false,
+        foundations: true,
+      })
+      expect(css).toContain('--text-base:')
+      expect(css).toContain('--space-4:')
+      expect(css).toContain('--z-modal:')
+      expect(css).toContain('--radius-lg:')
+    })
+
+    it('emits nothing when all flags are false', () => {
+      const css = buildCssExport(DEFAULT_THEME, {
+        rawPalette: false,
+        semanticLight: false,
+        semanticDark: false,
+        identity: false,
+        foundations: false,
+      })
+      expect(css).toBe('')
+    })
+  })
+
+  describe('buildTailwindExport with flags', () => {
+    it('emits text size bridges under foundations', () => {
+      const tw = buildTailwindExport(DEFAULT_THEME, {
+        rawPalette: false,
+        semanticLight: false,
+        semanticDark: false,
+        identity: false,
+        foundations: true,
+      })
+      expect(tw).toContain('--text-xs:')
+      expect(tw).toContain('--text-3xl:')
+    })
+
+    it('emits z-index bridges under foundations', () => {
+      const tw = buildTailwindExport(DEFAULT_THEME, {
+        rawPalette: false,
+        semanticLight: false,
+        semanticDark: false,
+        identity: false,
+        foundations: true,
+      })
+      expect(tw).toMatch(/--z-index-(modal|dropdown|tooltip):/)
+    })
+
+    it('omits color bridges when semanticLight flag is false', () => {
+      const tw = buildTailwindExport(DEFAULT_THEME, {
+        rawPalette: false,
+        semanticLight: false,
+        semanticDark: false,
+        identity: false,
+        foundations: false,
+      })
+      expect(tw).not.toContain('--color-background:')
+      expect(tw).not.toContain('--color-primary:')
+    })
+
+    it('omits chart and memphis bridges when identity flag is false', () => {
+      const tw = buildTailwindExport(DEFAULT_THEME, {
+        rawPalette: false,
+        semanticLight: false,
+        semanticDark: false,
+        identity: false,
+        foundations: true,
+      })
+      expect(tw).not.toContain('--color-chart-1:')
+      expect(tw).not.toContain('--color-memphis:')
     })
   })
 })

@@ -1,6 +1,6 @@
 /**
  * Theme exporters — pure functions that serialise a `Theme` into one of
- * the four download formats surfaced in the UI.
+ * the three download formats surfaced in the UI.
  *
  * All functions are side-effect free (no DOM access, no I/O).
  */
@@ -18,6 +18,26 @@ import {
   SPACING_BASE_PX,
 } from './theme-state'
 
+// ─── Include flags ───────────────────────────────────────────
+
+export interface IncludeFlags {
+  rawPalette: boolean
+  semanticLight: boolean
+  semanticDark: boolean
+  identity: boolean
+  foundations: boolean
+}
+
+const ALL_FLAGS_TRUE: IncludeFlags = {
+  rawPalette: true,
+  semanticLight: true,
+  semanticDark: true,
+  identity: true,
+  foundations: true,
+}
+
+// ─── Key arrays ──────────────────────────────────────────────
+
 const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = [
   'xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl',
 ]
@@ -28,6 +48,8 @@ const EASING_KEYS: ReadonlyArray<MotionEasingKey> = ['memphis', 'out', 'in-out']
 const MEDAL_RANKS: ReadonlyArray<MedalRank> = ['bronze', 'silver', 'gold', 'master', 'grandmaster']
 
 const CHART_KEYS = ['1', '2', '3', '4', '5'] as const
+
+// ─── Helpers ─────────────────────────────────────────────────
 
 const shadowMemphisToCss = (s: { x: number; y: number; color: string }): string =>
   `${s.x}px ${s.y}px 0 ${s.color}`
@@ -43,13 +65,13 @@ const sizeKey = (k: TypographySizeKey): string => (k === 'base' ? '--text-base' 
 const radiusKey = (k: RadiusKey): string => `--radius-${k}`
 const shadowMemphisKey = (k: ShadowMemphisKey): string =>
   k === 'md' ? '--shadow-memphis' : `--shadow-memphis-${k}`
-// shadowSoftKey reserved for future soft-shadow iteration helpers
-// const _shadowSoftKey = (k: 'sm' | 'md' | 'lg'): string => `--shadow-${k}`
 const durationKey = (k: MotionDurationKey): string => `--duration-${k}`
 const easingKey = (k: MotionEasingKey): string => `--ease-${k}`
 
 // Convert a camelCase semantic key to CSS kebab: cardForeground → card-foreground
 const toKebab = (s: string): string => s.replace(/([A-Z])/g, '-$1').toLowerCase()
+
+// ─── Emit helpers ─────────────────────────────────────────────
 
 function emitRawPalette(palette: RawPalette, lines: string[]): void {
   for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
@@ -71,19 +93,7 @@ function emitSemantic(semantic: SemanticTheme, lines: string[]): void {
   }
 }
 
-/**
- * Emit a `:root` block with raw palette + identity + scales, plus
- * `:root[data-theme='light']` and `:root[data-theme='dark']` blocks for
- * the semantic layer.
- */
-export function buildCssExport(theme: Theme): string {
-  const lines: string[] = []
-
-  // ─── :root (raw palette + identity + scales) ───
-  lines.push(':root {')
-  emitRawPalette(theme.palette, lines)
-  lines.push('')
-  lines.push('  /* Identity — theme-agnostic */')
+function emitIdentity(theme: Theme, lines: string[]): void {
   MEDAL_RANKS.forEach((rank) => {
     lines.push(`  --medal-${rank}-outer: ${theme.identity.medals[rank].outer};`)
     lines.push(`  --medal-${rank}-inner: ${theme.identity.medals[rank].inner};`)
@@ -100,8 +110,9 @@ export function buildCssExport(theme: Theme): string {
   lines.push(`  --app-pattern-color-2: ${theme.identity.appPattern.color2};`)
   lines.push(`  --app-pattern-color-3: ${theme.identity.appPattern.color3};`)
   lines.push(`  --app-pattern-size: ${theme.identity.appPattern.size}px;`)
-  lines.push('')
+}
 
+function emitFoundations(theme: Theme, lines: string[]): void {
   // Typography
   lines.push(`  --font-display: ${theme.typography.fontDisplay};`)
   lines.push(`  --font-body: ${theme.typography.fontBody};`)
@@ -137,23 +148,85 @@ export function buildCssExport(theme: Theme): string {
   EASING_KEYS.forEach((k) => {
     lines.push(`  ${easingKey(k)}: ${theme.motion.easings[k]};`)
   })
-  lines.push('}')
-  lines.push('')
 
-  // ─── :root[data-theme='light'] — semantic layer ───
-  lines.push(":root,")
-  lines.push(":root[data-theme='light'] {")
-  emitSemantic(theme.semantic.light, lines)
-  lines.push('}')
-  lines.push('')
+  // Border widths
+  lines.push(`  /* Border widths */`)
+  lines.push(`  --border-thin: 1px;`)
+  lines.push(`  --border-base: 2px;`)
+  lines.push(`  --border-thick: 3px;`)
 
-  // ─── :root[data-theme='dark'] — semantic layer ───
-  lines.push(":root[data-theme='dark'] {")
-  emitSemantic(theme.semantic.dark, lines)
-  lines.push('}')
+  // Z-index
+  lines.push(`  /* Z-index */`)
+  lines.push(`  --z-base: 0;`)
+  lines.push(`  --z-sticky: 100;`)
+  lines.push(`  --z-header: 200;`)
+  lines.push(`  --z-dropdown: 300;`)
+  lines.push(`  --z-overlay: 400;`)
+  lines.push(`  --z-modal: 500;`)
+  lines.push(`  --z-toast: 600;`)
+  lines.push(`  --z-tooltip: 700;`)
 
-  return lines.join('\n')
+  // Chrome geometry
+  lines.push(`  --header-height: 56px;`)
 }
+
+// ─── CSS export ──────────────────────────────────────────────
+
+/**
+ * Emit a `:root` block with raw palette + identity + scales, plus
+ * `:root[data-theme='light']` and `:root[data-theme='dark']` blocks for
+ * the semantic layer.
+ *
+ * Accepts optional `flags` to filter output sections. Defaults to all-on.
+ */
+export function buildCssExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRUE): string {
+  const segments: string[] = []
+
+  // ─── :root block (raw palette + identity + foundations) ───
+  const rootLines: string[] = []
+  if (flags.rawPalette) {
+    emitRawPalette(theme.palette, rootLines)
+  }
+  if (flags.identity) {
+    if (rootLines.length > 0) rootLines.push('')
+    rootLines.push('  /* Identity — theme-agnostic */')
+    emitIdentity(theme, rootLines)
+  }
+  if (flags.foundations) {
+    if (rootLines.length > 0) rootLines.push('')
+    rootLines.push('  /* Foundations */')
+    emitFoundations(theme, rootLines)
+  }
+
+  if (rootLines.length > 0) {
+    segments.push(':root {')
+    segments.push(...rootLines)
+    segments.push('}')
+  }
+
+  // ─── :root[data-theme='light'] block ───
+  if (flags.semanticLight) {
+    const block: string[] = []
+    block.push(":root,")
+    block.push(":root[data-theme='light'] {")
+    emitSemantic(theme.semantic.light, block)
+    block.push('}')
+    segments.push(block.join('\n'))
+  }
+
+  // ─── :root[data-theme='dark'] block ───
+  if (flags.semanticDark) {
+    const block: string[] = []
+    block.push(":root[data-theme='dark'] {")
+    emitSemantic(theme.semantic.dark, block)
+    block.push('}')
+    segments.push(block.join('\n'))
+  }
+
+  return segments.join('\n\n')
+}
+
+// ─── JSON export ─────────────────────────────────────────────
 
 /**
  * JSON export — flat nested structure matching the Theme type.
@@ -162,74 +235,95 @@ export function buildJsonExport(theme: Theme): string {
   return JSON.stringify(theme, null, 2)
 }
 
+// ─── Tailwind export ─────────────────────────────────────────
+
 /**
  * Tailwind export — emits the `@theme inline` block with --color-*
  * bridges for semantic tokens only (matches theme.css in the lib).
+ *
+ * Accepts optional `flags` to filter output sections. Defaults to all-on.
  */
-export function buildTailwindExport(theme: Theme): string {
+export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRUE): string {
+  const inner: string[] = []
+
+  // Semantic colors
+  if (flags.semanticLight) {
+    const semanticKeys = Object.keys(theme.semantic.light) as ReadonlyArray<keyof SemanticTheme>
+    semanticKeys.forEach((k) => {
+      const cssName = toKebab(k as string)
+      inner.push(`  --color-${cssName}: var(--${cssName});`)
+    })
+  }
+
+  // Identity: charts + memphis aliases
+  if (flags.identity) {
+    CHART_KEYS.forEach((k) => {
+      inner.push(`  --color-chart-${k}: var(--chart-${k});`)
+    })
+    inner.push(`  --color-memphis: var(--memphis-border-color);`)
+    inner.push(`  --color-memphis-shadow: var(--memphis-shadow-color);`)
+  }
+
+  // Foundations: typography, radius, shadow, spacing, motion, z-index, borders
+  if (flags.foundations) {
+    // Typography: fonts
+    inner.push(`  --font-display: var(--font-display);`)
+    inner.push(`  --font-body: var(--font-body);`)
+    inner.push(`  --font-mono: var(--font-mono);`)
+
+    // Typography: text sizes
+    SIZE_KEYS.forEach((k) => {
+      inner.push(`  ${sizeKey(k)}: var(${sizeKey(k)});`)
+    })
+
+    // Radius
+    RADIUS_KEYS.forEach((k) => {
+      inner.push(`  ${radiusKey(k)}: var(${radiusKey(k)});`)
+    })
+
+    // Shadow — memphis
+    SHADOW_MEMPHIS_KEYS.forEach((k) => {
+      inner.push(`  ${shadowMemphisKey(k)}: var(${shadowMemphisKey(k)});`)
+    })
+
+    // Shadow — soft
+    inner.push(`  --shadow-sm: var(--shadow-sm);`)
+    inner.push(`  --shadow-md: var(--shadow-md);`)
+    inner.push(`  --shadow-lg: var(--shadow-lg);`)
+
+    // Spacing — Tailwind v4 foundational unit + explicit spacing tokens
+    inner.push(`  --spacing: calc(0.25rem * var(--density-scale-y));`)
+    SPACING_BASE_PX.forEach(([k]) => {
+      inner.push(`  --${k}: var(--${k});`)
+    })
+
+    // Motion
+    DURATION_KEYS.forEach((k) => {
+      inner.push(`  --animate-duration-${k}: var(${durationKey(k)});`)
+    })
+    inner.push(`  --ease-memphis: var(--ease-memphis);`)
+    inner.push(`  --ease-out-memphis: var(--ease-out);`)
+    inner.push(`  --ease-in-out: var(--ease-in-out);`)
+
+    // Z-index
+    const Z_KEYS = ['base', 'sticky', 'header', 'dropdown', 'overlay', 'modal', 'toast', 'tooltip'] as const
+    Z_KEYS.forEach((k) => {
+      inner.push(`  --z-index-${k}: var(--z-${k});`)
+    })
+
+    // Border widths
+    inner.push(`  --border-width-thin: var(--border-thin);`)
+    inner.push(`  --border-width-base: var(--border-base);`)
+    inner.push(`  --border-width-thick: var(--border-thick);`)
+  }
+
   const lines: string[] = [
     "@import 'tailwindcss';",
     '',
     '@theme inline {',
+    ...inner,
+    '}',
   ]
 
-  const semanticKeys = Object.keys(theme.semantic.light) as ReadonlyArray<keyof SemanticTheme>
-  semanticKeys.forEach((k) => {
-    const cssName = toKebab(k as string)
-    lines.push(`  --color-${cssName}: var(--${cssName});`)
-  })
-
-  // Charts (also exposed as utilities)
-  CHART_KEYS.forEach((k) => {
-    lines.push(`  --color-chart-${k}: var(--chart-${k});`)
-  })
-
-  // Memphis aliases for the Tailwind class shortcuts
-  lines.push(`  --color-memphis: var(--memphis-border-color);`)
-  lines.push(`  --color-memphis-shadow: var(--memphis-shadow-color);`)
-
-  // Typography, radius, shadow, spacing, motion, z-index — same as theme.css
-  lines.push(`  --font-display: var(--font-display);`)
-  lines.push(`  --font-body: var(--font-body);`)
-  lines.push(`  --font-mono: var(--font-mono);`)
-
-  RADIUS_KEYS.forEach((k) => {
-    lines.push(`  ${radiusKey(k)}: var(${radiusKey(k)});`)
-  })
-  SHADOW_MEMPHIS_KEYS.forEach((k) => {
-    lines.push(`  ${shadowMemphisKey(k)}: var(${shadowMemphisKey(k)});`)
-  })
-  lines.push(`  --shadow-sm: var(--shadow-sm);`)
-  lines.push(`  --shadow-md: var(--shadow-md);`)
-  lines.push(`  --shadow-lg: var(--shadow-lg);`)
-  DURATION_KEYS.forEach((k) => {
-    lines.push(`  --animate-duration-${k}: var(--duration-${k});`)
-  })
-  lines.push(`  --ease-memphis: var(--ease-memphis);`)
-  lines.push(`  --ease-out-memphis: var(--ease-out);`)
-
-  lines.push('}')
   return lines.join('\n')
-}
-
-/**
- * Figma Tokens Studio export — light and dark token sets.
- */
-export function buildFigmaExport(theme: Theme): string {
-  const toTokens = (semantic: SemanticTheme) => {
-    const colors: Record<string, { value: string; type: 'color' }> = {}
-    for (const k of Object.keys(semantic) as ReadonlyArray<keyof SemanticTheme>) {
-      colors[toKebab(k as string)] = { value: semantic[k], type: 'color' }
-    }
-    return { colors }
-  }
-
-  return JSON.stringify(
-    {
-      light: toTokens(theme.semantic.light),
-      dark: toTokens(theme.semantic.dark),
-    },
-    null,
-    2,
-  )
 }

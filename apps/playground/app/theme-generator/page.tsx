@@ -20,6 +20,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   Button,
+  Checkbox,
   ColorPicker,
   Input,
   Label,
@@ -62,9 +63,9 @@ import {
 import { contrastLevel, contrastRatio } from './contrast'
 import {
   buildCssExport,
-  buildFigmaExport,
   buildJsonExport,
   buildTailwindExport,
+  type IncludeFlags,
 } from './exporters'
 
 // ═══════════════════════════════════════════════════════════
@@ -74,9 +75,11 @@ import {
 type ThemeDispatch = ReturnType<typeof useThemeState>['dispatch']
 
 type SceneTab = 'gallery' | 'auth' | 'dashboard' | 'profile' | 'feed'
-type ExportTab = 'css' | 'tailwind' | 'json' | 'figma'
+type ExportTab = 'css' | 'tailwind' | 'json'
 type EditorTab = 'palette' | 'theme' | 'identity'
 type EditMode = 'light' | 'dark'
+
+type IncludeKey = keyof IncludeFlags
 
 // ═══════════════════════════════════════════════════════════
 // Constants
@@ -95,6 +98,29 @@ const EASING_CHOICES: ReadonlyArray<{ value: string; label: string }> = [
   { value: 'ease-in', label: 'ease-in' },
   { value: 'ease-out', label: 'ease-out' },
 ]
+
+const INCLUDE_OPTIONS: Record<'css' | 'tailwind', ReadonlyArray<{ key: IncludeKey; label: string }>> = {
+  css: [
+    { key: 'rawPalette', label: 'Raw palette (plum / gold / paper)' },
+    { key: 'semanticLight', label: 'Semantic — light' },
+    { key: 'semanticDark', label: 'Semantic — dark' },
+    { key: 'identity', label: 'Identity (medals / charts / nav-on-dark / pattern)' },
+    { key: 'foundations', label: 'Foundations (typography / radius / shadow / spacing / motion)' },
+  ],
+  tailwind: [
+    { key: 'semanticLight', label: 'Semantic colors' },
+    { key: 'identity', label: 'Identity (charts / memphis aliases)' },
+    { key: 'foundations', label: 'Foundations (typography / radius / shadow / spacing / motion / z-index)' },
+  ],
+}
+
+const DEFAULT_INCLUDE: IncludeFlags = {
+  rawPalette: true,
+  semanticLight: true,
+  semanticDark: true,
+  identity: true,
+  foundations: true,
+}
 
 // ═══════════════════════════════════════════════════════════
 // Layout styles (inline, layout primitives only — no color)
@@ -623,28 +649,49 @@ export default function ThemeGeneratorPage() {
   const [sceneTab, setSceneTab] = useState<SceneTab>('gallery')
   const [exportTab, setExportTab] = useState<ExportTab>('css')
   const [previewPaneTab, setPreviewPaneTab] = useState<'preview' | 'export'>('preview')
-  const [copyState, setCopyState] = useState<ExportTab | null>(null)
+  const [copyState, setCopyState] = useState<'copied' | null>(null)
+  const [includeFlags, setIncludeFlags] = useState<IncludeFlags>(DEFAULT_INCLUDE)
+
+  const setIncludeFlag = (key: IncludeKey, value: boolean): void =>
+    setIncludeFlags((prev) => ({ ...prev, [key]: value }))
 
   const semantic = theme.semantic[editMode]
 
-  const exports = useMemo(
-    () => ({
-      css: buildCssExport(theme),
-      tailwind: buildTailwindExport(theme),
-      json: buildJsonExport(theme),
-      figma: buildFigmaExport(theme),
-    }),
-    [theme],
-  )
+  const filteredOutput = useMemo(() => {
+    if (exportTab === 'json') return buildJsonExport(theme)
+    if (exportTab === 'css') return buildCssExport(theme, includeFlags)
+    if (exportTab === 'tailwind') return buildTailwindExport(theme, includeFlags)
+    return ''
+  }, [exportTab, theme, includeFlags])
 
-  async function handleCopy(tab: ExportTab) {
+  const downloadFilename =
+    exportTab === 'css'
+      ? 'theme.css'
+      : exportTab === 'tailwind'
+        ? 'theme.tailwind.css'
+        : 'theme.json'
+
+  async function handleCopy(content: string) {
     try {
-      await navigator.clipboard.writeText(exports[tab])
-      setCopyState(tab)
+      await navigator.clipboard.writeText(content)
+      setCopyState('copied')
       window.setTimeout(() => setCopyState(null), 1600)
     } catch {
       setCopyState(null)
     }
+  }
+
+  function handleDownload(content: string, filename: string) {
+    const mime = filename.endsWith('.json') ? 'application/json' : 'text/css'
+    const blob = new Blob([content], { type: mime })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
   return (
@@ -761,27 +808,71 @@ export default function ThemeGeneratorPage() {
 
           {/* Export tab */}
           <TabsContent value="export">
-            <div style={{ marginTop: 16 }}>
-              <Tabs value={exportTab} onValueChange={(v) => setExportTab(v as ExportTab)}>
-                <TabsList>
-                  <TabsTrigger value="css">CSS</TabsTrigger>
-                  <TabsTrigger value="tailwind">Tailwind</TabsTrigger>
-                  <TabsTrigger value="json">JSON</TabsTrigger>
-                  <TabsTrigger value="figma">Figma</TabsTrigger>
-                </TabsList>
-                {(['css', 'tailwind', 'json', 'figma'] as const).map((t) => (
-                  <TabsContent key={t} value={t}>
-                    <div style={{ ...stackStyle, gap: 16, marginTop: 12 }}>
-                      <pre style={preBoxStyle}>{exports[t]}</pre>
-                      <div style={rowStyle}>
-                        <Button onClick={() => handleCopy(t)}>
-                          {copyState === t ? 'Copied ✓' : 'Copy'}
-                        </Button>
-                      </div>
-                    </div>
-                  </TabsContent>
-                ))}
-              </Tabs>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 16 }}>
+
+              {/* Section A: Format selector */}
+              <section>
+                <Label>Format</Label>
+                <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                  <Button
+                    variant={exportTab === 'css' ? 'primary' : 'outline'}
+                    size="sm"
+                    onClick={() => setExportTab('css')}
+                  >
+                    CSS
+                  </Button>
+                  <Button
+                    variant={exportTab === 'tailwind' ? 'primary' : 'outline'}
+                    size="sm"
+                    onClick={() => setExportTab('tailwind')}
+                  >
+                    Tailwind
+                  </Button>
+                  <Button
+                    variant={exportTab === 'json' ? 'primary' : 'outline'}
+                    size="sm"
+                    onClick={() => setExportTab('json')}
+                  >
+                    JSON
+                  </Button>
+                </div>
+              </section>
+
+              {/* Section B: Include toggles — only for CSS and Tailwind */}
+              {(exportTab === 'css' || exportTab === 'tailwind') && (
+                <section>
+                  <Label>Include</Label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+                    {INCLUDE_OPTIONS[exportTab].map((opt) => (
+                      <label
+                        key={opt.key}
+                        style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+                      >
+                        <Checkbox
+                          checked={includeFlags[opt.key]}
+                          onCheckedChange={(v) => setIncludeFlag(opt.key, !!v)}
+                        />
+                        <span style={{ fontSize: 13 }}>{opt.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Section C: Output preview */}
+              <section>
+                <Label>Output</Label>
+                <pre style={{ ...preBoxStyle, marginTop: 8 }}>{filteredOutput}</pre>
+                <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                  <Button variant="primary" onClick={() => handleCopy(filteredOutput)}>
+                    {copyState === 'copied' ? 'Copied!' : 'Copy'}
+                  </Button>
+                  <Button variant="outline" onClick={() => handleDownload(filteredOutput, downloadFilename)}>
+                    Download
+                  </Button>
+                </div>
+              </section>
+
             </div>
           </TabsContent>
         </Tabs>
