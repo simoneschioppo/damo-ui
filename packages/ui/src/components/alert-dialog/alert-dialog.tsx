@@ -51,10 +51,10 @@ export const AlertDialogContent = forwardRef<
         className={cn(
           'fixed left-1/2 top-1/2 z-modal -translate-x-1/2 -translate-y-1/2',
           'w-full max-w-md bg-card text-foreground',
-          'border-2 border-memphis shadow-m-lg rounded-none',
+          'border-2 border-memphis shadow-memphis-lg rounded-none',
           'p-6 flex flex-col gap-4',
           'focus:outline-none',
-          tone === 'danger' && '[--shadow-memphis-color:var(--destructive)]',
+          tone === 'danger' && '[--memphis-shadow-color:var(--destructive)]',
           'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
           'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
           className,

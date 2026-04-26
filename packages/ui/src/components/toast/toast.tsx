@@ -39,11 +39,11 @@ const toastVariants = cva(
       variant: {
         default: 'bg-card text-foreground',
         success:
-          'bg-[color-mix(in_oklab,var(--success)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--success)]',
+          'bg-[color-mix(in_oklab,var(--success)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--success)]',
         warning:
-          'bg-[color-mix(in_oklab,var(--warning)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--warning)]',
+          'bg-[color-mix(in_oklab,var(--warning)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--warning)]',
         danger:
-          'bg-[color-mix(in_oklab,var(--destructive)_12%,var(--card))] text-foreground [--shadow-memphis-color:var(--destructive)]',
+          'bg-[color-mix(in_oklab,var(--destructive)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--destructive)]',
       },
     },
     defaultVariants: { variant: 'default' },
