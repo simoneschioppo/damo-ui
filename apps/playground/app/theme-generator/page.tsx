@@ -225,6 +225,11 @@ interface PaletteEditorProps {
 
 function PaletteEditor({ theme, dispatch }: PaletteEditorProps) {
   return (
+    <>
+      <p style={{ fontSize: 11, color: 'var(--muted-foreground)', marginBottom: 12, lineHeight: 1.5 }}>
+        Editing raw scales does not automatically update the Theme tab values.
+        Use Reset to re-derive semantic tokens from the current palette.
+      </p>
     <Accordion type="multiple" defaultValue={['ink', 'brand', 'paper']}>
       {(['ink', 'brand', 'paper'] as const).map((group) => (
         <AccordionItem key={group} value={group}>
@@ -252,6 +257,7 @@ function PaletteEditor({ theme, dispatch }: PaletteEditorProps) {
         </AccordionItem>
       ))}
     </Accordion>
+    </>
   )
 }
 
@@ -650,7 +656,7 @@ export default function ThemeGeneratorPage() {
   const [sceneTab, setSceneTab] = useState<SceneTab>('gallery')
   const [exportTab, setExportTab] = useState<ExportTab>('css')
   const [previewPaneTab, setPreviewPaneTab] = useState<'preview' | 'export'>('preview')
-  const [copyState, setCopyState] = useState<'copied' | null>(null)
+  const [copyState, setCopyState] = useState<'copied' | 'error' | null>(null)
   const [includeFlags, setIncludeFlags] = useState<IncludeFlags>(DEFAULT_INCLUDE)
 
   const setIncludeFlag = (key: IncludeKey, value: boolean): void =>
@@ -678,7 +684,8 @@ export default function ThemeGeneratorPage() {
       setCopyState('copied')
       window.setTimeout(() => setCopyState(null), 1600)
     } catch {
-      setCopyState(null)
+      setCopyState('error')
+      window.setTimeout(() => setCopyState(null), 2400)
     }
   }
 
@@ -869,7 +876,7 @@ export default function ThemeGeneratorPage() {
                 <pre style={{ ...preBoxStyle, marginTop: 8 }}>{filteredOutput}</pre>
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                   <Button variant="primary" onClick={() => handleCopy(filteredOutput)}>
-                    {copyState === 'copied' ? 'Copied!' : 'Copy'}
+                    {copyState === 'copied' ? 'Copied!' : copyState === 'error' ? 'Copy failed' : 'Copy'}
                   </Button>
                   <Button variant="outline" onClick={() => handleDownload(filteredOutput, downloadFilename)}>
                     Download
