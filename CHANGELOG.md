@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.3.0 — 2026-04-26
+
+### Breaking
+
+- **Lib no longer ships opinionated themes.** The plum/gold raw palette, the plum-gold light/dark semantic mapping, the neon and sunset palette variants, and the Memphis pattern have been removed from the published lib. The lib now ships only neutral grayscale LIGHT defaults for every semantic token (zinc-style: white background, near-black foreground, gray muted, blue ring).
+- **No dark mode in the lib.** Consumers are responsible for declaring `[data-theme='dark']` (or any selector they prefer) with their own override values. The lib no longer ships a built-in dark mode.
+- `themes.css` and `patterns.css` deleted from the lib. `tokens.css` rewritten with neutral defaults only.
+- Internal `__tests__/contrast.test.ts` removed. Per-theme contrast assertion now belongs in the consumer (the playground continues to test its own theme).
+
+### Migration
+
+- If you were relying on `<html data-theme="dark">` rendering correctly, you must now ship your own dark theme CSS in your app:
+
+```css
+:root[data-theme='dark'] {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #18181b;
+  --card-foreground: #fafafa;
+  /* ... declare every semantic token's dark value ... */
+}
+```
+
+- If you were using `data-palette="neon"` or `data-palette="sunset"`, use the `/theme-generator` page in the playground to generate your own palette CSS, drop it into your app.
+
+### Internal
+
+- Total lib CSS surface area reduced significantly: ~400 lines of token/theme CSS down to ~100 lines (tokens.css only).
+- Lib bundle size unchanged (CSS variables don't ship, only the bridge does).
+
 ## 0.2.0 — 2026-04-24
 
 ### Breaking
