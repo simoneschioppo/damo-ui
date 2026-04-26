@@ -133,4 +133,23 @@ describe('ColorPicker', () => {
     fireEvent.change(colorInput, { target: { value: '#0000ff' } })
     expect(handleChange).toHaveBeenCalledWith('#0000ff')
   })
+
+  it('hides the visual label when showLabel is false', () => {
+    render(
+      <ColorPicker label="Accent" value="#ff0000" onChange={() => {}} showLabel={false} />,
+    )
+    expect(screen.queryByText('Accent')).toBeNull()
+  })
+
+  it('keeps the swatch and hex input accessible when showLabel is false', () => {
+    const { container } = render(
+      <ColorPicker label="Accent" value="#ff0000" onChange={() => {}} showLabel={false} />,
+    )
+    const colorInput = container.querySelector('input[type="color"]') as HTMLInputElement
+    const hexInput = container.querySelector(
+      'input:not([type="color"])',
+    ) as HTMLInputElement
+    expect(colorInput.getAttribute('aria-label')).toBe('Color picker for Accent')
+    expect(hexInput.getAttribute('aria-label')).toBe('Hex value for Accent')
+  })
 })
