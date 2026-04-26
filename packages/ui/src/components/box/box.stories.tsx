@@ -4,8 +4,8 @@ const Chip = ({ label }: { label: string }) => (
   <div
     style={{
       padding: '6px 12px',
-      border: '2px solid var(--border-memphis)',
-      background: 'var(--gold-100)',
+      border: '2px solid var(--memphis-border-color)',
+      background: 'var(--brand-100)',
       fontSize: 12,
       fontWeight: 600,
     }}
@@ -50,11 +50,11 @@ export const AlignCenter = () => (
     direction="row"
     gap={3}
     align="center"
-    style={{ height: 120, background: 'var(--surface-2)', padding: 12 }}
+    style={{ height: 120, background: 'var(--muted)', padding: 12 }}
   >
-    <div style={{ height: 40, width: 40, background: 'var(--plum-500)' }} />
-    <div style={{ height: 80, width: 40, background: 'var(--gold-500)' }} />
-    <div style={{ height: 24, width: 40, background: 'var(--plum-300)' }} />
+    <div style={{ height: 40, width: 40, background: 'var(--ink-500)' }} />
+    <div style={{ height: 80, width: 40, background: 'var(--brand-500)' }} />
+    <div style={{ height: 24, width: 40, background: 'var(--ink-300)' }} />
   </Box>
 )
 
@@ -80,7 +80,7 @@ export const AsHeader = () => (
     align="center"
     justify="between"
     gap={3}
-    style={{ padding: 12, border: '2px solid var(--border-memphis)' }}
+    style={{ padding: 12, border: '2px solid var(--memphis-border-color)' }}
   >
     <span style={{ fontFamily: 'var(--font-display)', fontSize: 16 }}>BRAND</span>
     <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11 }}>as=&quot;header&quot;</span>

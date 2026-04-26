@@ -15,23 +15,23 @@ export interface TokenSwatchProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 
 // Memphis-styled semantic token card. Renders a filled tile that reads from
 // the referenced CSS variable so live palette swaps update the preview. The
-// name is uppercased mono, the cssVar is shown in accent, and the usage
-// caption uses --ink-muted.
+// name is uppercased mono, the cssVar is shown in --primary, and the usage
+// caption uses --muted-foreground.
 export const TokenSwatch = forwardRef<HTMLDivElement, TokenSwatchProps>(function TokenSwatch(
   { name, cssVar, usage, className, ...rest },
   ref,
 ) {
   const rootStyle: CSSProperties = {
     padding: 16,
-    border: '2px solid var(--border-memphis)',
-    background: 'var(--surface)',
-    boxShadow: '3px 3px 0 var(--black)',
+    border: '2px solid var(--memphis-border-color)',
+    background: 'var(--card)',
+    boxShadow: '3px 3px 0 var(--memphis-shadow-color)',
   }
   const tileStyle: CSSProperties = {
     width: '100%',
     height: 44,
     background: `var(${cssVar})`,
-    border: '2px solid var(--border-memphis)',
+    border: '2px solid var(--memphis-border-color)',
     marginBottom: 10,
   }
   const nameStyle: CSSProperties = {
@@ -40,18 +40,18 @@ export const TokenSwatch = forwardRef<HTMLDivElement, TokenSwatchProps>(function
     letterSpacing: '0.12em',
     textTransform: 'uppercase',
     fontWeight: 700,
-    color: 'var(--ink)',
+    color: 'var(--foreground)',
   }
   const cssVarStyle: CSSProperties = {
     fontFamily: 'var(--font-mono)',
     fontSize: 10,
-    color: 'var(--accent)',
+    color: 'var(--primary)',
     marginTop: 2,
     fontWeight: 700,
   }
   const usageStyle: CSSProperties = {
     fontSize: 11,
-    color: 'var(--ink-muted)',
+    color: 'var(--muted-foreground)',
     marginTop: 6,
     lineHeight: 1.35,
   }

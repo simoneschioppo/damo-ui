@@ -18,19 +18,19 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
   return (
     <div ref={ref} className={cn('flex flex-col gap-1', className)} {...rest}>
       <div className="flex items-center gap-2">
-        {icon && <span className="inline-flex text-ink-muted">{icon}</span>}
-        <span className="text-xs font-semibold uppercase tracking-wider text-ink-muted font-mono">
+        {icon && <span className="inline-flex text-muted-foreground">{icon}</span>}
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground font-mono">
           {label}
         </span>
       </div>
-      <span className="font-display text-3xl leading-none text-ink">{value}</span>
+      <span className="font-display text-3xl leading-none text-foreground">{value}</span>
       {delta !== undefined && (
         <span
           className={cn(
             'text-xs font-semibold font-mono',
             deltaTone === 'positive' && 'text-success',
-            deltaTone === 'negative' && 'text-danger',
-            deltaTone === 'neutral' && 'text-ink-muted',
+            deltaTone === 'negative' && 'text-destructive',
+            deltaTone === 'neutral' && 'text-muted-foreground',
           )}
         >
           {delta}

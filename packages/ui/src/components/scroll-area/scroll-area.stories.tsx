@@ -8,13 +8,13 @@ export const Vertical = () => (
     style={{
       height: 220,
       width: 320,
-      border: '2px solid var(--border-memphis)',
-      background: 'var(--surface)',
+      border: '2px solid var(--memphis-border-color)',
+      background: 'var(--card)',
     }}
   >
     <div style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
       {LONG.map((t, i) => (
-        <div key={i} style={{ padding: 8, background: 'var(--surface-2)', fontSize: 13 }}>
+        <div key={i} style={{ padding: 8, background: 'var(--muted)', fontSize: 13 }}>
           {t}
         </div>
       ))}
@@ -26,8 +26,8 @@ export const Horizontal = () => (
   <ScrollArea
     style={{
       width: 420,
-      border: '2px solid var(--border-memphis)',
-      background: 'var(--surface)',
+      border: '2px solid var(--memphis-border-color)',
+      background: 'var(--card)',
     }}
   >
     <div style={{ display: 'flex', gap: 8, padding: 12 }}>
@@ -36,8 +36,8 @@ export const Horizontal = () => (
           key={t}
           style={{
             padding: '16px 20px',
-            background: 'var(--gold-100)',
-            border: '2px solid var(--border-memphis)',
+            background: 'var(--brand-100)',
+            border: '2px solid var(--memphis-border-color)',
             whiteSpace: 'nowrap',
             fontSize: 13,
             fontWeight: 600,
@@ -55,8 +55,8 @@ export const Both = () => (
     style={{
       width: 320,
       height: 220,
-      border: '2px solid var(--border-memphis)',
-      background: 'var(--surface)',
+      border: '2px solid var(--memphis-border-color)',
+      background: 'var(--card)',
     }}
   >
     <div
@@ -73,8 +73,8 @@ export const Both = () => (
           key={i}
           style={{
             padding: 12,
-            background: 'var(--plum-100)',
-            border: '2px solid var(--border-memphis)',
+            background: 'var(--ink-100)',
+            border: '2px solid var(--memphis-border-color)',
             fontFamily: 'var(--font-mono)',
             fontSize: 11,
             textAlign: 'center',

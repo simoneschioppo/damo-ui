@@ -21,8 +21,8 @@ export const AuthPreview = forwardRef<HTMLDivElement, AuthPreviewProps>(function
       {...rest}
     >
       <header className="flex flex-col gap-1">
-        <h2 className="font-display text-3xl leading-tight text-ink m-0">Bentornato</h2>
-        <p className="text-sm text-ink-muted m-0">Accedi per continuare.</p>
+        <h2 className="font-display text-3xl leading-tight text-foreground m-0">Bentornato</h2>
+        <p className="text-sm text-muted-foreground m-0">Accedi per continuare.</p>
       </header>
 
       <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
@@ -51,7 +51,7 @@ export const AuthPreview = forwardRef<HTMLDivElement, AuthPreviewProps>(function
 
       <div className="flex items-center gap-3">
         <Separator className="flex-1" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
           o accedi con
         </span>
         <Separator className="flex-1" />
@@ -66,7 +66,7 @@ export const AuthPreview = forwardRef<HTMLDivElement, AuthPreviewProps>(function
         </Button>
       </div>
 
-      <p className="text-center text-sm text-ink-muted m-0">
+      <p className="text-center text-sm text-muted-foreground m-0">
         <Button variant="link" type="button">
           Non hai un account? Registrati
         </Button>

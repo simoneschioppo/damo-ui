@@ -13,7 +13,7 @@ export const Controlled = () => {
   const [v, setV] = useState('md')
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <span className="mono" style={{ fontSize: 11, color: 'var(--ink-muted)' }}>
+      <span className="mono" style={{ fontSize: 11, color: 'var(--muted-foreground)' }}>
         Current: {v}
       </span>
       <SegmentedControl value={v} onValueChange={(val) => val && setV(val)} aria-label="Size">

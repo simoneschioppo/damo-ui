@@ -7,12 +7,12 @@ import { chipVariants, type ChipVariants } from './chip.variants'
 export interface ChipProps extends HTMLAttributes<HTMLSpanElement>, ChipVariants {
   /**
    * When set, prepends a small round dot (8x8px) before children.
-   * Accepts any CSS color string, e.g. `"var(--gold-500)"`, `"#fff"`.
+   * Accepts any CSS color string, e.g. `"var(--brand-500)"`, `"#fff"`.
    */
   dotColor?: string
   /**
    * When true, swaps the base surface to the active look:
-   * `bg-gold-500 text-white border-border-memphis`. If a `dotColor`
+   * `bg-primary text-primary-foreground border-memphis`. If a `dotColor`
    * is also set, the dot border flips to white for contrast.
    */
   active?: boolean
@@ -32,7 +32,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(function Chip(
   { className, variant, size, dotColor, active = false, children, ...rest },
   ref,
 ) {
-  const dotBorderColor = active ? 'white' : 'var(--border-memphis)'
+  const dotBorderColor = active ? 'white' : 'var(--memphis-border-color)'
   const dotStyle: CSSProperties = {
     ...DOT_BASE_STYLE,
     background: dotColor ?? 'transparent',
@@ -44,7 +44,7 @@ export const Chip = forwardRef<HTMLSpanElement, ChipProps>(function Chip(
       ref={ref}
       className={cn(
         chipVariants({ variant, size }),
-        active && 'bg-gold-500 text-white border-border-memphis',
+        active && 'bg-primary text-primary-foreground border-memphis',
         className,
       )}
       {...rest}

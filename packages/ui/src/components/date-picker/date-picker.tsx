@@ -55,13 +55,13 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
             disabled={disabled}
             className={cn(
               'inline-flex h-10 w-full items-center justify-between gap-2',
-              'px-3 py-2 text-base text-ink text-left',
-              'bg-surface border-2 border-border-memphis rounded-none',
+              'px-3 py-2 text-base text-foreground text-left',
+              'bg-card border-2 border-memphis rounded-none',
               'transition-colors duration-fast cursor-pointer',
-              'hover:bg-surface-2',
-              'focus-visible:outline-none focus-visible:border-accent focus-visible:[--shadow-memphis-color:var(--gold-500)] focus-visible:shadow-memphis',
+              'hover:bg-muted',
+              'focus-visible:outline-none focus-visible:border-primary focus-visible:[--memphis-shadow-color:var(--primary)] focus-visible:shadow-memphis',
               'disabled:opacity-50 disabled:pointer-events-none',
-              !selected && 'text-ink-muted',
+              !selected && 'text-muted-foreground',
               triggerClassName,
             )}
           >

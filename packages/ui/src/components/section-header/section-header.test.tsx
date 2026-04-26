@@ -25,11 +25,11 @@ describe('SectionHeader', () => {
     expect(screen.getByText('Audiowide per display, Exo 2 per body.')).toBeInTheDocument()
   })
 
-  it('renders the num with gold accent inline color', () => {
+  it('renders the num with primary inline color', () => {
     render(<SectionHeader num="01" title="Colori" desc="Color palette" />)
     const numEl = screen.getByText('01')
     const styleAttr = numEl.getAttribute('style') ?? ''
-    expect(styleAttr).toContain('--gold-500')
+    expect(styleAttr).toContain('--primary')
   })
 
   it('renders the title with 44px display font', () => {
@@ -42,7 +42,7 @@ describe('SectionHeader', () => {
   it('renders the desc with ink-soft color', () => {
     render(<SectionHeader num="01" title="Colori" desc="Color palette" />)
     const desc = screen.getByText('Color palette')
-    expect(desc.className).toContain('text-ink-soft')
+    expect(desc.className).toContain('text-muted-foreground')
   })
 
   it('applies flex wrap layout on the root', () => {

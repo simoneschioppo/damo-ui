@@ -107,4 +107,30 @@ describe('ColorPicker', () => {
     render(<ColorPicker label="Accent" value="#ff0000" onChange={handleChange} />)
     expect(handleChange).not.toHaveBeenCalled()
   })
+
+  it('hides the hex text input when showInput is false', () => {
+    const { container } = render(
+      <ColorPicker label="Accent" value="#ff0000" onChange={() => {}} showInput={false} />,
+    )
+    const textInput = container.querySelector('input:not([type="color"])')
+    expect(textInput).toBeNull()
+  })
+
+  it('still renders the color swatch when showInput is false', () => {
+    const { container } = render(
+      <ColorPicker label="Accent" value="#ff0000" onChange={() => {}} showInput={false} />,
+    )
+    const colorInput = container.querySelector('input[type="color"]')
+    expect(colorInput).toBeTruthy()
+  })
+
+  it('fires onChange from the swatch even when showInput is false', () => {
+    const handleChange = vi.fn()
+    const { container } = render(
+      <ColorPicker label="Accent" value="#ff0000" onChange={handleChange} showInput={false} />,
+    )
+    const colorInput = container.querySelector('input[type="color"]') as HTMLInputElement
+    fireEvent.change(colorInput, { target: { value: '#0000ff' } })
+    expect(handleChange).toHaveBeenCalledWith('#0000ff')
+  })
 })
