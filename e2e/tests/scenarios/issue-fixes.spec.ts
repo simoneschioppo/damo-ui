@@ -72,17 +72,18 @@ test.describe('Issue #4 — hero pattern stat matches #patterns section', () => 
 })
 
 test.describe('Issue #2 — README documents real palette values', () => {
-  test('PaletteSwitcher exposes plum-gold, neon, sunset', async ({ page }) => {
+  test('PaletteSwitcher exposes default (plum+gold), neon, sunset', async ({ page }) => {
     await page.goto('/')
-    const values = await page.evaluate(() => {
-      const selects = Array.from(document.querySelectorAll('select'))
-      const paletteSelect = selects.find((s) =>
-        Array.from(s.options).some((o) => o.value === 'plum-gold'),
-      )
-      return paletteSelect ? Array.from(paletteSelect.options).map((o) => o.value) : []
-    })
-    expect(values).toEqual(expect.arrayContaining(['plum-gold', 'neon', 'sunset']))
-    expect(values).not.toContain('frost')
-    expect(values).not.toContain('circuit')
+
+    // PaletteSwitcher uses a Radix Select — open the dropdown, then read
+    // the listbox items by their textContent.
+    const trigger = page.locator('span.eyebrow:has-text("Palette") + button').first()
+    await trigger.click()
+    const listbox = page.getByRole('listbox')
+    await expect(listbox).toBeVisible()
+    const labels = (await listbox.getByRole('option').allTextContents()).map((t) => t.trim())
+    expect(labels).toEqual(expect.arrayContaining(['Plum+Gold', 'Neon', 'Sunset']))
+    expect(labels.some((l) => /frost/i.test(l))).toBe(false)
+    expect(labels.some((l) => /circuit/i.test(l))).toBe(false)
   })
 })
