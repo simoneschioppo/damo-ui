@@ -40,6 +40,31 @@ type Action =
   | { type: 'SET_EASING'; mode: ThemeMode; key: MotionEasingKey; value: string }
   | { type: 'RESET'; preset: PresetName }
 
+/**
+ * Structural equality on the well-known RawPalette shape. Iterates a fixed
+ * key order so it is immune to JSON key-order variation (e.g., palettes
+ * restored from storage may serialise keys differently). Returns true when
+ * `p` matches any preset palette known to the generator — used by
+ * SYNC_PRESET to decide whether a mode is "untouched" and can therefore
+ * accept a navbar-driven preset change.
+ */
+function rawPaletteEquals(a: RawPalette, b: RawPalette): boolean {
+  for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
+    if (a.ink[step] !== b.ink[step]) return false
+  }
+  for (const step of ['100', '200', '300', '400', '500'] as const) {
+    if (a.brand[step] !== b.brand[step]) return false
+  }
+  for (const step of ['50', '100', '200', '300'] as const) {
+    if (a.paper[step] !== b.paper[step]) return false
+  }
+  return true
+}
+
+function isKnownPresetPalette(p: RawPalette): boolean {
+  return Object.values(PRESET_PALETTES).some((preset) => rawPaletteEquals(preset, p))
+}
+
 function updatePaletteStep(
   palette: RawPalette,
   group: 'ink' | 'brand' | 'paper',
@@ -83,12 +108,8 @@ export function reducer(state: Theme, action: Action): Theme {
       // has not diverged that mode). Modes that have been diverged keep
       // their custom palette; their semantic is left untouched too.
       const newPalette = PRESET_PALETTES[action.preset]
-      const isKnownPreset = (p: RawPalette): boolean =>
-        Object.values(PRESET_PALETTES).some(
-          (preset) => JSON.stringify(preset) === JSON.stringify(p),
-        )
-      const lightUntouched = isKnownPreset(state.palette.light)
-      const darkUntouched = isKnownPreset(state.palette.dark)
+      const lightUntouched = isKnownPresetPalette(state.palette.light)
+      const darkUntouched = isKnownPresetPalette(state.palette.dark)
       return {
         ...state,
         palette: {
@@ -300,6 +321,9 @@ function emitPaletteVars(palette: RawPalette, lines: string[]): void {
   for (const step of INK_STEPS) lines.push(`  --ink-${step}: ${palette.ink[step]};`)
   for (const step of BRAND_STEPS) lines.push(`  --brand-${step}: ${palette.brand[step]};`)
   for (const step of PAPER_STEPS) lines.push(`  --paper-${step}: ${palette.paper[step]};`)
+  // Static neutrals — match the export so live preview never drops --white/--black refs
+  lines.push(`  --white: #ffffff;`)
+  lines.push(`  --black: #000000;`)
 }
 
 function emitIdentityVars(identity: IdentityTheme, lines: string[]): void {
