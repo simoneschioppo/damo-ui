@@ -3,14 +3,19 @@
  *
  * Models the three-layer architecture from
  * docs/specs/2026-04-24-theme-architecture-refactor-design.md:
- *   Layer 1 — raw palette (ink/brand/paper scales, swap per preset)
+ *   Layer 1 — raw palette (ink/brand/paper scales, per-mode light/dark)
  *   Layer 2 — semantic (paired bg+fg, separate light/dark values)
- *   Layer 3 — identity (medals, charts, nav-on-dark, theme-agnostic)
+ *   Layer 3 — identity (medals, charts, nav-on-dark, per-mode light/dark)
  * plus typography / radius / shadow / spacing / motion scales.
+ *
+ * Palette and Identity are now split into light/dark variants — the user
+ * can customise per-mode the same way the semantic layer is customised.
  *
  * All nested objects are treated as immutable — the reducer returns new
  * copies on every update.
  */
+
+export type ThemeMode = 'light' | 'dark'
 
 export type TypographySizeKey = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'
 export type RadiusKey = 'none' | 'sm' | 'md' | 'lg' | 'pill' | 'full'
@@ -65,7 +70,7 @@ export interface SemanticTheme {
   readonly badgeRank: string; readonly badgeRankForeground: string
 }
 
-// ─── Layer 3: Identity (theme-agnostic) ──────────────────────
+// ─── Layer 3: Identity ───────────────────────────────────────
 
 export interface MedalTokens {
   readonly outer: string
@@ -90,28 +95,66 @@ export interface IdentityTheme {
   }
 }
 
+// ─── Foundations (per-mode) ──────────────────────────────────
+
+export interface TypographyFoundation {
+  readonly fontDisplay: string
+  readonly fontBody: string
+  readonly fontMono: string
+  readonly sizes: Readonly<Record<TypographySizeKey, number>>
+}
+
+export type RadiusFoundation = Readonly<Record<RadiusKey, number>>
+export type ShadowMemphisFoundation = Readonly<Record<ShadowMemphisKey, ShadowMemphisValue>>
+export type ShadowSoftFoundation = Readonly<Record<ShadowSoftKey, number>>
+
+export interface SpacingFoundation {
+  readonly scale: number
+}
+
+export interface MotionFoundation {
+  readonly durations: Readonly<Record<MotionDurationKey, number>>
+  readonly easings: Readonly<Record<MotionEasingKey, string>>
+}
+
 // ─── Full theme ──────────────────────────────────────────────
 
 export interface Theme {
-  readonly palette: RawPalette
+  readonly palette: {
+    readonly light: RawPalette
+    readonly dark: RawPalette
+  }
   readonly semantic: {
     readonly light: SemanticTheme
     readonly dark: SemanticTheme
   }
-  readonly identity: IdentityTheme
-  readonly typography: {
-    readonly fontDisplay: string
-    readonly fontBody: string
-    readonly fontMono: string
-    readonly sizes: Readonly<Record<TypographySizeKey, number>>
+  readonly identity: {
+    readonly light: IdentityTheme
+    readonly dark: IdentityTheme
   }
-  readonly radius: Readonly<Record<RadiusKey, number>>
-  readonly shadowMemphis: Readonly<Record<ShadowMemphisKey, ShadowMemphisValue>>
-  readonly shadowSoft: Readonly<Record<ShadowSoftKey, number>>
-  readonly spacing: { readonly scale: number }
+  readonly typography: {
+    readonly light: TypographyFoundation
+    readonly dark: TypographyFoundation
+  }
+  readonly radius: {
+    readonly light: RadiusFoundation
+    readonly dark: RadiusFoundation
+  }
+  readonly shadowMemphis: {
+    readonly light: ShadowMemphisFoundation
+    readonly dark: ShadowMemphisFoundation
+  }
+  readonly shadowSoft: {
+    readonly light: ShadowSoftFoundation
+    readonly dark: ShadowSoftFoundation
+  }
+  readonly spacing: {
+    readonly light: SpacingFoundation
+    readonly dark: SpacingFoundation
+  }
   readonly motion: {
-    readonly durations: Readonly<Record<MotionDurationKey, number>>
-    readonly easings: Readonly<Record<MotionEasingKey, string>>
+    readonly light: MotionFoundation
+    readonly dark: MotionFoundation
   }
 }
 
@@ -196,7 +239,6 @@ export function computeSemanticLight(p: RawPalette): SemanticTheme {
     rage: '#c94a2f',
     rageForeground: p.paper['50'],
 
-    // color-mix in CSS is approximated with hex alpha suffixes
     border: p.ink['900'] + '1f',
     borderStrong: p.ink['900'] + '38',
     input: p.ink['900'] + '1f',
@@ -284,53 +326,67 @@ const DEFAULT_PALETTE: RawPalette = {
   },
 }
 
+const DEFAULT_IDENTITY: IdentityTheme = {
+  medals: {
+    bronze: { outer: '#5a3f20', inner: '#8a6236', text: '#ffffff' },
+    silver: { outer: '#4a4a55', inner: '#8a8a9a', text: '#ffffff' },
+    gold: { outer: '#2a0f2d', inner: '#c4942a', text: '#2a0f2d' },
+    master: { outer: '#2a0f2d', inner: '#7a3980', text: '#fbf7ee' },
+    grandmaster: { outer: '#000000', inner: '#c4942a', text: '#2a0f2d' },
+  },
+  charts: { '1': '#7a3980', '2': '#c4942a', '3': '#4f8a3c', '4': '#a13a2c', '5': '#522357' },
+  navOnDark: {
+    accent: '#f0d49a',
+    accentStrong: '#d5a845',
+    foreground: 'rgba(255, 255, 255, 0.72)',
+    foregroundStrong: '#ffffff',
+  },
+  appPattern: { color1: '#c4942a', color2: '#7a3980', color3: '#522357', size: 140 },
+}
+
+const DEFAULT_TYPOGRAPHY: TypographyFoundation = {
+  fontDisplay: "'Audiowide', system-ui, sans-serif",
+  fontBody: "'Exo 2', system-ui, sans-serif",
+  fontMono: "'Exo 2', ui-monospace, monospace",
+  sizes: { xs: 12, sm: 14, base: 16, lg: 18, xl: 20, '2xl': 24, '3xl': 30 },
+}
+
+const DEFAULT_RADIUS: RadiusFoundation = { none: 0, sm: 2, md: 4, lg: 8, pill: 999, full: 50 }
+
+const DEFAULT_SHADOW_MEMPHIS: ShadowMemphisFoundation = {
+  sm: { x: 3, y: 3, color: '#000000' },
+  md: { x: 6, y: 6, color: '#000000' },
+  lg: { x: 9, y: 9, color: '#000000' },
+  hover: { x: 7, y: 7, color: '#000000' },
+  active: { x: 2, y: 2, color: '#000000' },
+}
+
+const DEFAULT_SHADOW_SOFT: ShadowSoftFoundation = { sm: 0.06, md: 0.08, lg: 0.12 }
+
+const DEFAULT_SPACING: SpacingFoundation = { scale: 1 }
+
+const DEFAULT_MOTION: MotionFoundation = {
+  durations: { snap: 80, fast: 150, base: 200, slow: 300 },
+  easings: {
+    memphis: 'cubic-bezier(0.4, 1.3, 0.5, 1)',
+    out: 'cubic-bezier(0.2, 0.9, 0.3, 1)',
+    'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+}
+
 export const DEFAULT_THEME: Theme = {
-  palette: DEFAULT_PALETTE,
+  palette: { light: DEFAULT_PALETTE, dark: DEFAULT_PALETTE },
   semantic: {
     light: computeSemanticLight(DEFAULT_PALETTE),
     dark: computeSemanticDark(DEFAULT_PALETTE),
   },
-  identity: {
-    medals: {
-      bronze: { outer: '#5a3f20', inner: '#8a6236', text: '#ffffff' },
-      silver: { outer: '#4a4a55', inner: '#8a8a9a', text: '#ffffff' },
-      gold: { outer: '#2a0f2d', inner: '#c4942a', text: '#2a0f2d' },
-      master: { outer: '#2a0f2d', inner: '#7a3980', text: '#fbf7ee' },
-      grandmaster: { outer: '#000000', inner: '#c4942a', text: '#2a0f2d' },
-    },
-    charts: { '1': '#7a3980', '2': '#c4942a', '3': '#4f8a3c', '4': '#a13a2c', '5': '#522357' },
-    navOnDark: {
-      accent: '#f0d49a',
-      accentStrong: '#d5a845',
-      foreground: 'rgba(255, 255, 255, 0.72)',
-      foregroundStrong: '#ffffff',
-    },
-    appPattern: { color1: '#c4942a', color2: '#7a3980', color3: '#522357', size: 140 },
-  },
-  typography: {
-    fontDisplay: "'Audiowide', system-ui, sans-serif",
-    fontBody: "'Exo 2', system-ui, sans-serif",
-    fontMono: "'Exo 2', ui-monospace, monospace",
-    sizes: { xs: 12, sm: 14, base: 16, lg: 18, xl: 20, '2xl': 24, '3xl': 30 },
-  },
-  radius: { none: 0, sm: 2, md: 4, lg: 8, pill: 999, full: 50 },
-  shadowMemphis: {
-    sm: { x: 3, y: 3, color: '#000000' },
-    md: { x: 6, y: 6, color: '#000000' },
-    lg: { x: 9, y: 9, color: '#000000' },
-    hover: { x: 7, y: 7, color: '#000000' },
-    active: { x: 2, y: 2, color: '#000000' },
-  },
-  shadowSoft: { sm: 0.06, md: 0.08, lg: 0.12 },
-  spacing: { scale: 1 },
-  motion: {
-    durations: { snap: 80, fast: 150, base: 200, slow: 300 },
-    easings: {
-      memphis: 'cubic-bezier(0.4, 1.3, 0.5, 1)',
-      out: 'cubic-bezier(0.2, 0.9, 0.3, 1)',
-      'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
-    },
-  },
+  identity: { light: DEFAULT_IDENTITY, dark: DEFAULT_IDENTITY },
+  typography: { light: DEFAULT_TYPOGRAPHY, dark: DEFAULT_TYPOGRAPHY },
+  radius: { light: DEFAULT_RADIUS, dark: DEFAULT_RADIUS },
+  shadowMemphis: { light: DEFAULT_SHADOW_MEMPHIS, dark: DEFAULT_SHADOW_MEMPHIS },
+  shadowSoft: { light: DEFAULT_SHADOW_SOFT, dark: DEFAULT_SHADOW_SOFT },
+  spacing: { light: DEFAULT_SPACING, dark: DEFAULT_SPACING },
+  motion: { light: DEFAULT_MOTION, dark: DEFAULT_MOTION },
 } as const
 
 /**
@@ -342,4 +398,3 @@ export const SPACING_BASE_PX: ReadonlyArray<readonly [string, number]> = [
   ['space-4', 16], ['space-5', 20], ['space-6', 24], ['space-8', 32],
   ['space-10', 40], ['space-12', 48], ['space-16', 64], ['space-20', 80],
 ]
-

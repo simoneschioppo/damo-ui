@@ -3,12 +3,24 @@
  * the three download formats surfaced in the UI.
  *
  * All functions are side-effect free (no DOM access, no I/O).
+ *
+ * Layout of the CSS export:
+ *   - `:root` — light palette + light identity + foundations
+ *   - `:root,:root[data-theme='light']` — light semantic
+ *   - `:root[data-theme='dark']` — dark semantic (full) plus delta-encoded
+ *     palette/identity overrides (only tokens that differ from light).
+ *
+ * Note: semantic tokens are always emitted in full in both light and dark
+ * blocks because the semantic layer is expected to fully override per
+ * theme. Palette and identity, by contrast, are typically shared between
+ * modes — so emitting only the diff keeps output tight.
  */
 
 import {
   type Theme,
   type SemanticTheme,
   type RawPalette,
+  type IdentityTheme,
   type TypographySizeKey,
   type RadiusKey,
   type ShadowMemphisKey,
@@ -50,9 +62,6 @@ const MEDAL_RANKS: ReadonlyArray<MedalRank> = ['bronze', 'silver', 'gold', 'mast
 const CHART_KEYS = ['1', '2', '3', '4', '5'] as const
 
 // ─── Tailwind semantic excludes ──────────────────────────────
-// memphisShadowColor and memphisBorderColor are emitted separately in the
-// identity block as --color-memphis and --color-memphis-shadow. Including
-// them in the semantic loop would produce duplicate (differently named) utilities.
 const TAILWIND_SEMANTIC_EXCLUDES = new Set(['memphisShadowColor', 'memphisBorderColor'])
 
 // ─── Helpers ─────────────────────────────────────────────────
@@ -79,16 +88,50 @@ const toKebab = (s: string): string => s.replace(/([A-Z])/g, '-$1').toLowerCase(
 
 // ─── Emit helpers ─────────────────────────────────────────────
 
-function emitRawPalette(palette: RawPalette, lines: string[]): void {
+interface PaletteLineSpec {
+  cssVar: string
+  value: string
+}
+
+function paletteLines(palette: RawPalette): PaletteLineSpec[] {
+  const out: PaletteLineSpec[] = []
   for (const step of ['100', '300', '500', '700', '800', '900'] as const) {
-    lines.push(`  --ink-${step}: ${palette.ink[step]};`)
+    out.push({ cssVar: `--ink-${step}`, value: palette.ink[step] })
   }
   for (const step of ['100', '200', '300', '400', '500'] as const) {
-    lines.push(`  --brand-${step}: ${palette.brand[step]};`)
+    out.push({ cssVar: `--brand-${step}`, value: palette.brand[step] })
   }
   for (const step of ['50', '100', '200', '300'] as const) {
-    lines.push(`  --paper-${step}: ${palette.paper[step]};`)
+    out.push({ cssVar: `--paper-${step}`, value: palette.paper[step] })
   }
+  return out
+}
+
+function identityLines(identity: IdentityTheme): PaletteLineSpec[] {
+  const out: PaletteLineSpec[] = []
+  MEDAL_RANKS.forEach((rank) => {
+    out.push({ cssVar: `--medal-${rank}-outer`, value: identity.medals[rank].outer })
+    out.push({ cssVar: `--medal-${rank}-inner`, value: identity.medals[rank].inner })
+    out.push({ cssVar: `--medal-${rank}-text`, value: identity.medals[rank].text })
+  })
+  CHART_KEYS.forEach((k) => {
+    out.push({ cssVar: `--chart-${k}`, value: identity.charts[k] })
+  })
+  out.push({ cssVar: `--nav-on-dark-accent`, value: identity.navOnDark.accent })
+  out.push({ cssVar: `--nav-on-dark-accent-strong`, value: identity.navOnDark.accentStrong })
+  out.push({ cssVar: `--nav-on-dark-foreground`, value: identity.navOnDark.foreground })
+  out.push({ cssVar: `--nav-on-dark-foreground-strong`, value: identity.navOnDark.foregroundStrong })
+  out.push({ cssVar: `--app-pattern-color-1`, value: identity.appPattern.color1 })
+  out.push({ cssVar: `--app-pattern-color-2`, value: identity.appPattern.color2 })
+  out.push({ cssVar: `--app-pattern-color-3`, value: identity.appPattern.color3 })
+  out.push({ cssVar: `--app-pattern-size`, value: `${identity.appPattern.size}px` })
+  return out
+}
+
+function emitPalette(palette: RawPalette, lines: string[]): void {
+  paletteLines(palette).forEach(({ cssVar, value }) => {
+    lines.push(`  ${cssVar}: ${value};`)
+  })
   lines.push(`  --white: #ffffff;`)
   lines.push(`  --black: #000000;`)
 }
@@ -99,69 +142,83 @@ function emitSemantic(semantic: SemanticTheme, lines: string[]): void {
   }
 }
 
-function emitIdentity(theme: Theme, lines: string[]): void {
-  MEDAL_RANKS.forEach((rank) => {
-    lines.push(`  --medal-${rank}-outer: ${theme.identity.medals[rank].outer};`)
-    lines.push(`  --medal-${rank}-inner: ${theme.identity.medals[rank].inner};`)
-    lines.push(`  --medal-${rank}-text: ${theme.identity.medals[rank].text};`)
+function emitIdentity(identity: IdentityTheme, lines: string[]): void {
+  identityLines(identity).forEach(({ cssVar, value }) => {
+    lines.push(`  ${cssVar}: ${value};`)
   })
-  CHART_KEYS.forEach((k) => {
-    lines.push(`  --chart-${k}: ${theme.identity.charts[k]};`)
-  })
-  lines.push(`  --nav-on-dark-accent: ${theme.identity.navOnDark.accent};`)
-  lines.push(`  --nav-on-dark-accent-strong: ${theme.identity.navOnDark.accentStrong};`)
-  lines.push(`  --nav-on-dark-foreground: ${theme.identity.navOnDark.foreground};`)
-  lines.push(`  --nav-on-dark-foreground-strong: ${theme.identity.navOnDark.foregroundStrong};`)
-  lines.push(`  --app-pattern-color-1: ${theme.identity.appPattern.color1};`)
-  lines.push(`  --app-pattern-color-2: ${theme.identity.appPattern.color2};`)
-  lines.push(`  --app-pattern-color-3: ${theme.identity.appPattern.color3};`)
-  lines.push(`  --app-pattern-size: ${theme.identity.appPattern.size}px;`)
 }
 
-function emitFoundations(theme: Theme, lines: string[]): void {
-  // Typography
-  lines.push(`  --font-display: ${theme.typography.fontDisplay};`)
-  lines.push(`  --font-body: ${theme.typography.fontBody};`)
-  lines.push(`  --font-mono: ${theme.typography.fontMono};`)
+/**
+ * Emit lines from `darkLines` that differ from `lightLines` by cssVar key.
+ * Tokens identical in both modes are not duplicated in the dark block.
+ */
+function emitDeltaDark(
+  lightLines: PaletteLineSpec[],
+  darkLines: PaletteLineSpec[],
+  out: string[],
+): void {
+  const lightMap = new Map(lightLines.map((l) => [l.cssVar, l.value]))
+  for (const { cssVar, value } of darkLines) {
+    if (lightMap.get(cssVar) !== value) {
+      out.push(`  ${cssVar}: ${value};`)
+    }
+  }
+}
+
+type ThemeMode = 'light' | 'dark'
+
+/**
+ * Per-mode foundation lines (the parts that can diverge between light and
+ * dark): typography, radius, shadowMemphis, shadowSoft, spacing, motion.
+ * Used both for full emission (light block) and for delta-encoded
+ * emission in the dark block.
+ */
+function foundationLines(theme: Theme, mode: ThemeMode): PaletteLineSpec[] {
+  const out: PaletteLineSpec[] = []
+  const t = theme.typography[mode]
+  out.push({ cssVar: '--font-display', value: t.fontDisplay })
+  out.push({ cssVar: '--font-body', value: t.fontBody })
+  out.push({ cssVar: '--font-mono', value: t.fontMono })
   SIZE_KEYS.forEach((k) => {
-    lines.push(`  ${sizeKey(k)}: ${theme.typography.sizes[k]}px;`)
+    out.push({ cssVar: sizeKey(k), value: `${t.sizes[k]}px` })
   })
-
-  // Radius
+  const r = theme.radius[mode]
   RADIUS_KEYS.forEach((k) => {
-    lines.push(`  ${radiusKey(k)}: ${radiusToCss(k, theme.radius[k])};`)
+    out.push({ cssVar: radiusKey(k), value: radiusToCss(k, r[k]) })
   })
-
-  // Shadow — memphis
+  const sm = theme.shadowMemphis[mode]
   SHADOW_MEMPHIS_KEYS.forEach((k) => {
-    lines.push(`  ${shadowMemphisKey(k)}: ${shadowMemphisToCss(theme.shadowMemphis[k])};`)
+    out.push({ cssVar: shadowMemphisKey(k), value: shadowMemphisToCss(sm[k]) })
   })
-
-  // Shadow — soft
-  lines.push(`  --shadow-sm: 0 1px 2px rgba(0,0,0,${theme.shadowSoft.sm});`)
-  lines.push(`  --shadow-md: 0 2px 8px rgba(0,0,0,${theme.shadowSoft.md});`)
-  lines.push(`  --shadow-lg: 0 8px 24px rgba(0,0,0,${theme.shadowSoft.lg});`)
-
-  // Spacing
+  const ss = theme.shadowSoft[mode]
+  out.push({ cssVar: '--shadow-sm', value: `0 1px 2px rgba(0,0,0,${ss.sm})` })
+  out.push({ cssVar: '--shadow-md', value: `0 2px 8px rgba(0,0,0,${ss.md})` })
+  out.push({ cssVar: '--shadow-lg', value: `0 8px 24px rgba(0,0,0,${ss.lg})` })
+  const sp = theme.spacing[mode]
   SPACING_BASE_PX.forEach(([k, px]) => {
-    lines.push(`  --${k}: ${px * theme.spacing.scale}px;`)
+    out.push({ cssVar: `--${k}`, value: `${px * sp.scale}px` })
   })
-
-  // Motion
+  const m = theme.motion[mode]
   DURATION_KEYS.forEach((k) => {
-    lines.push(`  ${durationKey(k)}: ${theme.motion.durations[k]}ms;`)
+    out.push({ cssVar: durationKey(k), value: `${m.durations[k]}ms` })
   })
   EASING_KEYS.forEach((k) => {
-    lines.push(`  ${easingKey(k)}: ${theme.motion.easings[k]};`)
+    out.push({ cssVar: easingKey(k), value: m.easings[k] })
+  })
+  return out
+}
+
+function emitFoundationsLight(theme: Theme, lines: string[]): void {
+  foundationLines(theme, 'light').forEach(({ cssVar, value }) => {
+    lines.push(`  ${cssVar}: ${value};`)
   })
 
-  // Border widths
+  // Static (mode-agnostic) tokens — emitted only once in the light block
   lines.push(`  /* Border widths */`)
   lines.push(`  --border-thin: 1px;`)
   lines.push(`  --border-base: 2px;`)
   lines.push(`  --border-thick: 3px;`)
 
-  // Z-index
   lines.push(`  /* Z-index */`)
   lines.push(`  --z-base: 0;`)
   lines.push(`  --z-sticky: 100;`)
@@ -172,43 +229,41 @@ function emitFoundations(theme: Theme, lines: string[]): void {
   lines.push(`  --z-toast: 600;`)
   lines.push(`  --z-tooltip: 700;`)
 
-  // Chrome geometry
   lines.push(`  --header-height: 56px;`)
 }
 
 // ─── CSS export ──────────────────────────────────────────────
 
 /**
- * Emit a `:root` block with raw palette + identity + scales, plus
- * `:root[data-theme='light']` and `:root[data-theme='dark']` blocks for
- * the semantic layer.
- *
- * Accepts optional `flags` to filter output sections. Defaults to all-on.
+ * Emit a `:root` block with light raw palette + light identity + foundations,
+ * a `:root,:root[data-theme='light']` block with light semantic, and a
+ * `:root[data-theme='dark']` block containing dark palette / identity /
+ * semantic deltas.
  */
 export function buildCssExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRUE): string {
   const segments: string[] = []
 
-  // ─── :root block (raw palette + identity + foundations) ───
+  // ─── :root block (light palette + light identity + foundations) ───
   const rootLines: string[] = []
   if (flags.rawPalette) {
-    emitRawPalette(theme.palette, rootLines)
+    emitPalette(theme.palette.light, rootLines)
   }
   if (flags.identity) {
     if (rootLines.length > 0) rootLines.push('')
-    rootLines.push('  /* Identity — theme-agnostic */')
-    emitIdentity(theme, rootLines)
+    rootLines.push('  /* Identity — light */')
+    emitIdentity(theme.identity.light, rootLines)
   }
   if (flags.foundations) {
     if (rootLines.length > 0) rootLines.push('')
-    rootLines.push('  /* Foundations */')
-    emitFoundations(theme, rootLines)
+    rootLines.push('  /* Foundations — light */')
+    emitFoundationsLight(theme, rootLines)
   }
 
   if (rootLines.length > 0) {
     segments.push([':root {', ...rootLines, '}'].join('\n'))
   }
 
-  // ─── :root[data-theme='light'] block ───
+  // ─── :root[data-theme='light'] block (semantic — light) ───
   if (flags.semanticLight) {
     const block: string[] = []
     block.push(":root,")
@@ -218,13 +273,36 @@ export function buildCssExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRU
     segments.push(block.join('\n'))
   }
 
-  // ─── :root[data-theme='dark'] block ───
+  // ─── :root[data-theme='dark'] block (palette + identity + semantic + foundations deltas) ───
+  const darkBlockLines: string[] = []
+  if (flags.rawPalette) {
+    emitDeltaDark(paletteLines(theme.palette.light), paletteLines(theme.palette.dark), darkBlockLines)
+  }
+  if (flags.identity) {
+    const identityDark: string[] = []
+    emitDeltaDark(identityLines(theme.identity.light), identityLines(theme.identity.dark), identityDark)
+    if (identityDark.length > 0) {
+      if (darkBlockLines.length > 0) darkBlockLines.push('')
+      darkBlockLines.push('  /* Identity — dark */')
+      darkBlockLines.push(...identityDark)
+    }
+  }
+  if (flags.foundations) {
+    const foundationsDark: string[] = []
+    emitDeltaDark(foundationLines(theme, 'light'), foundationLines(theme, 'dark'), foundationsDark)
+    if (foundationsDark.length > 0) {
+      if (darkBlockLines.length > 0) darkBlockLines.push('')
+      darkBlockLines.push('  /* Foundations — dark */')
+      darkBlockLines.push(...foundationsDark)
+    }
+  }
   if (flags.semanticDark) {
-    const block: string[] = []
-    block.push(":root[data-theme='dark'] {")
-    emitSemantic(theme.semantic.dark, block)
-    block.push('}')
-    segments.push(block.join('\n'))
+    if (darkBlockLines.length > 0) darkBlockLines.push('')
+    emitSemantic(theme.semantic.dark, darkBlockLines)
+  }
+
+  if (darkBlockLines.length > 0) {
+    segments.push([":root[data-theme='dark'] {", ...darkBlockLines, '}'].join('\n'))
   }
 
   return segments.join('\n\n')
@@ -244,8 +322,6 @@ export function buildJsonExport(theme: Theme): string {
 /**
  * Tailwind export — emits the `@theme inline` block with --color-*
  * bridges for semantic tokens only (matches theme.css in the lib).
- *
- * Accepts optional `flags` to filter output sections. Defaults to all-on.
  */
 export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRUE): string {
   const inner: string[] = []
@@ -271,38 +347,31 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
 
   // Foundations: typography, radius, shadow, spacing, motion, z-index, borders
   if (flags.foundations) {
-    // Typography: fonts
     inner.push(`  --font-display: var(--font-display);`)
     inner.push(`  --font-body: var(--font-body);`)
     inner.push(`  --font-mono: var(--font-mono);`)
 
-    // Typography: text sizes
     SIZE_KEYS.forEach((k) => {
       inner.push(`  ${sizeKey(k)}: var(${sizeKey(k)});`)
     })
 
-    // Radius
     RADIUS_KEYS.forEach((k) => {
       inner.push(`  ${radiusKey(k)}: var(${radiusKey(k)});`)
     })
 
-    // Shadow — memphis
     SHADOW_MEMPHIS_KEYS.forEach((k) => {
       inner.push(`  ${shadowMemphisKey(k)}: var(${shadowMemphisKey(k)});`)
     })
 
-    // Shadow — soft
     inner.push(`  --shadow-sm: var(--shadow-sm);`)
     inner.push(`  --shadow-md: var(--shadow-md);`)
     inner.push(`  --shadow-lg: var(--shadow-lg);`)
 
-    // Spacing — Tailwind v4 foundational unit + explicit spacing tokens
     inner.push(`  --spacing: calc(0.25rem * var(--density-scale-y));`)
     SPACING_BASE_PX.forEach(([k]) => {
       inner.push(`  --${k}: var(--${k});`)
     })
 
-    // Motion
     DURATION_KEYS.forEach((k) => {
       inner.push(`  --animate-duration-${k}: var(${durationKey(k)});`)
     })
@@ -310,13 +379,11 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
     inner.push(`  --ease-out-memphis: var(--ease-out);`)
     inner.push(`  --ease-in-out: var(--ease-in-out);`)
 
-    // Z-index
     const Z_KEYS = ['base', 'sticky', 'header', 'dropdown', 'overlay', 'modal', 'toast', 'tooltip'] as const
     Z_KEYS.forEach((k) => {
       inner.push(`  --z-index-${k}: var(--z-${k});`)
     })
 
-    // Border widths
     inner.push(`  --border-width-thin: var(--border-thin);`)
     inner.push(`  --border-width-base: var(--border-base);`)
     inner.push(`  --border-width-thick: var(--border-thick);`)

@@ -1,10 +1,28 @@
 import { describe, it, expect } from 'vitest'
-import { DEFAULT_THEME } from './theme-state'
+import { DEFAULT_THEME, computeSemanticDark, type Theme } from './theme-state'
 import { buildCssExport, buildJsonExport, buildTailwindExport } from './exporters'
+
+// Helper to build a theme where light vs dark palette/identity diverge.
+function withDivergedDark(): Theme {
+  const darkPalette = {
+    ...DEFAULT_THEME.palette.dark,
+    brand: { ...DEFAULT_THEME.palette.dark.brand, '500': '#ff00ff' },
+  }
+  const darkIdentity = {
+    ...DEFAULT_THEME.identity.dark,
+    charts: { ...DEFAULT_THEME.identity.dark.charts, '1': '#abcdef' },
+  }
+  return {
+    ...DEFAULT_THEME,
+    palette: { ...DEFAULT_THEME.palette, dark: darkPalette },
+    identity: { ...DEFAULT_THEME.identity, dark: darkIdentity },
+    semantic: { ...DEFAULT_THEME.semantic, dark: computeSemanticDark(darkPalette) },
+  }
+}
 
 describe('exporters', () => {
   describe('buildCssExport', () => {
-    it('emits a :root block with raw palette and identity tokens', () => {
+    it('emits a :root block with light raw palette and identity tokens', () => {
       const css = buildCssExport(DEFAULT_THEME)
       expect(css).toContain(':root {')
       expect(css).toContain('--ink-500: #7a3980;')
@@ -16,12 +34,32 @@ describe('exporters', () => {
 
     it('emits :root and :root[data-theme="dark"] for semantic tokens', () => {
       const css = buildCssExport(DEFAULT_THEME)
-      // Light block
       expect(css).toMatch(/:root,\s*:root\[data-theme='light'\] \{[^}]*--background: #fbf7ee;/s)
       expect(css).toMatch(/:root,\s*:root\[data-theme='light'\] \{[^}]*--foreground: #2a0f2d;/s)
-      // Dark block
       expect(css).toMatch(/:root\[data-theme='dark'\] \{[^}]*--background: #2a0f2d;/s)
       expect(css).toMatch(/:root\[data-theme='dark'\] \{[^}]*--foreground: #fbf7ee;/s)
+    })
+
+    it('omits dark palette and identity tokens when they match light', () => {
+      // Default theme has identical light/dark palette and identity.
+      const css = buildCssExport(DEFAULT_THEME)
+      const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
+      expect(darkBlock).not.toContain('--ink-500:')
+      expect(darkBlock).not.toContain('--medal-bronze-outer:')
+    })
+
+    it('emits dark palette overrides when light/dark diverge', () => {
+      const theme = withDivergedDark()
+      const css = buildCssExport(theme)
+      const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
+      expect(darkBlock).toContain('--brand-500: #ff00ff;')
+    })
+
+    it('emits dark identity overrides when light/dark diverge', () => {
+      const theme = withDivergedDark()
+      const css = buildCssExport(theme)
+      const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
+      expect(darkBlock).toContain('--chart-1: #abcdef;')
     })
 
     it('emits paired badge tokens', () => {
@@ -31,13 +69,70 @@ describe('exporters', () => {
     })
   })
 
+  describe('foundations per-mode CSS export', () => {
+    it('emits dark-block override for radius.lg when light/dark diverge', () => {
+      const theme: Theme = {
+        ...DEFAULT_THEME,
+        radius: {
+          light: DEFAULT_THEME.radius.light,
+          dark: { ...DEFAULT_THEME.radius.dark, lg: 99 },
+        },
+      }
+      const css = buildCssExport(theme)
+      const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
+      expect(darkBlock).toContain('--radius-lg: 99px;')
+    })
+
+    it('emits dark-block override for typography size when diverged', () => {
+      const theme: Theme = {
+        ...DEFAULT_THEME,
+        typography: {
+          light: DEFAULT_THEME.typography.light,
+          dark: {
+            ...DEFAULT_THEME.typography.dark,
+            sizes: { ...DEFAULT_THEME.typography.dark.sizes, base: 22 },
+          },
+        },
+      }
+      const css = buildCssExport(theme)
+      const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
+      expect(darkBlock).toContain('--text-base: 22px;')
+    })
+
+    it('emits dark-block override for shadowMemphis color when diverged', () => {
+      const theme: Theme = {
+        ...DEFAULT_THEME,
+        shadowMemphis: {
+          light: DEFAULT_THEME.shadowMemphis.light,
+          dark: {
+            ...DEFAULT_THEME.shadowMemphis.dark,
+            md: { ...DEFAULT_THEME.shadowMemphis.dark.md, color: '#fafafa' },
+          },
+        },
+      }
+      const css = buildCssExport(theme)
+      const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
+      expect(darkBlock).toContain('#fafafa')
+    })
+
+    it('does NOT emit dark-block foundations override when light=dark', () => {
+      const css = buildCssExport(DEFAULT_THEME)
+      const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
+      expect(darkBlock).not.toContain('--radius-lg:')
+      expect(darkBlock).not.toContain('--text-base:')
+      expect(darkBlock).not.toContain('--space-4:')
+    })
+  })
+
   describe('buildJsonExport', () => {
-    it('produces a nested object matching the three-layer shape', () => {
+    it('produces a nested object with light/dark palette and identity', () => {
       const json = JSON.parse(buildJsonExport(DEFAULT_THEME))
-      expect(json.palette.ink['500']).toBe('#7a3980')
+      expect(json.palette.light.ink['500']).toBe('#7a3980')
+      expect(json.palette.dark.ink['500']).toBe('#7a3980')
       expect(json.semantic.light.background).toBe('#fbf7ee')
       expect(json.semantic.dark.background).toBe('#2a0f2d')
-      expect(json.identity.medals.gold.inner).toBe('#c4942a')
+      expect(json.identity.light.medals.gold.inner).toBe('#c4942a')
+      expect(json.identity.dark.medals.gold.inner).toBe('#c4942a')
     })
   })
 
@@ -70,7 +165,7 @@ describe('exporters', () => {
       expect(css).not.toMatch(/--brand-\d+:/)
     })
 
-    it('omits dark semantic block when flag is false', () => {
+    it('omits dark semantic block when flag is false (and palette/identity match)', () => {
       const css = buildCssExport(DEFAULT_THEME, {
         rawPalette: true,
         semanticLight: true,
