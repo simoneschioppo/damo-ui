@@ -14,9 +14,10 @@ test.describe('Density switcher affects rendered spacing', () => {
 
   async function measureButtonPadTop(page: import('@playwright/test').Page) {
     // Any medium-sized Button (py-2.5) inside the design-system showcase.
+    // Buttons use semantic Tailwind classes (bg-primary, bg-secondary, …).
     return page.evaluate(() => {
       const btn = document.querySelector<HTMLButtonElement>(
-        '#buttons button.bg-gold-500, #buttons button.bg-plum-500',
+        '#buttons button.bg-primary, #buttons button.bg-secondary',
       )
       if (!btn) throw new Error('no showcase button found in #buttons')
       return parseFloat(getComputedStyle(btn).paddingTop)
