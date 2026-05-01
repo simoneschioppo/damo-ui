@@ -26,7 +26,7 @@ const features = [
 export default function HomePage() {
   return (
     <main className="px-6 sm:px-10 lg:px-16 py-16 max-w-[1200px] mx-auto">
-      <section className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 items-center mb-20">
+      <section className="grid grid-cols-1 lg:grid-cols-[1fr_460px] gap-12 items-center mb-20">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-4">
             DOCUMENTATION
@@ -65,21 +65,22 @@ export default function HomePage() {
           <img
             src={BRAND.mascotSrc}
             alt={BRAND.mascotAlt}
-            width={280}
-            height={Math.round(280 * (BRAND.mascotHeight / BRAND.mascotWidth))}
-            className="relative drop-shadow-[6px_6px_0_var(--memphis-border-color)]"
+            width={400}
+            height={Math.round(400 * (BRAND.mascotHeight / BRAND.mascotWidth))}
+            className="relative drop-shadow-[6px_6px_0_var(--memphis-shadow-color)]"
+            style={{ transform: 'rotate(-4deg)' }}
           />
           <MemphisShape
             variant="diamond"
-            size={56}
+            size={72}
             color="var(--secondary)"
-            className="absolute -top-2 -left-2"
+            className="absolute -top-4 -left-4"
           />
           <MemphisShape
             variant="star"
-            size={40}
+            size={52}
             color="var(--primary)"
-            className="absolute -bottom-4 -right-4"
+            className="absolute -bottom-6 -right-6"
           />
         </div>
       </section>
