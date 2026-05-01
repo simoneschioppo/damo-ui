@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ColorScale, TokenSwatch } from '@damo/ui'
 import { BRAND } from '../../../../lib/brand'
 
-export const metadata = { title: `Colors — ${BRAND.name}` }
+export const metadata = { title: `Colors — ${BRAND.libName}` }
 
 const PLUM_STOPS = [{ k: 900 }, { k: 800 }, { k: 700 }, { k: 500 }, { k: 300 }, { k: 100 }] as const
 const GOLD_STOPS = [{ k: 500 }, { k: 400 }, { k: 300 }, { k: 200 }, { k: 100 }] as const

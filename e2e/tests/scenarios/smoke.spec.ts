@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Smoke — playground boot', () => {
-  test('home page renders the Axolab navbar brand', async ({ page }) => {
+  test('home page renders the Damo UI navbar brand', async ({ page }) => {
     await page.goto('/')
-    const navbarLink = page.getByRole('link', { name: /Axolab home/i })
+    const navbarLink = page.getByRole('link', { name: /Damo UI home/i })
     await expect(navbarLink).toBeVisible()
   })
 

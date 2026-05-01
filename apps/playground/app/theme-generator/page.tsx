@@ -1021,9 +1021,7 @@ export default function ThemeGeneratorPage() {
       <Sidebar aria-label="Theme controls">
         <SidebarHeader>
           <SidebarBrand>Theme Generator</SidebarBrand>
-          <SidebarSubtitle>
-            {BRAND.name} · {BRAND.libName}
-          </SidebarSubtitle>
+          <SidebarSubtitle>{BRAND.libName} · TOKEN EDITOR</SidebarSubtitle>
         </SidebarHeader>
 
         <SidebarBody>

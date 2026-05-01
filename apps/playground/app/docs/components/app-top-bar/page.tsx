@@ -66,7 +66,7 @@ const PROPS: ReadonlyArray<PropDef> = [
   },
 ]
 
-export const metadata = { title: `AppTopBar — ${BRAND.name}` }
+export const metadata = { title: `AppTopBar — ${BRAND.libName}` }
 
 export default function AppTopBarDocsPage() {
   return (

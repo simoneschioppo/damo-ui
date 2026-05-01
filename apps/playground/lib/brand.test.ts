@@ -2,17 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { BRAND } from './brand'
 
 describe('BRAND', () => {
-  it('exposes a non-empty site name', () => {
-    expect(BRAND.name).toBeTypeOf('string')
-    expect(BRAND.name.length).toBeGreaterThan(0)
-  })
-
   it('exposes the underlying library name', () => {
     expect(BRAND.libName).toBe('Damo UI')
-  })
-
-  it('uses a site name distinct from the library name', () => {
-    expect(BRAND.name).not.toBe(BRAND.libName)
   })
 
   it('points the mascot at the public asset', () => {
