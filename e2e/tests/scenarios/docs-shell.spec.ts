@@ -52,6 +52,7 @@ test.describe('Docs shell', () => {
   const ALL_DOCS_ROUTES = [
     '/docs/getting-started',
     '/docs/foundations/tokens',
+    '/docs/foundations/theming',
     '/docs/foundations/colors',
     '/docs/foundations/typography',
     '/docs/foundations/patterns',
