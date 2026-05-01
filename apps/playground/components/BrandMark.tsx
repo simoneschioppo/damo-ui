@@ -6,14 +6,17 @@ export interface BrandMarkProps {
   readonly compact?: boolean
 }
 
-const NAVBAR_HEIGHT_PX = 28
+// Tuned against AppTopBar's --header-height (56px): ~40px leaves a 4-px
+// breathing margin top and bottom and reads as a brand mark rather than a
+// floating icon.
+const MASCOT_HEIGHT_PX = 40
 
 const linkClass =
-  'inline-flex items-center gap-2 no-underline text-foreground hover:opacity-80 transition-opacity'
+  'inline-flex items-center gap-2 leading-none no-underline text-foreground hover:opacity-80 transition-opacity'
 
-const wordmarkClass = 'font-display text-base tracking-[0.18em] uppercase'
+const wordmarkClass = 'font-display text-lg leading-none tracking-[0.18em] uppercase'
 
-const mascotWidth = Math.round(NAVBAR_HEIGHT_PX * (BRAND.mascotWidth / BRAND.mascotHeight))
+const mascotWidth = Math.round(MASCOT_HEIGHT_PX * (BRAND.mascotWidth / BRAND.mascotHeight))
 
 export function BrandMark({ compact = false }: BrandMarkProps) {
   return (
@@ -22,9 +25,10 @@ export function BrandMark({ compact = false }: BrandMarkProps) {
         src={BRAND.mascotSrc}
         alt=""
         width={mascotWidth}
-        height={NAVBAR_HEIGHT_PX}
+        height={MASCOT_HEIGHT_PX}
         decoding="async"
         loading="eager"
+        className="block"
       />
       {!compact && <span className={wordmarkClass}>{BRAND.name}</span>}
     </Link>
