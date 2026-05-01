@@ -9,6 +9,7 @@ import {
 } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
+import { BRAND } from '../../../../lib/brand'
 
 const IMPORT_SNIPPET = `import {
   Sidebar,
@@ -34,12 +35,24 @@ const BASIC_SNIPPET = `<Sidebar aria-label="Main navigation">
 </Sidebar>`
 
 const PROPS: ReadonlyArray<PropDef> = [
-  { name: 'children', type: 'ReactNode', description: 'Compose with SidebarHeader, SidebarBody, SidebarFooter.' },
-  { name: 'aria-label', type: 'string', description: 'Required when the sidebar is the only nav landmark on the page.' },
-  { name: 'className', type: 'string', description: 'Tailwind classes are merged on top of the defaults.' },
+  {
+    name: 'children',
+    type: 'ReactNode',
+    description: 'Compose with SidebarHeader, SidebarBody, SidebarFooter.',
+  },
+  {
+    name: 'aria-label',
+    type: 'string',
+    description: 'Required when the sidebar is the only nav landmark on the page.',
+  },
+  {
+    name: 'className',
+    type: 'string',
+    description: 'Tailwind classes are merged on top of the defaults.',
+  },
 ]
 
-export const metadata = { title: 'Sidebar — Axolab' }
+export const metadata = { title: `Sidebar — ${BRAND.name}` }
 
 export default function SidebarDocsPage() {
   return (
@@ -49,8 +62,8 @@ export default function SidebarDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Sidebar</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Composable side panel with header, body, and footer slots. Used here on the docs site
-        for the navigation rail you see to the left.
+        Composable side panel with header, body, and footer slots. Used here on the docs site for
+        the navigation rail you see to the left.
       </p>
 
       <h2 className="font-display text-2xl mb-3">Import</h2>

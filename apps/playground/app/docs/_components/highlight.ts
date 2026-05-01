@@ -20,9 +20,7 @@ function getHighlighter(): Promise<Highlighter> {
 }
 
 function resolveLang(lang: string): SupportedLang {
-  return (SUPPORTED_LANGS as ReadonlyArray<string>).includes(lang)
-    ? (lang as SupportedLang)
-    : 'tsx'
+  return (SUPPORTED_LANGS as ReadonlyArray<string>).includes(lang) ? (lang as SupportedLang) : 'tsx'
 }
 
 export async function highlightCode(code: string, lang: string): Promise<string> {
@@ -33,5 +31,6 @@ export async function highlightCode(code: string, lang: string): Promise<string>
     themes: { light: LIGHT_THEME, dark: DARK_THEME },
     defaultColor: false,
   })
-  return html.replace('<pre ', `<pre data-lang="${lang}" `)
+  const safeLang = lang.replace(/[^a-z0-9-]/gi, '')
+  return html.replace('<pre ', `<pre data-lang="${safeLang}" `)
 }

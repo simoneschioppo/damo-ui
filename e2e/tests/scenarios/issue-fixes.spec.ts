@@ -54,7 +54,9 @@ test.describe('Docs sidebar active state', () => {
 test.describe('PaletteSwitcher exposes the documented palettes', () => {
   test('default, neon, sunset are listed and legacy names are not', async ({ page }) => {
     await page.goto('/')
-    const trigger = page.locator('span.eyebrow:has-text("Palette") + button').first()
+    // Radix Select renders the trigger as a combobox with the navbar header as
+    // its accessible context. Use the role rather than internal class names.
+    const trigger = page.getByRole('banner').getByRole('combobox').first()
     await trigger.click()
     const listbox = page.getByRole('listbox')
     await expect(listbox).toBeVisible()

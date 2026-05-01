@@ -20,16 +20,16 @@ export default function NotFound() {
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary">
         ERROR · 404
       </div>
-      <h1 className="font-display text-5xl leading-[0.95]">Pagina smarrita.</h1>
+      <h1 className="font-display text-5xl leading-[0.95]">Page not found.</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch]">
-        Quel link non porta da nessuna parte. Torna alla home, oppure vai alla documentazione.
+        That link does not lead anywhere. Head back home, or jump straight into the documentation.
       </p>
       <div className="flex flex-wrap gap-3 justify-center">
         <Link href="/" className={ctaPrimaryClass}>
-          Torna alla home
+          Back to home
         </Link>
         <Link href="/docs" className={ctaGhostClass}>
-          Apri la documentazione
+          Open documentation
         </Link>
       </div>
     </main>

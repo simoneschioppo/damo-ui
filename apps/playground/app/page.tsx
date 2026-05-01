@@ -103,7 +103,8 @@ export default function HomePage() {
         <h2 className="font-display text-3xl mb-4">Three steps and you're rendering.</h2>
         <ol className="space-y-2 text-foreground/85 list-decimal pl-5">
           <li>
-            Add <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">@damo</code>{' '}
+            Add{' '}
+            <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">@damo</code>{' '}
             scope to your <code className="font-mono">.npmrc</code>.
           </li>
           <li>

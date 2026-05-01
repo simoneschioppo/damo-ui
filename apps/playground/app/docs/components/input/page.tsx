@@ -3,6 +3,7 @@ import { Input, Label } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
+import { BRAND } from '../../../../lib/brand'
 
 const IMPORT_SNIPPET = `import { Input, Label } from '@damo/ui'`
 
@@ -34,7 +35,7 @@ const PROPS: ReadonlyArray<PropDef> = [
   },
 ]
 
-export const metadata = { title: 'Input — Axolab' }
+export const metadata = { title: `Input — ${BRAND.name}` }
 
 export default function InputDocsPage() {
   return (
@@ -80,8 +81,16 @@ export default function InputDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>Always associate a <code className="font-mono">Label</code> via matching <code className="font-mono">htmlFor</code> / <code className="font-mono">id</code> — placeholders are not labels.</li>
-        <li>Use <code className="font-mono">invalid</code> together with <code className="font-mono">aria-describedby</code> pointing at an error message for screen readers.</li>
+        <li>
+          Always associate a <code className="font-mono">Label</code> via matching{' '}
+          <code className="font-mono">htmlFor</code> / <code className="font-mono">id</code> —
+          placeholders are not labels.
+        </li>
+        <li>
+          Use <code className="font-mono">invalid</code> together with{' '}
+          <code className="font-mono">aria-describedby</code> pointing at an error message for
+          screen readers.
+        </li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

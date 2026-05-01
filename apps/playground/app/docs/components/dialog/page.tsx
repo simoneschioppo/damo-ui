@@ -12,6 +12,9 @@ import {
 } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
+import { BRAND } from '../../../../lib/brand'
+
+export const metadata = { title: `Dialog — ${BRAND.name}` }
 
 const IMPORT_SNIPPET = `import {
   Dialog,
@@ -81,8 +84,8 @@ export default function DialogDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Dialog</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Modal dialog wrapping Radix Dialog. Keyboard navigation, focus trap, and Esc-to-close
-        come from the primitive; the Memphis-styled chrome is added on top.
+        Modal dialog wrapping Radix Dialog. Keyboard navigation, focus trap, and Esc-to-close come
+        from the primitive; the Memphis-styled chrome is added on top.
       </p>
 
       <h2 className="font-display text-2xl mb-3">Import</h2>
@@ -98,8 +101,8 @@ export default function DialogDocsPage() {
             <DialogHeader>
               <DialogTitle>Confirm action</DialogTitle>
               <DialogDescription>
-                This dialog is built on Radix Primitives, so focus is trapped while open and
-                Esc closes it.
+                This dialog is built on Radix Primitives, so focus is trapped while open and Esc
+                closes it.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -120,9 +123,18 @@ export default function DialogDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>Always pair <code className="font-mono">DialogTitle</code> with the content; screen readers announce it as the dialog name.</li>
-        <li>Add <code className="font-mono">DialogDescription</code> for non-obvious actions; it is wired as <code className="font-mono">aria-describedby</code>.</li>
-        <li>Use <code className="font-mono">DialogClose</code> on the cancel button so it closes the dialog and returns focus to the trigger.</li>
+        <li>
+          Always pair <code className="font-mono">DialogTitle</code> with the content; screen
+          readers announce it as the dialog name.
+        </li>
+        <li>
+          Add <code className="font-mono">DialogDescription</code> for non-obvious actions; it is
+          wired as <code className="font-mono">aria-describedby</code>.
+        </li>
+        <li>
+          Use <code className="font-mono">DialogClose</code> on the cancel button so it closes the
+          dialog and returns focus to the trigger.
+        </li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

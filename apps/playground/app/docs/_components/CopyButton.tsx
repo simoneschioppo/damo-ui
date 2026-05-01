@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export interface CopyButtonProps {
   readonly text: string
@@ -11,13 +11,21 @@ const RESET_DELAY_MS = 1500
 
 export function CopyButton({ text, label = 'Copy code' }: CopyButtonProps) {
   const [copied, setCopied] = useState(false)
+  const timerRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) window.clearTimeout(timerRef.current)
+    }
+  }, [])
 
   async function copy() {
     if (typeof navigator === 'undefined' || !navigator.clipboard) return
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
-      window.setTimeout(() => setCopied(false), RESET_DELAY_MS)
+      if (timerRef.current !== null) window.clearTimeout(timerRef.current)
+      timerRef.current = window.setTimeout(() => setCopied(false), RESET_DELAY_MS)
     } catch {
       // Permission denied or document not focused — surface no UI; user can re-try.
     }

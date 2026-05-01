@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { TypeSpecimen } from '@damo/ui'
+import { BRAND } from '../../../../lib/brand'
 
 interface TypeRow {
   readonly name: string
@@ -29,7 +30,7 @@ function fontVar(font: TypeRow['font']): string {
   return 'var(--font-body)'
 }
 
-export const metadata = { title: 'Typography — Axolab' }
+export const metadata = { title: `Typography — ${BRAND.name}` }
 
 export default function TypographyFoundationPage() {
   return (
@@ -39,8 +40,8 @@ export default function TypographyFoundationPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Typography</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Audiowide for display, Exo 2 for body and UI. The personality lives in weight, tracking,
-        and the eyebrow mono accent — no extra families needed.
+        Audiowide for display, Exo 2 for body and UI. The personality lives in weight, tracking, and
+        the eyebrow mono accent — no extra families needed.
       </p>
 
       <h2 className="font-display text-2xl mb-3">Specimens</h2>

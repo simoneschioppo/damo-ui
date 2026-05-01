@@ -9,9 +9,7 @@ test.describe('Smoke — playground boot', () => {
 
   test('home page links to the docs surface', async ({ page }) => {
     await page.goto('/')
-    await expect(
-      page.getByRole('link', { name: /Design System|Docs/i }).first(),
-    ).toBeVisible()
+    await expect(page.getByRole('link', { name: /Design System|Docs/i }).first()).toBeVisible()
   })
 
   test('design-system route is reachable', async ({ page }) => {

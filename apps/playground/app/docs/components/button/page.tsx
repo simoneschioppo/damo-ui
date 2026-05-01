@@ -3,6 +3,7 @@ import { Button, IconButton, ArrowRightIcon, CogIcon } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
+import { BRAND } from '../../../../lib/brand'
 
 const IMPORT_SNIPPET = `import { Button } from '@damo/ui'`
 
@@ -59,7 +60,7 @@ const PROPS: ReadonlyArray<PropDef> = [
 ]
 
 export const metadata = {
-  title: 'Button — Axolab',
+  title: `Button — ${BRAND.name}`,
   description: 'Memphis-styled button component with primary and ghost variants.',
 }
 
@@ -71,8 +72,8 @@ export default function ButtonDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Button</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Bordered, shadowed action surface. Two variants, three sizes, full keyboard access via
-        a native <code className="font-mono">&lt;button&gt;</code>.
+        Bordered, shadowed action surface. Two variants, three sizes, full keyboard access via a
+        native <code className="font-mono">&lt;button&gt;</code>.
       </p>
 
       <h2 className="font-display text-2xl mb-3">Import</h2>
@@ -119,9 +120,19 @@ export default function ButtonDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>Renders a native <code className="font-mono">&lt;button type=&quot;button&quot;&gt;</code>; pass <code className="font-mono">type=&quot;submit&quot;</code> when used inside a form.</li>
-        <li>Always provide a non-empty label. For icon-only triggers use <code className="font-mono">IconButton</code> with an <code className="font-mono">aria-label</code>.</li>
-        <li><code className="font-mono">disabled</code> blocks both pointer and keyboard activation. Avoid disabling submit buttons silently — surface validation errors instead.</li>
+        <li>
+          Renders a native <code className="font-mono">&lt;button type=&quot;button&quot;&gt;</code>
+          ; pass <code className="font-mono">type=&quot;submit&quot;</code> when used inside a form.
+        </li>
+        <li>
+          Always provide a non-empty label. For icon-only triggers use{' '}
+          <code className="font-mono">IconButton</code> with an{' '}
+          <code className="font-mono">aria-label</code>.
+        </li>
+        <li>
+          <code className="font-mono">disabled</code> blocks both pointer and keyboard activation.
+          Avoid disabling submit buttons silently — surface validation errors instead.
+        </li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Code } from '../../_components/Code'
+import { BRAND } from '../../../../lib/brand'
 
 const RAW_SNIPPET = `:root {
   --plum-500: #4a2a4f;
@@ -27,7 +28,7 @@ const HTML_SNIPPET = `<html data-theme="dark" data-palette="neon" data-density="
   <body>...</body>
 </html>`
 
-export const metadata = { title: 'Tokens — Axolab' }
+export const metadata = { title: `Tokens — ${BRAND.name}` }
 
 export default function TokensFoundationPage() {
   return (
@@ -38,8 +39,8 @@ export default function TokensFoundationPage() {
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Tokens</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
         Damo UI uses a three-layer token architecture. Raw scales are private; semantic pairs are
-        the public surface; identity tokens are component-specific overrides. Every token is a
-        CSS variable so theme, palette, and density switch live without rebuilds.
+        the public surface; identity tokens are component-specific overrides. Every token is a CSS
+        variable so theme, palette, and density switch live without rebuilds.
       </p>
 
       <h2 className="font-display text-2xl mb-3">1. Raw palette (private)</h2>
@@ -54,16 +55,18 @@ export default function TokensFoundationPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">2. Semantic tokens (public)</h2>
       <p className="text-foreground/80 mb-3">
         Paired <code className="font-mono">bg</code>/<code className="font-mono">fg</code> pairs:{' '}
-        <code className="font-mono">--background</code> + <code className="font-mono">--foreground</code>,{' '}
-        <code className="font-mono">--primary</code> + <code className="font-mono">--primary-foreground</code>, etc.
-        This is the layer product code should consume.
+        <code className="font-mono">--background</code> +{' '}
+        <code className="font-mono">--foreground</code>,{' '}
+        <code className="font-mono">--primary</code> +{' '}
+        <code className="font-mono">--primary-foreground</code>, etc. This is the layer product code
+        should consume.
       </p>
       <Code code={SEMANTIC_SNIPPET} lang="css" title="semantic" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">3. Identity tokens</h2>
       <p className="text-foreground/80 mb-3">
-        Component-specific overrides. They reference the semantic layer but allow narrow
-        adjustments — <code className="font-mono">--nav-on-dark-*</code>,{' '}
+        Component-specific overrides. They reference the semantic layer but allow narrow adjustments
+        — <code className="font-mono">--nav-on-dark-*</code>,{' '}
         <code className="font-mono">--badge-*</code>, <code className="font-mono">--chart-*</code>.
       </p>
       <Code code={IDENTITY_SNIPPET} lang="css" title="identity" />

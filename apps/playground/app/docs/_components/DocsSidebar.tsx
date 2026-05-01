@@ -2,13 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  Sidebar,
-  SidebarBody,
-  SidebarBrand,
-  SidebarHeader,
-  SidebarSubtitle,
-} from '@damo/ui'
+import { Sidebar, SidebarBody, SidebarBrand, SidebarHeader, SidebarSubtitle } from '@damo/ui'
 import { BRAND } from '../../../lib/brand'
 
 export interface DocsNavEntry {
@@ -25,9 +19,7 @@ export interface DocsNavGroup {
 export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
   {
     title: 'Getting Started',
-    entries: [
-      { slug: '/docs/getting-started', label: 'Introduction' },
-    ],
+    entries: [{ slug: '/docs/getting-started', label: 'Introduction' }],
   },
   {
     title: 'Foundations',
@@ -58,8 +50,7 @@ const groupTitleClass =
 const linkClass =
   'block px-3 py-1.5 text-[13px] text-foreground/80 no-underline border-l-2 border-transparent hover:bg-muted/30 transition-colors'
 
-const linkActiveClass =
-  'border-l-primary bg-muted/40 text-foreground font-semibold'
+const linkActiveClass = 'border-l-primary bg-muted/40 text-foreground font-semibold'
 
 const stubBadgeClass =
   'ml-2 inline-block px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-[0.1em] border border-memphis text-muted-foreground'

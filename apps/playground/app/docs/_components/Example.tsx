@@ -1,3 +1,6 @@
+// Server Component. Imports Code, which transitively imports `server-only`,
+// so this file must NOT be marked `'use client'` — doing so triggers a runtime
+// error inside Next.js's RSC boundary check.
 import type { ReactNode } from 'react'
 import { Code } from './Code'
 

@@ -1,12 +1,15 @@
 import Link from 'next/link'
 import { ColorScale, TokenSwatch } from '@damo/ui'
+import { BRAND } from '../../../../lib/brand'
+
+export const metadata = { title: `Colors — ${BRAND.name}` }
 
 const PLUM_STOPS = [{ k: 900 }, { k: 800 }, { k: 700 }, { k: 500 }, { k: 300 }, { k: 100 }] as const
 const GOLD_STOPS = [{ k: 500 }, { k: 400 }, { k: 300 }, { k: 200 }, { k: 100 }] as const
 const PAPER_STOPS = [{ k: 300 }, { k: 200 }, { k: 100 }, { k: 50 }] as const
 
 const SEMANTIC = [
-  { name: 'Background', cssVar: '--background', usage: 'Sfondo principale dell\'app' },
+  { name: 'Background', cssVar: '--background', usage: "Sfondo principale dell'app" },
   { name: 'Card', cssVar: '--card', usage: 'Card, modali, superfici elevate' },
   { name: 'Muted', cssVar: '--muted', usage: 'Superficie secondaria, hover' },
   { name: 'Foreground', cssVar: '--foreground', usage: 'Testo primario, bordi' },
@@ -24,8 +27,8 @@ export default function ColorsFoundationPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Colors</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Three brand scales (Plum, Gold, Paper) and eight semantic tokens. Switch the palette in
-        the navbar to see every swatch on this page update live.
+        Three brand scales (Plum, Gold, Paper) and eight semantic tokens. Switch the palette in the
+        navbar to see every swatch on this page update live.
       </p>
 
       <h2 className="font-display text-2xl mb-3">Brand scales</h2>

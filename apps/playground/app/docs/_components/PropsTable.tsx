@@ -26,16 +26,24 @@ export function PropsTable({ props, caption }: PropsTableProps) {
       <table className="w-full border-collapse text-[13px]">
         <thead>
           <tr className="border-b-2 border-memphis bg-muted/40">
-            <th className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}>
+            <th
+              className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}
+            >
               Prop
             </th>
-            <th className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}>
+            <th
+              className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}
+            >
               Type
             </th>
-            <th className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}>
+            <th
+              className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}
+            >
               Default
             </th>
-            <th className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}>
+            <th
+              className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}
+            >
               Description
             </th>
           </tr>
@@ -43,7 +51,9 @@ export function PropsTable({ props, caption }: PropsTableProps) {
         <tbody>
           {props.map((p) => (
             <tr key={p.name}>
-              <td className={`${cellClass} font-mono font-semibold text-foreground whitespace-nowrap`}>
+              <td
+                className={`${cellClass} font-mono font-semibold text-foreground whitespace-nowrap`}
+              >
                 {p.name}
                 {p.required === true && <span className="ml-1 text-primary">*</span>}
               </td>

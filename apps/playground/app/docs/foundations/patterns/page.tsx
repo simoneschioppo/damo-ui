@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { PatternSwatch, MemphisShape } from '@damo/ui'
 import { PATTERNS } from '../../_lib/patterns'
+import { BRAND } from '../../../../lib/brand'
 
-export const metadata = { title: 'Patterns — Axolab' }
+export const metadata = { title: `Patterns — ${BRAND.name}` }
 
 export default function PatternsFoundationPage() {
   return (
@@ -12,8 +13,8 @@ export default function PatternsFoundationPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Patterns</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Texture and shape primitives that fill empty space. Use one at a time — the Memphis look
-        is loud enough that combining patterns turns into noise.
+        Texture and shape primitives that fill empty space. Use one at a time — the Memphis look is
+        loud enough that combining patterns turns into noise.
       </p>
 
       <h2 className="font-display text-2xl mb-3">Tileable backgrounds</h2>

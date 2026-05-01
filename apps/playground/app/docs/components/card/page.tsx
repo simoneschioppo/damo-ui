@@ -1,8 +1,17 @@
 import Link from 'next/link'
-import { Card, CardHeader, CardTitle, CardDescription, CardBody, CardFooter, Button } from '@damo/ui'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardBody,
+  CardFooter,
+  Button,
+} from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
+import { BRAND } from '../../../../lib/brand'
 
 const IMPORT_SNIPPET = `import {
   Card,
@@ -43,7 +52,8 @@ const PROPS: ReadonlyArray<PropDef> = [
     name: 'variant',
     type: "'default' | 'elevated' | 'featured' | 'interactive' | 'inverse'",
     defaultValue: "'default'",
-    description: 'Visual treatment. Featured uses the gold accent; inverse flips fg/bg for dark surfaces.',
+    description:
+      'Visual treatment. Featured uses the gold accent; inverse flips fg/bg for dark surfaces.',
   },
   {
     name: 'padding',
@@ -58,7 +68,7 @@ const PROPS: ReadonlyArray<PropDef> = [
   },
 ]
 
-export const metadata = { title: 'Card — Axolab' }
+export const metadata = { title: `Card — ${BRAND.name}` }
 
 export default function CardDocsPage() {
   return (
@@ -99,7 +109,9 @@ export default function CardDocsPage() {
             <CardHeader>
               <CardTitle>Featured</CardTitle>
             </CardHeader>
-            <CardBody>The most prominent variant — solid border, hard shadow, gold accent.</CardBody>
+            <CardBody>
+              The most prominent variant — solid border, hard shadow, gold accent.
+            </CardBody>
           </Card>
         </div>
       </Example>

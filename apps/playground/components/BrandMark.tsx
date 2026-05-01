@@ -13,9 +13,7 @@ const linkClass =
 
 const wordmarkClass = 'font-display text-base tracking-[0.18em] uppercase'
 
-const mascotWidth = Math.round(
-  NAVBAR_HEIGHT_PX * (BRAND.mascotWidth / BRAND.mascotHeight),
-)
+const mascotWidth = Math.round(NAVBAR_HEIGHT_PX * (BRAND.mascotWidth / BRAND.mascotHeight))
 
 export function BrandMark({ compact = false }: BrandMarkProps) {
   return (

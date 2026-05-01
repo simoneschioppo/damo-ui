@@ -60,15 +60,15 @@ export default function GettingStartedPage() {
         in five minutes.
       </h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-12">
-        {BRAND.libName} is a React + Next.js component library inspired by Memphis design.
-        Tokens, components, and patterns ready to compose into a product UI.
+        {BRAND.libName} is a React + Next.js component library inspired by Memphis design. Tokens,
+        components, and patterns ready to compose into a product UI.
       </p>
 
       <h2 className="font-display text-2xl mb-3">1. Configure your registry</h2>
       <p className="text-foreground/80 mb-2">
         {BRAND.libName} is published to GitHub Packages. Add an{' '}
-        <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">.npmrc</code>{' '}
-        at your repo root pointing the {' '}
+        <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">.npmrc</code> at
+        your repo root pointing the{' '}
         <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">@damo</code>{' '}
         scope at it:
       </p>
@@ -79,8 +79,8 @@ export default function GettingStartedPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-12">3. Wire the styles</h2>
       <p className="text-foreground/80 mb-2">
-        Import the design tokens and the global stylesheet once in your root layout. Tokens
-        define colors, typography, radius, shadow, and motion as CSS variables.
+        Import the design tokens and the global stylesheet once in your root layout. Tokens define
+        colors, typography, radius, shadow, and motion as CSS variables.
       </p>
       <Code code={STYLES_SNIPPET} lang="tsx" title="app/layout.tsx" />
 
@@ -97,7 +97,9 @@ export default function GettingStartedPage() {
       <h2 className="font-display text-2xl mb-3 mt-12">5. Switch theme, palette, density</h2>
       <p className="text-foreground/80 mb-2">
         Three switchers live on{' '}
-        <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">&lt;html&gt;</code>{' '}
+        <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">
+          &lt;html&gt;
+        </code>{' '}
         as data-attributes. All combinations work orthogonally.
       </p>
       <Code code={THEMING_SNIPPET} lang="html" title="<html> data-attributes" />

@@ -1,11 +1,8 @@
 import Link from 'next/link'
-import {
-  AppTopBar,
-  Button,
-  ThemeSwitcher,
-} from '@damo/ui'
+import { AppTopBar, Button, ThemeSwitcher } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
+import { BRAND } from '../../../../lib/brand'
 
 const IMPORT_SNIPPET = `import {
   AppTopBar,
@@ -37,17 +34,39 @@ const BASIC_SNIPPET = `<AppTopBar
   }
 />`
 
-const NON_STICKY_SNIPPET = `<AppTopBar sticky={false} logo={…} />`
+const NON_STICKY_SNIPPET = `<AppTopBar sticky={false} logo={/* … */} />`
 
 const PROPS: ReadonlyArray<PropDef> = [
-  { name: 'logo', type: 'ReactNode', required: true, description: 'Branding slot. Wrap a Next link or anchor that points to home.' },
-  { name: 'nav', type: 'ReactNode', description: 'Inline navigation. Renders inside a <nav> element.' },
-  { name: 'actions', type: 'ReactNode', description: 'Right-aligned controls. Switchers, account menus, etc.' },
-  { name: 'sticky', type: 'boolean', defaultValue: 'true', description: 'Stick the bar to the viewport top with z-index header.' },
-  { name: 'className', type: 'string', description: 'Tailwind classes are merged on top of the defaults.' },
+  {
+    name: 'logo',
+    type: 'ReactNode',
+    required: true,
+    description: 'Branding slot. Wrap a Next link or anchor that points to home.',
+  },
+  {
+    name: 'nav',
+    type: 'ReactNode',
+    description: 'Inline navigation. Renders inside a <nav> element.',
+  },
+  {
+    name: 'actions',
+    type: 'ReactNode',
+    description: 'Right-aligned controls. Switchers, account menus, etc.',
+  },
+  {
+    name: 'sticky',
+    type: 'boolean',
+    defaultValue: 'true',
+    description: 'Stick the bar to the viewport top with z-index header.',
+  },
+  {
+    name: 'className',
+    type: 'string',
+    description: 'Tailwind classes are merged on top of the defaults.',
+  },
 ]
 
-export const metadata = { title: 'AppTopBar — Axolab' }
+export const metadata = { title: `AppTopBar — ${BRAND.name}` }
 
 export default function AppTopBarDocsPage() {
   return (
@@ -97,8 +116,13 @@ export default function AppTopBarDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>The header renders as a <code className="font-mono">&lt;header&gt;</code> (banner role).</li>
-        <li>Wrap the brand mark in a link with an <code className="font-mono">aria-label</code> when the label is decorative (icon-only).</li>
+        <li>
+          The header renders as a <code className="font-mono">&lt;header&gt;</code> (banner role).
+        </li>
+        <li>
+          Wrap the brand mark in a link with an <code className="font-mono">aria-label</code> when
+          the label is decorative (icon-only).
+        </li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
