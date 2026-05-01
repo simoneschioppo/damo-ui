@@ -41,6 +41,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@damo/ui'
+import { BRAND } from '../../lib/brand'
 import {
   AuthPreview,
   DashboardPreview,
@@ -987,7 +988,7 @@ export default function ThemeGeneratorPage() {
       <Sidebar aria-label="Theme controls">
         <SidebarHeader>
           <SidebarBrand>Theme Generator</SidebarBrand>
-          <SidebarSubtitle>Edit palette, theme and identity tokens</SidebarSubtitle>
+          <SidebarSubtitle>{BRAND.name} · {BRAND.libName}</SidebarSubtitle>
         </SidebarHeader>
 
         <SidebarBody>
