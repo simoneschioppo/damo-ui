@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           logo={<BrandMark />}
           nav={
             <>
-              <Link href="/design-system">Design System</Link>
+              <Link href="/docs">Docs</Link>
               <Link href="/theme-generator">Theme Generator</Link>
             </>
           }
