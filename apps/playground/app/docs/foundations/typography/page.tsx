@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { TypeSpecimen } from '@damo/ui'
+import { Code } from '../../_components/Code'
+import { Example } from '../../_components/Example'
 import { BRAND } from '../../../../lib/brand'
 
 interface TypeRow {
@@ -29,6 +31,102 @@ function fontVar(font: TypeRow['font']): string {
   if (font === 'mono') return 'var(--font-mono)'
   return 'var(--font-body)'
 }
+
+const FONTS_LOAD = `// app/layout.tsx — load Audiowide + Exo 2 from Google Fonts
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  )
+}
+`
+
+const FONTS_TOKEN_OVERRIDE = `/* app/globals.css — bind your loaded families to the lib's variables */
+:root {
+  --font-display: 'Audiowide', system-ui, sans-serif;
+  --font-body: 'Exo 2', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+`
+
+const NEXT_LOCAL_FONTS = `// app/layout.tsx — Next.js 'next/font/google' alternative
+import { Audiowide, Exo_2 } from 'next/font/google'
+
+const display = Audiowide({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-display',
+  display: 'swap',
+})
+
+const body = Exo_2({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-body',
+  display: 'swap',
+})
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" className={\`\${display.variable} \${body.variable}\`}>
+      <body>{children}</body>
+    </html>
+  )
+}
+`
+
+const TAILWIND_FONTS = `// In JSX: use the lib's Tailwind utilities
+<h1 className="font-display text-5xl leading-[0.95]">
+  Damo UI
+</h1>
+<p className="font-body text-base text-foreground/80">
+  Body copy uses the body family by default — explicit class for clarity.
+</p>
+<code className="font-mono text-sm">
+  npm install @damo/ui
+</code>
+`
+
+const HELPER_CLASSES = `// Three CSS helpers ship in @damo/ui/styles/globals.css
+<h2 className="display">Display heading</h2>
+<code className="mono">read-only mono span</code>
+<span className="eyebrow">SECTION LABEL</span>
+`
+
+const CSS_FONT_USAGE = `/* In a stylesheet — read the variable */
+.callout {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.code-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+`
+
+const EYEBROW_PATTERN = `// The "eyebrow" pattern: small uppercase mono accent above a heading.
+// Helps with hierarchy and ties into the Memphis vibe.
+<section>
+  <span className="eyebrow">FOUNDATIONS</span>
+  <h2 className="font-display text-4xl">Typography</h2>
+  <p className="text-muted-foreground">
+    Sub-copy explaining the section.
+  </p>
+</section>
+`
 
 export const metadata = { title: `Typography — ${BRAND.libName}` }
 
@@ -61,7 +159,7 @@ export default function TypographyFoundationPage() {
       </div>
 
       <h2 className="font-display text-2xl mb-3 mt-10">Scale</h2>
-      <div className="border-2 border-memphis bg-card shadow-memphis">
+      <div className="border-2 border-memphis bg-card shadow-memphis mb-12">
         {TYPE_SCALE.map((t, idx) => (
           <div
             key={t.name}
@@ -93,6 +191,74 @@ export default function TypographyFoundationPage() {
           </div>
         ))}
       </div>
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Loading the fonts</h2>
+      <p className="text-foreground/80 mb-3">
+        The lib ships <code className="font-mono">var(--font-*)</code> tokens but{' '}
+        <strong>does not</strong> embed font files. Load Audiowide + Exo 2 yourself (Google Fonts
+        link or <code className="font-mono">next/font</code>) and bind the families to the
+        lib&rsquo;s variables.
+      </p>
+      <Code code={FONTS_LOAD} lang="tsx" title="option A · Google Fonts <link>" />
+      <Code code={FONTS_TOKEN_OVERRIDE} lang="css" title="option A · bind to tokens" />
+      <p className="text-foreground/80 mt-6 mb-3">
+        Or use Next.js <code className="font-mono">next/font/google</code> for self-hosted,
+        FOUT-free loading:
+      </p>
+      <Code code={NEXT_LOCAL_FONTS} lang="tsx" title="option B · next/font/google" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Using fonts in JSX (Tailwind)</h2>
+      <p className="text-foreground/80 mb-3">
+        Three Tailwind utilities map to the three families:{' '}
+        <code className="font-mono">font-display</code>,{' '}
+        <code className="font-mono">font-body</code>, <code className="font-mono">font-mono</code>.
+      </p>
+      <Example code={TAILWIND_FONTS} previewClassName="px-6 py-8 flex flex-col gap-3 items-start">
+        <h3 className="font-display text-4xl leading-[0.95]">Damo UI</h3>
+        <p className="font-body text-base text-foreground/80">
+          Body copy uses the body family by default.
+        </p>
+        <code className="font-mono text-sm bg-muted px-2 py-1 border border-memphis/40">
+          npm install @damo/ui
+        </code>
+      </Example>
+
+      <h3 className="font-display text-lg mb-3 mt-8">Helper classes</h3>
+      <p className="text-foreground/80 mb-3">
+        Three CSS classes ship with <code className="font-mono">@damo/ui/styles/globals.css</code>{' '}
+        for the most common Memphis-flavoured patterns.
+      </p>
+      <Example code={HELPER_CLASSES} previewClassName="px-6 py-8 flex flex-col gap-3 items-start">
+        <h2 className="display text-4xl">Display heading</h2>
+        <code className="mono text-sm">read-only mono span</code>
+        <span className="eyebrow">SECTION LABEL</span>
+      </Example>
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Using fonts in CSS</h2>
+      <Code code={CSS_FONT_USAGE} lang="css" title="any stylesheet" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">The eyebrow pattern</h2>
+      <p className="text-foreground/80 mb-3">
+        Section headers in {BRAND.libName} pair an uppercase mono accent (the &ldquo;eyebrow&rdquo;)
+        with a display headline. The contrast in family + tracking is what gives the layout its
+        Memphis edge.
+      </p>
+      <Example code={EYEBROW_PATTERN} previewClassName="px-6 py-8 flex flex-col items-start gap-1">
+        <span className="eyebrow">FOUNDATIONS</span>
+        <h3 className="font-display text-4xl leading-[0.95]">Typography</h3>
+        <p className="text-muted-foreground">Sub-copy explaining the section.</p>
+      </Example>
+
+      <p className="text-foreground/80 mt-8">
+        Need to swap fonts entirely? Override <code className="font-mono">--font-display</code>,{' '}
+        <code className="font-mono">--font-body</code>,{' '}
+        <code className="font-mono">--font-mono</code> at <code className="font-mono">:root</code> —
+        every utility and helper re-points automatically. See{' '}
+        <Link href="/docs/foundations/tokens" className="text-primary underline">
+          Tokens
+        </Link>{' '}
+        for the override pattern.
+      </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <Link href="/docs/foundations/colors" className="text-primary underline">

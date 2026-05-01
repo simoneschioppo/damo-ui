@@ -22,8 +22,8 @@ const IMPORT_SNIPPET = `import {
 
 const BASIC_SNIPPET = `<Sidebar aria-label="Main navigation">
   <SidebarHeader>
-    <SidebarBrand>Axolab</SidebarBrand>
-    <SidebarSubtitle>Damo UI · Docs</SidebarSubtitle>
+    <SidebarBrand>Damo UI</SidebarBrand>
+    <SidebarSubtitle>DOCS</SidebarSubtitle>
   </SidebarHeader>
   <SidebarBody>
     <nav>
@@ -74,8 +74,8 @@ export default function SidebarDocsPage() {
         <div className="grid grid-cols-[260px_1fr] min-h-[280px]">
           <Sidebar aria-label="Sidebar preview">
             <SidebarHeader>
-              <SidebarBrand>Axolab</SidebarBrand>
-              <SidebarSubtitle>Damo UI · Docs</SidebarSubtitle>
+              <SidebarBrand>Damo UI</SidebarBrand>
+              <SidebarSubtitle>DOCS</SidebarSubtitle>
             </SidebarHeader>
             <SidebarBody>
               <div className="px-3 py-2 text-[13px] text-foreground/80">Getting Started</div>

@@ -24,9 +24,89 @@ const IDENTITY_SNIPPET = `:root {
   /* …component-specific overrides */
 }`
 
-const HTML_SNIPPET = `<html data-theme="dark" data-palette="neon" data-density="compact">
-  <body>...</body>
-</html>`
+const SEMANTIC_TAILWIND = `// In JSX: use the lib's Tailwind utilities
+<div className="bg-card text-card-foreground border-2 border-memphis p-4">
+  <h3 className="text-foreground font-display text-xl">Title</h3>
+  <p className="text-muted-foreground">Body copy goes here.</p>
+  <button className="bg-primary text-primary-foreground px-3 py-1.5">
+    Save
+  </button>
+</div>
+`
+
+const SEMANTIC_CSS = `/* In a stylesheet: read the variable directly */
+.callout {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 2px solid var(--memphis-border-color);
+  box-shadow: var(--shadow-memphis);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+}
+`
+
+const SEMANTIC_INLINE = `// In JSX inline style: same vars, no Tailwind dependency
+<div
+  style={{
+    background: 'var(--primary)',
+    color: 'var(--primary-foreground)',
+    padding: 'var(--space-3) var(--space-5)',
+    boxShadow: 'var(--shadow-memphis)',
+  }}
+>
+  Inline-styled chip
+</div>
+`
+
+const OVERRIDE_ROOT = `/* Override at the root — affects the whole document */
+:root {
+  --primary: hsl(280 70% 55%);
+  --primary-foreground: #ffffff;
+  --radius-lg: 12px;
+  --shadow-memphis: 4px 4px 0 #000;
+}
+`
+
+const OVERRIDE_SCOPED = `/* Override scoped to a subtree */
+.brand-island {
+  --primary: hsl(150 60% 45%);
+  --memphis-shadow-color: hsl(150 60% 25%);
+}
+
+/* Now any <Button variant="primary" /> inside .brand-island
+   uses the green primary, while the rest of the page is unchanged. */
+`
+
+const NEW_IDENTITY_TOKEN = `/* 1. Declare a new identity token at :root */
+:root {
+  --pricing-card-accent: var(--gold-500);
+  --pricing-card-accent-foreground: var(--plum-900);
+}
+
+/* 2. Override per theme/palette as needed */
+:root[data-theme='dark'] {
+  --pricing-card-accent: var(--gold-300);
+  --pricing-card-accent-foreground: #0a0a0a;
+}
+
+/* 3. Consume it in the component */
+.pricing-card {
+  background: var(--pricing-card-accent);
+  color: var(--pricing-card-accent-foreground);
+}
+`
+
+const DENSITY_USAGE = `/* The lib multiplies vertical paddings by --density-scale-y
+   so density flips component spacing without re-rendering React. */
+.my-card {
+  padding-block: calc(var(--space-4) * var(--density-scale-y));
+  padding-inline: var(--space-4);
+}
+
+/* compact   → padding-block = 16px * 0.75 = 12px
+   normal    → padding-block = 16px * 1.00 = 16px
+   comfortable → padding-block = 16px * 1.25 = 20px */
+`
 
 export const metadata = { title: `Tokens — ${BRAND.libName}` }
 
@@ -38,9 +118,9 @@ export default function TokensFoundationPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Tokens</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Damo UI uses a three-layer token architecture. Raw scales are private; semantic pairs are
-        the public surface; identity tokens are component-specific overrides. Every token is a CSS
-        variable so theme, palette, and density switch live without rebuilds.
+        {BRAND.libName} uses a three-layer token architecture. Raw scales are private; semantic
+        pairs are the public surface; identity tokens are component-specific overrides. Every token
+        is a CSS variable so theme, palette, and density switch live without rebuilds.
       </p>
 
       <h2 className="font-display text-2xl mb-3">1. Raw palette (private)</h2>
@@ -63,20 +143,54 @@ export default function TokensFoundationPage() {
       </p>
       <Code code={SEMANTIC_SNIPPET} lang="css" title="semantic" />
 
+      <h3 className="font-display text-lg mb-3 mt-8">Consuming semantic tokens</h3>
+      <p className="text-foreground/80 mb-3">
+        Three equivalent ways. Pick the one that fits where you are:
+      </p>
+      <Code code={SEMANTIC_TAILWIND} lang="tsx" title="JSX · Tailwind utilities (recommended)" />
+      <Code code={SEMANTIC_CSS} lang="css" title="CSS · var() reference" />
+      <Code code={SEMANTIC_INLINE} lang="tsx" title="JSX · inline style" />
+
       <h2 className="font-display text-2xl mb-3 mt-10">3. Identity tokens</h2>
       <p className="text-foreground/80 mb-3">
         Component-specific overrides. They reference the semantic layer but allow narrow adjustments
         — <code className="font-mono">--nav-on-dark-*</code>,{' '}
         <code className="font-mono">--badge-*</code>, <code className="font-mono">--chart-*</code>.
+        Add your own when a component needs a value the semantic layer doesn&rsquo;t express.
       </p>
       <Code code={IDENTITY_SNIPPET} lang="css" title="identity" />
 
+      <h3 className="font-display text-lg mb-3 mt-8">Adding a custom identity token</h3>
+      <Code code={NEW_IDENTITY_TOKEN} lang="css" title="define + theme + consume" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Overriding tokens</h2>
+      <p className="text-foreground/80 mb-3">
+        Any token is just a CSS variable. Override at <code className="font-mono">:root</code> to
+        change the whole document, or scope to a wrapper class for an island:
+      </p>
+      <Code code={OVERRIDE_ROOT} lang="css" title="root override" />
+      <Code code={OVERRIDE_SCOPED} lang="css" title="scoped override" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Density &amp; the multiplier pattern</h2>
+      <p className="text-foreground/80 mb-3">
+        The density attribute flips a single multiplier:{' '}
+        <code className="font-mono">--density-scale-y</code>. Bake it into your component spacing
+        and density switching becomes free.
+      </p>
+      <Code code={DENSITY_USAGE} lang="css" title="density-scale-y in product CSS" />
+
       <h2 className="font-display text-2xl mb-3 mt-10">Switching modes</h2>
       <p className="text-foreground/80 mb-3">
-        Three switchers live on <code className="font-mono">&lt;html&gt;</code>. They are
-        orthogonal: any combination works.
+        Three switchers live on <code className="font-mono">&lt;html&gt;</code>:{' '}
+        <code className="font-mono">data-theme</code>,{' '}
+        <code className="font-mono">data-palette</code>,{' '}
+        <code className="font-mono">data-density</code>. They are orthogonal — any combination
+        works. See{' '}
+        <Link href="/docs/foundations/theming" className="text-primary underline">
+          Theming
+        </Link>{' '}
+        for the full wiring.
       </p>
-      <Code code={HTML_SNIPPET} lang="html" />
 
       <p className="text-foreground/80 mt-6">
         Want to author a custom theme? The{' '}
@@ -90,8 +204,8 @@ export default function TokensFoundationPage() {
         <Link href="/docs/getting-started" className="text-primary underline">
           ← Getting Started
         </Link>
-        <Link href="/docs/foundations/colors" className="text-primary underline">
-          Colors →
+        <Link href="/docs/foundations/theming" className="text-primary underline">
+          Theming →
         </Link>
       </div>
     </article>

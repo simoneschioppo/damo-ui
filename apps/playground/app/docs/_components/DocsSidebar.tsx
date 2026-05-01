@@ -25,6 +25,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     title: 'Foundations',
     entries: [
       { slug: '/docs/foundations/tokens', label: 'Tokens' },
+      { slug: '/docs/foundations/theming', label: 'Theming' },
       { slug: '/docs/foundations/colors', label: 'Colors' },
       { slug: '/docs/foundations/typography', label: 'Typography' },
       { slug: '/docs/foundations/patterns', label: 'Patterns' },
