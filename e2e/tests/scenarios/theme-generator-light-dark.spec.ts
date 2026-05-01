@@ -11,12 +11,11 @@ test.describe('Theme generator — light/dark editing across Palette, Theme, Ide
     await page.goto('/theme-generator')
   })
 
-  test('Sidebar surfaces the Axolab brand alongside the Theme Generator label', async ({
+  test('Sidebar surfaces the Damo UI brand alongside the Theme Generator label', async ({
     page,
   }) => {
     const sb = sidebar(page)
     await expect(sb.getByText('Theme Generator', { exact: true })).toBeVisible()
-    await expect(sb.getByText(/Axolab/)).toBeVisible()
     await expect(sb.getByText(/Damo UI/)).toBeVisible()
   })
 
