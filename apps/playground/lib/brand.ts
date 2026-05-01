@@ -23,6 +23,6 @@ export const BRAND: BrandConfig = {
   mascotSrc: '/mascot.png',
   mascotAlt: 'Damo UI mascot — a purple axolotl wearing glasses',
   mascotWidth: 720,
-  mascotHeight: 470,
+  mascotHeight: 446,
   repoUrl: 'https://github.com/simoneschioppo/damo-ui',
 }
