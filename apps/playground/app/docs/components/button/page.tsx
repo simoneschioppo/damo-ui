@@ -27,6 +27,24 @@ const DISABLED_SNIPPET = `<Button variant="primary" disabled>
   Save
 </Button>`
 
+const FULL_WIDTH_SNIPPET = `<Button variant="primary" fullWidth>
+  Continue
+</Button>`
+
+const AS_LINK_SNIPPET = `import Link from 'next/link'
+
+// Button does not support \`asChild\`. To navigate, style a Link
+// with the same Tailwind utilities the Button variant uses:
+<Link
+  href="/docs"
+  className="inline-flex items-center gap-2 px-4 py-2
+             bg-primary text-primary-foreground font-semibold
+             border-2 border-memphis shadow-memphis-sm
+             hover:shadow-memphis-hover transition-shadow"
+>
+  Browse docs
+</Link>`
+
 const PROPS: ReadonlyArray<PropDef> = [
   {
     name: 'variant',
@@ -114,6 +132,27 @@ export default function ButtonDocsPage() {
           Save
         </Button>
       </Example>
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Full width</h2>
+      <p className="text-foreground/80 mb-3">
+        Stretch the button to the container — useful inside narrow forms or mobile sheets.
+      </p>
+      <Example code={FULL_WIDTH_SNIPPET} previewClassName="px-6 py-10">
+        <div className="w-full max-w-sm">
+          <Button variant="primary" fullWidth>
+            Continue
+          </Button>
+        </div>
+      </Example>
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Use as a link</h2>
+      <p className="text-foreground/80 mb-3">
+        <code className="font-mono">Button</code> renders a native{' '}
+        <code className="font-mono">&lt;button&gt;</code> and does <strong>not</strong> support{' '}
+        <code className="font-mono">asChild</code>. For navigation, style a{' '}
+        <code className="font-mono">Link</code> directly with the same utilities.
+      </p>
+      <Code code={AS_LINK_SNIPPET} lang="tsx" title="Link styled like a primary button" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">API</h2>
       <PropsTable props={PROPS} caption="Button props" />

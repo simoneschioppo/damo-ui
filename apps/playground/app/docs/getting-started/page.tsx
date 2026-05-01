@@ -38,9 +38,45 @@ export default function Page() {
 }
 `
 
-const THEMING_SNIPPET = `<html data-theme="dark" data-palette="neon" data-density="compact">
-  <body>...</body>
-</html>
+const ROOT_LAYOUT_SNIPPET = `// app/layout.tsx
+import {
+  AppTopBar,
+  ThemeSwitcher,
+  PaletteSwitcher,
+  DensitySwitcher,
+} from '@damo/ui'
+
+export default function RootLayout({ children }) {
+  return (
+    <html
+      lang="en"
+      data-theme="light"        // 'light' | 'dark' | …your custom values
+      data-palette="default"    // any value you wired in CSS
+      data-density="normal"     // 'compact' | 'normal' | 'comfortable'
+      suppressHydrationWarning
+    >
+      <body suppressHydrationWarning>
+        <AppTopBar
+          logo={<a href="/">Brand</a>}
+          actions={
+            <>
+              <ThemeSwitcher />
+              <PaletteSwitcher
+                defaultValue="default"
+                options={[
+                  { value: 'default', label: 'Default' },
+                  { value: 'neon',    label: 'Neon' },
+                ]}
+              />
+              <DensitySwitcher />
+            </>
+          }
+        />
+        {children}
+      </body>
+    </html>
+  )
+}
 `
 
 export const metadata = {
@@ -94,15 +130,56 @@ export default function GettingStartedPage() {
         <Button variant="primary">Save</Button>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-12">5. Switch theme, palette, density</h2>
+      <h2 className="font-display text-2xl mb-3 mt-12">5. Wire theme, palette, density</h2>
       <p className="text-foreground/80 mb-2">
-        Three switchers live on{' '}
+        Three orthogonal data-attributes on{' '}
         <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">
           &lt;html&gt;
         </code>{' '}
-        as data-attributes. All combinations work orthogonally.
+        drive every visual choice. Drop the lib&rsquo;s switcher components in your top bar and
+        you&rsquo;re done — they read &amp; write the attributes and persist to{' '}
+        <code className="font-mono">localStorage</code>:
       </p>
-      <Code code={THEMING_SNIPPET} lang="html" title="<html> data-attributes" />
+      <Code code={ROOT_LAYOUT_SNIPPET} lang="tsx" title="app/layout.tsx" />
+
+      <div className="mt-6 border-2 border-memphis bg-card p-5">
+        <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
+          Valid attribute values
+        </div>
+        <ul className="text-foreground/85 text-[14px] space-y-2 leading-relaxed">
+          <li>
+            <code className="font-mono">data-theme</code> — the lib ships{' '}
+            <strong>light only</strong>; declare your own{' '}
+            <code className="font-mono">[data-theme=&apos;dark&apos;]</code> CSS overrides. The
+            built-in <code className="font-mono">ThemeSwitcher</code> defaults to{' '}
+            <code className="font-mono">&apos;light&apos;</code> /{' '}
+            <code className="font-mono">&apos;dark&apos;</code>.
+          </li>
+          <li>
+            <code className="font-mono">data-palette</code> — <strong>no built-ins</strong>; the
+            lib&rsquo;s neutral defaults assume a single palette. Define{' '}
+            <code className="font-mono">[data-palette=&apos;neon&apos;]</code>,{' '}
+            <code className="font-mono">[data-palette=&apos;sunset&apos;]</code>, etc., and pass the
+            list to <code className="font-mono">PaletteSwitcher</code>.
+          </li>
+          <li>
+            <code className="font-mono">data-density</code> — built-in:{' '}
+            <code className="font-mono">&apos;compact&apos;</code>,{' '}
+            <code className="font-mono">&apos;normal&apos;</code>,{' '}
+            <code className="font-mono">&apos;comfortable&apos;</code>. Drives{' '}
+            <code className="font-mono">--density-scale-y</code> for vertical spacing.
+          </li>
+        </ul>
+      </div>
+
+      <p className="text-foreground/80 mt-6 mb-0">
+        Full guide with dark-mode setup, custom palettes, programmatic switching, and FOUC
+        prevention →{' '}
+        <Link href="/docs/foundations/theming" className="text-primary underline">
+          Theming
+        </Link>
+        .
+      </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <p className="text-foreground/80">
