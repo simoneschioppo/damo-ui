@@ -4,9 +4,7 @@ const SITE_NAME = 'Axolab'
 const LIB_NAME_LEGACY = 'DAMO · UI'
 
 test.describe('Navbar brand', () => {
-  test('shows the mascot inside a link to home with accessible site name', async ({
-    page,
-  }) => {
+  test('shows the mascot inside a link to home with accessible site name', async ({ page }) => {
     await page.goto('/')
     const brandLink = page.getByRole('link', { name: new RegExp(`${SITE_NAME} home`, 'i') })
     await expect(brandLink).toBeVisible()
