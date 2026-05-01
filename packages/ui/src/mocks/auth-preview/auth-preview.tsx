@@ -28,12 +28,7 @@ export const AuthPreview = forwardRef<HTMLDivElement, AuthPreviewProps>(function
       <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="auth-email">Email</Label>
-          <Input
-            id="auth-email"
-            type="email"
-            autoComplete="email"
-            placeholder="nome@esempio.it"
-          />
+          <Input id="auth-email" type="email" autoComplete="email" placeholder="nome@esempio.it" />
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="auth-password">Password</Label>

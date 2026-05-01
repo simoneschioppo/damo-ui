@@ -57,16 +57,16 @@ Any component file listed in Tasks 5–16 below. Corresponds to the 55 raw-palet
 
 ## Execution phase overview
 
-| Phase | Goal | Tasks |
-|---|---|---|
-| 1. Infrastructure | Add new tokens, bridge, contrast utility — dual tokens, build stays green | 1–4 |
-| 2. Core variants | Button, Card, Badge migrate first (cascades into many consumers) | 5–7 |
-| 3. Form elements | Inputs, pickers, checkables | 8–9 |
-| 4. Overlays & chrome | Dialog family, tooltips, toasts, hint, navigation | 10–12 |
-| 5. Data & misc | Avatar/user-card/table, chip, showcase specifics | 13–16 |
-| 6. Playground pages | Non-generator page migration | 17 |
-| 7. Theme generator | Full rewrite per §8 of the spec | 18–23 |
-| 8. Cleanup | Delete old tokens, version bump, docs | 24–27 |
+| Phase                | Goal                                                                      | Tasks |
+| -------------------- | ------------------------------------------------------------------------- | ----- |
+| 1. Infrastructure    | Add new tokens, bridge, contrast utility — dual tokens, build stays green | 1–4   |
+| 2. Core variants     | Button, Card, Badge migrate first (cascades into many consumers)          | 5–7   |
+| 3. Form elements     | Inputs, pickers, checkables                                               | 8–9   |
+| 4. Overlays & chrome | Dialog family, tooltips, toasts, hint, navigation                         | 10–12 |
+| 5. Data & misc       | Avatar/user-card/table, chip, showcase specifics                          | 13–16 |
+| 6. Playground pages  | Non-generator page migration                                              | 17    |
+| 7. Theme generator   | Full rewrite per §8 of the spec                                           | 18–23 |
+| 8. Cleanup           | Delete old tokens, version bump, docs                                     | 24–27 |
 
 ---
 
@@ -75,6 +75,7 @@ Any component file listed in Tasks 5–16 below. Corresponds to the 55 raw-palet
 ### Task 1: WCAG contrast utility + unit tests
 
 **Files:**
+
 - Create: `packages/ui/src/styles/__tests__/contrast-utils.ts`
 - Create: `packages/ui/src/styles/__tests__/contrast-utils.test.ts`
 
@@ -218,6 +219,7 @@ git commit -m "feat(styles): add WCAG contrast utility for theme validation"
 ### Task 2: Add new semantic tokens to themes.css (dual with old)
 
 **Files:**
+
 - Modify: `packages/ui/src/styles/tokens.css`
 - Modify: `packages/ui/src/styles/themes.css`
 
@@ -228,18 +230,18 @@ git commit -m "feat(styles): add WCAG contrast utility for theme validation"
 In `packages/ui/src/styles/tokens.css`, inside the first `:root` block, after the existing `--medal-*` block, append:
 
 ```css
-  /* ── Chart colors (data viz, theme-agnostic) ──────── */
-  --chart-1: #7a3980;
-  --chart-2: #c4942a;
-  --chart-3: #4f8a3c;
-  --chart-4: #a13a2c;
-  --chart-5: #522357;
+/* ── Chart colors (data viz, theme-agnostic) ──────── */
+--chart-1: #7a3980;
+--chart-2: #c4942a;
+--chart-3: #4f8a3c;
+--chart-4: #a13a2c;
+--chart-5: #522357;
 
-  /* ── Nav-on-dark identity (always on dark surface) ─── */
-  --nav-on-dark-accent: var(--gold-200);
-  --nav-on-dark-accent-strong: var(--gold-400);
-  --nav-on-dark-foreground: rgba(255, 255, 255, 0.72);
-  --nav-on-dark-foreground-strong: var(--white);
+/* ── Nav-on-dark identity (always on dark surface) ─── */
+--nav-on-dark-accent: var(--gold-200);
+--nav-on-dark-accent-strong: var(--gold-400);
+--nav-on-dark-foreground: rgba(255, 255, 255, 0.72);
+--nav-on-dark-foreground-strong: var(--white);
 ```
 
 - [ ] **Step 2: Add new semantic layer to themes.css (light)**
@@ -309,45 +311,45 @@ Note: `--accent-new` is temporary — it's the new "subtle highlight" meaning of
 In `packages/ui/src/styles/themes.css`, inside `:root[data-theme='dark']`, append after the existing overrides:
 
 ```css
-  /* New semantic layer — dark values */
-  --background: var(--plum-900);
-  --foreground: var(--paper-50);
-  --card: var(--plum-800);
-  --card-foreground: var(--paper-50);
-  --popover: var(--plum-800);
-  --popover-foreground: var(--paper-50);
-  --muted: var(--plum-700);
-  --muted-foreground: var(--plum-300);
+/* New semantic layer — dark values */
+--background: var(--plum-900);
+--foreground: var(--paper-50);
+--card: var(--plum-800);
+--card-foreground: var(--paper-50);
+--popover: var(--plum-800);
+--popover-foreground: var(--paper-50);
+--muted: var(--plum-700);
+--muted-foreground: var(--plum-300);
 
-  --primary: var(--gold-500);
-  --primary-foreground: var(--plum-900);
-  --secondary: var(--plum-500);
-  --secondary-foreground: var(--paper-50);
-  --accent-new: var(--plum-700);
-  --accent-new-foreground: var(--gold-200);
-  --destructive: #c94a2f;
-  --destructive-foreground: var(--paper-50);
+--primary: var(--gold-500);
+--primary-foreground: var(--plum-900);
+--secondary: var(--plum-500);
+--secondary-foreground: var(--paper-50);
+--accent-new: var(--plum-700);
+--accent-new-foreground: var(--gold-200);
+--destructive: #c94a2f;
+--destructive-foreground: var(--paper-50);
 
-  --success-foreground: var(--plum-900);
-  --warning-foreground: var(--plum-900);
-  --info-foreground: var(--plum-900);
-  --rage-foreground: var(--plum-900);
+--success-foreground: var(--plum-900);
+--warning-foreground: var(--plum-900);
+--info-foreground: var(--plum-900);
+--rage-foreground: var(--plum-900);
 
-  --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
+--input: color-mix(in oklab, var(--paper-50) 12%, transparent);
 
-  --memphis-shadow-color: var(--paper-50);
-  --memphis-border-color: var(--paper-50);
+--memphis-shadow-color: var(--paper-50);
+--memphis-border-color: var(--paper-50);
 
-  --badge-featured: var(--gold-500);
-  --badge-featured-foreground: var(--plum-900);
-  --badge-copper: var(--gold-500);
-  --badge-copper-foreground: var(--paper-50);
-  --badge-navy: var(--plum-700);
-  --badge-navy-foreground: var(--gold-200);
-  --badge-draw: var(--plum-700);
-  --badge-draw-foreground: var(--paper-50);
-  --badge-rank: var(--plum-700);
-  --badge-rank-foreground: var(--gold-200);
+--badge-featured: var(--gold-500);
+--badge-featured-foreground: var(--plum-900);
+--badge-copper: var(--gold-500);
+--badge-copper-foreground: var(--paper-50);
+--badge-navy: var(--plum-700);
+--badge-navy-foreground: var(--gold-200);
+--badge-draw: var(--plum-700);
+--badge-draw-foreground: var(--paper-50);
+--badge-rank: var(--plum-700);
+--badge-rank-foreground: var(--gold-200);
 ```
 
 Also extend `[data-theme-preview='dark']` (the scoped preview block) with the SAME additions so the theme-generator's dark preview renders correctly. Copy the block verbatim.
@@ -355,10 +357,10 @@ Also extend `[data-theme-preview='dark']` (the scoped preview block) with the SA
 Adjust the override values for `success`, `warning`, `info`, `rage` in dark too:
 
 ```css
-  --success: #6fa85c;
-  --warning: var(--gold-500);
-  --info: var(--plum-300);
-  --rage: #e06b4f;
+--success: #6fa85c;
+--warning: var(--gold-500);
+--info: var(--plum-300);
+--rage: #e06b4f;
 ```
 
 - [ ] **Step 4: Build lib and playground to verify nothing broke**
@@ -378,6 +380,7 @@ git commit -m "feat(styles): add new shadcn-style semantic tokens alongside lega
 ### Task 3: Expose new tokens through Tailwind bridge
 
 **Files:**
+
 - Modify: `packages/ui/src/styles/theme.css`
 
 - [ ] **Step 1: Append new semantic color bridges**
@@ -385,55 +388,55 @@ git commit -m "feat(styles): add new shadcn-style semantic tokens alongside lega
 In `packages/ui/src/styles/theme.css`, inside the `@theme inline` block, AFTER the existing semantic colors section, append:
 
 ```css
-  /* ── NEW semantic color bridge (shadcn-style, paired) ── */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-accent-new: var(--accent-new);
-  --color-accent-new-foreground: var(--accent-new-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
+/* ── NEW semantic color bridge (shadcn-style, paired) ── */
+--color-background: var(--background);
+--color-foreground: var(--foreground);
+--color-card: var(--card);
+--color-card-foreground: var(--card-foreground);
+--color-popover: var(--popover);
+--color-popover-foreground: var(--popover-foreground);
+--color-muted: var(--muted);
+--color-muted-foreground: var(--muted-foreground);
+--color-primary: var(--primary);
+--color-primary-foreground: var(--primary-foreground);
+--color-secondary: var(--secondary);
+--color-secondary-foreground: var(--secondary-foreground);
+--color-accent-new: var(--accent-new);
+--color-accent-new-foreground: var(--accent-new-foreground);
+--color-destructive: var(--destructive);
+--color-destructive-foreground: var(--destructive-foreground);
 
-  /* Status foregrounds (bg utilities already exist) */
-  --color-success-foreground: var(--success-foreground);
-  --color-warning-foreground: var(--warning-foreground);
-  --color-info-foreground: var(--info-foreground);
-  --color-rage-foreground: var(--rage-foreground);
+/* Status foregrounds (bg utilities already exist) */
+--color-success-foreground: var(--success-foreground);
+--color-warning-foreground: var(--warning-foreground);
+--color-info-foreground: var(--info-foreground);
+--color-rage-foreground: var(--rage-foreground);
 
-  /* Chrome primitives */
-  --color-input: var(--input);
+/* Chrome primitives */
+--color-input: var(--input);
 
-  /* Memphis identity */
-  --color-memphis: var(--memphis-border-color);
-  --color-memphis-shadow: var(--memphis-shadow-color);
+/* Memphis identity */
+--color-memphis: var(--memphis-border-color);
+--color-memphis-shadow: var(--memphis-shadow-color);
 
-  /* Badge-specific */
-  --color-badge-featured: var(--badge-featured);
-  --color-badge-featured-foreground: var(--badge-featured-foreground);
-  --color-badge-copper: var(--badge-copper);
-  --color-badge-copper-foreground: var(--badge-copper-foreground);
-  --color-badge-navy: var(--badge-navy);
-  --color-badge-navy-foreground: var(--badge-navy-foreground);
-  --color-badge-draw: var(--badge-draw);
-  --color-badge-draw-foreground: var(--badge-draw-foreground);
-  --color-badge-rank: var(--badge-rank);
-  --color-badge-rank-foreground: var(--badge-rank-foreground);
+/* Badge-specific */
+--color-badge-featured: var(--badge-featured);
+--color-badge-featured-foreground: var(--badge-featured-foreground);
+--color-badge-copper: var(--badge-copper);
+--color-badge-copper-foreground: var(--badge-copper-foreground);
+--color-badge-navy: var(--badge-navy);
+--color-badge-navy-foreground: var(--badge-navy-foreground);
+--color-badge-draw: var(--badge-draw);
+--color-badge-draw-foreground: var(--badge-draw-foreground);
+--color-badge-rank: var(--badge-rank);
+--color-badge-rank-foreground: var(--badge-rank-foreground);
 
-  /* Charts */
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
+/* Charts */
+--color-chart-1: var(--chart-1);
+--color-chart-2: var(--chart-2);
+--color-chart-3: var(--chart-3);
+--color-chart-4: var(--chart-4);
+--color-chart-5: var(--chart-5);
 ```
 
 - [ ] **Step 2: Verify Tailwind generates new classes**
@@ -456,6 +459,7 @@ git commit -m "feat(styles): expose new semantic tokens via Tailwind bridge"
 ### Task 4: CI contrast test for body-text pairs
 
 **Files:**
+
 - Create: `packages/ui/src/styles/__tests__/contrast.test.ts`
 
 - [ ] **Step 1: Resolve the actual hex values to test**
@@ -621,6 +625,7 @@ git commit -m "test(styles): assert WCAG AA on body-text pairs across palettes"
 ### Task 5: Migrate Button variants + tests
 
 **Files:**
+
 - Modify: `packages/ui/src/components/button/button.variants.ts`
 - Modify: `packages/ui/src/components/button/button.test.tsx`
 
@@ -630,14 +635,14 @@ git commit -m "test(styles): assert WCAG AA on body-text pairs across palettes"
 
 Read existing tests at `packages/ui/src/components/button/button.test.tsx`. Replace assertions per this table:
 
-| Old assertion | New assertion |
-|---|---|
-| `.toContain('bg-gold-500')` | `.toContain('bg-primary')` |
-| `.toContain('text-white')` (on primary variant) | `.toContain('text-primary-foreground')` |
-| `.toContain('bg-plum-500')` | `.toContain('bg-secondary')` |
+| Old assertion                                            | New assertion                                                                            |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `.toContain('bg-gold-500')`                              | `.toContain('bg-primary')`                                                               |
+| `.toContain('text-white')` (on primary variant)          | `.toContain('text-primary-foreground')`                                                  |
+| `.toContain('bg-plum-500')`                              | `.toContain('bg-secondary')`                                                             |
 | `.toContain('text-paper-50')` (on accent/danger variant) | `.toContain('text-secondary-foreground')` or `.toContain('text-destructive-foreground')` |
-| `.toContain('bg-danger')` | `.toContain('bg-destructive')` |
-| `variant="accent"` in render calls | `variant="secondary"` |
+| `.toContain('bg-danger')`                                | `.toContain('bg-destructive')`                                                           |
+| `variant="accent"` in render calls                       | `variant="secondary"`                                                                    |
 
 Also add one test for the renamed variant:
 
@@ -769,6 +774,7 @@ git commit -m "refactor(button): migrate to new semantic tokens, rename accent�
 ### Task 6: Migrate Card variants + tests
 
 **Files:**
+
 - Modify: `packages/ui/src/components/card/card.variants.ts`
 - Modify: `packages/ui/src/components/card/card.test.tsx`
 
@@ -777,6 +783,7 @@ git commit -m "refactor(button): migrate to new semantic tokens, rename accent�
 - [ ] **Step 1: Update card.test.tsx assertions**
 
 Change:
+
 - `expect(...).toContain('bg-surface')` → `expect(...).toContain('bg-card')`
 - `expect(...).toContain('text-ink')` → `expect(...).toContain('text-card-foreground')`
 - Any `variant="dark"` → `variant="inverse"`
@@ -849,6 +856,7 @@ git commit -m "refactor(card): migrate to semantic tokens, rename dark→inverse
 ### Task 7: Migrate Badge variants + tests
 
 **Files:**
+
 - Modify: `packages/ui/src/components/badge/badge.variants.ts`
 - Modify: `packages/ui/src/components/badge/badge.test.tsx`
 
@@ -942,6 +950,7 @@ git commit -m "refactor(badge): migrate to dedicated semantic tokens"
 ### Task 8: Migrate form inputs (focus-ring pattern)
 
 **Files:**
+
 - Modify: `packages/ui/src/components/input/input.tsx`
 - Modify: `packages/ui/src/components/textarea/textarea.tsx`
 - Modify: `packages/ui/src/components/select/select.tsx`
@@ -965,6 +974,7 @@ focus-visible:[--memphis-shadow-color:var(--primary)]
 ```
 
 Exact sed-equivalent (but use Edit tool, not sed):
+
 - Old string: `focus-visible:[--shadow-memphis-color:var(--gold-500)] focus-visible:shadow-memphis`
 - New string: `focus-visible:[--memphis-shadow-color:var(--primary)] focus-visible:shadow-memphis`
 
@@ -991,6 +1001,7 @@ git commit -m "refactor(forms): migrate text inputs to new memphis token names"
 ### Task 9: Migrate checkable form elements
 
 **Files:**
+
 - Modify: `packages/ui/src/components/checkbox/checkbox.tsx`
 - Modify: `packages/ui/src/components/radio-group/radio-group.tsx`
 - Modify: `packages/ui/src/components/switch/switch.tsx`
@@ -999,15 +1010,15 @@ git commit -m "refactor(forms): migrate text inputs to new memphis token names"
 
 Replacements:
 
-| Old | New |
-|---|---|
+| Old                                                                              | New                                                                       |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | `data-[state=checked]:bg-plum-900 data-[state=checked]:text-paper-50` (checkbox) | `data-[state=checked]:bg-foreground data-[state=checked]:text-background` |
-| `bg-plum-900` (radio dot) | `bg-foreground` |
-| `data-[state=checked]:bg-gold-500` (switch) | `data-[state=checked]:bg-primary` |
-| `bg-plum-900` (switch track bg) | `bg-foreground` |
-| `data-[state=checked]:bg-paper-50` (switch thumb) | `data-[state=checked]:bg-background` |
-| `bg-gold-500` (slider range) | `bg-primary` |
-| `bg-paper-50 border-2 border-border-memphis` (slider thumb) | `bg-background border-2 border-memphis` |
+| `bg-plum-900` (radio dot)                                                        | `bg-foreground`                                                           |
+| `data-[state=checked]:bg-gold-500` (switch)                                      | `data-[state=checked]:bg-primary`                                         |
+| `bg-plum-900` (switch track bg)                                                  | `bg-foreground`                                                           |
+| `data-[state=checked]:bg-paper-50` (switch thumb)                                | `data-[state=checked]:bg-background`                                      |
+| `bg-gold-500` (slider range)                                                     | `bg-primary`                                                              |
+| `bg-paper-50 border-2 border-border-memphis` (slider thumb)                      | `bg-background border-2 border-memphis`                                   |
 
 - [ ] **Step 1: Update each component file**
 
@@ -1036,6 +1047,7 @@ git commit -m "refactor(forms): migrate checkables and slider to semantic tokens
 ### Task 10: Migrate overlays (dialog family, tooltip, toast, hint, banner)
 
 **Files:**
+
 - Modify: `packages/ui/src/components/tooltip/tooltip.tsx`
 - Modify: `packages/ui/src/components/tooltip-card/tooltip-card.tsx`
 - Modify: `packages/ui/src/components/hint/hint.tsx`
@@ -1045,15 +1057,15 @@ git commit -m "refactor(forms): migrate checkables and slider to semantic tokens
 
 Replacements for THIS task's files:
 
-| File | Old | New |
-|---|---|---|
-| `tooltip.tsx` | `z-tooltip bg-plum-900 text-paper-50` | `z-tooltip bg-foreground text-background` |
-| `tooltip.tsx` | `border border-plum-700 rounded-md shadow-md` | `border border-border-strong rounded-md shadow-md` |
-| `tooltip-card.tsx` | `absolute bg-gold-500 border-2 border-border-memphis` | `absolute bg-primary border-2 border-memphis` |
-| `tooltip-card.tsx` | `boxShadow: '4px 4px 0 var(--border-memphis)'` | `boxShadow: '4px 4px 0 var(--memphis-border-color)'` |
-| `hint.tsx` | `border-2 border-border-memphis bg-plum-500 text-paper-50` | `border-2 border-memphis bg-secondary text-secondary-foreground` |
-| `hint.tsx` | `'color-mix(in oklab, var(--plum-500) 22%, var(--surface))'` | `'color-mix(in oklab, var(--secondary) 22%, var(--card))'` |
-| `hint.tsx` | `'4px 4px 0 var(--shadow-memphis-color)'` | `'4px 4px 0 var(--memphis-shadow-color)'` |
+| File               | Old                                                          | New                                                              |
+| ------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------- |
+| `tooltip.tsx`      | `z-tooltip bg-plum-900 text-paper-50`                        | `z-tooltip bg-foreground text-background`                        |
+| `tooltip.tsx`      | `border border-plum-700 rounded-md shadow-md`                | `border border-border-strong rounded-md shadow-md`               |
+| `tooltip-card.tsx` | `absolute bg-gold-500 border-2 border-border-memphis`        | `absolute bg-primary border-2 border-memphis`                    |
+| `tooltip-card.tsx` | `boxShadow: '4px 4px 0 var(--border-memphis)'`               | `boxShadow: '4px 4px 0 var(--memphis-border-color)'`             |
+| `hint.tsx`         | `border-2 border-border-memphis bg-plum-500 text-paper-50`   | `border-2 border-memphis bg-secondary text-secondary-foreground` |
+| `hint.tsx`         | `'color-mix(in oklab, var(--plum-500) 22%, var(--surface))'` | `'color-mix(in oklab, var(--secondary) 22%, var(--card))'`       |
+| `hint.tsx`         | `'4px 4px 0 var(--shadow-memphis-color)'`                    | `'4px 4px 0 var(--memphis-shadow-color)'`                        |
 
 - [ ] **Step 1: Apply replacements**
 
@@ -1078,6 +1090,7 @@ git commit -m "refactor(overlays): migrate tooltip/hint to semantic tokens"
 ### Task 11: Migrate navigation (nav-item, app-shell, pagination, segmented-control, breadcrumbs, tabs)
 
 **Files:**
+
 - Modify: `packages/ui/src/components/nav-item/nav-item.variants.ts`
 - Modify: `packages/ui/src/components/app-shell/app-shell.tsx`
 - Modify: `packages/ui/src/components/pagination/pagination.tsx`
@@ -1086,13 +1099,13 @@ git commit -m "refactor(overlays): migrate tooltip/hint to semantic tokens"
 
 Replacements:
 
-| Context | Old | New |
-|---|---|---|
-| `nav-item.variants.ts` onDark current | `aria-[current=page]:text-gold-200` | `aria-[current=page]:text-[var(--nav-on-dark-accent)]` |
-| `nav-item.variants.ts` onDark current rail | `aria-[current=page]:before:bg-gold-400` | `aria-[current=page]:before:bg-[var(--nav-on-dark-accent-strong)]` |
-| `app-shell.tsx` | `'bg-plum-900 text-paper-50'` | `'bg-foreground text-background'` |
-| `pagination.tsx` | `aria-[current=page]:bg-plum-900 aria-[current=page]:text-paper-50 aria-[current=page]:border-border-memphis` | `aria-[current=page]:bg-foreground aria-[current=page]:text-background aria-[current=page]:border-memphis` |
-| `segmented-control.tsx` | `data-[state=on]:bg-plum-900 data-[state=on]:text-paper-50` | `data-[state=on]:bg-foreground data-[state=on]:text-background` |
+| Context                                    | Old                                                                                                           | New                                                                                                        |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `nav-item.variants.ts` onDark current      | `aria-[current=page]:text-gold-200`                                                                           | `aria-[current=page]:text-[var(--nav-on-dark-accent)]`                                                     |
+| `nav-item.variants.ts` onDark current rail | `aria-[current=page]:before:bg-gold-400`                                                                      | `aria-[current=page]:before:bg-[var(--nav-on-dark-accent-strong)]`                                         |
+| `app-shell.tsx`                            | `'bg-plum-900 text-paper-50'`                                                                                 | `'bg-foreground text-background'`                                                                          |
+| `pagination.tsx`                           | `aria-[current=page]:bg-plum-900 aria-[current=page]:text-paper-50 aria-[current=page]:border-border-memphis` | `aria-[current=page]:bg-foreground aria-[current=page]:text-background aria-[current=page]:border-memphis` |
+| `segmented-control.tsx`                    | `data-[state=on]:bg-plum-900 data-[state=on]:text-paper-50`                                                   | `data-[state=on]:bg-foreground data-[state=on]:text-background`                                            |
 
 **For `breadcrumbs`, `tabs`, `sidebar`, `app-top-bar`**: only OLD semantic names used (no raw palette). Migrate in Task 24.
 
@@ -1117,16 +1130,17 @@ git commit -m "refactor(nav): migrate navigation chrome to semantic tokens"
 ### Task 12: Migrate theme-switcher, density-switcher
 
 **Files:**
+
 - Modify: `packages/ui/src/components/theme-switcher/theme-switcher.tsx`
 - Modify: `packages/ui/src/components/density-switcher/density-switcher.tsx`
 - Plus tests
 
 Replacements:
 
-| Context | Old | New |
-|---|---|---|
-| both `.tsx` | `isActive ? 'bg-plum-500 text-paper-50' : 'bg-surface text-ink'` | `isActive ? 'bg-secondary text-secondary-foreground' : 'bg-card text-card-foreground'` |
-| both `.test.tsx` | `.toContain('bg-plum-500')`, `.toContain('text-paper-50')` | `.toContain('bg-secondary')`, `.toContain('text-secondary-foreground')` |
+| Context          | Old                                                              | New                                                                                    |
+| ---------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| both `.tsx`      | `isActive ? 'bg-plum-500 text-paper-50' : 'bg-surface text-ink'` | `isActive ? 'bg-secondary text-secondary-foreground' : 'bg-card text-card-foreground'` |
+| both `.test.tsx` | `.toContain('bg-plum-500')`, `.toContain('text-paper-50')`       | `.toContain('bg-secondary')`, `.toContain('text-secondary-foreground')`                |
 
 - [ ] **Step 1: Apply replacements**
 
@@ -1149,6 +1163,7 @@ git commit -m "refactor(switchers): migrate theme/density switchers to semantic 
 ### Task 13: Migrate avatar, user-card, table
 
 **Files:**
+
 - Modify: `packages/ui/src/components/avatar/avatar.tsx`
 - Modify: `packages/ui/src/components/user-card/user-card.tsx`
 - Modify: `packages/ui/src/components/table/table.tsx`
@@ -1158,13 +1173,13 @@ All three share the "navy" pattern `bg-plum-900 text-paper-50`.
 
 Replacements:
 
-| File | Old | New |
-|---|---|---|
-| `avatar.tsx` | `'bg-plum-900 text-paper-50 font-semibold font-display tracking-wide'` | `'bg-foreground text-background font-semibold font-display tracking-wide'` |
-| `user-card.tsx` (2 occurrences) | `...border-border-memphis bg-plum-900 text-paper-50` | `...border-memphis bg-foreground text-background` |
-| `table.tsx` | `'bg-plum-900 text-paper-50'` | `'bg-foreground text-background'` |
-| `table.tsx` (other places) | `bg-surface`, `text-ink`, `border-border-memphis` | `bg-card`, `text-card-foreground`, `border-memphis` |
-| Tests | `.toContain('bg-plum-900')`, `.toContain('text-paper-50')` | `.toContain('bg-foreground')`, `.toContain('text-background')` |
+| File                            | Old                                                                    | New                                                                        |
+| ------------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `avatar.tsx`                    | `'bg-plum-900 text-paper-50 font-semibold font-display tracking-wide'` | `'bg-foreground text-background font-semibold font-display tracking-wide'` |
+| `user-card.tsx` (2 occurrences) | `...border-border-memphis bg-plum-900 text-paper-50`                   | `...border-memphis bg-foreground text-background`                          |
+| `table.tsx`                     | `'bg-plum-900 text-paper-50'`                                          | `'bg-foreground text-background'`                                          |
+| `table.tsx` (other places)      | `bg-surface`, `text-ink`, `border-border-memphis`                      | `bg-card`, `text-card-foreground`, `border-memphis`                        |
+| Tests                           | `.toContain('bg-plum-900')`, `.toContain('text-paper-50')`             | `.toContain('bg-foreground')`, `.toContain('text-background')`             |
 
 - [ ] **Step 1: Apply replacements**
 
@@ -1185,6 +1200,7 @@ git commit -m "refactor(display): migrate avatar/user-card/table to semantic tok
 ### Task 14: Migrate dot-indicator components + chip + progress + spinner stories
 
 **Files:**
+
 - Modify: `packages/ui/src/components/dropdown-menu/dropdown-menu.tsx`
 - Modify: `packages/ui/src/components/context-menu/context-menu.tsx`
 - Modify: `packages/ui/src/components/progress/progress.tsx`
@@ -1194,13 +1210,13 @@ git commit -m "refactor(display): migrate avatar/user-card/table to semantic tok
 
 Replacements:
 
-| File | Old | New |
-|---|---|---|
-| `dropdown-menu.tsx`, `context-menu.tsx` | `h-2 w-2 rounded-full bg-plum-500` | `h-2 w-2 rounded-full bg-secondary` |
-| `progress.tsx` | `bg-plum-500 transition-transform ...` | `bg-secondary transition-transform ...` |
-| `chip.variants.ts` active variants — replace `var(--gold-500)` → `var(--primary)`, `var(--plum-500)` → `var(--secondary)`, `var(--surface)` → `var(--card)`, `var(--ink)` → `var(--foreground)` throughout the color-mix() expressions | both occurrences in the cva array |
-| `chip.tsx` comment example | `"bg-gold-500 text-white border-border-memphis"` | `"bg-primary text-primary-foreground border-memphis"` |
-| `chip.tsx` active | `active && 'bg-gold-500 text-white border-border-memphis'` | `active && 'bg-primary text-primary-foreground border-memphis'` |
+| File                                                                                                                                                                                                                                   | Old                                                        | New                                                             |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------- |
+| `dropdown-menu.tsx`, `context-menu.tsx`                                                                                                                                                                                                | `h-2 w-2 rounded-full bg-plum-500`                         | `h-2 w-2 rounded-full bg-secondary`                             |
+| `progress.tsx`                                                                                                                                                                                                                         | `bg-plum-500 transition-transform ...`                     | `bg-secondary transition-transform ...`                         |
+| `chip.variants.ts` active variants — replace `var(--gold-500)` → `var(--primary)`, `var(--plum-500)` → `var(--secondary)`, `var(--surface)` → `var(--card)`, `var(--ink)` → `var(--foreground)` throughout the color-mix() expressions | both occurrences in the cva array                          |
+| `chip.tsx` comment example                                                                                                                                                                                                             | `"bg-gold-500 text-white border-border-memphis"`           | `"bg-primary text-primary-foreground border-memphis"`           |
+| `chip.tsx` active                                                                                                                                                                                                                      | `active && 'bg-gold-500 text-white border-border-memphis'` | `active && 'bg-primary text-primary-foreground border-memphis'` |
 
 - [ ] **Step 1: Apply replacements**
 
@@ -1227,6 +1243,7 @@ git commit -m "refactor(data): migrate dot-indicators and chip to semantic token
 ### Task 15: Migrate showcase-specific (feature-card, showcase-card, color-scale, type-specimen, token-swatch, section-header, memphis-shape, pattern-swatch)
 
 **Files:**
+
 - Modify: `packages/ui/src/components/feature-card/feature-card.tsx`
 - Modify: `packages/ui/src/components/showcase-card/showcase-card.tsx`
 - Modify: `packages/ui/src/components/color-scale/color-scale.tsx`
@@ -1239,22 +1256,22 @@ git commit -m "refactor(data): migrate dot-indicators and chip to semantic token
 
 Replacements by file:
 
-| File | Change |
-|---|---|
-| `feature-card.tsx` | `boxShadow: '4px 4px 0 var(--gold-500)'` → `boxShadow: '4px 4px 0 var(--primary)'` |
-| `feature-card.test.tsx` | `expect(root.style.boxShadow).toContain('var(--gold-500)')` → `expect(root.style.boxShadow).toContain('var(--primary)')` |
-| `showcase-card.tsx` | `boxShadow: '4px 4px 0 var(--black)'` → `boxShadow: '4px 4px 0 var(--memphis-shadow-color)'` |
-| `color-scale.tsx` | `boxShadow: '6px 6px 0 var(--black)'` → `boxShadow: '6px 6px 0 var(--memphis-shadow-color)'` |
-| `color-scale.test.tsx` | Test references `var(--plum-300)` and `var(--plum-500)`. These are showcase tests — the ColorScale component renders raw palette as input data. Update the component to accept raw hex strings passed as props, and update the test fixture accordingly. See Step 2 of this task. |
-| `type-specimen.tsx` | `boxShadow: '6px 6px 0 var(--black)'` → `boxShadow: '6px 6px 0 var(--memphis-shadow-color)'` |
-| `token-swatch.tsx` | `boxShadow: '3px 3px 0 var(--black)'` → `boxShadow: '3px 3px 0 var(--memphis-shadow-color)'`. Also `border: '2px solid var(--border-memphis)'` → `border: '2px solid var(--memphis-border-color)'`. Also `background: 'var(--surface)'` → `background: 'var(--card)'`. Also `color: 'var(--ink)'` → `color: 'var(--foreground)'`. Also `color: 'var(--accent)'` → `color: 'var(--primary)'`. Also `color: 'var(--ink-muted)'` → `color: 'var(--muted-foreground)'`. |
-| `section-header.tsx` | `style={{ color: 'var(--gold-500)' }}` → `style={{ color: 'var(--primary)' }}` |
-| `section-header.tsx` comment | Update comment `// doesn't expose the raw var(--gold-500) token as a text color utility.` → `// uses var(--primary) directly because the eyebrow is an explicit gold accent regardless of theme context.` |
-| `memphis-shape.tsx` | `color = 'var(--plum-500)'` → `color = 'var(--secondary)'` |
-| `memphis-shape.tsx` JSDoc | `/** ... Default var(--plum-500). */` → `/** ... Default var(--secondary). */` |
-| `memphis-shape.test.tsx` | `expect(...).toBe('var(--plum-500)')` → `expect(...).toBe('var(--secondary)')` |
-| `pattern-swatch.tsx` | `aspect-square bg-paper-50 relative overflow-hidden` → `aspect-square bg-background relative overflow-hidden` |
-| `pattern-swatch.test.tsx` | `.toContain('bg-paper-50')` → `.toContain('bg-background')` |
+| File                         | Change                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `feature-card.tsx`           | `boxShadow: '4px 4px 0 var(--gold-500)'` → `boxShadow: '4px 4px 0 var(--primary)'`                                                                                                                                                                                                                                                                                                                                                                                  |
+| `feature-card.test.tsx`      | `expect(root.style.boxShadow).toContain('var(--gold-500)')` → `expect(root.style.boxShadow).toContain('var(--primary)')`                                                                                                                                                                                                                                                                                                                                            |
+| `showcase-card.tsx`          | `boxShadow: '4px 4px 0 var(--black)'` → `boxShadow: '4px 4px 0 var(--memphis-shadow-color)'`                                                                                                                                                                                                                                                                                                                                                                        |
+| `color-scale.tsx`            | `boxShadow: '6px 6px 0 var(--black)'` → `boxShadow: '6px 6px 0 var(--memphis-shadow-color)'`                                                                                                                                                                                                                                                                                                                                                                        |
+| `color-scale.test.tsx`       | Test references `var(--plum-300)` and `var(--plum-500)`. These are showcase tests — the ColorScale component renders raw palette as input data. Update the component to accept raw hex strings passed as props, and update the test fixture accordingly. See Step 2 of this task.                                                                                                                                                                                   |
+| `type-specimen.tsx`          | `boxShadow: '6px 6px 0 var(--black)'` → `boxShadow: '6px 6px 0 var(--memphis-shadow-color)'`                                                                                                                                                                                                                                                                                                                                                                        |
+| `token-swatch.tsx`           | `boxShadow: '3px 3px 0 var(--black)'` → `boxShadow: '3px 3px 0 var(--memphis-shadow-color)'`. Also `border: '2px solid var(--border-memphis)'` → `border: '2px solid var(--memphis-border-color)'`. Also `background: 'var(--surface)'` → `background: 'var(--card)'`. Also `color: 'var(--ink)'` → `color: 'var(--foreground)'`. Also `color: 'var(--accent)'` → `color: 'var(--primary)'`. Also `color: 'var(--ink-muted)'` → `color: 'var(--muted-foreground)'`. |
+| `section-header.tsx`         | `style={{ color: 'var(--gold-500)' }}` → `style={{ color: 'var(--primary)' }}`                                                                                                                                                                                                                                                                                                                                                                                      |
+| `section-header.tsx` comment | Update comment `// doesn't expose the raw var(--gold-500) token as a text color utility.` → `// uses var(--primary) directly because the eyebrow is an explicit gold accent regardless of theme context.`                                                                                                                                                                                                                                                           |
+| `memphis-shape.tsx`          | `color = 'var(--plum-500)'` → `color = 'var(--secondary)'`                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `memphis-shape.tsx` JSDoc    | `/** ... Default var(--plum-500). */` → `/** ... Default var(--secondary). */`                                                                                                                                                                                                                                                                                                                                                                                      |
+| `memphis-shape.test.tsx`     | `expect(...).toBe('var(--plum-500)')` → `expect(...).toBe('var(--secondary)')`                                                                                                                                                                                                                                                                                                                                                                                      |
+| `pattern-swatch.tsx`         | `aspect-square bg-paper-50 relative overflow-hidden` → `aspect-square bg-background relative overflow-hidden`                                                                                                                                                                                                                                                                                                                                                       |
+| `pattern-swatch.test.tsx`    | `.toContain('bg-paper-50')` → `.toContain('bg-background')`                                                                                                                                                                                                                                                                                                                                                                                                         |
 
 - [ ] **Step 1: Read color-scale.tsx to confirm it accepts raw hex props**
 
@@ -1286,24 +1303,25 @@ git commit -m "refactor(showcase): migrate showcase components to semantic token
 
 Rename map (apply globally across all component files not yet touched):
 
-| Old class | New class |
-|---|---|
-| `bg-bg` | `bg-background` |
-| `bg-surface` | `bg-card` |
-| `bg-surface-2` | `bg-muted` |
-| `text-ink` | `text-foreground` (on `bg-background`) or `text-card-foreground` (on `bg-card`) — use context |
-| `text-ink-soft` | `text-foreground/70` |
-| `text-ink-muted` | `text-muted-foreground` |
-| `border-border-memphis` | `border-memphis` |
-| `bg-accent` | `bg-primary` (old accent meant gold = new primary) |
-| `text-accent` | `text-primary` |
-| `hover:text-accent-strong` | `hover:text-primary/80` |
-| `bg-accent-strong` | `bg-primary/90` |
-| `bg-danger` | `bg-destructive` |
-| `ring-ring`, `outline-ring`, `focus:ring-ring` | unchanged |
-| `border-border`, `border-border-strong` | unchanged |
+| Old class                                      | New class                                                                                     |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `bg-bg`                                        | `bg-background`                                                                               |
+| `bg-surface`                                   | `bg-card`                                                                                     |
+| `bg-surface-2`                                 | `bg-muted`                                                                                    |
+| `text-ink`                                     | `text-foreground` (on `bg-background`) or `text-card-foreground` (on `bg-card`) — use context |
+| `text-ink-soft`                                | `text-foreground/70`                                                                          |
+| `text-ink-muted`                               | `text-muted-foreground`                                                                       |
+| `border-border-memphis`                        | `border-memphis`                                                                              |
+| `bg-accent`                                    | `bg-primary` (old accent meant gold = new primary)                                            |
+| `text-accent`                                  | `text-primary`                                                                                |
+| `hover:text-accent-strong`                     | `hover:text-primary/80`                                                                       |
+| `bg-accent-strong`                             | `bg-primary/90`                                                                               |
+| `bg-danger`                                    | `bg-destructive`                                                                              |
+| `ring-ring`, `outline-ring`, `focus:ring-ring` | unchanged                                                                                     |
+| `border-border`, `border-border-strong`        | unchanged                                                                                     |
 
 **Disambiguating `text-ink` for text-on-card vs text-on-bg:**
+
 - If the same block also sets `bg-surface` → `bg-card` / `text-card-foreground`
 - If no bg set in the same block, the element inherits → use `text-foreground`
 
@@ -1351,12 +1369,14 @@ git commit -m "refactor(components): bulk rename legacy semantic classes to new 
 ### Task 17: Migrate playground app pages
 
 **Files:**
+
 - Modify: `apps/playground/app/page.tsx`
 - Modify: `apps/playground/app/design-system/page.tsx`
 - Modify: `apps/playground/app/design-system/patterns.tsx`
 - Modify: `apps/playground/app/layout.tsx` (if it contains inline styles with tokens)
 
 Also:
+
 - The `Button` variant `accent` usage needs renaming to `secondary`.
 - The `Card` variant `dark` usage needs renaming to `inverse`.
 
@@ -1395,6 +1415,7 @@ git commit -m "refactor(playground): migrate non-generator pages to new semantic
 ### Task 18: Add contrast.ts utility for theme-generator
 
 **Files:**
+
 - Create: `apps/playground/app/theme-generator/contrast.ts`
 
 - [ ] **Step 1: Create the re-export**
@@ -1431,7 +1452,13 @@ function calcRatio(fg: string, bg: string): number {
 
 function parse(hex: string): { r: number; g: number; b: number } {
   const c = hex.replace('#', '')
-  const n = c.length === 3 ? c.split('').map((x) => x + x).join('') : c
+  const n =
+    c.length === 3
+      ? c
+          .split('')
+          .map((x) => x + x)
+          .join('')
+      : c
   return {
     r: parseInt(n.slice(0, 2), 16),
     g: parseInt(n.slice(2, 4), 16),
@@ -1451,14 +1478,16 @@ function luminance(rgb: { r: number; g: number; b: number }): number {
 - [ ] **Step 2: Expose `contrast-utils` from the lib for re-use**
 
 Check if `@damo/ui/internal/contrast-utils` is a valid export path. It probably isn't — the util lives under `__tests__/`. Two options:
-  - (A) Move `contrast-utils.ts` out of `__tests__/` to `packages/ui/src/lib/contrast-utils.ts`, export from the lib's `internal` subpath.
-  - (B) Duplicate the ~20 LOC utility into the theme-generator. Simpler, acceptable given size.
+
+- (A) Move `contrast-utils.ts` out of `__tests__/` to `packages/ui/src/lib/contrast-utils.ts`, export from the lib's `internal` subpath.
+- (B) Duplicate the ~20 LOC utility into the theme-generator. Simpler, acceptable given size.
 
 Go with (A) for DRY. Modify:
-  1. Move `packages/ui/src/styles/__tests__/contrast-utils.ts` → `packages/ui/src/lib/contrast-utils.ts` (Bash `mv`, then Edit the import in `contrast-utils.test.ts`).
-  2. Update import in `packages/ui/src/styles/__tests__/contrast-utils.test.ts` to `from '../../lib/contrast-utils'`.
-  3. Update import in `packages/ui/src/styles/__tests__/contrast.test.ts` to `from '../../lib/contrast-utils'`.
-  4. Add export to `packages/ui/package.json` exports field (if `./internal` sub-entrypoint doesn't exist, add it).
+
+1. Move `packages/ui/src/styles/__tests__/contrast-utils.ts` → `packages/ui/src/lib/contrast-utils.ts` (Bash `mv`, then Edit the import in `contrast-utils.test.ts`).
+2. Update import in `packages/ui/src/styles/__tests__/contrast-utils.test.ts` to `from '../../lib/contrast-utils'`.
+3. Update import in `packages/ui/src/styles/__tests__/contrast.test.ts` to `from '../../lib/contrast-utils'`.
+4. Add export to `packages/ui/package.json` exports field (if `./internal` sub-entrypoint doesn't exist, add it).
 
 Or simpler (B): duplicate the pure functions into `contrast.ts` (as in step 1 above — that's what the step 1 code already shows; the import comment at the top is aspirational). Remove the `export {} from '@damo/ui/internal/contrast-utils'` line and keep only the local implementation.
 
@@ -1475,7 +1504,13 @@ Revised `contrast.ts`:
 
 function parse(hex: string): { r: number; g: number; b: number } {
   const c = hex.replace('#', '')
-  const n = c.length === 3 ? c.split('').map((x) => x + x).join('') : c
+  const n =
+    c.length === 3
+      ? c
+          .split('')
+          .map((x) => x + x)
+          .join('')
+      : c
   return {
     r: parseInt(n.slice(0, 2), 16),
     g: parseInt(n.slice(2, 4), 16),
@@ -1521,6 +1556,7 @@ git commit -m "feat(theme-generator): add WCAG contrast helpers"
 ### Task 19: Rewrite theme-state.ts
 
 **Files:**
+
 - Modify: `apps/playground/app/theme-generator/theme-state.ts`
 
 - [ ] **Step 1: Rewrite types + DEFAULT_THEME**
@@ -1569,31 +1605,51 @@ export interface RawPalette {
 
 export interface SemanticTheme {
   // Surfaces + foregrounds
-  readonly background: string; readonly foreground: string
-  readonly card: string; readonly cardForeground: string
-  readonly popover: string; readonly popoverForeground: string
-  readonly muted: string; readonly mutedForeground: string
+  readonly background: string
+  readonly foreground: string
+  readonly card: string
+  readonly cardForeground: string
+  readonly popover: string
+  readonly popoverForeground: string
+  readonly muted: string
+  readonly mutedForeground: string
   // Intent + foregrounds
-  readonly primary: string; readonly primaryForeground: string
-  readonly secondary: string; readonly secondaryForeground: string
-  readonly accent: string; readonly accentForeground: string
-  readonly destructive: string; readonly destructiveForeground: string
+  readonly primary: string
+  readonly primaryForeground: string
+  readonly secondary: string
+  readonly secondaryForeground: string
+  readonly accent: string
+  readonly accentForeground: string
+  readonly destructive: string
+  readonly destructiveForeground: string
   // Status + foregrounds
-  readonly success: string; readonly successForeground: string
-  readonly warning: string; readonly warningForeground: string
-  readonly info: string; readonly infoForeground: string
-  readonly rage: string; readonly rageForeground: string
+  readonly success: string
+  readonly successForeground: string
+  readonly warning: string
+  readonly warningForeground: string
+  readonly info: string
+  readonly infoForeground: string
+  readonly rage: string
+  readonly rageForeground: string
   // Chrome primitives (no foreground)
-  readonly border: string; readonly borderStrong: string
-  readonly input: string; readonly ring: string
+  readonly border: string
+  readonly borderStrong: string
+  readonly input: string
+  readonly ring: string
   // Memphis identity
-  readonly memphisShadowColor: string; readonly memphisBorderColor: string
+  readonly memphisShadowColor: string
+  readonly memphisBorderColor: string
   // Badge-specific
-  readonly badgeFeatured: string; readonly badgeFeaturedForeground: string
-  readonly badgeCopper: string; readonly badgeCopperForeground: string
-  readonly badgeNavy: string; readonly badgeNavyForeground: string
-  readonly badgeDraw: string; readonly badgeDrawForeground: string
-  readonly badgeRank: string; readonly badgeRankForeground: string
+  readonly badgeFeatured: string
+  readonly badgeFeaturedForeground: string
+  readonly badgeCopper: string
+  readonly badgeCopperForeground: string
+  readonly badgeNavy: string
+  readonly badgeNavyForeground: string
+  readonly badgeDraw: string
+  readonly badgeDrawForeground: string
+  readonly badgeRank: string
+  readonly badgeRankForeground: string
 }
 
 // ─── Layer 3: Identity (theme-agnostic) ──────────────────────
@@ -1695,73 +1751,123 @@ export const SEMANTIC_GROUPS = {
 // ─── Canonical default values ────────────────────────────────
 
 const LIGHT_SEMANTIC: SemanticTheme = {
-  background: '#fbf7ee', foreground: '#2a0f2d',
-  card: '#ffffff', cardForeground: '#2a0f2d',
-  popover: '#ffffff', popoverForeground: '#2a0f2d',
-  muted: '#f5efde', mutedForeground: '#522357',
+  background: '#fbf7ee',
+  foreground: '#2a0f2d',
+  card: '#ffffff',
+  cardForeground: '#2a0f2d',
+  popover: '#ffffff',
+  popoverForeground: '#2a0f2d',
+  muted: '#f5efde',
+  mutedForeground: '#522357',
 
-  primary: '#c4942a', primaryForeground: '#ffffff',
-  secondary: '#7a3980', secondaryForeground: '#fbf7ee',
-  accent: '#f8e5bc', accentForeground: '#2a0f2d',
-  destructive: '#a13a2c', destructiveForeground: '#fbf7ee',
+  primary: '#c4942a',
+  primaryForeground: '#ffffff',
+  secondary: '#7a3980',
+  secondaryForeground: '#fbf7ee',
+  accent: '#f8e5bc',
+  accentForeground: '#2a0f2d',
+  destructive: '#a13a2c',
+  destructiveForeground: '#fbf7ee',
 
-  success: '#4f8a3c', successForeground: '#fbf7ee',
-  warning: '#8a6326', warningForeground: '#fbf7ee',
-  info: '#7a3980', infoForeground: '#fbf7ee',
-  rage: '#c94a2f', rageForeground: '#fbf7ee',
+  success: '#4f8a3c',
+  successForeground: '#fbf7ee',
+  warning: '#8a6326',
+  warningForeground: '#fbf7ee',
+  info: '#7a3980',
+  infoForeground: '#fbf7ee',
+  rage: '#c94a2f',
+  rageForeground: '#fbf7ee',
 
-  border: '#2a0f2d1f', borderStrong: '#2a0f2d38',
-  input: '#2a0f2d1f', ring: '#c4942a',
+  border: '#2a0f2d1f',
+  borderStrong: '#2a0f2d38',
+  input: '#2a0f2d1f',
+  ring: '#c4942a',
 
-  memphisShadowColor: '#000000', memphisBorderColor: '#000000',
+  memphisShadowColor: '#000000',
+  memphisBorderColor: '#000000',
 
-  badgeFeatured: '#c4942a', badgeFeaturedForeground: '#000000',
-  badgeCopper: '#c4942a', badgeCopperForeground: '#ffffff',
-  badgeNavy: '#2a0f2d', badgeNavyForeground: '#f0d49a',
-  badgeDraw: '#f5efde', badgeDrawForeground: '#2a0f2d',
-  badgeRank: '#f8e5bc', badgeRankForeground: '#2a0f2d',
+  badgeFeatured: '#c4942a',
+  badgeFeaturedForeground: '#000000',
+  badgeCopper: '#c4942a',
+  badgeCopperForeground: '#ffffff',
+  badgeNavy: '#2a0f2d',
+  badgeNavyForeground: '#f0d49a',
+  badgeDraw: '#f5efde',
+  badgeDrawForeground: '#2a0f2d',
+  badgeRank: '#f8e5bc',
+  badgeRankForeground: '#2a0f2d',
 } as const
 
 const DARK_SEMANTIC: SemanticTheme = {
-  background: '#2a0f2d', foreground: '#fbf7ee',
-  card: '#3d1a40', cardForeground: '#fbf7ee',
-  popover: '#3d1a40', popoverForeground: '#fbf7ee',
-  muted: '#522357', mutedForeground: '#b17cb5',
+  background: '#2a0f2d',
+  foreground: '#fbf7ee',
+  card: '#3d1a40',
+  cardForeground: '#fbf7ee',
+  popover: '#3d1a40',
+  popoverForeground: '#fbf7ee',
+  muted: '#522357',
+  mutedForeground: '#b17cb5',
 
-  primary: '#c4942a', primaryForeground: '#2a0f2d',
-  secondary: '#7a3980', secondaryForeground: '#fbf7ee',
-  accent: '#522357', accentForeground: '#f0d49a',
-  destructive: '#c94a2f', destructiveForeground: '#fbf7ee',
+  primary: '#c4942a',
+  primaryForeground: '#2a0f2d',
+  secondary: '#7a3980',
+  secondaryForeground: '#fbf7ee',
+  accent: '#522357',
+  accentForeground: '#f0d49a',
+  destructive: '#c94a2f',
+  destructiveForeground: '#fbf7ee',
 
-  success: '#6fa85c', successForeground: '#2a0f2d',
-  warning: '#c4942a', warningForeground: '#2a0f2d',
-  info: '#b17cb5', infoForeground: '#2a0f2d',
-  rage: '#e06b4f', rageForeground: '#2a0f2d',
+  success: '#6fa85c',
+  successForeground: '#2a0f2d',
+  warning: '#c4942a',
+  warningForeground: '#2a0f2d',
+  info: '#b17cb5',
+  infoForeground: '#2a0f2d',
+  rage: '#e06b4f',
+  rageForeground: '#2a0f2d',
 
-  border: '#fbf7ee1f', borderStrong: '#fbf7ee38',
-  input: '#fbf7ee1f', ring: '#c4942a',
+  border: '#fbf7ee1f',
+  borderStrong: '#fbf7ee38',
+  input: '#fbf7ee1f',
+  ring: '#c4942a',
 
-  memphisShadowColor: '#fbf7ee', memphisBorderColor: '#fbf7ee',
+  memphisShadowColor: '#fbf7ee',
+  memphisBorderColor: '#fbf7ee',
 
-  badgeFeatured: '#c4942a', badgeFeaturedForeground: '#2a0f2d',
-  badgeCopper: '#c4942a', badgeCopperForeground: '#fbf7ee',
-  badgeNavy: '#522357', badgeNavyForeground: '#f0d49a',
-  badgeDraw: '#522357', badgeDrawForeground: '#fbf7ee',
-  badgeRank: '#522357', badgeRankForeground: '#f0d49a',
+  badgeFeatured: '#c4942a',
+  badgeFeaturedForeground: '#2a0f2d',
+  badgeCopper: '#c4942a',
+  badgeCopperForeground: '#fbf7ee',
+  badgeNavy: '#522357',
+  badgeNavyForeground: '#f0d49a',
+  badgeDraw: '#522357',
+  badgeDrawForeground: '#fbf7ee',
+  badgeRank: '#522357',
+  badgeRankForeground: '#f0d49a',
 } as const
 
 export const DEFAULT_THEME: Theme = {
   palette: {
     plum: {
-      '100': '#e0c6e2', '300': '#b17cb5', '500': '#7a3980',
-      '700': '#522357', '800': '#3d1a40', '900': '#2a0f2d',
+      '100': '#e0c6e2',
+      '300': '#b17cb5',
+      '500': '#7a3980',
+      '700': '#522357',
+      '800': '#3d1a40',
+      '900': '#2a0f2d',
     },
     gold: {
-      '100': '#f8e5bc', '200': '#f0d49a', '300': '#e5bc6d',
-      '400': '#d5a845', '500': '#c4942a',
+      '100': '#f8e5bc',
+      '200': '#f0d49a',
+      '300': '#e5bc6d',
+      '400': '#d5a845',
+      '500': '#c4942a',
     },
     paper: {
-      '50': '#fbf7ee', '100': '#f5efde', '200': '#ece2c6', '300': '#ddd0ae',
+      '50': '#fbf7ee',
+      '100': '#f5efde',
+      '200': '#ece2c6',
+      '300': '#ddd0ae',
     },
   },
   semantic: { light: LIGHT_SEMANTIC, dark: DARK_SEMANTIC },
@@ -1813,9 +1919,18 @@ export const DEFAULT_THEME: Theme = {
  * These are the raw (pre-scale) values in px.
  */
 export const SPACING_BASE_PX: ReadonlyArray<readonly [string, number]> = [
-  ['space-0', 0], ['space-1', 4], ['space-2', 8], ['space-3', 12],
-  ['space-4', 16], ['space-5', 20], ['space-6', 24], ['space-8', 32],
-  ['space-10', 40], ['space-12', 48], ['space-16', 64], ['space-20', 80],
+  ['space-0', 0],
+  ['space-1', 4],
+  ['space-2', 8],
+  ['space-3', 12],
+  ['space-4', 16],
+  ['space-5', 20],
+  ['space-6', 24],
+  ['space-8', 32],
+  ['space-10', 40],
+  ['space-12', 48],
+  ['space-16', 64],
+  ['space-20', 80],
 ]
 ```
 
@@ -1841,6 +1956,7 @@ Tasks 20–23 in the implementation plan restore green build."
 ### Task 20: Rewrite presets.ts
 
 **Files:**
+
 - Modify: `apps/playground/app/theme-generator/presets.ts`
 
 - [ ] **Step 1: Replace file**
@@ -1866,24 +1982,38 @@ export const PRESET_LABELS: Record<PresetName, string> = {
 
 const NEON_PALETTE: RawPalette = {
   plum: {
-    '100': '#f8c8e7', '300': '#e26dbb', '500': '#b01680',
-    '700': '#491a40', '800': '#321029', '900': '#1f0819',
+    '100': '#f8c8e7',
+    '300': '#e26dbb',
+    '500': '#b01680',
+    '700': '#491a40',
+    '800': '#321029',
+    '900': '#1f0819',
   },
   gold: {
-    '100': '#e3facb', '200': '#ccf2a6', '300': '#b4ea7e',
-    '400': '#9be04a', '500': '#7fd321',
+    '100': '#e3facb',
+    '200': '#ccf2a6',
+    '300': '#b4ea7e',
+    '400': '#9be04a',
+    '500': '#7fd321',
   },
   paper: DEFAULT_THEME.palette.paper,
 }
 
 const SUNSET_PALETTE: RawPalette = {
   plum: {
-    '100': '#f8d4c0', '300': '#dd8a6d', '500': '#a8402a',
-    '700': '#5a2514', '800': '#3f170d', '900': '#2a0d07',
+    '100': '#f8d4c0',
+    '300': '#dd8a6d',
+    '500': '#a8402a',
+    '700': '#5a2514',
+    '800': '#3f170d',
+    '900': '#2a0d07',
   },
   gold: {
-    '100': '#ffe7cd', '200': '#ffd2a3', '300': '#ffbb75',
-    '400': '#fda047', '500': '#f58a1e',
+    '100': '#ffe7cd',
+    '200': '#ffd2a3',
+    '300': '#ffbb75',
+    '400': '#fda047',
+    '500': '#f58a1e',
   },
   paper: DEFAULT_THEME.palette.paper,
 }
@@ -1911,6 +2041,7 @@ git commit -m "refactor(theme-generator): rewrite presets as raw-palette overrid
 ### Task 21: Rewrite exporters.ts + test
 
 **Files:**
+
 - Modify: `apps/playground/app/theme-generator/exporters.ts`
 - Modify: `apps/playground/app/theme-generator/exporters.test.ts`
 
@@ -2020,9 +2151,7 @@ import {
   SPACING_BASE_PX,
 } from './theme-state'
 
-const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = [
-  'xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl',
-]
+const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl']
 const RADIUS_KEYS: ReadonlyArray<RadiusKey> = ['none', 'sm', 'md', 'lg', 'pill', 'full']
 const SHADOW_MEMPHIS_KEYS: ReadonlyArray<ShadowMemphisKey> = ['sm', 'md', 'lg', 'hover', 'active']
 const DURATION_KEYS: ReadonlyArray<MotionDurationKey> = ['snap', 'fast', 'base', 'slow']
@@ -2142,7 +2271,7 @@ export function buildCssExport(theme: Theme): string {
   lines.push('')
 
   // ─── :root[data-theme='light'] — semantic layer ───
-  lines.push(":root,")
+  lines.push(':root,')
   lines.push(":root[data-theme='light'] {")
   emitSemantic(theme.semantic.light, lines)
   lines.push('}')
@@ -2168,11 +2297,7 @@ export function buildJsonExport(theme: Theme): string {
  * bridges for semantic tokens only (matches theme.css in the lib).
  */
 export function buildTailwindExport(theme: Theme): string {
-  const lines: string[] = [
-    "@import 'tailwindcss';",
-    '',
-    '@theme inline {',
-  ]
+  const lines: string[] = ["@import 'tailwindcss';", '', '@theme inline {']
 
   const semanticKeys = Object.keys(theme.semantic.light) as ReadonlyArray<keyof SemanticTheme>
   semanticKeys.forEach((k) => {
@@ -2253,6 +2378,7 @@ git commit -m "refactor(theme-generator): rewrite exporters for three-layer shap
 ### Task 22: Update use-theme-state.ts reducer
 
 **Files:**
+
 - Modify: `apps/playground/app/theme-generator/use-theme-state.ts`
 
 - [ ] **Step 1: Read existing file**
@@ -2288,11 +2414,20 @@ type Action =
   | { type: 'SET_SEMANTIC'; mode: 'light' | 'dark'; key: keyof SemanticTheme; value: string }
   | { type: 'SET_MEDAL'; rank: MedalRank; slot: 'outer' | 'inner' | 'text'; value: string }
   | { type: 'SET_CHART'; index: '1' | '2' | '3' | '4' | '5'; value: string }
-  | { type: 'SET_NAV_ON_DARK'; key: 'accent' | 'accentStrong' | 'foreground' | 'foregroundStrong'; value: string }
+  | {
+      type: 'SET_NAV_ON_DARK'
+      key: 'accent' | 'accentStrong' | 'foreground' | 'foregroundStrong'
+      value: string
+    }
   | { type: 'SET_TYPOGRAPHY_FONT'; slot: 'display' | 'body' | 'mono'; value: string }
   | { type: 'SET_TYPOGRAPHY_SIZE'; key: TypographySizeKey; value: number }
   | { type: 'SET_RADIUS'; key: RadiusKey; value: number }
-  | { type: 'SET_SHADOW_MEMPHIS'; key: ShadowMemphisKey; slot: 'x' | 'y' | 'color'; value: number | string }
+  | {
+      type: 'SET_SHADOW_MEMPHIS'
+      key: ShadowMemphisKey
+      slot: 'x' | 'y' | 'color'
+      value: number | string
+    }
   | { type: 'SET_SHADOW_SOFT'; key: 'sm' | 'md' | 'lg'; value: number }
   | { type: 'SET_SPACING_SCALE'; value: number }
   | { type: 'SET_DURATION'; key: MotionDurationKey; value: number }
@@ -2359,8 +2494,11 @@ function reducer(state: Theme, action: Action): Theme {
         ...state,
         typography: {
           ...state.typography,
-          [action.slot === 'display' ? 'fontDisplay' :
-           action.slot === 'body' ? 'fontBody' : 'fontMono']: action.value,
+          [action.slot === 'display'
+            ? 'fontDisplay'
+            : action.slot === 'body'
+              ? 'fontBody'
+              : 'fontMono']: action.value,
         },
       }
 
@@ -2531,6 +2669,7 @@ git commit -m "refactor(theme-generator): reshape reducer + applyThemeToRoot for
 ### Task 23: Rewrite page.tsx
 
 **Files:**
+
 - Modify: `apps/playground/app/theme-generator/page.tsx`
 
 This is the largest single file change. Implementation is extensive; break into steps.
@@ -2538,6 +2677,7 @@ This is the largest single file change. Implementation is extensive; break into 
 - [ ] **Step 1: Plan the new UI sections**
 
 Per spec §8.3, the new page has:
+
 - Left sidebar: Tabs = { Palette, Theme, Identity }
 - Right main pane: sub-tabs = { Preview, Export }
 - "Edit mode" toggle (inside Theme tab): Light / Dark
@@ -2558,14 +2698,41 @@ Replace content:
 
 import { useState, type CSSProperties } from 'react'
 import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-  Button, ColorPicker, Dialog, DialogContent, DialogHeader, DialogTitle,
-  Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-  Sidebar, SidebarBody, SidebarBrand, SidebarFooter, SidebarHeader, SidebarSubtitle,
-  Slider, Tabs, TabsContent, TabsList, TabsTrigger,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Button,
+  ColorPicker,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Sidebar,
+  SidebarBody,
+  SidebarBrand,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarSubtitle,
+  Slider,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 } from '@damo/ui'
 import {
-  AuthPreview, DashboardPreview, FeedPreview, GalleryPreview, ProfilePreview,
+  AuthPreview,
+  DashboardPreview,
+  FeedPreview,
+  GalleryPreview,
+  ProfilePreview,
 } from '@damo/ui/mocks'
 
 import { useThemeState } from './use-theme-state'
@@ -2578,9 +2745,7 @@ import {
   type SemanticTheme,
 } from './theme-state'
 import { contrastLevel, contrastRatio } from './contrast'
-import {
-  buildCssExport, buildFigmaExport, buildJsonExport, buildTailwindExport,
-} from './exporters'
+import { buildCssExport, buildFigmaExport, buildJsonExport, buildTailwindExport } from './exporters'
 
 // ═══════════════════════════════════════════════════════════
 // Layout (inline styles — layout only)
@@ -2596,14 +2761,28 @@ const pageStyle: CSSProperties = {
 const mainStyle: CSSProperties = { padding: '32px 48px 64px', minWidth: 0 }
 const stackStyle: CSSProperties = { display: 'flex', flexDirection: 'column', gap: 12 }
 const rowStyle: CSSProperties = { display: 'flex', alignItems: 'center', gap: 8 }
-const pairedRowStyle: CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr 72px', gap: 8, alignItems: 'center' }
+const pairedRowStyle: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr 72px',
+  gap: 8,
+  alignItems: 'center',
+}
 const preBoxStyle: CSSProperties = {
-  maxHeight: 360, overflow: 'auto', padding: 16, margin: 0,
-  fontFamily: 'var(--font-mono)', fontSize: 12,
-  background: 'var(--muted)', border: '2px solid var(--memphis-border-color)',
+  maxHeight: 360,
+  overflow: 'auto',
+  padding: 16,
+  margin: 0,
+  fontFamily: 'var(--font-mono)',
+  fontSize: 12,
+  background: 'var(--muted)',
+  border: '2px solid var(--memphis-border-color)',
 }
 const previewHeaderStyle: CSSProperties = {
-  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 16,
+  flexWrap: 'wrap',
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2630,10 +2809,19 @@ function ContrastBadge({ fg, bg }: { fg: string; bg: string }) {
     <span
       aria-label={`Contrast ${ratio}:1 (${level.toUpperCase()})`}
       style={{
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 10, fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.06em',
-        padding: '2px 6px', color: '#fff', background: colorForLevel[level],
-        textTransform: 'uppercase', minWidth: 56, textAlign: 'center',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 10,
+        fontFamily: 'var(--font-mono)',
+        fontWeight: 700,
+        letterSpacing: '0.06em',
+        padding: '2px 6px',
+        color: '#fff',
+        background: colorForLevel[level],
+        textTransform: 'uppercase',
+        minWidth: 56,
+        textAlign: 'center',
       }}
     >
       {level} {ratio}
@@ -2668,10 +2856,14 @@ export default function ThemeGeneratorPage() {
               value={/* detect preset based on palette values */ 'default'}
               onValueChange={(v) => dispatch({ type: 'SET_PRESET', preset: v as PresetName })}
             >
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {(Object.keys(PRESET_LABELS) as ReadonlyArray<PresetName>).map((p) => (
-                  <SelectItem key={p} value={p}>{PRESET_LABELS[p]}</SelectItem>
+                  <SelectItem key={p} value={p}>
+                    {PRESET_LABELS[p]}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -2708,7 +2900,9 @@ export default function ThemeGeneratorPage() {
               </div>
               <ThemeEditor
                 semantic={semantic}
-                onChange={(key, value) => dispatch({ type: 'SET_SEMANTIC', mode: editMode, key, value })}
+                onChange={(key, value) =>
+                  dispatch({ type: 'SET_SEMANTIC', mode: editMode, key, value })
+                }
               />
             </TabsContent>
 
@@ -2718,12 +2912,17 @@ export default function ThemeGeneratorPage() {
           </Tabs>
         </SidebarBody>
         <SidebarFooter>
-          <Button variant="outline" onClick={() => dispatch({ type: 'RESET' })}>Reset</Button>
+          <Button variant="outline" onClick={() => dispatch({ type: 'RESET' })}>
+            Reset
+          </Button>
         </SidebarFooter>
       </Sidebar>
 
       <main style={mainStyle}>
-        <Tabs value={previewPaneTab} onValueChange={(v) => setPreviewPaneTab(v as 'preview' | 'export')}>
+        <Tabs
+          value={previewPaneTab}
+          onValueChange={(v) => setPreviewPaneTab(v as 'preview' | 'export')}
+        >
           <TabsList>
             <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="export">Export</TabsTrigger>
@@ -2776,10 +2975,18 @@ export default function ThemeGeneratorPage() {
                 <TabsTrigger value="json">JSON</TabsTrigger>
                 <TabsTrigger value="figma">Figma</TabsTrigger>
               </TabsList>
-              <TabsContent value="css"><pre style={preBoxStyle}>{buildCssExport(theme)}</pre></TabsContent>
-              <TabsContent value="tailwind"><pre style={preBoxStyle}>{buildTailwindExport(theme)}</pre></TabsContent>
-              <TabsContent value="json"><pre style={preBoxStyle}>{buildJsonExport(theme)}</pre></TabsContent>
-              <TabsContent value="figma"><pre style={preBoxStyle}>{buildFigmaExport(theme)}</pre></TabsContent>
+              <TabsContent value="css">
+                <pre style={preBoxStyle}>{buildCssExport(theme)}</pre>
+              </TabsContent>
+              <TabsContent value="tailwind">
+                <pre style={preBoxStyle}>{buildTailwindExport(theme)}</pre>
+              </TabsContent>
+              <TabsContent value="json">
+                <pre style={preBoxStyle}>{buildJsonExport(theme)}</pre>
+              </TabsContent>
+              <TabsContent value="figma">
+                <pre style={preBoxStyle}>{buildFigmaExport(theme)}</pre>
+              </TabsContent>
             </Tabs>
           </TabsContent>
         </Tabs>
@@ -2790,7 +2997,10 @@ export default function ThemeGeneratorPage() {
 
 // ─── Sub-components ────────────────────────────────────────
 
-function PaletteEditor({ theme, dispatch }: {
+function PaletteEditor({
+  theme,
+  dispatch,
+}: {
   theme: ReturnType<typeof useThemeState>['theme']
   dispatch: ReturnType<typeof useThemeState>['dispatch']
 }) {
@@ -2798,14 +3008,18 @@ function PaletteEditor({ theme, dispatch }: {
     <Accordion type="multiple" defaultValue={['plum', 'gold', 'paper']}>
       {(['plum', 'gold', 'paper'] as const).map((group) => (
         <AccordionItem key={group} value={group}>
-          <AccordionTrigger>{group} ({PALETTE_STEPS[group].length} steps)</AccordionTrigger>
+          <AccordionTrigger>
+            {group} ({PALETTE_STEPS[group].length} steps)
+          </AccordionTrigger>
           <AccordionContent>
             <div style={stackStyle}>
               {PALETTE_STEPS[group].map((step) => (
                 <div key={step} style={rowStyle}>
-                  <Label style={{ minWidth: 80 }}>{group}-{step}</Label>
+                  <Label style={{ minWidth: 80 }}>
+                    {group}-{step}
+                  </Label>
                   <ColorPicker
-                    value={theme.palette[group][step as keyof typeof theme.palette[typeof group]]}
+                    value={theme.palette[group][step as keyof (typeof theme.palette)[typeof group]]}
                     onChange={(value) => dispatch({ type: 'SET_PALETTE_STEP', group, step, value })}
                   />
                 </div>
@@ -2818,51 +3032,68 @@ function PaletteEditor({ theme, dispatch }: {
   )
 }
 
-function ThemeEditor({ semantic, onChange }: {
+function ThemeEditor({
+  semantic,
+  onChange,
+}: {
   semantic: SemanticTheme
   onChange: (key: keyof SemanticTheme, value: string) => void
 }) {
   return (
     <Accordion type="multiple" defaultValue={['surfaces', 'intents', 'statuses']}>
-      {(Object.keys(SEMANTIC_GROUPS) as ReadonlyArray<keyof typeof SEMANTIC_GROUPS>).map((groupKey) => (
-        <AccordionItem key={groupKey} value={groupKey}>
-          <AccordionTrigger style={{ textTransform: 'capitalize' }}>{groupKey}</AccordionTrigger>
-          <AccordionContent>
-            <div style={stackStyle}>
-              {SEMANTIC_GROUPS[groupKey].map((entry) => {
-                // Paired entries have both bg and fg
-                if ('bg' in entry && 'fg' in entry) {
-                  const bg = semantic[entry.bg as keyof SemanticTheme]
-                  const fg = semantic[entry.fg as keyof SemanticTheme]
-                  return (
-                    <div key={entry.label}>
-                      <Label>{entry.label}</Label>
-                      <div style={pairedRowStyle}>
-                        <ColorPicker value={bg} onChange={(v) => onChange(entry.bg as keyof SemanticTheme, v)} />
-                        <ColorPicker value={fg} onChange={(v) => onChange(entry.fg as keyof SemanticTheme, v)} />
-                        <ContrastBadge fg={fg} bg={bg} />
+      {(Object.keys(SEMANTIC_GROUPS) as ReadonlyArray<keyof typeof SEMANTIC_GROUPS>).map(
+        (groupKey) => (
+          <AccordionItem key={groupKey} value={groupKey}>
+            <AccordionTrigger style={{ textTransform: 'capitalize' }}>{groupKey}</AccordionTrigger>
+            <AccordionContent>
+              <div style={stackStyle}>
+                {SEMANTIC_GROUPS[groupKey].map((entry) => {
+                  // Paired entries have both bg and fg
+                  if ('bg' in entry && 'fg' in entry) {
+                    const bg = semantic[entry.bg as keyof SemanticTheme]
+                    const fg = semantic[entry.fg as keyof SemanticTheme]
+                    return (
+                      <div key={entry.label}>
+                        <Label>{entry.label}</Label>
+                        <div style={pairedRowStyle}>
+                          <ColorPicker
+                            value={bg}
+                            onChange={(v) => onChange(entry.bg as keyof SemanticTheme, v)}
+                          />
+                          <ColorPicker
+                            value={fg}
+                            onChange={(v) => onChange(entry.fg as keyof SemanticTheme, v)}
+                          />
+                          <ContrastBadge fg={fg} bg={bg} />
+                        </div>
                       </div>
+                    )
+                  }
+                  // Chrome primitives — single color, no pair
+                  const value = semantic[entry.key as keyof SemanticTheme]
+                  return (
+                    <div key={entry.label} style={rowStyle}>
+                      <Label style={{ minWidth: 140 }}>{entry.label}</Label>
+                      <ColorPicker
+                        value={value}
+                        onChange={(v) => onChange(entry.key as keyof SemanticTheme, v)}
+                      />
                     </div>
                   )
-                }
-                // Chrome primitives — single color, no pair
-                const value = semantic[entry.key as keyof SemanticTheme]
-                return (
-                  <div key={entry.label} style={rowStyle}>
-                    <Label style={{ minWidth: 140 }}>{entry.label}</Label>
-                    <ColorPicker value={value} onChange={(v) => onChange(entry.key as keyof SemanticTheme, v)} />
-                  </div>
-                )
-              })}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      ))}
+                })}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        ),
+      )}
     </Accordion>
   )
 }
 
-function IdentityEditor({ theme, dispatch }: {
+function IdentityEditor({
+  theme,
+  dispatch,
+}: {
   theme: ReturnType<typeof useThemeState>['theme']
   dispatch: ReturnType<typeof useThemeState>['dispatch']
 }) {
@@ -2944,12 +3175,13 @@ Expected: builds cleanly.
 - [ ] **Step 4: Runtime smoke**
 
 Run: `pnpm -C apps/playground dev` and open `/theme-generator`. Check:
-  1. Sidebar Tabs switch between Palette / Theme / Identity
-  2. Theme tab shows paired bg+fg pickers with contrast badges
-  3. Edit mode toggle (Light/Dark) swaps which semantic values are edited
-  4. Preview pane shows scenes correctly
-  5. Preview mode toggle (Light/Dark) flips preview independently
-  6. Export panes show well-formed CSS / Tailwind / JSON / Figma outputs
+
+1. Sidebar Tabs switch between Palette / Theme / Identity
+2. Theme tab shows paired bg+fg pickers with contrast badges
+3. Edit mode toggle (Light/Dark) swaps which semantic values are edited
+4. Preview pane shows scenes correctly
+5. Preview mode toggle (Light/Dark) flips preview independently
+6. Export panes show well-formed CSS / Tailwind / JSON / Figma outputs
 
 Kill server after.
 
@@ -2967,6 +3199,7 @@ git commit -m "feat(theme-generator): rebuild page UI for three-layer architectu
 ### Task 24: Remove legacy semantic tokens from themes.css + Tailwind bridge
 
 **Files:**
+
 - Modify: `packages/ui/src/styles/themes.css`
 - Modify: `packages/ui/src/styles/theme.css`
 - Modify: `packages/ui/src/styles/patterns.css`
@@ -2983,6 +3216,7 @@ Expected: zero matches. If there are matches, go back to the relevant earlier ta
 - [ ] **Step 2: Delete old tokens from tokens.css**
 
 In `packages/ui/src/styles/tokens.css`, remove these lines:
+
 - `--bg: var(--paper-50);`
 - `--surface: var(--white);`
 - `--surface-2: var(--paper-100);`
@@ -3098,6 +3332,7 @@ git commit -m "refactor(styles): delete legacy tokens, rename --accent-new → -
 ### Task 25: Bump version + update CHANGELOG
 
 **Files:**
+
 - Modify: `packages/ui/package.json`
 - Modify: `CHANGELOG.md`
 
@@ -3168,14 +3403,15 @@ Expected: everything green.
 
 - [ ] **Step 5: Start both dev servers and smoke manually**
 
-Terminal A: `pnpm -C packages/ui dev`  (Ladle)
-Terminal B: `pnpm -C apps/playground dev`  (Next.js)
+Terminal A: `pnpm -C packages/ui dev` (Ladle)
+Terminal B: `pnpm -C apps/playground dev` (Next.js)
 
 Check (via browser):
-  - Playground home, /design-system, /design-system/patterns, /theme-generator all render in light
-  - Switch `<html data-theme="dark">` via DevTools, all still render correctly
-  - Switch `<html data-palette="neon">`, then `sunset` — all 6 combinations visually correct
-  - Theme generator: edit a color, see live update; toggle edit mode; toggle preview mode
+
+- Playground home, /design-system, /design-system/patterns, /theme-generator all render in light
+- Switch `<html data-theme="dark">` via DevTools, all still render correctly
+- Switch `<html data-palette="neon">`, then `sunset` — all 6 combinations visually correct
+- Theme generator: edit a color, see live update; toggle edit mode; toggle preview mode
 
 Kill servers.
 
@@ -3188,12 +3424,14 @@ If all above green with no changes needed, no commit. If something was missed, f
 ### Task 27: Update docs
 
 **Files:**
+
 - Modify: `README.md`
 - Modify: `packages/ui/README.md`
 
 - [ ] **Step 1: Update the repo-root README**
 
 Read `README.md`. Replace any mention of old token names (`--bg`, `--surface`, `--ink`, etc.) with the new names. Add a "Theming" section that briefly explains:
+
 - Three-layer architecture (private raw palette, public paired semantics, identity)
 - How to override theme (set `data-theme` on `<html>`)
 - How to switch palette (set `data-palette` on `<html>`)

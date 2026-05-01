@@ -62,12 +62,7 @@ export const FeedPreview = forwardRef<HTMLDivElement, FeedPreviewProps>(function
   return (
     <div ref={ref} className={cn('flex flex-col gap-4 w-full', className)} {...rest}>
       <div className="flex items-center gap-3">
-        <Input
-          type="search"
-          placeholder="Cerca…"
-          aria-label="Cerca nel feed"
-          className="flex-1"
-        />
+        <Input type="search" placeholder="Cerca…" aria-label="Cerca nel feed" className="flex-1" />
         <Button variant="outline">Filtri</Button>
       </div>
 

@@ -12,7 +12,9 @@ export const Controlled = () => {
   return (
     <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 8 }}>
       <DatePicker value={date} onValueChange={setDate} />
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted-foreground)' }}>
+      <span
+        style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted-foreground)' }}
+      >
         {date?.toISOString() ?? '(nessuna data)'}
       </span>
     </div>

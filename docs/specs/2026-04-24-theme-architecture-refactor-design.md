@@ -7,6 +7,7 @@
 **Status:** drafted 2026-04-24.
 
 > **Updates after this spec was approved (post-implementation):**
+>
 > - Raw palette variables renamed: `--plum-*` → `--ink-*`, `--gold-*` → `--brand-*` (functional naming). See CHANGELOG 0.3.0.
 > - `Button.variant="danger"` was renamed to `variant="destructive"` for shadcn alignment (the spec contradicts this — implementation is correct).
 > - The library no longer ships any opinionated theme. Plum/gold defaults moved to playground. See CHANGELOG 0.3.0.
@@ -27,6 +28,7 @@
 The current model lets components reach past the semantic layer into the palette. The semantic layer itself is incomplete (no paired foregrounds, partial dark overrides), which forced component authors to reach around it in the first place.
 
 The shadcn model is more disciplined:
+
 1. A single semantic layer, fully declared in both `:root` (light) and `[data-theme='dark']` (dark).
 2. Every fill token has a paired foreground token — `--primary` + `--primary-foreground`, `--card` + `--card-foreground`, etc.
 3. Raw palette is private to the theme file. Consumers never see it.
@@ -39,12 +41,12 @@ The shadcn model is more disciplined:
 
 Not exposed as Tailwind utilities. Consumers cannot write `bg-plum-500`. Used only inside `themes.css` to compute semantic values.
 
-| Group | Tokens |
-|---|---|
-| Plum scale | `--plum-100`, `-300`, `-500`, `-700`, `-800`, `-900` |
-| Gold scale | `--gold-100`, `-200`, `-300`, `-400`, `-500` |
-| Paper scale | `--paper-50`, `-100`, `-200`, `-300` |
-| Mono | `--white`, `--black` |
+| Group       | Tokens                                               |
+| ----------- | ---------------------------------------------------- |
+| Plum scale  | `--plum-100`, `-300`, `-500`, `-700`, `-800`, `-900` |
+| Gold scale  | `--gold-100`, `-200`, `-300`, `-400`, `-500`         |
+| Paper scale | `--paper-50`, `-100`, `-200`, `-300`                 |
+| Mono        | `--white`, `--black`                                 |
 
 Palette presets (neon, sunset) override this layer via `[data-palette='<name>']`. Theme (`[data-theme='dark']`) does **not** override this layer — only the semantic layer.
 
@@ -54,57 +56,57 @@ All tokens in this section are declared for BOTH light and dark, always in the s
 
 **Surfaces:**
 
-| Token | Light value | Dark value |
-|---|---|---|
-| `--background` + `--foreground` | paper-50 / plum-900 | plum-900 / paper-50 |
-| `--card` + `--card-foreground` | white / plum-900 | plum-800 / paper-50 |
-| `--popover` + `--popover-foreground` | white / plum-900 | plum-800 / paper-50 |
-| `--muted` + `--muted-foreground` | paper-100 / plum-700 | plum-700 / plum-300 |
+| Token                                | Light value          | Dark value          |
+| ------------------------------------ | -------------------- | ------------------- |
+| `--background` + `--foreground`      | paper-50 / plum-900  | plum-900 / paper-50 |
+| `--card` + `--card-foreground`       | white / plum-900     | plum-800 / paper-50 |
+| `--popover` + `--popover-foreground` | white / plum-900     | plum-800 / paper-50 |
+| `--muted` + `--muted-foreground`     | paper-100 / plum-700 | plum-700 / plum-300 |
 
 **Intent (actions / emphasis):**
 
-| Token | Light value | Dark value |
-|---|---|---|
-| `--primary` + `--primary-foreground` | gold-500 / white | gold-500 / plum-900 |
-| `--secondary` + `--secondary-foreground` | plum-500 / paper-50 | plum-500 / paper-50 |
-| `--accent` + `--accent-foreground` | gold-100 / plum-900 | plum-700 / gold-200 |
-| `--destructive` + `--destructive-foreground` | #a13a2c / paper-50 | #c94a2f / paper-50 |
+| Token                                        | Light value         | Dark value          |
+| -------------------------------------------- | ------------------- | ------------------- |
+| `--primary` + `--primary-foreground`         | gold-500 / white    | gold-500 / plum-900 |
+| `--secondary` + `--secondary-foreground`     | plum-500 / paper-50 | plum-500 / paper-50 |
+| `--accent` + `--accent-foreground`           | gold-100 / plum-900 | plum-700 / gold-200 |
+| `--destructive` + `--destructive-foreground` | #a13a2c / paper-50  | #c94a2f / paper-50  |
 
 **Status (all paired):**
 
-| Token | Light value | Dark value |
-|---|---|---|
-| `--success` + `--success-foreground` | #4f8a3c / paper-50 | #6fa85c / plum-900 |
-| `--warning` + `--warning-foreground` | #8a6326 / paper-50 | #c4942a / plum-900 |
-| `--info` + `--info-foreground` | plum-500 / paper-50 | plum-300 / plum-900 |
-| `--rage` + `--rage-foreground` | #c94a2f / paper-50 | #e06b4f / plum-900 |
+| Token                                | Light value         | Dark value          |
+| ------------------------------------ | ------------------- | ------------------- |
+| `--success` + `--success-foreground` | #4f8a3c / paper-50  | #6fa85c / plum-900  |
+| `--warning` + `--warning-foreground` | #8a6326 / paper-50  | #c4942a / plum-900  |
+| `--info` + `--info-foreground`       | plum-500 / paper-50 | plum-300 / plum-900 |
+| `--rage` + `--rage-foreground`       | #c94a2f / paper-50  | #e06b4f / plum-900  |
 
 **Chrome primitives (no foreground):**
 
-| Token | Light value | Dark value |
-|---|---|---|
-| `--border` | `color-mix(oklab, plum-900 12%, transparent)` | `color-mix(oklab, paper-50 12%, transparent)` |
+| Token             | Light value                                   | Dark value                                    |
+| ----------------- | --------------------------------------------- | --------------------------------------------- |
+| `--border`        | `color-mix(oklab, plum-900 12%, transparent)` | `color-mix(oklab, paper-50 12%, transparent)` |
 | `--border-strong` | `color-mix(oklab, plum-900 22%, transparent)` | `color-mix(oklab, paper-50 22%, transparent)` |
-| `--input` | same as `--border` | same as `--border` |
-| `--ring` | gold-500 | gold-500 |
+| `--input`         | same as `--border`                            | same as `--border`                            |
+| `--ring`          | gold-500                                      | gold-500                                      |
 
 ### 2.3 Layer 2a — Nav-on-dark identity tokens (public)
 
 These tokens are for components that always render on a dark surface regardless of theme (e.g. a dark `Sidebar` embedded in a light app). They do NOT flip with `[data-theme]`.
 
-| Token | Value (light & dark) |
-|---|---|
-| `--nav-on-dark-accent` | `var(--gold-200)` |
-| `--nav-on-dark-accent-strong` | `var(--gold-400)` |
-| `--nav-on-dark-foreground` | `rgba(255,255,255,0.72)` |
-| `--nav-on-dark-foreground-strong` | `var(--white)` |
+| Token                             | Value (light & dark)     |
+| --------------------------------- | ------------------------ |
+| `--nav-on-dark-accent`            | `var(--gold-200)`        |
+| `--nav-on-dark-accent-strong`     | `var(--gold-400)`        |
+| `--nav-on-dark-foreground`        | `rgba(255,255,255,0.72)` |
+| `--nav-on-dark-foreground-strong` | `var(--white)`           |
 
 ### 2.4 Layer 2b — Memphis identity tokens (public)
 
-| Token | Light value | Dark value |
-|---|---|---|
-| `--memphis-shadow-color` | black | paper-50 |
-| `--memphis-border-color` | black | paper-50 |
+| Token                    | Light value | Dark value |
+| ------------------------ | ----------- | ---------- |
+| `--memphis-shadow-color` | black       | paper-50   |
+| `--memphis-border-color` | black       | paper-50   |
 
 Both are exposed as Tailwind color utilities: `shadow-memphis` reads `--memphis-shadow-color`, `border-memphis` reads `--memphis-border-color`.
 
@@ -112,13 +114,13 @@ Both are exposed as Tailwind color utilities: `shadow-memphis` reads `--memphis-
 
 Per decision C: dedicated tokens rather than reusing `--muted` / `--accent`.
 
-| Variant | Light bg / fg | Dark bg / fg |
-|---|---|---|
-| `--badge-featured` + `-foreground` | gold-500 / black | gold-500 / plum-900 |
-| `--badge-copper` + `-foreground` | gold-500 / white | gold-500 / paper-50 |
-| `--badge-navy` + `-foreground` | plum-900 / gold-200 | plum-700 / gold-200 |
-| `--badge-draw` + `-foreground` | paper-100 / plum-900 | plum-700 / paper-50 |
-| `--badge-rank` + `-foreground` | gold-100 / plum-900 | plum-700 / gold-200 |
+| Variant                            | Light bg / fg        | Dark bg / fg        |
+| ---------------------------------- | -------------------- | ------------------- |
+| `--badge-featured` + `-foreground` | gold-500 / black     | gold-500 / plum-900 |
+| `--badge-copper` + `-foreground`   | gold-500 / white     | gold-500 / paper-50 |
+| `--badge-navy` + `-foreground`     | plum-900 / gold-200  | plum-700 / gold-200 |
+| `--badge-draw` + `-foreground`     | paper-100 / plum-900 | plum-700 / paper-50 |
+| `--badge-rank` + `-foreground`     | gold-100 / plum-900  | plum-700 / gold-200 |
 
 ### 2.6 Layer 3 — Identity / data tokens (public, theme-agnostic)
 
@@ -199,10 +201,14 @@ packages/ui/src/styles/
   --destructive-foreground: var(--paper-50);
 
   /* Status */
-  --success: #4f8a3c; --success-foreground: var(--paper-50);
-  --warning: #8a6326; --warning-foreground: var(--paper-50);
-  --info: var(--plum-500); --info-foreground: var(--paper-50);
-  --rage: #c94a2f; --rage-foreground: var(--paper-50);
+  --success: #4f8a3c;
+  --success-foreground: var(--paper-50);
+  --warning: #8a6326;
+  --warning-foreground: var(--paper-50);
+  --info: var(--plum-500);
+  --info-foreground: var(--paper-50);
+  --rage: #c94a2f;
+  --rage-foreground: var(--paper-50);
 
   /* Chrome primitives */
   --border: color-mix(in oklab, var(--plum-900) 12%, transparent);
@@ -215,11 +221,16 @@ packages/ui/src/styles/
   --memphis-border-color: var(--black);
 
   /* Badge-specific */
-  --badge-featured: var(--gold-500); --badge-featured-foreground: var(--black);
-  --badge-copper: var(--gold-500); --badge-copper-foreground: var(--white);
-  --badge-navy: var(--plum-900); --badge-navy-foreground: var(--gold-200);
-  --badge-draw: var(--paper-100); --badge-draw-foreground: var(--plum-900);
-  --badge-rank: var(--gold-100); --badge-rank-foreground: var(--plum-900);
+  --badge-featured: var(--gold-500);
+  --badge-featured-foreground: var(--black);
+  --badge-copper: var(--gold-500);
+  --badge-copper-foreground: var(--white);
+  --badge-navy: var(--plum-900);
+  --badge-navy-foreground: var(--gold-200);
+  --badge-draw: var(--paper-100);
+  --badge-draw-foreground: var(--plum-900);
+  --badge-rank: var(--gold-100);
+  --badge-rank-foreground: var(--plum-900);
 }
 
 /* Dark — complete override of Layer 2 */
@@ -242,10 +253,14 @@ packages/ui/src/styles/
   --destructive: #c94a2f;
   --destructive-foreground: var(--paper-50);
 
-  --success: #6fa85c; --success-foreground: var(--plum-900);
-  --warning: var(--gold-500); --warning-foreground: var(--plum-900);
-  --info: var(--plum-300); --info-foreground: var(--plum-900);
-  --rage: #e06b4f; --rage-foreground: var(--plum-900);
+  --success: #6fa85c;
+  --success-foreground: var(--plum-900);
+  --warning: var(--gold-500);
+  --warning-foreground: var(--plum-900);
+  --info: var(--plum-300);
+  --info-foreground: var(--plum-900);
+  --rage: #e06b4f;
+  --rage-foreground: var(--plum-900);
 
   --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
@@ -255,15 +270,22 @@ packages/ui/src/styles/
   --memphis-shadow-color: var(--paper-50);
   --memphis-border-color: var(--paper-50);
 
-  --badge-featured: var(--gold-500); --badge-featured-foreground: var(--plum-900);
-  --badge-copper: var(--gold-500); --badge-copper-foreground: var(--paper-50);
-  --badge-navy: var(--plum-700); --badge-navy-foreground: var(--gold-200);
-  --badge-draw: var(--plum-700); --badge-draw-foreground: var(--paper-50);
-  --badge-rank: var(--plum-700); --badge-rank-foreground: var(--gold-200);
+  --badge-featured: var(--gold-500);
+  --badge-featured-foreground: var(--plum-900);
+  --badge-copper: var(--gold-500);
+  --badge-copper-foreground: var(--paper-50);
+  --badge-navy: var(--plum-700);
+  --badge-navy-foreground: var(--gold-200);
+  --badge-draw: var(--plum-700);
+  --badge-draw-foreground: var(--paper-50);
+  --badge-rank: var(--plum-700);
+  --badge-rank-foreground: var(--gold-200);
 }
 
 /* Scoped dark preview (theme-generator) — same body as [data-theme='dark'] */
-[data-theme-preview='dark'] { /* same as :root[data-theme='dark'] above */ }
+[data-theme-preview='dark'] {
+  /* same as :root[data-theme='dark'] above */
+}
 ```
 
 ### 3.3 `theme.css` (Tailwind v4 bridge)
@@ -297,73 +319,73 @@ The current lib has three palettes (default, neon, sunset) and two themes (light
 
 ### 5.1 Tailwind class migration table
 
-| Old | New | Applies to |
-|---|---|---|
-| `bg-gold-500 text-white` | `bg-primary text-primary-foreground` | button primary, hint, theme-switcher, density-switcher |
-| `bg-gold-500 text-black` | `bg-badge-featured text-badge-featured-foreground` | badge featured |
-| `bg-gold-500 text-white` (badge) | `bg-badge-copper text-badge-copper-foreground` | badge copper |
-| `bg-gold-500` (standalone, e.g. slider range, tooltip-card badge) | `bg-primary` | slider, tooltip-card, switch checked, chip active |
-| `hover:bg-gold-400` | `hover:bg-primary/90` | button primary hover |
-| `bg-gold-100 text-plum-900` | `bg-badge-rank text-badge-rank-foreground` | badge rank |
-| `text-gold-200` (badge navy) | `text-badge-navy-foreground` | badge navy |
-| `text-gold-200` (nav-item onDark current) | `text-[var(--nav-on-dark-accent)]` — dedicated identity token (`--nav-on-dark-accent: var(--gold-200)`, not theme-flipped because `onDark` is by definition always on a dark surface regardless of active theme) | nav-item |
-| `text-gold-400` / `bg-gold-400` (nav rail decorative bar) | `bg-[var(--nav-on-dark-accent-strong)]` (sibling token, `= var(--gold-400)`) | nav-item before pseudo |
-| `bg-plum-500 text-paper-50` | `bg-secondary text-secondary-foreground` | button accent (renamed to `secondary`), theme-switcher active, density-switcher active, hint |
-| `hover:bg-plum-700` | `hover:bg-secondary/80` | button secondary hover |
-| `bg-plum-500` (standalone, dots) | `bg-secondary` | dropdown-menu dot, context-menu dot, progress bar, radio dot |
-| `bg-plum-900 text-paper-50` | `bg-foreground text-background` | avatar, segmented active, app-shell dark footer, table header, tooltip, checkbox checked, card dark, pagination current, switch bg, user-card |
-| `bg-plum-900 text-gold-200` | `bg-badge-navy text-badge-navy-foreground` | badge navy |
-| `bg-paper-100 text-plum-900` | `bg-badge-draw text-badge-draw-foreground` | badge draw |
-| `bg-paper-50` | `bg-background` | slider thumb, pattern-swatch |
-| `border-plum-700` | `border-border` or `border-border-strong` | tooltip |
-| `text-paper-50` (standalone) | `text-background` | any filled-dark component |
+| Old                                                               | New                                                                                                                                                                                                              | Applies to                                                                                                                                    |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bg-gold-500 text-white`                                          | `bg-primary text-primary-foreground`                                                                                                                                                                             | button primary, hint, theme-switcher, density-switcher                                                                                        |
+| `bg-gold-500 text-black`                                          | `bg-badge-featured text-badge-featured-foreground`                                                                                                                                                               | badge featured                                                                                                                                |
+| `bg-gold-500 text-white` (badge)                                  | `bg-badge-copper text-badge-copper-foreground`                                                                                                                                                                   | badge copper                                                                                                                                  |
+| `bg-gold-500` (standalone, e.g. slider range, tooltip-card badge) | `bg-primary`                                                                                                                                                                                                     | slider, tooltip-card, switch checked, chip active                                                                                             |
+| `hover:bg-gold-400`                                               | `hover:bg-primary/90`                                                                                                                                                                                            | button primary hover                                                                                                                          |
+| `bg-gold-100 text-plum-900`                                       | `bg-badge-rank text-badge-rank-foreground`                                                                                                                                                                       | badge rank                                                                                                                                    |
+| `text-gold-200` (badge navy)                                      | `text-badge-navy-foreground`                                                                                                                                                                                     | badge navy                                                                                                                                    |
+| `text-gold-200` (nav-item onDark current)                         | `text-[var(--nav-on-dark-accent)]` — dedicated identity token (`--nav-on-dark-accent: var(--gold-200)`, not theme-flipped because `onDark` is by definition always on a dark surface regardless of active theme) | nav-item                                                                                                                                      |
+| `text-gold-400` / `bg-gold-400` (nav rail decorative bar)         | `bg-[var(--nav-on-dark-accent-strong)]` (sibling token, `= var(--gold-400)`)                                                                                                                                     | nav-item before pseudo                                                                                                                        |
+| `bg-plum-500 text-paper-50`                                       | `bg-secondary text-secondary-foreground`                                                                                                                                                                         | button accent (renamed to `secondary`), theme-switcher active, density-switcher active, hint                                                  |
+| `hover:bg-plum-700`                                               | `hover:bg-secondary/80`                                                                                                                                                                                          | button secondary hover                                                                                                                        |
+| `bg-plum-500` (standalone, dots)                                  | `bg-secondary`                                                                                                                                                                                                   | dropdown-menu dot, context-menu dot, progress bar, radio dot                                                                                  |
+| `bg-plum-900 text-paper-50`                                       | `bg-foreground text-background`                                                                                                                                                                                  | avatar, segmented active, app-shell dark footer, table header, tooltip, checkbox checked, card dark, pagination current, switch bg, user-card |
+| `bg-plum-900 text-gold-200`                                       | `bg-badge-navy text-badge-navy-foreground`                                                                                                                                                                       | badge navy                                                                                                                                    |
+| `bg-paper-100 text-plum-900`                                      | `bg-badge-draw text-badge-draw-foreground`                                                                                                                                                                       | badge draw                                                                                                                                    |
+| `bg-paper-50`                                                     | `bg-background`                                                                                                                                                                                                  | slider thumb, pattern-swatch                                                                                                                  |
+| `border-plum-700`                                                 | `border-border` or `border-border-strong`                                                                                                                                                                        | tooltip                                                                                                                                       |
+| `text-paper-50` (standalone)                                      | `text-background`                                                                                                                                                                                                | any filled-dark component                                                                                                                     |
 
 ### 5.2 Semantic class migration table
 
-| Old | New |
-|---|---|
-| `bg-bg` | `bg-background` |
-| `bg-surface` | `bg-card` |
-| `bg-surface-2` | `bg-muted` |
-| `text-ink` | `text-foreground` (when on `bg-background`) or `text-card-foreground` (on `bg-card`) |
-| `text-ink-soft` | `text-foreground/70` (eliminated as named token) |
-| `text-ink-muted` | `text-muted-foreground` |
-| `border-border` | unchanged |
-| `border-border-strong` | unchanged |
-| `border-border-memphis` | `border-memphis` |
-| `bg-accent` | `bg-primary` (old `--accent` was gold = primary CTA) |
-| `bg-accent-strong` | eliminated; use `bg-primary/90` or explicit token |
-| `text-accent` | `text-primary` |
-| `bg-danger` | `bg-destructive` |
-| `shadow-m-*`, `shadow-memphis-*` | unchanged (the color token behind them is renamed but class names stay) |
+| Old                              | New                                                                                  |
+| -------------------------------- | ------------------------------------------------------------------------------------ |
+| `bg-bg`                          | `bg-background`                                                                      |
+| `bg-surface`                     | `bg-card`                                                                            |
+| `bg-surface-2`                   | `bg-muted`                                                                           |
+| `text-ink`                       | `text-foreground` (when on `bg-background`) or `text-card-foreground` (on `bg-card`) |
+| `text-ink-soft`                  | `text-foreground/70` (eliminated as named token)                                     |
+| `text-ink-muted`                 | `text-muted-foreground`                                                              |
+| `border-border`                  | unchanged                                                                            |
+| `border-border-strong`           | unchanged                                                                            |
+| `border-border-memphis`          | `border-memphis`                                                                     |
+| `bg-accent`                      | `bg-primary` (old `--accent` was gold = primary CTA)                                 |
+| `bg-accent-strong`               | eliminated; use `bg-primary/90` or explicit token                                    |
+| `text-accent`                    | `text-primary`                                                                       |
+| `bg-danger`                      | `bg-destructive`                                                                     |
+| `shadow-m-*`, `shadow-memphis-*` | unchanged (the color token behind them is renamed but class names stay)              |
 
 ### 5.3 CSS variable migration table (inline styles, arbitrary Tailwind values)
 
-| Old inline/arbitrary | New |
-|---|---|
-| `var(--gold-500)` | `var(--primary)` |
-| `var(--plum-500)` | `var(--secondary)` |
-| `var(--plum-900)` | `var(--foreground)` |
-| `var(--paper-50)` | `var(--background)` |
-| `var(--paper-100)` | `var(--muted)` |
-| `var(--black)` (in shadows) | `var(--memphis-shadow-color)` |
-| `var(--surface)` | `var(--card)` |
-| `var(--surface-2)` | `var(--muted)` |
-| `var(--ink)` | `var(--foreground)` or `var(--card-foreground)` (context) |
-| `var(--ink-muted)` | `var(--muted-foreground)` |
-| `var(--border-memphis)` | `var(--memphis-border-color)` |
-| `[--shadow-memphis-color:var(--gold-500)]` | `[--memphis-shadow-color:var(--primary)]` |
+| Old inline/arbitrary                       | New                                                       |
+| ------------------------------------------ | --------------------------------------------------------- |
+| `var(--gold-500)`                          | `var(--primary)`                                          |
+| `var(--plum-500)`                          | `var(--secondary)`                                        |
+| `var(--plum-900)`                          | `var(--foreground)`                                       |
+| `var(--paper-50)`                          | `var(--background)`                                       |
+| `var(--paper-100)`                         | `var(--muted)`                                            |
+| `var(--black)` (in shadows)                | `var(--memphis-shadow-color)`                             |
+| `var(--surface)`                           | `var(--card)`                                             |
+| `var(--surface-2)`                         | `var(--muted)`                                            |
+| `var(--ink)`                               | `var(--foreground)` or `var(--card-foreground)` (context) |
+| `var(--ink-muted)`                         | `var(--muted-foreground)`                                 |
+| `var(--border-memphis)`                    | `var(--memphis-border-color)`                             |
+| `[--shadow-memphis-color:var(--gold-500)]` | `[--memphis-shadow-color:var(--primary)]`                 |
 
 ### 5.4 Component variant API changes
 
 These are **breaking** for consumers (internally only the playground consumes the lib today; no external consumers).
 
-| Component | Old API | New API | Reason |
-|---|---|---|---|
-| `Button` | `variant="accent"` | `variant="secondary"` | `accent` meant plum-500 which is semantically "secondary"; the word `accent` now means subtle hover/highlight to match shadcn convention |
-| `Button` | `variant="primary"`, `"ghost"`, `"outline"`, `"danger"`, `"link"` | unchanged names | Internal colors rewritten to semantics |
-| `Card` | `variant="dark"` | `variant="inverse"` | `dark` was misleading (it was "inverse of current theme", not literally dark); `inverse` is accurate in both themes |
-| `Badge` | variant names unchanged | unchanged | Internal colors mapped to badge-specific tokens |
+| Component | Old API                                                           | New API               | Reason                                                                                                                                   |
+| --------- | ----------------------------------------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button`  | `variant="accent"`                                                | `variant="secondary"` | `accent` meant plum-500 which is semantically "secondary"; the word `accent` now means subtle hover/highlight to match shadcn convention |
+| `Button`  | `variant="primary"`, `"ghost"`, `"outline"`, `"danger"`, `"link"` | unchanged names       | Internal colors rewritten to semantics                                                                                                   |
+| `Card`    | `variant="dark"`                                                  | `variant="inverse"`   | `dark` was misleading (it was "inverse of current theme", not literally dark); `inverse` is accurate in both themes                      |
+| `Badge`   | variant names unchanged                                           | unchanged             | Internal colors mapped to badge-specific tokens                                                                                          |
 
 ---
 
@@ -392,6 +414,7 @@ Version bump: `@damo/ui` `0.1.0` → `0.2.0` (minor, pre-1.0 convention allows b
 ### 7.2 Visual regression — Ladle stories
 
 Every story in `packages/ui/src/components/**/*.stories.tsx` renders correctly in:
+
 - light + default palette
 - dark + default palette
 - light + neon
@@ -406,6 +429,7 @@ A checklist (components × 6 matrix) is part of the implementation plan's test s
 A utility test (added under `packages/ui/src/styles/__tests__/contrast.test.ts`) parses the resolved semantic token values (via JSDOM + computed style) and asserts WCAG AA contrast (≥ 4.5:1) for the **body-text pairs** across all six theme × palette combinations.
 
 **Pairs enforced by CI:**
+
 - `(background, foreground)`
 - `(card, card-foreground)`
 - `(popover, popover-foreground)`
@@ -414,6 +438,7 @@ A utility test (added under `packages/ui/src/styles/__tests__/contrast.test.ts`)
 These are the pairs where a failing contrast directly breaks readability of paragraph text, labels, and form inputs — the places where users spend real reading time.
 
 **Pairs NOT enforced by CI** (reviewed visually, tuned for Memphis aesthetic impact):
+
 - `(primary, primary-foreground)`, `(secondary, secondary-foreground)`, `(accent, accent-foreground)`
 - `(destructive, destructive-foreground)`
 - All `(status, status-foreground)` pairs
@@ -438,7 +463,7 @@ The `/theme-generator` page (`apps/playground/app/theme-generator/*`) is the liv
 The old generator treats everything as "one big list of colors" with groups. The new generator reflects the **three-layer architecture**:
 
 1. **Palette layer** — the raw plum/gold/paper scales. Users edit these when they want to create a new palette preset (or tweak existing).
-2. **Theme layer** — the semantic mapping (what `--primary` points to, what `--muted` points to, etc.), split by light/dark. Users edit these when they want to change *how* the palette is used.
+2. **Theme layer** — the semantic mapping (what `--primary` points to, what `--muted` points to, etc.), split by light/dark. Users edit these when they want to change _how_ the palette is used.
 3. **Identity layer** — medals, charts, memphis tokens. Less frequently edited.
 
 ### 8.2 New state model (theme-state.ts)
@@ -504,7 +529,7 @@ The sidebar (left) hosts three top-level sections accessed via `Tabs`:
 
 The main pane (right) has two sub-panes:
 
-- **Preview** — renders the five existing stock scenes (Gallery, Auth, Dashboard, Profile, Feed). A toggle above the preview switches between "Preview light" and "Preview dark" independently of which theme context is being *edited* (so you can edit the light theme while previewing how dark renders, and vice versa).
+- **Preview** — renders the five existing stock scenes (Gallery, Auth, Dashboard, Profile, Feed). A toggle above the preview switches between "Preview light" and "Preview dark" independently of which theme context is being _edited_ (so you can edit the light theme while previewing how dark renders, and vice versa).
 - **Export** — the four export formats (CSS, Tailwind, JSON, Figma). The CSS export now emits BOTH `:root` and `:root[data-theme='dark']` blocks.
 
 ### 8.4 Presets (presets.ts)
@@ -512,6 +537,7 @@ The main pane (right) has two sub-panes:
 A preset now describes only the raw palette (plum/gold/paper values). Semantic mapping is computed identically for all presets (the mapping rules from §3.2 apply). This matches the new architecture where palette is orthogonal to theme.
 
 Presets shipped:
+
 - `default` (plum + gold + cream paper)
 - `neon` (magenta + lime + cream paper)
 - `sunset` (terracotta + warm orange + cream paper)
@@ -528,6 +554,7 @@ A user can also author a custom palette via the Palette tab and save it locally 
 ### 8.6 Contrast assistance in the UI
 
 Every paired row in the Theme tab shows a live WCAG contrast ratio. Icon + color badge:
+
 - ≥ 7.0 → AAA (green check)
 - ≥ 4.5 → AA (amber check)
 - < 4.5 → fail (red warning)
@@ -537,6 +564,7 @@ This makes the contrast test from §7.3 visible during authoring — the user ca
 ### 8.7 Migration of current generator code
 
 Files affected:
+
 - `apps/playground/app/theme-generator/theme-state.ts` — full rewrite of types + DEFAULT_THEME
 - `apps/playground/app/theme-generator/use-theme-state.ts` — reducer updated for new shape
 - `apps/playground/app/theme-generator/presets.ts` — presets reshaped to raw-palette-only

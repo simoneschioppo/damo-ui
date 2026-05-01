@@ -35,13 +35,13 @@
 
 Existing domain-specific cards in the lib are renamed to neutral names so the library works as a standalone Damo UI library independent of any consumer app. No behavior change — only identifiers and copy in stories.
 
-| Current | New | API change |
-|---------|-----|------------|
-| `PlayerCard` | `UserCard` | `{ name, avatar?, meta?: ReactNode, trailing?: ReactNode }` — removed `elo/mode/clock` props, replaced by free-form `meta` + `trailing` slots |
-| `ModeCard` | `FeatureCard` | `{ title, desc, meta?, icon? }` — unchanged props, renamed |
-| `InfoCard` | `TooltipCard` | same props, renamed |
-| `RuleCard` | `ArticleCard` | same props, renamed |
-| `Medal` | `Medal` | rename prop `rankNumber: number` → `value?: ReactNode` so both digits (1/2/3) and letters ("M", "GM") fit. Ranks stay: bronze / silver / gold / master / grandmaster |
+| Current      | New           | API change                                                                                                                                                           |
+| ------------ | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PlayerCard` | `UserCard`    | `{ name, avatar?, meta?: ReactNode, trailing?: ReactNode }` — removed `elo/mode/clock` props, replaced by free-form `meta` + `trailing` slots                        |
+| `ModeCard`   | `FeatureCard` | `{ title, desc, meta?, icon? }` — unchanged props, renamed                                                                                                           |
+| `InfoCard`   | `TooltipCard` | same props, renamed                                                                                                                                                  |
+| `RuleCard`   | `ArticleCard` | same props, renamed                                                                                                                                                  |
+| `Medal`      | `Medal`       | rename prop `rankNumber: number` → `value?: ReactNode` so both digits (1/2/3) and letters ("M", "GM") fit. Ranks stay: bronze / silver / gold / master / grandmaster |
 
 Stories and the `/design-system` page are updated to the new names. The old names are removed from the barrel — no deprecation period (pre-1.0 library, no external consumers).
 
@@ -57,10 +57,10 @@ These live in `apps/playground/components/` today and contain Memphis-styled mar
 
 ```tsx
 export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
-  logo: ReactNode         // consumer passes <Link href="/">brand</Link> or just text
-  nav?: ReactNode         // primary horizontal nav
-  actions?: ReactNode     // right-side slot (switchers, CTAs)
-  sticky?: boolean        // default true
+  logo: ReactNode // consumer passes <Link href="/">brand</Link> or just text
+  nav?: ReactNode // primary horizontal nav
+  actions?: ReactNode // right-side slot (switchers, CTAs)
+  sticky?: boolean // default true
 }
 ```
 
@@ -72,9 +72,9 @@ Visual parity with current `TopBar.tsx`: 12px/24px padding, 2px border-memphis b
 
 ```tsx
 export interface ThemeSwitcherProps {
-  storageKey?: string            // default 'theme'
-  attribute?: string             // default 'data-theme'
-  options?: ReadonlyArray<{ value: string; label: string }>  // default [{light,Light},{dark,Dark}]
+  storageKey?: string // default 'theme'
+  attribute?: string // default 'data-theme'
+  options?: ReadonlyArray<{ value: string; label: string }> // default [{light,Light},{dark,Dark}]
   className?: string
 }
 ```
@@ -86,12 +86,15 @@ Renders a labeled segmented-control-ish toggle. Writes `attribute` on `document.
 **Path:** `packages/ui/src/components/palette-switcher/`
 
 ```tsx
-export interface PaletteOption { value: string; label: string }
+export interface PaletteOption {
+  value: string
+  label: string
+}
 export interface PaletteSwitcherProps {
-  options: ReadonlyArray<PaletteOption>   // caller-provided; no Plum/Neon/Sunset hardcoded
+  options: ReadonlyArray<PaletteOption> // caller-provided; no Plum/Neon/Sunset hardcoded
   defaultValue?: string
-  storageKey?: string                     // default 'palette'
-  attribute?: string                      // default 'data-palette'
+  storageKey?: string // default 'palette'
+  attribute?: string // default 'data-palette'
   className?: string
 }
 ```
@@ -110,18 +113,24 @@ Signature unchanged from `apps/playground/lib/use-persisted-attr.ts`. Exported f
 // apps/playground/app/layout.tsx
 <AppTopBar
   logo={<Link href="/">DAMO · UI</Link>}
-  nav={<>
-    <Link href="/design-system">Design System</Link>
-    <Link href="/theme-generator">Theme Generator</Link>
-  </>}
-  actions={<>
-    <ThemeSwitcher />
-    <PaletteSwitcher options={[
-      { value: 'plum-gold', label: 'Plum+Gold' },
-      { value: 'neon', label: 'Neon' },
-      { value: 'sunset', label: 'Sunset' },
-    ]} />
-  </>}
+  nav={
+    <>
+      <Link href="/design-system">Design System</Link>
+      <Link href="/theme-generator">Theme Generator</Link>
+    </>
+  }
+  actions={
+    <>
+      <ThemeSwitcher />
+      <PaletteSwitcher
+        options={[
+          { value: 'plum-gold', label: 'Plum+Gold' },
+          { value: 'neon', label: 'Neon' },
+          { value: 'sunset', label: 'Sunset' },
+        ]}
+      />
+    </>
+  }
 />
 ```
 
@@ -144,6 +153,7 @@ Five agnostic, self-contained preview components built only from lib primitives.
 ```
 
 **Rules:**
+
 - Zero domain vocabulary. Copy is generic ("Bentornato", "Dashboard", "Marina Rossi", "Progetto Alpha").
 - Zero page-level state besides what the components themselves carry.
 - Work in light and dark.
@@ -209,6 +219,7 @@ Each scene is a lib mock (§4). No extra code per scene in the theme-generator i
 ### 5.4 Global actions
 
 **Preset dropdown** — lists built-in presets: `Plum+Gold`, `Neon`, `Sunset`. Selecting one:
+
 - applies the preset values to the state (and to `:root` via `setProperty`)
 - marks it as the **active default** — the "Reset" button restores to this preset, not to `Plum+Gold`
 - updates `data-palette` on `<html>` so the theme carries on if the user navigates away
@@ -218,6 +229,7 @@ Each scene is a lib mock (§4). No extra code per scene in the theme-generator i
 **Dark preview toggle** — an internal segmented switch `Light | Dark`. It temporarily overrides `data-theme` on the preview container (not the whole page), so the user sees light + dark side-by-side only if they toggle. Default matches the global topbar toggle.
 
 **Export button** — opens a modal with **4 tabs**:
+
 - **CSS** — `:root { --plum-500: #...; ... }` with a `Copy` button
 - **Tailwind preset** — complete `tailwind.preset.ts` snippet referencing the tokens
 - **JSON** — design tokens JSON (flat keys, matches the token schema)
@@ -234,22 +246,26 @@ type Theme = {
     fontDisplay: string
     fontBody: string
     fontMono: string
-    sizes: Record<'xs'|'sm'|'base'|'lg'|'xl'|'2xl'|'3xl', number>
+    sizes: Record<'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl', number>
   }
-  radius: Record<'none'|'sm'|'md'|'lg'|'pill'|'full', number>
+  radius: Record<'none' | 'sm' | 'md' | 'lg' | 'pill' | 'full', number>
   shadow: {
-    memphis: Record<'sm'|'md'|'lg'|'hover'|'active', { x:number; y:number; color:string }>
-    soft: Record<'sm'|'md'|'lg', number>
+    memphis: Record<
+      'sm' | 'md' | 'lg' | 'hover' | 'active',
+      { x: number; y: number; color: string }
+    >
+    soft: Record<'sm' | 'md' | 'lg', number>
   }
   spacing: { scale: number; overrides: Record<string, number> }
   motion: {
-    durations: Record<'snap'|'fast'|'base'|'slow', number>
-    easings: Record<'memphis'|'out'|'in-out', string>
+    durations: Record<'snap' | 'fast' | 'base' | 'slow', number>
+    easings: Record<'memphis' | 'out' | 'in-out', string>
   }
 }
 ```
 
 Derived helpers:
+
 - `applyThemeToRoot(theme)` — writes every key as a CSS custom property
 - `resetRootTheme()` — unsets all tokens (falls back to `tokens.css` defaults)
 - `buildCssExport(theme)`, `buildTailwindExport(theme)`, `buildJsonExport(theme)`, `buildFigmaExport(theme)`
@@ -261,6 +277,7 @@ Derived helpers:
 **Bug:** `apps/playground/app/design-system/page.tsx` hardcodes `pageStyle.background = 'var(--paper-50)'`. In dark mode this keeps the main pane ivory while the TOC flips, breaking the whole scheme.
 
 **Fix:**
+
 - `pageStyle.background` → `var(--bg)`
 - `tocStyle.background` → `var(--surface-2)` (stays dark in both themes without the jarring pure-black of `var(--plum-900)`)
 - Audit all remaining `var(--plum-*)`/`var(--paper-*)` uses in the page for theme-reactivity — they should be semantic (`--bg`, `--surface`, `--ink`) instead

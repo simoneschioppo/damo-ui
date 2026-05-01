@@ -1,5 +1,1 @@
-export {
-  ThemeSwitcher,
-  type ThemeSwitcherProps,
-  type ThemeOption,
-} from './theme-switcher'
+export { ThemeSwitcher, type ThemeSwitcherProps, type ThemeOption } from './theme-switcher'

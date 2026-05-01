@@ -29,46 +29,42 @@ const DEFAULT_OPTIONS: ReadonlyArray<ThemeOption> = [
  * ThemeSwitcher — button group that toggles an HTML data attribute and
  * persists the value in localStorage. Composes `usePersistedAttr`.
  */
-export const ThemeSwitcher = forwardRef<HTMLDivElement, ThemeSwitcherProps>(
-  function ThemeSwitcher(
-    {
-      options = DEFAULT_OPTIONS,
-      storageKey = 'theme',
-      attribute = 'data-theme',
-      defaultValue = 'light',
-      className,
-      ...rest
-    },
-    ref,
-  ) {
-    const [current, setCurrent] = usePersistedAttr<string>(storageKey, attribute, defaultValue)
-
-    return (
-      <div
-        ref={ref}
-        className={cn('inline-flex gap-2 items-center', className)}
-        {...rest}
-      >
-        <span className="eyebrow">Theme</span>
-        <div className="inline-flex border-2 border-memphis">
-          {options.map((opt) => {
-            const isActive = current === opt.value
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => setCurrent(opt.value)}
-                className={cn(
-                  'px-3 py-1.5 text-[13px] font-semibold capitalize cursor-pointer border-0',
-                  isActive ? 'bg-secondary text-secondary-foreground' : 'bg-card text-card-foreground',
-                )}
-              >
-                {opt.label}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-    )
+export const ThemeSwitcher = forwardRef<HTMLDivElement, ThemeSwitcherProps>(function ThemeSwitcher(
+  {
+    options = DEFAULT_OPTIONS,
+    storageKey = 'theme',
+    attribute = 'data-theme',
+    defaultValue = 'light',
+    className,
+    ...rest
   },
-)
+  ref,
+) {
+  const [current, setCurrent] = usePersistedAttr<string>(storageKey, attribute, defaultValue)
+
+  return (
+    <div ref={ref} className={cn('inline-flex gap-2 items-center', className)} {...rest}>
+      <span className="eyebrow">Theme</span>
+      <div className="inline-flex border-2 border-memphis">
+        {options.map((opt) => {
+          const isActive = current === opt.value
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => setCurrent(opt.value)}
+              className={cn(
+                'px-3 py-1.5 text-[13px] font-semibold capitalize cursor-pointer border-0',
+                isActive
+                  ? 'bg-secondary text-secondary-foreground'
+                  : 'bg-card text-card-foreground',
+              )}
+            >
+              {opt.label}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+})

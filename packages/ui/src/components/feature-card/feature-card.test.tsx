@@ -4,9 +4,7 @@ import { FeatureCard } from './feature-card'
 
 describe('FeatureCard', () => {
   it('renders the title uppercased in the display font', () => {
-    const { getByText } = render(
-      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
-    )
+    const { getByText } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const heading = getByText('CLASSICO')
     expect(heading).toBeTruthy()
     expect(heading.className).toContain('font-display')
@@ -14,9 +12,7 @@ describe('FeatureCard', () => {
   })
 
   it('renders the description', () => {
-    const { getByText } = render(
-      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
-    )
+    const { getByText } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     expect(getByText('Esempio descrizione')).toBeTruthy()
   })
 
@@ -28,9 +24,7 @@ describe('FeatureCard', () => {
   })
 
   it('does not render a meta node when meta not provided', () => {
-    const { queryByTestId } = render(
-      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
-    )
+    const { queryByTestId } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     expect(queryByTestId('feature-card-meta')).toBeNull()
   })
 
@@ -46,9 +40,7 @@ describe('FeatureCard', () => {
   })
 
   it('applies Memphis frame + gold shadow on the root', () => {
-    const { container } = render(
-      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
-    )
+    const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
     expect(root.className).toContain('border-memphis')
@@ -56,17 +48,13 @@ describe('FeatureCard', () => {
   })
 
   it('has a fixed width of 280px via inline style', () => {
-    const { container } = render(
-      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
-    )
+    const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
     expect(root.style.width).toBe('280px')
   })
 
   it('uses the primary CSS var for the shadow', () => {
-    const { container } = render(
-      <FeatureCard title="CLASSICO" desc="Esempio descrizione" />,
-    )
+    const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
     expect(root.style.boxShadow).toContain('var(--primary)')
   })

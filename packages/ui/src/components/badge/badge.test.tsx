@@ -20,10 +20,7 @@ describe('Badge', () => {
       const { container, unmount } = render(<Badge variant={variant}>label</Badge>)
       const el = container.firstChild as HTMLElement
       expect(el, `variant ${variant} root element`).toBeTruthy()
-      expect(
-        el.className,
-        `variant ${variant} should include marker ${marker}`,
-      ).toContain(marker)
+      expect(el.className, `variant ${variant} should include marker ${marker}`).toContain(marker)
       // Shared base classes — applied across all 9 variants
       expect(el.className, `variant ${variant} base`).toContain('border-2')
       expect(el.className, `variant ${variant} base`).toContain('border-memphis')

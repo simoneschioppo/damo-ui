@@ -51,9 +51,7 @@ describe('DensitySwitcher', () => {
       { value: 'tight', label: 'Tight' },
       { value: 'loose', label: 'Loose' },
     ]
-    const { getByRole } = render(
-      <DensitySwitcher options={options} defaultValue="tight" />,
-    )
+    const { getByRole } = render(<DensitySwitcher options={options} defaultValue="tight" />)
     expect(getByRole('button', { name: 'Tight' })).toBeTruthy()
     expect(getByRole('button', { name: 'Loose' })).toBeTruthy()
   })

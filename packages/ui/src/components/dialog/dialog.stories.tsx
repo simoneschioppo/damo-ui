@@ -72,19 +72,18 @@ export const LongContent = () => (
       </DialogHeader>
       <div style={{ fontSize: 14, lineHeight: 1.6, maxHeight: 300, overflow: 'auto' }}>
         <p>
-          Damo UI è una libreria React e Next.js di ispirazione Memphis. Include 47 componenti,
-          30+ icone, un sistema di token CSS-first e tre switcher runtime per tema, palette e
-          densità.
+          Damo UI è una libreria React e Next.js di ispirazione Memphis. Include 47 componenti, 30+
+          icone, un sistema di token CSS-first e tre switcher runtime per tema, palette e densità.
         </p>
         <p>
           Ogni componente è tipizzato con TypeScript strict, testato con Vitest per le unit e con
-          Playwright per i flussi end-to-end. Gli stili viaggiano come CSS variables, quindi il
-          tema cambia live senza rebuild.
+          Playwright per i flussi end-to-end. Gli stili viaggiano come CSS variables, quindi il tema
+          cambia live senza rebuild.
         </p>
         <p>
-          Il Theme Generator in questa playground permette di comporre palette, tipografia,
-          radius, shadow, spacing e motion, e di esportare il risultato come CSS, Tailwind preset
-          o JSON flat.
+          Il Theme Generator in questa playground permette di comporre palette, tipografia, radius,
+          shadow, spacing e motion, e di esportare il risultato come CSS, Tailwind preset o JSON
+          flat.
         </p>
       </div>
       <DialogFooter>
