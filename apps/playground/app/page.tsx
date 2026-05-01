@@ -67,7 +67,7 @@ export default function HomePage() {
             alt={BRAND.mascotAlt}
             width={400}
             height={Math.round(400 * (BRAND.mascotHeight / BRAND.mascotWidth))}
-            className="relative drop-shadow-[6px_6px_0_var(--memphis-border-color)]"
+            className="relative drop-shadow-[6px_6px_0_var(--memphis-shadow-color)]"
             style={{ transform: 'rotate(-4deg)' }}
           />
           <MemphisShape
