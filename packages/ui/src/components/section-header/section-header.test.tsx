@@ -16,11 +16,7 @@ describe('SectionHeader', () => {
 
   it('renders the desc', () => {
     render(
-      <SectionHeader
-        num="02"
-        title="Tipografia"
-        desc="Audiowide per display, Exo 2 per body."
-      />,
+      <SectionHeader num="02" title="Tipografia" desc="Audiowide per display, Exo 2 per body." />,
     )
     expect(screen.getByText('Audiowide per display, Exo 2 per body.')).toBeInTheDocument()
   })
@@ -46,9 +42,7 @@ describe('SectionHeader', () => {
   })
 
   it('applies flex wrap layout on the root', () => {
-    const { container } = render(
-      <SectionHeader num="01" title="Colori" desc="Color palette" />,
-    )
+    const { container } = render(<SectionHeader num="01" title="Colori" desc="Color palette" />)
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('flex')
     expect(root.className).toContain('flex-wrap')
@@ -56,12 +50,7 @@ describe('SectionHeader', () => {
 
   it('forwards className to the root element', () => {
     const { container } = render(
-      <SectionHeader
-        num="01"
-        title="Colori"
-        desc="Color palette"
-        className="custom-header"
-      />,
+      <SectionHeader num="01" title="Colori" desc="Color palette" className="custom-header" />,
     )
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('custom-header')

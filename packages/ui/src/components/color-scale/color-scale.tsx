@@ -1,10 +1,6 @@
 'use client'
 
-import {
-  forwardRef,
-  type CSSProperties,
-  type HTMLAttributes,
-} from 'react'
+import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
 import { useResolvedCssVars } from '../../hooks/use-resolved-css-vars'
 

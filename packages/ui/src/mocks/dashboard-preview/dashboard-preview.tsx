@@ -50,15 +50,9 @@ export const DashboardPreview = forwardRef<HTMLDivElement, DashboardPreviewProps
             <CardTitle>Attività settimanale</CardTitle>
           </CardHeader>
           <CardBody>
-            <div
-              className="flex items-end justify-between gap-3 w-full"
-              style={{ height: 140 }}
-            >
+            <div className="flex items-end justify-between gap-3 w-full" style={{ height: 140 }}>
               {BARS.map((bar) => (
-                <div
-                  key={bar.label}
-                  className="flex flex-col items-center gap-1 flex-1"
-                >
+                <div key={bar.label} className="flex flex-col items-center gap-1 flex-1">
                   <div
                     data-testid="dashboard-bar"
                     className={cn(
@@ -78,11 +72,7 @@ export const DashboardPreview = forwardRef<HTMLDivElement, DashboardPreviewProps
 
         <div className="flex flex-wrap items-center gap-2">
           {FILTERS.map((filter, idx) => (
-            <Chip
-              key={filter.key}
-              dotColor={filter.dotColor}
-              active={idx === 0}
-            >
+            <Chip key={filter.key} dotColor={filter.dotColor} active={idx === 0}>
               {filter.label}
             </Chip>
           ))}

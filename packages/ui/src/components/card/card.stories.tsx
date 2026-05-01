@@ -58,9 +58,7 @@ export const Inverse = () => (
   <Card variant="inverse" style={{ width: 320 }}>
     <CardHeader>
       <CardTitle>Inverse</CardTitle>
-      <CardDescription>
-        Inverse of current theme — per panel scuri annidati.
-      </CardDescription>
+      <CardDescription>Inverse of current theme — per panel scuri annidati.</CardDescription>
     </CardHeader>
     <CardBody>Bordo sottile e shadow diffusa.</CardBody>
   </Card>

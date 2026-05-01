@@ -46,9 +46,7 @@ describe('ThemeSwitcher', () => {
       { value: 'lunar', label: 'Lunar' },
       { value: 'eclipse', label: 'Eclipse' },
     ]
-    const { getByRole } = render(
-      <ThemeSwitcher options={options} defaultValue="solar" />,
-    )
+    const { getByRole } = render(<ThemeSwitcher options={options} defaultValue="solar" />)
     expect(getByRole('button', { name: 'Solar' })).toBeTruthy()
     expect(getByRole('button', { name: 'Lunar' })).toBeTruthy()
     expect(getByRole('button', { name: 'Eclipse' })).toBeTruthy()

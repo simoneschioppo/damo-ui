@@ -5,11 +5,7 @@ import { TypeSpecimen } from './type-specimen'
 describe('TypeSpecimen', () => {
   it('renders the name as a mono eyebrow', () => {
     render(
-      <TypeSpecimen
-        name="Display / Audiowide"
-        sample="Damo UI"
-        fontFamily="var(--font-display)"
-      />,
+      <TypeSpecimen name="Display / Audiowide" sample="Damo UI" fontFamily="var(--font-display)" />,
     )
     expect(screen.getByText('Display / Audiowide')).toBeInTheDocument()
   })
@@ -27,11 +23,7 @@ describe('TypeSpecimen', () => {
 
   it('applies the target fontFamily inline on the sample element', () => {
     render(
-      <TypeSpecimen
-        name="Display / Audiowide"
-        sample="Damo UI"
-        fontFamily="var(--font-display)"
-      />,
+      <TypeSpecimen name="Display / Audiowide" sample="Damo UI" fontFamily="var(--font-display)" />,
     )
     const sample = screen.getByText('Damo UI')
     const styleAttr = sample.getAttribute('style') ?? ''
@@ -40,13 +32,7 @@ describe('TypeSpecimen', () => {
   })
 
   it('defaults sampleSize to 28px when not specified', () => {
-    render(
-      <TypeSpecimen
-        name="Body / Exo 2"
-        sample="Hello"
-        fontFamily="var(--font-body)"
-      />,
-    )
+    render(<TypeSpecimen name="Body / Exo 2" sample="Hello" fontFamily="var(--font-body)" />)
     const sample = screen.getByText('Hello')
     const styleAttr = sample.getAttribute('style') ?? ''
     expect(styleAttr).toContain('font-size: 28px')
@@ -54,12 +40,7 @@ describe('TypeSpecimen', () => {
 
   it('honors a custom sampleSize', () => {
     render(
-      <TypeSpecimen
-        name="Display"
-        sample="Big"
-        fontFamily="var(--font-display)"
-        sampleSize={72}
-      />,
+      <TypeSpecimen name="Display" sample="Big" fontFamily="var(--font-display)" sampleSize={72} />,
     )
     const sample = screen.getByText('Big')
     const styleAttr = sample.getAttribute('style') ?? ''
@@ -86,11 +67,7 @@ describe('TypeSpecimen', () => {
 
   it('does not render the scale table when scale is omitted', () => {
     const { container } = render(
-      <TypeSpecimen
-        name="Display"
-        sample="Big"
-        fontFamily="var(--font-display)"
-      />,
+      <TypeSpecimen name="Display" sample="Big" fontFamily="var(--font-display)" />,
     )
     // No row labels present
     expect(container.textContent).not.toMatch(/Display XL/)
@@ -110,11 +87,7 @@ describe('TypeSpecimen', () => {
 
   it('applies Memphis card frame (2px border + 6px shadow) via inline style', () => {
     const { container } = render(
-      <TypeSpecimen
-        name="Display"
-        sample="Big"
-        fontFamily="var(--font-display)"
-      />,
+      <TypeSpecimen name="Display" sample="Big" fontFamily="var(--font-display)" />,
     )
     const root = container.firstChild as HTMLElement
     const styleAttr = root.getAttribute('style') ?? ''

@@ -50,25 +50,13 @@ describe('PaletteSwitcher', () => {
 
   it('writes sanitized values under a custom storageKey', () => {
     localStorage.setItem('my-palette', 'legacy-value')
-    render(
-      <PaletteSwitcher
-        options={OPTIONS}
-        defaultValue="sunset"
-        storageKey="my-palette"
-      />,
-    )
+    render(<PaletteSwitcher options={OPTIONS} defaultValue="sunset" storageKey="my-palette" />)
     expect(localStorage.getItem('my-palette')).toBe('sunset')
     expect(localStorage.getItem('palette')).toBeNull()
   })
 
   it('mirrors the current value onto a custom attribute', () => {
-    render(
-      <PaletteSwitcher
-        options={OPTIONS}
-        defaultValue="neon"
-        attribute="data-colors"
-      />,
-    )
+    render(<PaletteSwitcher options={OPTIONS} defaultValue="neon" attribute="data-colors" />)
     expect(document.documentElement.getAttribute('data-colors')).toBe('neon')
     expect(document.documentElement.getAttribute('data-palette')).toBeNull()
   })
@@ -83,11 +71,7 @@ describe('PaletteSwitcher', () => {
 
   it('forwards className to the root wrapper', () => {
     const { container } = render(
-      <PaletteSwitcher
-        options={OPTIONS}
-        defaultValue="plum-gold"
-        className="custom-extra"
-      />,
+      <PaletteSwitcher options={OPTIONS} defaultValue="plum-gold" className="custom-extra" />,
     )
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('custom-extra')
