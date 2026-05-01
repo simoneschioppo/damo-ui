@@ -52,7 +52,7 @@ const PROPS: ReadonlyArray<PropDef> = [
   },
 ]
 
-export const metadata = { title: `Sidebar — ${BRAND.name}` }
+export const metadata = { title: `Sidebar — ${BRAND.libName}` }
 
 export default function SidebarDocsPage() {
   return (

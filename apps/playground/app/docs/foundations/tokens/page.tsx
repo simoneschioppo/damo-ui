@@ -28,7 +28,7 @@ const HTML_SNIPPET = `<html data-theme="dark" data-palette="neon" data-density="
   <body>...</body>
 </html>`
 
-export const metadata = { title: `Tokens — ${BRAND.name}` }
+export const metadata = { title: `Tokens — ${BRAND.libName}` }
 
 export default function TokensFoundationPage() {
   return (

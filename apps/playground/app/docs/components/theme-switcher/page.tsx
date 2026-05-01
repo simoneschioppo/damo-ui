@@ -58,7 +58,7 @@ const PALETTE_PROPS: ReadonlyArray<PropDef> = [
   ...SHARED_PROPS,
 ]
 
-export const metadata = { title: `Theme Switchers — ${BRAND.name}` }
+export const metadata = { title: `Theme Switchers — ${BRAND.libName}` }
 
 export default function ThemeSwitchersDocsPage() {
   return (

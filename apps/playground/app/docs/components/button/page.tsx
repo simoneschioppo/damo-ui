@@ -60,7 +60,7 @@ const PROPS: ReadonlyArray<PropDef> = [
 ]
 
 export const metadata = {
-  title: `Button — ${BRAND.name}`,
+  title: `Button — ${BRAND.libName}`,
   description: 'Memphis-styled button component with primary and ghost variants.',
 }
 

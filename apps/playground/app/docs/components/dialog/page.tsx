@@ -14,7 +14,7 @@ import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-export const metadata = { title: `Dialog — ${BRAND.name}` }
+export const metadata = { title: `Dialog — ${BRAND.libName}` }
 
 const IMPORT_SNIPPET = `import {
   Dialog,

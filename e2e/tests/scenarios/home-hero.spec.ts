@@ -9,9 +9,9 @@ test.describe('Home hero', () => {
     await expect(heroMascot).toBeVisible()
   })
 
-  test('headline mentions the site brand and the library it documents', async ({ page }) => {
+  test('headline mentions the library', async ({ page }) => {
     await page.goto('/')
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Axolab|Damo UI/)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Damo UI/)
   })
 
   test('routes the primary CTA to /docs', async ({ page }) => {

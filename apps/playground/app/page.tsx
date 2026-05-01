@@ -29,7 +29,7 @@ export default function HomePage() {
       <section className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 items-center mb-20">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-4">
-            {BRAND.name.toUpperCase()} · DOCUMENTATION
+            DOCUMENTATION
           </div>
           <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-6">
             {BRAND.libName} —

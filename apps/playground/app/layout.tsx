@@ -7,8 +7,8 @@ import { BRAND } from '../lib/brand'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: `${BRAND.name} — ${BRAND.libName} showcase`,
-  description: `${BRAND.name} is the official showcase and documentation site for ${BRAND.libName}: ${BRAND.tagline}`,
+  title: `${BRAND.libName} — Memphis-inspired component library`,
+  description: BRAND.tagline,
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -68,7 +68,7 @@ const PROPS: ReadonlyArray<PropDef> = [
   },
 ]
 
-export const metadata = { title: `Card — ${BRAND.name}` }
+export const metadata = { title: `Card — ${BRAND.libName}` }
 
 export default function CardDocsPage() {
   return (

@@ -35,7 +35,7 @@ const PROPS: ReadonlyArray<PropDef> = [
   },
 ]
 
-export const metadata = { title: `Input — ${BRAND.name}` }
+export const metadata = { title: `Input — ${BRAND.libName}` }
 
 export default function InputDocsPage() {
   return (

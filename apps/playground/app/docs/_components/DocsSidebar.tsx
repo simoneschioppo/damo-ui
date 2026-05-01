@@ -61,8 +61,8 @@ export function DocsSidebar() {
   return (
     <Sidebar aria-label="Documentation navigation">
       <SidebarHeader>
-        <SidebarBrand>{BRAND.name}</SidebarBrand>
-        <SidebarSubtitle>{BRAND.libName} · DOCS</SidebarSubtitle>
+        <SidebarBrand>{BRAND.libName}</SidebarBrand>
+        <SidebarSubtitle>DOCS</SidebarSubtitle>
       </SidebarHeader>
       <SidebarBody>
         {DOCS_NAV.map((group) => (

@@ -19,7 +19,7 @@ export function Example({ children, code, title, previewClassName }: ExampleProp
           {title}
         </div>
       )}
-      <div className="border-2 border-memphis bg-background shadow-memphis">
+      <div className="border-2 border-memphis bg-background shadow-memphis overflow-hidden">
         <div
           className={
             previewClassName !== undefined
@@ -30,7 +30,7 @@ export function Example({ children, code, title, previewClassName }: ExampleProp
           {children}
         </div>
         <div className="border-t-2 border-memphis">
-          <Code code={code} lang="tsx" hideCopy={false} />
+          <Code code={code} lang="tsx" embedded />
         </div>
       </div>
     </div>

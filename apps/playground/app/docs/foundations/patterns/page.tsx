@@ -3,7 +3,7 @@ import { PatternSwatch, MemphisShape } from '@damo/ui'
 import { PATTERNS } from '../../_lib/patterns'
 import { BRAND } from '../../../../lib/brand'
 
-export const metadata = { title: `Patterns — ${BRAND.name}` }
+export const metadata = { title: `Patterns — ${BRAND.libName}` }
 
 export default function PatternsFoundationPage() {
   return (

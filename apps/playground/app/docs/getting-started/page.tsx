@@ -44,7 +44,7 @@ const THEMING_SNIPPET = `<html data-theme="dark" data-palette="neon" data-densit
 `
 
 export const metadata = {
-  title: `Getting Started — ${BRAND.name}`,
+  title: `Getting Started — ${BRAND.libName}`,
   description: `Install ${BRAND.libName} and ship your first component.`,
 }
 

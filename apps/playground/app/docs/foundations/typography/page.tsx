@@ -30,7 +30,7 @@ function fontVar(font: TypeRow['font']): string {
   return 'var(--font-body)'
 }
 
-export const metadata = { title: `Typography — ${BRAND.name}` }
+export const metadata = { title: `Typography — ${BRAND.libName}` }
 
 export default function TypographyFoundationPage() {
   return (
