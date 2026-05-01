@@ -18,9 +18,7 @@ describe('computeActiveSection', () => {
   })
 
   it('picks first-declared when multiple visible', () => {
-    expect(
-      computeActiveSection(SECTIONS, 'patterns', ['patterns', 'buttons', 'type']),
-    ).toBe('type')
+    expect(computeActiveSection(SECTIONS, 'patterns', ['patterns', 'buttons', 'type'])).toBe('type')
   })
 
   it('returns current when no visible id matches known sections', () => {

@@ -25,16 +25,12 @@ describe('AppTopBar', () => {
   })
 
   it('omits nav wrapper when nav is not provided', () => {
-    const { container } = render(
-      <AppTopBar logo={<span>L</span>} actions={<button>A</button>} />,
-    )
+    const { container } = render(<AppTopBar logo={<span>L</span>} actions={<button>A</button>} />)
     expect(container.querySelector('nav')).toBeNull()
   })
 
   it('renders a nav element when nav is provided', () => {
-    const { container } = render(
-      <AppTopBar logo={<span>L</span>} nav={<a href="/a">A</a>} />,
-    )
+    const { container } = render(<AppTopBar logo={<span>L</span>} nav={<a href="/a">A</a>} />)
     const nav = container.querySelector('nav')
     expect(nav).not.toBeNull()
     expect(nav!.className).toContain('flex')
@@ -84,9 +80,7 @@ describe('AppTopBar', () => {
   })
 
   it('applies actions wrapper layout classes', () => {
-    const { getByText } = render(
-      <AppTopBar logo={<span>L</span>} actions={<button>Do</button>} />,
-    )
+    const { getByText } = render(<AppTopBar logo={<span>L</span>} actions={<button>Do</button>} />)
     const actionsWrapper = getByText('Do').parentElement!
     expect(actionsWrapper.className).toContain('flex')
     expect(actionsWrapper.className).toContain('gap-4')
@@ -95,9 +89,7 @@ describe('AppTopBar', () => {
   })
 
   it('forwards className to the header', () => {
-    const { container } = render(
-      <AppTopBar logo={<span>L</span>} className="extra-class" />,
-    )
+    const { container } = render(<AppTopBar logo={<span>L</span>} className="extra-class" />)
     const header = container.querySelector('header')!
     expect(header.className).toContain('extra-class')
     // Base classes still present

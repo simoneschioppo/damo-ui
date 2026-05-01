@@ -56,11 +56,7 @@ export const Medal = forwardRef<HTMLDivElement, MedalProps>(function Medal(
   const textFill = `var(--medal-${rank}-text)`
 
   return (
-    <div
-      ref={ref}
-      className={cn('inline-flex flex-col items-center gap-1', className)}
-      {...rest}
-    >
+    <div ref={ref} className={cn('inline-flex flex-col items-center gap-1', className)} {...rest}>
       <svg
         width={size}
         height={size}

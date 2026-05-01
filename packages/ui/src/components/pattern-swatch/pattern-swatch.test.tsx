@@ -60,7 +60,11 @@ describe('PatternSwatch', () => {
 
   it('forwards backgroundSize prop to tile inline style', () => {
     const { container } = render(
-      <PatternSwatch name="DOTS" background="radial-gradient(#000 2px, transparent 2px)" backgroundSize="14px 14px" />,
+      <PatternSwatch
+        name="DOTS"
+        background="radial-gradient(#000 2px, transparent 2px)"
+        backgroundSize="14px 14px"
+      />,
     )
     const root = container.firstChild as HTMLElement
     const tile = root.children[1] as HTMLElement

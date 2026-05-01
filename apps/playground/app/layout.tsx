@@ -1,27 +1,19 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import {
-  AppTopBar,
-  ThemeSwitcher,
-  PaletteSwitcher,
-  DensitySwitcher,
-} from '@damo/ui'
+import { AppTopBar, ThemeSwitcher, PaletteSwitcher, DensitySwitcher } from '@damo/ui'
+import { BrandMark } from '../components/BrandMark'
+import { BRAND } from '../lib/brand'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Damo UI — Playground',
-  description: 'Showcase of the Damo UI component library',
+  title: `${BRAND.name} — ${BRAND.libName} showcase`,
+  description: `${BRAND.name} is the official showcase and documentation site for ${BRAND.libName}: ${BRAND.tagline}`,
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="it"
-      data-theme="light"
-      data-density="normal"
-      suppressHydrationWarning
-    >
+    <html lang="en" data-theme="light" data-density="normal" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -32,10 +24,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body suppressHydrationWarning>
         <AppTopBar
-          logo={<Link href="/">DAMO · UI</Link>}
+          logo={<BrandMark />}
           nav={
             <>
-              <Link href="/design-system">Design System</Link>
+              <Link href="/docs">Docs</Link>
               <Link href="/theme-generator">Theme Generator</Link>
             </>
           }

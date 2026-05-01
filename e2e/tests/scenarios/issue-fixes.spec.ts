@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Issue #1 — DensitySwitcher writes data-density + localStorage', () => {
+test.describe('DensitySwitcher writes data-density + localStorage', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/design-system')
+    await page.goto('/docs/getting-started')
     await page.evaluate(() => window.localStorage.clear())
     await page.reload()
   })
@@ -31,53 +31,32 @@ test.describe('Issue #1 — DensitySwitcher writes data-density + localStorage',
   })
 })
 
-test.describe('Issue #3 — TOC active state', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/design-system')
+test.describe('Docs sidebar active state', () => {
+  test('clicking a sidebar link marks it aria-current=page', async ({ page }) => {
+    await page.goto('/docs/getting-started')
+    await page.getByRole('link', { name: 'Button', exact: true }).click()
+    await expect(page).toHaveURL(/\/docs\/components\/button$/)
+    const active = page.locator('a[aria-current="page"]')
+    await expect(active).toHaveAttribute('href', '/docs/components/button')
   })
 
-  test('clicking a TOC link marks it aria-current=true', async ({ page }) => {
-    await page
-      .getByRole('navigation', { name: 'Page sections' })
-      .getByRole('link', { name: /Cards/ })
-      .click()
-    const active = page.locator('a[aria-current="true"]')
-    await expect(active).toHaveAttribute('href', '#cards')
-  })
-
-  test('scrolling into a later section updates TOC active', async ({ page }) => {
-    await page.evaluate(() =>
-      document.getElementById('patterns')?.scrollIntoView({ block: 'start' }),
-    )
-    // Allow IntersectionObserver to fire
-    await page.waitForFunction(() => {
-      const a = document.querySelector('a[aria-current="true"]')
-      return a?.getAttribute('href') === '#patterns'
-    })
-    const active = page.locator('a[aria-current="true"]')
-    await expect(active).toHaveAttribute('href', '#patterns')
+  test('navigating to a different docs route updates the active link', async ({ page }) => {
+    await page.goto('/docs/components/button')
+    let active = page.locator('a[aria-current="page"]')
+    await expect(active).toHaveAttribute('href', '/docs/components/button')
+    await page.getByRole('link', { name: 'Introduction', exact: true }).click()
+    await expect(page).toHaveURL(/\/docs\/getting-started$/)
+    active = page.locator('a[aria-current="page"]')
+    await expect(active).toHaveAttribute('href', '/docs/getting-started')
   })
 })
 
-test.describe('Issue #4 — hero pattern stat matches #patterns section', () => {
-  test('hero count equals PatternSwatch count in #patterns', async ({ page }) => {
-    await page.goto('/design-system')
-    // Hero <header> lives inside <main>, distinguishing it from the AppTopBar
-    const heroText = await page
-      .locator('main header span')
-      .filter({ hasText: /pattern/i })
-      .textContent()
-    expect(heroText?.trim()).toBe('8 pattern')
-  })
-})
-
-test.describe('Issue #2 — README documents real palette values', () => {
-  test('PaletteSwitcher exposes default (plum+gold), neon, sunset', async ({ page }) => {
+test.describe('PaletteSwitcher exposes the documented palettes', () => {
+  test('default, neon, sunset are listed and legacy names are not', async ({ page }) => {
     await page.goto('/')
-
-    // PaletteSwitcher uses a Radix Select — open the dropdown, then read
-    // the listbox items by their textContent.
-    const trigger = page.locator('span.eyebrow:has-text("Palette") + button').first()
+    // Radix Select renders the trigger as a combobox with the navbar header as
+    // its accessible context. Use the role rather than internal class names.
+    const trigger = page.getByRole('banner').getByRole('combobox').first()
     await trigger.click()
     const listbox = page.getByRole('listbox')
     await expect(listbox).toBeVisible()

@@ -43,31 +43,51 @@ export interface RawPalette {
 // ─── Layer 2: Semantic (paired bg+fg) ────────────────────────
 
 export interface SemanticTheme {
-  readonly background: string; readonly foreground: string
-  readonly card: string; readonly cardForeground: string
-  readonly popover: string; readonly popoverForeground: string
-  readonly muted: string; readonly mutedForeground: string
+  readonly background: string
+  readonly foreground: string
+  readonly card: string
+  readonly cardForeground: string
+  readonly popover: string
+  readonly popoverForeground: string
+  readonly muted: string
+  readonly mutedForeground: string
 
-  readonly primary: string; readonly primaryForeground: string
-  readonly secondary: string; readonly secondaryForeground: string
-  readonly accent: string; readonly accentForeground: string
-  readonly destructive: string; readonly destructiveForeground: string
+  readonly primary: string
+  readonly primaryForeground: string
+  readonly secondary: string
+  readonly secondaryForeground: string
+  readonly accent: string
+  readonly accentForeground: string
+  readonly destructive: string
+  readonly destructiveForeground: string
 
-  readonly success: string; readonly successForeground: string
-  readonly warning: string; readonly warningForeground: string
-  readonly info: string; readonly infoForeground: string
-  readonly rage: string; readonly rageForeground: string
+  readonly success: string
+  readonly successForeground: string
+  readonly warning: string
+  readonly warningForeground: string
+  readonly info: string
+  readonly infoForeground: string
+  readonly rage: string
+  readonly rageForeground: string
 
-  readonly border: string; readonly borderStrong: string
-  readonly input: string; readonly ring: string
+  readonly border: string
+  readonly borderStrong: string
+  readonly input: string
+  readonly ring: string
 
-  readonly memphisShadowColor: string; readonly memphisBorderColor: string
+  readonly memphisShadowColor: string
+  readonly memphisBorderColor: string
 
-  readonly badgeFeatured: string; readonly badgeFeaturedForeground: string
-  readonly badgeCopper: string; readonly badgeCopperForeground: string
-  readonly badgeNavy: string; readonly badgeNavyForeground: string
-  readonly badgeDraw: string; readonly badgeDrawForeground: string
-  readonly badgeRank: string; readonly badgeRankForeground: string
+  readonly badgeFeatured: string
+  readonly badgeFeaturedForeground: string
+  readonly badgeCopper: string
+  readonly badgeCopperForeground: string
+  readonly badgeNavy: string
+  readonly badgeNavyForeground: string
+  readonly badgeDraw: string
+  readonly badgeDrawForeground: string
+  readonly badgeRank: string
+  readonly badgeRankForeground: string
 }
 
 // ─── Layer 3: Identity ───────────────────────────────────────
@@ -314,15 +334,25 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
 
 const DEFAULT_PALETTE: RawPalette = {
   ink: {
-    '100': '#e0c6e2', '300': '#c590c9', '500': '#7a3980',
-    '700': '#522357', '800': '#3d1a40', '900': '#2a0f2d',
+    '100': '#e0c6e2',
+    '300': '#c590c9',
+    '500': '#7a3980',
+    '700': '#522357',
+    '800': '#3d1a40',
+    '900': '#2a0f2d',
   },
   brand: {
-    '100': '#f8e5bc', '200': '#f0d49a', '300': '#e5bc6d',
-    '400': '#d5a845', '500': '#c4942a',
+    '100': '#f8e5bc',
+    '200': '#f0d49a',
+    '300': '#e5bc6d',
+    '400': '#d5a845',
+    '500': '#c4942a',
   },
   paper: {
-    '50': '#fbf7ee', '100': '#f5efde', '200': '#ece2c6', '300': '#ddd0ae',
+    '50': '#fbf7ee',
+    '100': '#f5efde',
+    '200': '#ece2c6',
+    '300': '#ddd0ae',
   },
 }
 
@@ -394,7 +424,16 @@ export const DEFAULT_THEME: Theme = {
  * These are the raw (pre-scale) values in px.
  */
 export const SPACING_BASE_PX: ReadonlyArray<readonly [string, number]> = [
-  ['space-0', 0], ['space-1', 4], ['space-2', 8], ['space-3', 12],
-  ['space-4', 16], ['space-5', 20], ['space-6', 24], ['space-8', 32],
-  ['space-10', 40], ['space-12', 48], ['space-16', 64], ['space-20', 80],
+  ['space-0', 0],
+  ['space-1', 4],
+  ['space-2', 8],
+  ['space-3', 12],
+  ['space-4', 16],
+  ['space-5', 20],
+  ['space-6', 24],
+  ['space-8', 32],
+  ['space-10', 40],
+  ['space-12', 48],
+  ['space-16', 64],
+  ['space-20', 80],
 ]

@@ -41,6 +41,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@damo/ui'
+import { BRAND } from '../../lib/brand'
 import {
   AuthPreview,
   DashboardPreview,
@@ -103,7 +104,10 @@ const EASING_CHOICES: ReadonlyArray<{ value: string; label: string }> = [
   { value: 'ease-out', label: 'ease-out' },
 ]
 
-const INCLUDE_OPTIONS: Record<'css' | 'tailwind', ReadonlyArray<{ key: IncludeKey; label: string }>> = {
+const INCLUDE_OPTIONS: Record<
+  'css' | 'tailwind',
+  ReadonlyArray<{ key: IncludeKey; label: string }>
+> = {
   css: [
     { key: 'rawPalette', label: 'Raw palette (ink / brand / paper)' },
     { key: 'semanticLight', label: 'Semantic — light' },
@@ -114,7 +118,10 @@ const INCLUDE_OPTIONS: Record<'css' | 'tailwind', ReadonlyArray<{ key: IncludeKe
   tailwind: [
     { key: 'semanticLight', label: 'Semantic colors' },
     { key: 'identity', label: 'Identity (charts / memphis aliases)' },
-    { key: 'foundations', label: 'Foundations (typography / radius / shadow / spacing / motion / z-index)' },
+    {
+      key: 'foundations',
+      label: 'Foundations (typography / radius / shadow / spacing / motion / z-index)',
+    },
   ],
 }
 
@@ -306,46 +313,53 @@ interface PaletteEditorProps {
 function PaletteEditor({ palette, otherPalette, mode, dispatch }: PaletteEditorProps) {
   return (
     <>
-      <p style={{ fontSize: 11, color: 'var(--muted-foreground)', marginBottom: 12, lineHeight: 1.5 }}>
-        Editing raw scales does not automatically update the Theme tab values.
-        Use Reset to re-derive semantic tokens from the current palette.
+      <p
+        style={{
+          fontSize: 11,
+          color: 'var(--muted-foreground)',
+          marginBottom: 12,
+          lineHeight: 1.5,
+        }}
+      >
+        Editing raw scales does not automatically update the Theme tab values. Use Reset to
+        re-derive semantic tokens from the current palette.
       </p>
-    <Accordion type="multiple" defaultValue={['ink', 'brand', 'paper']}>
-      {(['ink', 'brand', 'paper'] as const).map((group) => (
-        <AccordionItem key={group} value={group}>
-          <AccordionTrigger>
-            {group} ({PALETTE_STEPS[group].length} steps)
-          </AccordionTrigger>
-          <AccordionContent>
-            <div style={stackStyle}>
-              {(PALETTE_STEPS[group] as ReadonlyArray<string>).map((step) => {
-                const groupMap = palette[group] as Readonly<Record<string, string>>
-                const otherGroupMap = otherPalette[group] as Readonly<Record<string, string>>
-                const value = groupMap[step] ?? '#000000'
-                const lightValue = mode === 'light' ? value : (otherGroupMap[step] ?? '#000000')
-                const darkValue = mode === 'dark' ? value : (otherGroupMap[step] ?? '#000000')
-                return (
-                  <DivergenceWrapper
-                    key={step}
-                    token={`palette-${group}-${step}`}
-                    lightValue={lightValue}
-                    darkValue={darkValue}
-                  >
-                    <ColorPicker
-                      label={`${group}-${step}`}
-                      value={value}
-                      onChange={(next) =>
-                        dispatch({ type: 'SET_PALETTE_STEP', mode, group, step, value: next })
-                      }
-                    />
-                  </DivergenceWrapper>
-                )
-              })}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
+      <Accordion type="multiple" defaultValue={['ink', 'brand', 'paper']}>
+        {(['ink', 'brand', 'paper'] as const).map((group) => (
+          <AccordionItem key={group} value={group}>
+            <AccordionTrigger>
+              {group} ({PALETTE_STEPS[group].length} steps)
+            </AccordionTrigger>
+            <AccordionContent>
+              <div style={stackStyle}>
+                {(PALETTE_STEPS[group] as ReadonlyArray<string>).map((step) => {
+                  const groupMap = palette[group] as Readonly<Record<string, string>>
+                  const otherGroupMap = otherPalette[group] as Readonly<Record<string, string>>
+                  const value = groupMap[step] ?? '#000000'
+                  const lightValue = mode === 'light' ? value : (otherGroupMap[step] ?? '#000000')
+                  const darkValue = mode === 'dark' ? value : (otherGroupMap[step] ?? '#000000')
+                  return (
+                    <DivergenceWrapper
+                      key={step}
+                      token={`palette-${group}-${step}`}
+                      lightValue={lightValue}
+                      darkValue={darkValue}
+                    >
+                      <ColorPicker
+                        label={`${group}-${step}`}
+                        value={value}
+                        onChange={(next) =>
+                          dispatch({ type: 'SET_PALETTE_STEP', mode, group, step, value: next })
+                        }
+                      />
+                    </DivergenceWrapper>
+                  )
+                })}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </>
   )
 }
@@ -371,9 +385,7 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
       {(Object.keys(SEMANTIC_GROUPS) as ReadonlyArray<keyof typeof SEMANTIC_GROUPS>).map(
         (groupKey) => (
           <AccordionItem key={groupKey} value={groupKey}>
-            <AccordionTrigger style={{ textTransform: 'capitalize' }}>
-              {groupKey}
-            </AccordionTrigger>
+            <AccordionTrigger style={{ textTransform: 'capitalize' }}>{groupKey}</AccordionTrigger>
             <AccordionContent>
               <div style={{ ...stackStyle, gap: 12 }}>
                 {SEMANTIC_GROUPS[groupKey].map((entry) => {
@@ -390,7 +402,11 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
                         </div>
                         <div style={pairRowStyle}>
                           <span style={pairPrefixShortStyle}>BG</span>
-                          <DivergenceWrapper token={`semantic-${String(bgKey)}`} {...divPair(bgKey)} fillWidth>
+                          <DivergenceWrapper
+                            token={`semantic-${String(bgKey)}`}
+                            {...divPair(bgKey)}
+                            fillWidth
+                          >
                             <ColorPicker
                               label={`${entry.label} background`}
                               value={bgVal}
@@ -401,7 +417,11 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
                         </div>
                         <div style={pairRowStyle}>
                           <span style={pairPrefixShortStyle}>FG</span>
-                          <DivergenceWrapper token={`semantic-${String(fgKey)}`} {...divPair(fgKey)} fillWidth>
+                          <DivergenceWrapper
+                            token={`semantic-${String(fgKey)}`}
+                            {...divPair(fgKey)}
+                            fillWidth
+                          >
                             <ColorPicker
                               label={`${entry.label} foreground`}
                               value={fgVal}
@@ -463,12 +483,12 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
               <div key={rank} style={pairBlockStyle}>
                 <Label>{rank}</Label>
                 {(['outer', 'inner', 'text'] as const).map((slot) => {
-                  const lightVal = mode === 'light'
-                    ? identity.medals[rank][slot]
-                    : otherIdentity.medals[rank][slot]
-                  const darkVal = mode === 'dark'
-                    ? identity.medals[rank][slot]
-                    : otherIdentity.medals[rank][slot]
+                  const lightVal =
+                    mode === 'light'
+                      ? identity.medals[rank][slot]
+                      : otherIdentity.medals[rank][slot]
+                  const darkVal =
+                    mode === 'dark' ? identity.medals[rank][slot] : otherIdentity.medals[rank][slot]
                   return (
                     <div key={slot} style={pairRowStyle}>
                       <span style={pairPrefixWideStyle}>{slot}</span>
@@ -481,7 +501,9 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                         <ColorPicker
                           label={`${rank} ${slot}`}
                           value={identity.medals[rank][slot]}
-                          onChange={(v) => dispatch({ type: 'SET_MEDAL', mode, rank, slot, value: v })}
+                          onChange={(v) =>
+                            dispatch({ type: 'SET_MEDAL', mode, rank, slot, value: v })
+                          }
                           showLabel={false}
                         />
                       </DivergenceWrapper>
@@ -500,7 +522,8 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
         <AccordionContent>
           <div style={stackStyle}>
             {(['1', '2', '3', '4', '5'] as const).map((index) => {
-              const lightVal = mode === 'light' ? identity.charts[index] : otherIdentity.charts[index]
+              const lightVal =
+                mode === 'light' ? identity.charts[index] : otherIdentity.charts[index]
               const darkVal = mode === 'dark' ? identity.charts[index] : otherIdentity.charts[index]
               return (
                 <DivergenceWrapper
@@ -527,8 +550,10 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
         <AccordionContent>
           <div style={stackStyle}>
             {(['accent', 'accentStrong', 'foreground', 'foregroundStrong'] as const).map((key) => {
-              const lightVal = mode === 'light' ? identity.navOnDark[key] : otherIdentity.navOnDark[key]
-              const darkVal = mode === 'dark' ? identity.navOnDark[key] : otherIdentity.navOnDark[key]
+              const lightVal =
+                mode === 'light' ? identity.navOnDark[key] : otherIdentity.navOnDark[key]
+              const darkVal =
+                mode === 'dark' ? identity.navOnDark[key] : otherIdentity.navOnDark[key]
               return (
                 <DivergenceWrapper
                   key={key}
@@ -554,12 +579,18 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
         <AccordionContent>
           <div style={stackStyle}>
             {(['color1', 'color2', 'color3'] as const).map((key) => {
-              const lightVal = identity.appPattern[key] === otherIdentity.appPattern[key]
-                ? identity.appPattern[key]
-                : (mode === 'light' ? identity.appPattern[key] : otherIdentity.appPattern[key])
-              const darkVal = identity.appPattern[key] === otherIdentity.appPattern[key]
-                ? identity.appPattern[key]
-                : (mode === 'dark' ? identity.appPattern[key] : otherIdentity.appPattern[key])
+              const lightVal =
+                identity.appPattern[key] === otherIdentity.appPattern[key]
+                  ? identity.appPattern[key]
+                  : mode === 'light'
+                    ? identity.appPattern[key]
+                    : otherIdentity.appPattern[key]
+              const darkVal =
+                identity.appPattern[key] === otherIdentity.appPattern[key]
+                  ? identity.appPattern[key]
+                  : mode === 'dark'
+                    ? identity.appPattern[key]
+                    : otherIdentity.appPattern[key]
               return (
                 <DivergenceWrapper
                   key={key}
@@ -607,7 +638,12 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
           <div style={stackStyle}>
             {(
               [
-                { id: 'tg-font-display', slot: 'display', field: 'fontDisplay', label: 'Display font' },
+                {
+                  id: 'tg-font-display',
+                  slot: 'display',
+                  field: 'fontDisplay',
+                  label: 'Display font',
+                },
                 { id: 'tg-font-body', slot: 'body', field: 'fontBody', label: 'Body font' },
                 { id: 'tg-font-mono', slot: 'mono', field: 'fontMono', label: 'Mono font' },
               ] as const
@@ -641,11 +677,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                   <Label>
                     {k} · {theme.typography[mode].sizes[k]}px
                   </Label>
-                  <DivergenceWrapper
-                    token={`text-${k}`}
-                    lightValue={lightVal}
-                    darkValue={darkVal}
-                  >
+                  <DivergenceWrapper token={`text-${k}`} lightValue={lightVal} darkValue={darkVal}>
                     <Slider
                       value={[theme.typography[mode].sizes[k]]}
                       min={10}
@@ -893,7 +925,9 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                   >
                     <Select
                       value={theme.motion[mode].easings[k]}
-                      onValueChange={(v) => dispatch({ type: 'SET_EASING', mode, key: k, value: v })}
+                      onValueChange={(v) =>
+                        dispatch({ type: 'SET_EASING', mode, key: k, value: v })
+                      }
                     >
                       <SelectTrigger aria-label={`easing ${k}`}>
                         <SelectValue />
@@ -987,7 +1021,9 @@ export default function ThemeGeneratorPage() {
       <Sidebar aria-label="Theme controls">
         <SidebarHeader>
           <SidebarBrand>Theme Generator</SidebarBrand>
-          <SidebarSubtitle>Edit palette, theme and identity tokens</SidebarSubtitle>
+          <SidebarSubtitle>
+            {BRAND.name} · {BRAND.libName}
+          </SidebarSubtitle>
         </SidebarHeader>
 
         <SidebarBody>
@@ -1080,7 +1116,8 @@ export default function ThemeGeneratorPage() {
             onClick={() => {
               const root = typeof document !== 'undefined' ? document.documentElement : null
               const attr = root?.getAttribute('data-palette')
-              const preset: PresetName = attr === 'neon' ? 'neon' : attr === 'sunset' ? 'sunset' : 'default'
+              const preset: PresetName =
+                attr === 'neon' ? 'neon' : attr === 'sunset' ? 'sunset' : 'default'
               dispatch({ type: 'RESET', preset })
             }}
           >
@@ -1114,7 +1151,6 @@ export default function ThemeGeneratorPage() {
                     <TabsTrigger value="feed">Feed</TabsTrigger>
                   </TabsList>
                 </Tabs>
-
               </div>
 
               {/* Scene preview */}
@@ -1137,7 +1173,6 @@ export default function ThemeGeneratorPage() {
           {/* Export tab */}
           <TabsContent value="export">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 16 }}>
-
               {/* Section A: Format selector */}
               <section>
                 <Label>Format</Label>
@@ -1193,14 +1228,20 @@ export default function ThemeGeneratorPage() {
                 <pre style={{ ...preBoxStyle, marginTop: 8 }}>{filteredOutput}</pre>
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                   <Button variant="primary" onClick={() => handleCopy(filteredOutput)}>
-                    {copyState === 'copied' ? 'Copied!' : copyState === 'error' ? 'Copy failed' : 'Copy'}
+                    {copyState === 'copied'
+                      ? 'Copied!'
+                      : copyState === 'error'
+                        ? 'Copy failed'
+                        : 'Copy'}
                   </Button>
-                  <Button variant="outline" onClick={() => handleDownload(filteredOutput, downloadFilename)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleDownload(filteredOutput, downloadFilename)}
+                  >
                     Download
                   </Button>
                 </div>
               </section>
-
             </div>
           </TabsContent>
         </Tabs>

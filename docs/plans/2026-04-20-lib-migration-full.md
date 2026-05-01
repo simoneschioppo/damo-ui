@@ -55,6 +55,7 @@
 ### Task 1: Extend `<Badge>` variants
 
 **Files:**
+
 - Modify: `packages/ui/src/components/badge/badge.variants.ts`
 - Test: `packages/ui/src/components/badge/badge.test.tsx`
 
@@ -65,7 +66,17 @@ import { render } from '@testing-library/react'
 import { Badge } from './badge'
 
 describe('Badge variants', () => {
-  const flavors = ['default', 'featured', 'copper', 'navy', 'win', 'loss', 'draw', 'rank', 'outline'] as const
+  const flavors = [
+    'default',
+    'featured',
+    'copper',
+    'navy',
+    'win',
+    'loss',
+    'draw',
+    'rank',
+    'outline',
+  ] as const
   it.each(flavors)('renders %s flavor', (variant) => {
     const { container } = render(<Badge variant={variant}>X</Badge>)
     expect(container.firstChild).toHaveClass(`bg-`)
@@ -88,6 +99,7 @@ describe('Badge variants', () => {
 ### Task 2: Extend `<Chip>` with dotColor + active state
 
 **Files:**
+
 - Modify: `packages/ui/src/components/chip/chip.tsx` + `chip.variants.ts`
 - Test: `packages/ui/src/components/chip/chip.test.tsx`
 
@@ -100,6 +112,7 @@ describe('Badge variants', () => {
 ### Task 3: Create `<Medal>` component
 
 **Files:**
+
 - Create: `packages/ui/src/components/medal/medal.tsx` + `medal.variants.ts` + `medal.test.tsx` + `index.ts`
 - Modify: `packages/ui/src/styles/tokens.css` (add 15 medal CSS vars)
 - Modify: `packages/ui/src/index.ts` (export)
@@ -126,7 +139,11 @@ describe('Badge variants', () => {
 - [ ] **Step 3: Implement** — SVG octagon with `--medal-${rank}-outer/inner/text` vars, optional `label`, optional `rank` prop (number) displayed inside.
 
 ```tsx
-export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmaster'; label?: string; rankNumber?: number }
+export interface MedalProps {
+  rank: 'bronze' | 'silver' | 'gold' | 'master' | 'grandmaster'
+  label?: string
+  rankNumber?: number
+}
 ```
 
 - [ ] **Step 4: Export + verify PASS**
@@ -135,6 +152,7 @@ export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmast
 ### Task 4: Create `<Hint>` component
 
 **Files:**
+
 - Create: `packages/ui/src/components/hint/hint.tsx` + `hint.test.tsx` + `index.ts`
 
 - [ ] **Step 1: Test** — `<Hint num={1} title="Title">body</Hint>` renders 40x40 icon with number, title, body. Background uses `color-mix(plum-500 22%, surface)`.
@@ -144,6 +162,7 @@ export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmast
 ### Task 5: Create `<ColorPicker>` component
 
 **Files:**
+
 - Create: `packages/ui/src/components/color-picker/color-picker.tsx` + test + index
 
 - [ ] **Step 1: Test** — `<ColorPicker label="Plum 500" value="#7a3980" onChange={fn} />` renders a label, a `input[type=color]` with the value, and a text Input mirroring the hex. Changing either triggers onChange.
@@ -153,6 +172,7 @@ export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmast
 ### Task 6: Create `<PatternSwatch>` + `<MemphisShape>`
 
 **Files:**
+
 - Create: `packages/ui/src/components/pattern-swatch/pattern-swatch.tsx` + test
 - Create: `packages/ui/src/components/memphis-shape/memphis-shape.tsx` + test
 
@@ -165,6 +185,7 @@ export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmast
 ### Task 7: Create `<ColorScale>` + `<TokenSwatch>`
 
 **Files:**
+
 - Create: `packages/ui/src/components/color-scale/color-scale.tsx` + test
 - Create: `packages/ui/src/components/token-swatch/token-swatch.tsx` + test
 - Move: `useResolvedCssVars` hook from playground to `packages/ui/src/hooks/use-resolved-css-vars.ts` (exported)
@@ -178,6 +199,7 @@ export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmast
 ### Task 8: Create `<TypeSpecimen>` + `<SectionHeader>` + `<SubPanel>` + `<ShowcaseCard>`
 
 **Files:**
+
 - Create: `packages/ui/src/components/type-specimen/` + `section-header/` + `sub-panel/` + `showcase-card/` (each with component + test + index)
 
 - [ ] **Step 1: Tests for all 4** (structure + tokens)
@@ -187,6 +209,7 @@ export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmast
 ### Task 9: Create domain cards (`<PlayerCard>`, `<ModeCard>`, `<InfoCard>`, `<RuleCard>`)
 
 **Files:**
+
 - Create: `packages/ui/src/components/player-card/` + `mode-card/` + `info-card/` + `rule-card/`
 
 - [ ] **Step 1: Define props**
@@ -201,6 +224,7 @@ export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmast
 ### Task 10: Refactor `/theme-generator` to use `<ColorPicker>`
 
 **Files:**
+
 - Modify: `apps/playground/app/theme-generator/page.tsx`
 
 - [ ] **Step 1: Delete local ColorPickerRow** and import `ColorPicker` from lib
@@ -210,6 +234,7 @@ export interface MedalProps { rank: 'bronze'|'silver'|'gold'|'master'|'grandmast
 ### Task 11: Refactor `/design-system` to use only lib components
 
 **Files:**
+
 - Modify: `apps/playground/app/design-system/page.tsx`
 
 - [ ] **Step 1: Replace section 01** inline ColorBand/SemanticBlock with `<ColorScale>` + `<TokenSwatch>`

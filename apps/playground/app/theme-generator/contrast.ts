@@ -6,7 +6,13 @@
 
 function parse(hex: string): { r: number; g: number; b: number } {
   const c = hex.replace('#', '')
-  const n = c.length === 3 ? c.split('').map((x) => x + x).join('') : c
+  const n =
+    c.length === 3
+      ? c
+          .split('')
+          .map((x) => x + x)
+          .join('')
+      : c
   return {
     r: parseInt(n.slice(0, 2), 16),
     g: parseInt(n.slice(2, 4), 16),

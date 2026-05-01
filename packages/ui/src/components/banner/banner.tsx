@@ -59,7 +59,9 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(function Banner(
       )}
       <div className="flex-1 min-w-0">
         {title && <div className="font-semibold text-base leading-snug">{title}</div>}
-        {children && <div className={cn('text-sm text-muted-foreground', title && 'mt-1')}>{children}</div>}
+        {children && (
+          <div className={cn('text-sm text-muted-foreground', title && 'mt-1')}>{children}</div>
+        )}
       </div>
       {dismissible && (
         <button

@@ -23,17 +23,50 @@ import { type PresetName, applyPreset, PRESET_PALETTES } from './presets'
 type Action =
   | { type: 'SET_PRESET'; preset: PresetName }
   | { type: 'SYNC_PRESET'; preset: PresetName }
-  | { type: 'SET_PALETTE_STEP'; mode: ThemeMode; group: 'ink' | 'brand' | 'paper'; step: string; value: string }
+  | {
+      type: 'SET_PALETTE_STEP'
+      mode: ThemeMode
+      group: 'ink' | 'brand' | 'paper'
+      step: string
+      value: string
+    }
   | { type: 'SET_SEMANTIC'; mode: ThemeMode; key: keyof SemanticTheme; value: string }
-  | { type: 'SET_MEDAL'; mode: ThemeMode; rank: MedalRank; slot: 'outer' | 'inner' | 'text'; value: string }
+  | {
+      type: 'SET_MEDAL'
+      mode: ThemeMode
+      rank: MedalRank
+      slot: 'outer' | 'inner' | 'text'
+      value: string
+    }
   | { type: 'SET_CHART'; mode: ThemeMode; index: '1' | '2' | '3' | '4' | '5'; value: string }
-  | { type: 'SET_NAV_ON_DARK'; mode: ThemeMode; key: 'accent' | 'accentStrong' | 'foreground' | 'foregroundStrong'; value: string }
-  | { type: 'SET_APP_PATTERN_COLOR'; mode: ThemeMode; key: 'color1' | 'color2' | 'color3'; value: string }
+  | {
+      type: 'SET_NAV_ON_DARK'
+      mode: ThemeMode
+      key: 'accent' | 'accentStrong' | 'foreground' | 'foregroundStrong'
+      value: string
+    }
+  | {
+      type: 'SET_APP_PATTERN_COLOR'
+      mode: ThemeMode
+      key: 'color1' | 'color2' | 'color3'
+      value: string
+    }
   | { type: 'SET_APP_PATTERN_SIZE'; mode: ThemeMode; value: number }
-  | { type: 'SET_TYPOGRAPHY_FONT'; mode: ThemeMode; slot: 'display' | 'body' | 'mono'; value: string }
+  | {
+      type: 'SET_TYPOGRAPHY_FONT'
+      mode: ThemeMode
+      slot: 'display' | 'body' | 'mono'
+      value: string
+    }
   | { type: 'SET_TYPOGRAPHY_SIZE'; mode: ThemeMode; key: TypographySizeKey; value: number }
   | { type: 'SET_RADIUS'; mode: ThemeMode; key: RadiusKey; value: number }
-  | { type: 'SET_SHADOW_MEMPHIS'; mode: ThemeMode; key: ShadowMemphisKey; slot: 'x' | 'y' | 'color'; value: number | string }
+  | {
+      type: 'SET_SHADOW_MEMPHIS'
+      mode: ThemeMode
+      key: ShadowMemphisKey
+      slot: 'x' | 'y' | 'color'
+      value: number | string
+    }
   | { type: 'SET_SHADOW_SOFT'; mode: ThemeMode; key: 'sm' | 'md' | 'lg'; value: number }
   | { type: 'SET_SPACING_SCALE'; mode: ThemeMode; value: number }
   | { type: 'SET_DURATION'; mode: ThemeMode; key: MotionDurationKey; value: number }
@@ -369,9 +402,7 @@ function applyThemeToRoot(theme: Theme): void {
 
   const root = document.documentElement
   const currentPalette = root.getAttribute('data-palette')
-  const lightSelector = currentPalette
-    ? `:root[data-palette='${currentPalette}']`
-    : ':root'
+  const lightSelector = currentPalette ? `:root[data-palette='${currentPalette}']` : ':root'
   const darkSelector = currentPalette
     ? `:root[data-palette='${currentPalette}'][data-theme='dark']`
     : `:root[data-theme='dark']`
