@@ -35,14 +35,8 @@ export const SectionHeader = forwardRef<HTMLElement, SectionHeaderProps>(functio
       >
         {num}
       </span>
-      <h2
-        className="font-display text-[44px] m-0 text-foreground tracking-[0.01em]"
-      >
-        {title}
-      </h2>
-      <p className="text-muted-foreground max-w-[640px] mt-2 text-[15px] basis-full m-0">
-        {desc}
-      </p>
+      <h2 className="font-display text-[44px] m-0 text-foreground tracking-[0.01em]">{title}</h2>
+      <p className="text-muted-foreground max-w-[640px] mt-2 text-[15px] basis-full m-0">{desc}</p>
     </header>
   )
 })

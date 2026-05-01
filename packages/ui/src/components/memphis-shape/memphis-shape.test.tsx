@@ -13,7 +13,14 @@ const ALL_VARIANTS: MemphisShapeVariant[] = [
   'lbar',
 ]
 
-const FILLED_VARIANTS: MemphisShapeVariant[] = ['diamond', 'circle', 'triangle', 'blob', 'star', 'lbar']
+const FILLED_VARIANTS: MemphisShapeVariant[] = [
+  'diamond',
+  'circle',
+  'triangle',
+  'blob',
+  'star',
+  'lbar',
+]
 const STROKE_ONLY_VARIANTS: MemphisShapeVariant[] = ['zigzag', 'wave']
 
 describe('MemphisShape', () => {

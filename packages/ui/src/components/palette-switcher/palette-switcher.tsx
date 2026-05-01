@@ -3,13 +3,7 @@
 import { forwardRef, useEffect, useMemo, type HTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
 import { usePersistedAttr } from '../../hooks/use-persisted-attr'
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from '../select/select'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../select/select'
 
 export interface PaletteOption {
   value: string
@@ -45,10 +39,7 @@ export const PaletteSwitcher = forwardRef<HTMLDivElement, PaletteSwitcherProps>(
     ref,
   ) {
     const fallback = defaultValue ?? options[0]?.value ?? ''
-    const validValues = useMemo(
-      () => new Set(options.map((o) => o.value)),
-      [options],
-    )
+    const validValues = useMemo(() => new Set(options.map((o) => o.value)), [options])
 
     const [current, setCurrent] = usePersistedAttr<string>(storageKey, attribute, fallback)
 
@@ -57,11 +48,7 @@ export const PaletteSwitcher = forwardRef<HTMLDivElement, PaletteSwitcherProps>(
     }, [current, fallback, validValues, setCurrent])
 
     return (
-      <div
-        ref={ref}
-        className={cn('inline-flex gap-2 items-center', className)}
-        {...rest}
-      >
+      <div ref={ref} className={cn('inline-flex gap-2 items-center', className)} {...rest}>
         <span className="eyebrow">Palette</span>
         <Select value={current} onValueChange={setCurrent}>
           <SelectTrigger className="h-auto w-auto min-w-[9rem] py-1.5 text-[13px] font-semibold">

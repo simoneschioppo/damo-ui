@@ -50,10 +50,7 @@ export const TypeSpecimen = forwardRef<HTMLDivElement, TypeSpecimenProps>(functi
       <div className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-muted-foreground mb-4">
         {name}
       </div>
-      <p
-        className="m-0 leading-none text-foreground"
-        style={{ fontFamily, fontSize: sampleSize }}
-      >
+      <p className="m-0 leading-none text-foreground" style={{ fontFamily, fontSize: sampleSize }}>
         {sample}
       </p>
       {scale && scale.length > 0 ? (
