@@ -24,7 +24,7 @@ export const BRAND: BrandConfig = {
   tagline: 'Memphis-inspired React components, tokens, and patterns.',
   mascotSrc: '/mascot.png',
   mascotAlt: 'Axolab mascot — a blue axolotl wearing glasses',
-  mascotWidth: 677,
-  mascotHeight: 369,
+  mascotWidth: 283,
+  mascotHeight: 197,
   repoUrl: 'https://github.com/simoneschioppo/damo-ui',
 }
