@@ -25,7 +25,7 @@ describe('ProfilePreview', () => {
 
   it('renders 4 medals and interest chips', () => {
     const { getAllByRole, getByText } = render(<ProfilePreview />)
-    const medals = getAllByRole('img').filter(node => node.tagName === 'svg')
+    const medals = getAllByRole('img').filter((node) => node.tagName === 'svg')
     expect(medals.length).toBeGreaterThanOrEqual(4)
     expect(getByText('Design')).toBeInTheDocument()
     expect(getByText('Typography')).toBeInTheDocument()

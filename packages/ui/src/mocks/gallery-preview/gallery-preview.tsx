@@ -18,10 +18,7 @@ import { Input } from '../../components/input'
 import { Label } from '../../components/label'
 import { Switch } from '../../components/switch'
 import { Slider } from '../../components/slider'
-import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from '../../components/segmented-control'
+import { SegmentedControl, SegmentedControlItem } from '../../components/segmented-control'
 import { Avatar, AvatarFallback, AvatarImage, AvatarGroup } from '../../components/avatar'
 import { PlusIcon } from '../../icons'
 
@@ -132,11 +129,7 @@ export const GalleryPreview = forwardRef<HTMLDivElement, GalleryPreviewProps>(
             </div>
             <div className="flex flex-col gap-2">
               <Label>Densità</Label>
-              <SegmentedControl
-                className="self-start"
-                defaultValue="comoda"
-                aria-label="Densità"
-              >
+              <SegmentedControl className="self-start" defaultValue="comoda" aria-label="Densità">
                 <SegmentedControlItem value="compatta">Compatta</SegmentedControlItem>
                 <SegmentedControlItem value="comoda">Comoda</SegmentedControlItem>
                 <SegmentedControlItem value="ampia">Ampia</SegmentedControlItem>

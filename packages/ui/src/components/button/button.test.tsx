@@ -73,7 +73,11 @@ describe('Button', () => {
   })
 
   it('renders icon size', () => {
-    const { getByRole } = render(<Button size="icon" aria-label="icon">X</Button>)
+    const { getByRole } = render(
+      <Button size="icon" aria-label="icon">
+        X
+      </Button>,
+    )
     const btn = getByRole('button')
     expect(btn.className).toContain('h-10')
     expect(btn.className).toContain('w-10')

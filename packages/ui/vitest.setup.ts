@@ -9,8 +9,7 @@ if (typeof globalThis.ResizeObserver === 'undefined') {
     unobserve(): void {}
     disconnect(): void {}
   }
-  globalThis.ResizeObserver =
-    ResizeObserverShim as unknown as typeof globalThis.ResizeObserver
+  globalThis.ResizeObserver = ResizeObserverShim as unknown as typeof globalThis.ResizeObserver
 }
 
 // jsdom lacks PointerEvent capture APIs and scrollIntoView — Radix Select and
@@ -29,4 +28,3 @@ if (typeof Element !== 'undefined') {
     Element.prototype.scrollIntoView = () => {}
   }
 }
-

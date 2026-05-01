@@ -1,25 +1,23 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * Regression — density switcher must actually resize interactive controls,
- * not just flip an attribute. These tests measure a real button's computed
- * padding at each density and assert it scales.
+ * Density switcher must actually resize interactive controls, not just flip
+ * an attribute. Measures a real button's computed padding at each density on
+ * the Button docs page (which renders many <Button> instances).
  */
 test.describe('Density switcher affects rendered spacing', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/design-system')
+    await page.goto('/docs/components/button')
     await page.evaluate(() => window.localStorage.clear())
     await page.reload()
   })
 
   async function measureButtonPadTop(page: import('@playwright/test').Page) {
-    // Any medium-sized Button (py-2.5) inside the design-system showcase.
-    // Buttons use semantic Tailwind classes (bg-primary, bg-secondary, …).
     return page.evaluate(() => {
       const btn = document.querySelector<HTMLButtonElement>(
-        '#buttons button.bg-primary, #buttons button.bg-secondary',
+        'main button.bg-primary, main button.bg-secondary',
       )
-      if (!btn) throw new Error('no showcase button found in #buttons')
+      if (!btn) throw new Error('no docs Button found inside <main>')
       return parseFloat(getComputedStyle(btn).paddingTop)
     })
   }

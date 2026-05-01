@@ -25,7 +25,9 @@ export const Controlled = () => {
   return (
     <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 8 }}>
       <Combobox options={COUNTRIES} value={val} onValueChange={setVal} />
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted-foreground)' }}>
+      <span
+        style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted-foreground)' }}
+      >
         selected: {val}
       </span>
     </div>

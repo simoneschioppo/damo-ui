@@ -53,11 +53,7 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
         </div>
       )}
       <div className="flex-1 min-w-0">
-        <div
-          data-slot="name"
-          className="font-bold text-card-foreground"
-          style={{ fontSize: 15 }}
-        >
+        <div data-slot="name" className="font-bold text-card-foreground" style={{ fontSize: 15 }}>
           {name}
         </div>
         {meta !== undefined && meta !== null && (
