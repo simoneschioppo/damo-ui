@@ -59,7 +59,7 @@ export default function HomePage() {
               background:
                 'repeating-linear-gradient(45deg, var(--primary) 0 6px, transparent 6px 14px)',
               opacity: 0.18,
-              clipPath: 'polygon(0 18%, 100% 0, 100% 88%, 4% 100%)',
+              clipPath: 'polygon(0 18%, 100% 0, 96% 88%, 4% 100%)',
             }}
           />
           <img
