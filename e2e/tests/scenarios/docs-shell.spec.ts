@@ -48,4 +48,26 @@ test.describe('Docs shell', () => {
     await page.getByRole('link', { name: 'Docs', exact: true }).click()
     await expect(page).toHaveURL(/\/docs/)
   })
+
+  const ALL_DOCS_ROUTES = [
+    '/docs/getting-started',
+    '/docs/foundations/tokens',
+    '/docs/foundations/colors',
+    '/docs/foundations/typography',
+    '/docs/foundations/patterns',
+    '/docs/components/button',
+    '/docs/components/card',
+    '/docs/components/dialog',
+    '/docs/components/input',
+    '/docs/components/app-top-bar',
+    '/docs/components/sidebar',
+    '/docs/components/theme-switcher',
+  ] as const
+
+  for (const route of ALL_DOCS_ROUTES) {
+    test(`renders an h1 at ${route}`, async ({ page }) => {
+      await page.goto(route)
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    })
+  }
 })
