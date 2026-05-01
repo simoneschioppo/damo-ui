@@ -33,3 +33,6 @@ pnpm-debug.log*
 yarn-debug.log*
 *.tsbuildinfo
 .superpowers/
+
+# Claude Code harness state (scheduled wakeups, etc.) — local only
+.claude/
