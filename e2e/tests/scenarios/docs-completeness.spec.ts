@@ -55,7 +55,9 @@ test.describe('Docs completeness — values & code usage', () => {
   test('Foundations/Patterns shows code usage examples', async ({ page }) => {
     await page.goto('/docs/foundations/patterns')
     await expect(page.getByRole('heading', { name: /Using PatternSwatch/i })).toBeVisible()
-    await expect(page.getByRole('heading', { name: /Using the patterns directly in CSS/i })).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: /Using the patterns directly in CSS/i }),
+    ).toBeVisible()
     await expect(page.getByRole('heading', { name: /Shape primitives/i })).toBeVisible()
     await expect(page.getByText(/MemphisShape/).first()).toBeVisible()
   })
