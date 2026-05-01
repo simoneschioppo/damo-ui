@@ -46,16 +46,10 @@ const PROPS: ReadonlyArray<PropDef> = [
     description: 'Greys out the button and prevents pointer / keyboard activation.',
   },
   {
-    name: 'asChild',
+    name: 'fullWidth',
     type: 'boolean',
     defaultValue: 'false',
-    description: (
-      <>
-        Renders the underlying element passed as <code className="font-mono">children</code>{' '}
-        instead of a <code className="font-mono">&lt;button&gt;</code>. Useful for{' '}
-        <code className="font-mono">&lt;a&gt;</code> or framework <code className="font-mono">Link</code> wrappers.
-      </>
-    ),
+    description: 'Stretches the button to the full width of its container.',
   },
   {
     name: 'className',
