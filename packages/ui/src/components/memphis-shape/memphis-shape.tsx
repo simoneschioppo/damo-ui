@@ -111,9 +111,7 @@ function renderVariant(variant: MemphisShapeVariant, color: string) {
 
     case 'lbar':
       // L-shaped bars: a top horizontal bar + a left vertical bar.
-      return (
-        <path d="M10 10 H 90 V 28 H 28 V 90 H 10 Z" fill={color} />
-      )
+      return <path d="M10 10 H 90 V 28 H 28 V 90 H 10 Z" fill={color} />
 
     default: {
       // Exhaustiveness guard — should never hit at runtime due to TS.

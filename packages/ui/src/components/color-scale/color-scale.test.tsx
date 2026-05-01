@@ -16,43 +16,22 @@ describe('ColorScale', () => {
   })
 
   it('renders the scale name', () => {
-    render(
-      <ColorScale
-        name="Ink"
-        token="ink"
-        stops={[{ k: 500 }]}
-      />,
-    )
+    render(<ColorScale name="Ink" token="ink" stops={[{ k: 500 }]} />)
     expect(screen.getByText('Ink')).toBeInTheDocument()
   })
 
   it('renders the token label prefixed with -- and * suffix', () => {
-    render(
-      <ColorScale name="Ink" token="ink" stops={[{ k: 500 }]} />,
-    )
+    render(<ColorScale name="Ink" token="ink" stops={[{ k: 500 }]} />)
     expect(screen.getByText('--ink-*')).toBeInTheDocument()
   })
 
   it('renders the optional description', () => {
-    render(
-      <ColorScale
-        name="Ink"
-        token="ink"
-        desc="Ink base for Damo UI"
-        stops={[{ k: 500 }]}
-      />,
-    )
+    render(<ColorScale name="Ink" token="ink" desc="Ink base for Damo UI" stops={[{ k: 500 }]} />)
     expect(screen.getByText('Ink base for Damo UI')).toBeInTheDocument()
   })
 
   it('renders one stop per entry', () => {
-    render(
-      <ColorScale
-        name="Ink"
-        token="ink"
-        stops={[{ k: 300 }, { k: 400 }, { k: 500 }]}
-      />,
-    )
+    render(<ColorScale name="Ink" token="ink" stops={[{ k: 300 }, { k: 400 }, { k: 500 }]} />)
     expect(screen.getByText('ink-300')).toBeInTheDocument()
     expect(screen.getByText('ink-400')).toBeInTheDocument()
     expect(screen.getByText('ink-500')).toBeInTheDocument()
@@ -60,11 +39,7 @@ describe('ColorScale', () => {
 
   it('uses the correct CSS var as inline background for each stop', () => {
     const { container } = render(
-      <ColorScale
-        name="Ink"
-        token="ink"
-        stops={[{ k: 300 }, { k: 500 }]}
-      />,
+      <ColorScale name="Ink" token="ink" stops={[{ k: 300 }, { k: 500 }]} />,
     )
     const stopLabels = container.querySelectorAll('[data-color-scale-stop]')
     expect(stopLabels.length).toBe(2)
@@ -76,12 +51,7 @@ describe('ColorScale', () => {
 
   it('forwards className to the root element', () => {
     const { container } = render(
-      <ColorScale
-        name="Ink"
-        token="ink"
-        stops={[{ k: 500 }]}
-        className="custom-scale"
-      />,
+      <ColorScale name="Ink" token="ink" stops={[{ k: 500 }]} className="custom-scale" />,
     )
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('custom-scale')

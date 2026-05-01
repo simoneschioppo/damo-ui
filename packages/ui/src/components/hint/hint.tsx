@@ -24,10 +24,7 @@ export const Hint = forwardRef<HTMLDivElement, HintProps>(function Hint(
   return (
     <div
       ref={ref}
-      className={cn(
-        'flex gap-4 p-5 items-start mb-6 border-2 border-memphis',
-        className,
-      )}
+      className={cn('flex gap-4 p-5 items-start mb-6 border-2 border-memphis', className)}
       style={{
         background: 'color-mix(in oklab, var(--secondary) 22%, var(--card))',
         boxShadow: '4px 4px 0 var(--memphis-shadow-color)',

@@ -50,9 +50,7 @@ const ALL_FLAGS_TRUE: IncludeFlags = {
 
 // ─── Key arrays ──────────────────────────────────────────────
 
-const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = [
-  'xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl',
-]
+const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl']
 const RADIUS_KEYS: ReadonlyArray<RadiusKey> = ['none', 'sm', 'md', 'lg', 'pill', 'full']
 const SHADOW_MEMPHIS_KEYS: ReadonlyArray<ShadowMemphisKey> = ['sm', 'md', 'lg', 'hover', 'active']
 const DURATION_KEYS: ReadonlyArray<MotionDurationKey> = ['snap', 'fast', 'base', 'slow']
@@ -120,7 +118,10 @@ function identityLines(identity: IdentityTheme): PaletteLineSpec[] {
   out.push({ cssVar: `--nav-on-dark-accent`, value: identity.navOnDark.accent })
   out.push({ cssVar: `--nav-on-dark-accent-strong`, value: identity.navOnDark.accentStrong })
   out.push({ cssVar: `--nav-on-dark-foreground`, value: identity.navOnDark.foreground })
-  out.push({ cssVar: `--nav-on-dark-foreground-strong`, value: identity.navOnDark.foregroundStrong })
+  out.push({
+    cssVar: `--nav-on-dark-foreground-strong`,
+    value: identity.navOnDark.foregroundStrong,
+  })
   out.push({ cssVar: `--app-pattern-color-1`, value: identity.appPattern.color1 })
   out.push({ cssVar: `--app-pattern-color-2`, value: identity.appPattern.color2 })
   out.push({ cssVar: `--app-pattern-color-3`, value: identity.appPattern.color3 })
@@ -266,7 +267,7 @@ export function buildCssExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRU
   // ─── :root[data-theme='light'] block (semantic — light) ───
   if (flags.semanticLight) {
     const block: string[] = []
-    block.push(":root,")
+    block.push(':root,')
     block.push(":root[data-theme='light'] {")
     emitSemantic(theme.semantic.light, block)
     block.push('}')
@@ -276,11 +277,19 @@ export function buildCssExport(theme: Theme, flags: IncludeFlags = ALL_FLAGS_TRU
   // ─── :root[data-theme='dark'] block (palette + identity + semantic + foundations deltas) ───
   const darkBlockLines: string[] = []
   if (flags.rawPalette) {
-    emitDeltaDark(paletteLines(theme.palette.light), paletteLines(theme.palette.dark), darkBlockLines)
+    emitDeltaDark(
+      paletteLines(theme.palette.light),
+      paletteLines(theme.palette.dark),
+      darkBlockLines,
+    )
   }
   if (flags.identity) {
     const identityDark: string[] = []
-    emitDeltaDark(identityLines(theme.identity.light), identityLines(theme.identity.dark), identityDark)
+    emitDeltaDark(
+      identityLines(theme.identity.light),
+      identityLines(theme.identity.dark),
+      identityDark,
+    )
     if (identityDark.length > 0) {
       if (darkBlockLines.length > 0) darkBlockLines.push('')
       darkBlockLines.push('  /* Identity — dark */')
@@ -328,8 +337,9 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
 
   // Semantic colors (excluding memphis bridges emitted separately in identity block)
   if (flags.semanticLight) {
-    const semanticKeys = (Object.keys(theme.semantic.light) as Array<keyof SemanticTheme>)
-      .filter((k) => !TAILWIND_SEMANTIC_EXCLUDES.has(k as string))
+    const semanticKeys = (Object.keys(theme.semantic.light) as Array<keyof SemanticTheme>).filter(
+      (k) => !TAILWIND_SEMANTIC_EXCLUDES.has(k as string),
+    )
     semanticKeys.forEach((k) => {
       const cssName = toKebab(k as string)
       inner.push(`  --color-${cssName}: var(--${cssName});`)
@@ -379,7 +389,16 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
     inner.push(`  --ease-out-memphis: var(--ease-out);`)
     inner.push(`  --ease-in-out: var(--ease-in-out);`)
 
-    const Z_KEYS = ['base', 'sticky', 'header', 'dropdown', 'overlay', 'modal', 'toast', 'tooltip'] as const
+    const Z_KEYS = [
+      'base',
+      'sticky',
+      'header',
+      'dropdown',
+      'overlay',
+      'modal',
+      'toast',
+      'tooltip',
+    ] as const
     Z_KEYS.forEach((k) => {
       inner.push(`  --z-index-${k}: var(--z-${k});`)
     })
@@ -389,13 +408,7 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
     inner.push(`  --border-width-thick: var(--border-thick);`)
   }
 
-  const lines: string[] = [
-    "@import 'tailwindcss';",
-    '',
-    '@theme inline {',
-    ...inner,
-    '}',
-  ]
+  const lines: string[] = ["@import 'tailwindcss';", '', '@theme inline {', ...inner, '}']
 
   return lines.join('\n')
 }

@@ -99,5 +99,7 @@ export const TableCaption = forwardRef<
   HTMLTableCaptionElement,
   HTMLAttributes<HTMLTableCaptionElement>
 >(function TableCaption({ className, ...rest }, ref) {
-  return <caption ref={ref} className={cn('mt-3 text-sm text-muted-foreground', className)} {...rest} />
+  return (
+    <caption ref={ref} className={cn('mt-3 text-sm text-muted-foreground', className)} {...rest} />
+  )
 })

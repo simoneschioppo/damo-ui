@@ -58,9 +58,7 @@ describe('reducer — identity per-mode editing', () => {
       value: '#facade',
     })
     expect(next.identity.light.medals.gold.inner).toBe('#facade')
-    expect(next.identity.dark.medals.gold.inner).toBe(
-      DEFAULT_THEME.identity.dark.medals.gold.inner,
-    )
+    expect(next.identity.dark.medals.gold.inner).toBe(DEFAULT_THEME.identity.dark.medals.gold.inner)
   })
 
   it('SET_CHART for dark updates only dark identity', () => {
@@ -82,9 +80,7 @@ describe('reducer — identity per-mode editing', () => {
       value: '#abcabc',
     })
     expect(next.identity.light.navOnDark.accent).toBe('#abcabc')
-    expect(next.identity.dark.navOnDark.accent).toBe(
-      DEFAULT_THEME.identity.dark.navOnDark.accent,
-    )
+    expect(next.identity.dark.navOnDark.accent).toBe(DEFAULT_THEME.identity.dark.navOnDark.accent)
   })
 })
 

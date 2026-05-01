@@ -9,16 +9,12 @@ describe('UserCard', () => {
   })
 
   it('renders the optional meta slot (ReactNode)', () => {
-    const { getByText } = render(
-      <UserCard name="Mario" meta={<>Designer · Team Lead</>} />,
-    )
+    const { getByText } = render(<UserCard name="Mario" meta={<>Designer · Team Lead</>} />)
     expect(getByText(/Designer\s+·\s+Team\s+Lead/)).toBeTruthy()
   })
 
   it('applies mono + uppercase classes on the meta slot', () => {
-    const { container } = render(
-      <UserCard name="Mario" meta={<>Designer · Team Lead</>} />,
-    )
+    const { container } = render(<UserCard name="Mario" meta={<>Designer · Team Lead</>} />)
     const meta = container.querySelector('[data-slot="meta"]') as HTMLElement
     expect(meta).not.toBeNull()
     expect(meta.className).toContain('font-mono')
@@ -32,10 +28,7 @@ describe('UserCard', () => {
 
   it('renders the trailing slot on the right (e.g. a clock chip)', () => {
     const { getByTestId } = render(
-      <UserCard
-        name="Mario"
-        trailing={<span data-testid="trailing-clock">05:42</span>}
-      />,
+      <UserCard name="Mario" trailing={<span data-testid="trailing-clock">05:42</span>} />,
     )
     expect(getByTestId('trailing-clock')).toBeTruthy()
   })
@@ -55,10 +48,7 @@ describe('UserCard', () => {
 
   it('renders a custom avatar node when provided', () => {
     const { getByTestId } = render(
-      <UserCard
-        name="Mario"
-        avatar={<span data-testid="custom-avatar">X</span>}
-      />,
+      <UserCard name="Mario" avatar={<span data-testid="custom-avatar">X</span>} />,
     )
     expect(getByTestId('custom-avatar')).toBeTruthy()
   })
@@ -72,17 +62,13 @@ describe('UserCard', () => {
   })
 
   it('forwards className to the root', () => {
-    const { container } = render(
-      <UserCard name="Mario" className="custom-user" />,
-    )
+    const { container } = render(<UserCard name="Mario" className="custom-user" />)
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('custom-user')
   })
 
   it('spreads rest props onto the root element', () => {
-    const { container } = render(
-      <UserCard name="Mario" data-testid="user-root" />,
-    )
+    const { container } = render(<UserCard name="Mario" data-testid="user-root" />)
     const root = container.firstChild as HTMLElement
     expect(root.getAttribute('data-testid')).toBe('user-root')
   })

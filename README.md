@@ -99,7 +99,7 @@ The design system uses a three-layer architecture:
 Switching theme and palette are fully orthogonal — all six combinations work automatically:
 
 ```html
-<html data-theme="dark" data-palette="neon">
+<html data-theme="dark" data-palette="neon"></html>
 ```
 
 See `docs/specs/2026-04-24-theme-architecture-refactor-design.md` for the full token taxonomy and migration guide from 0.1.0 names.

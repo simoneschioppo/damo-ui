@@ -18,11 +18,7 @@ export const TooltipCard = forwardRef<HTMLDivElement, TooltipCardProps>(function
   ref,
 ) {
   return (
-    <div
-      ref={ref}
-      className={cn('relative', className)}
-      {...rest}
-    >
+    <div ref={ref} className={cn('relative', className)} {...rest}>
       <div
         aria-hidden
         data-slot="diamond"

@@ -555,7 +555,7 @@ pnpm add @damo/ui
 | **8 — Data display**       | Avatar, AvatarGroup, Accordion, Table, Stat                                                                                                      |                                                                                     |
 | **9 — Layout**             | AppShell, PageHeader + pagina `/dashboard` del playground                                                                                        | Scenario dashboard completo                                                         |
 | **10 — E2E tests**         | Playwright specs per ogni componente + scenari (form-submit, overlay-stack, theme-switch, keyboard-nav)                                          | CI verde, e2e blocca merge                                                          |
-| **11 — Polish & release**  | A11y audit, dark mode audit, density audit, docs JSDoc, GitHub Action publish, `v0.1.0`                                                          | `@damo/ui@0.1.0` installabile da progetto consumer                              |
+| **11 — Polish & release**  | A11y audit, dark mode audit, density audit, docs JSDoc, GitHub Action publish, `v0.1.0`                                                          | `@damo/ui@0.1.0` installabile da progetto consumer                                  |
 
 ---
 
@@ -565,7 +565,7 @@ pnpm add @damo/ui
 | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Tailwind v4 è ancora giovane, tutorial shadcn puntano a v3 | Portiamo i pattern shadcn manualmente. v4 ha CSS-native config più vicino al nostro stile.                                                                                         |
 | 47 componenti = tanto lavoro                               | Fasi incrementali; Phase 4 (8 componenti Tier 1) sblocca il 60% del look, il resto è aggiunta iterativa                                                                            |
-| Drift di token tra lib e app                               | Tutti i token definiti in lib, mai nell'app. L'app importa `@damo/ui/styles/tokens.css` e basta.                                                                               |
+| Drift di token tra lib e app                               | Tutti i token definiti in lib, mai nell'app. L'app importa `@damo/ui/styles/tokens.css` e basta.                                                                                   |
 | Radius/shadow/border override accidentali                  | Solo i componenti leggono raw tokens; le CSS vars di customizzazione vivono nel consumer in `:root` override                                                                       |
 | Manutenzione da solo                                       | CI che fallisce su test/build/e2e. CHANGELOG disciplinato. Nessun publish manuale.                                                                                                 |
 | Monorepo aggiunge complessità                              | pnpm workspace è leggero (no Turborepo, no Nx). Solo 3 workspace: `ui`, `playground`, `e2e`.                                                                                       |

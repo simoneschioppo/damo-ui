@@ -34,7 +34,9 @@ function SidebarContent({ tone }: { tone: 'default' | 'onDark' }) {
 const mainContent = (
   <div style={{ padding: 32 }}>
     <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 40, margin: 0 }}>Benvenuto</h1>
-    <p style={{ color: 'var(--muted-foreground)', marginTop: 8 }}>Contenuto principale dell&apos;app.</p>
+    <p style={{ color: 'var(--muted-foreground)', marginTop: 8 }}>
+      Contenuto principale dell&apos;app.
+    </p>
   </div>
 )
 

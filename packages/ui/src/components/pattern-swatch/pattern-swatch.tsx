@@ -35,10 +35,7 @@ export const PatternSwatch = forwardRef<HTMLDivElement, PatternSwatchProps>(func
   return (
     <div
       ref={ref}
-      className={cn(
-        'inline-flex flex-col border-2 border-memphis rounded-none',
-        className,
-      )}
+      className={cn('inline-flex flex-col border-2 border-memphis rounded-none', className)}
       {...rest}
     >
       <span

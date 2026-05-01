@@ -68,6 +68,7 @@
 ### Task 1: Rename scope + repo (atomic sweep)
 
 **Files:**
+
 - Modify: `packages/ui/package.json`
 - Modify: `apps/playground/package.json`
 - Modify: `packages/ui/src/` (imports) — there are no such imports (lib is self-contained via relative paths)
@@ -169,6 +170,7 @@ Acceptance: `grep -r "@damacchi" apps packages docs e2e README.md CHANGELOG.md` 
 ### Task 2: Rename 5 domain cards → generic
 
 **Files:**
+
 - Rename folder: `packages/ui/src/components/player-card/` → `user-card/`
 - Rename folder: `packages/ui/src/components/mode-card/` → `feature-card/`
 - Rename folder: `packages/ui/src/components/info-card/` → `tooltip-card/`
@@ -304,6 +306,7 @@ git commit -m "refactor(ui): rename PlayerCard → UserCard with slot-based API"
 Same workflow: write test (rename imports in test file), `git mv`, rewrite component with new name (no API change beyond identifier), update barrel, verify.
 
 One commit per rename:
+
 - `refactor(ui): rename ModeCard → FeatureCard`
 - `refactor(ui): rename InfoCard → TooltipCard`
 - `refactor(ui): rename RuleCard → ArticleCard`
@@ -378,6 +381,7 @@ git commit -m "refactor(playground): DS page uses renamed generic components"
 #### 3a. `<AppTopBar>` (new component)
 
 **Files:**
+
 - Create: `packages/ui/src/components/app-top-bar/app-top-bar.tsx` + test + index
 - Modify: `packages/ui/src/index.ts`
 
@@ -389,13 +393,7 @@ import { AppTopBar } from './app-top-bar'
 
 describe('AppTopBar', () => {
   it('renders logo + nav + actions slots', () => {
-    render(
-      <AppTopBar
-        logo={<span>LOGO</span>}
-        nav={<span>NAV</span>}
-        actions={<span>ACT</span>}
-      />,
-    )
+    render(<AppTopBar logo={<span>LOGO</span>} nav={<span>NAV</span>} actions={<span>ACT</span>} />)
     expect(screen.getByText('LOGO')).toBeInTheDocument()
     expect(screen.getByText('NAV')).toBeInTheDocument()
     expect(screen.getByText('ACT')).toBeInTheDocument()
@@ -473,6 +471,7 @@ git commit -m "feat(ui): add AppTopBar with logo/nav/actions slots"
 #### 3b. `<ThemeSwitcher>` (moved + generalized)
 
 **Files:**
+
 - Create: `packages/ui/src/components/theme-switcher/theme-switcher.tsx` + test + index
 - Modify: `packages/ui/src/index.ts`
 
@@ -503,7 +502,14 @@ describe('ThemeSwitcher', () => {
     expect(localStorage.getItem('theme')).toBe('dark')
   })
   it('respects custom options', () => {
-    render(<ThemeSwitcher options={[{ value: 'a', label: 'Alpha' }, { value: 'b', label: 'Beta' }]} />)
+    render(
+      <ThemeSwitcher
+        options={[
+          { value: 'a', label: 'Alpha' },
+          { value: 'b', label: 'Beta' },
+        ]}
+      />,
+    )
     expect(screen.getByText('Alpha')).toBeInTheDocument()
     expect(screen.getByText('Beta')).toBeInTheDocument()
   })
@@ -520,7 +526,10 @@ import { forwardRef, type HTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
 import { usePersistedAttr } from '../../hooks/use-persisted-attr'
 
-export interface ThemeOption { value: string; label: string }
+export interface ThemeOption {
+  value: string
+  label: string
+}
 
 export interface ThemeSwitcherProps extends HTMLAttributes<HTMLDivElement> {
   options?: ReadonlyArray<ThemeOption>
@@ -557,9 +566,7 @@ export const ThemeSwitcher = forwardRef<HTMLDivElement, ThemeSwitcherProps>(func
             onClick={() => setValue(opt.value)}
             className={cn(
               'px-3 py-1.5 text-sm font-semibold capitalize cursor-pointer',
-              value === opt.value
-                ? 'bg-plum-500 text-paper-50'
-                : 'bg-surface text-ink',
+              value === opt.value ? 'bg-plum-500 text-paper-50' : 'bg-surface text-ink',
             )}
           >
             {opt.label}
@@ -576,6 +583,7 @@ export const ThemeSwitcher = forwardRef<HTMLDivElement, ThemeSwitcherProps>(func
 #### 3c. `<PaletteSwitcher>`
 
 **Files:**
+
 - Create: `packages/ui/src/components/palette-switcher/palette-switcher.tsx` + test + index
 - Modify: barrel
 
@@ -586,6 +594,7 @@ Commit: `feat(ui): add PaletteSwitcher with caller-provided options`.
 #### 3d. `usePersistedAttr` hook (moved into lib)
 
 **Files:**
+
 - Create: `packages/ui/src/hooks/use-persisted-attr.ts` (same content as `apps/playground/lib/use-persisted-attr.ts`)
 - Create: `packages/ui/src/hooks/use-persisted-attr.test.ts`
 - Modify: `packages/ui/src/hooks/index.ts` (export alongside `useResolvedCssVars`)
@@ -599,11 +608,7 @@ Commit: `feat(ui): add PaletteSwitcher with caller-provided options`.
 
 ```tsx
 import Link from 'next/link'
-import {
-  AppTopBar,
-  ThemeSwitcher,
-  PaletteSwitcher,
-} from '@damo/ui'
+import { AppTopBar, ThemeSwitcher, PaletteSwitcher } from '@damo/ui'
 import './globals.css'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -697,6 +702,7 @@ After all 5: commit `chore(ui): expose /mocks subpath entrypoint` if tsup config
 ### Task 5: Theme Generator v2
 
 **Files:**
+
 - Rewrite: `apps/playground/app/theme-generator/page.tsx`
 - Create: `apps/playground/app/theme-generator/theme-state.ts` (state model + defaults + exporters)
 - Create: `apps/playground/app/theme-generator/exporters.ts` (buildCssExport, buildTailwindExport, buildJsonExport, buildFigmaExport)
@@ -711,16 +717,39 @@ After all 5: commit `chore(ui): expose /mocks subpath entrypoint` if tsup config
 ```tsx
 'use client'
 import {
-  Accordion, AccordionItem, AccordionTrigger, AccordionContent,
-  Button, ColorPicker, Container, Tabs, TabsList, TabsTrigger, TabsContent,
-  Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
-  GalleryPreview, AuthPreview, DashboardPreview, ProfilePreview, FeedPreview,
-  Slider, Select, SelectTrigger, SelectContent, SelectItem, SelectValue,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+  Button,
+  ColorPicker,
+  Container,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  GalleryPreview,
+  AuthPreview,
+  DashboardPreview,
+  ProfilePreview,
+  FeedPreview,
+  Slider,
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
 } from '@damo/ui'
 // + local hooks / reducer
 
 export default function ThemeGeneratorPage() {
-  const { theme, updateToken, loadPreset, reset, darkPreview, setDarkPreview, activePreset } = useThemeState()
+  const { theme, updateToken, loadPreset, reset, darkPreview, setDarkPreview, activePreset } =
+    useThemeState()
   const [sceneTab, setSceneTab] = useState('gallery')
   const [exportOpen, setExportOpen] = useState(false)
   // ...
@@ -738,6 +767,7 @@ git commit -m "feat(playground): rewrite theme-generator as full token editor wi
 ```
 
 Further sub-steps (live-edit behavior):
+
 - [ ] Every `updateToken` call writes the new value to `:root` via `setProperty` — the preview updates live
 - [ ] On unmount, the reducer dispatches `resetRootTheme()` to avoid polluting other routes
 - [ ] `loadPreset(name)` dispatches `LOAD_PRESET` which overwrites state and marks `activePreset`
@@ -749,6 +779,7 @@ Further sub-steps (live-edit behavior):
 ### Task 6: Dark mode fix on `/design-system`
 
 **Files:**
+
 - Modify: `apps/playground/app/design-system/page.tsx`
 
 - [ ] **Step 1: grep every `var(--paper-50)` / `var(--plum-*)` in the page and classify** — which are genuinely brand-static (e.g. a color swatch showing the Plum scale) vs. which should be semantic (the page background, the TOC sidebar background).

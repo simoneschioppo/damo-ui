@@ -37,11 +37,7 @@ export const DensitySwitcher = forwardRef<HTMLDivElement, DensitySwitcherProps>(
     const [current, setCurrent] = usePersistedAttr<string>(storageKey, attribute, defaultValue)
 
     return (
-      <div
-        ref={ref}
-        className={cn('inline-flex gap-2 items-center', className)}
-        {...rest}
-      >
+      <div ref={ref} className={cn('inline-flex gap-2 items-center', className)} {...rest}>
         <span className="eyebrow" id="density-switcher-label">
           Density
         </span>
@@ -60,7 +56,9 @@ export const DensitySwitcher = forwardRef<HTMLDivElement, DensitySwitcherProps>(
                 onClick={() => setCurrent(opt.value)}
                 className={cn(
                   'px-3 py-1.5 text-[13px] font-semibold capitalize cursor-pointer border-0',
-                  isActive ? 'bg-secondary text-secondary-foreground' : 'bg-card text-card-foreground',
+                  isActive
+                    ? 'bg-secondary text-secondary-foreground'
+                    : 'bg-card text-card-foreground',
                 )}
               >
                 {opt.label}

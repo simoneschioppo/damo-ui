@@ -2,13 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
 import { Medal, type MedalRank } from './medal'
 
-const RANKS: ReadonlyArray<MedalRank> = [
-  'bronze',
-  'silver',
-  'gold',
-  'master',
-  'grandmaster',
-]
+const RANKS: ReadonlyArray<MedalRank> = ['bronze', 'silver', 'gold', 'master', 'grandmaster']
 
 describe('Medal', () => {
   it('renders an SVG for each rank with the outer polygon using the rank token', () => {

@@ -9,9 +9,7 @@ describe('ColorPicker', () => {
   })
 
   it('renders both a native color input and a text input', () => {
-    const { container } = render(
-      <ColorPicker label="Accent" value="#ff0000" onChange={() => {}} />,
-    )
+    const { container } = render(<ColorPicker label="Accent" value="#ff0000" onChange={() => {}} />)
     const colorInput = container.querySelector('input[type="color"]')
     const textInput = container.querySelector('input[type="text"], input:not([type="color"])')
     expect(colorInput).toBeTruthy()
@@ -29,29 +27,21 @@ describe('ColorPicker', () => {
   })
 
   it('generates a stable id when none is provided and wires label + color input', () => {
-    const { container } = render(
-      <ColorPicker label="Accent" value="#ff0000" onChange={() => {}} />,
-    )
+    const { container } = render(<ColorPicker label="Accent" value="#ff0000" onChange={() => {}} />)
     const colorInput = container.querySelector('input[type="color"]') as HTMLInputElement
     expect(colorInput.id).toBeTruthy()
     expect(screen.getByText('Accent').getAttribute('for')).toBe(colorInput.id)
   })
 
   it('shows the initial value in the native color input', () => {
-    const { container } = render(
-      <ColorPicker label="Accent" value="#abcdef" onChange={() => {}} />,
-    )
+    const { container } = render(<ColorPicker label="Accent" value="#abcdef" onChange={() => {}} />)
     const colorInput = container.querySelector('input[type="color"]') as HTMLInputElement
     expect(colorInput.value).toBe('#abcdef')
   })
 
   it('shows the initial value in the hex text input', () => {
-    const { container } = render(
-      <ColorPicker label="Accent" value="#abcdef" onChange={() => {}} />,
-    )
-    const hexInput = container.querySelector(
-      'input:not([type="color"])',
-    ) as HTMLInputElement
+    const { container } = render(<ColorPicker label="Accent" value="#abcdef" onChange={() => {}} />)
+    const hexInput = container.querySelector('input:not([type="color"])') as HTMLInputElement
     expect(hexInput.value).toBe('#abcdef')
   })
 
@@ -70,9 +60,7 @@ describe('ColorPicker', () => {
     const { container } = render(
       <ColorPicker label="Accent" value="#ff0000" onChange={handleChange} />,
     )
-    const hexInput = container.querySelector(
-      'input:not([type="color"])',
-    ) as HTMLInputElement
+    const hexInput = container.querySelector('input:not([type="color"])') as HTMLInputElement
     fireEvent.change(hexInput, { target: { value: '#123abc' } })
     expect(handleChange).toHaveBeenCalledWith('#123abc')
   })
@@ -82,9 +70,7 @@ describe('ColorPicker', () => {
     const { container } = render(
       <ColorPicker label="Accent" value="#ff0000" onChange={handleChange} />,
     )
-    const hexInput = container.querySelector(
-      'input:not([type="color"])',
-    ) as HTMLInputElement
+    const hexInput = container.querySelector('input:not([type="color"])') as HTMLInputElement
     fireEvent.change(hexInput, { target: { value: 'not-a-color' } })
     expect(handleChange).toHaveBeenCalledWith('not-a-color')
   })
@@ -135,9 +121,7 @@ describe('ColorPicker', () => {
   })
 
   it('hides the visual label when showLabel is false', () => {
-    render(
-      <ColorPicker label="Accent" value="#ff0000" onChange={() => {}} showLabel={false} />,
-    )
+    render(<ColorPicker label="Accent" value="#ff0000" onChange={() => {}} showLabel={false} />)
     expect(screen.queryByText('Accent')).toBeNull()
   })
 
@@ -146,9 +130,7 @@ describe('ColorPicker', () => {
       <ColorPicker label="Accent" value="#ff0000" onChange={() => {}} showLabel={false} />,
     )
     const colorInput = container.querySelector('input[type="color"]') as HTMLInputElement
-    const hexInput = container.querySelector(
-      'input:not([type="color"])',
-    ) as HTMLInputElement
+    const hexInput = container.querySelector('input:not([type="color"])') as HTMLInputElement
     expect(colorInput.getAttribute('aria-label')).toBe('Color picker for Accent')
     expect(hexInput.getAttribute('aria-label')).toBe('Hex value for Accent')
   })
