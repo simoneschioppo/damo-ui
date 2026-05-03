@@ -51,7 +51,7 @@ import {
 } from '@damo/ui/mocks'
 
 import { useThemeState } from './use-theme-state'
-import { PreviewModal } from './preview-modal'
+import { SampleDialog } from './sample-dialog'
 import {
   PALETTE_STEPS,
   SEMANTIC_GROUPS,
@@ -1157,7 +1157,7 @@ export default function ThemeGeneratorPage() {
                     <TabsTrigger value="feed">Feed</TabsTrigger>
                   </TabsList>
                 </Tabs>
-                <PreviewModal initialScene={sceneTab} />
+                <SampleDialog />
               </div>
 
               {/* Scene preview */}
