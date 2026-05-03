@@ -33,4 +33,12 @@ describe('TokenSwatch', () => {
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('custom-token')
   })
+
+  it('uses the Memphis sm shadow token on the root (not a hardcoded value)', () => {
+    const { container } = render(<TokenSwatch name="Background" cssVar="--bg" usage="x" />)
+    const root = container.firstChild as HTMLElement
+    const styleAttr = root.getAttribute('style') ?? ''
+    expect(styleAttr).toContain('var(--shadow-memphis-sm)')
+    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
+  })
 })

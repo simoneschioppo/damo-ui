@@ -447,7 +447,7 @@ function emitFoundationsVars(theme: Theme, mode: ThemeMode, lines: string[]): vo
     lines.push(`  --radius-${k}: ${css};`)
   })
   const sm = theme.shadowMemphis[mode]
-  ;(['sm', 'md', 'lg', 'hover', 'active'] as const).forEach((k) => {
+  ;(['sm', 'card', 'md', 'lg', 'hover', 'active'] as const).forEach((k) => {
     const s = sm[k]
     const cssName = k === 'md' ? '--shadow-memphis' : `--shadow-memphis-${k}`
     lines.push(`  ${cssName}: ${s.x}px ${s.y}px 0 ${s.color};`)

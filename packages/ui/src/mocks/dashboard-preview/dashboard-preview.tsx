@@ -57,7 +57,7 @@ export const DashboardPreview = forwardRef<HTMLDivElement, DashboardPreviewProps
                     data-testid="dashboard-bar"
                     className={cn(
                       'w-full border-2 border-memphis',
-                      bar.highlight ? 'bg-primary' : 'bg-secondary',
+                      bar.highlight ? 'bg-chart-2' : 'bg-chart-1',
                     )}
                     style={{ height: bar.height }}
                   />

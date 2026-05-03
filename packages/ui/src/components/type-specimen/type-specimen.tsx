@@ -29,8 +29,9 @@ const DEFAULT_SAMPLE_SIZE = 28
 // the `name`, the `sample` rendered in the target `fontFamily` at `sampleSize`,
 // and an optional meta table showing each scale entry's label/size/weight.
 //
-// The Memphis frame (2px border + 6px shadow) lives in inline style so the
-// `--memphis-border-color` and `--memphis-shadow-color` tokens resolve correctly across themes.
+// The Memphis frame (2px border + default Memphis shadow) lives in inline
+// style so the `--memphis-border-color` and `--shadow-memphis` tokens resolve
+// correctly across themes.
 export const TypeSpecimen = forwardRef<HTMLDivElement, TypeSpecimenProps>(function TypeSpecimen(
   { name, sample, fontFamily, sampleSize = DEFAULT_SAMPLE_SIZE, scale, className, style, ...rest },
   ref,
@@ -42,7 +43,7 @@ export const TypeSpecimen = forwardRef<HTMLDivElement, TypeSpecimenProps>(functi
       style={{
         background: 'var(--card)',
         border: '2px solid var(--memphis-border-color)',
-        boxShadow: '6px 6px 0 var(--memphis-shadow-color)',
+        boxShadow: 'var(--shadow-memphis)',
         ...style,
       }}
       {...rest}

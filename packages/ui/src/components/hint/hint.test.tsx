@@ -128,7 +128,7 @@ describe('Hint', () => {
     expect(styleAttr).toContain('--card')
   })
 
-  it('sets 4px solid shadow using --memphis-shadow-color on the root', () => {
+  it('sets the Memphis card shadow token on the root (not a hardcoded value)', () => {
     const { container } = render(
       <Hint num={1} title="t">
         body
@@ -136,7 +136,8 @@ describe('Hint', () => {
     )
     const root = container.firstChild as HTMLElement
     const styleAttr = root.getAttribute('style') ?? ''
-    expect(styleAttr).toContain('4px 4px 0')
-    expect(styleAttr).toContain('--memphis-shadow-color')
+    expect(styleAttr).toContain('var(--shadow-memphis-card)')
+    // Guard against the previous hardcoded shadow regressing back.
+    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
   })
 })

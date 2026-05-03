@@ -54,12 +54,14 @@ const preset: Partial<Config> = {
       boxShadow: {
         // Canonical v4 names
         'memphis-sm': 'var(--shadow-memphis-sm)',
+        'memphis-card': 'var(--shadow-memphis-card)',
         memphis: 'var(--shadow-memphis)',
         'memphis-lg': 'var(--shadow-memphis-lg)',
         'memphis-hover': 'var(--shadow-memphis-hover)',
         'memphis-active': 'var(--shadow-memphis-active)',
         // Backward-compat aliases (deprecated, v3 consumers)
         'm-sm': 'var(--shadow-memphis-sm)',
+        'm-card': 'var(--shadow-memphis-card)',
         'm-lg': 'var(--shadow-memphis-lg)',
         'm-hover': 'var(--shadow-memphis-hover)',
         'm-active': 'var(--shadow-memphis-active)',

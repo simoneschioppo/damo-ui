@@ -53,10 +53,13 @@ describe('FeatureCard', () => {
     expect(root.style.width).toBe('280px')
   })
 
-  it('uses the primary CSS var for the shadow', () => {
+  it('uses the Memphis card shadow token recoloured via --memphis-shadow-color override', () => {
     const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
-    expect(root.style.boxShadow).toContain('var(--primary)')
+    expect(root.style.boxShadow).toContain('var(--shadow-memphis-card)')
+    expect(root.style.getPropertyValue('--memphis-shadow-color')).toContain('var(--primary)')
+    // Guard against the previous hardcoded shadow regressing back.
+    expect(root.getAttribute('style') ?? '').not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
   })
 
   it('forwards className', () => {

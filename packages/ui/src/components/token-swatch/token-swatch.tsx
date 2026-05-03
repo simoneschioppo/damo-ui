@@ -25,7 +25,7 @@ export const TokenSwatch = forwardRef<HTMLDivElement, TokenSwatchProps>(function
     padding: 16,
     border: '2px solid var(--memphis-border-color)',
     background: 'var(--card)',
-    boxShadow: '3px 3px 0 var(--memphis-shadow-color)',
+    boxShadow: 'var(--shadow-memphis-sm)',
   }
   const tileStyle: CSSProperties = {
     width: '100%',
