@@ -53,6 +53,35 @@ test.describe('DisplaySettingsMenu (topbar)', () => {
     expect(persisted).toBe('default')
   })
 
+  test('trigger size stays constant across global density changes', async ({ page }) => {
+    // The trigger pins itself to data-density="compact" on its wrapper, so
+    // the cog button must keep the same dimensions even when the user picks
+    // "Ampia" or "Normale" globally.
+    const triggerLocator = page.getByRole('button', { name: 'Display settings' })
+
+    async function size() {
+      const box = await triggerLocator.boundingBox()
+      if (!box) throw new Error('trigger has no bounding box')
+      return { w: Math.round(box.width), h: Math.round(box.height) }
+    }
+
+    const compact = await size()
+
+    // Switch to "Ampia" via the menu and re-measure.
+    await triggerLocator.click()
+    await page.getByRole('menuitemradio', { name: 'Ampia' }).click()
+    await expect(page.locator('html')).toHaveAttribute('data-density', 'comfortable')
+    const onComfortable = await size()
+    expect(onComfortable).toEqual(compact)
+
+    // Switch back to "Normale".
+    await triggerLocator.click()
+    await page.getByRole('menuitemradio', { name: 'Normale' }).click()
+    await expect(page.locator('html')).toHaveAttribute('data-density', 'normal')
+    const onNormal = await size()
+    expect(onNormal).toEqual(compact)
+  })
+
   test('opens via keyboard from a focused trigger and supports keyboard selection', async ({
     page,
   }) => {
