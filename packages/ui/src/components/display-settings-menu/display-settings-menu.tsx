@@ -20,8 +20,7 @@ export interface DisplaySettingsOption {
   label: string
 }
 
-export interface DisplaySettingsMenuProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface DisplaySettingsMenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   paletteOptions: ReadonlyArray<DisplaySettingsOption>
   paletteDefaultValue?: string
   paletteStorageKey?: string

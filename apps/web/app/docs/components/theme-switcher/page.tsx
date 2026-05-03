@@ -127,10 +127,7 @@ export default function ThemeSwitchersDocsPage() {
       </p>
       <p className="text-foreground/80">
         For tight navbars, prefer the consolidated{' '}
-        <Link
-          href="/docs/components/display-settings-menu"
-          className="text-primary underline"
-        >
+        <Link href="/docs/components/display-settings-menu" className="text-primary underline">
           DisplaySettingsMenu
         </Link>
         : same persistence semantics, condensed into a single icon-button trigger.

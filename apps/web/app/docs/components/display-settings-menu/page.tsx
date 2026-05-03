@@ -153,8 +153,8 @@ export default function DisplaySettingsMenuDocsPage() {
       <h1 className="font-display text-5xl leading-[0.95] mb-4">DisplaySettingsMenu</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
         A single icon-button trigger that opens a dropdown menu containing three labelled radio
-        groups for theme, palette, and density. Internally re-uses the same persistence wiring
-        as the standalone switchers, so user preferences carry over without migration.
+        groups for theme, palette, and density. Internally re-uses the same persistence wiring as
+        the standalone switchers, so user preferences carry over without migration.
       </p>
 
       <h2 className="font-display text-2xl mb-3">Import</h2>
@@ -167,9 +167,9 @@ export default function DisplaySettingsMenuDocsPage() {
           AppTopBar
         </Link>
         . Default storage keys (<code className="font-mono">theme</code>,{' '}
-        <code className="font-mono">palette</code>, <code className="font-mono">density</code>)
-        and HTML attributes (<code className="font-mono">data-theme</code>, …) match the legacy
-        sibling switchers, so existing localStorage selections keep working.
+        <code className="font-mono">palette</code>, <code className="font-mono">density</code>) and
+        HTML attributes (<code className="font-mono">data-theme</code>, …) match the legacy sibling
+        switchers, so existing localStorage selections keep working.
       </p>
       <Example code={BASIC_SNIPPET}>
         <DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} paletteDefaultValue="default" />
@@ -183,8 +183,8 @@ export default function DisplaySettingsMenuDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Custom storage keys</h2>
       <p className="text-foreground/80 mb-3">
-        Override the persistence keys when running multiple instances on the same origin (e.g.
-        a preview frame inside the design system).
+        Override the persistence keys when running multiple instances on the same origin (e.g. a
+        preview frame inside the design system).
       </p>
       <Code code={CUSTOM_KEYS_SNIPPET} lang="tsx" />
 
@@ -203,8 +203,8 @@ export default function DisplaySettingsMenuDocsPage() {
           management are inherited.
         </li>
         <li>
-          Radio items expose <code className="font-mono">role=&quot;menuitemradio&quot;</code>{' '}
-          with <code className="font-mono">aria-checked</code> and are grouped under non-interactive
+          Radio items expose <code className="font-mono">role=&quot;menuitemradio&quot;</code> with{' '}
+          <code className="font-mono">aria-checked</code> and are grouped under non-interactive
           labels.
         </li>
       </ul>
