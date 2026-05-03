@@ -11,4 +11,9 @@ test.describe('Smoke — web app boot', () => {
     await page.goto('/')
     await expect(page.getByRole('link', { name: 'Docs', exact: true }).first()).toBeVisible()
   })
+
+  test('home page exposes the display settings trigger', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.getByRole('button', { name: 'Display settings' })).toBeVisible()
+  })
 })
