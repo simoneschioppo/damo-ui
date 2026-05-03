@@ -1,12 +1,6 @@
 import Link from 'next/link'
-import { MemphisShape } from '@damo/ui'
+import { Button, MemphisShape } from '@damo/ui'
 import { BRAND } from '../lib/brand'
-
-const ctaPrimaryClass =
-  'inline-flex items-center justify-center px-6 py-3 font-semibold uppercase tracking-wide bg-primary text-primary-foreground border-2 border-memphis shadow-memphis-lg no-underline hover:translate-x-[-1px] hover:translate-y-[-1px] transition-transform'
-
-const ctaGhostClass =
-  'inline-flex items-center justify-center px-6 py-3 font-semibold uppercase tracking-wide bg-card text-foreground border-2 border-memphis shadow-memphis no-underline hover:bg-muted transition-colors'
 
 const features = [
   {
@@ -42,12 +36,12 @@ export default function HomePage() {
             {BRAND.tagline} Compose React + Next.js UIs without giving up the visual identity.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/docs" className={ctaPrimaryClass}>
-              Browse docs
-            </Link>
-            <Link href="/theme-generator" className={ctaGhostClass}>
-              Open theme generator
-            </Link>
+            <Button asChild variant="primary" size="lg">
+              <Link href="/docs">Browse docs</Link>
+            </Button>
+            <Button asChild variant="ghost" size="lg">
+              <Link href="/theme-generator">Open theme generator</Link>
+            </Button>
           </div>
         </div>
 
