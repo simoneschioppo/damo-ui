@@ -12,11 +12,11 @@ export interface HintProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
 
 // Memphis-styled numbered callout. Visual parity with the original `.hint` from
 // the docs DS surface: color-mix background over `--surface`, 2px Memphis
-// border, 4px solid Memphis shadow, 40x40 numbered icon tile.
+// border, Memphis card shadow (`--shadow-memphis-card`, default 4px), 40x40
+// numbered icon tile.
 //
-// Tailwind covers all tokens except the `color-mix(...)` background and the
-// custom Memphis shadow — those go through inline `style` because Tailwind
-// can't express them concisely.
+// The `color-mix(...)` background can't be expressed via Tailwind, so it stays
+// inline alongside the shadow token.
 export const Hint = forwardRef<HTMLDivElement, HintProps>(function Hint(
   { num, title, children, className, style, ...rest },
   ref,
@@ -27,7 +27,7 @@ export const Hint = forwardRef<HTMLDivElement, HintProps>(function Hint(
       className={cn('flex gap-4 p-5 items-start mb-6 border-2 border-memphis', className)}
       style={{
         background: 'color-mix(in oklab, var(--secondary) 22%, var(--card))',
-        boxShadow: '4px 4px 0 var(--memphis-shadow-color)',
+        boxShadow: 'var(--shadow-memphis-card)',
         ...style,
       }}
       {...rest}

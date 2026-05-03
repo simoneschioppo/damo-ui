@@ -74,7 +74,7 @@ export const ColorScale = forwardRef<HTMLDivElement, ColorScaleProps>(function C
     display: 'grid',
     gridTemplateColumns: `repeat(${stops.length}, 1fr)`,
     border: '2px solid var(--memphis-border-color)',
-    boxShadow: '6px 6px 0 var(--memphis-shadow-color)',
+    boxShadow: 'var(--shadow-memphis)',
     overflow: 'hidden',
   }
   const rootStyle: CSSProperties = { marginBottom: 32 }

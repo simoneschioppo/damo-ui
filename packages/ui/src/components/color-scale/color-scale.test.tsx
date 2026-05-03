@@ -70,4 +70,12 @@ describe('ColorScale', () => {
     const style = grid.getAttribute('style') ?? ''
     expect(style).toContain('repeat(4')
   })
+
+  it('uses the default Memphis shadow token on the grid (not a hardcoded value)', () => {
+    const { container } = render(<ColorScale name="Ink" token="ink" stops={[{ k: 500 }]} />)
+    const grid = container.querySelector('[data-color-scale-grid]') as HTMLElement
+    const styleAttr = grid.getAttribute('style') ?? ''
+    expect(styleAttr).toContain('var(--shadow-memphis)')
+    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
+  })
 })

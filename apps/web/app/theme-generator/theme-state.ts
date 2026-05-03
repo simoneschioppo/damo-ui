@@ -19,7 +19,7 @@ export type ThemeMode = 'light' | 'dark'
 
 export type TypographySizeKey = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'
 export type RadiusKey = 'none' | 'sm' | 'md' | 'lg' | 'pill' | 'full'
-export type ShadowMemphisKey = 'sm' | 'md' | 'lg' | 'hover' | 'active'
+export type ShadowMemphisKey = 'sm' | 'card' | 'md' | 'lg' | 'hover' | 'active'
 export type ShadowSoftKey = 'sm' | 'md' | 'lg'
 export type MotionDurationKey = 'snap' | 'fast' | 'base' | 'slow'
 export type MotionEasingKey = 'memphis' | 'out' | 'in-out'
@@ -314,8 +314,8 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
     input: p.paper['50'] + '1f',
     ring: p.brand['500'],
 
-    memphisShadowColor: p.paper['50'],
-    memphisBorderColor: p.paper['50'],
+    memphisShadowColor: '#000000',
+    memphisBorderColor: '#000000',
 
     badgeFeatured: p.brand['500'],
     badgeFeaturedForeground: p.ink['900'],
@@ -385,6 +385,7 @@ const DEFAULT_RADIUS: RadiusFoundation = { none: 0, sm: 2, md: 4, lg: 8, pill: 9
 
 const DEFAULT_SHADOW_MEMPHIS: ShadowMemphisFoundation = {
   sm: { x: 3, y: 3, color: '#000000' },
+  card: { x: 4, y: 4, color: '#000000' },
   md: { x: 6, y: 6, color: '#000000' },
   lg: { x: 9, y: 9, color: '#000000' },
   hover: { x: 7, y: 7, color: '#000000' },

@@ -11,12 +11,9 @@ export interface ShowcaseCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 
   className?: string
 }
 
-// Faithful port of the design-system `.ds-card`: white surface, 2px Memphis
-// border, 4px solid black Memphis shadow, 28px padding (p-7), and an optional
-// monospace eyebrow label at the top.
-//
-// The border/shadow tokens go through inline style because Tailwind cannot
-// express the 4px 4px 0 Memphis shadow concisely with CSS variable colors.
+// Faithful port of the design-system `.ds-card`: card surface, 2px Memphis
+// border, Memphis card shadow (`--shadow-memphis-card`, default 4px), 28px
+// padding (p-7), and an optional monospace eyebrow label at the top.
 export const ShowcaseCard = forwardRef<HTMLDivElement, ShowcaseCardProps>(function ShowcaseCard(
   { label, children, className, style, ...rest },
   ref,
@@ -28,7 +25,7 @@ export const ShowcaseCard = forwardRef<HTMLDivElement, ShowcaseCardProps>(functi
       style={{
         background: 'var(--card)',
         border: '2px solid var(--memphis-border-color)',
-        boxShadow: '4px 4px 0 var(--memphis-shadow-color)',
+        boxShadow: 'var(--shadow-memphis-card)',
         ...style,
       }}
       {...rest}

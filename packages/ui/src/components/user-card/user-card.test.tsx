@@ -82,4 +82,12 @@ describe('UserCard', () => {
     expect(avatar.className).toContain('bg-foreground')
     expect(avatar.className).toContain('rounded-full')
   })
+
+  it('uses the Memphis card shadow token (not a hardcoded value)', () => {
+    const { container } = render(<UserCard name="Mario" />)
+    const root = container.firstChild as HTMLElement
+    const styleAttr = root.getAttribute('style') ?? ''
+    expect(styleAttr).toContain('var(--shadow-memphis-card)')
+    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
+  })
 })
