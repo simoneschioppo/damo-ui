@@ -7,27 +7,36 @@ test.describe('DensitySwitcher writes data-density + localStorage', () => {
     await page.reload()
   })
 
+  async function selectDensity(
+    page: import('@playwright/test').Page,
+    name: 'Compatta' | 'Normale' | 'Ampia',
+  ) {
+    await page.getByRole('button', { name: 'Display settings' }).click()
+    await page.getByRole('menuitemradio', { name }).click()
+  }
+
   test('clicking Compatta sets compact', async ({ page }) => {
-    await page.getByRole('button', { name: 'Compatta' }).click()
+    await selectDensity(page, 'Compatta')
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')
     const stored = await page.evaluate(() => localStorage.getItem('density'))
     expect(stored).toBe('compact')
   })
 
   test('clicking Ampia sets comfortable', async ({ page }) => {
-    await page.getByRole('button', { name: 'Ampia' }).click()
+    await selectDensity(page, 'Ampia')
     await expect(page.locator('html')).toHaveAttribute('data-density', 'comfortable')
     const stored = await page.evaluate(() => localStorage.getItem('density'))
     expect(stored).toBe('comfortable')
   })
 
   test('selection persists across reloads', async ({ page }) => {
-    await page.getByRole('button', { name: 'Compatta' }).click()
+    await selectDensity(page, 'Compatta')
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')
     await page.reload()
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')
-    const btn = page.getByRole('button', { name: 'Compatta' })
-    await expect(btn).toHaveAttribute('aria-pressed', 'true')
+    await page.getByRole('button', { name: 'Display settings' }).click()
+    const item = page.getByRole('menuitemradio', { name: 'Compatta' })
+    await expect(item).toHaveAttribute('aria-checked', 'true')
   })
 })
 
@@ -51,18 +60,18 @@ test.describe('Docs sidebar active state', () => {
   })
 })
 
-test.describe('PaletteSwitcher exposes the documented palettes', () => {
+test.describe('DisplaySettingsMenu exposes the documented palettes', () => {
   test('default, neon, sunset are listed and legacy names are not', async ({ page }) => {
     await page.goto('/')
-    // Radix Select renders the trigger as a combobox with the navbar header as
-    // its accessible context. Use the role rather than internal class names.
-    const trigger = page.getByRole('banner').getByRole('combobox').first()
-    await trigger.click()
-    const listbox = page.getByRole('listbox')
-    await expect(listbox).toBeVisible()
-    const labels = (await listbox.getByRole('option').allTextContents()).map((t) => t.trim())
-    expect(labels).toEqual(expect.arrayContaining(['Plum+Gold', 'Neon', 'Sunset']))
-    expect(labels.some((l) => /frost/i.test(l))).toBe(false)
-    expect(labels.some((l) => /circuit/i.test(l))).toBe(false)
+    await page.getByRole('button', { name: 'Display settings' }).click()
+    // Scope to the open menu so the assertion targets palette items, not
+    // theme/density radio items that share the menu.
+    const menu = page.getByRole('menu')
+    await expect(menu).toBeVisible()
+    const labels = await menu.getByRole('menuitemradio').allTextContents()
+    const trimmed = labels.map((t) => t.trim())
+    expect(trimmed).toEqual(expect.arrayContaining(['Plum+Gold', 'Neon', 'Sunset']))
+    expect(trimmed.some((l) => /frost/i.test(l))).toBe(false)
+    expect(trimmed.some((l) => /circuit/i.test(l))).toBe(false)
   })
 })

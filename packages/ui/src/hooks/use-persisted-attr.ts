@@ -1,6 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+
+// Restricts the HTML attribute name to a `data-*` form so a misuse cannot
+// turn an attribute write into an event-handler binding. `data-` is the only
+// shape consumers should reasonably need; everything else is a bug.
+const SAFE_DATA_ATTR = /^data-[a-z][a-z0-9-]*$/
 
 // Always initialize to `defaultValue` so server + client first render agree.
 // After mount, read localStorage and promote to the persisted value if any.
@@ -11,6 +16,12 @@ export function usePersistedAttr<T extends string>(
   htmlAttr: string,
   defaultValue: T,
 ): [T, (value: T) => void] {
+  if (!SAFE_DATA_ATTR.test(htmlAttr)) {
+    throw new Error(
+      `usePersistedAttr: htmlAttr must match /^data-[a-z][a-z0-9-]*$/, got "${htmlAttr}"`,
+    )
+  }
+
   const [value, setValueState] = useState<T>(defaultValue)
 
   useEffect(() => {
@@ -29,12 +40,17 @@ export function usePersistedAttr<T extends string>(
     document.documentElement.setAttribute(htmlAttr, value)
   }, [htmlAttr, value])
 
-  const setValue = (next: T) => {
-    setValueState(next)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(storageKey, next)
-    }
-  }
+  // Stable identity so consumers can include the setter in effect dep arrays
+  // without causing extra re-subscriptions on every render.
+  const setValue = useCallback(
+    (next: T) => {
+      setValueState(next)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(storageKey, next)
+      }
+    },
+    [storageKey],
+  )
 
   return [value, setValue]
 }
