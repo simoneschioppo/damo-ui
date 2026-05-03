@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
+import { forwardRef, type CSSProperties, type HTMLAttributes, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 
 export interface FeatureCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -13,9 +13,11 @@ export interface FeatureCardProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 }
 
 /**
- * FeatureCard — 280px wide feature/highlight card. Memphis frame with 4px
- * gold-500 shadow. Display-font title, ink description, optional mono meta
- * + icon footer row.
+ * FeatureCard — 280px wide feature/highlight card. Memphis frame with the
+ * Memphis card shadow (`--shadow-memphis-card`) recoloured to `--primary` via
+ * a scoped `--memphis-shadow-color` override, so customising the token in the
+ * theme generator updates this card too. Display-font title, ink description,
+ * optional mono meta + icon footer row.
  */
 export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function FeatureCard(
   { title, desc, meta, icon, className, ...rest },
@@ -25,7 +27,13 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
     <div
       ref={ref}
       className={cn('p-5 border-2 border-memphis bg-card', className)}
-      style={{ width: '280px', boxShadow: '4px 4px 0 var(--primary)' }}
+      style={
+        {
+          width: '280px',
+          '--memphis-shadow-color': 'var(--primary)',
+          boxShadow: 'var(--shadow-memphis-card)',
+        } as CSSProperties
+      }
       {...rest}
     >
       <h4

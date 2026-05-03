@@ -151,8 +151,10 @@
   --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --ring: var(--brand-500);
 
-  --memphis-shadow-color: var(--paper-50);
-  --memphis-border-color: var(--paper-50);
+  /* Memphis identity stays solid black in dark mode so shadows remain
+     consistent with the theme-generator defaults (foundations ship a
+     `color: '#000000'` for every shadow size). Override per-mode in your
+     own theme if you want the inverse-coloured Memphis style. */
 
   --badge-featured: var(--brand-500);
   --badge-featured-foreground: var(--ink-900);
