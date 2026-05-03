@@ -85,14 +85,15 @@ describe('TypeSpecimen', () => {
     expect(screen.getByText(/400/)).toBeInTheDocument()
   })
 
-  it('applies Memphis card frame (2px border + 6px shadow) via inline style', () => {
+  it('applies Memphis card frame (2px border + theme shadow token) via inline style', () => {
     const { container } = render(
       <TypeSpecimen name="Display" sample="Big" fontFamily="var(--font-display)" />,
     )
     const root = container.firstChild as HTMLElement
     const styleAttr = root.getAttribute('style') ?? ''
     expect(styleAttr).toContain('--memphis-border-color')
-    expect(styleAttr).toContain('6px 6px 0')
+    expect(styleAttr).toContain('var(--shadow-memphis)')
+    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
   })
 
   it('forwards className to the root element', () => {
