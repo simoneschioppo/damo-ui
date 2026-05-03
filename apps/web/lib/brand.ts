@@ -14,6 +14,10 @@ export interface BrandConfig {
   readonly mascotAlt: string
   readonly mascotWidth: number
   readonly mascotHeight: number
+  readonly mascotHeroSrc: string
+  readonly mascotHeroAlt: string
+  readonly mascotHeroWidth: number
+  readonly mascotHeroHeight: number
   readonly repoUrl: string
 }
 
@@ -24,5 +28,9 @@ export const BRAND: BrandConfig = {
   mascotAlt: 'Damo UI mascot — a purple axolotl wearing glasses',
   mascotWidth: 720,
   mascotHeight: 514,
+  mascotHeroSrc: '/mascot-hero.png',
+  mascotHeroAlt: 'Damo UI mascot — a purple axolotl coding on a stack of books',
+  mascotHeroWidth: 923,
+  mascotHeroHeight: 1298,
   repoUrl: 'https://github.com/simoneschioppo/damo-ui',
 }
