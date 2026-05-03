@@ -81,6 +81,7 @@
 
   /* Shadows */
   --shadow-memphis-sm: var(--shadow-memphis-sm);
+  --shadow-memphis-card: var(--shadow-memphis-card);
   --shadow-memphis: var(--shadow-memphis);
   --shadow-memphis-lg: var(--shadow-memphis-lg);
   --shadow-memphis-hover: var(--shadow-memphis-hover);

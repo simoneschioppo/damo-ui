@@ -31,4 +31,17 @@ describe('DashboardPreview', () => {
     expect(getByText('30g')).toBeInTheDocument()
     expect(getByText('90g')).toBeInTheDocument()
   })
+
+  it('uses chart-N theme tokens for the bars (not primary/secondary)', () => {
+    const { getAllByTestId } = render(<DashboardPreview />)
+    const bars = getAllByTestId('dashboard-bar')
+    const usesChartTokens = bars.every((bar) => {
+      const cls = bar.className
+      return (cls.includes('bg-chart-1') || cls.includes('bg-chart-2')) && !cls.includes('bg-primary') && !cls.includes('bg-secondary')
+    })
+    expect(usesChartTokens).toBe(true)
+    // The single highlighted bar should pick chart-2; the rest chart-1.
+    const highlighted = bars.filter((bar) => bar.className.includes('bg-chart-2'))
+    expect(highlighted).toHaveLength(1)
+  })
 })

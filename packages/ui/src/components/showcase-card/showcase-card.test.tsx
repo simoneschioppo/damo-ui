@@ -45,7 +45,7 @@ describe('ShowcaseCard', () => {
     expect(label.className).toContain('text-primary')
   })
 
-  it('applies white surface bg, 2px border-memphis, 4px black shadow via inline style', () => {
+  it('applies card surface bg, 2px memphis border, and the Memphis card shadow token', () => {
     const { container } = render(
       <ShowcaseCard>
         <p>x</p>
@@ -55,7 +55,8 @@ describe('ShowcaseCard', () => {
     const styleAttr = root.getAttribute('style') ?? ''
     expect(styleAttr).toContain('--card')
     expect(styleAttr).toContain('--memphis-border-color')
-    expect(styleAttr).toContain('4px 4px 0')
+    expect(styleAttr).toContain('var(--shadow-memphis-card)')
+    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
   })
 
   it('applies p-7 (28px) padding class on the root', () => {

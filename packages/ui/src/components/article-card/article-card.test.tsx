@@ -83,4 +83,16 @@ describe('ArticleCard', () => {
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('custom-article')
   })
+
+  it('uses the Memphis card shadow token (not a hardcoded value)', () => {
+    const { container } = render(
+      <ArticleCard title="Regola base">
+        <p>Testo</p>
+      </ArticleCard>,
+    )
+    const root = container.firstChild as HTMLElement
+    const styleAttr = root.getAttribute('style') ?? ''
+    expect(styleAttr).toContain('var(--shadow-memphis-card)')
+    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
+  })
 })

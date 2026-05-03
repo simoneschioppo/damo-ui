@@ -122,6 +122,7 @@
 
   /* ── Shadow: memphis (tier 1 signature) ───────── */
   --shadow-memphis-sm: 3px 3px 0 var(--memphis-shadow-color);
+  --shadow-memphis-card: 4px 4px 0 var(--memphis-shadow-color);
   --shadow-memphis: 6px 6px 0 var(--memphis-shadow-color);
   --shadow-memphis-lg: 9px 9px 0 var(--memphis-shadow-color);
   --shadow-memphis-hover: 7px 7px 0 var(--memphis-shadow-color);

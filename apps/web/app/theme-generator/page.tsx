@@ -51,6 +51,7 @@ import {
 } from '@damo/ui/mocks'
 
 import { useThemeState } from './use-theme-state'
+import { PreviewModal } from './preview-modal'
 import {
   PALETTE_STEPS,
   SEMANTIC_GROUPS,
@@ -92,7 +93,14 @@ type IncludeKey = keyof IncludeFlags
 
 const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl']
 const RADIUS_KEYS: ReadonlyArray<RadiusKey> = ['none', 'sm', 'md', 'lg', 'pill', 'full']
-const SHADOW_MEMPHIS_KEYS: ReadonlyArray<ShadowMemphisKey> = ['sm', 'md', 'lg', 'hover', 'active']
+const SHADOW_MEMPHIS_KEYS: ReadonlyArray<ShadowMemphisKey> = [
+  'sm',
+  'card',
+  'md',
+  'lg',
+  'hover',
+  'active',
+]
 const DURATION_KEYS: ReadonlyArray<MotionDurationKey> = ['snap', 'fast', 'base', 'slow']
 const EASING_CHOICES: ReadonlyArray<{ value: string; label: string }> = [
   { value: 'cubic-bezier(0.4, 1.3, 0.5, 1)', label: 'memphis (default)' },
@@ -1149,6 +1157,7 @@ export default function ThemeGeneratorPage() {
                     <TabsTrigger value="feed">Feed</TabsTrigger>
                   </TabsList>
                 </Tabs>
+                <PreviewModal initialScene={sceneTab} />
               </div>
 
               {/* Scene preview */}
