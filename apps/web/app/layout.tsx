@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { AppTopBar, ThemeSwitcher, PaletteSwitcher, DensitySwitcher } from '@damo/ui'
+import { AppTopBar, DisplaySettingsMenu } from '@damo/ui'
 import { BrandMark } from '../components/BrandMark'
 import { BRAND } from '../lib/brand'
 import './globals.css'
@@ -32,18 +32,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </>
           }
           actions={
-            <>
-              <ThemeSwitcher />
-              <PaletteSwitcher
-                defaultValue="default"
-                options={[
-                  { value: 'default', label: 'Plum+Gold' },
-                  { value: 'neon', label: 'Neon' },
-                  { value: 'sunset', label: 'Sunset' },
-                ]}
-              />
-              <DensitySwitcher />
-            </>
+            <DisplaySettingsMenu
+              paletteOptions={[
+                { value: 'default', label: 'Plum+Gold' },
+                { value: 'neon', label: 'Neon' },
+                { value: 'sunset', label: 'Sunset' },
+              ]}
+              paletteDefaultValue="default"
+            />
           }
         />
         {children}

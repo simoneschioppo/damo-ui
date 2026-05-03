@@ -20,7 +20,7 @@ export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
 export const DropdownMenuContent = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.Content>,
   ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
->(function DropdownMenuContent({ className, sideOffset = 4, ...rest }, ref) {
+>(function DropdownMenuContent({ className, sideOffset = 6, ...rest }, ref) {
   return (
     <DropdownMenuPortal>
       <DropdownMenuPrimitive.Content
@@ -28,8 +28,8 @@ export const DropdownMenuContent = forwardRef<
         sideOffset={sideOffset}
         className={cn(
           'z-dropdown min-w-[10rem] overflow-hidden bg-card text-foreground',
-          'border border-border rounded-md shadow-md',
-          'p-1',
+          'border-2 border-memphis rounded-none shadow-memphis',
+          'p-2',
           className,
         )}
         {...rest}
@@ -38,6 +38,14 @@ export const DropdownMenuContent = forwardRef<
   )
 })
 
+const itemBaseClass = cn(
+  'relative flex select-none items-center gap-2',
+  'px-2.5 py-1.5 text-[13px] font-body font-medium rounded-none outline-none cursor-pointer',
+  'transition-colors duration-snap ease-memphis',
+  'focus:bg-secondary focus:text-secondary-foreground',
+  'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+)
+
 export const DropdownMenuItem = forwardRef<
   ElementRef<typeof DropdownMenuPrimitive.Item>,
   ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & { inset?: boolean }
@@ -45,14 +53,7 @@ export const DropdownMenuItem = forwardRef<
   return (
     <DropdownMenuPrimitive.Item
       ref={ref}
-      className={cn(
-        'relative flex cursor-pointer select-none items-center gap-2',
-        'px-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-muted focus:text-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-        inset && 'pl-8',
-        className,
-      )}
+      className={cn(itemBaseClass, inset && 'pl-8', className)}
       {...rest}
     />
   )
@@ -66,13 +67,7 @@ export const DropdownMenuCheckboxItem = forwardRef<
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
       checked={checked}
-      className={cn(
-        'relative flex cursor-pointer select-none items-center',
-        'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-muted focus:text-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-        className,
-      )}
+      className={cn(itemBaseClass, 'pl-8 pr-2', className)}
       {...rest}
     >
       <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
@@ -93,17 +88,21 @@ export const DropdownMenuRadioItem = forwardRef<
     <DropdownMenuPrimitive.RadioItem
       ref={ref}
       className={cn(
-        'relative flex cursor-pointer select-none items-center',
-        'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-muted focus:text-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+        itemBaseClass,
+        'pl-8 pr-2',
+        // Active radio item adopts secondary chrome regardless of focus state
+        // so the current selection stays obvious after the menu loses focus.
+        'data-[state=checked]:bg-secondary data-[state=checked]:text-secondary-foreground',
         className,
       )}
       {...rest}
     >
       <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <span className="h-2 w-2 rounded-full bg-secondary" />
+          <span
+            className="h-2.5 w-2.5 border-2 border-memphis bg-secondary-foreground"
+            aria-hidden
+          />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -119,7 +118,7 @@ export const DropdownMenuLabel = forwardRef<
     <DropdownMenuPrimitive.Label
       ref={ref}
       className={cn(
-        'px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground',
+        'px-2.5 pt-2 pb-1 font-mono text-[10px] uppercase tracking-[0.22em] text-primary',
         inset && 'pl-8',
         className,
       )}
@@ -135,7 +134,7 @@ export const DropdownMenuSeparator = forwardRef<
   return (
     <DropdownMenuPrimitive.Separator
       ref={ref}
-      className={cn('my-1 h-px bg-border', className)}
+      className={cn('my-1.5 h-px bg-memphis', className)}
       {...rest}
     />
   )
@@ -158,9 +157,8 @@ export const DropdownMenuSubTrigger = forwardRef<
     <DropdownMenuPrimitive.SubTrigger
       ref={ref}
       className={cn(
-        'relative flex cursor-pointer select-none items-center gap-2',
-        'px-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-muted focus:text-foreground data-[state=open]:bg-muted',
+        itemBaseClass,
+        'data-[state=open]:bg-secondary data-[state=open]:text-secondary-foreground',
         inset && 'pl-8',
         className,
       )}
@@ -181,7 +179,7 @@ export const DropdownMenuSubContent = forwardRef<
       ref={ref}
       className={cn(
         'z-dropdown min-w-[8rem] overflow-hidden bg-card text-foreground',
-        'border border-border rounded-md shadow-md p-1',
+        'border-2 border-memphis rounded-none shadow-memphis p-2',
         className,
       )}
       {...rest}
