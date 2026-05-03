@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
 import { Button } from './button'
@@ -116,5 +117,118 @@ describe('Button', () => {
     const btn = getByRole('button')
     expect(btn.className).toContain('bg-destructive')
     expect(btn.className).toContain('text-destructive-foreground')
+  })
+
+  describe('asChild', () => {
+    it('renders the child element instead of a <button>', () => {
+      const { getByRole, queryByRole } = render(
+        <Button asChild>
+          <a href="/docs">Browse</a>
+        </Button>,
+      )
+      expect(getByRole('link')).toBeTruthy()
+      expect(queryByRole('button')).toBeNull()
+    })
+
+    it('applies the primary variant classes to the child <a>', () => {
+      const { getByRole } = render(
+        <Button asChild variant="primary">
+          <a href="/docs">Browse</a>
+        </Button>,
+      )
+      const link = getByRole('link')
+      expect(link.className).toContain('bg-primary')
+      expect(link.className).toContain('text-primary-foreground')
+      expect(link.className).toContain('border-2')
+      expect(link.className).toContain('border-memphis')
+      expect(link.className).toContain('shadow-memphis')
+    })
+
+    it('applies hover animation classes to the child', () => {
+      const { getByRole } = render(
+        <Button asChild>
+          <a href="/docs">Browse</a>
+        </Button>,
+      )
+      const link = getByRole('link')
+      expect(link.className).toContain('hover:-translate-x-px')
+      expect(link.className).toContain('hover:-translate-y-px')
+      expect(link.className).toContain('hover:shadow-memphis-hover')
+    })
+
+    it('applies the Memphis active press classes to the child', () => {
+      const { getByRole } = render(
+        <Button asChild>
+          <a href="/docs">Browse</a>
+        </Button>,
+      )
+      const link = getByRole('link')
+      expect(link.className).toContain('active:translate-x-[3px]')
+      expect(link.className).toContain('active:translate-y-[3px]')
+      expect(link.className).toContain('active:shadow-memphis-active')
+    })
+
+    it('merges consumer className with variant classes on the child', () => {
+      const { getByRole } = render(
+        <Button asChild className="custom-cta">
+          <a href="/docs">Browse</a>
+        </Button>,
+      )
+      const link = getByRole('link')
+      expect(link.className).toContain('bg-primary')
+      expect(link.className).toContain('custom-cta')
+    })
+
+    it('forwards ref to the rendered child element', () => {
+      const ref = createRef<HTMLAnchorElement>()
+      render(
+        <Button asChild ref={ref as unknown as React.Ref<HTMLButtonElement>}>
+          <a href="/docs">Browse</a>
+        </Button>,
+      )
+      expect(ref.current).not.toBeNull()
+      expect(ref.current!.tagName.toLowerCase()).toBe('a')
+    })
+
+    it("preserves the child's own attributes", () => {
+      const { getByRole } = render(
+        <Button asChild>
+          <a href="/x" data-testid="cta">
+            Browse
+          </a>
+        </Button>,
+      )
+      const link = getByRole('link')
+      expect(link.getAttribute('href')).toBe('/x')
+      expect(link.getAttribute('data-testid')).toBe('cta')
+    })
+
+    it('applies size=lg padding/text classes to the child', () => {
+      const { getByRole } = render(
+        <Button asChild size="lg">
+          <a href="/docs">Browse</a>
+        </Button>,
+      )
+      const link = getByRole('link')
+      expect(link.className).toContain('px-7')
+      expect(link.className).toContain('py-3.5')
+      expect(link.className).toContain('text-lg')
+    })
+
+    it('does not propagate type="button" to the child', () => {
+      const { getByRole } = render(
+        <Button asChild>
+          <a href="/docs">Browse</a>
+        </Button>,
+      )
+      const link = getByRole('link')
+      expect(link.hasAttribute('type')).toBe(false)
+    })
+
+    it('default asChild=false still renders a <button>', () => {
+      const { getByRole, queryByRole } = render(<Button>Click</Button>)
+      expect(getByRole('button')).toBeTruthy()
+      expect(queryByRole('link')).toBeNull()
+    })
   })
 })
