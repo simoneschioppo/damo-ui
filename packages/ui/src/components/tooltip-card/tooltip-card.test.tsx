@@ -59,4 +59,14 @@ describe('TooltipCard', () => {
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('custom-tooltip')
   })
+
+  it('uses the Memphis card shadow token on the surface (not a hardcoded value)', () => {
+    const { container } = render(
+      <TooltipCard label="TOOLTIP" title="Aiuto" body="Spiegazione rapida" />,
+    )
+    const surface = container.querySelector('[data-slot="surface"]') as HTMLElement
+    const styleAttr = surface.getAttribute('style') ?? ''
+    expect(styleAttr).toContain('var(--shadow-memphis-card)')
+    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
+  })
 })

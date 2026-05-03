@@ -15,7 +15,7 @@ export default function NotFound() {
         alt={BRAND.mascotAlt}
         width={220}
         height={Math.round(220 * (BRAND.mascotHeight / BRAND.mascotWidth))}
-        className="drop-shadow-[6px_6px_0_var(--memphis-border-color)]"
+        style={{ filter: 'drop-shadow(var(--shadow-memphis))' }}
       />
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary">
         ERROR · 404

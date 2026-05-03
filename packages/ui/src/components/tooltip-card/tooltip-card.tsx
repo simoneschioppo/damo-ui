@@ -34,7 +34,7 @@ export const TooltipCard = forwardRef<HTMLDivElement, TooltipCardProps>(function
       <div
         data-slot="surface"
         className="p-4 border-2 border-memphis bg-card"
-        style={{ boxShadow: '4px 4px 0 var(--memphis-border-color)' }}
+        style={{ boxShadow: 'var(--shadow-memphis-card)' }}
       >
         <div
           data-slot="label"
