@@ -32,43 +32,48 @@ const FULL_WIDTH_SNIPPET = `<Button variant="primary" fullWidth>
 </Button>`
 
 const AS_LINK_SNIPPET = `import Link from 'next/link'
+import { Button } from '@damo/ui'
 
-// Button does not support \`asChild\`. To navigate, style a Link
-// with the same Tailwind utilities the Button variant uses:
-<Link
-  href="/docs"
-  className="inline-flex items-center gap-2 px-4 py-2
-             bg-primary text-primary-foreground font-semibold
-             border-2 border-memphis shadow-memphis-sm
-             hover:shadow-memphis-hover transition-shadow"
->
-  Browse docs
-</Link>`
+// Render the Link as a Button. All variant, size, and animation
+// classes — including the Memphis press effect on :active — are
+// merged onto the underlying <a>.
+<Button asChild variant="primary" size="lg">
+  <Link href="/docs">Browse docs</Link>
+</Button>`
 
 const PROPS: ReadonlyArray<PropDef> = [
   {
     name: 'variant',
-    type: "'primary' | 'ghost'",
+    type: "'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive' | 'link'",
     defaultValue: "'primary'",
-    description: 'Primary uses the gold accent. Ghost is a neutral outline.',
+    description:
+      'Visual style. Primary/secondary use the brand accents; outline and ghost are neutral; destructive surfaces destructive intent; link reduces to an inline anchor.',
   },
   {
     name: 'size',
-    type: "'sm' | 'md' | 'lg'",
+    type: "'sm' | 'md' | 'lg' | 'icon'",
     defaultValue: "'md'",
-    description: 'Adjusts vertical padding and font size.',
+    description: 'Adjusts vertical padding and font size. Icon is a 40×40 square for IconButton.',
   },
   {
     name: 'disabled',
     type: 'boolean',
     defaultValue: 'false',
-    description: 'Greys out the button and prevents pointer / keyboard activation.',
+    description:
+      'On a real <button>, blocks pointer / keyboard activation. With asChild on a non-button child, only the disabled CSS utilities apply — set aria-disabled and remove href on the child for full inertness.',
   },
   {
     name: 'fullWidth',
     type: 'boolean',
     defaultValue: 'false',
     description: 'Stretches the button to the full width of its container.',
+  },
+  {
+    name: 'asChild',
+    type: 'boolean',
+    defaultValue: 'false',
+    description:
+      'When true, render the child element with all Button styles applied (Radix Slot pattern). The child must be a single React element such as a <Link> or <a>.',
   },
   {
     name: 'className',
@@ -147,12 +152,20 @@ export default function ButtonDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Use as a link</h2>
       <p className="text-foreground/80 mb-3">
-        <code className="font-mono">Button</code> renders a native{' '}
-        <code className="font-mono">&lt;button&gt;</code> and does <strong>not</strong> support{' '}
-        <code className="font-mono">asChild</code>. For navigation, style a{' '}
-        <code className="font-mono">Link</code> directly with the same utilities.
+        Pass <code className="font-mono">asChild</code> to render a single child element with all
+        Button styles applied (Radix <code className="font-mono">Slot</code> pattern). Useful for
+        navigation CTAs that need both the Memphis press animation and routing — the variant
+        classes, hover lift, and active-press collapse are all merged onto the underlying{' '}
+        <code className="font-mono">&lt;a&gt;</code>.
       </p>
-      <Code code={AS_LINK_SNIPPET} lang="tsx" title="Link styled like a primary button" />
+      <Example code={AS_LINK_SNIPPET}>
+        <Button asChild variant="primary" size="lg">
+          <Link href="/docs">Browse docs</Link>
+        </Button>
+        <Button asChild variant="ghost" size="lg">
+          <Link href="/theme-generator">Open theme generator</Link>
+        </Button>
+      </Example>
 
       <h2 className="font-display text-2xl mb-3 mt-10">API</h2>
       <PropsTable props={PROPS} caption="Button props" />
@@ -169,8 +182,11 @@ export default function ButtonDocsPage() {
           <code className="font-mono">aria-label</code>.
         </li>
         <li>
-          <code className="font-mono">disabled</code> blocks both pointer and keyboard activation.
-          Avoid disabling submit buttons silently — surface validation errors instead.
+          <code className="font-mono">disabled</code> blocks both pointer and keyboard activation on
+          a real <code className="font-mono">&lt;button&gt;</code>. With{' '}
+          <code className="font-mono">asChild</code>, only the disabled CSS utilities apply — for a
+          fully inactive link also remove <code className="font-mono">href</code> or set{' '}
+          <code className="font-mono">aria-disabled=&quot;true&quot;</code> on the child.
         </li>
       </ul>
 

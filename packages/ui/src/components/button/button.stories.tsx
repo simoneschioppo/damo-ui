@@ -61,6 +61,17 @@ export const FullWidth = () => (
   </div>
 )
 
+export const AsLink = () => (
+  <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+    <Button asChild variant="primary" size="lg">
+      <a href="/docs">Browse docs</a>
+    </Button>
+    <Button asChild variant="ghost" size="lg">
+      <a href="/theme-generator">Open theme generator</a>
+    </Button>
+  </div>
+)
+
 export const AllStates = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
     <section>

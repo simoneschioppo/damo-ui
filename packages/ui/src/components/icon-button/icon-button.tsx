@@ -3,7 +3,7 @@
 import { forwardRef, type ReactNode } from 'react'
 import { Button, type ButtonProps } from '../button/button'
 
-export interface IconButtonProps extends Omit<ButtonProps, 'size' | 'children'> {
+export interface IconButtonProps extends Omit<ButtonProps, 'size' | 'children' | 'asChild'> {
   'aria-label': string
   children: ReactNode
 }
