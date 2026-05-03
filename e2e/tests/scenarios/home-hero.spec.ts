@@ -29,4 +29,15 @@ test.describe('Home hero', () => {
     await cta.click()
     await expect(page).toHaveURL(/\/theme-generator/)
   })
+
+  test('primary CTA carries the Memphis press classes', async ({ page }) => {
+    // Locks in the bug fix: the home CTAs are rendered via <Button asChild>,
+    // so the underlying <a> must carry the active-press utilities that
+    // collapse the offset shadow when clicked.
+    await page.goto('/')
+    const cta = page.getByRole('link', { name: /Browse docs/i })
+    await expect(cta).toHaveClass(/active:translate-x-\[3px\]/)
+    await expect(cta).toHaveClass(/active:translate-y-\[3px\]/)
+    await expect(cta).toHaveClass(/active:shadow-memphis-active/)
+  })
 })
