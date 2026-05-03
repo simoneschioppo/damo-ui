@@ -172,6 +172,12 @@ describe('DisplaySettingsMenu', () => {
     expect(ref.current!.getAttribute('data-component')).toBe('display-settings-menu')
   })
 
+  it('pins the trigger to the compact density via data-density on the wrapper', () => {
+    const ref = createRef<HTMLDivElement>()
+    render(<DisplaySettingsMenu ref={ref} paletteOptions={PALETTE_OPTIONS} />)
+    expect(ref.current!.getAttribute('data-density')).toBe('compact')
+  })
+
   it('defaults: theme=light, density=normal, palette=first option', () => {
     render(<DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} />)
     expect(document.documentElement.getAttribute('data-theme')).toBe('light')

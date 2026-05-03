@@ -179,3 +179,20 @@
 :root[data-density='comfortable'] {
   --density-scale-y: 1.25;
 }
+
+/* Sub-tree scoping: `data-density` on any inner element re-defines the
+   variable for that sub-tree, so a single component can pin its own
+   density regardless of the global one (e.g. a navbar trigger that
+   must stay compact). The `:root[…]` rules above keep precedence on
+   `<html>` itself thanks to higher specificity. */
+[data-density='compact'] {
+  --density-scale-y: 0.75;
+}
+
+[data-density='normal'] {
+  --density-scale-y: 1;
+}
+
+[data-density='comfortable'] {
+  --density-scale-y: 1.25;
+}
