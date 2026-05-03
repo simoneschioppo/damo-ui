@@ -1,0 +1,16 @@
+/* Damo UI lib base — semantic token contract + neutral defaults */
+@import '@damo/ui/styles/tokens.css';
+@import '@damo/ui/styles/globals.css';
+
+@import 'tailwindcss';
+
+/* Tailwind v4 bridge — exposes lib semantic tokens as utilities */
+@import '@damo/ui/styles/theme.css';
+
+/* Playground's own theme layer (overrides lib's neutral defaults) */
+@import './styles/theme.css';
+@import './styles/patterns.css';
+
+/* Tailwind sources from the lib's compiled output and source */
+@source '../../../packages/ui/dist/**/*.js';
+@source '../../../packages/ui/src/**/*.{ts,tsx}';

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev:lib": "pnpm --filter @damo/ui dev",
-    "dev:playground": "pnpm --filter @damo/playground dev",
+    "dev:web": "pnpm --filter @damo/web dev",
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
     "build": "pnpm --filter @damo/ui build",
     "test": "pnpm --filter @damo/ui test",
