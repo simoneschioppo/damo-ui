@@ -134,6 +134,11 @@ export const DisplaySettingsMenu = forwardRef<HTMLDivElement, DisplaySettingsMen
       <div
         ref={ref}
         data-component="display-settings-menu"
+        // Pin the trigger (and only the trigger — radio items inside the
+        // dropdown still react to the picked density) to the compact density.
+        // The cog button reads better at 32×32; the comfortable scale makes
+        // it feel oversized in the navbar.
+        data-density="compact"
         className={cn('inline-flex items-center', className)}
         {...rest}
       >
