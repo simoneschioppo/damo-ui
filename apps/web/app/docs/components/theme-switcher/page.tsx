@@ -118,12 +118,22 @@ export default function ThemeSwitchersDocsPage() {
       <Code code={DENSITY_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Where to put them</h2>
-      <p className="text-foreground/80">
+      <p className="text-foreground/80 mb-3">
         The natural home is the right-most <code className="font-mono">actions</code> slot of{' '}
         <Link href="/docs/components/app-top-bar" className="text-primary underline">
           AppTopBar
         </Link>
         . They can also live in a settings drawer if the navbar is space-constrained.
+      </p>
+      <p className="text-foreground/80">
+        For tight navbars, prefer the consolidated{' '}
+        <Link
+          href="/docs/components/display-settings-menu"
+          className="text-primary underline"
+        >
+          DisplaySettingsMenu
+        </Link>
+        : same persistence semantics, condensed into a single icon-button trigger.
       </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

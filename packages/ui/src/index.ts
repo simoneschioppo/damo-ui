@@ -210,6 +210,11 @@ export {
   type DensitySwitcherProps,
   type DensityOption,
 } from './components/density-switcher'
+export {
+  DisplaySettingsMenu,
+  type DisplaySettingsMenuProps,
+  type DisplaySettingsOption,
+} from './components/display-settings-menu'
 
 // Data display (Phase 8)
 export {

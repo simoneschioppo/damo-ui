@@ -41,6 +41,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
       { slug: '/docs/components/app-top-bar', label: 'AppTopBar' },
       { slug: '/docs/components/sidebar', label: 'Sidebar' },
       { slug: '/docs/components/theme-switcher', label: 'Theme Switchers' },
+      { slug: '/docs/components/display-settings-menu', label: 'Display Settings' },
     ],
   },
 ]
