@@ -7,7 +7,7 @@ Memphis-inspired React and Next.js component library — token, componenti e pat
 ## Monorepo structure
 
 - `packages/ui` — the library, published as `@damo/ui` on GitHub Packages
-- `apps/playground` — Next 15 showcase app (private)
+- `apps/web` — Next 15 public docs + showcase site (private)
 - `e2e` — Playwright end-to-end tests (private)
 - `docs/specs/` — design spec
 - `docs/plans/` — implementation plans
@@ -16,17 +16,17 @@ Memphis-inspired React and Next.js component library — token, componenti e pat
 
 ```bash
 pnpm install
-pnpm dev           # runs Ladle (port 61000) + Next playground (port 3000) in parallel
+pnpm dev           # runs Ladle (port 61000) + Next web app (port 3000) in parallel
 ```
 
-- Playground → http://localhost:3000
+- Web app → http://localhost:3000
 - Ladle → http://localhost:61000
 
 ### Scripts
 
 - `pnpm build` — build the library (tsup + CSS + Tailwind preset)
 - `pnpm test` — Vitest unit tests
-- `pnpm test:e2e` — Playwright against running playground
+- `pnpm test:e2e` — Playwright against the running web app
 - `pnpm lint` — ESLint across all workspaces
 - `pnpm format` — Prettier autofix
 

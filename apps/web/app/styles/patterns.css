@@ -1,0 +1,37 @@
+/* Damo UI Playground — Memphis background pattern
+ * Activate with [data-app-pattern="on"] on a container.
+ */
+
+:root {
+  --app-pattern-color-1: var(--primary);
+  --app-pattern-color-2: var(--secondary);
+  --app-pattern-color-3: var(--foreground);
+  --app-pattern-size: 140px;
+}
+
+[data-app-pattern='on'] {
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      var(--app-pattern-color-1) 0,
+      var(--app-pattern-color-1) 4px,
+      transparent 4px
+    ),
+    radial-gradient(
+      circle at 80% 60%,
+      var(--app-pattern-color-2) 0,
+      var(--app-pattern-color-2) 4px,
+      transparent 4px
+    ),
+    radial-gradient(
+      circle at 40% 80%,
+      var(--app-pattern-color-3) 0,
+      var(--app-pattern-color-3) 4px,
+      transparent 4px
+    );
+  background-size:
+    var(--app-pattern-size) var(--app-pattern-size),
+    calc(var(--app-pattern-size) * 1.3) calc(var(--app-pattern-size) * 1.3),
+    calc(var(--app-pattern-size) * 1.6) calc(var(--app-pattern-size) * 1.6);
+  background-attachment: fixed;
+}
