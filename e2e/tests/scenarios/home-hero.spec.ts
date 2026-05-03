@@ -5,7 +5,7 @@ test.describe('Home hero', () => {
     await page.goto('/')
     const heroSection = page.getByRole('main')
     await expect(heroSection).toBeVisible()
-    const heroMascot = heroSection.locator('img[src="/mascot.png"]')
+    const heroMascot = heroSection.locator('img[src="/mascot-hero.png"]')
     await expect(heroMascot).toBeVisible()
   })
 
