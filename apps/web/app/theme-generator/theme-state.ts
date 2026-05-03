@@ -226,7 +226,7 @@ export const SEMANTIC_GROUPS = {
 
 // ─── Semantic derivation helpers ─────────────────────────────
 //
-// These mirror the cascade in apps/playground/app/styles/theme.css.
+// These mirror the cascade in apps/web/app/styles/theme.css.
 // They let the generator keep semantic values in sync when the user
 // switches presets — instead of staying frozen at plum-gold hex.
 

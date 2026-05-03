@@ -11,7 +11,7 @@ export interface HintProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
 }
 
 // Memphis-styled numbered callout. Visual parity with the original `.hint` from
-// the playground DS page: color-mix background over `--surface`, 2px Memphis
+// the docs DS surface: color-mix background over `--surface`, 2px Memphis
 // border, 4px solid Memphis shadow, 40x40 numbered icon tile.
 //
 // Tailwind covers all tokens except the `color-mix(...)` background and the
