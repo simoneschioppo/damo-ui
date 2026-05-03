@@ -6,11 +6,6 @@ test.describe('Docs shell', () => {
     await expect(page).toHaveURL(/\/docs\/getting-started$/)
   })
 
-  test('redirects legacy /design-system to /docs', async ({ page }) => {
-    await page.goto('/design-system')
-    await expect(page).toHaveURL(/\/docs(\/|$)/)
-  })
-
   test('docs sidebar lists all expected groups', async ({ page }) => {
     await page.goto('/docs/getting-started')
     const sidebar = page.getByRole('complementary').or(page.locator('aside'))

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Smoke — playground boot', () => {
+test.describe('Smoke — web app boot', () => {
   test('home page renders the Damo UI navbar brand', async ({ page }) => {
     await page.goto('/')
     const navbarLink = page.getByRole('link', { name: /Damo UI home/i })
@@ -9,11 +9,6 @@ test.describe('Smoke — playground boot', () => {
 
   test('home page links to the docs surface', async ({ page }) => {
     await page.goto('/')
-    await expect(page.getByRole('link', { name: /Design System|Docs/i }).first()).toBeVisible()
-  })
-
-  test('design-system route is reachable', async ({ page }) => {
-    await page.goto('/design-system')
-    await expect(page).toHaveURL(/\/(design-system|docs)/)
+    await expect(page.getByRole('link', { name: 'Docs', exact: true }).first()).toBeVisible()
   })
 })
