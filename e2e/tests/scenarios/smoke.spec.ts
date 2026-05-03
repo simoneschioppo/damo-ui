@@ -9,6 +9,6 @@ test.describe('Smoke — web app boot', () => {
 
   test('home page links to the docs surface', async ({ page }) => {
     await page.goto('/')
-    await expect(page.getByRole('link', { name: /Docs/i }).first()).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Docs', exact: true }).first()).toBeVisible()
   })
 })
