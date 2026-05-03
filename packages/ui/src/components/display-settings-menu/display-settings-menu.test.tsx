@@ -91,9 +91,7 @@ describe('DisplaySettingsMenu', () => {
 
   it('selecting a theme does not affect palette or density', async () => {
     const user = userEvent.setup()
-    render(
-      <DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} paletteDefaultValue="default" />,
-    )
+    render(<DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} paletteDefaultValue="default" />)
     await openMenu(user)
     await user.click(screen.getByRole('menuitemradio', { name: 'Dark' }))
     expect(document.documentElement.getAttribute('data-palette')).toBe('default')
@@ -114,9 +112,7 @@ describe('DisplaySettingsMenu', () => {
 
   it('sanitizes an unknown persisted palette to the configured default', () => {
     localStorage.setItem('palette', 'totally-unknown')
-    render(
-      <DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} paletteDefaultValue="default" />,
-    )
+    render(<DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} paletteDefaultValue="default" />)
     expect(localStorage.getItem('palette')).toBe('default')
     expect(document.documentElement.getAttribute('data-palette')).toBe('default')
   })
@@ -137,9 +133,7 @@ describe('DisplaySettingsMenu', () => {
 
   it('honors a custom themeStorageKey without writing the default key', async () => {
     const user = userEvent.setup()
-    render(
-      <DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} themeStorageKey="my-theme" />,
-    )
+    render(<DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} themeStorageKey="my-theme" />)
     await openMenu(user)
     await user.click(screen.getByRole('menuitemradio', { name: 'Dark' }))
     expect(localStorage.getItem('my-theme')).toBe('dark')
@@ -148,9 +142,7 @@ describe('DisplaySettingsMenu', () => {
 
   it('honors a custom densityAttribute', async () => {
     const user = userEvent.setup()
-    render(
-      <DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} densityAttribute="data-spacing" />,
-    )
+    render(<DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} densityAttribute="data-spacing" />)
     await openMenu(user)
     await user.click(screen.getByRole('menuitemradio', { name: 'Compatta' }))
     expect(document.documentElement.getAttribute('data-spacing')).toBe('compact')
@@ -188,9 +180,7 @@ describe('DisplaySettingsMenu', () => {
   })
 
   it('honors a custom triggerLabel', () => {
-    render(
-      <DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} triggerLabel="Settings" />,
-    )
+    render(<DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} triggerLabel="Settings" />)
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
   })
 

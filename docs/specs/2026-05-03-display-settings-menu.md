@@ -24,28 +24,27 @@ export interface DisplaySettingsOption {
   label: string
 }
 
-export interface DisplaySettingsMenuProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface DisplaySettingsMenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   // Palette is required (no implicit default), matching PaletteSwitcher.
   paletteOptions: ReadonlyArray<DisplaySettingsOption>
   paletteDefaultValue?: string
-  paletteStorageKey?: string   // default: 'palette'
-  paletteAttribute?: string    // default: 'data-palette'
+  paletteStorageKey?: string // default: 'palette'
+  paletteAttribute?: string // default: 'data-palette'
 
-  themeOptions?: ReadonlyArray<DisplaySettingsOption>   // default: Light/Dark
-  themeDefaultValue?: string   // default: 'light'
-  themeStorageKey?: string     // default: 'theme'
-  themeAttribute?: string      // default: 'data-theme'
+  themeOptions?: ReadonlyArray<DisplaySettingsOption> // default: Light/Dark
+  themeDefaultValue?: string // default: 'light'
+  themeStorageKey?: string // default: 'theme'
+  themeAttribute?: string // default: 'data-theme'
 
   densityOptions?: ReadonlyArray<DisplaySettingsOption> // default: Compatta/Normale/Ampia
   densityDefaultValue?: string // default: 'normal'
-  densityStorageKey?: string   // default: 'density'
-  densityAttribute?: string    // default: 'data-density'
+  densityStorageKey?: string // default: 'density'
+  densityAttribute?: string // default: 'data-density'
 
-  triggerLabel?: string        // default: 'Display settings'
-  themeLabel?: string          // default: 'Theme'
-  paletteLabel?: string        // default: 'Palette'
-  densityLabel?: string        // default: 'Density'
+  triggerLabel?: string // default: 'Display settings'
+  themeLabel?: string // default: 'Theme'
+  paletteLabel?: string // default: 'Palette'
+  densityLabel?: string // default: 'Density'
 }
 ```
 
