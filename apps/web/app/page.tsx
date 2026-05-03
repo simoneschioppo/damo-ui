@@ -63,10 +63,10 @@ export default function HomePage() {
             }}
           />
           <img
-            src={BRAND.mascotSrc}
-            alt={BRAND.mascotAlt}
-            width={400}
-            height={Math.round(400 * (BRAND.mascotHeight / BRAND.mascotWidth))}
+            src={BRAND.mascotHeroSrc}
+            alt={BRAND.mascotHeroAlt}
+            width={320}
+            height={Math.round(320 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
             className="relative drop-shadow-[6px_6px_0_var(--memphis-shadow-color)]"
             style={{ transform: 'rotate(-4deg)' }}
           />
