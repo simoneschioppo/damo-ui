@@ -76,6 +76,7 @@
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
+  --radius-selection: var(--radius-selection);
   --radius-pill: var(--radius-pill);
   --radius-full: var(--radius-full);
 
