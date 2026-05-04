@@ -82,6 +82,55 @@ test.describe('DisplaySettingsMenu (topbar)', () => {
     expect(onNormal).toEqual(compact)
   })
 
+  test('keeps the trigger visually pressed for the menu lifetime', async ({ page }) => {
+    // Radix releases :active on the trigger as soon as the portal takes focus,
+    // so the Memphis press animation visibly snaps back mid-flight. The fix
+    // mirrors the active styles via data-[state=open] so the trigger stays
+    // engaged (translate 3px, smaller offset shadow) while the menu is open
+    // and only releases when the menu closes.
+    //
+    // Locate via the stable wrapper attribute — Radix mutates aria attrs on
+    // the trigger when the menu opens which makes role+name lookups flaky.
+    const trigger = page.locator('[data-component="display-settings-menu"] > button')
+
+    // Tailwind v4 emits the press as the standalone `translate:` property
+    // (not `transform: translate(...)`), which browsers report as a distinct
+    // computed value. Reading `transform` here would show "none" even when
+    // the press is active, so the assertion uses `translate` directly.
+    async function pressState() {
+      return trigger.evaluate((el) => {
+        const style = window.getComputedStyle(el)
+        return { translate: style.translate, boxShadow: style.boxShadow }
+      })
+    }
+
+    // Resting state — no translate, full Memphis offset shadow.
+    await expect(trigger).toHaveAttribute('data-state', 'closed')
+    const resting = await pressState()
+    expect(resting.translate === 'none' || resting.translate === '0px 0px').toBe(true)
+    const restingShadow = resting.boxShadow
+
+    await trigger.click()
+    await expect(page.getByRole('menu')).toBeVisible()
+
+    // Open state — translated by 3px on both axes, smaller offset shadow.
+    await expect(trigger).toHaveAttribute('data-state', 'open')
+    const open = await pressState()
+    expect(open.translate).toBe('3px 3px')
+    expect(open.boxShadow).not.toBe(restingShadow)
+
+    // Close the menu and the trigger releases back to its resting press state.
+    // Move the pointer off the trigger so :hover doesn't hold a translate-px
+    // and the 80ms duration-snap transition can settle.
+    await page.keyboard.press('Escape')
+    await expect(page.getByRole('menu')).toHaveCount(0)
+    await expect(trigger).toHaveAttribute('data-state', 'closed')
+    await page.mouse.move(0, 0)
+    await expect
+      .poll(async () => (await pressState()).translate, { timeout: 2_000 })
+      .toMatch(/^(none|0px 0px)$/)
+  })
+
   test('opens via keyboard from a focused trigger and supports keyboard selection', async ({
     page,
   }) => {
