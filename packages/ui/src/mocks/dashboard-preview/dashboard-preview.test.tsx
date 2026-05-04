@@ -37,7 +37,11 @@ describe('DashboardPreview', () => {
     const bars = getAllByTestId('dashboard-bar')
     const usesChartTokens = bars.every((bar) => {
       const cls = bar.className
-      return (cls.includes('bg-chart-1') || cls.includes('bg-chart-2')) && !cls.includes('bg-primary') && !cls.includes('bg-secondary')
+      return (
+        (cls.includes('bg-chart-1') || cls.includes('bg-chart-2')) &&
+        !cls.includes('bg-primary') &&
+        !cls.includes('bg-secondary')
+      )
     })
     expect(usesChartTokens).toBe(true)
     // The single highlighted bar should pick chart-2; the rest chart-1.
