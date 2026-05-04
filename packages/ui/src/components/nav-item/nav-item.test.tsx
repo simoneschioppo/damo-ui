@@ -83,6 +83,9 @@ describe('NavItem default tone — selection chrome', () => {
     expect(cls).toContain('aria-[current=page]:before:absolute')
     expect(cls).toContain('aria-[current=page]:before:w-[3px]')
     expect(cls).toContain('aria-[current=page]:before:bg-primary')
+    // New `selection` radius token — drives the chrome rounding through the
+    // theme generator instead of being hardcoded.
+    expect(cls).toContain('aria-[current=page]:rounded-selection')
   })
 
   it('does NOT apply selection chrome when inactive', () => {
