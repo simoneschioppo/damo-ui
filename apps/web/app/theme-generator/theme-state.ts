@@ -18,7 +18,7 @@
 export type ThemeMode = 'light' | 'dark'
 
 export type TypographySizeKey = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'
-export type RadiusKey = 'none' | 'sm' | 'md' | 'lg' | 'pill' | 'full'
+export type RadiusKey = 'none' | 'sm' | 'md' | 'lg' | 'selection' | 'pill' | 'full'
 export type ShadowMemphisKey = 'sm' | 'card' | 'md' | 'lg' | 'hover' | 'active'
 export type ShadowSoftKey = 'sm' | 'md' | 'lg'
 export type MotionDurationKey = 'snap' | 'fast' | 'base' | 'slow'
@@ -381,7 +381,17 @@ const DEFAULT_TYPOGRAPHY: TypographyFoundation = {
   sizes: { xs: 12, sm: 14, base: 16, lg: 18, xl: 20, '2xl': 24, '3xl': 30 },
 }
 
-const DEFAULT_RADIUS: RadiusFoundation = { none: 0, sm: 2, md: 4, lg: 8, pill: 999, full: 50 }
+const DEFAULT_RADIUS: RadiusFoundation = {
+  none: 0,
+  sm: 2,
+  md: 4,
+  lg: 8,
+  // `selection` controls the rounding of "selected" chrome on NavItem and
+  // DropdownMenuRadioItem. Defaulted to 10px to match the reference design.
+  selection: 10,
+  pill: 999,
+  full: 50,
+}
 
 const DEFAULT_SHADOW_MEMPHIS: ShadowMemphisFoundation = {
   sm: { x: 3, y: 3, color: '#000000' },
