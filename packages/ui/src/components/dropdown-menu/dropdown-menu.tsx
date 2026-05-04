@@ -42,7 +42,11 @@ const itemBaseClass = cn(
   'relative flex select-none items-center gap-2',
   'px-2.5 py-1.5 text-[13px] font-body font-medium rounded-none outline-none cursor-pointer',
   'transition-colors duration-snap ease-memphis',
-  'focus:bg-secondary focus:text-secondary-foreground',
+  // Hover/focus highlight: a soft tint instead of the previous solid
+  // bg-secondary slab. The slab fought visually with the new outlined
+  // selection chrome on radio items, and read as too aggressive even on
+  // plain Items where it was originally intended for keyboard a11y only.
+  'focus:bg-foreground/5 focus:text-foreground',
   'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
 )
 
@@ -90,21 +94,24 @@ export const DropdownMenuRadioItem = forwardRef<
       className={cn(
         itemBaseClass,
         'pl-8 pr-2',
-        // Active radio item adopts secondary chrome regardless of focus state
-        // so the current selection stays obvious after the menu loses focus.
-        'data-[state=checked]:bg-secondary data-[state=checked]:text-secondary-foreground',
+        // Selected radio item: subtle gradient + 1px inset outline + 3px
+        // ::before bar pinned to the inner left edge. Mirrors the NavItem
+        // selection chrome so persistent selection reads consistently across
+        // the library (sidebar entries, settings menus, etc.).
+        'data-[state=checked]:text-foreground',
+        'data-[state=checked]:rounded-selection',
+        'data-[state=checked]:bg-[linear-gradient(135deg,color-mix(in_oklab,var(--primary)_18%,transparent),color-mix(in_oklab,var(--secondary)_10%,transparent))]',
+        'data-[state=checked]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--primary)_30%,transparent)]',
+        'data-[state=checked]:before:content-[""] data-[state=checked]:before:absolute',
+        // Bar sits inside the menu panel (overflow-hidden), so we keep it
+        // flush at left-1 instead of bleeding outwards like NavItem does.
+        'data-[state=checked]:before:left-1 data-[state=checked]:before:top-1.5 data-[state=checked]:before:bottom-1.5',
+        'data-[state=checked]:before:w-[3px] data-[state=checked]:before:rounded-[2px]',
+        'data-[state=checked]:before:bg-primary',
         className,
       )}
       {...rest}
     >
-      <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
-        <DropdownMenuPrimitive.ItemIndicator>
-          <span
-            className="h-2.5 w-2.5 border-2 border-memphis bg-secondary-foreground"
-            aria-hidden
-          />
-        </DropdownMenuPrimitive.ItemIndicator>
-      </span>
       {children}
     </DropdownMenuPrimitive.RadioItem>
   )
