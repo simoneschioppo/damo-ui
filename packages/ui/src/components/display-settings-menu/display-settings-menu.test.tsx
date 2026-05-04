@@ -53,6 +53,21 @@ describe('DisplaySettingsMenu', () => {
     expect(screen.getByText('Density')).toBeInTheDocument()
   })
 
+  it('keeps the trigger visually pressed while the menu is open', async () => {
+    // Radix releases :active on the trigger as soon as focus moves into the
+    // portal, so the press animation snaps back mid-flight. The data-state
+    // mirror on Button keeps the trigger engaged for the menu's full lifetime.
+    const user = userEvent.setup()
+    render(<DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} />)
+    const trigger = screen.getByRole('button', { name: 'Display settings' })
+    expect(trigger.getAttribute('data-state')).toBe('closed')
+    await openMenu(user)
+    expect(trigger.getAttribute('data-state')).toBe('open')
+    expect(trigger.className).toContain('data-[state=open]:translate-x-[3px]')
+    expect(trigger.className).toContain('data-[state=open]:translate-y-[3px]')
+    expect(trigger.className).toContain('data-[state=open]:shadow-memphis-active')
+  })
+
   it('renders the expected number of radio items per group', async () => {
     const user = userEvent.setup()
     render(<DisplaySettingsMenu paletteOptions={PALETTE_OPTIONS} />)
