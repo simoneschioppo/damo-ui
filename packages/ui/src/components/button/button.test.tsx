@@ -119,6 +119,36 @@ describe('Button', () => {
     expect(btn.className).toContain('text-destructive-foreground')
   })
 
+  describe('data-[state=open] press affordance', () => {
+    // Radix Popper triggers (DropdownMenu, Popover, etc.) set data-state="open"
+    // on the trigger while the surface is visible. Mirroring the :active press
+    // styles via data-[state=open] keeps the button visually engaged for the
+    // full lifetime of the menu instead of snapping back when the browser
+    // releases :active as focus moves into the portal.
+    for (const variant of ['primary', 'secondary', 'ghost', 'destructive'] as const) {
+      it(`mirrors the active press transform on data-[state=open] for ${variant}`, () => {
+        const { getByRole } = render(<Button variant={variant}>Open menu</Button>)
+        const btn = getByRole('button')
+        expect(btn.className).toContain('data-[state=open]:translate-x-[3px]')
+        expect(btn.className).toContain('data-[state=open]:translate-y-[3px]')
+        expect(btn.className).toContain('data-[state=open]:shadow-memphis-active')
+      })
+    }
+
+    it('does not apply the data-[state=open] press to the outline variant', () => {
+      const { getByRole } = render(<Button variant="outline">Open menu</Button>)
+      const btn = getByRole('button')
+      // Outline has no :active press to mirror — keep parity by skipping it
+      expect(btn.className).not.toContain('data-[state=open]:translate-x-[3px]')
+    })
+
+    it('does not apply the data-[state=open] press to the link variant', () => {
+      const { getByRole } = render(<Button variant="link">Open menu</Button>)
+      const btn = getByRole('button')
+      expect(btn.className).not.toContain('data-[state=open]:translate-x-[3px]')
+    })
+  })
+
   describe('asChild', () => {
     it('renders the child element instead of a <button>', () => {
       const { getByRole, queryByRole } = render(
