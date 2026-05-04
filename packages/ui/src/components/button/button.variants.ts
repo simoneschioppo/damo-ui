@@ -15,6 +15,11 @@ export const buttonVariants = cva(
           'border-2 border-memphis shadow-memphis rounded-none',
           'hover:bg-primary/90 hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis-hover',
           'active:translate-x-[3px] active:translate-y-[3px] active:shadow-memphis-active',
+          // Radix Popper triggers (DropdownMenu, Popover, …) interrupt :active
+          // when the surface opens and focus moves into the portal. Mirroring
+          // the press on data-[state=open] keeps the affordance engaged for
+          // the full lifetime of the menu instead of snapping back mid-press.
+          'data-[state=open]:translate-x-[3px] data-[state=open]:translate-y-[3px] data-[state=open]:shadow-memphis-active',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
         secondary: [
@@ -22,6 +27,7 @@ export const buttonVariants = cva(
           'border-2 border-memphis shadow-memphis rounded-none',
           'hover:bg-secondary/80 hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis-hover',
           'active:translate-x-[3px] active:translate-y-[3px] active:shadow-memphis-active',
+          'data-[state=open]:translate-x-[3px] data-[state=open]:translate-y-[3px] data-[state=open]:shadow-memphis-active',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
         ghost: [
@@ -30,6 +36,7 @@ export const buttonVariants = cva(
           '[--memphis-shadow-color:var(--primary)] shadow-memphis',
           'hover:bg-muted hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis-hover',
           'active:translate-x-[3px] active:translate-y-[3px] active:shadow-memphis-active',
+          'data-[state=open]:translate-x-[3px] data-[state=open]:translate-y-[3px] data-[state=open]:shadow-memphis-active',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
         destructive: [
@@ -37,6 +44,7 @@ export const buttonVariants = cva(
           'border-2 border-memphis shadow-memphis rounded-none',
           'hover:brightness-110 hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis-hover',
           'active:translate-x-[3px] active:translate-y-[3px] active:shadow-memphis-active',
+          'data-[state=open]:translate-x-[3px] data-[state=open]:translate-y-[3px] data-[state=open]:shadow-memphis-active',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
         outline: [
