@@ -71,6 +71,9 @@ describe('DropdownMenuRadioItem — checked state chrome', () => {
     expect(cls).toContain('data-[state=checked]:before:absolute')
     expect(cls).toContain('data-[state=checked]:before:w-[3px]')
     expect(cls).toContain('data-[state=checked]:before:bg-primary')
+    // New `selection` radius token — the chrome rounding is now configurable
+    // through the theme generator instead of being hardcoded.
+    expect(cls).toContain('data-[state=checked]:rounded-selection')
 
     // Crucially: the previous solid fill must be gone. We check that no
     // `data-[state=checked]:bg-secondary` rule slipped through twMerge.
@@ -93,7 +96,7 @@ describe('DropdownMenuRadioItem — checked state chrome', () => {
     expect(checked.getAttribute('aria-checked')).toBe('true')
   })
 
-  it('keeps both focus:bg-secondary and the data-[state=checked] gradient after twMerge', () => {
+  it('keeps both the soft focus tint and the data-[state=checked] gradient after twMerge', () => {
     // Compound state guard: when a checked item also receives focus, the
     // background utilities are gated on different variants (focus: vs
     // data-[state=checked]:) so twMerge MUST keep both — losing either one
@@ -102,13 +105,13 @@ describe('DropdownMenuRadioItem — checked state chrome', () => {
     // both states are active simultaneously.
     renderRadioMenu('a')
     const cls = screen.getByRole('menuitemradio', { name: 'Alpha' }).className
-    expect(cls).toContain('focus:bg-secondary')
+    expect(cls).toContain('focus:bg-foreground/5')
     expect(cls).toMatch(/data-\[state=checked\]:bg-\[linear-gradient\(/)
   })
 })
 
-describe('DropdownMenuItem — preserved focus chrome', () => {
-  it('keeps focus:bg-secondary as the hover/focus highlight', () => {
+describe('DropdownMenuItem — focus chrome', () => {
+  it('uses a soft tint for the focus/hover highlight (no solid secondary slab)', () => {
     render(
       <DropdownMenu defaultOpen>
         <DropdownMenuTrigger>open</DropdownMenuTrigger>
@@ -118,11 +121,12 @@ describe('DropdownMenuItem — preserved focus chrome', () => {
       </DropdownMenu>,
     )
     const item = screen.getByRole('menuitem')
-    // Focus styling for non-radio items is unchanged: solid secondary fill is
-    // still the right read for ephemeral focus/hover (the new outlined recipe
-    // is reserved for *persistent* selection on radio items).
-    expect(item.className).toContain('focus:bg-secondary')
-    expect(item.className).toContain('focus:text-secondary-foreground')
+    // The previous focus:bg-secondary slab read as too aggressive next to the
+    // new outlined selection chrome on radio items. We now use a low-opacity
+    // foreground tint that's visible for keyboard a11y but not visually loud.
+    expect(item.className).toContain('focus:bg-foreground/5')
+    expect(item.className).toContain('focus:text-foreground')
+    expect(item.className).not.toContain('focus:bg-secondary')
   })
 })
 
@@ -137,7 +141,7 @@ describe('DropdownMenuCheckboxItem — preserved behavior', () => {
       </DropdownMenu>,
     )
     const item = screen.getByRole('menuitemcheckbox')
-    expect(item.className).toContain('focus:bg-secondary')
+    expect(item.className).toContain('focus:bg-foreground/5')
     expect(item.className).toContain('pl-8')
   })
 })
