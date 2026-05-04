@@ -43,6 +43,7 @@ const preset: Partial<Config> = {
         sm: 'var(--radius-sm)',
         md: 'var(--radius-md)',
         lg: 'var(--radius-lg)',
+        selection: 'var(--radius-selection)',
         pill: 'var(--radius-pill)',
         full: 'var(--radius-full)',
       },

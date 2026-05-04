@@ -38,8 +38,8 @@ export function SampleDialog() {
         <DialogHeader>
           <DialogTitle>Pubblica nuova release</DialogTitle>
           <DialogDescription>
-            Questa è una modale di esempio. Surface, bordo, shadow, tipografia
-            e bottoni seguono i token correnti del theme generator.
+            Questa è una modale di esempio. Surface, bordo, shadow, tipografia e bottoni seguono i
+            token correnti del theme generator.
           </DialogDescription>
         </DialogHeader>
 
@@ -52,9 +52,8 @@ export function SampleDialog() {
           <Label htmlFor="sample-dialog-version">Tag versione</Label>
           <Input id="sample-dialog-version" defaultValue="v1.4.3-beta" />
           <p className="text-sm text-muted-foreground m-0">
-            Puoi cambiare i token nel pannello di sinistra: la modale qui
-            sopra si aggiorna live, così verifichi come si presenta con il
-            tema applicato.
+            Puoi cambiare i token nel pannello di sinistra: la modale qui sopra si aggiorna live,
+            così verifichi come si presenta con il tema applicato.
           </p>
         </div>
 

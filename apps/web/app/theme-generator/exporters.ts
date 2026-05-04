@@ -51,7 +51,15 @@ const ALL_FLAGS_TRUE: IncludeFlags = {
 // ─── Key arrays ──────────────────────────────────────────────
 
 const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl']
-const RADIUS_KEYS: ReadonlyArray<RadiusKey> = ['none', 'sm', 'md', 'lg', 'pill', 'full']
+const RADIUS_KEYS: ReadonlyArray<RadiusKey> = [
+  'none',
+  'sm',
+  'md',
+  'lg',
+  'selection',
+  'pill',
+  'full',
+]
 const SHADOW_MEMPHIS_KEYS: ReadonlyArray<ShadowMemphisKey> = [
   'sm',
   'card',

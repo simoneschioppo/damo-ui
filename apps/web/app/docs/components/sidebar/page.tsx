@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import {
+  NavItem,
   Sidebar,
   SidebarHeader,
   SidebarBrand,
@@ -78,11 +79,18 @@ export default function SidebarDocsPage() {
               <SidebarSubtitle>DOCS</SidebarSubtitle>
             </SidebarHeader>
             <SidebarBody>
-              <div className="px-3 py-2 text-[13px] text-foreground/80">Getting Started</div>
-              <div className="px-3 py-2 text-[13px] text-foreground/80 border-l-2 border-primary bg-muted/40 font-semibold">
+              {/* Use the library NavItem so the live preview always reflects
+                  the current selection chrome (gradient + outline + bar +
+                  rounded-selection) instead of drifting from a static replica. */}
+              <NavItem as="span" className="px-3 py-1.5 text-[13px]">
+                Getting Started
+              </NavItem>
+              <NavItem as="span" active className="px-3 py-1.5 text-[13px]">
                 Button
-              </div>
-              <div className="px-3 py-2 text-[13px] text-foreground/80">Card</div>
+              </NavItem>
+              <NavItem as="span" className="px-3 py-1.5 text-[13px]">
+                Card
+              </NavItem>
             </SidebarBody>
             <SidebarFooter>v0.3.0</SidebarFooter>
           </Sidebar>

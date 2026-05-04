@@ -188,6 +188,9 @@ describe('exporters', () => {
       expect(css).toContain('--space-4:')
       expect(css).toContain('--z-modal:')
       expect(css).toContain('--radius-lg:')
+      // `selection` is the dedicated radius for selected NavItem / DropdownMenu
+      // chrome — must appear in foundations exports so consumers can theme it.
+      expect(css).toContain('--radius-selection:')
     })
 
     it('emits nothing when all flags are false', () => {
