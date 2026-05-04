@@ -2,7 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Sidebar, SidebarBody, SidebarBrand, SidebarHeader, SidebarSubtitle } from '@damo/ui'
+import {
+  NavItem,
+  Sidebar,
+  SidebarBody,
+  SidebarBrand,
+  SidebarHeader,
+  SidebarSubtitle,
+} from '@damo/ui'
 import { BRAND } from '../../../lib/brand'
 
 export interface DocsNavEntry {
@@ -49,10 +56,11 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
 const groupTitleClass =
   'font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground px-3 mt-4 mb-2'
 
-const linkClass =
-  'block px-3 py-1.5 text-[13px] text-foreground/80 no-underline border-l-2 border-transparent hover:bg-muted/30 transition-colors'
-
-const linkActiveClass = 'border-l-primary bg-muted/40 text-foreground font-semibold'
+// Keep docs density tighter than NavItem's default (px-3 py-2.5 text-sm) — the
+// docs sidebar lists many entries per group, so the smaller padding/text reads
+// better here. NavItem still owns the selection chrome (gradient + outline +
+// accent bar via tone="default").
+const docsNavItemClass = 'px-3 py-1.5 text-[13px]'
 
 const stubBadgeClass =
   'ml-2 inline-block px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-[0.1em] border border-memphis text-muted-foreground'
@@ -74,15 +82,20 @@ export function DocsSidebar() {
               {group.entries.map((entry) => {
                 const isActive = pathname === entry.slug
                 return (
-                  <Link
+                  <NavItem
                     key={entry.slug}
+                    as={Link}
                     href={entry.slug}
-                    aria-current={isActive ? 'page' : undefined}
-                    className={`${linkClass} ${isActive ? linkActiveClass : ''}`}
+                    active={isActive}
+                    className={docsNavItemClass}
+                    endAdornment={
+                      entry.status === 'stub' ? (
+                        <span className={stubBadgeClass}>SOON</span>
+                      ) : undefined
+                    }
                   >
                     {entry.label}
-                    {entry.status === 'stub' && <span className={stubBadgeClass}>SOON</span>}
-                  </Link>
+                  </NavItem>
                 )
               })}
             </nav>
