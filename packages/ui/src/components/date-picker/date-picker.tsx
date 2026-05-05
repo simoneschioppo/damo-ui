@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { it as itLocale } from 'date-fns/locale'
 import 'react-day-picker/style.css'
 import { Popover, PopoverTrigger, PopoverContent } from '../popover/popover'
-import { ChevronLeftIcon, ChevronRightIcon } from '../../icons'
+import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon } from '../../icons'
 import { cn } from '../../lib/cn'
 
 export interface DatePickerProps extends Omit<DayPickerProps, 'mode'> {
@@ -68,7 +68,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
             <span>
               {selected ? format(selected, formatStr, { locale: itLocale }) : placeholder}
             </span>
-            <span aria-hidden="true">📅</span>
+            <CalendarIcon size={16} className="shrink-0 text-muted-foreground" />
           </button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-2" align="start">
