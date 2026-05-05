@@ -83,17 +83,18 @@ describe('ComponentsPreview', () => {
     }
   })
 
-  it('renders an App pattern swatch consuming --app-pattern-* CSS variables', () => {
+  it('renders the App pattern swatch in the data display section, next to Charts', () => {
     render(<ComponentsPreview />)
-    const layout = document.getElementById('layout') as HTMLElement
-    expect(layout).not.toBeNull()
-    const scoped = within(layout)
+    // App pattern is an identity-driven decorative surface and lives next to
+    // Charts (also identity-driven) — moved out of Layout primitives where
+    // it had no semantic relation to its neighbours.
+    const data = document.getElementById('data') as HTMLElement
+    expect(data).not.toBeNull()
+    const scoped = within(data)
     expect(scoped.getByText('App pattern')).toBeInTheDocument()
-    const swatch = layout.querySelector('[data-testid="app-pattern-swatch"]')
+    const swatch = data.querySelector('[data-testid="app-pattern-swatch"]')
     expect(swatch).not.toBeNull()
     const bg = (swatch as HTMLElement).style.backgroundImage
-    // The swatch interpolates the three pattern colour variables via inline
-    // style so the test confirms each one is read at render time.
     expect(bg).toContain('--app-pattern-color-1')
     expect(bg).toContain('--app-pattern-color-2')
     expect(bg).toContain('--app-pattern-color-3')
