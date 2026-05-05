@@ -60,7 +60,7 @@ const SHADOW_MEMPHIS_KEYS: ReadonlyArray<ShadowMemphisKey> = [
   'active',
 ]
 const DURATION_KEYS: ReadonlyArray<MotionDurationKey> = ['snap', 'fast', 'base', 'slow']
-const EASING_KEYS: ReadonlyArray<MotionEasingKey> = ['memphis', 'out', 'in-out']
+const EASING_KEYS: ReadonlyArray<MotionEasingKey> = ['memphis', 'out']
 const MEDAL_RANKS: ReadonlyArray<MedalRank> = ['bronze', 'silver', 'gold', 'master', 'grandmaster']
 
 const CHART_KEYS = ['1', '2', '3', '4', '5'] as const
@@ -216,8 +216,6 @@ function emitFoundationsLight(theme: Theme, lines: string[]): void {
 
   // Static (mode-agnostic) tokens — emitted only once in the light block
   lines.push(`  /* Z-index */`)
-  lines.push(`  --z-base: 0;`)
-  lines.push(`  --z-sticky: 100;`)
   lines.push(`  --z-header: 200;`)
   lines.push(`  --z-dropdown: 300;`)
   lines.push(`  --z-overlay: 400;`)
@@ -377,18 +375,8 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
     })
     inner.push(`  --ease-memphis: var(--ease-memphis);`)
     inner.push(`  --ease-out: var(--ease-out);`)
-    inner.push(`  --ease-in-out: var(--ease-in-out);`)
 
-    const Z_KEYS = [
-      'base',
-      'sticky',
-      'header',
-      'dropdown',
-      'overlay',
-      'modal',
-      'toast',
-      'tooltip',
-    ] as const
+    const Z_KEYS = ['header', 'dropdown', 'overlay', 'modal', 'toast', 'tooltip'] as const
     Z_KEYS.forEach((k) => {
       inner.push(`  --z-index-${k}: var(--z-${k});`)
     })
