@@ -106,7 +106,6 @@ const DURATION_KEYS: ReadonlyArray<MotionDurationKey> = ['snap', 'fast', 'base',
 const EASING_CHOICES: ReadonlyArray<{ value: string; label: string }> = [
   { value: 'cubic-bezier(0.4, 1.3, 0.5, 1)', label: 'memphis (default)' },
   { value: 'cubic-bezier(0.2, 0.9, 0.3, 1)', label: 'out' },
-  { value: 'cubic-bezier(0.4, 0, 0.2, 1)', label: 'in-out' },
   { value: 'linear', label: 'linear' },
   { value: 'ease', label: 'ease' },
   { value: 'ease-in', label: 'ease-in' },
@@ -879,7 +878,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
               )
             })}
             <span className="eyebrow">Easings</span>
-            {(['memphis', 'out', 'in-out'] as const).map((k) => {
+            {(['memphis', 'out'] as const).map((k) => {
               const lightVal = theme.motion.light.easings[k]
               const darkVal = theme.motion.dark.easings[k]
               return (
