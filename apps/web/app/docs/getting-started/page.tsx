@@ -39,12 +39,7 @@ export default function Page() {
 `
 
 const ROOT_LAYOUT_SNIPPET = `// app/layout.tsx
-import {
-  AppTopBar,
-  ThemeSwitcher,
-  PaletteSwitcher,
-  DensitySwitcher,
-} from '@damo/ui'
+import { AppTopBar, AttrToggleGroup } from '@damo/ui'
 
 export default function RootLayout({ children }) {
   return (
@@ -60,15 +55,38 @@ export default function RootLayout({ children }) {
           logo={<a href="/">Brand</a>}
           actions={
             <>
-              <ThemeSwitcher />
-              <PaletteSwitcher
-                defaultValue="default"
+              <AttrToggleGroup
+                label="Theme"
+                storageKey="theme"
+                attribute="data-theme"
+                options={[
+                  { value: 'light', label: 'Light' },
+                  { value: 'dark',  label: 'Dark' },
+                ]}
+                defaultValue="light"
+              />
+              <AttrToggleGroup
+                label="Palette"
+                variant="select"
+                storageKey="palette"
+                attribute="data-palette"
                 options={[
                   { value: 'default', label: 'Default' },
                   { value: 'neon',    label: 'Neon' },
                 ]}
+                defaultValue="default"
               />
-              <DensitySwitcher />
+              <AttrToggleGroup
+                label="Density"
+                storageKey="density"
+                attribute="data-density"
+                options={[
+                  { value: 'compact',     label: 'Compatta' },
+                  { value: 'normal',      label: 'Normale' },
+                  { value: 'comfortable', label: 'Ampia' },
+                ]}
+                defaultValue="normal"
+              />
             </>
           }
         />
@@ -150,17 +168,17 @@ export default function GettingStartedPage() {
           <li>
             <code className="font-mono">data-theme</code> — the lib ships{' '}
             <strong>light only</strong>; declare your own{' '}
-            <code className="font-mono">[data-theme=&apos;dark&apos;]</code> CSS overrides. The
-            built-in <code className="font-mono">ThemeSwitcher</code> defaults to{' '}
-            <code className="font-mono">&apos;light&apos;</code> /{' '}
-            <code className="font-mono">&apos;dark&apos;</code>.
+            <code className="font-mono">[data-theme=&apos;dark&apos;]</code> CSS overrides. Wire a{' '}
+            <code className="font-mono">{`<AttrToggleGroup attribute="data-theme">`}</code> to
+            switch between values.
           </li>
           <li>
             <code className="font-mono">data-palette</code> — <strong>no built-ins</strong>; the
             lib&rsquo;s neutral defaults assume a single palette. Define{' '}
             <code className="font-mono">[data-palette=&apos;neon&apos;]</code>,{' '}
             <code className="font-mono">[data-palette=&apos;sunset&apos;]</code>, etc., and pass the
-            list to <code className="font-mono">PaletteSwitcher</code>.
+            same list to{' '}
+            <code className="font-mono">{`<AttrToggleGroup attribute="data-palette">`}</code>.
           </li>
           <li>
             <code className="font-mono">data-density</code> — built-in:{' '}

@@ -58,12 +58,16 @@ export const TableFooter = forwardRef<
 
 export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(
   function TableRow({ className, ...rest }, ref) {
+    // No default hover effect — tables aren't always clickable, and the hover
+    // tint was bleeding into the header row in particular. Consumers that
+    // render interactive rows can re-add `hover:bg-muted` via className. The
+    // explicit `data-state=selected` highlight is preserved so controlled
+    // selection still gets a visible state.
     return (
       <tr
         ref={ref}
         className={cn(
           'border-b border-border transition-colors',
-          'hover:bg-muted',
           'data-[state=selected]:bg-muted',
           className,
         )}
@@ -99,7 +103,9 @@ export const TableCaption = forwardRef<
   HTMLTableCaptionElement,
   HTMLAttributes<HTMLTableCaptionElement>
 >(function TableCaption({ className, ...rest }, ref) {
+  // Symmetric vertical padding so the caption reads vertically centered
+  // inside the strip the browser draws below the table (caption-bottom).
   return (
-    <caption ref={ref} className={cn('mt-3 text-sm text-muted-foreground', className)} {...rest} />
+    <caption ref={ref} className={cn('py-3 text-sm text-muted-foreground', className)} {...rest} />
   )
 })
