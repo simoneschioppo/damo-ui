@@ -23,7 +23,7 @@ export const ArticleCard = forwardRef<HTMLDivElement, ArticleCardProps>(function
   return (
     <div
       ref={ref}
-      className={cn('p-6 border-2 border-memphis bg-card', className)}
+      className={cn('p-6 border-2 border-memphis rounded-none bg-card', className)}
       style={{ maxWidth: '420px', boxShadow: 'var(--shadow-memphis-card)' }}
       {...rest}
     >
