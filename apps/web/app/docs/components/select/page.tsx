@@ -1,0 +1,193 @@
+import Link from 'next/link'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+} from '@damo/ui'
+import { Code } from '../../_components/Code'
+import { Example } from '../../_components/Example'
+import { PropsTable, type PropDef } from '../../_components/PropsTable'
+import { BRAND } from '../../../../lib/brand'
+
+const IMPORT_SNIPPET = `import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  SelectGroup,
+  SelectLabel,
+  SelectSeparator,
+} from '@damo/ui'`
+
+const BASIC_SNIPPET = `<Select defaultValue="medium">
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Pick a size" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="small">Small</SelectItem>
+    <SelectItem value="medium">Medium</SelectItem>
+    <SelectItem value="large">Large</SelectItem>
+  </SelectContent>
+</Select>`
+
+const GROUPED_SNIPPET = `<Select>
+  <SelectTrigger className="w-[220px]">
+    <SelectValue placeholder="Pick a country" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>Europe</SelectLabel>
+      <SelectItem value="it">Italy</SelectItem>
+      <SelectItem value="fr">France</SelectItem>
+      <SelectItem value="de">Germany</SelectItem>
+    </SelectGroup>
+    <SelectSeparator />
+    <SelectGroup>
+      <SelectLabel>Americas</SelectLabel>
+      <SelectItem value="us">United States</SelectItem>
+      <SelectItem value="br">Brazil</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>`
+
+const PROPS: ReadonlyArray<PropDef> = [
+  {
+    name: 'value',
+    type: 'string',
+    description: 'Controlled selected value. Pair with `onValueChange`.',
+  },
+  {
+    name: 'defaultValue',
+    type: 'string',
+    description: 'Uncontrolled initial selected value.',
+  },
+  {
+    name: 'onValueChange',
+    type: '(value: string) => void',
+    description: 'Fires whenever the selection changes.',
+  },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    description: 'Disables the trigger.',
+  },
+  {
+    name: 'name',
+    type: 'string',
+    description: 'Native form name.',
+  },
+  {
+    name: 'open',
+    type: 'boolean',
+    description: 'Controlled open state of the dropdown. Pair with `onOpenChange`.',
+  },
+  {
+    name: 'onOpenChange',
+    type: '(open: boolean) => void',
+    description: 'Fires whenever the dropdown opens or closes.',
+  },
+]
+
+export const metadata = { title: `Select — ${BRAND.libName}` }
+
+export default function SelectDocsPage() {
+  return (
+    <article>
+      <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
+        FORMS
+      </div>
+      <h1 className="font-display text-5xl leading-[0.95] mb-4">Select</h1>
+      <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
+        Composable dropdown built on Radix Select. Same Memphis border + focus shadow as{' '}
+        <Link href="/docs/components/input" className="text-primary underline">
+          Input
+        </Link>
+        . For multi-select or fuzzy search, reach for{' '}
+        <Link href="/docs/components/combobox" className="text-primary underline">
+          Combobox
+        </Link>
+        .
+      </p>
+
+      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <Code code={IMPORT_SNIPPET} lang="tsx" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Basic usage</h2>
+      <Example code={BASIC_SNIPPET}>
+        <Select defaultValue="medium">
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Pick a size" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="small">Small</SelectItem>
+            <SelectItem value="medium">Medium</SelectItem>
+            <SelectItem value="large">Large</SelectItem>
+          </SelectContent>
+        </Select>
+      </Example>
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Grouped options</h2>
+      <p className="text-foreground/80 mb-3">
+        Wrap related items in <code className="font-mono">SelectGroup</code> with a non-interactive{' '}
+        <code className="font-mono">SelectLabel</code>. Use{' '}
+        <code className="font-mono">SelectSeparator</code> between groups.
+      </p>
+      <Example code={GROUPED_SNIPPET}>
+        <Select>
+          <SelectTrigger className="w-[220px]">
+            <SelectValue placeholder="Pick a country" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Europe</SelectLabel>
+              <SelectItem value="it">Italy</SelectItem>
+              <SelectItem value="fr">France</SelectItem>
+              <SelectItem value="de">Germany</SelectItem>
+            </SelectGroup>
+            <SelectSeparator />
+            <SelectGroup>
+              <SelectLabel>Americas</SelectLabel>
+              <SelectItem value="us">United States</SelectItem>
+              <SelectItem value="br">Brazil</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </Example>
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Props (Select root)</h2>
+      <PropsTable props={PROPS} caption="Select props" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>
+          Trigger renders <code className="font-mono">role=&quot;combobox&quot;</code> with{' '}
+          <code className="font-mono">aria-expanded</code> and{' '}
+          <code className="font-mono">aria-controls</code>.
+        </li>
+        <li>
+          Inherits Radix Select keyboard support: type-ahead, arrow navigation, Home/End, Esc to
+          close.
+        </li>
+        <li>
+          Provide a label for the trigger via <code className="font-mono">FormField</code> or{' '}
+          <code className="font-mono">aria-labelledby</code> when no visible label exists.
+        </li>
+      </ul>
+
+      <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
+        <Link href="/docs/components/segmented-control" className="text-primary underline">
+          ← SegmentedControl
+        </Link>
+        <Link href="/docs/components/date-picker" className="text-primary underline">
+          DatePicker →
+        </Link>
+      </div>
+    </article>
+  )
+}

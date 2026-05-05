@@ -180,7 +180,7 @@ export default function CardDocsPage() {
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <Link href="/docs/components/button" className="text-primary underline">
-          ← Button
+          ← Button &amp; IconButton
         </Link>
         <Link href="/docs/components/dialog" className="text-primary underline">
           Dialog →

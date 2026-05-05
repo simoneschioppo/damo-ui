@@ -1,0 +1,56 @@
+# Contributing to Damo UI
+
+Thanks for working on the library. The two rules below are non-negotiable:
+
+## 1. Docs follow the lib
+
+Every component exported from `packages/ui/src/index.ts` MUST have a dedicated
+docs page at `apps/web/app/docs/components/<name>/page.tsx`. The convention is
+checked by `node scripts/check-docs-sync.mjs` (also wired into `pnpm lint`).
+Run it locally before opening a PR; CI will fail otherwise.
+
+If you are intentionally landing a component without a docs page (rare — only
+when a component is internal but happens to leak into the public surface for
+one release), add the kebab-case name to the `ALLOWLIST` set inside
+`scripts/check-docs-sync.mjs` with a comment explaining why.
+
+When you change a component's API:
+
+- Update the props table on its docs page.
+- Update / add an Accessibility section if the change affects ARIA or keyboard.
+- Update prev/next links if the docs sidebar order shifts.
+
+The docs sidebar source of truth is `apps/web/app/docs/_components/docs-nav.ts`.
+A new component must be added to one of the groups there.
+
+## 2. Real components, not mockups
+
+The docs site and the theme generator MUST mount the real `@damo/ui`
+components in their live previews. No hand-rolled JSX that replicates a
+component's chrome. The only exceptions are:
+
+- The token / colors / patterns Foundations pages, which intentionally use
+  raw `<div>` + Tailwind utility classes to teach the consumer how to use the
+  underlying tokens directly.
+- Page-level layout primitives in the theme-generator that are bespoke to the
+  editor and don't replicate any library component (e.g. `DivergenceWrapper`,
+  `ContrastBadge`).
+
+If you find yourself copying classes from a Card / Button / Banner into a
+local div, stop and import the actual component instead.
+
+## Workflow
+
+```bash
+pnpm install
+pnpm dev               # Ladle (61000) + Next docs site (3000) in parallel
+
+# Before opening a PR:
+pnpm test              # @damo/ui unit tests must pass (currently 442)
+pnpm lint              # eslint + docs-sync guardrail
+pnpm --filter web build
+pnpm --filter @damo/ui build
+```
+
+For the full implementation workflow (planning, TDD, code review) see the
+`docs/specs/` directory.

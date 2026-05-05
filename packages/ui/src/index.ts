@@ -55,20 +55,7 @@ export {
   DialogDescription,
   type DialogContentProps,
 } from './components/dialog'
-export {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogPortal,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
-  type AlertDialogContentProps,
-} from './components/alert-dialog'
+// AlertDialog is gone — its behaviour folded into `<DialogContent severity="alert" tone="danger">`.
 export {
   Drawer,
   DrawerTrigger,
@@ -196,25 +183,17 @@ export {
   type PageWindowOptions,
 } from './components/pagination'
 export {
-  ThemeSwitcher,
-  type ThemeSwitcherProps,
-  type ThemeOption,
-} from './components/theme-switcher'
-export {
-  PaletteSwitcher,
-  type PaletteSwitcherProps,
-  type PaletteOption,
-} from './components/palette-switcher'
-export {
-  DensitySwitcher,
-  type DensitySwitcherProps,
-  type DensityOption,
-} from './components/density-switcher'
-export {
-  DisplaySettingsMenu,
-  type DisplaySettingsMenuProps,
-  type DisplaySettingsOption,
-} from './components/display-settings-menu'
+  AttrToggleGroup,
+  type AttrToggleGroupProps,
+  type AttrToggleGroupVariant,
+  type AttrToggleOption,
+} from './components/attr-toggle-group'
+// NOTE: SettingsMenu has been removed too — Popover with the Memphis chrome
+// covers the same use case more generically. Compose Popover with whatever
+// content (radio sections, AttrToggleGroup instances, action lists) the
+// surface needs. Theme-specific preset switchers (ThemeSwitcher,
+// PaletteSwitcher, DensitySwitcher, DisplaySettingsMenu) were removed in an
+// earlier cycle for the same reason — keep the lib generic.
 
 // Data display (Phase 8)
 export {
@@ -244,23 +223,15 @@ export {
 export { Stat, type StatProps } from './components/stat'
 export { Medal, type MedalProps, type MedalRank } from './components/medal'
 
-// Showcase / design-system primitives (Phase 10)
+// General-purpose product cards + brand decoration. (DS-only widgets —
+// ShowcaseCard, SubPanel, SectionHeader, TypeSpecimen, ColorScale,
+// TokenSwatch, PatternSwatch, TooltipCard — were trimmed from the public
+// API; consumers building a documentation site can copy them from
+// `apps/web/app/_components/showcase` in this monorepo.)
 export { ColorPicker, type ColorPickerProps } from './components/color-picker'
-export * from './components/pattern-swatch'
 export * from './components/memphis-shape'
-export { ColorScale, type ColorScaleProps, type ColorStop } from './components/color-scale'
-export { TokenSwatch, type TokenSwatchProps } from './components/token-swatch'
-export { SectionHeader, type SectionHeaderProps } from './components/section-header'
-export { SubPanel, type SubPanelProps } from './components/sub-panel'
-export { ShowcaseCard, type ShowcaseCardProps } from './components/showcase-card'
-export {
-  TypeSpecimen,
-  type TypeSpecimenProps,
-  type TypeSpecimenScaleRow,
-} from './components/type-specimen'
 export { UserCard, type UserCardProps } from './components/user-card'
 export { FeatureCard, type FeatureCardProps } from './components/feature-card'
-export { TooltipCard, type TooltipCardProps } from './components/tooltip-card'
 export { ArticleCard, type ArticleCardProps } from './components/article-card'
 
 // Hooks

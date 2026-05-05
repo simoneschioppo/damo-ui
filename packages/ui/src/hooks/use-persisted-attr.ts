@@ -7,6 +7,11 @@ import { useCallback, useEffect, useState } from 'react'
 // shape consumers should reasonably need; everything else is a bug.
 const SAFE_DATA_ATTR = /^data-[a-z][a-z0-9-]*$/
 
+// Restrict the localStorage key to a conservative shape. This blocks both
+// accidental collisions with other libraries and adversarial keys like
+// `__proto__` / `constructor` that some runtimes treat as prototype probes.
+const SAFE_STORAGE_KEY = /^[a-zA-Z0-9_:.-]{1,128}$/
+
 // Always initialize to `defaultValue` so server + client first render agree.
 // After mount, read localStorage and promote to the persisted value if any.
 // This avoids the hydration mismatch that would happen if the factory read
@@ -19,6 +24,11 @@ export function usePersistedAttr<T extends string>(
   if (!SAFE_DATA_ATTR.test(htmlAttr)) {
     throw new Error(
       `usePersistedAttr: htmlAttr must match /^data-[a-z][a-z0-9-]*$/, got "${htmlAttr}"`,
+    )
+  }
+  if (!SAFE_STORAGE_KEY.test(storageKey)) {
+    throw new Error(
+      `usePersistedAttr: storageKey must match /^[a-zA-Z0-9_:.-]{1,128}$/, got "${storageKey}"`,
     )
   }
 

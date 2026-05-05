@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('DensitySwitcher writes data-density + localStorage', () => {
+test.describe('Density picker writes data-density + localStorage', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/docs/getting-started')
     await page.evaluate(() => window.localStorage.clear())
@@ -12,7 +12,7 @@ test.describe('DensitySwitcher writes data-density + localStorage', () => {
     name: 'Compatta' | 'Normale' | 'Ampia',
   ) {
     await page.getByRole('button', { name: 'Display settings' }).click()
-    await page.getByRole('menuitemradio', { name }).click()
+    await page.getByRole('button', { name }).click()
   }
 
   test('clicking Compatta sets compact', async ({ page }) => {
@@ -35,15 +35,19 @@ test.describe('DensitySwitcher writes data-density + localStorage', () => {
     await page.reload()
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')
     await page.getByRole('button', { name: 'Display settings' }).click()
-    const item = page.getByRole('menuitemradio', { name: 'Compatta' })
-    await expect(item).toHaveAttribute('aria-checked', 'true')
+    // Picker rows are NavItem-styled buttons; the active row carries
+    // aria-current="page" (the same chrome trigger NavItem uses for sidebar
+    // selection).
+    const popover = page.getByRole('dialog')
+    const item = popover.getByRole('button', { name: 'Compatta' })
+    await expect(item).toHaveAttribute('aria-current', 'page')
   })
 })
 
 test.describe('Docs sidebar active state', () => {
   test('clicking a sidebar link marks it aria-current=page', async ({ page }) => {
     await page.goto('/docs/getting-started')
-    await page.getByRole('link', { name: 'Button', exact: true }).click()
+    await page.getByRole('link', { name: 'Button & IconButton', exact: true }).click()
     await expect(page).toHaveURL(/\/docs\/components\/button$/)
     const active = page.locator('a[aria-current="page"]')
     await expect(active).toHaveAttribute('href', '/docs/components/button')
@@ -60,18 +64,18 @@ test.describe('Docs sidebar active state', () => {
   })
 })
 
-test.describe('DisplaySettingsMenu exposes the documented palettes', () => {
+test.describe('Docs preferences menu exposes the documented palettes', () => {
   test('default, neon, sunset are listed and legacy names are not', async ({ page }) => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Display settings' }).click()
-    // Scope to the open menu so the assertion targets palette items, not
-    // theme/density radio items that share the menu.
-    const menu = page.getByRole('menu')
-    await expect(menu).toBeVisible()
-    const labels = await menu.getByRole('menuitemradio').allTextContents()
-    const trimmed = labels.map((t) => t.trim())
-    expect(trimmed).toEqual(expect.arrayContaining(['Plum+Gold', 'Neon', 'Sunset']))
-    expect(trimmed.some((l) => /frost/i.test(l))).toBe(false)
-    expect(trimmed.some((l) => /circuit/i.test(l))).toBe(false)
+    // Palette options are now NavItem-styled buttons inside the popover.
+    const popover = page.getByRole('dialog')
+    await expect(popover).toBeVisible()
+    await expect(popover.getByRole('button', { name: 'Plum+Gold' })).toBeVisible()
+    await expect(popover.getByRole('button', { name: 'Neon' })).toBeVisible()
+    await expect(popover.getByRole('button', { name: 'Sunset' })).toBeVisible()
+    // Legacy names should not appear anywhere in the popover.
+    await expect(popover.getByText(/frost/i)).toHaveCount(0)
+    await expect(popover.getByText(/circuit/i)).toHaveCount(0)
   })
 })

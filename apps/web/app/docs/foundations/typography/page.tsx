@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TypeSpecimen } from '@damo/ui'
+import { TypeSpecimen } from '../../../_components/showcase'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { BRAND } from '../../../../lib/brand'
