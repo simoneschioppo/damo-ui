@@ -78,7 +78,7 @@ export const AttrToggleGroup = forwardRef<HTMLDivElement, AttrToggleGroupProps>(
           <div
             role="group"
             aria-labelledby={label ? labelId : undefined}
-            className="inline-flex border-2 border-memphis"
+            className="inline-flex border-2 border-memphis rounded-none"
           >
             {options.map((opt) => {
               const isActive = current === opt.value
