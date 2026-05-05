@@ -743,9 +743,7 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                       )}
                       style={{ height: `${30 + i * 8}px` }}
                     />
-                    <span className="font-mono text-[10px] text-muted-foreground">
-                      chart-{i}
-                    </span>
+                    <span className="font-mono text-[10px] text-muted-foreground">chart-{i}</span>
                   </div>
                 ))}
               </div>
