@@ -40,8 +40,8 @@ const SEMANTIC_CSS = `/* In a stylesheet: read the variable directly */
   color: var(--card-foreground);
   border: 2px solid var(--memphis-border-color);
   box-shadow: var(--shadow-memphis);
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
+  padding: 1rem;
+  border-radius: var(--radius-md);
 }
 `
 
@@ -50,7 +50,7 @@ const SEMANTIC_INLINE = `// In JSX inline style: same vars, no Tailwind dependen
   style={{
     background: 'var(--primary)',
     color: 'var(--primary-foreground)',
-    padding: 'var(--space-3) var(--space-5)',
+    padding: '0.75rem 1.25rem',
     boxShadow: 'var(--shadow-memphis)',
   }}
 >
@@ -62,7 +62,7 @@ const OVERRIDE_ROOT = `/* Override at the root — affects the whole document */
 :root {
   --primary: hsl(280 70% 55%);
   --primary-foreground: #ffffff;
-  --radius-lg: 12px;
+  --radius-md: 12px;
   --shadow-memphis: 4px 4px 0 #000;
 }
 `
@@ -96,11 +96,13 @@ const NEW_IDENTITY_TOKEN = `/* 1. Declare a new identity token at :root */
 }
 `
 
-const DENSITY_USAGE = `/* The lib multiplies vertical paddings by --density-scale-y
-   so density flips component spacing without re-rendering React. */
+const DENSITY_USAGE = `/* Tailwind v4 multiplies every spacing utility by the lib's --spacing
+   token, which itself is calc(0.25rem * var(--density-scale-y)). Use any
+   spacing utility (p-4, gap-3, mt-2, …) and density flips component
+   spacing without re-rendering React. */
 .my-card {
-  padding-block: calc(var(--space-4) * var(--density-scale-y));
-  padding-inline: var(--space-4);
+  padding-block: calc(1rem * var(--density-scale-y));
+  padding-inline: 1rem;
 }
 
 /* compact   → padding-block = 16px * 0.75 = 12px

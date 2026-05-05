@@ -39,7 +39,7 @@ const BASIC_SNIPPET = `<Table>
   <TableBody>
     <TableRow>
       <TableCell>INV001</TableCell>
-      <TableCell><Badge variant="win">Paid</Badge></TableCell>
+      <TableCell><Badge variant="success">Paid</Badge></TableCell>
       <TableCell>Card</TableCell>
       <TableCell className="text-right">€250</TableCell>
     </TableRow>
@@ -105,7 +105,7 @@ export default function TableDocsPage() {
               <TableRow>
                 <TableCell>INV001</TableCell>
                 <TableCell>
-                  <Badge variant="win">Paid</Badge>
+                  <Badge variant="success">Paid</Badge>
                 </TableCell>
                 <TableCell>Card</TableCell>
                 <TableCell className="text-right">€250</TableCell>
@@ -113,7 +113,7 @@ export default function TableDocsPage() {
               <TableRow>
                 <TableCell>INV002</TableCell>
                 <TableCell>
-                  <Badge variant="rank">Pending</Badge>
+                  <Badge variant="warning">Pending</Badge>
                 </TableCell>
                 <TableCell>Bank transfer</TableCell>
                 <TableCell className="text-right">€350</TableCell>
@@ -121,7 +121,7 @@ export default function TableDocsPage() {
               <TableRow>
                 <TableCell>INV003</TableCell>
                 <TableCell>
-                  <Badge variant="loss">Failed</Badge>
+                  <Badge variant="destructive">Failed</Badge>
                 </TableCell>
                 <TableCell>Card</TableCell>
                 <TableCell className="text-right">€400</TableCell>
