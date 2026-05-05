@@ -50,6 +50,8 @@ import {
   SelectValue,
 } from '../../components/select/select'
 import { Popover, PopoverContent, PopoverTrigger } from '../../components/popover/popover'
+import { DatePicker } from '../../components/date-picker/date-picker'
+import { Combobox } from '../../components/combobox/combobox'
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../../components/tooltip'
 import {
   ToastProvider,
@@ -501,6 +503,22 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                 </SelectContent>
               </Select>
               <ColorPicker label="Colore" value={color} onChange={setColor} />
+            </Subgroup>
+
+            <Subgroup label="Date & autocomplete">
+              <DatePicker placeholder="Seleziona una data" />
+              <Combobox
+                placeholder="Cerca lingua…"
+                searchPlaceholder="Cerca…"
+                emptyMessage="Nessun risultato"
+                options={[
+                  { value: 'it', label: 'Italiano' },
+                  { value: 'en', label: 'English' },
+                  { value: 'fr', label: 'Français' },
+                  { value: 'es', label: 'Español' },
+                  { value: 'de', label: 'Deutsch' },
+                ]}
+              />
             </Subgroup>
           </Section>
 
