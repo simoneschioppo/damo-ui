@@ -117,7 +117,16 @@ import { Ornament } from '../../components/ornament'
 import { FormField } from '../../components/form-field'
 import { ScrollArea } from '../../components/scroll-area'
 import { AspectRatio } from '../../components/aspect-ratio'
-import { EditIcon, HeartIcon, HomeIcon, PlusIcon, SearchIcon, StarIcon } from '../../icons'
+import {
+  CogIcon,
+  EditIcon,
+  HeartIcon,
+  HomeIcon,
+  PlusIcon,
+  SearchIcon,
+  StarIcon,
+  UserIcon,
+} from '../../icons'
 
 export type ComponentsPreviewProps = HTMLAttributes<HTMLDivElement>
 
@@ -652,16 +661,16 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                   </span>
                   <div className="flex flex-col gap-1">
                     <NavItem aria-current="page">
-                      <HomeIcon size={18} />
-                      Selected
+                      <HomeIcon size={20} />
+                      Home
                     </NavItem>
                     <NavItem>
-                      <SearchIcon size={18} />
-                      Idle
+                      <UserIcon size={20} />
+                      Profile
                     </NavItem>
                     <NavItem>
-                      <EditIcon size={18} />
-                      Idle
+                      <CogIcon size={20} />
+                      Settings
                     </NavItem>
                   </div>
                 </div>
@@ -679,16 +688,16 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                   </span>
                   <div className="flex flex-col gap-1">
                     <NavItem tone="onDark" aria-current="page">
-                      <HomeIcon size={18} />
-                      Selected
+                      <HomeIcon size={20} />
+                      Home
                     </NavItem>
                     <NavItem tone="onDark">
-                      <SearchIcon size={18} />
-                      Idle
+                      <UserIcon size={20} />
+                      Profile
                     </NavItem>
                     <NavItem tone="onDark">
-                      <EditIcon size={18} />
-                      Idle
+                      <CogIcon size={20} />
+                      Settings
                     </NavItem>
                   </div>
                 </div>
@@ -724,14 +733,16 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
             <Subgroup label="Charts" inline={false}>
               {/* Mini bar chart — each bar consumes one --chart-N token via
                   the bg-chart-N Tailwind utility so the Identity → Charts
-                  controls are visually verifiable. */}
+                  controls are visually verifiable. The container is tall
+                  enough for the largest bar + label without overflowing. */}
               <div
-                className="flex items-end gap-2 h-24 p-3 border-2 border-memphis bg-card w-fit"
+                className="flex flex-col gap-2 p-3 border-2 border-memphis bg-card w-fit"
                 aria-label="Chart palette demo"
               >
-                {([1, 2, 3, 4, 5] as const).map((i) => (
-                  <div key={i} className="flex flex-col items-center gap-1.5">
+                <div className="flex items-end gap-3 h-24">
+                  {([1, 2, 3, 4, 5] as const).map((i) => (
                     <div
+                      key={i}
                       data-chart-bar={i}
                       className={cn(
                         'w-7 border-2 border-memphis',
@@ -741,12 +752,40 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                         i === 4 && 'bg-chart-4',
                         i === 5 && 'bg-chart-5',
                       )}
-                      style={{ height: `${30 + i * 8}px` }}
+                      style={{ height: `${28 + i * 12}px` }}
                     />
-                    <span className="font-mono text-[10px] text-muted-foreground">chart-{i}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="flex items-end gap-3">
+                  {([1, 2, 3, 4, 5] as const).map((i) => (
+                    <span
+                      key={i}
+                      className="w-7 text-center font-mono text-[10px] text-muted-foreground"
+                    >
+                      {i}
+                    </span>
+                  ))}
+                </div>
               </div>
+            </Subgroup>
+
+            <Subgroup label="App pattern" inline={false}>
+              {/* Memphis app-pattern swatch — interpolates --app-pattern-color-1/2/3
+                  + --app-pattern-size, so the Identity → App pattern controls
+                  drive the live preview. Sized large enough that the default
+                  140px tile reads as an actual repeating pattern (≥4×2 reps),
+                  not as a handful of isolated dots. */}
+              <div
+                data-testid="app-pattern-swatch"
+                aria-label="App pattern preview"
+                className="w-full max-w-2xl h-44 border-2 border-memphis"
+                style={{
+                  backgroundColor: 'var(--card)',
+                  backgroundImage:
+                    'radial-gradient(circle at 25% 25%, var(--app-pattern-color-1) 9%, transparent 10%), radial-gradient(circle at 75% 75%, var(--app-pattern-color-2) 9%, transparent 10%), radial-gradient(circle at 50% 50%, var(--app-pattern-color-3) 6%, transparent 7%)',
+                  backgroundSize: 'var(--app-pattern-size, 140px) var(--app-pattern-size, 140px)',
+                }}
+              />
             </Subgroup>
 
             <Subgroup label="Medals">
@@ -850,26 +889,6 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                 </div>
                 <Separator />
               </div>
-            </Subgroup>
-
-            <Subgroup label="App pattern" inline={false}>
-              {/* Memphis app-pattern swatch — interpolates the three
-                  --app-pattern-color-N tokens and --app-pattern-size, so the
-                  Identity → App pattern controls have a live preview. The
-                  pattern is consumer-side decoration (not shipped by the
-                  lib), but the generator emits these tokens for sites that
-                  opt in. */}
-              <div
-                data-testid="app-pattern-swatch"
-                aria-label="App pattern preview"
-                className="w-72 h-32 border-2 border-memphis"
-                style={{
-                  backgroundColor: 'var(--card)',
-                  backgroundImage:
-                    'radial-gradient(circle at 25% 25%, var(--app-pattern-color-1) 9%, transparent 10%), radial-gradient(circle at 75% 75%, var(--app-pattern-color-2) 9%, transparent 10%), radial-gradient(circle at 50% 50%, var(--app-pattern-color-3) 6%, transparent 7%)',
-                  backgroundSize: 'var(--app-pattern-size, 140px) var(--app-pattern-size, 140px)',
-                }}
-              />
             </Subgroup>
 
             <Subgroup label="Decorative shapes">
