@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { ComponentsPreview } from './components-preview'
 
 afterEach(() => {
@@ -99,6 +99,16 @@ describe('ComponentsPreview', () => {
     expect(bg).toContain('--app-pattern-color-3')
     const size = (swatch as HTMLElement).style.backgroundSize
     expect(size).toContain('--app-pattern-size')
+  })
+
+  it('exposes a Toast trigger that pops a toast with title + description', () => {
+    render(<ComponentsPreview />)
+    const feedback = document.getElementById('feedback') as HTMLElement
+    const trigger = within(feedback).getByRole('button', { name: /show toast/i })
+    fireEvent.click(trigger)
+    // Toast lives in the Radix portal, query the document.
+    expect(screen.getByText('Modifiche salvate')).toBeInTheDocument()
+    expect(screen.getByText('Il tuo theme è stato applicato.')).toBeInTheDocument()
   })
 
   it('renders both NavItem tones (default + onDark)', () => {
