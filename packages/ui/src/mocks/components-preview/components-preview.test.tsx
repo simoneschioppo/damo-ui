@@ -71,7 +71,11 @@ describe('ComponentsPreview', () => {
 
   it('renders both NavItem tones (default + onDark)', () => {
     render(<ComponentsPreview />)
-    expect(screen.getByText('NavItem · default tone')).toBeInTheDocument()
-    expect(screen.getByText('NavItem · onDark tone')).toBeInTheDocument()
+    // The tone subgroup label, plus per-panel labels for each tone.
+    expect(
+      screen.getByText('NavItem · default + onDark tones', { exact: false }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('default tone')).toBeInTheDocument()
+    expect(screen.getByText('onDark tone')).toBeInTheDocument()
   })
 })
