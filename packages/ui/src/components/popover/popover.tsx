@@ -29,7 +29,7 @@ export const PopoverContent = forwardRef<
         sideOffset={sideOffset}
         forceMount={forceMount}
         className={cn(
-          'z-dropdown bg-card text-foreground',
+          'z-dropdown bg-popover text-popover-foreground',
           // Memphis chrome — same border + offset shadow language as
           // DropdownMenu / Dialog so popovers feel consistent. Consumers can
           // override per-instance via className.
