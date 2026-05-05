@@ -26,7 +26,7 @@ export const SegmentedControl = forwardRef<
       type="single"
       orientation={orientation}
       className={cn(
-        'inline-flex border-2 border-memphis bg-card',
+        'inline-flex border-2 border-memphis rounded-none bg-card',
         'data-[orientation=vertical]:flex-col',
         className,
       )}
