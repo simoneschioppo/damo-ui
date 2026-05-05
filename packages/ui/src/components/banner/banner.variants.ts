@@ -12,7 +12,6 @@ export const bannerVariants = cva(
           'bg-[color-mix(in_oklab,var(--warning)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--warning)]',
         danger:
           'bg-[color-mix(in_oklab,var(--destructive)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--destructive)]',
-        rage: 'bg-[color-mix(in_oklab,var(--rage)_15%,var(--card))] text-foreground [--memphis-shadow-color:var(--rage)]',
       },
     },
     defaultVariants: {

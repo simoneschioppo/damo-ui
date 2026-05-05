@@ -95,12 +95,10 @@ export const GalleryPreview = forwardRef<HTMLDivElement, GalleryPreviewProps>(
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="default">default</Badge>
             <Badge variant="featured">featured</Badge>
-            <Badge variant="copper">copper</Badge>
-            <Badge variant="navy">navy</Badge>
-            <Badge variant="win">win</Badge>
-            <Badge variant="loss">loss</Badge>
-            <Badge variant="draw">draw</Badge>
-            <Badge variant="rank">rank</Badge>
+            <Badge variant="success">success</Badge>
+            <Badge variant="warning">warning</Badge>
+            <Badge variant="info">info</Badge>
+            <Badge variant="destructive">destructive</Badge>
             <Badge variant="outline">outline</Badge>
           </div>
           <div className="flex flex-wrap items-center gap-2">

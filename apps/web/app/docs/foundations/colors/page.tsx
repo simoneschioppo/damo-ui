@@ -66,7 +66,7 @@ const REACT_INLINE = `// JSX inline style — same vars, no Tailwind needed
     background: 'var(--card)',
     color: 'var(--card-foreground)',
     border: '2px solid var(--memphis-border-color)',
-    padding: 'var(--space-4)',
+    padding: '1rem',
   }}
 >
   Static surface using the semantic layer
@@ -124,7 +124,6 @@ const TOKENS = [
   '--success', '--success-foreground',
   '--warning', '--warning-foreground',
   '--info', '--info-foreground',
-  '--rage', '--rage-foreground',
   '--border', '--border-strong',
   '--input', '--ring',
   '--memphis-border-color', '--memphis-shadow-color',

@@ -165,29 +165,29 @@ test.describe('Theme generator — light/dark editing across Palette, Theme, Ide
     await sb.getByRole('tab', { name: /^Identity$/ }).click()
     await sb.getByRole('button', { name: /^Radius$/ }).click()
 
-    // Default light value should match the original 8px lg radius
+    // Default light value should match the original `md` radius
     await sb.getByRole('button', { name: 'Light', exact: true }).click()
 
-    // Switch to Dark, change radius lg via keyboard arrow on slider
+    // Switch to Dark, change radius md via keyboard arrow on slider
     await sb.getByRole('button', { name: 'Dark', exact: true }).click()
-    // Find the lg slider — labelled "lg · Npx"
-    const lgLabel = sb.locator('label:has-text("lg ·")').first()
-    await lgLabel.scrollIntoViewIfNeeded()
+    // Find the md slider — labelled "md · Npx"
+    const mdLabel = sb.locator('label:has-text("md ·")').first()
+    await mdLabel.scrollIntoViewIfNeeded()
     // Click the slider thumb and arrow up to increase the value
-    const slider = lgLabel.locator('xpath=following-sibling::*[1]').locator('[role="slider"]')
+    const slider = mdLabel.locator('xpath=following-sibling::*[1]').locator('[role="slider"]')
     await slider.first().click()
     await slider.first().press('ArrowRight')
     await slider.first().press('ArrowRight')
     await page.waitForTimeout(150)
 
-    // Open Export pane, CSS, ensure dark block has --radius-lg override
+    // Open Export pane, CSS, ensure dark block has --radius-md override
     await page.getByRole('tab', { name: /^Export$/ }).click()
     await page.getByRole('button', { name: 'CSS', exact: true }).click()
     const output = page.locator('pre').first()
     const text = (await output.textContent()) ?? ''
     const darkBlockIdx = text.indexOf("[data-theme='dark']")
     expect(darkBlockIdx).toBeGreaterThan(-1)
-    expect(text.slice(darkBlockIdx)).toMatch(/--radius-lg:\s*\d+px;/)
+    expect(text.slice(darkBlockIdx)).toMatch(/--radius-md:\s*\d+px;/)
   })
 
   test('JSON export structure has per-mode foundations', async ({ page }) => {
@@ -204,10 +204,11 @@ test.describe('Theme generator — light/dark editing across Palette, Theme, Ide
     expect(json.shadowMemphis.dark).toBeDefined()
     expect(json.shadowSoft.light).toBeDefined()
     expect(json.shadowSoft.dark).toBeDefined()
-    expect(json.spacing.light.scale).toBeDefined()
-    expect(json.spacing.dark.scale).toBeDefined()
     expect(json.motion.light.durations).toBeDefined()
     expect(json.motion.dark.durations).toBeDefined()
+    // Spacing scale was removed from the audit — density covers the same
+    // global-spacing knob via `--density-scale-y`.
+    expect(json.spacing).toBeUndefined()
   })
 
   test('JSON export contains both palette.light and palette.dark', async ({ page }) => {
