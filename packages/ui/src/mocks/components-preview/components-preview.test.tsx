@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { ComponentsPreview } from './components-preview'
 
 afterEach(() => {
@@ -67,6 +67,76 @@ describe('ComponentsPreview', () => {
     // The "GM" label appears once below the medal; the "GM" value renders
     // inside the SVG too — assert at least one occurrence.
     expect(scoped.getAllByText('GM').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('renders a Charts subgroup with a bar per --chart-N token', () => {
+    render(<ComponentsPreview />)
+    const data = document.getElementById('data') as HTMLElement
+    expect(data).not.toBeNull()
+    const scoped = within(data)
+    expect(scoped.getByText('Charts')).toBeInTheDocument()
+    // Five bars, each labelled chart-1..chart-5 — the nav target a consumer
+    // would themselves use to verify the chart palette swap.
+    for (const i of [1, 2, 3, 4, 5]) {
+      const bar = data.querySelector(`[data-chart-bar="${i}"]`)
+      expect(bar, `bar ${i}`).not.toBeNull()
+    }
+  })
+
+  it('renders an App pattern swatch consuming --app-pattern-* CSS variables', () => {
+    render(<ComponentsPreview />)
+    const layout = document.getElementById('layout') as HTMLElement
+    expect(layout).not.toBeNull()
+    const scoped = within(layout)
+    expect(scoped.getByText('App pattern')).toBeInTheDocument()
+    const swatch = layout.querySelector('[data-testid="app-pattern-swatch"]')
+    expect(swatch).not.toBeNull()
+    const bg = (swatch as HTMLElement).style.backgroundImage
+    // The swatch interpolates the three pattern colour variables via inline
+    // style so the test confirms each one is read at render time.
+    expect(bg).toContain('--app-pattern-color-1')
+    expect(bg).toContain('--app-pattern-color-2')
+    expect(bg).toContain('--app-pattern-color-3')
+    const size = (swatch as HTMLElement).style.backgroundSize
+    expect(size).toContain('--app-pattern-size')
+  })
+
+  it('renders a DatePicker inside the form section', () => {
+    render(<ComponentsPreview />)
+    const form = document.getElementById('form') as HTMLElement
+    const scoped = within(form)
+    expect(scoped.getByText('Date & autocomplete')).toBeInTheDocument()
+    // DatePicker exposes its placeholder via the trigger button label.
+    expect(scoped.getByRole('button', { name: /seleziona una data/i })).toBeInTheDocument()
+  })
+
+  it('renders a Combobox alongside the DatePicker', () => {
+    render(<ComponentsPreview />)
+    const form = document.getElementById('form') as HTMLElement
+    const scoped = within(form)
+    // Combobox uses a button trigger that announces its placeholder.
+    expect(scoped.getByRole('button', { name: /cerca lingua/i })).toBeInTheDocument()
+  })
+
+  it('renders a ContextMenu trigger area in the navigation section', () => {
+    render(<ComponentsPreview />)
+    const navigation = document.getElementById('navigation') as HTMLElement
+    expect(navigation).not.toBeNull()
+    const scoped = within(navigation)
+    expect(scoped.getByText('Context menu')).toBeInTheDocument()
+    // The trigger is an interactive surface that announces its right-click
+    // affordance via aria-label so screen-reader users know what it does.
+    expect(scoped.getByLabelText(/right-click for menu/i)).toBeInTheDocument()
+  })
+
+  it('exposes a Toast trigger that pops a toast with title + description', () => {
+    render(<ComponentsPreview />)
+    const feedback = document.getElementById('feedback') as HTMLElement
+    const trigger = within(feedback).getByRole('button', { name: /show toast/i })
+    fireEvent.click(trigger)
+    // Toast lives in the Radix portal, query the document.
+    expect(screen.getByText('Modifiche salvate')).toBeInTheDocument()
+    expect(screen.getByText('Il tuo theme è stato applicato.')).toBeInTheDocument()
   })
 
   it('renders both NavItem tones (default + onDark)', () => {
