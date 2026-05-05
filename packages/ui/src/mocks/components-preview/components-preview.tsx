@@ -777,6 +777,26 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
               </div>
             </Subgroup>
 
+            <Subgroup label="App pattern" inline={false}>
+              {/* Memphis app-pattern swatch — interpolates the three
+                  --app-pattern-color-N tokens and --app-pattern-size, so the
+                  Identity → App pattern controls have a live preview. The
+                  pattern is consumer-side decoration (not shipped by the
+                  lib), but the generator emits these tokens for sites that
+                  opt in. */}
+              <div
+                data-testid="app-pattern-swatch"
+                aria-label="App pattern preview"
+                className="w-72 h-32 border-2 border-memphis"
+                style={{
+                  backgroundColor: 'var(--card)',
+                  backgroundImage:
+                    'radial-gradient(circle at 25% 25%, var(--app-pattern-color-1) 9%, transparent 10%), radial-gradient(circle at 75% 75%, var(--app-pattern-color-2) 9%, transparent 10%), radial-gradient(circle at 50% 50%, var(--app-pattern-color-3) 6%, transparent 7%)',
+                  backgroundSize: 'var(--app-pattern-size, 140px) var(--app-pattern-size, 140px)',
+                }}
+              />
+            </Subgroup>
+
             <Subgroup label="Decorative shapes">
               <Ornament />
               <MemphisShape variant="zigzag" size={48} color="var(--primary)" />
