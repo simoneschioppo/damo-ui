@@ -104,21 +104,23 @@ Switching theme and palette are fully orthogonal — all six combinations work a
 
 For the **current** token surface, see `apps/web/app/docs/foundations/tokens` (rendered at `/docs/foundations/tokens` on the playground site) — that's the live, post-audit reference. The historical spec at `docs/specs/2026-04-24-theme-architecture-refactor-design.md` documents the 0.1 → 0.2 migration; the audit run (1.0.0 candidate) further trimmed and rewired the surface — see `CHANGELOG.md` for the diff.
 
-## Component inventory (~47)
+## Component inventory (54)
 
 **Foundations:** Icon (+30 atomic), Box, Container, AspectRatio, ScrollArea, Separator, Ornament, FormField
 
-**Tier 1 signature:** Button, IconButton, Card (5 variants), Dialog, AlertDialog, Drawer, Banner
+**Tier 1 signature:** Button, IconButton, Card (3 variants), Dialog (with `severity` + `tone`), Drawer, Banner
 
-**Forms:** Input, Textarea, Label, Checkbox, RadioGroup, Switch, Slider, SegmentedControl, Select, DatePicker, Combobox, Popover
+**Forms:** Input, Textarea, Label, Checkbox, RadioGroup, Switch, Slider, SegmentedControl, Select, DatePicker, Combobox, Popover, ColorPicker, AttrToggleGroup
 
-**Feedback:** Tooltip, Toast, Progress, Spinner, Skeleton, Badge, Chip
+**Feedback:** Tooltip, Toast, Progress, Spinner, Skeleton, Badge (7 variants), Chip, Hint
 
-**Navigation:** Tabs, DropdownMenu, ContextMenu, NavItem, Breadcrumbs, Pagination
+**Navigation:** Tabs, DropdownMenu, ContextMenu, NavItem (default + onDark tones), Breadcrumbs, Pagination
 
-**Data:** Avatar, AvatarGroup, Accordion, Table, Stat
+**Data:** Avatar, AvatarGroup, Accordion, Table, Stat, Medal (5 ranks)
 
-**Layout:** AppShell, PageHeader
+**Cards:** UserCard, FeatureCard, ArticleCard, MemphisShape
+
+**Layout:** AppShell, AppTopBar, PageHeader, Sidebar
 
 ## Tech stack
 

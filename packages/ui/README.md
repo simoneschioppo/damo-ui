@@ -38,13 +38,15 @@ Use these Tailwind classes (sourced from semantic CSS variables):
 
 **Surfaces:** `bg-background`, `bg-card`, `bg-popover`, `bg-muted`, paired with `text-foreground`, `text-card-foreground`, `text-popover-foreground`, `text-muted-foreground`.
 
-**Intent:** `bg-primary` / `text-primary-foreground`, `bg-secondary` / `text-secondary-foreground`, `bg-accent` / `text-accent-foreground`, `bg-destructive` / `text-destructive-foreground`.
+**Intent:** `bg-primary` / `text-primary-foreground`, `bg-secondary` / `text-secondary-foreground`, `bg-destructive` / `text-destructive-foreground`.
 
-**Status:** `bg-success` / `text-success-foreground`, `bg-warning` / `text-warning-foreground`, `bg-info` / `text-info-foreground`, `bg-rage` / `text-rage-foreground`.
+**Status:** `bg-success` / `text-success-foreground`, `bg-warning` / `text-warning-foreground`, `bg-info` / `text-info-foreground`.
 
-**Chrome:** `border-border`, `border-border-strong`, `border-memphis`, `border-input`, `ring-ring`.
+**Chrome:** `border-border`, `border-border-strong`, `border-memphis`, `ring-ring`.
 
-**Memphis:** `shadow-memphis` (reads `--memphis-shadow-color`), variants: `shadow-memphis-sm`, `shadow-memphis-lg`, `shadow-m-hover`, `shadow-m-active`.
+**Badge:** `bg-badge-featured` / `text-badge-featured-foreground` (the only badge-specific token; every other Badge variant maps to standard intents — `success`, `warning`, `info`, `destructive`, `outline`).
+
+**Memphis:** `shadow-memphis` (reads `--memphis-shadow-color`), variants: `shadow-memphis-sm`, `shadow-memphis-card`, `shadow-memphis-lg`, `shadow-memphis-hover`, `shadow-memphis-active`.
 
 **Charts:** `bg-chart-1` through `bg-chart-5`.
 
