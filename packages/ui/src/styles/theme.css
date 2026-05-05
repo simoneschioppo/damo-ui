@@ -78,11 +78,12 @@
   --shadow-memphis-active: var(--shadow-memphis-active);
   --shadow-md: var(--shadow-md);
 
-  /* Motion */
-  --animate-duration-snap: var(--duration-snap);
-  --animate-duration-fast: var(--duration-fast);
-  --animate-duration-base: var(--duration-base);
-  --animate-duration-slow: var(--duration-slow);
+  /* Motion — easings only.
+     Tailwind v4 has a `--ease-*` namespace that auto-generates ease-* utility
+     classes (ease-memphis, ease-out, ease-in-out). Transition-duration has
+     NO matching namespace; the named duration utilities are declared as
+     custom @utility blocks below so the CSS variables actually flow through
+     to the rendered classes. */
   --ease-memphis: var(--ease-memphis);
   --ease-out: var(--ease-out);
   --ease-in-out: var(--ease-in-out);
@@ -101,4 +102,25 @@
    * computes every spacing utility as `calc(--spacing × n)`). A single
    * override here cascades through every component when [data-density] flips. */
   --spacing: calc(0.25rem * var(--density-scale-y));
+}
+
+/* Named transition-duration utilities.
+ * Tailwind v4 ships `duration-*` only for literal numbers (`duration-150`)
+ * or arbitrary values (`duration-[300ms]` / `duration-(--duration-fast)`),
+ * with no namespace mirroring the `--ease-*` story. Without the @utility
+ * declarations below, classes like `duration-fast` silently emit nothing,
+ * so the theme generator's Motion sliders produced no visible effect.
+ * Each utility reads the corresponding `--duration-*` token, so editing
+ * the token at runtime updates the transition speed everywhere. */
+@utility duration-snap {
+  transition-duration: var(--duration-snap);
+}
+@utility duration-fast {
+  transition-duration: var(--duration-fast);
+}
+@utility duration-base {
+  transition-duration: var(--duration-base);
+}
+@utility duration-slow {
+  transition-duration: var(--duration-slow);
 }
