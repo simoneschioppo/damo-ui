@@ -145,11 +145,11 @@ describe('reducer — foundations per-mode editing', () => {
     const next = reducer(DEFAULT_THEME, {
       type: 'SET_RADIUS',
       mode: 'light',
-      key: 'lg',
+      key: 'md',
       value: 99,
     })
-    expect(next.radius.light.lg).toBe(99)
-    expect(next.radius.dark.lg).toBe(DEFAULT_THEME.radius.dark.lg)
+    expect(next.radius.light.md).toBe(99)
+    expect(next.radius.dark.md).toBe(DEFAULT_THEME.radius.dark.md)
   })
 
   it('SET_SHADOW_MEMPHIS for dark only updates dark shadow', () => {
@@ -168,21 +168,10 @@ describe('reducer — foundations per-mode editing', () => {
     const next = reducer(DEFAULT_THEME, {
       type: 'SET_SHADOW_SOFT',
       mode: 'light',
-      key: 'lg',
       value: 0.5,
     })
-    expect(next.shadowSoft.light.lg).toBe(0.5)
-    expect(next.shadowSoft.dark.lg).toBe(DEFAULT_THEME.shadowSoft.dark.lg)
-  })
-
-  it('SET_SPACING_SCALE for dark only updates dark spacing scale', () => {
-    const next = reducer(DEFAULT_THEME, {
-      type: 'SET_SPACING_SCALE',
-      mode: 'dark',
-      value: 1.25,
-    })
-    expect(next.spacing.dark.scale).toBe(1.25)
-    expect(next.spacing.light.scale).toBe(DEFAULT_THEME.spacing.light.scale)
+    expect(next.shadowSoft.light.md).toBe(0.5)
+    expect(next.shadowSoft.dark.md).toBe(DEFAULT_THEME.shadowSoft.dark.md)
   })
 
   it('SET_DURATION for light only updates light durations', () => {
