@@ -644,6 +644,36 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
               </div>
             </Subgroup>
 
+            <Subgroup label="Charts" inline={false}>
+              {/* Mini bar chart — each bar consumes one --chart-N token via
+                  the bg-chart-N Tailwind utility so the Identity → Charts
+                  controls are visually verifiable. */}
+              <div
+                className="flex items-end gap-2 h-24 p-3 border-2 border-memphis bg-card w-fit"
+                aria-label="Chart palette demo"
+              >
+                {([1, 2, 3, 4, 5] as const).map((i) => (
+                  <div key={i} className="flex flex-col items-center gap-1.5">
+                    <div
+                      data-chart-bar={i}
+                      className={cn(
+                        'w-7 border-2 border-memphis',
+                        i === 1 && 'bg-chart-1',
+                        i === 2 && 'bg-chart-2',
+                        i === 3 && 'bg-chart-3',
+                        i === 4 && 'bg-chart-4',
+                        i === 5 && 'bg-chart-5',
+                      )}
+                      style={{ height: `${30 + i * 8}px` }}
+                    />
+                    <span className="font-mono text-[10px] text-muted-foreground">
+                      chart-{i}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Subgroup>
+
             <Subgroup label="Medals">
               <Medal rank="bronze" value="3" label="Bronze" size={64} />
               <Medal rank="silver" value="2" label="Silver" size={64} />
