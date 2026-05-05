@@ -26,7 +26,7 @@ export const ContextMenuContent = forwardRef<
       <ContextMenuPrimitive.Content
         ref={ref}
         className={cn(
-          'z-dropdown min-w-[10rem] overflow-hidden bg-card text-foreground',
+          'z-dropdown min-w-[10rem] overflow-hidden bg-popover text-popover-foreground',
           'border border-border rounded-md shadow-md p-1',
           className,
         )}
@@ -178,7 +178,7 @@ export const ContextMenuSubContent = forwardRef<
     <ContextMenuPrimitive.SubContent
       ref={ref}
       className={cn(
-        'z-dropdown min-w-[8rem] overflow-hidden bg-card text-foreground',
+        'z-dropdown min-w-[8rem] overflow-hidden bg-popover text-popover-foreground',
         'border border-border rounded-md shadow-md p-1',
         className,
       )}
