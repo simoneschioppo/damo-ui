@@ -455,7 +455,7 @@ function emitFoundationsVars(theme: Theme, mode: ThemeMode, lines: string[]): vo
   ;(['snap', 'fast', 'base', 'slow'] as const).forEach((k) => {
     lines.push(`  --duration-${k}: ${m.durations[k]}ms;`)
   })
-  ;(['memphis', 'out', 'in-out'] as const).forEach((k) => {
+  ;(['memphis', 'out'] as const).forEach((k) => {
     lines.push(`  --ease-${k}: ${m.easings[k]};`)
   })
 }
