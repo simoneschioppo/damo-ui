@@ -74,6 +74,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../../components/dropdown-menu'
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from '../../components/context-menu'
 import { NavItem } from '../../components/nav-item'
 import { Breadcrumbs, BreadcrumbItem } from '../../components/breadcrumbs'
 import { Pagination } from '../../components/pagination'
@@ -595,6 +603,26 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                   <DropdownMenuItem>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+            </Subgroup>
+
+            <Subgroup label="Context menu" inline={false}>
+              <ContextMenu>
+                <ContextMenuTrigger asChild>
+                  <div
+                    aria-label="Right-click for menu"
+                    className="w-72 h-20 grid place-items-center border-2 border-dashed border-memphis bg-card text-sm text-muted-foreground select-none cursor-context-menu"
+                  >
+                    Right-click here
+                  </div>
+                </ContextMenuTrigger>
+                <ContextMenuContent>
+                  <ContextMenuLabel>Riga selezionata</ContextMenuLabel>
+                  <ContextMenuItem>Copia</ContextMenuItem>
+                  <ContextMenuItem>Duplica</ContextMenuItem>
+                  <ContextMenuSeparator />
+                  <ContextMenuItem>Elimina</ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             </Subgroup>
 
             <Subgroup label="NavItem · default + onDark tones" inline={false}>
