@@ -254,4 +254,4 @@ export {
   type SidebarVariants,
 } from './components/sidebar'
 
-export const __version = '0.1.0'
+export const __version = '0.3.0'
