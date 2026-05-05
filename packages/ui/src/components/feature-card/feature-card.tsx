@@ -38,15 +38,15 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
     >
       <h4
         data-slot="title"
-        className="font-display uppercase text-foreground m-0"
-        style={{ fontSize: 24, letterSpacing: '0.02em', marginBottom: 8 }}
+        className="font-display uppercase text-foreground text-2xl m-0"
+        style={{ letterSpacing: '0.02em', marginBottom: 8 }}
       >
         {title}
       </h4>
       <p
         data-slot="desc"
-        className="text-muted-foreground m-0"
-        style={{ fontSize: 13, lineHeight: 1.4, marginBottom: 24 }}
+        className="text-muted-foreground text-sm m-0"
+        style={{ lineHeight: 1.4, marginBottom: 24 }}
       >
         {desc}
       </p>
@@ -56,8 +56,8 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
             <span
               data-testid="feature-card-meta"
               data-slot="meta"
-              className="font-mono font-bold text-muted-foreground uppercase"
-              style={{ fontSize: 12, letterSpacing: '0.08em' }}
+              className="font-mono font-bold text-muted-foreground uppercase text-xs"
+              style={{ letterSpacing: '0.08em' }}
             >
               {meta}
             </span>
