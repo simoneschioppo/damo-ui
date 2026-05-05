@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import { Button, IconButton, ArrowRightIcon, CogIcon } from '@damo/ui'
+import { Button, IconButton, ArrowRightIcon, BoltIcon, CogIcon } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Button } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Button, IconButton } from '@damo/ui'`
 
 const BASIC_SNIPPET = `<Button variant="primary">Save</Button>
 <Button variant="ghost">Cancel</Button>`
@@ -13,15 +13,6 @@ const BASIC_SNIPPET = `<Button variant="primary">Save</Button>
 const SIZES_SNIPPET = `<Button variant="primary" size="sm">Small</Button>
 <Button variant="primary" size="md">Medium</Button>
 <Button variant="primary" size="lg">Large</Button>`
-
-const ICON_SNIPPET = `import { Button, IconButton, ArrowRightIcon, CogIcon } from '@damo/ui'
-
-<Button variant="ghost">
-  <ArrowRightIcon size={14} /> Continue
-</Button>
-<IconButton aria-label="Settings" variant="ghost">
-  <CogIcon size={18} />
-</IconButton>`
 
 const DISABLED_SNIPPET = `<Button variant="primary" disabled>
   Save
@@ -41,6 +32,24 @@ import { Button } from '@damo/ui'
   <Link href="/docs">Browse docs</Link>
 </Button>`
 
+const ICON_INLINE_SNIPPET = `<Button variant="ghost">
+  <ArrowRightIcon size={14} /> Continue
+</Button>`
+
+const ICON_BUTTON_SNIPPET = `<IconButton aria-label="Settings" variant="ghost">
+  <CogIcon size={18} />
+</IconButton>`
+
+const ICON_BUTTON_VARIANTS_SNIPPET = `<IconButton aria-label="Continue" variant="primary">
+  <ArrowRightIcon size={18} />
+</IconButton>
+<IconButton aria-label="Quick action" variant="outline">
+  <BoltIcon size={18} />
+</IconButton>
+<IconButton aria-label="Settings" variant="ghost">
+  <CogIcon size={18} />
+</IconButton>`
+
 const PROPS: ReadonlyArray<PropDef> = [
   {
     name: 'variant',
@@ -53,7 +62,8 @@ const PROPS: ReadonlyArray<PropDef> = [
     name: 'size',
     type: "'sm' | 'md' | 'lg' | 'icon'",
     defaultValue: "'md'",
-    description: 'Adjusts vertical padding and font size. Icon is a 40×40 square for IconButton.',
+    description:
+      'Adjusts vertical padding and font size. `icon` is a 40×40 square — used internally by `IconButton`.',
   },
   {
     name: 'disabled',
@@ -82,21 +92,50 @@ const PROPS: ReadonlyArray<PropDef> = [
   },
 ]
 
+const ICON_BUTTON_PROPS: ReadonlyArray<PropDef> = [
+  {
+    name: 'aria-label',
+    type: 'string',
+    required: true,
+    description:
+      'IconButtons have no visible text, so every instance MUST carry a non-empty `aria-label` for screen readers. The TypeScript signature enforces this.',
+  },
+  {
+    name: 'children',
+    type: 'ReactNode',
+    required: true,
+    description: 'A single icon node — typically one of the icons exported from `@damo/ui`.',
+  },
+  {
+    name: 'variant',
+    type: "'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive' | 'link'",
+    defaultValue: "'primary'",
+    description: 'Same six variants as Button. The size is locked to the 40×40 `icon` preset.',
+  },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    description: 'Blocks pointer and keyboard activation.',
+  },
+]
+
 export const metadata = {
-  title: `Button — ${BRAND.libName}`,
-  description: 'Memphis-styled button component with primary and ghost variants.',
+  title: `Button & IconButton — ${BRAND.libName}`,
+  description: 'Memphis-styled button + icon-only variant.',
 }
 
 export default function ButtonDocsPage() {
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        COMPONENTS
+        ACTIONS &amp; SURFACES
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Button</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Bordered, shadowed action surface. Two variants, three sizes, full keyboard access via a
-        native <code className="font-mono">&lt;button&gt;</code>.
+        Bordered, shadowed action surface. Six variants, three sizes plus the dedicated icon size,
+        full keyboard access via a native <code className="font-mono">&lt;button&gt;</code>. Pair
+        with <code className="font-mono">IconButton</code> (documented below) for icon-only triggers
+        — same chrome, locked to a 40×40 square.
       </p>
 
       <h2 className="font-display text-2xl mb-3">Import</h2>
@@ -121,14 +160,15 @@ export default function ButtonDocsPage() {
         </Button>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">With icons</h2>
-      <Example code={ICON_SNIPPET}>
+      <h2 className="font-display text-2xl mb-3 mt-10">With inline icons</h2>
+      <p className="text-foreground/80 mb-3">
+        Place an icon inside the Button alongside text. Keep the visible label so the action stays
+        announce-able.
+      </p>
+      <Example code={ICON_INLINE_SNIPPET}>
         <Button variant="ghost">
           <ArrowRightIcon size={14} /> Continue
         </Button>
-        <IconButton aria-label="Settings" variant="ghost">
-          <CogIcon size={18} />
-        </IconButton>
       </Example>
 
       <h2 className="font-display text-2xl mb-3 mt-10">Disabled</h2>
@@ -167,7 +207,7 @@ export default function ButtonDocsPage() {
         </Button>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">API</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">Button API</h2>
       <PropsTable props={PROPS} caption="Button props" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
@@ -178,7 +218,7 @@ export default function ButtonDocsPage() {
         </li>
         <li>
           Always provide a non-empty label. For icon-only triggers use{' '}
-          <code className="font-mono">IconButton</code> with an{' '}
+          <code className="font-mono">IconButton</code> (documented below) with an{' '}
           <code className="font-mono">aria-label</code>.
         </li>
         <li>
@@ -190,9 +230,71 @@ export default function ButtonDocsPage() {
         </li>
       </ul>
 
+      {/* ────────────────────────────────────────────────────────────
+           IconButton (same family — documented on this page)
+           ──────────────────────────────────────────────────────── */}
+      <hr className="my-16 border-t-2 border-memphis" />
+
+      <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
+        SAME FAMILY
+      </div>
+      <h2 className="font-display text-4xl leading-[0.95] mb-4">IconButton</h2>
+      <p className="text-lg text-muted-foreground max-w-[60ch] mb-8">
+        A square 40×40 button for icon-only actions. Composes{' '}
+        <code className="font-mono">Button</code> with{' '}
+        <code className="font-mono">size=&quot;icon&quot;</code> and the same Memphis press effect;{' '}
+        <code className="font-mono">aria-label</code> is required so the action is announced.
+      </p>
+
+      <h3 className="font-display text-xl mb-3">Basic usage</h3>
+      <Example code={ICON_BUTTON_SNIPPET}>
+        <IconButton aria-label="Settings" variant="ghost">
+          <CogIcon size={18} />
+        </IconButton>
+      </Example>
+
+      <h3 className="font-display text-xl mb-3 mt-10">Variants</h3>
+      <p className="text-foreground/80 mb-3">
+        Same six variants as Button. The icon-only version of{' '}
+        <code className="font-mono">link</code> is rarely useful; reach for{' '}
+        <code className="font-mono">ghost</code> instead.
+      </p>
+      <Example code={ICON_BUTTON_VARIANTS_SNIPPET}>
+        <IconButton aria-label="Continue" variant="primary">
+          <ArrowRightIcon size={18} />
+        </IconButton>
+        <IconButton aria-label="Quick action" variant="outline">
+          <BoltIcon size={18} />
+        </IconButton>
+        <IconButton aria-label="Settings" variant="ghost">
+          <CogIcon size={18} />
+        </IconButton>
+      </Example>
+
+      <h3 className="font-display text-xl mb-3 mt-10">IconButton API</h3>
+      <PropsTable props={ICON_BUTTON_PROPS} caption="IconButton props" />
+
+      <h3 className="font-display text-xl mb-3 mt-10">Accessibility</h3>
+      <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>
+          <code className="font-mono">aria-label</code> is required and must be non-empty. The
+          TypeScript signature enforces this — passing{' '}
+          <code className="font-mono">aria-label=&quot;&quot;</code> is a type error.
+        </li>
+        <li>
+          The icon child is rendered visually only; ensure the surrounding context doesn&rsquo;t
+          rely on the icon being announced (it is not).
+        </li>
+        <li>
+          The 40×40 square satisfies WCAG 2.5.8 (Level AA, WCAG 2.2), which requires a 24×24 CSS
+          pixel minimum. To reach the 44×44 threshold of WCAG 2.5.5 (Level AAA), wrap the button
+          with a 4px margin or add hit-slop on the parent.
+        </li>
+      </ul>
+
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
-        <Link href="/docs/getting-started" className="text-primary underline">
-          ← Getting Started
+        <Link href="/docs/components/form-field" className="text-primary underline">
+          ← FormField
         </Link>
         <Link href="/docs/components/card" className="text-primary underline">
           Card →

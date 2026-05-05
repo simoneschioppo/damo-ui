@@ -60,6 +60,18 @@ export async function Code({
           {!hideCopy && <CopyButton text={code} />}
         </div>
       </div>
+      {/*
+        dangerouslySetInnerHTML is intentional and safe here:
+          1. `html` is the output of Shiki's `codeToHtml`, which runs only in
+             the server boundary (highlight.ts has `import 'server-only'`).
+          2. `code` is always passed in as a hard-coded string literal from a
+             docs page — it is never derived from user input or URL params.
+          3. The `lang` value is constrained to the `CodeLang` union and is
+             additionally regex-stripped inside `highlight.ts` before being
+             written into the rendered `<pre data-lang="…">` attribute.
+        Future refactors must preserve all three properties, otherwise this
+        becomes an XSS sink.
+      */}
       <div
         className="overflow-x-auto px-4 py-4 text-[13px] leading-relaxed [&_pre]:!bg-transparent [&_pre]:!m-0 [&_pre]:!p-0 [&_code]:font-mono"
         dangerouslySetInnerHTML={{ __html: html }}

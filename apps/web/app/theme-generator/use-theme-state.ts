@@ -401,7 +401,15 @@ function applyThemeToRoot(theme: Theme): void {
   }
 
   const root = document.documentElement
-  const currentPalette = root.getAttribute('data-palette')
+  // Read `data-palette` from the live DOM and validate it before interpolating
+  // into the CSS selector below. Without this guard a value crafted to escape
+  // the selector context (e.g. injected via localStorage from another origin
+  // page or browser devtools) could break out and inject arbitrary CSS into
+  // the runtime override stylesheet. We accept only the same shape the rest
+  // of the codebase uses for palette ids: `[a-z][a-z0-9-]*`.
+  const SAFE_PALETTE = /^[a-z][a-z0-9-]*$/
+  const rawPalette = root.getAttribute('data-palette')
+  const currentPalette = rawPalette && SAFE_PALETTE.test(rawPalette) ? rawPalette : null
   const lightSelector = currentPalette ? `:root[data-palette='${currentPalette}']` : ':root'
   const darkSelector = currentPalette
     ? `:root[data-palette='${currentPalette}'][data-theme='dark']`
