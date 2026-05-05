@@ -50,7 +50,17 @@ import {
   SelectValue,
 } from '../../components/select/select'
 import { Popover, PopoverContent, PopoverTrigger } from '../../components/popover/popover'
+import { DatePicker } from '../../components/date-picker/date-picker'
+import { Combobox } from '../../components/combobox/combobox'
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../../components/tooltip'
+import {
+  ToastProvider,
+  ToastViewport,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+} from '../../components/toast'
 import { Progress } from '../../components/progress'
 import { Spinner } from '../../components/spinner'
 import { Skeleton } from '../../components/skeleton'
@@ -66,6 +76,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../../components/dropdown-menu'
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from '../../components/context-menu'
 import { NavItem } from '../../components/nav-item'
 import { Breadcrumbs, BreadcrumbItem } from '../../components/breadcrumbs'
 import { Pagination } from '../../components/pagination'
@@ -155,6 +173,25 @@ function Subgroup({ label, children, inline = true }: SubgroupProps) {
 function PaginationDemo() {
   const [page, setPage] = useState(3)
   return <Pagination currentPage={page} totalPages={9} onPageChange={setPage} />
+}
+
+function ToastDemo() {
+  const [open, setOpen] = useState(false)
+  return (
+    <ToastProvider>
+      <Button variant="outline" onClick={() => setOpen(true)}>
+        Show toast
+      </Button>
+      <Toast open={open} onOpenChange={setOpen}>
+        <div className="flex-1">
+          <ToastTitle>Modifiche salvate</ToastTitle>
+          <ToastDescription>Il tuo theme è stato applicato.</ToastDescription>
+        </div>
+        <ToastClose />
+      </Toast>
+      <ToastViewport />
+    </ToastProvider>
+  )
 }
 
 const TABLE_ROWS = [
@@ -467,6 +504,22 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
               </Select>
               <ColorPicker label="Colore" value={color} onChange={setColor} />
             </Subgroup>
+
+            <Subgroup label="Date & autocomplete">
+              <DatePicker placeholder="Seleziona una data" />
+              <Combobox
+                placeholder="Cerca lingua…"
+                searchPlaceholder="Cerca…"
+                emptyMessage="Nessun risultato"
+                options={[
+                  { value: 'it', label: 'Italiano' },
+                  { value: 'en', label: 'English' },
+                  { value: 'fr', label: 'Français' },
+                  { value: 'es', label: 'Español' },
+                  { value: 'de', label: 'Deutsch' },
+                ]}
+              />
+            </Subgroup>
           </Section>
 
           {/* ─── Feedback ────────────────────────────────── */}
@@ -511,6 +564,10 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
               <Chip variant="success">success</Chip>
               <Chip variant="warning">warning</Chip>
               <Chip variant="danger">danger</Chip>
+            </Subgroup>
+
+            <Subgroup label="Toast" inline={false}>
+              <ToastDemo />
             </Subgroup>
 
             <Subgroup label="Hints" inline={false}>
@@ -564,6 +621,26 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                   <DropdownMenuItem>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+            </Subgroup>
+
+            <Subgroup label="Context menu" inline={false}>
+              <ContextMenu>
+                <ContextMenuTrigger asChild>
+                  <div
+                    aria-label="Right-click for menu"
+                    className="w-72 h-20 grid place-items-center border-2 border-dashed border-memphis bg-card text-sm text-muted-foreground select-none cursor-context-menu"
+                  >
+                    Right-click here
+                  </div>
+                </ContextMenuTrigger>
+                <ContextMenuContent>
+                  <ContextMenuLabel>Riga selezionata</ContextMenuLabel>
+                  <ContextMenuItem>Copia</ContextMenuItem>
+                  <ContextMenuItem>Duplica</ContextMenuItem>
+                  <ContextMenuSeparator />
+                  <ContextMenuItem>Elimina</ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             </Subgroup>
 
             <Subgroup label="NavItem · default + onDark tones" inline={false}>
@@ -641,6 +718,34 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                 <Stat label="Ordini" value="184" delta="-1.6%" deltaTone="negative" />
                 <Stat label="Conv." value="3.1%" />
                 <Stat label="MRR" value="€42k" delta="+24%" deltaTone="positive" />
+              </div>
+            </Subgroup>
+
+            <Subgroup label="Charts" inline={false}>
+              {/* Mini bar chart — each bar consumes one --chart-N token via
+                  the bg-chart-N Tailwind utility so the Identity → Charts
+                  controls are visually verifiable. */}
+              <div
+                className="flex items-end gap-2 h-24 p-3 border-2 border-memphis bg-card w-fit"
+                aria-label="Chart palette demo"
+              >
+                {([1, 2, 3, 4, 5] as const).map((i) => (
+                  <div key={i} className="flex flex-col items-center gap-1.5">
+                    <div
+                      data-chart-bar={i}
+                      className={cn(
+                        'w-7 border-2 border-memphis',
+                        i === 1 && 'bg-chart-1',
+                        i === 2 && 'bg-chart-2',
+                        i === 3 && 'bg-chart-3',
+                        i === 4 && 'bg-chart-4',
+                        i === 5 && 'bg-chart-5',
+                      )}
+                      style={{ height: `${30 + i * 8}px` }}
+                    />
+                    <span className="font-mono text-[10px] text-muted-foreground">chart-{i}</span>
+                  </div>
+                ))}
               </div>
             </Subgroup>
 
@@ -745,6 +850,26 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
                 </div>
                 <Separator />
               </div>
+            </Subgroup>
+
+            <Subgroup label="App pattern" inline={false}>
+              {/* Memphis app-pattern swatch — interpolates the three
+                  --app-pattern-color-N tokens and --app-pattern-size, so the
+                  Identity → App pattern controls have a live preview. The
+                  pattern is consumer-side decoration (not shipped by the
+                  lib), but the generator emits these tokens for sites that
+                  opt in. */}
+              <div
+                data-testid="app-pattern-swatch"
+                aria-label="App pattern preview"
+                className="w-72 h-32 border-2 border-memphis"
+                style={{
+                  backgroundColor: 'var(--card)',
+                  backgroundImage:
+                    'radial-gradient(circle at 25% 25%, var(--app-pattern-color-1) 9%, transparent 10%), radial-gradient(circle at 75% 75%, var(--app-pattern-color-2) 9%, transparent 10%), radial-gradient(circle at 50% 50%, var(--app-pattern-color-3) 6%, transparent 7%)',
+                  backgroundSize: 'var(--app-pattern-size, 140px) var(--app-pattern-size, 140px)',
+                }}
+              />
             </Subgroup>
 
             <Subgroup label="Decorative shapes">
