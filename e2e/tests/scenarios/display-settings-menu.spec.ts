@@ -54,8 +54,13 @@ test.describe('Docs preferences menu (topbar cog)', () => {
     })
     await page.goto('/')
     await expect(page.locator('html')).toHaveAttribute('data-palette', 'default')
-    const persisted = await page.evaluate(() => window.localStorage.getItem('palette'))
-    expect(persisted).toBe('default')
+    // The data-palette write and the localStorage write happen in the same
+    // useEffect tick but webkit occasionally surfaces a microtask gap where
+    // the attribute lands before the storage. Poll the storage to ride out
+    // that gap rather than reading it once.
+    await expect
+      .poll(() => page.evaluate(() => window.localStorage.getItem('palette')))
+      .toBe('default')
   })
 
   test('keeps the trigger visually pressed for the popover lifetime', async ({ page }) => {
