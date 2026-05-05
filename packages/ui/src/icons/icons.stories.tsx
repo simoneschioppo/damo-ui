@@ -110,7 +110,7 @@ export const Colors = () => (
   <div style={{ display: 'flex', gap: 12, fontSize: 24 }}>
     <CrownIcon size={32} style={{ color: 'var(--brand-500)' }} />
     <HeartIcon size={32} style={{ color: 'var(--destructive)' }} />
-    <BoltIcon size={32} style={{ color: 'var(--rage)' }} />
+    <BoltIcon size={32} style={{ color: 'var(--warning)' }} />
     <StarIcon size={32} style={{ color: 'var(--primary)' }} />
     <CheckIcon size={32} style={{ color: 'var(--success)' }} />
   </div>
