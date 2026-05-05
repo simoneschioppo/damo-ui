@@ -55,8 +55,6 @@ export interface SemanticTheme {
   readonly primaryForeground: string
   readonly secondary: string
   readonly secondaryForeground: string
-  readonly accent: string
-  readonly accentForeground: string
   readonly destructive: string
   readonly destructiveForeground: string
 
@@ -69,7 +67,6 @@ export interface SemanticTheme {
 
   readonly border: string
   readonly borderStrong: string
-  readonly input: string
   readonly ring: string
 
   readonly memphisShadowColor: string
@@ -181,7 +178,6 @@ export const SEMANTIC_GROUPS = {
   intents: [
     { bg: 'primary', fg: 'primaryForeground', label: 'Primary' },
     { bg: 'secondary', fg: 'secondaryForeground', label: 'Secondary' },
-    { bg: 'accent', fg: 'accentForeground', label: 'Accent' },
     { bg: 'destructive', fg: 'destructiveForeground', label: 'Destructive' },
   ],
   statuses: [
@@ -192,7 +188,6 @@ export const SEMANTIC_GROUPS = {
   chrome: [
     { key: 'border', label: 'Border' },
     { key: 'borderStrong', label: 'Border strong' },
-    { key: 'input', label: 'Input border' },
     { key: 'ring', label: 'Focus ring' },
   ],
   memphis: [
@@ -223,8 +218,6 @@ export function computeSemanticLight(p: RawPalette): SemanticTheme {
     primaryForeground: '#ffffff',
     secondary: p.ink['500'],
     secondaryForeground: p.paper['50'],
-    accent: p.brand['100'],
-    accentForeground: p.ink['900'],
     destructive: '#a13a2c',
     destructiveForeground: p.paper['50'],
 
@@ -237,7 +230,6 @@ export function computeSemanticLight(p: RawPalette): SemanticTheme {
 
     border: p.ink['900'] + '1f',
     borderStrong: p.ink['900'] + '38',
-    input: p.ink['900'] + '1f',
     ring: p.brand['500'],
 
     memphisShadowColor: '#000000',
@@ -263,8 +255,6 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
     primaryForeground: p.ink['900'],
     secondary: p.ink['500'],
     secondaryForeground: p.paper['50'],
-    accent: p.ink['700'],
-    accentForeground: p.brand['200'],
     destructive: '#c94a2f',
     destructiveForeground: p.paper['50'],
 
@@ -277,7 +267,6 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
 
     border: p.paper['50'] + '1f',
     borderStrong: p.paper['50'] + '38',
-    input: p.paper['50'] + '1f',
     ring: p.brand['500'],
 
     memphisShadowColor: '#000000',
