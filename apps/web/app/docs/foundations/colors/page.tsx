@@ -119,13 +119,12 @@ const TOKENS = [
   '--muted', '--muted-foreground',
   '--primary', '--primary-foreground',
   '--secondary', '--secondary-foreground',
-  '--accent', '--accent-foreground',
   '--destructive', '--destructive-foreground',
   '--success', '--success-foreground',
   '--warning', '--warning-foreground',
   '--info', '--info-foreground',
   '--border', '--border-strong',
-  '--input', '--ring',
+  '--ring',
   '--memphis-border-color', '--memphis-shadow-color',
 ] as const
 `
