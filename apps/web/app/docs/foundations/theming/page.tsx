@@ -54,20 +54,43 @@ localStorage.setItem('palette', 'neon')
 localStorage.setItem('density', 'compact')
 `
 
-const SWITCHERS_USAGE = `import { ThemeSwitcher, PaletteSwitcher, DensitySwitcher } from '@damo/ui'
+const SWITCHERS_USAGE = `import { AttrToggleGroup } from '@damo/ui'
 
 export function ThemeBar() {
   return (
     <div className="flex gap-3 items-center">
-      <ThemeSwitcher />
-      <PaletteSwitcher
-        defaultValue="default"
+      <AttrToggleGroup
+        label="Theme"
+        storageKey="theme"
+        attribute="data-theme"
+        options={[
+          { value: 'light', label: 'Light' },
+          { value: 'dark', label: 'Dark' },
+        ]}
+        defaultValue="light"
+      />
+      <AttrToggleGroup
+        label="Palette"
+        variant="select"
+        storageKey="palette"
+        attribute="data-palette"
         options={[
           { value: 'default', label: 'Plum + Gold' },
           { value: 'neon', label: 'Neon' },
         ]}
+        defaultValue="default"
       />
-      <DensitySwitcher />
+      <AttrToggleGroup
+        label="Density"
+        storageKey="density"
+        attribute="data-density"
+        options={[
+          { value: 'compact', label: 'Compatta' },
+          { value: 'normal', label: 'Normale' },
+          { value: 'comfortable', label: 'Ampia' },
+        ]}
+        defaultValue="normal"
+      />
     </div>
   )
 }
@@ -224,8 +247,8 @@ export default function ThemingFoundationPage() {
       <Code code={SWITCHERS_USAGE} lang="tsx" title="components/ThemeBar.tsx" />
       <p className="text-foreground/70 mt-4 text-[14px]">
         Full props in{' '}
-        <Link href="/docs/components/theme-switcher" className="text-primary underline">
-          Theme Switchers
+        <Link href="/docs/components/attr-toggle-group" className="text-primary underline">
+          AttrToggleGroup
         </Link>
         .
       </p>

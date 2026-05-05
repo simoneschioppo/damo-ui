@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { AppTopBar, DisplaySettingsMenu } from '@damo/ui'
+import { AppTopBar } from '@damo/ui'
 import { BrandMark } from '../components/BrandMark'
 import { BRAND } from '../lib/brand'
+import { DocsPreferencesMenu } from './_components/DocsPreferencesMenu'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -13,7 +14,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-theme="light" data-density="normal" suppressHydrationWarning>
+    <html
+      lang="en"
+      data-theme="light"
+      data-palette="default"
+      data-density="normal"
+      suppressHydrationWarning
+    >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -31,16 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <Link href="/theme-generator">Theme Generator</Link>
             </>
           }
-          actions={
-            <DisplaySettingsMenu
-              paletteOptions={[
-                { value: 'default', label: 'Plum+Gold' },
-                { value: 'neon', label: 'Neon' },
-                { value: 'sunset', label: 'Sunset' },
-              ]}
-              paletteDefaultValue="default"
-            />
-          }
+          actions={<DocsPreferencesMenu />}
         />
         {children}
       </body>

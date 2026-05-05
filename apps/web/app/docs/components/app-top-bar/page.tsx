@@ -1,15 +1,10 @@
 import Link from 'next/link'
-import { AppTopBar, Button, ThemeSwitcher } from '@damo/ui'
+import { AppTopBar, AttrToggleGroup, Button } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import {
-  AppTopBar,
-  ThemeSwitcher,
-  PaletteSwitcher,
-  DensitySwitcher,
-} from '@damo/ui'
+const IMPORT_SNIPPET = `import { AppTopBar, AttrToggleGroup } from '@damo/ui'
 import Link from 'next/link'`
 
 const BASIC_SNIPPET = `<AppTopBar
@@ -21,16 +16,16 @@ const BASIC_SNIPPET = `<AppTopBar
     </>
   }
   actions={
-    <>
-      <ThemeSwitcher />
-      <PaletteSwitcher
-        options={[
-          { value: 'default', label: 'Plum+Gold' },
-          { value: 'neon', label: 'Neon' },
-        ]}
-      />
-      <DensitySwitcher />
-    </>
+    <AttrToggleGroup
+      label="Theme"
+      storageKey="theme"
+      attribute="data-theme"
+      options={[
+        { value: 'light', label: 'Light' },
+        { value: 'dark', label: 'Dark' },
+      ]}
+      defaultValue="light"
+    />
   }
 />`
 
@@ -51,7 +46,7 @@ const PROPS: ReadonlyArray<PropDef> = [
   {
     name: 'actions',
     type: 'ReactNode',
-    description: 'Right-aligned controls. Switchers, account menus, etc.',
+    description: 'Right-aligned controls. Compose with `AttrToggleGroup`, `Popover`, etc.',
   },
   {
     name: 'sticky',
@@ -72,7 +67,7 @@ export default function AppTopBarDocsPage() {
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        COMPONENTS
+        LAYOUT
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">AppTopBar</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -99,7 +94,16 @@ export default function AppTopBarDocsPage() {
               <Button variant="ghost" size="sm">
                 Sign in
               </Button>
-              <ThemeSwitcher />
+              <AttrToggleGroup
+                label="Theme"
+                storageKey="docs-app-top-bar-theme"
+                attribute="data-app-top-bar-theme"
+                options={[
+                  { value: 'light', label: 'Light' },
+                  { value: 'dark', label: 'Dark' },
+                ]}
+                defaultValue="light"
+              />
             </>
           }
         />
@@ -126,11 +130,11 @@ export default function AppTopBarDocsPage() {
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
-        <Link href="/docs/components/input" className="text-primary underline">
-          ← Input
+        <Link href="/docs/components/app-shell" className="text-primary underline">
+          ← AppShell
         </Link>
-        <Link href="/docs/components/sidebar" className="text-primary underline">
-          Sidebar →
+        <Link href="/docs/components/page-header" className="text-primary underline">
+          PageHeader →
         </Link>
       </div>
     </article>

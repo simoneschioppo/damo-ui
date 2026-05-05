@@ -11,7 +11,12 @@ test.describe('Docs shell', () => {
     const sidebar = page.getByRole('complementary').or(page.locator('aside'))
     await expect(page.getByText('Getting Started', { exact: true }).first()).toBeVisible()
     await expect(page.getByText('Foundations', { exact: true }).first()).toBeVisible()
-    await expect(page.getByText('Components', { exact: true }).first()).toBeVisible()
+    // Components are split across multiple groups (Primitives, Actions &
+    // Surfaces, Forms, Feedback, Navigation, Theme controls, Data display,
+    // Layout, Showcase / DS) — assert the major ones surface.
+    await expect(page.getByText('Primitives', { exact: true }).first()).toBeVisible()
+    await expect(page.getByText('Forms', { exact: true }).first()).toBeVisible()
+    await expect(page.getByText('Feedback', { exact: true }).first()).toBeVisible()
     expect(await sidebar.count()).toBeGreaterThan(0)
   })
 
