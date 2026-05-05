@@ -64,6 +64,16 @@ describe('ArticleCard', () => {
     expect(root.className).toContain('bg-card')
   })
 
+  it('declares rounded-none so --radius-none token theming reaches the frame', () => {
+    const { container } = render(
+      <ArticleCard title="Regola base">
+        <p>Testo</p>
+      </ArticleCard>,
+    )
+    const root = container.firstChild as HTMLElement
+    expect(root.className).toContain('rounded-none')
+  })
+
   it('caps the maxWidth to 420px via inline style', () => {
     const { container } = render(
       <ArticleCard title="Regola base">

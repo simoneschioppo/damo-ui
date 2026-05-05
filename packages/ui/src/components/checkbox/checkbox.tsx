@@ -14,7 +14,7 @@ export const Checkbox = forwardRef<
       ref={ref}
       className={cn(
         'inline-flex items-center justify-center shrink-0',
-        'h-5 w-5 border-2 border-memphis bg-card',
+        'h-5 w-5 border-2 border-memphis rounded-none bg-card',
         'transition-colors duration-fast cursor-pointer',
         'hover:bg-muted',
         'data-[state=checked]:bg-foreground data-[state=checked]:text-background',
