@@ -30,24 +30,20 @@ export const ArticleCard = forwardRef<HTMLDivElement, ArticleCardProps>(function
       {label && (
         <div
           data-slot="label"
-          className="font-mono font-bold uppercase text-muted-foreground"
-          style={{ fontSize: 10, letterSpacing: '0.2em', marginBottom: 8 }}
+          className="font-mono font-bold uppercase text-muted-foreground text-xs"
+          style={{ letterSpacing: '0.2em', marginBottom: 8 }}
         >
           {label}
         </div>
       )}
       <h4
         data-slot="title"
-        className="font-display text-foreground m-0"
-        style={{ fontSize: 20, lineHeight: 1.15, marginBottom: 12 }}
+        className="font-display text-foreground text-xl m-0"
+        style={{ lineHeight: 1.15, marginBottom: 12 }}
       >
         {title}
       </h4>
-      <div
-        data-slot="body"
-        className="text-muted-foreground leading-relaxed"
-        style={{ fontSize: 14 }}
-      >
+      <div data-slot="body" className="text-muted-foreground text-sm leading-relaxed">
         {children}
       </div>
     </div>

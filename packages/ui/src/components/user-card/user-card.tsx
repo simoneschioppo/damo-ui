@@ -46,21 +46,20 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
       ) : (
         <div
           data-slot="avatar"
-          className="shrink-0 grid place-items-center w-12 h-12 rounded-full border-2 border-memphis bg-foreground text-background font-display font-bold"
-          style={{ fontSize: 20 }}
+          className="shrink-0 grid place-items-center w-12 h-12 rounded-full border-2 border-memphis bg-foreground text-background font-display font-bold text-xl"
         >
           {initial}
         </div>
       )}
       <div className="flex-1 min-w-0">
-        <div data-slot="name" className="font-bold text-card-foreground" style={{ fontSize: 15 }}>
+        <div data-slot="name" className="font-bold text-card-foreground text-base">
           {name}
         </div>
         {meta !== undefined && meta !== null && (
           <div
             data-slot="meta"
-            className="font-mono uppercase text-muted-foreground mt-0.5"
-            style={{ fontSize: 11, letterSpacing: '0.08em' }}
+            className="font-mono uppercase text-muted-foreground text-xs mt-0.5"
+            style={{ letterSpacing: '0.08em' }}
           >
             {meta}
           </div>
