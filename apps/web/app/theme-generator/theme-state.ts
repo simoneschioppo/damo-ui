@@ -21,7 +21,7 @@ export type TypographySizeKey = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3x
 export type RadiusKey = 'none' | 'sm' | 'md' | 'selection' | 'pill' | 'full'
 export type ShadowMemphisKey = 'sm' | 'card' | 'md' | 'lg' | 'hover' | 'active'
 export type MotionDurationKey = 'snap' | 'fast' | 'base' | 'slow'
-export type MotionEasingKey = 'memphis' | 'out' | 'in-out'
+export type MotionEasingKey = 'memphis' | 'out'
 
 export type MedalRank = 'bronze' | 'silver' | 'gold' | 'master' | 'grandmaster'
 
@@ -355,7 +355,6 @@ const DEFAULT_MOTION: MotionFoundation = {
   easings: {
     memphis: 'cubic-bezier(0.4, 1.3, 0.5, 1)',
     out: 'cubic-bezier(0.2, 0.9, 0.3, 1)',
-    'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
   },
 }
 
