@@ -26,7 +26,11 @@ export const navItemVariants = cva(
           'aria-[current=page]:before:bg-primary',
         ],
         onDark: [
-          'text-[rgba(255,255,255,0.72)] hover:text-white hover:bg-white/5 hover:translate-x-0.5',
+          // Idle + hover colours read from the nav-on-dark identity tokens so
+          // the theme generator's "Nav on dark" controls actually theme the
+          // navbar — previously these were hardcoded to the default rgba/white
+          // and ignored token overrides.
+          'text-[var(--nav-on-dark-foreground)] hover:text-[var(--nav-on-dark-foreground-strong)] hover:bg-white/5 hover:translate-x-0.5',
           'aria-[current=page]:text-[var(--nav-on-dark-accent)]',
           'aria-[current=page]:rounded-selection',
           'aria-[current=page]:bg-[linear-gradient(135deg,rgba(213,168,69,0.22),rgba(122,57,128,0.12))]',
