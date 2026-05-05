@@ -51,8 +51,6 @@
   --primary-foreground: #ffffff;
   --secondary: var(--ink-500);
   --secondary-foreground: var(--paper-50);
-  --accent: var(--brand-100);
-  --accent-foreground: var(--ink-900);
   --destructive: #a13a2c;
   --destructive-foreground: var(--paper-50);
 
@@ -62,12 +60,9 @@
   --warning-foreground: var(--paper-50);
   --info: var(--ink-500);
   --info-foreground: var(--paper-50);
-  --rage: #c94a2f;
-  --rage-foreground: var(--paper-50);
 
   --border: color-mix(in oklab, var(--ink-900) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--ink-900) 22%, transparent);
-  --input: color-mix(in oklab, var(--ink-900) 12%, transparent);
   --ring: var(--brand-500);
 
   --memphis-shadow-color: #000000;
@@ -75,14 +70,6 @@
 
   --badge-featured: var(--brand-500);
   --badge-featured-foreground: #000000;
-  --badge-copper: var(--brand-500);
-  --badge-copper-foreground: #ffffff;
-  --badge-navy: var(--ink-900);
-  --badge-navy-foreground: var(--brand-200);
-  --badge-draw: var(--paper-100);
-  --badge-draw-foreground: var(--ink-900);
-  --badge-rank: var(--brand-100);
-  --badge-rank-foreground: var(--ink-900);
 
   --chart-1: var(--ink-500);
   --chart-2: var(--brand-500);
@@ -132,8 +119,6 @@
   --primary-foreground: var(--ink-900);
   --secondary: var(--ink-500);
   --secondary-foreground: var(--paper-50);
-  --accent: var(--ink-700);
-  --accent-foreground: var(--brand-200);
   --destructive: #c94a2f;
   --destructive-foreground: var(--paper-50);
 
@@ -143,12 +128,9 @@
   --warning-foreground: var(--ink-900);
   --info: var(--ink-300);
   --info-foreground: var(--ink-900);
-  --rage: #e06b4f;
-  --rage-foreground: var(--ink-900);
 
   --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
-  --input: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --ring: var(--brand-500);
 
   /* Memphis identity stays solid black in dark mode so shadows remain
@@ -158,14 +140,6 @@
 
   --badge-featured: var(--brand-500);
   --badge-featured-foreground: var(--ink-900);
-  --badge-copper: var(--brand-500);
-  --badge-copper-foreground: var(--paper-50);
-  --badge-navy: var(--ink-700);
-  --badge-navy-foreground: var(--brand-200);
-  --badge-draw: var(--ink-700);
-  --badge-draw-foreground: var(--paper-50);
-  --badge-rank: var(--ink-700);
-  --badge-rank-foreground: var(--brand-200);
 }
 
 /* ── Palette: Neon (magenta + lime) ─────────────────────── */
