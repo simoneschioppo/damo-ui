@@ -101,6 +101,17 @@ describe('ComponentsPreview', () => {
     expect(size).toContain('--app-pattern-size')
   })
 
+  it('renders a ContextMenu trigger area in the navigation section', () => {
+    render(<ComponentsPreview />)
+    const navigation = document.getElementById('navigation') as HTMLElement
+    expect(navigation).not.toBeNull()
+    const scoped = within(navigation)
+    expect(scoped.getByText('Context menu')).toBeInTheDocument()
+    // The trigger is an interactive surface that announces its right-click
+    // affordance via aria-label so screen-reader users know what it does.
+    expect(scoped.getByLabelText(/right-click for menu/i)).toBeInTheDocument()
+  })
+
   it('exposes a Toast trigger that pops a toast with title + description', () => {
     render(<ComponentsPreview />)
     const feedback = document.getElementById('feedback') as HTMLElement
