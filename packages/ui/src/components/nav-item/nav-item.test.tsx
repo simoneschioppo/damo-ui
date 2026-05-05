@@ -117,4 +117,22 @@ describe('NavItem onDark tone — preserved behavior', () => {
     expect(cls).toContain('aria-[current=page]:text-[var(--nav-on-dark-accent)]')
     expect(cls).toContain('aria-[current=page]:before:bg-[var(--nav-on-dark-accent-strong)]')
   })
+
+  it('idle + hover text colours read from the nav-on-dark identity tokens', () => {
+    // Regression: previously hardcoded to rgba(255,255,255,0.72) / text-white,
+    // which made the theme generator's "Nav on dark / foreground(-strong)"
+    // controls visually no-ops. Wiring them through the variants makes those
+    // tokens actually theme the navbar.
+    const { container } = render(
+      <NavItem href="#" tone="onDark">
+        Home
+      </NavItem>,
+    )
+    const cls = container.querySelector('a')!.className
+    expect(cls).toContain('text-[var(--nav-on-dark-foreground)]')
+    expect(cls).toContain('hover:text-[var(--nav-on-dark-foreground-strong)]')
+    // Old hardcoded colours must not survive.
+    expect(cls).not.toContain('text-[rgba(255,255,255,0.72)]')
+    expect(cls).not.toContain('hover:text-white')
+  })
 })
