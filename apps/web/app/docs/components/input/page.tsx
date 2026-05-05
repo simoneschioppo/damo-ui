@@ -94,11 +94,11 @@ export default function InputDocsPage() {
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
-        <Link href="/docs/components/dialog" className="text-primary underline">
-          ← Dialog
+        <Link href="/docs/components/banner" className="text-primary underline">
+          ← Banner
         </Link>
-        <Link href="/docs/components/app-top-bar" className="text-primary underline">
-          AppTopBar →
+        <Link href="/docs/components/textarea" className="text-primary underline">
+          Textarea →
         </Link>
       </div>
     </article>

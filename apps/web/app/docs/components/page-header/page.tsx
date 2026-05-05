@@ -1,0 +1,96 @@
+import Link from 'next/link'
+import { PageHeader, Button } from '@damo/ui'
+import { Code } from '../../_components/Code'
+import { Example } from '../../_components/Example'
+import { PropsTable, type PropDef } from '../../_components/PropsTable'
+import { BRAND } from '../../../../lib/brand'
+
+const IMPORT_SNIPPET = `import { PageHeader } from '@damo/ui'`
+
+const BASIC_SNIPPET = `<PageHeader
+  eyebrow="WORKSPACE"
+  title="Damacchi UI"
+  description="Memphis-inspired component library, ready to ship."
+  actions={<Button variant="primary">Invite</Button>}
+/>`
+
+const PROPS: ReadonlyArray<PropDef> = [
+  {
+    name: 'eyebrow',
+    type: 'ReactNode',
+    description: 'Optional small uppercase label rendered above the title.',
+  },
+  {
+    name: 'title',
+    type: 'ReactNode',
+    required: true,
+    description: 'Page heading rendered as an `<h1>` in the display font.',
+  },
+  {
+    name: 'description',
+    type: 'ReactNode',
+    description: 'Optional paragraph below the title.',
+  },
+  {
+    name: 'actions',
+    type: 'ReactNode',
+    description: 'Optional right-aligned slot for primary actions (Buttons, IconButtons, …).',
+  },
+]
+
+export const metadata = { title: `PageHeader — ${BRAND.libName}` }
+
+export default function PageHeaderDocsPage() {
+  return (
+    <article>
+      <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
+        LAYOUT
+      </div>
+      <h1 className="font-display text-5xl leading-[0.95] mb-4">PageHeader</h1>
+      <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
+        Top-of-page strip with eyebrow + display title + description + right-aligned actions slot.
+        Renders a real <code className="font-mono">&lt;header&gt;</code> landmark with a bottom
+        hairline border.
+      </p>
+
+      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <Code code={IMPORT_SNIPPET} lang="tsx" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Live preview</h2>
+      <Example code={BASIC_SNIPPET}>
+        <div className="w-full">
+          <PageHeader
+            eyebrow="WORKSPACE"
+            title="Damacchi UI"
+            description="Memphis-inspired component library, ready to ship."
+            actions={<Button variant="primary">Invite</Button>}
+          />
+        </div>
+      </Example>
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <PropsTable props={PROPS} caption="PageHeader props" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>
+          The wrapper is a real <code className="font-mono">&lt;header&gt;</code> — adds a banner
+          landmark when used at the page level.
+        </li>
+        <li>
+          The title renders as <code className="font-mono">&lt;h1&gt;</code>; only one PageHeader
+          per route.
+        </li>
+      </ul>
+
+      <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
+        <Link href="/docs/components/app-top-bar" className="text-primary underline">
+          ← AppTopBar
+        </Link>
+        <Link href="/docs/components/sidebar" className="text-primary underline">
+          Sidebar →
+        </Link>
+      </div>
+    </article>
+  )
+}
