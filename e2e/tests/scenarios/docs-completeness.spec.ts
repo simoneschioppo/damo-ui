@@ -54,7 +54,10 @@ test.describe('Docs completeness — values & code usage', () => {
 
   test('Foundations/Patterns shows code usage examples', async ({ page }) => {
     await page.goto('/docs/foundations/patterns')
-    await expect(page.getByRole('heading', { name: /Using PatternSwatch/i })).toBeVisible()
+    // The 'Using PatternSwatch' subsection was dropped — PatternSwatch is
+    // a docs-site-private renderer (apps/web/_components/showcase), not a
+    // public lib export. The page now documents pattern recipes (CSS
+    // gradients) and shape primitives only.
     await expect(
       page.getByRole('heading', { name: /Using the patterns directly in CSS/i }),
     ).toBeVisible()
