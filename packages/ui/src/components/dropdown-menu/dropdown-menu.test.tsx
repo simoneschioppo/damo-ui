@@ -48,7 +48,23 @@ describe('DropdownMenuContent', () => {
     expect(menu.className).toContain('border-2')
     expect(menu.className).toContain('border-memphis')
     expect(menu.className).toContain('shadow-memphis')
-    expect(menu.className).toContain('bg-card')
+  })
+
+  it('reads --popover / --popover-foreground (not --card / --foreground)', () => {
+    render(
+      <DropdownMenu defaultOpen>
+        <DropdownMenuTrigger>open</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Hello</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    )
+    const menu = screen.getByRole('menu')
+    // The content surface is themable via the popover token pair so the
+    // theme generator's "Popover" editor reaches dropdowns too.
+    expect(menu.className).toContain('bg-popover')
+    expect(menu.className).toContain('text-popover-foreground')
+    expect(menu.className).not.toMatch(/\bbg-card\b/)
   })
 })
 
