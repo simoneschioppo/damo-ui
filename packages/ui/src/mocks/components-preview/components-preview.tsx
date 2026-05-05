@@ -895,7 +895,7 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
               <Ornament />
               <MemphisShape variant="zigzag" size={48} color="var(--primary)" />
               <MemphisShape variant="blob" size={48} color="var(--secondary)" />
-              <MemphisShape variant="diamond" size={32} color="var(--accent)" />
+              <MemphisShape variant="diamond" size={32} color="var(--info)" />
               <MemphisShape variant="circle" size={32} color="var(--success)" />
               <MemphisShape variant="triangle" size={32} color="var(--warning)" />
             </Subgroup>
