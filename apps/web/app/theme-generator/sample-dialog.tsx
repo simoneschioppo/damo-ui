@@ -45,8 +45,8 @@ export function SampleDialog() {
 
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap gap-2">
-            <Badge variant="copper">PRO</Badge>
-            <Badge variant="featured">v1.4.2</Badge>
+            <Badge variant="featured">PRO</Badge>
+            <Badge variant="success">v1.4.2</Badge>
             <Badge variant="default">Stable</Badge>
           </div>
           <Label htmlFor="sample-dialog-version">Tag versione</Label>

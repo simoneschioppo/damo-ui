@@ -16,7 +16,6 @@ import {
   type ShadowMemphisKey,
   type MotionDurationKey,
   type MotionEasingKey,
-  SPACING_BASE_PX,
 } from './theme-state'
 import { type PresetName, applyPreset, PRESET_PALETTES } from './presets'
 
@@ -67,8 +66,7 @@ type Action =
       slot: 'x' | 'y' | 'color'
       value: number | string
     }
-  | { type: 'SET_SHADOW_SOFT'; mode: ThemeMode; key: 'sm' | 'md' | 'lg'; value: number }
-  | { type: 'SET_SPACING_SCALE'; mode: ThemeMode; value: number }
+  | { type: 'SET_SHADOW_SOFT'; mode: ThemeMode; value: number }
   | { type: 'SET_DURATION'; mode: ThemeMode; key: MotionDurationKey; value: number }
   | { type: 'SET_EASING'; mode: ThemeMode; key: MotionEasingKey; value: string }
   | { type: 'RESET'; preset: PresetName }
@@ -297,16 +295,7 @@ export function reducer(state: Theme, action: Action): Theme {
         ...state,
         shadowSoft: {
           ...state.shadowSoft,
-          [action.mode]: { ...state.shadowSoft[action.mode], [action.key]: action.value },
-        },
-      }
-
-    case 'SET_SPACING_SCALE':
-      return {
-        ...state,
-        spacing: {
-          ...state.spacing,
-          [action.mode]: { scale: action.value },
+          [action.mode]: { md: action.value },
         },
       }
 
@@ -449,7 +438,7 @@ function emitFoundationsVars(theme: Theme, mode: ThemeMode, lines: string[]): vo
     lines.push(`  ${cssName}: ${t.sizes[k]}px;`)
   })
   const r = theme.radius[mode]
-  ;(['none', 'sm', 'md', 'lg', 'pill', 'full'] as const).forEach((k) => {
+  ;(['none', 'sm', 'md', 'selection', 'pill', 'full'] as const).forEach((k) => {
     const v = r[k]
     const css = k === 'pill' ? '999px' : k === 'full' ? '50%' : v === 0 ? '0' : `${v}px`
     lines.push(`  --radius-${k}: ${css};`)
@@ -461,13 +450,7 @@ function emitFoundationsVars(theme: Theme, mode: ThemeMode, lines: string[]): vo
     lines.push(`  ${cssName}: ${s.x}px ${s.y}px 0 ${s.color};`)
   })
   const ss = theme.shadowSoft[mode]
-  lines.push(`  --shadow-sm: 0 1px 2px rgba(0,0,0,${ss.sm});`)
   lines.push(`  --shadow-md: 0 2px 8px rgba(0,0,0,${ss.md});`)
-  lines.push(`  --shadow-lg: 0 8px 24px rgba(0,0,0,${ss.lg});`)
-  const sp = theme.spacing[mode]
-  SPACING_BASE_PX.forEach(([k, px]) => {
-    lines.push(`  --${k}: ${px * sp.scale}px;`)
-  })
   const m = theme.motion[mode]
   ;(['snap', 'fast', 'base', 'slow'] as const).forEach((k) => {
     lines.push(`  --duration-${k}: ${m.durations[k]}ms;`)

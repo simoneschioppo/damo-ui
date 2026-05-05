@@ -44,6 +44,7 @@ import {
 import { BRAND } from '../../lib/brand'
 import {
   AuthPreview,
+  ComponentsPreview,
   DashboardPreview,
   FeedPreview,
   GalleryPreview,
@@ -80,7 +81,7 @@ import {
 
 type ThemeDispatch = ReturnType<typeof useThemeState>['dispatch']
 
-type SceneTab = 'gallery' | 'auth' | 'dashboard' | 'profile' | 'feed'
+type SceneTab = 'components' | 'gallery' | 'auth' | 'dashboard' | 'profile' | 'feed'
 type ExportTab = 'css' | 'tailwind' | 'json'
 type EditorTab = 'palette' | 'theme' | 'identity'
 type EditMode = ThemeMode
@@ -92,15 +93,7 @@ type IncludeKey = keyof IncludeFlags
 // ═══════════════════════════════════════════════════════════
 
 const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl']
-const RADIUS_KEYS: ReadonlyArray<RadiusKey> = [
-  'none',
-  'sm',
-  'md',
-  'lg',
-  'selection',
-  'pill',
-  'full',
-]
+const RADIUS_KEYS: ReadonlyArray<RadiusKey> = ['none', 'sm', 'md', 'selection', 'pill', 'full']
 const SHADOW_MEMPHIS_KEYS: ReadonlyArray<ShadowMemphisKey> = [
   'sm',
   'card',
@@ -824,64 +817,22 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
               )
             })}
             <span className="eyebrow">Soft</span>
-            {(['sm', 'md', 'lg'] as const).map((k) => {
-              const lightVal = String(theme.shadowSoft.light[k])
-              const darkVal = String(theme.shadowSoft.dark[k])
-              return (
-                <DivergenceWrapper
-                  key={k}
-                  token={`shadow-soft-${k}`}
-                  lightValue={lightVal}
-                  darkValue={darkVal}
-                >
-                  <Label>
-                    {k} opacity · {theme.shadowSoft[mode][k].toFixed(2)}
-                  </Label>
-                  <Slider
-                    value={[Math.round(theme.shadowSoft[mode][k] * 100)]}
-                    min={0}
-                    max={30}
-                    step={1}
-                    onValueChange={(v) => {
-                      const n = v[0]
-                      if (typeof n === 'number') {
-                        dispatch({
-                          type: 'SET_SHADOW_SOFT',
-                          mode,
-                          key: k,
-                          value: Number((n / 100).toFixed(2)),
-                        })
-                      }
-                    }}
-                  />
-                </DivergenceWrapper>
-              )
-            })}
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-
-      {/* Spacing */}
-      <AccordionItem value="spacing">
-        <AccordionTrigger>Spacing</AccordionTrigger>
-        <AccordionContent>
-          <div style={stackStyle}>
-            <Label>Scale · {theme.spacing[mode].scale.toFixed(2)}×</Label>
             <DivergenceWrapper
-              token="spacing-scale"
-              lightValue={String(theme.spacing.light.scale)}
-              darkValue={String(theme.spacing.dark.scale)}
+              token="shadow-soft-md"
+              lightValue={String(theme.shadowSoft.light.md)}
+              darkValue={String(theme.shadowSoft.dark.md)}
             >
+              <Label>md opacity · {theme.shadowSoft[mode].md.toFixed(2)}</Label>
               <Slider
-                value={[Math.round(theme.spacing[mode].scale * 100)]}
-                min={50}
-                max={150}
-                step={5}
+                value={[Math.round(theme.shadowSoft[mode].md * 100)]}
+                min={0}
+                max={30}
+                step={1}
                 onValueChange={(v) => {
                   const n = v[0]
                   if (typeof n === 'number') {
                     dispatch({
-                      type: 'SET_SPACING_SCALE',
+                      type: 'SET_SHADOW_SOFT',
                       mode,
                       value: Number((n / 100).toFixed(2)),
                     })
@@ -976,7 +927,7 @@ export default function ThemeGeneratorPage() {
 
   const [editorTab, setEditorTab] = useState<EditorTab>('theme')
   const [editMode, setEditMode] = useState<EditMode>('light')
-  const [sceneTab, setSceneTab] = useState<SceneTab>('gallery')
+  const [sceneTab, setSceneTab] = useState<SceneTab>('components')
   const [exportTab, setExportTab] = useState<ExportTab>('css')
   const [previewPaneTab, setPreviewPaneTab] = useState<'preview' | 'export'>('preview')
   const [copyState, setCopyState] = useState<'copied' | 'error' | null>(null)
@@ -1158,6 +1109,7 @@ export default function ThemeGeneratorPage() {
                 {/* Scene tabs */}
                 <Tabs value={sceneTab} onValueChange={(v) => setSceneTab(v as SceneTab)}>
                   <TabsList>
+                    <TabsTrigger value="components">Components</TabsTrigger>
                     <TabsTrigger value="gallery">Gallery</TabsTrigger>
                     <TabsTrigger value="auth">Auth</TabsTrigger>
                     <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
@@ -1176,6 +1128,7 @@ export default function ThemeGeneratorPage() {
                   border: '2px solid var(--memphis-border-color)',
                 }}
               >
+                {sceneTab === 'components' && <ComponentsPreview />}
                 {sceneTab === 'gallery' && <GalleryPreview />}
                 {sceneTab === 'auth' && <AuthPreview />}
                 {sceneTab === 'dashboard' && <DashboardPreview />}
