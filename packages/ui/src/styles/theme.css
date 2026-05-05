@@ -28,8 +28,6 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 
@@ -37,9 +35,6 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning-foreground: var(--warning-foreground);
   --color-info-foreground: var(--info-foreground);
-
-  /* Chrome primitives */
-  --color-input: var(--input);
 
   /* Memphis identity */
   --color-memphis: var(--memphis-border-color);

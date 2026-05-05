@@ -3,8 +3,8 @@
  * The lib ships ONLY:
  * - Neutral grayscale LIGHT semantic defaults for every public token
  *   (background/foreground, card, popover, muted, primary, secondary,
- *   accent, destructive, status colors, chrome, badge featured,
- *   charts, medals, nav-on-dark, memphis identity).
+ *   destructive, status colors, chrome, badge featured, charts,
+ *   medals, nav-on-dark, memphis identity).
  * - Typography / radius / shadow / motion / z-index / density
  *   scales — these are the lib's "tech identity", not its visual brand.
  *
@@ -30,12 +30,14 @@
   --muted-foreground: #71717a;
 
   /* ── Intent ──────────────────────────────────────── */
+  /* `--accent` was dropped in the v1 audit — the lib's components use
+     `hover:bg-muted` for the hover/active surface that shadcn typically
+     paints with --accent, so the token had zero consumers. Use the
+     `secondary` pair for a bolder filled treatment. */
   --primary: #18181b;
   --primary-foreground: #fafafa;
   --secondary: #f4f4f5;
   --secondary-foreground: #18181b;
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
   --destructive: #dc2626;
   --destructive-foreground: #fafafa;
 
@@ -48,9 +50,12 @@
   --info-foreground: #fafafa;
 
   /* ── Chrome primitives ───────────────────────────── */
+  /* `--input` was dropped in the v1 audit — Input/Textarea/Select all use
+     the Memphis `border-2 border-memphis` idiom rather than shadcn's
+     `border-input`, so the token had zero consumers. Theme the Memphis
+     border via `--memphis-border-color` instead. */
   --border: #e4e4e7;
   --border-strong: #a1a1aa;
-  --input: #e4e4e7;
   --ring: #18181b;
 
   /* ── Memphis identity ────────────────────────────── */
@@ -60,8 +65,7 @@
   /* ── Badge "featured" intent ────────────────────── */
   /* The only badge-specific token kept after the v1 audit — every other
      badge variant maps to standard intents (success/destructive/warning/
-     info) or to muted/transparent. `featured` is a generic "highlighted"
-     accent, distinct enough from `accent` to deserve its own pair. */
+     info) or to muted/transparent. */
   --badge-featured: #18181b;
   --badge-featured-foreground: #fafafa;
 
