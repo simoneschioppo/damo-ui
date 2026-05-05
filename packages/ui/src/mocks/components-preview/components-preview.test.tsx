@@ -83,6 +83,24 @@ describe('ComponentsPreview', () => {
     }
   })
 
+  it('renders an App pattern swatch consuming --app-pattern-* CSS variables', () => {
+    render(<ComponentsPreview />)
+    const layout = document.getElementById('layout') as HTMLElement
+    expect(layout).not.toBeNull()
+    const scoped = within(layout)
+    expect(scoped.getByText('App pattern')).toBeInTheDocument()
+    const swatch = layout.querySelector('[data-testid="app-pattern-swatch"]')
+    expect(swatch).not.toBeNull()
+    const bg = (swatch as HTMLElement).style.backgroundImage
+    // The swatch interpolates the three pattern colour variables via inline
+    // style so the test confirms each one is read at render time.
+    expect(bg).toContain('--app-pattern-color-1')
+    expect(bg).toContain('--app-pattern-color-2')
+    expect(bg).toContain('--app-pattern-color-3')
+    const size = (swatch as HTMLElement).style.backgroundSize
+    expect(size).toContain('--app-pattern-size')
+  })
+
   it('renders both NavItem tones (default + onDark)', () => {
     render(<ComponentsPreview />)
     // The tone subgroup label, plus per-panel labels for each tone.
