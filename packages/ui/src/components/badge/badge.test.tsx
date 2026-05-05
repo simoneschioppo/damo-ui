@@ -5,12 +5,10 @@ import { Badge } from './badge'
 const VARIANT_MARKERS: Array<[NonNullable<Parameters<typeof Badge>[0]['variant']>, string]> = [
   ['default', 'bg-muted'],
   ['featured', 'bg-badge-featured'],
-  ['copper', 'bg-badge-copper'],
-  ['navy', 'bg-badge-navy'],
-  ['win', 'bg-success'],
-  ['loss', 'bg-destructive'],
-  ['draw', 'bg-badge-draw'],
-  ['rank', 'bg-badge-rank'],
+  ['success', 'bg-success'],
+  ['warning', 'bg-warning'],
+  ['info', 'bg-info'],
+  ['destructive', 'bg-destructive'],
   ['outline', 'bg-transparent'],
 ]
 
@@ -21,7 +19,7 @@ describe('Badge', () => {
       const el = container.firstChild as HTMLElement
       expect(el, `variant ${variant} root element`).toBeTruthy()
       expect(el.className, `variant ${variant} should include marker ${marker}`).toContain(marker)
-      // Shared base classes — applied across all 9 variants
+      // Shared base classes — applied across every variant
       expect(el.className, `variant ${variant} base`).toContain('border-2')
       expect(el.className, `variant ${variant} base`).toContain('border-memphis')
       expect(el.className, `variant ${variant} base`).toContain('shadow-memphis-sm')
@@ -40,13 +38,13 @@ describe('Badge', () => {
   })
 
   it('forwards children', () => {
-    const { container } = render(<Badge variant="copper">hello world</Badge>)
+    const { container } = render(<Badge variant="featured">hello world</Badge>)
     expect(container.firstChild?.textContent).toBe('hello world')
   })
 
   it('forwards className', () => {
     const { container } = render(
-      <Badge variant="win" className="custom-extra">
+      <Badge variant="success" className="custom-extra">
         x
       </Badge>,
     )

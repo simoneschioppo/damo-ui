@@ -13,7 +13,6 @@
   /* Status colors */
   --color-success: var(--success);
   --color-warning: var(--warning);
-  --color-rage: var(--rage);
   --color-info: var(--info);
 
   /* ── Semantic color bridge (shadcn-style, paired) ── */
@@ -38,7 +37,6 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning-foreground: var(--warning-foreground);
   --color-info-foreground: var(--info-foreground);
-  --color-rage-foreground: var(--rage-foreground);
 
   /* Chrome primitives */
   --color-input: var(--input);
@@ -47,17 +45,9 @@
   --color-memphis: var(--memphis-border-color);
   --color-memphis-shadow: var(--memphis-shadow-color);
 
-  /* Badge-specific */
+  /* Badge "featured" intent */
   --color-badge-featured: var(--badge-featured);
   --color-badge-featured-foreground: var(--badge-featured-foreground);
-  --color-badge-copper: var(--badge-copper);
-  --color-badge-copper-foreground: var(--badge-copper-foreground);
-  --color-badge-navy: var(--badge-navy);
-  --color-badge-navy-foreground: var(--badge-navy-foreground);
-  --color-badge-draw: var(--badge-draw);
-  --color-badge-draw-foreground: var(--badge-draw-foreground);
-  --color-badge-rank: var(--badge-rank);
-  --color-badge-rank-foreground: var(--badge-rank-foreground);
 
   /* Charts */
   --color-chart-1: var(--chart-1);
@@ -75,7 +65,6 @@
   --radius-none: var(--radius-none);
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
   --radius-selection: var(--radius-selection);
   --radius-pill: var(--radius-pill);
   --radius-full: var(--radius-full);
@@ -87,9 +76,7 @@
   --shadow-memphis-lg: var(--shadow-memphis-lg);
   --shadow-memphis-hover: var(--shadow-memphis-hover);
   --shadow-memphis-active: var(--shadow-memphis-active);
-  --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
 
   /* Motion */
   --animate-duration-snap: var(--duration-snap);
@@ -97,7 +84,7 @@
   --animate-duration-base: var(--duration-base);
   --animate-duration-slow: var(--duration-slow);
   --ease-memphis: var(--ease-memphis);
-  --ease-out-memphis: var(--ease-out);
+  --ease-out: var(--ease-out);
   --ease-in-out: var(--ease-in-out);
 
   /* Z-index */

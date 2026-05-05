@@ -35,7 +35,7 @@ const ITEMS: readonly Item[] = [
     author: 'Giulia Conte',
     timestamp: '2h fa',
     badgeLabel: 'Nuovo',
-    badgeVariant: 'win',
+    badgeVariant: 'success',
   },
   {
     id: 'b',
@@ -43,7 +43,7 @@ const ITEMS: readonly Item[] = [
     author: 'Marco Bianchi',
     timestamp: '1g fa',
     badgeLabel: 'In pausa',
-    badgeVariant: 'draw',
+    badgeVariant: 'warning',
   },
   {
     id: 'c',
@@ -51,7 +51,7 @@ const ITEMS: readonly Item[] = [
     author: 'Team Ops',
     timestamp: '3g fa',
     badgeLabel: 'Chiuso',
-    badgeVariant: 'loss',
+    badgeVariant: 'destructive',
   },
 ]
 

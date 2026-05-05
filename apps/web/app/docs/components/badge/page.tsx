@@ -9,21 +9,19 @@ const IMPORT_SNIPPET = `import { Badge } from '@damo/ui'`
 
 const VARIANTS_SNIPPET = `<Badge>Default</Badge>
 <Badge variant="featured">Featured</Badge>
-<Badge variant="copper">Pro</Badge>
-<Badge variant="navy">Beta</Badge>
-<Badge variant="win">Win</Badge>
-<Badge variant="loss">Loss</Badge>
-<Badge variant="draw">Draw</Badge>
-<Badge variant="rank">#1</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="info">Info</Badge>
+<Badge variant="destructive">Destructive</Badge>
 <Badge variant="outline">Outline</Badge>`
 
 const PROPS: ReadonlyArray<PropDef> = [
   {
     name: 'variant',
-    type: "'default' | 'featured' | 'copper' | 'navy' | 'win' | 'loss' | 'draw' | 'rank' | 'outline'",
+    type: "'default' | 'featured' | 'success' | 'warning' | 'info' | 'destructive' | 'outline'",
     defaultValue: "'default'",
     description:
-      'Visual tone. `featured` / `copper` / `navy` use the badge identity tokens; `win` / `loss` / `draw` track sport outcomes; `rank` styles a podium label; `outline` strips the fill.',
+      'Visual tone. `featured` uses the badge featured token; `success` / `warning` / `info` / `destructive` map to the standard status intents; `outline` strips the fill.',
   },
   {
     name: 'children',
@@ -63,12 +61,10 @@ export default function BadgeDocsPage() {
         <div className="flex flex-wrap gap-2">
           <Badge>Default</Badge>
           <Badge variant="featured">Featured</Badge>
-          <Badge variant="copper">Pro</Badge>
-          <Badge variant="navy">Beta</Badge>
-          <Badge variant="win">Win</Badge>
-          <Badge variant="loss">Loss</Badge>
-          <Badge variant="draw">Draw</Badge>
-          <Badge variant="rank">#1</Badge>
+          <Badge variant="success">Success</Badge>
+          <Badge variant="warning">Warning</Badge>
+          <Badge variant="info">Info</Badge>
+          <Badge variant="destructive">Destructive</Badge>
           <Badge variant="outline">Outline</Badge>
         </div>
       </Example>
