@@ -1,15 +1,15 @@
 import { test, expect, type Page } from '@playwright/test'
 
 /**
- * Density switcher must actually resize interactive controls, not just flip
+ * Density switching must actually resize interactive controls, not just flip
  * an attribute. Measures a real button's computed padding at each density on
  * the Button docs page (which renders many <Button> instances).
  *
- * Density is now driven through DisplaySettingsMenu: open the topbar's cog
- * trigger, then click the relevant menuitemradio. The trigger lives in the
- * sticky header and is reachable on every public page.
+ * Density now lives in the docs-site cog popover: open the topbar's "Display
+ * settings" trigger, then click the density segmented button (Compatta /
+ * Normale / Ampia).
  */
-test.describe('Density switcher affects rendered spacing', () => {
+test.describe('Density picker affects rendered spacing', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/docs/components/button')
     await page.evaluate(() => window.localStorage.clear())
@@ -28,11 +28,12 @@ test.describe('Density switcher affects rendered spacing', () => {
 
   async function selectDensity(page: Page, name: 'Compatta' | 'Normale' | 'Ampia') {
     await page.getByRole('button', { name: 'Display settings' }).click()
-    await page.getByRole('menuitemradio', { name }).click()
-    // After click the menu auto-closes — wait until data-density is mutated
-    // before measuring layout to avoid catching in-flight transitions.
+    // Density AttrToggleGroup uses segmented buttons inside the popover.
+    await page.getByRole('button', { name }).click()
     const expected = name === 'Compatta' ? 'compact' : name === 'Ampia' ? 'comfortable' : 'normal'
     await expect(page.locator('html')).toHaveAttribute('data-density', expected)
+    // Close the popover so it doesn't overlap the measurement target.
+    await page.keyboard.press('Escape')
   }
 
   test('compact shrinks button padding vs normal', async ({ page }) => {
