@@ -51,6 +51,14 @@ import {
 } from '../../components/select/select'
 import { Popover, PopoverContent, PopoverTrigger } from '../../components/popover/popover'
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '../../components/tooltip'
+import {
+  ToastProvider,
+  ToastViewport,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+  ToastClose,
+} from '../../components/toast'
 import { Progress } from '../../components/progress'
 import { Spinner } from '../../components/spinner'
 import { Skeleton } from '../../components/skeleton'
@@ -155,6 +163,25 @@ function Subgroup({ label, children, inline = true }: SubgroupProps) {
 function PaginationDemo() {
   const [page, setPage] = useState(3)
   return <Pagination currentPage={page} totalPages={9} onPageChange={setPage} />
+}
+
+function ToastDemo() {
+  const [open, setOpen] = useState(false)
+  return (
+    <ToastProvider>
+      <Button variant="outline" onClick={() => setOpen(true)}>
+        Show toast
+      </Button>
+      <Toast open={open} onOpenChange={setOpen}>
+        <div className="flex-1">
+          <ToastTitle>Modifiche salvate</ToastTitle>
+          <ToastDescription>Il tuo theme è stato applicato.</ToastDescription>
+        </div>
+        <ToastClose />
+      </Toast>
+      <ToastViewport />
+    </ToastProvider>
+  )
 }
 
 const TABLE_ROWS = [
@@ -511,6 +538,10 @@ export const ComponentsPreview = forwardRef<HTMLDivElement, ComponentsPreviewPro
               <Chip variant="success">success</Chip>
               <Chip variant="warning">warning</Chip>
               <Chip variant="danger">danger</Chip>
+            </Subgroup>
+
+            <Subgroup label="Toast" inline={false}>
+              <ToastDemo />
             </Subgroup>
 
             <Subgroup label="Hints" inline={false}>
