@@ -2,6 +2,62 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] — 1.0.0 candidate
+
+This is the v1 publish-prep run. Cycle 9 unified AlertDialog into Dialog and replaced the bespoke SettingsMenu / theme-preset switchers with generic primitives; the audit run that followed (cycles 10–19, PRs #26–34) hardened the token surface so every editable variable in the theme generator drives at least one preview pixel, and removed every var that no component consumed.
+
+### Breaking — components
+
+- **`AlertDialog*` removed.** `<DialogContent>` now accepts `severity?: 'default' | 'alert'` and `tone?: 'default' | 'danger'` instead. `severity="alert"` flips `role` to `alertdialog`, blocks overlay-click dismiss, and hides the X close button. The two props are orthogonal — `<DialogContent severity="alert" tone="danger">` reproduces the old AlertDialog destructive surface.
+- **`SettingsMenu*` removed.** Compose `<Popover>` with whatever content (typically `<AttrToggleGroup>` instances) the surface needs. See `apps/web/app/_components/DocsPreferencesMenu.tsx` for an example.
+- **`ThemeSwitcher` / `PaletteSwitcher` / `DensitySwitcher` / `DisplaySettingsMenu` removed.** Use `<AttrToggleGroup>` directly with `storageKey`, `attribute`, and `options`.
+- **Banner: `variant="rage"` removed.** Use `variant="danger"`.
+- **Badge: `variant="copper" | "navy" | "draw" | "rank" | "win" | "loss"` removed.** New aligned variant set: `default | featured | success | warning | info | destructive | outline`. Migration: `win → success`, `loss → destructive`, `copper / navy / featured-decorative → featured`, `draw → warning`, `rank → info` or `default`.
+- **Showcase widgets removed from public API:** `ShowcaseCard`, `SubPanel`, `SectionHeader`, `TypeSpecimen`, `ColorScale`, `TokenSwatch`, `PatternSwatch`, `TooltipCard`. They were doc-site-only utilities; the source still lives at `apps/web/app/_components/showcase/` and consumers can copy them.
+
+### Breaking — tokens (audit run)
+
+Every token below had **zero component consumers** and was emitting either dead CSS variables or Tailwind utilities that resolved to undefined values.
+
+- `--rage` / `--rage-foreground` → use `--destructive` / `--destructive-foreground`
+- `--accent` / `--accent-foreground` → use `hover:bg-muted` or `bg-secondary`
+- `--input` → theme `--memphis-border-color` (lib uses Memphis border idiom on every input)
+- `--badge-copper`, `--badge-navy`, `--badge-draw`, `--badge-rank` (×2 paired fg) → use the standard intent badges (success/warning/info/destructive) or `--badge-featured`
+- `--radius-lg` → use `--radius-md` or `--radius-pill`
+- `--shadow-sm` / `--shadow-lg` → only `--shadow-md` remains in the soft tier (Memphis is the canonical elevation language)
+- `--border-thin` / `--border-base` / `--border-thick` → use literal Tailwind `border` / `border-2` / `border-[3px]`
+- `--space-N` (× 12) emission → no replacement needed; Tailwind v4's `--spacing` rebind via `--density-scale-y` already drives every spacing utility responsively
+- `--ease-in-out` → use `--ease-out` or `--ease-memphis`
+- `--z-base` / `--z-sticky` → use literal `z-0` / `z-10`
+- `--ease-out-memphis` alias → use `--ease-out`
+
+### Breaking — Tailwind v3 preset (`@damo/ui/tailwind.preset`)
+
+The v3-style preset was scrubbed to mirror the v4 surface exactly. v3 consumers no longer get utility classes that resolve to undefined CSS variables. Removed: `accent`, `input`, `rage` color extensions; `radius-lg`; the entire `borderWidth` extension; the `spacing.1..20` mapping; `shadow.sm`, `shadow.lg`; `transitionTimingFunction['in-out']`; `zIndex.base`, `zIndex.sticky`; the `m-*` legacy shadow aliases. Added missing colour extensions present in the v4 bridge: `success-foreground`, `warning-foreground`, `info-foreground`, `badge-featured-foreground`, `chart-1..5`.
+
+### Fixed (silent-bug fixes the audit surfaced)
+
+- **`duration-*` Tailwind utilities now actually apply.** The v4 bridge declared `--animate-duration-snap/fast/base/slow`, but that namespace targets the `animation` shorthand, not `transition-duration`. The named duration classes (`duration-fast`, `duration-snap`, etc.) used in 22 spots across the lib were silently emitting no CSS. Fixed via explicit `@utility duration-*` blocks in `theme.css`.
+- **`--radius-none` token edits now cascade.** UserCard, FeatureCard, ArticleCard, Hint, SegmentedControl, AttrToggleGroup, Checkbox, Slider, Table all gained `rounded-none` so the radius token reaches their 4-edge Memphis frame (browser default border-radius is 0 and never reads any var).
+- **`--popover` / `--popover-foreground` now drive floating surfaces.** Popover, DropdownMenuContent + SubContent, ContextMenuContent + SubContent, SelectContent switched from `bg-card text-foreground` to `bg-popover text-popover-foreground`. DatePicker and Combobox inherit via the underlying Popover.
+- **`--nav-on-dark-foreground` / `-strong` now wire NavItem onDark idle + hover.** Was hardcoded `text-[rgba(255,255,255,0.72)]` / `hover:text-white`.
+- **Card typography snaps to `text-*` tokens.** UserCard, FeatureCard, ArticleCard had nine inline `fontSize: N` values bypassing the lib's `--text-{xs|sm|base|xl|2xl}` bridge. Editing typography sizes in the theme generator had no effect on these cards before; it does now.
+- **Card spacing snaps to `mb-*` tokens.** ArticleCard + FeatureCard had inline `marginBottom: 8/12/24` values that bypassed the v4 `--spacing` density rebind. Density edits now propagate.
+- **DatePicker trigger icon swapped from 📅 emoji → real `CalendarIcon` SVG** (also exported from `@damo/ui` for consumer reuse).
+
+### New
+
+- **`ComponentsPreview`** mock (`@damo/ui/mocks`) — kitchen-sink scene that renders every public component grouped by category (Buttons, Cards, Banners, Overlays, Form inputs, Feedback, Navigation, Data display, Layout primitives). Default scene in the theme generator preview pane. Includes a Charts mini-bar visualization wired to `--chart-1..5`, an App pattern swatch driven by `--app-pattern-color-1/2/3` + `--app-pattern-size`, a Toast trigger, a ContextMenu trigger area, and DatePicker + Combobox demos so every theme dimension reflects somewhere in the preview.
+- **`CalendarIcon`** added to the icon set.
+
+### Infrastructure
+
+- 345 lib unit tests + 82 web unit tests (cycle 9 + audit run added ~22 cases)
+- 71 e2e chromium passing; webkit `display-settings-menu` palette-sanitize test now uses `expect.poll()` to ride out an html-attr / localStorage microtask race
+- AgentShield security scan: A (100/100), 0 findings
+- `apps/web/app/styles/theme.css` (consumer override) cleaned of zombie var declarations
+- `tokens.css` reduced from ~150 lines to ~125, with explainer comments on every removed-token slot for migration
+
 ## 0.3.0 — 2026-04-26
 
 ### Breaking
