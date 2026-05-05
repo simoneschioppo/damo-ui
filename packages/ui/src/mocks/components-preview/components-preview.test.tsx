@@ -69,6 +69,20 @@ describe('ComponentsPreview', () => {
     expect(scoped.getAllByText('GM').length).toBeGreaterThanOrEqual(1)
   })
 
+  it('renders a Charts subgroup with a bar per --chart-N token', () => {
+    render(<ComponentsPreview />)
+    const data = document.getElementById('data') as HTMLElement
+    expect(data).not.toBeNull()
+    const scoped = within(data)
+    expect(scoped.getByText('Charts')).toBeInTheDocument()
+    // Five bars, each labelled chart-1..chart-5 — the nav target a consumer
+    // would themselves use to verify the chart palette swap.
+    for (const i of [1, 2, 3, 4, 5]) {
+      const bar = data.querySelector(`[data-chart-bar="${i}"]`)
+      expect(bar, `bar ${i}`).not.toBeNull()
+    }
+  })
+
   it('renders both NavItem tones (default + onDark)', () => {
     render(<ComponentsPreview />)
     // The tone subgroup label, plus per-panel labels for each tone.
