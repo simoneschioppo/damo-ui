@@ -105,11 +105,11 @@ export default function SidebarDocsPage() {
       <PropsTable props={PROPS} caption="Sidebar props" />
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
-        <Link href="/docs/components/app-top-bar" className="text-primary underline">
-          ← AppTopBar
+        <Link href="/docs/components/page-header" className="text-primary underline">
+          ← PageHeader
         </Link>
-        <Link href="/docs/components/theme-switcher" className="text-primary underline">
-          Theme Switchers →
+        <Link href="/docs/components/color-picker" className="text-primary underline">
+          ColorPicker →
         </Link>
       </div>
     </article>
