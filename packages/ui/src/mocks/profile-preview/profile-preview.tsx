@@ -36,7 +36,7 @@ export const ProfilePreview = forwardRef<HTMLDivElement, ProfilePreviewProps>(
         />
 
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="copper">PRO</Badge>
+          <Badge variant="featured">PRO</Badge>
           <Badge variant="default">Early adopter</Badge>
           <Badge variant="default">42 progetti</Badge>
         </div>

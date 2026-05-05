@@ -3,14 +3,13 @@
 import { forwardRef, type HTMLAttributes, type ReactNode, useState } from 'react'
 import { cn } from '../../lib/cn'
 import { bannerVariants, type BannerVariants } from './banner.variants'
-import { CloseIcon, InfoIcon, CheckIcon, BoltIcon, TargetIcon, HeartIcon } from '../../icons'
+import { CloseIcon, InfoIcon, CheckIcon, BoltIcon, TargetIcon } from '../../icons'
 
 const DEFAULT_ICONS: Record<NonNullable<BannerVariants['variant']>, ReactNode> = {
   info: <InfoIcon size={20} />,
   success: <CheckIcon size={20} />,
   warning: <BoltIcon size={20} />,
   danger: <TargetIcon size={20} />,
-  rage: <HeartIcon size={20} />,
 }
 
 export interface BannerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>, BannerVariants {
@@ -48,7 +47,7 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(function Banner(
   return (
     <div
       ref={ref}
-      role={variant === 'danger' || variant === 'rage' ? 'alert' : 'status'}
+      role={variant === 'danger' ? 'alert' : 'status'}
       className={cn(bannerVariants({ variant }), className)}
       {...rest}
     >

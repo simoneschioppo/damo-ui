@@ -22,12 +22,6 @@ export const Danger = () => (
   </Banner>
 )
 
-export const Rage = () => (
-  <Banner variant="rage" title="Modalità intensa!">
-    Ritmo accelerato: tutte le animazioni sono ridotte al minimo.
-  </Banner>
-)
-
 export const Dismissible = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
     <Banner variant="info" title="Chiudibile" dismissible>
