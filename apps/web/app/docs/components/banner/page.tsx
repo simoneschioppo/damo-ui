@@ -18,9 +18,6 @@ const VARIANTS_SNIPPET = `<Banner variant="info" title="Heads up">
 </Banner>
 <Banner variant="danger" title="Action required">
   Payment failed — update your card.
-</Banner>
-<Banner variant="rage" title="System overload">
-  Things are not OK. We are on it.
 </Banner>`
 
 const DISMISSIBLE_SNIPPET = `<Banner
@@ -39,10 +36,10 @@ const NO_ICON_SNIPPET = `<Banner variant="success" icon={false} title="Saved">
 const PROPS: ReadonlyArray<PropDef> = [
   {
     name: 'variant',
-    type: "'info' | 'success' | 'warning' | 'danger' | 'rage'",
+    type: "'info' | 'success' | 'warning' | 'danger'",
     defaultValue: "'info'",
     description:
-      'Sets the background tint, the Memphis shadow color, and the default leading icon. `danger` and `rage` also switch the wrapper role to `alert` for screen readers.',
+      'Sets the background tint, the Memphis shadow color, and the default leading icon. `danger` also switches the wrapper role to `alert` for screen readers.',
   },
   {
     name: 'title',
@@ -90,7 +87,7 @@ export default function BannerDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Banner</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Inline notification surface. Five tone variants (info, success, warning, danger, rage), an
+        Inline notification surface. Four tone variants (info, success, warning, danger), an
         optional title, an optional dismiss button, and an icon slot that defaults to a tone-aware
         glyph but accepts any ReactNode.
       </p>
@@ -112,9 +109,6 @@ export default function BannerDocsPage() {
           </Banner>
           <Banner variant="danger" title="Action required">
             Payment failed — update your card.
-          </Banner>
-          <Banner variant="rage" title="System overload">
-            Things are not OK. We are on it.
           </Banner>
         </div>
       </Example>
@@ -149,7 +143,7 @@ export default function BannerDocsPage() {
           <code className="font-mono">info</code>, <code className="font-mono">success</code> and{' '}
           <code className="font-mono">warning</code>;{' '}
           <code className="font-mono">role=&quot;alert&quot;</code> for{' '}
-          <code className="font-mono">danger</code> and <code className="font-mono">rage</code>.
+          <code className="font-mono">danger</code>.
         </li>
         <li>
           Live-region note: <code className="font-mono">alert</code> and{' '}

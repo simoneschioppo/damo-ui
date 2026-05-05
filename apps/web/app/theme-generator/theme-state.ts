@@ -6,7 +6,7 @@
  *   Layer 1 — raw palette (ink/brand/paper scales, per-mode light/dark)
  *   Layer 2 — semantic (paired bg+fg, separate light/dark values)
  *   Layer 3 — identity (medals, charts, nav-on-dark, per-mode light/dark)
- * plus typography / radius / shadow / spacing / motion scales.
+ * plus typography / radius / shadow / motion scales.
  *
  * Palette and Identity are now split into light/dark variants — the user
  * can customise per-mode the same way the semantic layer is customised.
@@ -18,9 +18,8 @@
 export type ThemeMode = 'light' | 'dark'
 
 export type TypographySizeKey = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl'
-export type RadiusKey = 'none' | 'sm' | 'md' | 'lg' | 'selection' | 'pill' | 'full'
+export type RadiusKey = 'none' | 'sm' | 'md' | 'selection' | 'pill' | 'full'
 export type ShadowMemphisKey = 'sm' | 'card' | 'md' | 'lg' | 'hover' | 'active'
-export type ShadowSoftKey = 'sm' | 'md' | 'lg'
 export type MotionDurationKey = 'snap' | 'fast' | 'base' | 'slow'
 export type MotionEasingKey = 'memphis' | 'out' | 'in-out'
 
@@ -67,8 +66,6 @@ export interface SemanticTheme {
   readonly warningForeground: string
   readonly info: string
   readonly infoForeground: string
-  readonly rage: string
-  readonly rageForeground: string
 
   readonly border: string
   readonly borderStrong: string
@@ -80,14 +77,6 @@ export interface SemanticTheme {
 
   readonly badgeFeatured: string
   readonly badgeFeaturedForeground: string
-  readonly badgeCopper: string
-  readonly badgeCopperForeground: string
-  readonly badgeNavy: string
-  readonly badgeNavyForeground: string
-  readonly badgeDraw: string
-  readonly badgeDrawForeground: string
-  readonly badgeRank: string
-  readonly badgeRankForeground: string
 }
 
 // ─── Layer 3: Identity ───────────────────────────────────────
@@ -126,10 +115,10 @@ export interface TypographyFoundation {
 
 export type RadiusFoundation = Readonly<Record<RadiusKey, number>>
 export type ShadowMemphisFoundation = Readonly<Record<ShadowMemphisKey, ShadowMemphisValue>>
-export type ShadowSoftFoundation = Readonly<Record<ShadowSoftKey, number>>
-
-export interface SpacingFoundation {
-  readonly scale: number
+/** Soft shadow has only a single tier (`md`) — the lib's signature elevation
+ *  is the Memphis stack; soft is reserved for tooltips / popovers. */
+export interface ShadowSoftFoundation {
+  readonly md: number
 }
 
 export interface MotionFoundation {
@@ -168,10 +157,6 @@ export interface Theme {
     readonly light: ShadowSoftFoundation
     readonly dark: ShadowSoftFoundation
   }
-  readonly spacing: {
-    readonly light: SpacingFoundation
-    readonly dark: SpacingFoundation
-  }
   readonly motion: {
     readonly light: MotionFoundation
     readonly dark: MotionFoundation
@@ -203,7 +188,6 @@ export const SEMANTIC_GROUPS = {
     { bg: 'success', fg: 'successForeground', label: 'Success' },
     { bg: 'warning', fg: 'warningForeground', label: 'Warning' },
     { bg: 'info', fg: 'infoForeground', label: 'Info' },
-    { bg: 'rage', fg: 'rageForeground', label: 'Rage' },
   ],
   chrome: [
     { key: 'border', label: 'Border' },
@@ -215,13 +199,7 @@ export const SEMANTIC_GROUPS = {
     { key: 'memphisShadowColor', label: 'Shadow' },
     { key: 'memphisBorderColor', label: 'Border' },
   ],
-  badges: [
-    { bg: 'badgeFeatured', fg: 'badgeFeaturedForeground', label: 'Featured' },
-    { bg: 'badgeCopper', fg: 'badgeCopperForeground', label: 'Copper' },
-    { bg: 'badgeNavy', fg: 'badgeNavyForeground', label: 'Navy' },
-    { bg: 'badgeDraw', fg: 'badgeDrawForeground', label: 'Draw' },
-    { bg: 'badgeRank', fg: 'badgeRankForeground', label: 'Rank' },
-  ],
+  badges: [{ bg: 'badgeFeatured', fg: 'badgeFeaturedForeground', label: 'Featured' }],
 } as const
 
 // ─── Semantic derivation helpers ─────────────────────────────
@@ -256,8 +234,6 @@ export function computeSemanticLight(p: RawPalette): SemanticTheme {
     warningForeground: p.paper['50'],
     info: p.ink['500'],
     infoForeground: p.paper['50'],
-    rage: '#c94a2f',
-    rageForeground: p.paper['50'],
 
     border: p.ink['900'] + '1f',
     borderStrong: p.ink['900'] + '38',
@@ -269,14 +245,6 @@ export function computeSemanticLight(p: RawPalette): SemanticTheme {
 
     badgeFeatured: p.brand['500'],
     badgeFeaturedForeground: '#000000',
-    badgeCopper: p.brand['500'],
-    badgeCopperForeground: '#ffffff',
-    badgeNavy: p.ink['900'],
-    badgeNavyForeground: p.brand['200'],
-    badgeDraw: p.paper['100'],
-    badgeDrawForeground: p.ink['900'],
-    badgeRank: p.brand['100'],
-    badgeRankForeground: p.ink['900'],
   }
 }
 
@@ -306,8 +274,6 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
     warningForeground: p.ink['900'],
     info: p.ink['300'],
     infoForeground: p.ink['900'],
-    rage: '#e06b4f',
-    rageForeground: p.ink['900'],
 
     border: p.paper['50'] + '1f',
     borderStrong: p.paper['50'] + '38',
@@ -319,14 +285,6 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
 
     badgeFeatured: p.brand['500'],
     badgeFeaturedForeground: p.ink['900'],
-    badgeCopper: p.brand['500'],
-    badgeCopperForeground: p.paper['50'],
-    badgeNavy: p.ink['700'],
-    badgeNavyForeground: p.brand['200'],
-    badgeDraw: p.ink['700'],
-    badgeDrawForeground: p.paper['50'],
-    badgeRank: p.ink['700'],
-    badgeRankForeground: p.brand['200'],
   }
 }
 
@@ -385,7 +343,6 @@ const DEFAULT_RADIUS: RadiusFoundation = {
   none: 0,
   sm: 2,
   md: 4,
-  lg: 8,
   // `selection` controls the rounding of "selected" chrome on NavItem and
   // DropdownMenuRadioItem. Defaulted to 10px to match the reference design.
   selection: 10,
@@ -402,9 +359,7 @@ const DEFAULT_SHADOW_MEMPHIS: ShadowMemphisFoundation = {
   active: { x: 2, y: 2, color: '#000000' },
 }
 
-const DEFAULT_SHADOW_SOFT: ShadowSoftFoundation = { sm: 0.06, md: 0.08, lg: 0.12 }
-
-const DEFAULT_SPACING: SpacingFoundation = { scale: 1 }
+const DEFAULT_SHADOW_SOFT: ShadowSoftFoundation = { md: 0.08 }
 
 const DEFAULT_MOTION: MotionFoundation = {
   durations: { snap: 80, fast: 150, base: 200, slow: 300 },
@@ -426,25 +381,5 @@ export const DEFAULT_THEME: Theme = {
   radius: { light: DEFAULT_RADIUS, dark: DEFAULT_RADIUS },
   shadowMemphis: { light: DEFAULT_SHADOW_MEMPHIS, dark: DEFAULT_SHADOW_MEMPHIS },
   shadowSoft: { light: DEFAULT_SHADOW_SOFT, dark: DEFAULT_SHADOW_SOFT },
-  spacing: { light: DEFAULT_SPACING, dark: DEFAULT_SPACING },
   motion: { light: DEFAULT_MOTION, dark: DEFAULT_MOTION },
 } as const
-
-/**
- * The base spacing scale multiplier affects every `--space-N` token.
- * These are the raw (pre-scale) values in px.
- */
-export const SPACING_BASE_PX: ReadonlyArray<readonly [string, number]> = [
-  ['space-0', 0],
-  ['space-1', 4],
-  ['space-2', 8],
-  ['space-3', 12],
-  ['space-4', 16],
-  ['space-5', 20],
-  ['space-6', 24],
-  ['space-8', 32],
-  ['space-10', 40],
-  ['space-12', 48],
-  ['space-16', 64],
-  ['space-20', 80],
-]

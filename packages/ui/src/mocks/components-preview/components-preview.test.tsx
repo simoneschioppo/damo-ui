@@ -1,0 +1,77 @@
+import { afterEach, describe, expect, it } from 'vitest'
+import { cleanup, render, screen, within } from '@testing-library/react'
+import { ComponentsPreview } from './components-preview'
+
+afterEach(() => {
+  cleanup()
+})
+
+describe('ComponentsPreview', () => {
+  it('renders every category section', () => {
+    render(<ComponentsPreview />)
+    for (const id of [
+      'buttons',
+      'cards',
+      'banners',
+      'overlays',
+      'form',
+      'feedback',
+      'navigation',
+      'data',
+      'layout',
+    ]) {
+      expect(document.getElementById(id), `section #${id}`).not.toBeNull()
+    }
+  })
+
+  it('renders the four banner status variants', () => {
+    render(<ComponentsPreview />)
+    const banners = document.getElementById('banners') as HTMLElement
+    expect(banners).not.toBeNull()
+    const scoped = within(banners)
+    // Each variant has a unique title
+    expect(scoped.getByText('Info')).toBeInTheDocument()
+    expect(scoped.getByText('Success')).toBeInTheDocument()
+    expect(scoped.getByText('Warning')).toBeInTheDocument()
+    expect(scoped.getByText('Danger')).toBeInTheDocument()
+  })
+
+  it('renders the seven post-audit Badge variants', () => {
+    render(<ComponentsPreview />)
+    const feedback = document.getElementById('feedback') as HTMLElement
+    const scoped = within(feedback)
+    // Some labels (default, success, warning) are reused by Chip too, so
+    // assert each label appears at least once inside the feedback section.
+    for (const label of [
+      'default',
+      'featured',
+      'success',
+      'warning',
+      'info',
+      'destructive',
+      'outline',
+    ]) {
+      expect(scoped.getAllByText(label).length, `badge ${label}`).toBeGreaterThan(0)
+    }
+  })
+
+  it('renders all five medal ranks under data display', () => {
+    render(<ComponentsPreview />)
+    const data = document.getElementById('data') as HTMLElement
+    const scoped = within(data)
+    // Each rank uses a unique label string, so a single text query suffices.
+    expect(scoped.getByText('Bronze')).toBeInTheDocument()
+    expect(scoped.getByText('Silver')).toBeInTheDocument()
+    expect(scoped.getByText('Gold')).toBeInTheDocument()
+    expect(scoped.getByText('Master')).toBeInTheDocument()
+    // The "GM" label appears once below the medal; the "GM" value renders
+    // inside the SVG too — assert at least one occurrence.
+    expect(scoped.getAllByText('GM').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('renders both NavItem tones (default + onDark)', () => {
+    render(<ComponentsPreview />)
+    expect(screen.getByText('NavItem · default tone')).toBeInTheDocument()
+    expect(screen.getByText('NavItem · onDark tone')).toBeInTheDocument()
+  })
+})
