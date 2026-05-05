@@ -102,7 +102,7 @@ Switching theme and palette are fully orthogonal — all six combinations work a
 <html data-theme="dark" data-palette="neon"></html>
 ```
 
-See `docs/specs/2026-04-24-theme-architecture-refactor-design.md` for the full token taxonomy and migration guide from 0.1.0 names.
+For the **current** token surface, see `apps/web/app/docs/foundations/tokens` (rendered at `/docs/foundations/tokens` on the playground site) — that's the live, post-audit reference. The historical spec at `docs/specs/2026-04-24-theme-architecture-refactor-design.md` documents the 0.1 → 0.2 migration; the audit run (1.0.0 candidate) further trimmed and rewired the surface — see `CHANGELOG.md` for the diff.
 
 ## Component inventory (~47)
 
@@ -128,10 +128,15 @@ See `docs/specs/2026-04-24-theme-architecture-refactor-design.md` for the full t
 - TypeScript strict, pnpm workspace, tsup build
 - Vitest unit + Playwright e2e
 
-## Design Spec
+## Design Spec (historical record)
 
-- `docs/specs/2026-04-18-damo-ui-design.md` — original design spec
-- `docs/specs/2026-04-24-theme-architecture-refactor-design.md` — token taxonomy and 0.1→0.2 migration guide
+These specs are point-in-time decisions and intentionally don't reflect later changes. For the current state, prefer `apps/web/app/docs/foundations/*` and `CHANGELOG.md`.
+
+- `docs/specs/2026-04-18-damo-ui-design.md` — original design spec (0.1 baseline)
+- `docs/specs/2026-04-21-damo-ui-redesign.md` — early redesign sketches
+- `docs/specs/2026-04-24-theme-architecture-refactor-design.md` — three-layer theme architecture (0.1 → 0.2 migration)
+- `docs/specs/2026-05-03-button-as-child.md` — polymorphic Button as-child support
+- `docs/specs/2026-05-03-display-settings-menu.md` — cycle-9 cog popover spec
 
 ## License
 
