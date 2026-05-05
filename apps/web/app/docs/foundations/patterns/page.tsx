@@ -6,20 +6,6 @@ import { Example } from '../../_components/Example'
 import { PATTERNS } from '../../_lib/patterns'
 import { BRAND } from '../../../../lib/brand'
 
-const PATTERN_SWATCH_USAGE = `import { PatternSwatch } from '@damo/ui'
-
-<PatternSwatch
-  name="STRIPES 45°"
-  background="repeating-linear-gradient(45deg, var(--primary) 0 6px, transparent 6px 14px)"
-/>
-
-<PatternSwatch
-  name="DOTS"
-  background="radial-gradient(var(--foreground) 2px, transparent 2px)"
-  backgroundSize="14px 14px"
-/>
-`
-
 const RAW_CSS_PATTERN = `/* Apply the same pattern directly via CSS — no component required */
 .hero {
   background: repeating-linear-gradient(
@@ -99,9 +85,8 @@ export default function PatternsFoundationPage() {
 
       <h2 className="font-display text-2xl mb-3">Tileable backgrounds</h2>
       <p className="text-foreground/80 mb-4">
-        Every tile is a pure CSS gradient. Use <code className="font-mono">PatternSwatch</code> for
-        showcase / docs, or apply the same <code className="font-mono">background</code> shorthand
-        directly on any element.
+        Every tile is a pure CSS gradient — there&apos;s no component needed. Apply the{' '}
+        <code className="font-mono">background</code> shorthand directly on any element.
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
         {PATTERNS.map((p) => (
@@ -116,9 +101,6 @@ export default function PatternsFoundationPage() {
           </PatternSwatch>
         ))}
       </div>
-
-      <h3 className="font-display text-lg mb-3 mt-8">Using PatternSwatch</h3>
-      <Code code={PATTERN_SWATCH_USAGE} lang="tsx" title="JSX · component API" />
 
       <h3 className="font-display text-lg mb-3 mt-8">Using the patterns directly in CSS</h3>
       <p className="text-foreground/80 mb-3">
