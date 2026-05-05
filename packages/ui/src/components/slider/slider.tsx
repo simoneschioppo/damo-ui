@@ -41,7 +41,7 @@ export const Slider = forwardRef<
       <SliderPrimitive.Track
         className={cn(
           'relative grow overflow-hidden bg-card',
-          'border-2 border-memphis',
+          'border-2 border-memphis rounded-none',
           'data-[orientation=horizontal]:h-3 data-[orientation=horizontal]:w-full',
           'data-[orientation=vertical]:w-3 data-[orientation=vertical]:h-full',
         )}
@@ -52,7 +52,7 @@ export const Slider = forwardRef<
         <SliderPrimitive.Thumb
           key={idx}
           className={cn(
-            'block h-5 w-5 bg-background border-2 border-memphis',
+            'block h-5 w-5 bg-background border-2 border-memphis rounded-none',
             'cursor-grab active:cursor-grabbing',
             'transition-[transform,box-shadow] duration-snap ease-memphis',
             'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',

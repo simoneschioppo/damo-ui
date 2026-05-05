@@ -30,7 +30,7 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
       ref={ref}
       className={cn(
         'flex items-center gap-[14px] w-full p-4',
-        'border-2 border-memphis bg-card',
+        'border-2 border-memphis rounded-none bg-card',
         className,
       )}
       style={{ boxShadow: 'var(--shadow-memphis-card)' }}

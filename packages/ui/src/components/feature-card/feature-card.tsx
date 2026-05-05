@@ -26,7 +26,7 @@ export const FeatureCard = forwardRef<HTMLDivElement, FeatureCardProps>(function
   return (
     <div
       ref={ref}
-      className={cn('p-5 border-2 border-memphis bg-card', className)}
+      className={cn('p-5 border-2 border-memphis rounded-none bg-card', className)}
       style={
         {
           width: '280px',
