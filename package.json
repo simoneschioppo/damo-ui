@@ -13,7 +13,8 @@
     "build": "pnpm --filter @damo/ui build",
     "test": "pnpm --filter @damo/ui test",
     "test:e2e": "pnpm --filter @damo/e2e test",
-    "lint": "pnpm -r lint",
+    "lint": "pnpm -r lint && node scripts/check-docs-sync.mjs",
+    "check:docs-sync": "node scripts/check-docs-sync.mjs",
     "format": "prettier --write \"**/*.{ts,tsx,js,mjs,json,md,css}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,mjs,json,md,css}\""
   },

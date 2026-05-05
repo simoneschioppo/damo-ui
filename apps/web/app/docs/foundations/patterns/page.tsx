@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { PatternSwatch, MemphisShape } from '@damo/ui'
+import { MemphisShape } from '@damo/ui'
+import { PatternSwatch } from '../../../_components/showcase'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PATTERNS } from '../../_lib/patterns'
@@ -219,8 +220,8 @@ export default function PatternsFoundationPage() {
         <Link href="/docs/foundations/typography" className="text-primary underline">
           ← Typography
         </Link>
-        <Link href="/docs/components/button" className="text-primary underline">
-          Button →
+        <Link href="/docs/components/box" className="text-primary underline">
+          Box →
         </Link>
       </div>
     </article>
