@@ -101,6 +101,23 @@ describe('ComponentsPreview', () => {
     expect(size).toContain('--app-pattern-size')
   })
 
+  it('renders a DatePicker inside the form section', () => {
+    render(<ComponentsPreview />)
+    const form = document.getElementById('form') as HTMLElement
+    const scoped = within(form)
+    expect(scoped.getByText('Date & autocomplete')).toBeInTheDocument()
+    // DatePicker exposes its placeholder via the trigger button label.
+    expect(scoped.getByRole('button', { name: /seleziona una data/i })).toBeInTheDocument()
+  })
+
+  it('renders a Combobox alongside the DatePicker', () => {
+    render(<ComponentsPreview />)
+    const form = document.getElementById('form') as HTMLElement
+    const scoped = within(form)
+    // Combobox uses a button trigger that announces its placeholder.
+    expect(scoped.getByRole('button', { name: /cerca lingua/i })).toBeInTheDocument()
+  })
+
   it('renders a ContextMenu trigger area in the navigation section', () => {
     render(<ComponentsPreview />)
     const navigation = document.getElementById('navigation') as HTMLElement
