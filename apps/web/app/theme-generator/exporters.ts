@@ -27,7 +27,6 @@ import {
   type MotionDurationKey,
   type MotionEasingKey,
   type MedalRank,
-  SPACING_BASE_PX,
 } from './theme-state'
 
 // ─── Include flags ───────────────────────────────────────────
@@ -51,15 +50,7 @@ const ALL_FLAGS_TRUE: IncludeFlags = {
 // ─── Key arrays ──────────────────────────────────────────────
 
 const SIZE_KEYS: ReadonlyArray<TypographySizeKey> = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl']
-const RADIUS_KEYS: ReadonlyArray<RadiusKey> = [
-  'none',
-  'sm',
-  'md',
-  'lg',
-  'selection',
-  'pill',
-  'full',
-]
+const RADIUS_KEYS: ReadonlyArray<RadiusKey> = ['none', 'sm', 'md', 'selection', 'pill', 'full']
 const SHADOW_MEMPHIS_KEYS: ReadonlyArray<ShadowMemphisKey> = [
   'sm',
   'card',
@@ -185,7 +176,7 @@ type ThemeMode = 'light' | 'dark'
 
 /**
  * Per-mode foundation lines (the parts that can diverge between light and
- * dark): typography, radius, shadowMemphis, shadowSoft, spacing, motion.
+ * dark): typography, radius, shadowMemphis, shadowSoft, motion.
  * Used both for full emission (light block) and for delta-encoded
  * emission in the dark block.
  */
@@ -207,13 +198,7 @@ function foundationLines(theme: Theme, mode: ThemeMode): PaletteLineSpec[] {
     out.push({ cssVar: shadowMemphisKey(k), value: shadowMemphisToCss(sm[k]) })
   })
   const ss = theme.shadowSoft[mode]
-  out.push({ cssVar: '--shadow-sm', value: `0 1px 2px rgba(0,0,0,${ss.sm})` })
   out.push({ cssVar: '--shadow-md', value: `0 2px 8px rgba(0,0,0,${ss.md})` })
-  out.push({ cssVar: '--shadow-lg', value: `0 8px 24px rgba(0,0,0,${ss.lg})` })
-  const sp = theme.spacing[mode]
-  SPACING_BASE_PX.forEach(([k, px]) => {
-    out.push({ cssVar: `--${k}`, value: `${px * sp.scale}px` })
-  })
   const m = theme.motion[mode]
   DURATION_KEYS.forEach((k) => {
     out.push({ cssVar: durationKey(k), value: `${m.durations[k]}ms` })
@@ -230,11 +215,6 @@ function emitFoundationsLight(theme: Theme, lines: string[]): void {
   })
 
   // Static (mode-agnostic) tokens — emitted only once in the light block
-  lines.push(`  /* Border widths */`)
-  lines.push(`  --border-thin: 1px;`)
-  lines.push(`  --border-base: 2px;`)
-  lines.push(`  --border-thick: 3px;`)
-
   lines.push(`  /* Z-index */`)
   lines.push(`  --z-base: 0;`)
   lines.push(`  --z-sticky: 100;`)
@@ -370,7 +350,7 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
     inner.push(`  --color-memphis-shadow: var(--memphis-shadow-color);`)
   }
 
-  // Foundations: typography, radius, shadow, spacing, motion, z-index, borders
+  // Foundations: typography, radius, shadow, motion, z-index, density spacing.
   if (flags.foundations) {
     inner.push(`  --font-display: var(--font-display);`)
     inner.push(`  --font-body: var(--font-body);`)
@@ -388,20 +368,15 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
       inner.push(`  ${shadowMemphisKey(k)}: var(${shadowMemphisKey(k)});`)
     })
 
-    inner.push(`  --shadow-sm: var(--shadow-sm);`)
     inner.push(`  --shadow-md: var(--shadow-md);`)
-    inner.push(`  --shadow-lg: var(--shadow-lg);`)
 
     inner.push(`  --spacing: calc(0.25rem * var(--density-scale-y));`)
-    SPACING_BASE_PX.forEach(([k]) => {
-      inner.push(`  --${k}: var(--${k});`)
-    })
 
     DURATION_KEYS.forEach((k) => {
       inner.push(`  --animate-duration-${k}: var(${durationKey(k)});`)
     })
     inner.push(`  --ease-memphis: var(--ease-memphis);`)
-    inner.push(`  --ease-out-memphis: var(--ease-out);`)
+    inner.push(`  --ease-out: var(--ease-out);`)
     inner.push(`  --ease-in-out: var(--ease-in-out);`)
 
     const Z_KEYS = [
@@ -417,10 +392,6 @@ export function buildTailwindExport(theme: Theme, flags: IncludeFlags = ALL_FLAG
     Z_KEYS.forEach((k) => {
       inner.push(`  --z-index-${k}: var(--z-${k});`)
     })
-
-    inner.push(`  --border-width-thin: var(--border-thin);`)
-    inner.push(`  --border-width-base: var(--border-base);`)
-    inner.push(`  --border-width-thick: var(--border-thick);`)
   }
 
   const lines: string[] = ["@import 'tailwindcss';", '', '@theme inline {', ...inner, '}']

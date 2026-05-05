@@ -62,25 +62,25 @@ describe('exporters', () => {
       expect(darkBlock).toContain('--chart-1: #abcdef;')
     })
 
-    it('emits paired badge tokens', () => {
+    it('emits the paired featured badge token', () => {
       const css = buildCssExport(DEFAULT_THEME)
-      expect(css).toContain('--badge-navy: #2a0f2d;')
-      expect(css).toContain('--badge-navy-foreground: #f0d49a;')
+      expect(css).toContain('--badge-featured: #c4942a;')
+      expect(css).toContain('--badge-featured-foreground: #000000;')
     })
   })
 
   describe('foundations per-mode CSS export', () => {
-    it('emits dark-block override for radius.lg when light/dark diverge', () => {
+    it('emits dark-block override for radius.md when light/dark diverge', () => {
       const theme: Theme = {
         ...DEFAULT_THEME,
         radius: {
           light: DEFAULT_THEME.radius.light,
-          dark: { ...DEFAULT_THEME.radius.dark, lg: 99 },
+          dark: { ...DEFAULT_THEME.radius.dark, md: 99 },
         },
       }
       const css = buildCssExport(theme)
       const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
-      expect(darkBlock).toContain('--radius-lg: 99px;')
+      expect(darkBlock).toContain('--radius-md: 99px;')
     })
 
     it('emits dark-block override for typography size when diverged', () => {
@@ -118,9 +118,8 @@ describe('exporters', () => {
     it('does NOT emit dark-block foundations override when light=dark', () => {
       const css = buildCssExport(DEFAULT_THEME)
       const darkBlock = css.split(":root[data-theme='dark']")[1] ?? ''
-      expect(darkBlock).not.toContain('--radius-lg:')
+      expect(darkBlock).not.toContain('--radius-md:')
       expect(darkBlock).not.toContain('--text-base:')
-      expect(darkBlock).not.toContain('--space-4:')
     })
   })
 
@@ -185,12 +184,18 @@ describe('exporters', () => {
         foundations: true,
       })
       expect(css).toContain('--text-base:')
-      expect(css).toContain('--space-4:')
       expect(css).toContain('--z-modal:')
-      expect(css).toContain('--radius-lg:')
+      expect(css).toContain('--radius-md:')
       // `selection` is the dedicated radius for selected NavItem / DropdownMenu
       // chrome — must appear in foundations exports so consumers can theme it.
       expect(css).toContain('--radius-selection:')
+      // Foundations no longer ship `--radius-lg`, `--shadow-sm/lg`, `--space-N`
+      // or `--border-thin/base/thick` — they had zero consumers in the lib.
+      expect(css).not.toContain('--radius-lg:')
+      expect(css).not.toContain('--shadow-sm:')
+      expect(css).not.toContain('--shadow-lg:')
+      expect(css).not.toContain('--space-4:')
+      expect(css).not.toContain('--border-thin:')
     })
 
     it('emits nothing when all flags are false', () => {
