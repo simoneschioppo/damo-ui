@@ -10,6 +10,17 @@ describe('Slider', () => {
     expect(thumbs).toHaveLength(1)
   })
 
+  it('declares rounded-none on track and thumb so --radius-none themes them', () => {
+    const { container } = render(<Slider defaultValue={[40]} max={100} />)
+    // Track is the only role-less child of the root with bg-card
+    const track = container.querySelector('.bg-card') as HTMLElement
+    expect(track).not.toBeNull()
+    expect(track.className).toContain('rounded-none')
+    const thumb = container.querySelector('[role="slider"]') as HTMLElement
+    expect(thumb).not.toBeNull()
+    expect(thumb.className).toContain('rounded-none')
+  })
+
   it('renders two thumbs for a range slider with two values', () => {
     const { container } = render(<Slider defaultValue={[20, 80]} max={100} />)
     const thumbs = container.querySelectorAll('[role="slider"]')

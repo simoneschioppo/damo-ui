@@ -34,6 +34,20 @@ describe('AttrToggleGroup — segmented variant', () => {
     expect(screen.getByRole('button', { name: 'Gamma' })).toBeTruthy()
   })
 
+  it('declares rounded-none on the segmented frame so --radius-none themes it', () => {
+    const { container } = render(
+      <AttrToggleGroup
+        options={OPTIONS}
+        storageKey="attr-test"
+        attribute="data-attr-test"
+        defaultValue="alpha"
+      />,
+    )
+    const frame = container.querySelector('[role="group"]') as HTMLElement
+    expect(frame).not.toBeNull()
+    expect(frame.className).toContain('rounded-none')
+  })
+
   it('clicking a button mirrors the value onto the configured attribute', () => {
     render(
       <AttrToggleGroup

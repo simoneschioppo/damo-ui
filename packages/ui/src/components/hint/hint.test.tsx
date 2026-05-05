@@ -128,6 +128,18 @@ describe('Hint', () => {
     expect(styleAttr).toContain('--card')
   })
 
+  it('declares rounded-none on the outer + inner numbered tile so --radius-none themes them', () => {
+    const { container } = render(
+      <Hint num={3} title="Setup">
+        body
+      </Hint>,
+    )
+    const root = container.firstChild as HTMLElement
+    expect(root.className).toContain('rounded-none')
+    const inner = root.firstChild as HTMLElement
+    expect(inner.className).toContain('rounded-none')
+  })
+
   it('sets the Memphis card shadow token on the root (not a hardcoded value)', () => {
     const { container } = render(
       <Hint num={1} title="t">

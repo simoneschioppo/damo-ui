@@ -61,6 +61,15 @@ describe('UserCard', () => {
     expect(root.className).toContain('bg-card')
   })
 
+  it('declares rounded-none so --radius-none token theming reaches the frame', () => {
+    // Without an explicit rounded-* class, the browser default border-radius
+    // is 0 and never reads the lib's --radius-none token. `rounded-none`
+    // makes the value themable without changing the default appearance.
+    const { container } = render(<UserCard name="Mario" />)
+    const root = container.firstChild as HTMLElement
+    expect(root.className).toContain('rounded-none')
+  })
+
   it('forwards className to the root', () => {
     const { container } = render(<UserCard name="Mario" className="custom-user" />)
     const root = container.firstChild as HTMLElement

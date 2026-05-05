@@ -47,6 +47,12 @@ describe('FeatureCard', () => {
     expect(root.className).toContain('bg-card')
   })
 
+  it('declares rounded-none so --radius-none token theming reaches the frame', () => {
+    const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
+    const root = container.firstChild as HTMLElement
+    expect(root.className).toContain('rounded-none')
+  })
+
   it('has a fixed width of 280px via inline style', () => {
     const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
