@@ -180,3 +180,34 @@ describe('Dialog — severity + tone are orthogonal', () => {
     expect(content.className).toContain('[--memphis-shadow-color:var(--destructive)]')
   })
 })
+
+describe('Dialog — overlay backdrop', () => {
+  // Regression: DialogOverlay used `bg-ink/40`, but `--color-ink` is not
+  // declared by the lib's Tailwind theme bridge — the backdrop dim never
+  // resolved, leaving an invisible overlay over the page.
+  // The lib's semantic token for the page text/dim is `--foreground`,
+  // exposed via `--color-foreground`. Switching to `bg-foreground/40`
+  // gives a token-driven, theme-aware dim that works for any consumer
+  // who hasn't shipped an --ink palette.
+  it('renders the overlay with a resolved foreground-tinted backdrop', async () => {
+    const user = userEvent.setup()
+    render(
+      <Dialog>
+        <DialogTrigger>Open</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Hello</DialogTitle>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>,
+    )
+    await user.click(screen.getByRole('button', { name: 'Open' }))
+    // Radix renders the Overlay alongside the Content in the portal.
+    // Find by the unique class combination `fixed inset-0 backdrop-blur-sm`.
+    const overlay = document.querySelector('div.fixed.inset-0.backdrop-blur-sm') as HTMLElement
+    expect(overlay).toBeTruthy()
+    const classes = overlay.className.split(/\s+/)
+    expect(classes).toContain('bg-foreground/40')
+    expect(classes).not.toContain('bg-ink/40')
+  })
+})
