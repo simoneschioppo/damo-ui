@@ -47,7 +47,8 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18",
-    "tailwindcss": ">=4"
+    "tailwindcss": ">=4",
+    "tailwindcss-animate": ">=1.0.7"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",
