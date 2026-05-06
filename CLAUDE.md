@@ -1,6 +1,7 @@
 # damacchi-ui — Project Instructions for Claude / AI Agents
 
 This is a TypeScript monorepo:
+
 - `packages/ui/` — `damo-ui` component library (currently published via
   GitHub Packages; long-term goal: shadcn/ui-style copy-paste on npm).
 - `apps/web/` — Next.js docs site **and** theme generator for the library.
