@@ -93,12 +93,12 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(function
   return (
     <div ref={ref} className={cn('inline-flex items-center -space-x-2', className)} {...rest}>
       {shown.map((child, idx) => (
-        <div key={idx} className="ring-2 ring-bg rounded-full">
+        <div key={idx} className="ring-2 ring-background rounded-full">
           {child}
         </div>
       ))}
       {restCount > 0 && (
-        <div className="ring-2 ring-bg rounded-full">
+        <div className="ring-2 ring-background rounded-full">
           <Avatar>
             <AvatarFallback>+{restCount}</AvatarFallback>
           </Avatar>
