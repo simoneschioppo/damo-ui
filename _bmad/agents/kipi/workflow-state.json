@@ -3,11 +3,97 @@
   "created_at": "2026-05-06",
   "workflows": {
     "init": {
-      "completed_at": null,
-      "layout_version": null
+      "completed_at": "2026-05-06",
+      "layout_version": 1,
+      "scaffold_sha": "d63afaf"
     },
     "scan": {
-      "processed": []
+      "processed": [
+        {
+          "path": "packages/ui/src/styles/ + packages/ui/tailwind.preset.ts",
+          "sha": "d63afaf",
+          "chapter": "10-library/20-theming/README.md",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/{tsup.config.ts, package.json, .ladle/, dist/}",
+          "sha": "d63afaf",
+          "chapter": "10-library/30-build-and-publish/README.md",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{button,icon-button,badge,chip,label,separator,spinner,skeleton}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[8 files — batch C.1 Primitives]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{input,textarea,checkbox,radio-group,switch,select}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[6 files — batch C.2 Form base]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{combobox,slider,segmented-control,attr-toggle-group,color-picker,date-picker}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[6 files — batch C.3 Form advanced]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{form-field,hint}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[2 files — batch C.4 Form composition]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{dialog,drawer,popover,tooltip,dropdown-menu,context-menu,toast}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[7 files — batch C.5 Overlays]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{box,container,aspect-ratio,scroll-area,app-shell,app-top-bar,sidebar,page-header}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[8 files — batch C.6 Layout]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{tabs,breadcrumbs,pagination,nav-item,accordion}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[5 files — batch C.7 Navigation]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{table,card,article-card,feature-card,user-card,avatar,stat,progress}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[8 files — batch C.8 Data display]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "packages/ui/src/components/{banner,medal,memphis-shape,ornament}/",
+          "sha": "d63afaf",
+          "chapter": "10-library/10-components/[4 files — batch C.9 Decorative]",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "apps/web/app/{layout,page,globals.css,styles/}, apps/web/{next.config.ts,tailwind.config.ts,lib/,components/}",
+          "sha": "d63afaf",
+          "chapter": "20-web-app/00-architecture.md",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "apps/web/app/docs/",
+          "sha": "d63afaf",
+          "chapter": "20-web-app/10-docs-site/README.md",
+          "completed_at": "2026-05-06"
+        },
+        {
+          "path": "apps/web/app/theme-generator/",
+          "sha": "d63afaf",
+          "chapter": "20-web-app/20-theme-generator/README.md",
+          "completed_at": "2026-05-06"
+        }
+      ]
     },
     "user_data": {
       "processed": []
@@ -17,5 +103,80 @@
       "runs": []
     }
   },
-  "chapters": {}
+  "chapters": {
+    "00-overview/00-what-is-damo-ui.md": { "status": "pending", "sources": [] },
+    "00-overview/01-monorepo-layout.md": { "status": "pending", "sources": ["pnpm-workspace.yaml", "package.json", "tsconfig.base.json"] },
+    "00-overview/02-publishing-model.md": { "status": "pending", "sources": ["packages/ui/package.json", ".npmrc"] },
+    "10-library/00-architecture.md": { "status": "pending", "sources": ["packages/ui/src/index.ts", "packages/ui/src/"] },
+    "10-library/10-components/README.md": { "status": "documented", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/"] },
+    "10-library/10-components/button.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/button/"] },
+    "10-library/10-components/icon-button.md": { "status": "documented", "tier": "THIN", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/icon-button/"] },
+    "10-library/10-components/badge.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/badge/"] },
+    "10-library/10-components/chip.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/chip/"] },
+    "10-library/10-components/label.md": { "status": "documented", "tier": "THIN", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/label/"] },
+    "10-library/10-components/separator.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/separator/"] },
+    "10-library/10-components/spinner.md": { "status": "documented", "tier": "THIN", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/spinner/"] },
+    "10-library/10-components/skeleton.md": { "status": "documented", "tier": "THIN", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/skeleton/"] },
+    "10-library/10-components/input.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/input/"] },
+    "10-library/10-components/textarea.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/textarea/"] },
+    "10-library/10-components/checkbox.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/checkbox/"] },
+    "10-library/10-components/radio-group.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/radio-group/"] },
+    "10-library/10-components/switch.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/switch/"] },
+    "10-library/10-components/select.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/select/"] },
+    "10-library/10-components/combobox.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/combobox/"] },
+    "10-library/10-components/slider.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/slider/"] },
+    "10-library/10-components/segmented-control.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/segmented-control/"] },
+    "10-library/10-components/attr-toggle-group.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/attr-toggle-group/"] },
+    "10-library/10-components/color-picker.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/color-picker/"] },
+    "10-library/10-components/date-picker.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/date-picker/"] },
+    "10-library/10-components/form-field.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/form-field/"] },
+    "10-library/10-components/hint.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/hint/"] },
+    "10-library/10-components/dialog.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/dialog/"] },
+    "10-library/10-components/drawer.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/drawer/"] },
+    "10-library/10-components/popover.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/popover/"] },
+    "10-library/10-components/tooltip.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/tooltip/"] },
+    "10-library/10-components/dropdown-menu.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/dropdown-menu/"] },
+    "10-library/10-components/context-menu.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/context-menu/"] },
+    "10-library/10-components/toast.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/toast/"] },
+    "10-library/10-components/box.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/box/"] },
+    "10-library/10-components/container.md": { "status": "documented", "tier": "THIN", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/container/"] },
+    "10-library/10-components/aspect-ratio.md": { "status": "documented", "tier": "THIN", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/aspect-ratio/"] },
+    "10-library/10-components/scroll-area.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/scroll-area/"] },
+    "10-library/10-components/app-shell.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/app-shell/"] },
+    "10-library/10-components/app-top-bar.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/app-top-bar/"] },
+    "10-library/10-components/sidebar.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/sidebar/"] },
+    "10-library/10-components/page-header.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/page-header/"] },
+    "10-library/10-components/tabs.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/tabs/"] },
+    "10-library/10-components/breadcrumbs.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/breadcrumbs/"] },
+    "10-library/10-components/pagination.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/pagination/"] },
+    "10-library/10-components/nav-item.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/nav-item/"] },
+    "10-library/10-components/accordion.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/accordion/"] },
+    "10-library/10-components/table.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/table/"] },
+    "10-library/10-components/card.md": { "status": "documented", "tier": "FULL", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/card/"] },
+    "10-library/10-components/article-card.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/article-card/"] },
+    "10-library/10-components/feature-card.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/feature-card/"] },
+    "10-library/10-components/user-card.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/user-card/"] },
+    "10-library/10-components/avatar.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/avatar/"] },
+    "10-library/10-components/stat.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/stat/"] },
+    "10-library/10-components/progress.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/progress/"] },
+    "10-library/10-components/banner.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/banner/"] },
+    "10-library/10-components/medal.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/medal/"] },
+    "10-library/10-components/memphis-shape.md": { "status": "documented", "tier": "STANDARD", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/memphis-shape/"] },
+    "10-library/10-components/ornament.md": { "status": "documented", "tier": "THIN", "last_scan_sha": "d63afaf", "sources": ["packages/ui/src/components/ornament/"] },
+    "10-library/15-hooks.md": { "status": "pending", "sources": ["packages/ui/src/hooks/"] },
+    "10-library/17-icons.md": { "status": "pending", "sources": ["packages/ui/src/icons/"] },
+    "10-library/18-lib-utils.md": { "status": "pending", "sources": ["packages/ui/src/lib/"] },
+    "10-library/20-theming/README.md": { "status": "documented", "last_scan_sha": "d63afaf", "sources": ["packages/ui/tailwind.preset.ts", "packages/ui/src/styles/tokens.css", "packages/ui/src/styles/theme.css", "packages/ui/src/styles/globals.css", "packages/ui/src/styles/contrast-utils.ts"] },
+    "10-library/30-build-and-publish/README.md": { "status": "documented", "last_scan_sha": "d63afaf", "sources": ["packages/ui/tsup.config.ts", "packages/ui/package.json", "packages/ui/.ladle/config.mjs", "packages/ui/.ladle/components.tsx", ".npmrc"] },
+    "10-library/40-testing/README.md": { "status": "pending", "sources": ["packages/ui/vitest.config.ts", "packages/ui/vitest.setup.ts", "packages/ui/src/mocks/"] },
+    "20-web-app/00-architecture.md": { "status": "documented", "last_scan_sha": "d63afaf", "sources": ["apps/web/app/layout.tsx", "apps/web/app/page.tsx", "apps/web/app/globals.css", "apps/web/app/styles/theme.css", "apps/web/next.config.ts", "apps/web/tailwind.config.ts", "apps/web/components/", "apps/web/lib/", "apps/web/app/_components/"] },
+    "20-web-app/10-docs-site/README.md": { "status": "documented", "last_scan_sha": "d63afaf", "sources": ["apps/web/app/docs/layout.tsx", "apps/web/app/docs/_components/", "apps/web/app/docs/_lib/", "apps/web/app/docs/getting-started/", "apps/web/app/docs/foundations/", "apps/web/app/docs/components/"] },
+    "20-web-app/20-theme-generator/README.md": { "status": "documented", "last_scan_sha": "d63afaf", "sources": ["apps/web/app/theme-generator/page.tsx", "apps/web/app/theme-generator/theme-state.ts", "apps/web/app/theme-generator/use-theme-state.ts", "apps/web/app/theme-generator/presets.ts", "apps/web/app/theme-generator/exporters.ts", "apps/web/app/theme-generator/contrast.ts", "apps/web/app/theme-generator/sample-dialog.tsx"] },
+    "20-web-app/30-deployment.md": { "status": "pending", "sources": ["apps/web/next.config.ts"] },
+    "30-cross-cutting/00-tooling.md": { "status": "pending", "sources": ["tsconfig.base.json", "eslint.config.mjs", ".prettierrc.json", "pnpm-workspace.yaml"] },
+    "30-cross-cutting/10-ci-cd.md": { "status": "pending", "sources": [".github/"] },
+    "30-cross-cutting/15-e2e.md": { "status": "pending", "sources": ["e2e/"] },
+    "30-cross-cutting/20-conventions.md": { "status": "pending", "sources": ["CONTRIBUTING.md"] },
+    "30-cross-cutting/30-publication-readiness.md": { "status": "pending", "sources": ["PUBLICATION_READINESS.md", "CHANGELOG.md"] }
+  }
 }

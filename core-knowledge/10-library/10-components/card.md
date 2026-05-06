@@ -1,0 +1,160 @@
+# Card
+
+Status: documented · Last scan: d63afaf · Sources:
+`packages/ui/src/components/card/{card.tsx,card.variants.ts,index.ts,card.test.tsx}`.
+
+## Summary
+
+Generic surface container — the lib's primary "wrap content in a
+bordered box" primitive. 5 variants × 4 padding sizes via cva, plus
+6 compose-able sub-parts (Header / Title / Description / Body /
+Footer). Distinct from the **specialized cards**
+(ArticleCard, FeatureCard, UserCard) which target specific layouts;
+`<Card>` is the flexible base.
+
+## Public API
+
+| Export             | Kind |
+|--------------------|------|
+| `Card`             | `forwardRef<HTMLDivElement, CardProps>` |
+| `CardHeader`       | layout div with bottom border |
+| `CardTitle`        | `<h3>` display-font heading |
+| `CardDescription`  | `<p>` muted small text |
+| `CardBody`         | layout div (`py-3`) |
+| `CardFooter`       | layout div with top border, right-aligned actions |
+| `cardVariants`     | cva instance |
+
+| Card prop  | Type                                                                | Default     |
+|------------|---------------------------------------------------------------------|-------------|
+| `variant`  | `'default' \| 'elevated' \| 'featured' \| 'interactive' \| 'inverse'` | `'default'` |
+| `padding`  | `'none' \| 'sm' \| 'md' \| 'lg'`                                    | `'md'`      |
+| `className`| `string`                                                            | —           |
+| …native    | `HTMLAttributes<HTMLDivElement>`                                    | —           |
+
+### Variants
+
+| Variant       | Surface             | Border / shadow                                |
+|---------------|---------------------|------------------------------------------------|
+| `default`     | `bg-card`           | `border-2 border-memphis shadow-memphis` (6px) |
+| `elevated`    | `bg-card`           | `border-2 border-memphis shadow-memphis-lg` (9px) |
+| `featured`    | `bg-card`           | `[--memphis-shadow-color:var(--primary)]` + standard memphis shadow |
+| `interactive` | `bg-card`           | standard memphis + Button-style press affordance |
+| `inverse`     | `bg-foreground text-background` | 1px tinted border + soft `shadow-md` + `rounded-md` |
+
+### Sizes
+
+| Padding | Class |
+|---------|-------|
+| `none`  | `p-0` |
+| `sm`    | `p-3` |
+| `md`    | `p-5` |
+| `lg`    | `p-8` |
+
+### Sub-parts
+
+| Sub-part           | Classes |
+|--------------------|---------|
+| `CardHeader`       | `flex flex-col gap-1.5 pb-3 border-b border-border` |
+| `CardTitle`        | `font-display text-xl leading-tight tracking-wide` (`<h3>`) |
+| `CardDescription`  | `text-sm text-muted-foreground` (`<p>`) |
+| `CardBody`         | `py-3` |
+| `CardFooter`       | `flex items-center justify-end gap-2 pt-3 border-t border-border` |
+
+The sub-parts assume vertical stacking inside Card with `padding="md"`
+or larger. Header/Footer borders use `--border` (1px soft); main Card
+uses Memphis (2px hard). The visual hierarchy: Memphis frame outside
+→ soft separators inside.
+
+## Internal architecture
+
+### `interactive` variant — full Button press affordance
+
+```
+border-2 border-memphis shadow-memphis rounded-none
+cursor-pointer select-none
+transition-[transform,box-shadow] duration-snap ease-memphis
+hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis-hover
+active:translate-x-[3px] active:translate-y-[3px] active:shadow-memphis-active
+focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring
+```
+
+Replicates the **same** press affordance as Button's primary variant
+— the card visually depresses on click. Use this variant for
+clickable cards (links, buttons-as-cards). Note: the variant adds
+`select-none` and `cursor-pointer` but **does not change the
+underlying element** — a `<Card variant="interactive">` is still a
+`<div>`. Wrap the card in an `<a>` or `<button>` for actual
+interactivity.
+
+### `featured` variant — primary-tinted shadow
+
+```
+[--memphis-shadow-color:var(--primary)]
+border-2 border-memphis shadow-memphis rounded-none
+```
+
+Same recipe as Button's `ghost` variant: per-instance
+`--memphis-shadow-color` override turns the black Memphis shadow
+primary-tinted. Marks the card as the page's "hero" card.
+
+### `inverse` variant — anomalous
+
+```
+bg-foreground text-background
+border border-[color-mix(in_oklab,var(--background)_12%,transparent)]
+shadow-md rounded-md
+```
+
+The only Card variant that **drops** the Memphis idiom entirely:
+- 1px border, not 2px
+- Tinted-transparent border color (12% background mixed with
+  transparent — subtle on the dark surface)
+- `shadow-md` (soft tier)
+- `rounded-md` (soft corners)
+
+Reads as "elevated dark panel" — for callouts on light pages or
+content-heavy regions on dark themes.
+
+## Notes & gotchas
+
+1. **`interactive` variant adds press affordance but not
+   interactivity.** The card looks clickable; consumers must still
+   render an `<a>`, `<button>`, or attach `onClick` themselves.
+
+2. **`inverse` is the lib's only "anti-Memphis" variant** in any
+   surface component. Don't introduce more without a deliberate
+   design decision.
+
+3. **CardHeader pre-applies `border-b border-border` and `pb-3`.**
+   Combined with Card's outer `padding="md"`, the visual is "Memphis
+   frame outside, soft separator below header inside". For a
+   borderless header, use `<div>` or override with
+   `className="border-0 pb-0"`.
+
+4. **CardFooter is right-aligned by default.** For left-aligned or
+   centered footers, override `justify-end`.
+
+5. **No `as` prop** on Card. Always renders `<div>`. For
+   semantically meaningful cards (e.g. `<article>`), wrap externally.
+
+## How to consume (shadcn-style copy)
+
+1. Copy `card.tsx`, `card.variants.ts`, `index.ts`.
+2. No external deps.
+3. Tokens: `--card`, `--card-foreground`, `--foreground`,
+   `--background`, `--memphis-border-color`, `--shadow-memphis`,
+   `--shadow-memphis-lg`, `--shadow-memphis-hover`,
+   `--shadow-memphis-active`, `--shadow-md`, `--primary` (featured),
+   `--border`, `--ring`.
+
+## Open questions
+
+1. **Specialized cards** (ArticleCard, FeatureCard, UserCard) don't
+   compose on top of `<Card>` — they're independent components. Worth
+   considering a refactor where they become Card variants or layouts
+   with a shared frame, especially before npm migration.
+2. **`interactive` variant misleads** — looks clickable, isn't. Add
+   an `as` prop or a friendly `onClick` warning.
+3. **`inverse` variant is the only anti-Memphis surface** — possibly
+   move to a separate `<DarkCard>` component to reduce cognitive
+   load on the variant axis.
