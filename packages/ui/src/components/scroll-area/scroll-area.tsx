@@ -49,7 +49,7 @@ export const ScrollBar = forwardRef<HTMLDivElement, ScrollBarProps>(function Scr
       <ScrollAreaPrimitive.ScrollAreaThumb
         className={cn(
           'relative flex-1 rounded-pill bg-border-strong',
-          'hover:bg-ink-muted',
+          'hover:bg-muted-foreground',
           'before:absolute before:inset-0 before:rounded-pill',
         )}
       />
