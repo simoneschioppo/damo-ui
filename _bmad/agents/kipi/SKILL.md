@@ -15,7 +15,7 @@ trigger: |
 ## Why this skill exists
 
 Kipi's hard rule is "no silent writes". So even after a code change, Kipi
-still requires user approval to update chapters. This skill is the *signal*
+still requires user approval to update chapters. This skill is the _signal_
 that an update is needed — it does not perform the update.
 
 ## What it does
@@ -43,6 +43,7 @@ that an update is needed — it does not perform the update.
    ```
 
 4. **Surface a one-line nudge** to the user:
+
    > 📚 Kipi: 3 paths queued for knowledge update. Run `*4` in Kipi to review.
 
 5. **Stop.** Do not edit `core-knowledge/`. Do not call any other Kipi

@@ -11,13 +11,13 @@ next `*5 Status` run.
 
 Activate Kipi and run a workflow:
 
-| You want to…                                          | Run            |
-|-------------------------------------------------------|----------------|
+| You want to…                                          | Run             |
+| ----------------------------------------------------- | --------------- |
 | Bootstrap the chapter layout                          | `*1` Initialize |
-| Document a piece of code                              | `*2` Scan      |
-| Process notes/specs from `user-data/`                 | `*3` User Data |
-| Sync chapters with recent code or new processed notes | `*4` Update    |
-| See what's documented / pending / outdated            | `*5` Status    |
+| Document a piece of code                              | `*2` Scan       |
+| Process notes/specs from `user-data/`                 | `*3` User Data  |
+| Sync chapters with recent code or new processed notes | `*4` Update     |
+| See what's documented / pending / outdated            | `*5` Status     |
 
 ## Layout
 
