@@ -1,0 +1,120 @@
+{
+  "schema_version": "0.1.0",
+  "snapshot_at": "2026-05-07T22:42:07Z",
+  "repo": "damo-ui",
+  "collection_mode": "sequential",
+  "collection_status": "COLLECTED",
+  "inventory_basis": "synthetic_requirements",
+  "gate_basis": "priority_thresholds",
+  "source_sha": "e30c2e3",
+  "target": {
+    "type": "defect_audit",
+    "id": "theme-generator-token-propagation-2026-05-07",
+    "label": "Theme generator → component propagation audit"
+  },
+  "decision_mode": "automated",
+  "evaluator": "Simone",
+  "confidence": "high",
+  "oracle": {
+    "resolution_mode": "synthetic_source",
+    "confidence": "high",
+    "sources": [
+      "apps/web/app/theme-generator/theme-state.ts",
+      "apps/web/app/theme-generator/use-theme-state.ts",
+      "apps/web/app/theme-generator/page.tsx",
+      "apps/web/app/styles/theme.css",
+      "packages/ui/src/styles/theme.css",
+      "packages/ui/src/styles/tokens.css"
+    ],
+    "external_pointer_status": "not_used",
+    "synthetic": true
+  },
+  "coverage": {
+    "inventory": { "covered": 0, "total": 16, "pct": 0 },
+    "priority_breakdown": {
+      "P0": { "total": 0, "covered": 0, "pct": 100 },
+      "P1": { "total": 16, "covered": 0, "pct": 0 },
+      "P2": { "total": 0, "covered": 0, "pct": 100 },
+      "P3": { "total": 0, "covered": 0, "pct": 100 }
+    },
+    "by_level": {
+      "e2e": { "tests": 11, "criteria_covered": 0 },
+      "api": { "tests": 0, "criteria_covered": 0 },
+      "component": { "tests": 1, "criteria_covered": 0 },
+      "unit": { "tests": 350, "criteria_covered": 1 },
+      "other": { "tests": 0, "criteria_covered": 0 }
+    }
+  },
+  "tests": {
+    "files": 39,
+    "cases": 362,
+    "skipped_cases": 0,
+    "fixme_cases": 0,
+    "pending_cases": 0
+  },
+  "risk_summary": {
+    "critical_open": 0,
+    "high_open": 4,
+    "medium_open": 0,
+    "low_open": 0
+  },
+  "heuristics": {
+    "endpoint_gaps": 0,
+    "auth_negative_path_status": "present",
+    "error_path_status": "present",
+    "ui_journey_status": "none",
+    "ui_state_status": "partial"
+  },
+  "blockers": [],
+  "recommendations": [
+    {
+      "priority": "URGENT",
+      "action": "Fix J-13a motion DEFECT — scope or gate the prefers-reduced-motion override so generator edits remain visible during preview.",
+      "requirements": ["J-13a"]
+    },
+    {
+      "priority": "HIGH",
+      "action": "Run /bmad:tea:atdd for the 4 NONE-coverage P1 journeys.",
+      "requirements": ["J-08a", "J-08b", "J-08c", "J-13a"]
+    },
+    {
+      "priority": "HIGH",
+      "action": "Verify J-10 typography-sizes MUTE-RISK with a runtime computed-style test.",
+      "requirements": ["J-10"]
+    },
+    {
+      "priority": "HIGH",
+      "action": "Run /bmad:tea:automate to harden 11 PARTIAL journeys with computed-style assertions.",
+      "requirements": ["J-02", "J-03", "J-04", "J-05", "J-06", "J-07", "J-09", "J-11", "J-12", "J-13b"]
+    },
+    {
+      "priority": "MEDIUM",
+      "action": "Promote inferred journeys to formal acceptance criteria (theme-generator PRD).",
+      "requirements": ["J-01", "J-02", "J-03", "J-04", "J-05", "J-06", "J-07", "J-08a", "J-08b", "J-08c", "J-09", "J-10", "J-11", "J-12", "J-13a", "J-13b"]
+    },
+    {
+      "priority": "LOW",
+      "action": "Run /bmad:tea:test-review on the 37-file lib component suite.",
+      "requirements": []
+    }
+  ],
+  "links": {
+    "trace_report_path": "_bmad-output/test-artifacts/traceability/traceability-matrix.md",
+    "trace_report_url": "",
+    "artifact_url": "",
+    "journey_evidence_url": ""
+  },
+  "gate_status": "FAIL",
+  "gate_criteria": {
+    "p0_coverage_required": "100%",
+    "p0_coverage_actual": "100%",
+    "p0_status": "MET",
+    "p1_coverage_target": "90%",
+    "p1_coverage_minimum": "80%",
+    "p1_coverage_actual": "0%",
+    "p1_status": "NOT_MET",
+    "overall_coverage_minimum": "80%",
+    "overall_coverage_actual": "0%",
+    "overall_status": "NOT_MET"
+  }
+}
