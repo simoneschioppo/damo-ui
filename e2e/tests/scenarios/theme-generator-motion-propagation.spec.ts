@@ -148,7 +148,8 @@ test.describe('AC-1 — Theme generator motion durations propagate to consumers'
 
       expect(computed).not.toBeNull()
       // Accept browser-normalized variants of "0.01ms".
-      expect(['0.01ms', '0s', '0.0001s']).toContain(computed)
+      // Chromium emits scientific notation (1e-05s) for very small values.
+      expect(['0.01ms', '0s', '0.0001s', '1e-05s']).toContain(computed)
       await ctx.close()
     })
   })
