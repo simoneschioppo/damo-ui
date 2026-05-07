@@ -33,7 +33,11 @@ export const navItemVariants = cva(
           'text-[var(--nav-on-dark-foreground)] hover:text-[var(--nav-on-dark-foreground-strong)] hover:bg-white/5 hover:translate-x-0.5',
           'aria-[current=page]:text-[var(--nav-on-dark-accent)]',
           'aria-[current=page]:rounded-selection',
-          'aria-[current=page]:bg-[linear-gradient(135deg,rgba(213,168,69,0.22),rgba(122,57,128,0.12))]',
+          // Token-driven gradient — was previously hard-coded gold/plum
+          // rgba literals which made the theme generator's "Nav on dark"
+          // accent edits silently ignored. Mirrors the color-mix tinting
+          // recipe used by Chip / Toast / Banner / Hint.
+          'aria-[current=page]:bg-[linear-gradient(135deg,color-mix(in_oklab,var(--nav-on-dark-accent-strong)_22%,transparent),color-mix(in_oklab,var(--nav-on-dark-accent)_12%,transparent))]',
           'aria-[current=page]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--nav-on-dark-accent-strong)_30%,transparent)]',
           'aria-[current=page]:before:content-[""] aria-[current=page]:before:absolute',
           'aria-[current=page]:before:left-[-2px] aria-[current=page]:before:top-2 aria-[current=page]:before:bottom-2',
