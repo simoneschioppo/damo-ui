@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1.0",
+  "evaluated_at": "2026-05-07T22:42:07Z",
+  "repo": "damo-ui",
+  "target": {
+    "type": "defect_audit",
+    "id": "theme-generator-token-propagation-2026-05-07",
+    "label": "Theme generator → component propagation audit"
+  },
+  "collection_status": "COLLECTED",
+  "gate_basis": "priority_thresholds",
+  "gate_status": "FAIL",
+  "rationale": "Overall runtime-propagation coverage is 0% (minimum: 80%). Of 16 synthetic P1 journeys, 0 are FULL-covered, 11 are PARTIAL (class-string only), 1 is UNIT-only, and 4 are uncovered. 1 confirmed DEFECT (J-13a motion durations, blocked by global prefers-reduced-motion override) and 1 MUTE-RISK (J-10 typography sizes, no @theme bridge in lib).",
+  "p0_status": "MET",
+  "p1_status": "NOT_MET",
+  "overall_status": "NOT_MET",
+  "critical_open": 0,
+  "links": {
+    "trace_report_path": "_bmad-output/test-artifacts/traceability/traceability-matrix.md",
+    "trace_report_url": "",
+    "artifact_url": "",
+    "journey_evidence_url": ""
+  }
+}
