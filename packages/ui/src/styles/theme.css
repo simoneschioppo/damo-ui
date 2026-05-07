@@ -56,6 +56,21 @@
   --font-body: var(--font-body);
   --font-mono: var(--font-mono);
 
+  /* Typography sizes — re-declare so consumer-side runtime overrides on
+   * `:root --text-*` flow through to the `text-*` Tailwind utilities. v4's
+   * built-in --text-* namespace resolves at build time unless re-bridged
+   * here, so the theme generator's typography editor was muted without
+   * these declarations. Fallbacks match Tailwind's stock scale so external
+   * consumers without a theme override keep the default sizes. See AC-2
+   * in _bmad-output/test-artifacts/atdd-checklist-...md. */
+  --text-xs: var(--text-xs, 0.75rem);
+  --text-sm: var(--text-sm, 0.875rem);
+  --text-base: var(--text-base, 1rem);
+  --text-lg: var(--text-lg, 1.125rem);
+  --text-xl: var(--text-xl, 1.25rem);
+  --text-2xl: var(--text-2xl, 1.5rem);
+  --text-3xl: var(--text-3xl, 1.875rem);
+
   /* Radii */
   --radius-none: var(--radius-none);
   --radius-sm: var(--radius-sm);
