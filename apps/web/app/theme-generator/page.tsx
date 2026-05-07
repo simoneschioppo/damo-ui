@@ -13,7 +13,7 @@
  * / Export (CSS | Tailwind | JSON sub-tabs).
  */
 
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import {
   Accordion,
   AccordionContent,
@@ -934,6 +934,20 @@ export default function ThemeGeneratorPage() {
 
   const setIncludeFlag = (key: IncludeKey, value: boolean): void =>
     setIncludeFlags((prev) => ({ ...prev, [key]: value }))
+
+  // Opt out of the global prefers-reduced-motion collapse while the user is
+  // on this route — the editor PREVIEWS motion, so collapsing every
+  // transition to 0.01ms makes generator edits invisible. Every other route
+  // (and every consumer that lifts the stylesheet) keeps strict a11y.
+  // See apps/web/app/styles/theme.css and AC-1 in
+  // _bmad-output/test-artifacts/atdd-checklist-...md.
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    document.documentElement.setAttribute('data-motion-preview', '')
+    return () => {
+      document.documentElement.removeAttribute('data-motion-preview')
+    }
+  }, [])
 
   const otherMode: EditMode = editMode === 'light' ? 'dark' : 'light'
   const semantic = theme.semantic[editMode]

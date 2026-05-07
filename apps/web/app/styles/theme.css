@@ -177,10 +177,20 @@
 }
 
 /* ── Reduced motion ──────────────────────────────────────── */
+/*
+ * A11y baseline: when the user requests reduced motion, collapse every
+ * animation/transition to ~0 so visual motion is effectively absent.
+ *
+ * Scoped exception: routes that *preview* motion (the theme generator)
+ * set `data-motion-preview` on <html> while they are active, opting out
+ * of this collapse so editing `--duration-*` tokens produces a visible
+ * effect in the live preview. Every other route — and every consumer
+ * app that lifts this stylesheet — keeps the strict a11y collapse.
+ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  html:not([data-motion-preview]) *,
+  html:not([data-motion-preview]) *::before,
+  html:not([data-motion-preview]) *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
