@@ -38,56 +38,53 @@ const BASIC_SNIPPET = `<Popover>
 
 const ALIGN_SNIPPET = `<PopoverContent align="start" sideOffset={8}>…</PopoverContent>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'open',
-    type: 'boolean',
-    description: 'Controlled open state on the root.',
-  },
-  {
-    name: 'defaultOpen',
-    type: 'boolean',
-    description: 'Uncontrolled initial open state on the root.',
-  },
-  {
-    name: 'onOpenChange',
-    type: '(open: boolean) => void',
-    description: 'Fires when the open state changes.',
-  },
-  {
-    name: 'modal',
-    type: 'boolean',
-    defaultValue: 'false',
-    description:
-      'When true, focus is trapped while open and outside content is inert. Default is false (non-modal).',
-  },
-  {
-    name: 'align',
-    type: "'start' | 'center' | 'end'",
-    defaultValue: "'center'",
-    description: 'Prop on `PopoverContent`. Alignment of the content relative to the trigger.',
-  },
-  {
-    name: 'side',
-    type: "'top' | 'right' | 'bottom' | 'left'",
-    defaultValue: "'bottom'",
-    description:
-      'Prop on `PopoverContent`. Preferred edge to anchor against. Radix flips automatically when there is no room.',
-  },
-  {
-    name: 'sideOffset',
-    type: 'number',
-    defaultValue: '6',
-    description: 'Gap between trigger and content.',
-  },
-]
-
 export const metadata = { title: `Popover — ${BRAND.libName}` }
 
 export default async function PopoverDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'open',
+      type: 'boolean',
+      description: t.rich('componentDocs.popover.props.open', { code: codeTag }),
+    },
+    {
+      name: 'defaultOpen',
+      type: 'boolean',
+      description: t.rich('componentDocs.popover.props.defaultOpen', { code: codeTag }),
+    },
+    {
+      name: 'onOpenChange',
+      type: '(open: boolean) => void',
+      description: t.rich('componentDocs.popover.props.onOpenChange', { code: codeTag }),
+    },
+    {
+      name: 'modal',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.popover.props.modal', { code: codeTag }),
+    },
+    {
+      name: 'align',
+      type: "'start' | 'center' | 'end'",
+      defaultValue: "'center'",
+      description: t.rich('componentDocs.popover.props.align', { code: codeTag }),
+    },
+    {
+      name: 'side',
+      type: "'top' | 'right' | 'bottom' | 'left'",
+      defaultValue: "'bottom'",
+      description: t.rich('componentDocs.popover.props.side', { code: codeTag }),
+    },
+    {
+      name: 'sideOffset',
+      type: 'number',
+      defaultValue: '6',
+      description: t.rich('componentDocs.popover.props.sideOffset', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -141,9 +138,7 @@ export default async function PopoverDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Alignment</h2>
       <p className="text-foreground/80 mb-3">
-        Use <code className="font-mono">align</code> for inline alignment and{' '}
-        <code className="font-mono">side</code> / <code className="font-mono">sideOffset</code> for
-        the anchor edge.
+        {t.rich('componentDocs.popover.body.alignment', { code: codeTag })}
       </p>
       <Code code={ALIGN_SNIPPET} lang="tsx" />
 
@@ -153,40 +148,29 @@ export default async function PopoverDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">Popover vs DropdownMenu vs Dialog</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
-          <strong>Popover</strong> — a free-form floating panel. Use it for forms, search results,
-          help text, mini-editors.
+          {t.rich('componentDocs.popover.vsList.0', { code: codeTag, strong: strongTag, em: emTag })}
         </li>
         <li>
-          <Link href="/docs/components/dropdown-menu" className="text-primary underline">
-            DropdownMenu
-          </Link>{' '}
-          — a list of <em>actions</em> with full keyboard wiring (arrow keys cycle items). Reach for
-          it whenever the content is a menu.
+          {t.rich('componentDocs.popover.vsList.1', {
+            code: codeTag,
+            em: emTag,
+            link1: linkTag('/docs/components/dropdown-menu'),
+          })}
         </li>
         <li>
-          <Link href="/docs/components/dialog" className="text-primary underline">
-            Dialog
-          </Link>{' '}
-          — a modal centred on the screen. Reach for it when the user must finish a task before
-          continuing.
+          {t.rich('componentDocs.popover.vsList.2', {
+            code: codeTag,
+            em: emTag,
+            link1: linkTag('/docs/components/dialog'),
+          })}
         </li>
       </ul>
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Trigger inherits Radix <code className="font-mono">aria-expanded</code> /{' '}
-          <code className="font-mono">aria-controls</code>.
-        </li>
-        <li>
-          Default <code className="font-mono">modal=false</code> — focus is not trapped, and clicks
-          outside dismiss the panel. Set <code className="font-mono">modal=true</code> when the
-          popover hosts a complete task that should block other interactions.
-        </li>
-        <li>
-          Use <code className="font-mono">PopoverClose</code> on close affordances inside the
-          content so focus returns to the trigger.
-        </li>
+        <li>{t.rich('componentDocs.popover.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.popover.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.popover.a11y.2', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

@@ -16,19 +16,38 @@ const BASIC_SNIPPET = `<FeatureCard
   icon={<BoltIcon size={18} />}
 />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  { name: 'title', type: 'string', required: true, description: 'Display-font title.' },
-  { name: 'desc', type: 'string', required: true, description: 'Body description.' },
-  { name: 'meta', type: 'string', description: 'Optional mono uppercase footer label.' },
-  { name: 'icon', type: 'ReactNode', description: 'Optional icon rendered next to the meta.' },
-]
-
 export const metadata = { title: `FeatureCard — ${BRAND.libName}` }
 
 export default async function FeatureCardDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'title',
+      type: 'string',
+      required: true,
+      description: t.rich('componentDocs.feature-card.props.title', { code: codeTag }),
+    },
+    {
+      name: 'desc',
+      type: 'string',
+      required: true,
+      description: t.rich('componentDocs.feature-card.props.desc', { code: codeTag }),
+    },
+    {
+      name: 'meta',
+      type: 'string',
+      description: t.rich('componentDocs.feature-card.props.meta', { code: codeTag }),
+    },
+    {
+      name: 'icon',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.feature-card.props.icon', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">

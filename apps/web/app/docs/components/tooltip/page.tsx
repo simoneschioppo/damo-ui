@@ -13,7 +13,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
-import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
+import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   TooltipProvider,
@@ -43,40 +43,39 @@ const ICON_SNIPPET = `<Tooltip>
   <TooltipContent>Open settings</TooltipContent>
 </Tooltip>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'delayDuration',
-    type: 'number',
-    defaultValue: '700',
-    description:
-      'Prop on `TooltipProvider` (and per-`Tooltip`). Milliseconds before the tooltip opens on hover.',
-  },
-  {
-    name: 'side',
-    type: "'top' | 'right' | 'bottom' | 'left'",
-    defaultValue: "'top'",
-    description: 'Prop on `TooltipContent`. Preferred edge to anchor against; flips automatically.',
-  },
-  {
-    name: 'sideOffset',
-    type: 'number',
-    defaultValue: '4',
-    description: 'Gap between trigger and tooltip.',
-  },
-  {
-    name: 'align',
-    type: "'start' | 'center' | 'end'",
-    defaultValue: "'center'",
-    description: 'Inline alignment relative to the trigger.',
-  },
-]
-
 export const metadata = { title: `Tooltip — ${BRAND.libName}` }
 
 export default async function TooltipDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'delayDuration',
+      type: 'number',
+      defaultValue: '700',
+      description: t.rich('componentDocs.tooltip.props.delayDuration', { code: codeTag }),
+    },
+    {
+      name: 'side',
+      type: "'top' | 'right' | 'bottom' | 'left'",
+      defaultValue: "'top'",
+      description: t.rich('componentDocs.tooltip.props.side', { code: codeTag }),
+    },
+    {
+      name: 'sideOffset',
+      type: 'number',
+      defaultValue: '4',
+      description: t.rich('componentDocs.tooltip.props.sideOffset', { code: codeTag }),
+    },
+    {
+      name: 'align',
+      type: "'start' | 'center' | 'end'",
+      defaultValue: "'center'",
+      description: t.rich('componentDocs.tooltip.props.align', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -92,9 +91,7 @@ export default async function TooltipDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Provider — once per app</h2>
       <p className="text-foreground/80 mb-3">
-        Wrap your root layout in a single <code className="font-mono">TooltipProvider</code>. All
-        nested tooltips share its delay. Without the provider, individual tooltips still work but
-        don&rsquo;t coordinate timing.
+        {t.rich('componentDocs.tooltip.body.providerIntro', { code: codeTag })}
       </p>
       <Code code={PROVIDER_SNIPPET} lang="tsx" />
 
@@ -112,12 +109,10 @@ export default async function TooltipDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">On an icon button</h2>
       <p className="text-foreground/80 mb-3">
-        Pair Tooltip with{' '}
-        <Link href="/docs/components/button" className="text-primary underline">
-          IconButton
-        </Link>{' '}
-        to surface the action&rsquo;s name on hover. <code className="font-mono">aria-label</code>{' '}
-        on the IconButton stays the canonical accessible name; the tooltip is supplementary.
+        {t.rich('componentDocs.tooltip.body.iconButtonIntro', {
+          code: codeTag,
+          link1: linkTag('/docs/components/button'),
+        })}
       </p>
       <Example code={ICON_SNIPPET}>
         <TooltipProvider delayDuration={100}>
@@ -137,21 +132,13 @@ export default async function TooltipDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.tooltip.a11y.0', { code: codeTag, kbd: kbdTag })}</li>
+        <li>{t.rich('componentDocs.tooltip.a11y.1', { code: codeTag })}</li>
         <li>
-          The trigger receives Radix focus management; pressing <kbd>Tab</kbd> opens the tooltip,{' '}
-          <kbd>Esc</kbd> closes it.
-        </li>
-        <li>
-          Tooltips don&rsquo;t replace labels. For icon-only triggers, always set{' '}
-          <code className="font-mono">aria-label</code> on the trigger — the tooltip text alone is
-          not announced as the accessible name.
-        </li>
-        <li>
-          Tooltip content is not focusable. Use{' '}
-          <Link href="/docs/components/popover" className="text-primary underline">
-            Popover
-          </Link>{' '}
-          when the user must interact with the floating panel.
+          {t.rich('componentDocs.tooltip.a11y.2', {
+            code: codeTag,
+            link1: linkTag('/docs/components/popover'),
+          })}
         </li>
       </ul>
 

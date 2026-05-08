@@ -19,37 +19,38 @@ const SIZE_SNIPPET = `<Medal rank="gold" value={1} size={48} />
 <Medal rank="gold" value={1} size={96} />
 <Medal rank="gold" value={1} size={140} />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'rank',
-    type: "'bronze' | 'silver' | 'gold' | 'master' | 'grandmaster'",
-    required: true,
-    description: 'Selects the inner / outer / text token (`--medal-{rank}-{outer|inner|text}`).',
-  },
-  {
-    name: 'value',
-    type: 'ReactNode',
-    description: 'Optional centred number / letters (e.g. `1`, `"M"`, `"GM"`).',
-  },
-  {
-    name: 'label',
-    type: 'string',
-    description: 'Mono uppercase caption rendered below the medal.',
-  },
-  {
-    name: 'size',
-    type: 'number',
-    defaultValue: '96',
-    description: 'SVG width and height in pixels.',
-  },
-]
-
 export const metadata = { title: `Medal — ${BRAND.libName}` }
 
 export default async function MedalDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'rank',
+      type: "'bronze' | 'silver' | 'gold' | 'master' | 'grandmaster'",
+      required: true,
+      description: t.rich('componentDocs.medal.props.rank', { code: codeTag }),
+    },
+    {
+      name: 'value',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.medal.props.value', { code: codeTag }),
+    },
+    {
+      name: 'label',
+      type: 'string',
+      description: t.rich('componentDocs.medal.props.label', { code: codeTag }),
+    },
+    {
+      name: 'size',
+      type: 'number',
+      defaultValue: '96',
+      description: t.rich('componentDocs.medal.props.size', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -88,10 +89,7 @@ export default async function MedalDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <p className="text-foreground/85">
-        The SVG renders <code className="font-mono">role=&quot;img&quot;</code> with{' '}
-        <code className="font-mono">aria-label</code> derived from{' '}
-        <code className="font-mono">label</code> (or a default like{' '}
-        <code className="font-mono">&quot;gold medal&quot;</code> when no label is provided).
+        {t.rich('componentDocs.medal.body.accessibility', { code: codeTag })}
       </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

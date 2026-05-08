@@ -17,32 +17,30 @@ const VARIANTS_SNIPPET = `<Badge>Default</Badge>
 <Badge variant="destructive">Destructive</Badge>
 <Badge variant="outline">Outline</Badge>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'variant',
-    type: "'default' | 'featured' | 'success' | 'warning' | 'info' | 'destructive' | 'outline'",
-    defaultValue: "'default'",
-    description:
-      'Visual tone. `featured` uses the badge featured token; `success` / `warning` / `info` / `destructive` map to the standard status intents; `outline` strips the fill.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Short label — typically 1-3 uppercase words.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the variant defaults.',
-  },
-]
-
 export const metadata = { title: `Badge — ${BRAND.libName}` }
 
 export default async function BadgeDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'variant',
+      type: "'default' | 'featured' | 'success' | 'warning' | 'info' | 'destructive' | 'outline'",
+      defaultValue: "'default'",
+      description: t.rich('componentDocs.badge.props.variant', { code: codeTag }),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t('componentDocs.badge.props.children'),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t('componentDocs.badge.props.className'),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -74,17 +72,8 @@ export default async function BadgeDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Badge renders a <code className="font-mono">&lt;span&gt;</code> — the text content is the
-          only thing announced. Pick labels that read meaningfully out of context (e.g.{' '}
-          <code className="font-mono">PRO</code> rather than <code className="font-mono">P</code>).
-        </li>
-        <li>
-          When the badge encodes status that is not redundant with surrounding text (e.g. a single
-          icon means &quot;new&quot;), pair it with a{' '}
-          <code className="font-mono">&lt;span className=&quot;sr-only&quot;&gt;</code> describing
-          the meaning.
-        </li>
+        <li>{t.rich('componentDocs.badge.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.badge.a11y.1', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

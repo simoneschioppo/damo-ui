@@ -16,36 +16,35 @@ const BASIC_SNIPPET = `<PageHeader
   actions={<Button variant="primary">Invite</Button>}
 />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'eyebrow',
-    type: 'ReactNode',
-    description: 'Optional small uppercase label rendered above the title.',
-  },
-  {
-    name: 'title',
-    type: 'ReactNode',
-    required: true,
-    description: 'Page heading rendered as an `<h1>` in the display font.',
-  },
-  {
-    name: 'description',
-    type: 'ReactNode',
-    description: 'Optional paragraph below the title.',
-  },
-  {
-    name: 'actions',
-    type: 'ReactNode',
-    description: 'Optional right-aligned slot for primary actions (Buttons, IconButtons, …).',
-  },
-]
-
 export const metadata = { title: `PageHeader — ${BRAND.libName}` }
 
 export default async function PageHeaderDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'eyebrow',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.page-header.props.eyebrow', { code: codeTag }),
+    },
+    {
+      name: 'title',
+      type: 'ReactNode',
+      required: true,
+      description: t.rich('componentDocs.page-header.props.title', { code: codeTag }),
+    },
+    {
+      name: 'description',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.page-header.props.description', { code: codeTag }),
+    },
+    {
+      name: 'actions',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.page-header.props.actions', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -76,14 +75,8 @@ export default async function PageHeaderDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          The wrapper is a real <code className="font-mono">&lt;header&gt;</code> — adds a banner
-          landmark when used at the page level.
-        </li>
-        <li>
-          The title renders as <code className="font-mono">&lt;h1&gt;</code>; only one PageHeader
-          per route.
-        </li>
+        <li>{t.rich('componentDocs.page-header.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.page-header.a11y.1', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

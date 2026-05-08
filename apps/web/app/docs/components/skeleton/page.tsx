@@ -21,21 +21,20 @@ const COMPOSITE_SNIPPET = `<div className="flex items-center gap-3">
   </div>
 </div>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'className',
-    type: 'string',
-    description:
-      'Required: shape the skeleton with width / height / radius utilities. The base Skeleton ships only the shimmer animation and muted background.',
-  },
-]
-
 export const metadata = { title: `Skeleton — ${BRAND.libName}` }
 
 export default async function SkeletonDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.skeleton.props.className', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -74,17 +73,12 @@ export default async function SkeletonDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.skeleton.a11y.0', { code: codeTag })}</li>
         <li>
-          Skeleton sets <code className="font-mono">aria-hidden=&quot;true&quot;</code> — it is
-          purely visual and skipped by screen readers.
-        </li>
-        <li>
-          When the content arrives, swap the skeleton out atomically. Long-running loads should
-          surface progress via <code className="font-mono">role=&quot;status&quot;</code> (use{' '}
-          <Link href="/docs/components/spinner" className="text-primary underline">
-            Spinner
-          </Link>{' '}
-          or a hidden status text) so the change is announced.
+          {t.rich('componentDocs.skeleton.a11y.1', {
+            code: codeTag,
+            link1: linkTag('/docs/components/spinner'),
+          })}
         </li>
       </ul>
 

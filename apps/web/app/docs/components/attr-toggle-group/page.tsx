@@ -44,63 +44,58 @@ const HEADLESS_SNIPPET = `<AttrToggleGroup
   defaultValue="normal"
 />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'options',
-    type: 'AttrToggleOption[]',
-    required: true,
-    description: 'List of `{ value, label }` pairs the user can pick from.',
-  },
-  {
-    name: 'storageKey',
-    type: 'string',
-    required: true,
-    description: 'localStorage key that persists the active value across sessions.',
-  },
-  {
-    name: 'attribute',
-    type: 'string',
-    required: true,
-    description:
-      'data-* attribute mirrored on `<html>`. Must match `^data-[a-z][a-z0-9-]*$` — non-data attributes are rejected.',
-  },
-  {
-    name: 'defaultValue',
-    type: 'string',
-    description: 'Initial value when nothing is persisted. Falls back to `options[0].value`.',
-  },
-  {
-    name: 'label',
-    type: 'string',
-    description:
-      'Optional eyebrow label rendered before the control. When provided, the inner group is wired with `aria-labelledby` to the eyebrow id.',
-  },
-  {
-    name: 'variant',
-    type: "'segmented' | 'select'",
-    defaultValue: "'segmented'",
-    description:
-      '`segmented` is a Memphis-bordered button row; `select` swaps to the design-system Select dropdown.',
-  },
-  {
-    name: 'labelId',
-    type: 'string',
-    description:
-      'Override the auto-generated id for the eyebrow label. Use when you need to wire your own external label.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes merged on top of the wrapper defaults.',
-  },
-]
-
 export const metadata = { title: `AttrToggleGroup — ${BRAND.libName}` }
 
 export default async function AttrToggleGroupDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'options',
+      type: 'AttrToggleOption[]',
+      required: true,
+      description: t.rich('componentDocs.attr-toggle-group.props.options', { code: codeTag }),
+    },
+    {
+      name: 'storageKey',
+      type: 'string',
+      required: true,
+      description: t('componentDocs.attr-toggle-group.props.storageKey'),
+    },
+    {
+      name: 'attribute',
+      type: 'string',
+      required: true,
+      description: t.rich('componentDocs.attr-toggle-group.props.attribute', { code: codeTag }),
+    },
+    {
+      name: 'defaultValue',
+      type: 'string',
+      description: t.rich('componentDocs.attr-toggle-group.props.defaultValue', { code: codeTag }),
+    },
+    {
+      name: 'label',
+      type: 'string',
+      description: t.rich('componentDocs.attr-toggle-group.props.label', { code: codeTag }),
+    },
+    {
+      name: 'variant',
+      type: "'segmented' | 'select'",
+      defaultValue: "'segmented'",
+      description: t.rich('componentDocs.attr-toggle-group.props.variant', { code: codeTag }),
+    },
+    {
+      name: 'labelId',
+      type: 'string',
+      description: t('componentDocs.attr-toggle-group.props.labelId'),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t('componentDocs.attr-toggle-group.props.className'),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -116,9 +111,7 @@ export default async function AttrToggleGroupDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Segmented variant</h2>
       <p className="text-foreground/80 mb-3">
-        Default visual: a Memphis-bordered button row with{' '}
-        <code className="font-mono">aria-pressed</code> on each option and a{' '}
-        <code className="font-mono">role=&quot;group&quot;</code> wrapper labelled by the eyebrow.
+        {t.rich('componentDocs.attr-toggle-group.body.segmentedIntro', { code: codeTag })}
       </p>
       <Example code={SEGMENTED_SNIPPET}>
         <AttrToggleGroup
@@ -137,8 +130,7 @@ export default async function AttrToggleGroupDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Select variant</h2>
       <p className="text-foreground/80 mb-3">
-        Use when the option list is too long for a button row, or when the surface is
-        space-constrained.
+        {t('componentDocs.attr-toggle-group.body.selectIntro')}
       </p>
       <Example code={SELECT_SNIPPET}>
         <AttrToggleGroup
@@ -157,19 +149,13 @@ export default async function AttrToggleGroupDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Without an eyebrow label</h2>
       <p className="text-foreground/80 mb-3">
-        Drop the <code className="font-mono">label</code> prop when the surrounding UI already
-        provides a heading.
+        {t.rich('componentDocs.attr-toggle-group.body.headlessIntro', { code: codeTag })}
       </p>
       <Code code={HEADLESS_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Sanitisation</h2>
       <p className="text-foreground/80 mb-3">
-        If a previously persisted value is no longer in <code className="font-mono">options</code>{' '}
-        (e.g. you renamed a palette), the hook resets it to{' '}
-        <code className="font-mono">defaultValue</code> on mount, then writes the corrected value
-        back to <code className="font-mono">localStorage</code> and to the{' '}
-        <code className="font-mono">data-*</code> attribute. The user never sees a flash of stale
-        state.
+        {t.rich('componentDocs.attr-toggle-group.body.sanitisationIntro', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
@@ -177,21 +163,9 @@ export default async function AttrToggleGroupDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          The segmented variant wraps options in{' '}
-          <code className="font-mono">role=&quot;group&quot;</code>; when{' '}
-          <code className="font-mono">label</code> is set, the group is labelled via{' '}
-          <code className="font-mono">aria-labelledby</code> pointing to the eyebrow id.
-        </li>
-        <li>
-          Each segmented button is a native <code className="font-mono">&lt;button&gt;</code> with{' '}
-          <code className="font-mono">aria-pressed</code> reflecting the active state.
-        </li>
-        <li>
-          The select variant exposes <code className="font-mono">role=&quot;combobox&quot;</code>{' '}
-          via the design-system <code className="font-mono">Select</code> primitive — full keyboard
-          interaction is inherited.
-        </li>
+        <li>{t.rich('componentDocs.attr-toggle-group.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.attr-toggle-group.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.attr-toggle-group.a11y.2', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
