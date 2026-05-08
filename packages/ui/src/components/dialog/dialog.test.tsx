@@ -47,7 +47,7 @@ describe('Dialog — default severity (informational)', () => {
       </Dialog>,
     )
     await user.click(screen.getByRole('button', { name: 'Open' }))
-    expect(screen.getByRole('button', { name: 'Chiudi' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
   })
 
   it('hides the close button when hideClose is true', async () => {
@@ -63,7 +63,7 @@ describe('Dialog — default severity (informational)', () => {
       </Dialog>,
     )
     await user.click(screen.getByRole('button', { name: 'Open' }))
-    expect(screen.queryByRole('button', { name: 'Chiudi' })).toBeNull()
+    expect(screen.queryByRole('button', { name: 'Close' })).toBeNull()
   })
 })
 
@@ -104,8 +104,8 @@ describe('Dialog — severity="alert"', () => {
       </Dialog>,
     )
     await user.click(screen.getByRole('button', { name: 'Open' }))
-    // Only the footer Cancel button is rendered — no second "Chiudi" X.
-    expect(screen.queryByRole('button', { name: 'Chiudi' })).toBeNull()
+    // Only the footer Cancel button is rendered — no second close X.
+    expect(screen.queryByRole('button', { name: 'Close' })).toBeNull()
   })
 })
 

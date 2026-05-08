@@ -1,32 +1,23 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useTranslations, useLocale as useIntlLocale } from 'next-intl'
 import {
   CogIcon,
   IconButton,
+  type Locale,
   NavItem,
   Popover,
   PopoverContent,
   PopoverTrigger,
   usePersistedAttr,
 } from '@damo/ui'
+import { usePersistedLocale } from '../../lib/usePersistedLocale'
 
-const THEME_OPTIONS = [
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
-] as const
-
-const PALETTE_OPTIONS = [
-  { value: 'default', label: 'Plum+Gold' },
-  { value: 'neon', label: 'Neon' },
-  { value: 'sunset', label: 'Sunset' },
-] as const
-
-const DENSITY_OPTIONS = [
-  { value: 'compact', label: 'Compatta' },
-  { value: 'normal', label: 'Normale' },
-  { value: 'comfortable', label: 'Ampia' },
-] as const
+const THEME_VALUES = ['light', 'dark'] as const
+const PALETTE_VALUES = ['default', 'neon', 'sunset'] as const
+const DENSITY_VALUES = ['compact', 'normal', 'comfortable'] as const
+const LANGUAGE_VALUES: ReadonlyArray<Locale> = ['en', 'it']
 
 interface PrefOption<T extends string> {
   readonly value: T
@@ -89,6 +80,9 @@ function PrefGroup<T extends string>({ label, options, current, onSelect }: Pref
  * preference.
  */
 export function DocsPreferencesMenu() {
+  const t = useTranslations('preferences')
+  const initialLocale = useIntlLocale() as Locale
+
   const [theme, setTheme] = usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light')
   const [palette, setPalette] = usePersistedAttr<'default' | 'neon' | 'sunset'>(
     'palette',
@@ -100,40 +94,77 @@ export function DocsPreferencesMenu() {
     'data-density',
     'normal',
   )
+  const [locale, setLocale] = usePersistedLocale(initialLocale)
+
+  const themeOptions = THEME_VALUES.map((value) => ({
+    value,
+    label: t(`theme.options.${value}`),
+  }))
+  const paletteOptions = PALETTE_VALUES.map((value) => ({
+    value,
+    label: t(`palette.options.${value}`),
+  }))
+  const densityOptions = DENSITY_VALUES.map((value) => ({
+    value,
+    label: t(`density.options.${value}`),
+  }))
+  const languageOptions = LANGUAGE_VALUES.map((value) => ({
+    value,
+    label: t(`language.options.${value}`),
+  }))
 
   // Sanitisation — if a previously persisted value is no longer in options
   // (e.g. a renamed palette), reset to the default so the live attribute and
   // localStorage converge on a known good value.
   useEffect(() => {
-    if (!THEME_OPTIONS.some((o) => o.value === theme)) setTheme('light')
+    if (!THEME_VALUES.includes(theme)) setTheme('light')
   }, [theme, setTheme])
   useEffect(() => {
-    if (!PALETTE_OPTIONS.some((o) => o.value === palette)) setPalette('default')
+    if (!PALETTE_VALUES.includes(palette)) setPalette('default')
   }, [palette, setPalette])
   useEffect(() => {
-    if (!DENSITY_OPTIONS.some((o) => o.value === density)) setDensity('normal')
+    if (!DENSITY_VALUES.includes(density)) setDensity('normal')
   }, [density, setDensity])
+
+  function handleLocaleChange(next: Locale) {
+    setLocale(next)
+    // The locale is read server-side from the cookie on the next request.
+    // Reload so RSC chrome (nav, sidebar group titles) re-renders in the
+    // newly chosen language without a stale flash.
+    if (typeof window !== 'undefined') window.location.reload()
+  }
 
   return (
     <div data-density="compact" className="inline-flex">
       <Popover>
         <PopoverTrigger asChild>
-          <IconButton aria-label="Display settings" variant="ghost">
+          <IconButton aria-label={t('trigger')} variant="ghost">
             <CogIcon size={18} />
           </IconButton>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-[16rem]">
           <div className="flex flex-col gap-4">
-            <PrefGroup label="Theme" options={THEME_OPTIONS} current={theme} onSelect={setTheme} />
             <PrefGroup
-              label="Palette"
-              options={PALETTE_OPTIONS}
+              label={t('language.label')}
+              options={languageOptions}
+              current={locale}
+              onSelect={handleLocaleChange}
+            />
+            <PrefGroup
+              label={t('theme.label')}
+              options={themeOptions}
+              current={theme}
+              onSelect={setTheme}
+            />
+            <PrefGroup
+              label={t('palette.label')}
+              options={paletteOptions}
               current={palette}
               onSelect={setPalette}
             />
             <PrefGroup
-              label="Density"
-              options={DENSITY_OPTIONS}
+              label={t('density.label')}
+              options={densityOptions}
               current={density}
               onSelect={setDensity}
             />

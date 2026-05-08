@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import {
   NavItem,
   Sidebar,
@@ -30,19 +31,22 @@ const stubBadgeClass =
 
 export function DocsSidebar() {
   const pathname = usePathname()
+  const t = useTranslations('docsSidebar')
 
   return (
-    <Sidebar aria-label="Documentation navigation">
+    <Sidebar aria-label={t('aria')}>
       <SidebarHeader>
         <SidebarBrand>{BRAND.libName}</SidebarBrand>
-        <SidebarSubtitle>DOCS</SidebarSubtitle>
+        <SidebarSubtitle>{t('subtitle')}</SidebarSubtitle>
       </SidebarHeader>
       <SidebarBody>
-        {DOCS_NAV.map((group) => (
-          <div key={group.title}>
-            <div className={groupTitleClass}>{group.title}</div>
-            <nav aria-label={group.title} className="flex flex-col gap-px">
-              {group.entries.map((entry) => {
+        {DOCS_NAV.map((group) => {
+          const groupTitle = t(`groups.${group.key}`)
+          return (
+            <div key={group.key}>
+              <div className={groupTitleClass}>{groupTitle}</div>
+              <nav aria-label={groupTitle} className="flex flex-col gap-px">
+                {group.entries.map((entry) => {
                 const isActive = pathname === entry.slug
                 return (
                   <NavItem
@@ -61,9 +65,10 @@ export function DocsSidebar() {
                   </NavItem>
                 )
               })}
-            </nav>
-          </div>
-        ))}
+              </nav>
+            </div>
+          )
+        })}
       </SidebarBody>
     </Sidebar>
   )
