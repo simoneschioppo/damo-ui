@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -89,6 +90,7 @@ export const metadata = { title: `DropdownMenu — ${BRAND.libName}` }
 export default async function DropdownMenuDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -96,18 +98,10 @@ export default async function DropdownMenuDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">DropdownMenu</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Composable action menu built on Radix DropdownMenu. Memphis-bordered surface, full keyboard
-        wiring (Enter / Space, arrows, Esc, type-ahead), and selection chrome on radio items that
-        mirrors the{' '}
-        <Link href="/docs/components/nav-item" className="text-primary underline">
-          NavItem
-        </Link>{' '}
-        gradient. For a non-menu floating panel (free-form preferences, an editor popover, custom
-        chrome), reach for{' '}
-        <Link href="/docs/components/popover" className="text-primary underline">
-          Popover
-        </Link>{' '}
-        instead.
+        {t.rich('componentDocs.dropdown-menu.lead', {
+          link1: linkTag('/docs/components/nav-item'),
+          link2: linkTag('/docs/components/popover'),
+        })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

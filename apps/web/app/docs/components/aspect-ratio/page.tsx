@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { AspectRatio } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -41,6 +42,7 @@ export const metadata = { title: `AspectRatio — ${BRAND.libName}` }
 export default async function AspectRatioDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -48,9 +50,7 @@ export default async function AspectRatioDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">AspectRatio</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Locks a child element to a specific width-to-height ratio. Composes the Radix{' '}
-        <code className="font-mono">@radix-ui/react-aspect-ratio</code> primitive — the wrapper
-        guarantees no layout shift while the image / video / iframe loads.
+        {t.rich('componentDocs.aspect-ratio.lead', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { FormField, Input, Textarea } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -63,6 +64,7 @@ export const metadata = { title: `FormField — ${BRAND.libName}` }
 export default async function FormFieldDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -70,14 +72,10 @@ export default async function FormFieldDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">FormField</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Accessible wrapper that wires a label, description, and error message to a single input
-        child via <code className="font-mono">aria-describedby</code> and{' '}
-        <code className="font-mono">aria-invalid</code>. Ships zero opinions about layout — pair it
-        with{' '}
-        <Link href="/docs/components/box" className="text-primary underline">
-          Box
-        </Link>{' '}
-        for stacks.
+        {t.rich('componentDocs.form-field.lead', {
+          code: codeTag,
+          link1: linkTag('/docs/components/box'),
+        })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
