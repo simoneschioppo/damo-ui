@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Switch, Label } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { Switch, Label } from '@damo/ui'`
 
@@ -17,55 +19,56 @@ const STATES_SNIPPET = `<Switch defaultChecked />
 <Switch disabled />
 <Switch defaultChecked disabled />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'checked',
-    type: 'boolean',
-    description: 'Controlled checked state. Pair with `onCheckedChange`.',
-  },
-  {
-    name: 'defaultChecked',
-    type: 'boolean',
-    description: 'Uncontrolled initial checked state.',
-  },
-  {
-    name: 'onCheckedChange',
-    type: '(checked: boolean) => void',
-    description: 'Fires whenever the checked state changes.',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    description: 'Disables the input.',
-  },
-  {
-    name: 'name',
-    type: 'string',
-    description: 'Name attribute for native form submission.',
-  },
-  {
-    name: 'value',
-    type: 'string',
-    description: 'Submitted form value when checked. Defaults to "on".',
-  },
-]
-
 export const metadata = { title: `Switch — ${BRAND.libName}` }
 
-export default function SwitchDocsPage() {
+export default async function SwitchDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'checked',
+      type: 'boolean',
+      description: t.rich('componentDocs.switch.props.checked', { code: codeTag }),
+    },
+    {
+      name: 'defaultChecked',
+      type: 'boolean',
+      description: t.rich('componentDocs.switch.props.defaultChecked', { code: codeTag }),
+    },
+    {
+      name: 'onCheckedChange',
+      type: '(checked: boolean) => void',
+      description: t.rich('componentDocs.switch.props.onCheckedChange', { code: codeTag }),
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      description: t.rich('componentDocs.switch.props.disabled', { code: codeTag }),
+    },
+    {
+      name: 'name',
+      type: 'string',
+      description: t.rich('componentDocs.switch.props.name', { code: codeTag }),
+    },
+    {
+      name: 'value',
+      type: 'string',
+      description: t.rich('componentDocs.switch.props.value', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FORMS
+        {tCat('forms')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Switch</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Memphis toggle: square thumb sliding between an ivory and a primary track. Use for boolean
-        preferences that take effect immediately (notifications on / off, dark mode on / off). Built
-        on Radix Switch.
+        {t('componentDocs.switch.lead')}
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Switch + label</h2>
@@ -76,7 +79,7 @@ export default function SwitchDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">States</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('states')}</h2>
       <Example code={STATES_SNIPPET}>
         <div className="flex flex-wrap items-center gap-4">
           <Switch defaultChecked aria-label="On" />
@@ -86,36 +89,24 @@ export default function SwitchDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Switch props" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Switch vs Checkbox</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.switch.body.vsCheckbox0', { strong: strongTag })}</li>
         <li>
-          Use <strong>Switch</strong> when toggling a setting takes effect immediately (push
-          notifications, dark mode).
-        </li>
-        <li>
-          Use{' '}
-          <Link href="/docs/components/checkbox" className="text-primary underline">
-            Checkbox
-          </Link>{' '}
-          when the value is part of a form that gets submitted (accept terms, select preferences).
+          {t.rich('componentDocs.switch.body.vsCheckbox1', {
+            link1: linkTag('/docs/components/checkbox'),
+          })}
         </li>
       </ul>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Renders <code className="font-mono">role=&quot;switch&quot;</code> with{' '}
-          <code className="font-mono">aria-checked</code> reflecting on/off state.
-        </li>
-        <li>
-          Always associate a visible label or pass <code className="font-mono">aria-label</code>.
-        </li>
-        <li>
-          Keyboard: <kbd>Space</kbd> toggles.
-        </li>
+        <li>{t.rich('componentDocs.switch.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.switch.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.switch.a11y.2', { code: codeTag, kbd: kbdTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

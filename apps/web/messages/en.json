@@ -1,0 +1,1391 @@
+{
+  "nav": {
+    "docs": "Docs",
+    "themeGenerator": "Theme Generator"
+  },
+  "preferences": {
+    "trigger": "Display settings",
+    "theme": {
+      "label": "Theme",
+      "options": {
+        "light": "Light",
+        "dark": "Dark"
+      }
+    },
+    "palette": {
+      "label": "Palette",
+      "options": {
+        "default": "Plum+Gold",
+        "neon": "Neon",
+        "sunset": "Sunset"
+      }
+    },
+    "density": {
+      "label": "Density",
+      "options": {
+        "compact": "Compact",
+        "normal": "Normal",
+        "comfortable": "Comfortable"
+      }
+    },
+    "language": {
+      "label": "Language",
+      "options": {
+        "en": "English",
+        "it": "Italiano"
+      }
+    }
+  },
+  "docsSidebar": {
+    "aria": "Documentation navigation",
+    "subtitle": "DOCS",
+    "groups": {
+      "gettingStarted": "Getting Started",
+      "foundations": "Foundations",
+      "primitives": "Primitives",
+      "actionsAndSurfaces": "Actions & Surfaces",
+      "forms": "Forms",
+      "feedback": "Feedback",
+      "navigation": "Navigation",
+      "attributeBoundPrimitives": "Attribute-bound primitives",
+      "dataDisplay": "Data display",
+      "layout": "Layout",
+      "cardsAndDecoration": "Cards & Decoration"
+    },
+    "entries": {
+      "introduction": "Introduction"
+    }
+  },
+  "brand": {
+    "tagline": "Memphis-inspired React components, tokens, and patterns.",
+    "mascotAlt": "Damo UI mascot — a purple axolotl wearing glasses",
+    "mascotHeroAlt": "Damo UI mascot — a purple axolotl coding on a stack of books",
+    "homeAria": "Damo UI home"
+  },
+  "home": {
+    "eyebrow": "DOCUMENTATION",
+    "headlineLine1": "tokens, components,",
+    "headlineLine2": "patterns Memphis.",
+    "leadSuffix": "Compose React + Next.js UIs without giving up the visual identity.",
+    "browseDocs": "Browse docs",
+    "openThemeGenerator": "Open theme generator",
+    "features": {
+      "components": {
+        "title": "47 components",
+        "desc": "Buttons, cards, dialogs, inputs, and 40+ more, all on a Memphis-styled chrome."
+      },
+      "tokens": {
+        "title": "3-layer tokens",
+        "desc": "Raw scales feed semantic pairs that feed identity overrides — switchable live."
+      },
+      "themeGenerator": {
+        "title": "Theme Generator",
+        "desc": "Visual editor with per-mode palette and CSS / Tailwind / JSON exports."
+      }
+    },
+    "quickInstall": {
+      "eyebrow": "QUICK INSTALL",
+      "heading": "Three steps and you're rendering.",
+      "step1": "Add <code>@damo</code> scope to your <mono>.npmrc</mono>.",
+      "step2": "<mono>pnpm add @damo/ui</mono>.",
+      "step3": "<link>Wire styles and ship</link>."
+    }
+  },
+  "notFound": {
+    "eyebrow": "ERROR · 404",
+    "heading": "Page not found.",
+    "body": "That link does not lead anywhere. Head back home, or jump straight into the documentation.",
+    "backHome": "Back to home",
+    "openDocs": "Open documentation"
+  },
+  "gettingStarted": {
+    "eyebrow": "GETTING STARTED",
+    "headlineLine1": "Install Damo UI",
+    "headlineLine2": "in five minutes.",
+    "lead": "Damo UI is a React + Next.js component library inspired by Memphis design. Tokens, components, and patterns ready to compose into a product UI.",
+    "step1": {
+      "title": "1. Configure your registry",
+      "body": "Damo UI is published to GitHub Packages. Add an <code>.npmrc</code> at your repo root pointing the <code>@damo</code> scope at it:"
+    },
+    "step2": {
+      "title": "2. Install the package"
+    },
+    "step3": {
+      "title": "3. Wire the styles",
+      "body": "Import the design tokens and the global stylesheet once in your root layout. Tokens define colors, typography, radius, shadow, and motion as CSS variables.",
+      "tailwindHint": "If you use Tailwind v4, replace your <mono>globals.css</mono> with:"
+    },
+    "step4": {
+      "title": "4. Render your first component"
+    },
+    "step5": {
+      "title": "5. Wire theme, palette, density",
+      "body": "Three orthogonal data-attributes on <code>&lt;html&gt;</code> drive every visual choice. Drop the lib's switcher components in your top bar and you're done — they read & write the attributes and persist to <mono>localStorage</mono>:",
+      "validValuesEyebrow": "Valid attribute values",
+      "themeBullet": "<mono>data-theme</mono> — the lib ships <strong>light only</strong>; declare your own <mono>[data-theme='dark']</mono> CSS overrides. Wire a <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> to switch between values.",
+      "paletteBullet": "<mono>data-palette</mono> — <strong>no built-ins</strong>; the lib's neutral defaults assume a single palette. Define <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, etc., and pass the same list to <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
+      "densityBullet": "<mono>data-density</mono> — built-in: <mono>compact</mono>, <mono>normal</mono>, <mono>comfortable</mono>. Drives <mono>--density-scale-y</mono> for vertical spacing."
+    },
+    "themingHint": "Full guide with dark-mode setup, custom palettes, programmatic switching, and FOUC prevention → <link>Theming</link>.",
+    "ctaReady": "Ready to compose? Browse <componentsLink>components</componentsLink> or <generatorLink>generate a custom theme</generatorLink>.",
+    "viewOnGithub": "View on GitHub →"
+  },
+  "foundations": {
+    "eyebrow": "FOUNDATIONS",
+    "tokens": {
+      "h1": "Tokens",
+      "lead": "Damo UI uses a three-layer token architecture. Raw scales are private; semantic pairs are the public surface; identity tokens are component-specific overrides. Every token is a CSS variable so theme, palette, and density switch live without rebuilds.",
+      "section1": {
+        "title": "1. Raw palette (private)",
+        "body": "Numeric scales like <mono>--plum-*</mono>, <mono>--gold-*</mono>, <mono>--paper-*</mono>. These power the semantic layer but are <em>not</em> exposed as Tailwind utilities — using them directly couples your code to brand specifics."
+      },
+      "section2": {
+        "title": "2. Semantic tokens (public)",
+        "body": "Paired <mono>bg</mono>/<mono>fg</mono> pairs: <mono>--background</mono> + <mono>--foreground</mono>, <mono>--primary</mono> + <mono>--primary-foreground</mono>, etc. This is the layer product code should consume.",
+        "consumingTitle": "Consuming semantic tokens",
+        "consumingBody": "Three equivalent ways. Pick the one that fits where you are:"
+      },
+      "section3": {
+        "title": "3. Identity tokens",
+        "body": "Component-specific overrides. They reference the semantic layer but allow narrow adjustments — <mono>--nav-on-dark-*</mono>, <mono>--badge-*</mono>, <mono>--chart-*</mono>. Add your own when a component needs a value the semantic layer doesn't express.",
+        "addingCustomTitle": "Adding a custom identity token"
+      },
+      "overrideTitle": "Overriding tokens",
+      "overrideBody": "Any token is just a CSS variable. Override at <mono>:root</mono> to change the whole document, or scope to a wrapper class for an island:",
+      "densityTitle": "Density & the multiplier pattern",
+      "densityBody": "The density attribute flips a single multiplier: <mono>--density-scale-y</mono>. Bake it into your component spacing and density switching becomes free.",
+      "switchingTitle": "Switching modes",
+      "switchingBody": "Three switchers live on <mono>&lt;html&gt;</mono>: <mono>data-theme</mono>, <mono>data-palette</mono>, <mono>data-density</mono>. They are orthogonal — any combination works. See <link>Theming</link> for the full wiring.",
+      "generatorHint": "Want to author a custom theme? The <link>Theme Generator</link> edits all three layers visually and exports CSS, Tailwind, or JSON.",
+      "prevLink": "← Getting Started",
+      "nextLink": "Theming →"
+    },
+    "theming": {
+      "h1": "Theming",
+      "lead": "Three orthogonal data-attributes on <mono>&lt;html&gt;</mono> drive every visual choice. Switch one without touching the others, define your own variants on top of the lib's neutral defaults, and persist the user's preference across reloads.",
+      "switchersTitle": "The three switchers",
+      "switchersBody": "Damo UI reads three independent attributes from the document root. They cascade through every component because the design tokens are CSS variables.",
+      "themeCardLabel": "Light / Dark",
+      "themeCardBody": "Toggles surfaces, foreground, and Memphis chrome. The lib ships <strong>light only</strong> — <em>you</em> declare the dark override.",
+      "paletteCardLabel": "Brand variants",
+      "paletteCardBody": "No built-in values — declare any list you want (<mono>default</mono>, <mono>neon</mono>, <mono>sunset</mono>…) and override <mono>--primary</mono> & friends per palette.",
+      "densityCardLabel": "compact / normal / comfortable",
+      "densityCardBody": "Multiplies vertical spacing via <mono>--density-scale-y</mono>. Lib ships these three values out of the box.",
+      "darkTitle": "1. Adding dark mode",
+      "darkBody": "Re-declare every public token under <mono>[data-theme='dark']</mono>. You only need to override the semantic layer — components consume those, never the raw scales directly.",
+      "darkRefList": "The full list of tokens you can override lives in <colorsLink>Colors</colorsLink> (semantic) and <tokensLink>Tokens</tokensLink> (architecture).",
+      "customPaletteTitle": "2. Adding custom palettes",
+      "customPaletteBody": "Same pattern, different attribute. You can scope a palette to a single mode by chaining attribute selectors.",
+      "densityScaleTitle": "3. Density scale",
+      "densityScaleBody": "Density flips a single CSS variable that components multiply into their vertical padding. You can change the multipliers globally if the defaults don't suit your product.",
+      "dropInTitle": "4. Drop-in switcher components",
+      "dropInBody": "The lib ships three controls that read & write the attributes and persist to <mono>localStorage</mono>. Pop them anywhere — the navbar is the most common home.",
+      "dropInPropsLink": "Full props in <link>AttrToggleGroup</link>.",
+      "programmaticTitle": "5. Programmatic switching",
+      "programmaticBody": "If the built-in components don't fit (custom UI, settings page, system-preference media query, A/B test…) flip the attributes by hand:",
+      "fouTitle": "6. Preventing the flash",
+      "fouBody": "Server-rendered apps render the default theme first, then React hydrates the persisted choice. To avoid the flash of unstyled-theme (FOUT), restore the attributes from <mono>localStorage</mono> in a blocking script before hydration.",
+      "scopedTitle": "7. Scoped islands",
+      "scopedBody": "The attributes work on <em>any</em> element, not only <mono>&lt;html&gt;</mono>. Wrap a section in <mono>data-theme=\"dark\"</mono> to flip just that subtree.",
+      "tipEyebrow": "Tip",
+      "tipBody": "The <link>Theme Generator</link> authors light + dark variants visually and exports the CSS overrides for steps 1 and 2. Skip the manual hex hunt.",
+      "prevLink": "← Tokens",
+      "nextLink": "Colors →"
+    },
+    "colors": {
+      "h1": "Colors",
+      "lead": "Three brand scales (Plum, Gold, Paper) and twenty+ semantic tokens. Switch the palette in the navbar to see every swatch on this page update live. Use the semantic layer in product code — it re-points automatically when theme or palette changes.",
+      "brandScalesTitle": "Brand scales",
+      "scales": {
+        "ink": {
+          "name": "Ink",
+          "desc": "Dark primary — foreground, text, night surfaces"
+        },
+        "brand": {
+          "name": "Brand",
+          "desc": "Brand accent — buttons, borders, highlights"
+        },
+        "paper": {
+          "name": "Paper",
+          "desc": "Warm ivory/cream surfaces — product base"
+        }
+      },
+      "semanticTokens": {
+        "background": "Main app background",
+        "card": "Cards, modals, raised surfaces",
+        "muted": "Secondary surface, hover",
+        "foreground": "Primary text, borders",
+        "mutedForeground": "Secondary text, hints",
+        "primary": "Brand highlight (gold)",
+        "secondary": "Secondary brand (plum)",
+        "memphisBorder": "Memphis 2px border"
+      },
+      "semanticTitle": "Semantic tokens",
+      "semanticBody": "Use these in product code. They re-point automatically when the palette changes.",
+      "jsxTitle": "Using colors in JSX (Tailwind)",
+      "jsxBody": "Every semantic token is exposed as a Tailwind utility: <mono>bg-*</mono>, <mono>text-*</mono>, <mono>border-*</mono>. Pair the bg with its matching foreground for guaranteed contrast.",
+      "examplesTitle": "Title",
+      "examplesSubtitle": "Subtitle",
+      "examplesPrimary": "Primary action",
+      "examplesSecondary": "Secondary",
+      "statusTitle": "Status colors",
+      "statusSaved": "Saved",
+      "statusHeadsUp": "Heads up",
+      "statusFailed": "Action failed",
+      "statusInfo": "FYI",
+      "cssTitle": "Using colors in CSS",
+      "cssBody": "Need a color outside Tailwind's utilities? Read the variable directly.",
+      "inlineTitle": "Inline style fallback",
+      "pairTitle": "Always pair bg + foreground",
+      "pairBody": "Each background semantic ships with a matching foreground variant. Mixing them is the only way to guarantee contrast across themes and custom palettes.",
+      "darkTitle": "Adding dark mode",
+      "darkBody": "The lib ships <strong>light only</strong>. Re-declare semantic tokens under <mono>[data-theme='dark']</mono> and the whole UI flips when the user toggles theme.",
+      "customPaletteTitle": "Adding custom palettes",
+      "customPaletteBody": "Same pattern with <mono>data-palette</mono>. Override only the tokens that should change — everything else inherits from the default palette.",
+      "fullListTitle": "Full semantic token list",
+      "themingHint": "Full theming wiring (FOUC prevention, scoped islands, programmatic switching) → <link>Theming</link>.",
+      "prevLink": "← Theming",
+      "nextLink": "Typography →"
+    },
+    "typography": {
+      "h1": "Typography",
+      "lead": "Audiowide for display, Exo 2 for body and UI. The personality lives in weight, tracking, and the eyebrow mono accent — no extra families needed.",
+      "specimensTitle": "Specimens",
+      "displaySpecimenName": "DISPLAY · AUDIOWIDE · GOOGLE FONTS",
+      "displaySpecimenSample": "Damo UI",
+      "bodySpecimenName": "BODY · EXO 2 · GOOGLE FONTS",
+      "bodySpecimenSample": "Every token in its place.",
+      "scaleTitle": "Scale",
+      "scaleSampleUpper": "DAMO · UI · DESIGN",
+      "scaleSampleNormal": "Damo UI · tokens and components",
+      "loadingTitle": "Loading the fonts",
+      "loadingBody": "The lib ships <mono>var(--font-*)</mono> tokens but <strong>does not</strong> embed font files. Load Audiowide + Exo 2 yourself (Google Fonts link or <mono>next/font</mono>) and bind the families to the lib's variables.",
+      "loadingNextHint": "Or use Next.js <mono>next/font/google</mono> for self-hosted, FOUT-free loading:",
+      "tailwindTitle": "Using fonts in JSX (Tailwind)",
+      "tailwindBody": "Three Tailwind utilities map to the three families: <mono>font-display</mono>, <mono>font-body</mono>, <mono>font-mono</mono>.",
+      "tailwindPreviewBody": "Body copy uses the body family by default.",
+      "helperTitle": "Helper classes",
+      "helperBody": "Three CSS classes ship with <mono>@damo/ui/styles/globals.css</mono> for the most common Memphis-flavoured patterns.",
+      "helperPreviewDisplay": "Display heading",
+      "helperPreviewMono": "read-only mono span",
+      "helperPreviewEyebrow": "SECTION LABEL",
+      "cssTitle": "Using fonts in CSS",
+      "eyebrowPatternTitle": "The eyebrow pattern",
+      "eyebrowPatternBody": "Section headers in Damo UI pair an uppercase mono accent (the \"eyebrow\") with a display headline. The contrast in family + tracking is what gives the layout its Memphis edge.",
+      "eyebrowPreviewSubcopy": "Sub-copy explaining the section.",
+      "swapHint": "Need to swap fonts entirely? Override <mono>--font-display</mono>, <mono>--font-body</mono>, <mono>--font-mono</mono> at <mono>:root</mono> — every utility and helper re-points automatically. See <link>Tokens</link> for the override pattern.",
+      "prevLink": "← Colors",
+      "nextLink": "Patterns →"
+    },
+    "patterns": {
+      "h1": "Patterns",
+      "lead": "Texture and shape primitives that fill empty space. Use one at a time — the Memphis look is loud enough that combining patterns turns into noise.",
+      "tilesTitle": "Tileable backgrounds",
+      "tilesBody": "Every tile is a pure CSS gradient — there's no component needed. Apply the <mono>background</mono> shorthand directly on any element.",
+      "tilesCssTitle": "Using the patterns directly in CSS",
+      "tilesCssBody": "Drop the same <mono>background</mono> / <mono>background-image</mono> rules anywhere — works on any block element without React.",
+      "shapesTitle": "Shape primitives",
+      "shapesBody": "Eight Memphis-style SVG shapes: <mono>diamond</mono>, <mono>circle</mono>, <mono>triangle</mono>, <mono>zigzag</mono>, <mono>blob</mono>, <mono>wave</mono>, <mono>star</mono>, <mono>lbar</mono>. Pure SVG with <mono>aria-hidden</mono> — they're decoration only.",
+      "propsTitle": "Props",
+      "propsHeaders": {
+        "prop": "Prop",
+        "type": "Type",
+        "default": "Default",
+        "description": "Description"
+      },
+      "propsRows": {
+        "variant": "Which shape to render. Required.",
+        "size": "Width & height in px (square).",
+        "color": "Fill (or stroke for zigzag/wave). Any CSS color.",
+        "className": "Tailwind classes (positioning, opacity, etc.)."
+      },
+      "decorationTitle": "As decoration behind content",
+      "decorationBody": "Combine <mono>absolute</mono> positioning with <mono>-z-10</mono> to float a shape behind a section title.",
+      "oneAtATimeTitle": "One pattern per surface",
+      "oneAtATimeBody": "Memphis is loud. Stacking patterns kills hierarchy. Use one tile pattern + one shape accent at most per visual unit.",
+      "themingHint": "Patterns reference the same semantic tokens as everything else, so they re-color when theme or palette changes — see <link>Theming</link>.",
+      "prevLink": "← Typography",
+      "nextLink": "Box →"
+    }
+  },
+  "docsChrome": {
+    "propsTable": {
+      "prop": "Prop",
+      "type": "Type",
+      "default": "Default",
+      "description": "Description"
+    },
+    "copyButton": {
+      "label": "Copy code",
+      "default": "Copy",
+      "copied": "Copied"
+    },
+    "categories": {
+      "gettingStarted": "GETTING STARTED",
+      "foundations": "FOUNDATIONS",
+      "primitives": "PRIMITIVES",
+      "actionsAndSurfaces": "ACTIONS & SURFACES",
+      "forms": "FORMS",
+      "feedback": "FEEDBACK",
+      "navigation": "NAVIGATION",
+      "attributeBoundPrimitives": "ATTRIBUTE-BOUND",
+      "dataDisplay": "DATA DISPLAY",
+      "layout": "LAYOUT",
+      "cardsAndDecoration": "CARDS & DECORATION",
+      "sameFamily": "SAME FAMILY"
+    },
+    "sections": {
+      "import": "Import",
+      "usage": "Usage",
+      "basicUsage": "Basic usage",
+      "live": "Live example",
+      "livePreview": "Live preview",
+      "props": "Props",
+      "api": "API",
+      "accessibility": "Accessibility",
+      "sizes": "Sizes",
+      "disabled": "Disabled",
+      "fullWidth": "Full width",
+      "useAsLink": "Use as a link",
+      "withInlineIcons": "With inline icons",
+      "withIcons": "With icons",
+      "variants": "Variants",
+      "states": "States",
+      "controlled": "Controlled",
+      "uncontrolled": "Uncontrolled",
+      "noIcon": "No icon",
+      "dismissible": "Dismissible",
+      "whenToUse": "When to use",
+      "composition": "Composition",
+      "examples": "Examples",
+      "withLabel": "With Label",
+      "errorState": "Error state",
+      "invalidState": "Invalid state",
+      "withTextarea": "With Textarea",
+      "withFormField": "With FormField",
+      "groupedOptions": "Grouped options",
+      "nativeFormSubmission": "Native form submission",
+      "customFormat": "Custom format",
+      "preview": "Preview",
+      "overview": "Overview",
+      "parts": "Parts",
+      "composable": "Composable"
+    }
+  },
+  "themeGenerator": {
+    "sidebar": {
+      "aria": "Theme controls",
+      "brand": "Theme Generator",
+      "subtitle": "TOKEN EDITOR",
+      "tabs": {
+        "palette": "Palette",
+        "theme": "Theme",
+        "identity": "Identity"
+      },
+      "editingLabel": "Editing:",
+      "lightButton": "Light",
+      "darkButton": "Dark",
+      "editingHeader": "Editing the {mode} variant — values below apply when",
+      "reset": "Reset"
+    },
+    "preview": {
+      "tab": "Preview",
+      "scenes": {
+        "components": "Components",
+        "gallery": "Gallery",
+        "auth": "Auth",
+        "dashboard": "Dashboard",
+        "profile": "Profile",
+        "feed": "Feed"
+      }
+    },
+    "export": {
+      "tab": "Export",
+      "format": "Format",
+      "include": "Include",
+      "output": "Output",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "copyFailed": "Copy failed",
+      "download": "Download",
+      "includeOptions": {
+        "rawPalette": "Raw palette (ink / brand / paper)",
+        "semanticLight": "Semantic — light",
+        "semanticDark": "Semantic — dark",
+        "identity": "Identity (medals / charts / nav-on-dark / pattern)",
+        "foundations": "Foundations (typography / radius / shadow / spacing / motion)",
+        "tailwindSemantic": "Semantic colors",
+        "tailwindIdentity": "Identity (charts / memphis aliases)",
+        "tailwindFoundations": "Foundations (typography / radius / shadow / spacing / motion / z-index)"
+      }
+    },
+    "paletteEditor": {
+      "helpText": "Editing raw scales does not automatically update the Theme tab values. Use Reset to re-derive semantic tokens from the current palette.",
+      "groupHeader": "{group} ({count} steps)"
+    },
+    "presets": {
+      "default": "Plum + Gold (default)",
+      "neon": "Neon (magenta + lime)",
+      "sunset": "Sunset (terracotta + orange)"
+    },
+    "easing": {
+      "memphis": "memphis (default)",
+      "out": "out",
+      "linear": "linear",
+      "ease": "ease",
+      "easeIn": "ease-in",
+      "easeOut": "ease-out"
+    },
+    "semanticGroups": {
+      "background": "Background",
+      "card": "Card",
+      "popover": "Popover",
+      "muted": "Muted",
+      "primary": "Primary",
+      "secondary": "Secondary",
+      "destructive": "Destructive",
+      "success": "Success",
+      "warning": "Warning",
+      "info": "Info",
+      "border": "Border",
+      "borderStrong": "Border strong",
+      "focusRing": "Focus ring",
+      "shadow": "Shadow",
+      "featured": "Featured"
+    },
+    "identity": {
+      "medalsTitle": "Medals",
+      "medalRanks": {
+        "bronze": "Bronze",
+        "silver": "Silver",
+        "gold": "Gold",
+        "master": "Master",
+        "grandmaster": "Grandmaster"
+      },
+      "medalSlots": {
+        "outer": "outer",
+        "inner": "inner",
+        "text": "text"
+      },
+      "chartsTitle": "Charts",
+      "chartLabel": "Chart {index}",
+      "navOnDarkTitle": "Nav on dark",
+      "appPatternTitle": "App pattern",
+      "appPatternSize": "Size · {px}px",
+      "typographyTitle": "Typography",
+      "displayFont": "Display font",
+      "bodyFont": "Body font",
+      "monoFont": "Mono font",
+      "radiusTitle": "Radius",
+      "shadowTitle": "Shadow",
+      "shadowMemphis": "Memphis",
+      "shadowSoft": "Soft",
+      "shadowMdOpacity": "md opacity · {opacity}",
+      "motionDurations": "Durations (ms)",
+      "motionEasings": "Easings",
+      "motionTitle": "Motion"
+    }
+  },
+  "sampleDialog": {
+    "openButton": "Open sample dialog",
+    "title": "Publish new release",
+    "description": "This is a sample modal. Surface, border, shadow, typography, and buttons follow the current theme generator tokens.",
+    "versionLabel": "Version tag",
+    "helperText": "You can change the tokens in the left panel: the modal above updates live, so you can verify how it appears with the theme applied.",
+    "cancel": "Cancel",
+    "publish": "Publish"
+  },
+  "componentDocs": {
+    "accordion": {
+      "lead": "Stacked, expandable sections. Built on Radix Accordion — full keyboard wiring, controlled and uncontrolled modes, and the ARIA disclosure pattern come from the primitive.",
+      "a11y": {
+        "0": "Radix wraps each <code>AccordionTrigger</code> in an <code>&lt;h3&gt;</code> with a real <code>&lt;button&gt;</code> inside — <code>aria-expanded</code> tracks the open state and <code>aria-controls</code> wires it to the content panel.",
+        "1": "Keyboard: <kbd>Tab</kbd> moves between triggers; <kbd>Enter</kbd> / <kbd>Space</kbd> toggle the focused panel; <kbd>Home</kbd> / <kbd>End</kbd> jump to the first / last trigger."
+      },
+      "props": {
+        "type": "<code>single</code> allows one item open at a time; <code>multiple</code> allows several.",
+        "collapsible": "Only valid for <code>type=\"single\"</code>. When true the active item can be closed by clicking it again.",
+        "value": "Controlled / uncontrolled active value(s).",
+        "onValueChange": "Fires whenever the active item(s) change.",
+        "orientation": "Layout direction for keyboard navigation."
+      }
+    },
+    "app-shell": {
+      "lead": "Two-column app layout: sticky sidebar (configurable width and tone) + scrollable main area. The shell takes the full viewport height and keeps the sidebar pinned while the main column scrolls.",
+      "body": {
+        "basicShape": "AppShell occupies the full viewport. The example below shows a static visual scaled into a framed preview — wire your own Sidebar (and <link1>PageHeader</link1>) inside the slots.",
+        "sidebarPlaceholder": "Page content scrolls here. The sidebar stays pinned at the top."
+      },
+      "a11y": {
+        "0": "<link1>Sidebar</link1> — composable side panel with header, body, footer slots.",
+        "1": "<link1>PageHeader</link1> — eyebrow + title + actions strip for the top of the main column.",
+        "2": "<link1>AppTopBar</link1> — alternative chrome for non-sidebar layouts (also can render inside the main column)."
+      },
+      "props": {
+        "sidebar": "Content rendered inside the sticky <code>&lt;aside&gt;</code> column. Pair with a Sidebar / Nav component.",
+        "sidebarWidth": "Pixel width of the sidebar column.",
+        "sidebarTone": "<code>default</code> paints the sidebar with the card surface; <code>onDark</code> flips it to ink with light text — pair with NavItem <code>tone=\"onDark\"</code>.",
+        "children": "Main content rendered in the right column."
+      }
+    },
+    "app-top-bar": {
+      "lead": "Site header with three slots: brand, navigation, and actions. Defaults to sticky top placement; opt out via <code>sticky='{'false'}'</code>.",
+      "a11y": {
+        "0": "The header renders as a <code>&lt;header&gt;</code> (banner role).",
+        "1": "Wrap the brand mark in a link with an <code>aria-label</code> when the label is decorative (icon-only)."
+      },
+      "props": {
+        "logo": "Branding slot. Wrap a Next link or anchor that points to home.",
+        "nav": "Inline navigation. Renders inside a &lt;nav&gt; element.",
+        "actions": "Right-aligned controls. Compose with <code>AttrToggleGroup</code>, <code>Popover</code>, etc.",
+        "sticky": "Stick the bar to the viewport top with z-index header.",
+        "className": "Tailwind classes are merged on top of the defaults."
+      }
+    },
+    "article-card": {
+      "lead": "Neutral content card capped at 420px wide. Memphis frame, optional eyebrow label, display-font title, and a relaxed-leading body.",
+      "props": {
+        "label": "Optional mono uppercase eyebrow.",
+        "title": "Display-font headline.",
+        "children": "Body content. Multi-paragraph allowed."
+      }
+    },
+    "aspect-ratio": {
+      "lead": "Locks a child element to a specific width-to-height ratio. Composes the Radix <code>@radix-ui/react-aspect-ratio</code> primitive — the wrapper guarantees no layout shift while the image / video / iframe loads.",
+      "a11y": {
+        "0": "<code>16 / 9</code> — widescreen video, hero banners",
+        "1": "<code>4 / 3</code> — legacy media, photo galleries",
+        "2": "<code>1</code> — square thumbnails, avatars",
+        "3": "<code>3 / 4</code> — portrait photo",
+        "4": "<code>21 / 9</code> — ultra-wide hero"
+      },
+      "props": {
+        "ratio": "Width-to-height ratio (e.g. <code>16 / 9</code>, <code>4 / 3</code>, <code>1</code> for a square). The child element is forced to fill the box.",
+        "children": "Pass a single element that should fill the aspect-ratio container.",
+        "className": "Tailwind classes are merged on top of the wrapper."
+      }
+    },
+    "attr-toggle-group": {
+      "lead": "A generic toggle bound to a <code>data-*</code> attribute on <code>&lt;html&gt;</code> and a <code>localStorage</code> key. It hydrates from storage on mount, sanitises stale persisted values back to the configured default, and offers two visual variants: a segmented button row or a Select dropdown. Use it to control any axis your product needs (theme, palette, density, language, currency, …) without coupling the component to a specific use case.",
+      "body": {
+        "segmentedIntro": "Default visual: a Memphis-bordered button row with <code>aria-pressed</code> on each option and a <code>role=\"group\"</code> wrapper labelled by the eyebrow.",
+        "selectIntro": "Use when the option list is too long for a button row, or when the surface is space-constrained.",
+        "headlessIntro": "Drop the <code>label</code> prop when the surrounding UI already provides a heading.",
+        "sanitisationIntro": "If a previously persisted value is no longer in <code>options</code> (e.g. you renamed a palette), the hook resets it to <code>defaultValue</code> on mount, then writes the corrected value back to <code>localStorage</code> and to the <code>data-*</code> attribute. The user never sees a flash of stale state."
+      },
+      "a11y": {
+        "0": "The segmented variant wraps options in <code>role=\"group\"</code>; when <code>label</code> is set, the group is labelled via <code>aria-labelledby</code> pointing to the eyebrow id.",
+        "1": "Each segmented button is a native <code>&lt;button&gt;</code> with <code>aria-pressed</code> reflecting the active state.",
+        "2": "The select variant exposes <code>role=\"combobox\"</code> via the design-system <code>Select</code> primitive — full keyboard interaction is inherited."
+      },
+      "props": {
+        "options": "List of <code>'{' value, label '}'</code> pairs the user can pick from.",
+        "storageKey": "localStorage key that persists the active value across sessions.",
+        "attribute": "data-* attribute mirrored on <code>&lt;html&gt;</code>. Must match <code>^data-[a-z][a-z0-9-]*$</code> — non-data attributes are rejected.",
+        "defaultValue": "Initial value when nothing is persisted. Falls back to <code>options[0].value</code>.",
+        "label": "Optional eyebrow label rendered before the control. When provided, the inner group is wired with <code>aria-labelledby</code> to the eyebrow id.",
+        "variant": "<code>segmented</code> is a Memphis-bordered button row; <code>select</code> swaps to the design-system Select dropdown.",
+        "labelId": "Override the auto-generated id for the eyebrow label. Use when you need to wire your own external label.",
+        "className": "Tailwind classes merged on top of the wrapper defaults."
+      }
+    },
+    "avatar": {
+      "lead": "User avatar with image + initial fallback. Built on Radix Avatar — when the image fails to load (or while loading), the fallback is shown instead.",
+      "body": {
+        "groupIntro": "Stack multiple avatars; <code>max</code> caps the visible count and renders a <code>+N</code> bubble for the rest."
+      },
+      "a11y": {
+        "0": "Always pass <code>alt</code> on <code>AvatarImage</code> — for decorative avatars an empty string is acceptable; otherwise describe the user.",
+        "1": "The fallback is purely visual — the <code>alt</code> text on the image (when present) carries the accessible name."
+      },
+      "props": {
+        "size": "8/10/14/20 pixel diameter respectively.",
+        "shape": "<code>square</code> adds a 2px Memphis border and removes the rounding.",
+        "children": "Compose with <code>AvatarImage</code> and <code>AvatarFallback</code>."
+      }
+    },
+    "badge": {
+      "lead": "Compact uppercase label with a Memphis micro-shadow. Use to mark status, plan tier, or outcome on cards, table rows, and avatars. For longer labels with rounded corners reach for <link1>Chip</link1>.",
+      "a11y": {
+        "0": "Badge renders a <code>&lt;span&gt;</code> — the text content is the only thing announced. Pick labels that read meaningfully out of context (e.g. <code>PRO</code> rather than <code>P</code>).",
+        "1": "When the badge encodes status that is not redundant with surrounding text (e.g. a single icon means \"new\"), pair it with a <code>&lt;span className=\"sr-only\"&gt;</code> describing the meaning."
+      },
+      "props": {
+        "variant": "Visual tone. <code>featured</code> uses the badge featured token; <code>success</code> / <code>warning</code> / <code>info</code> / <code>destructive</code> map to the standard status intents; <code>outline</code> strips the fill.",
+        "children": "Short label — typically 1-3 uppercase words.",
+        "className": "Tailwind classes are merged on top of the variant defaults."
+      }
+    },
+    "banner": {
+      "lead": "Inline notification surface. Four tone variants (info, success, warning, danger), an optional title, an optional dismiss button, and an icon slot that defaults to a tone-aware glyph but accepts any ReactNode.",
+      "body": {
+        "dismissible": "Pass <code>dismissible</code> to add a close affordance. The banner clears its local state on click; pair with <code>onDismiss</code> to persist the dismissal (e.g. save to localStorage so it doesn't come back).",
+        "noIcon": "Drop the leading icon when the banner is purely text-driven."
+      },
+      "a11y": {
+        "0": "The wrapper renders <code>role=\"status\"</code> for <code>info</code>, <code>success</code> and <code>warning</code>; <code>role=\"alert\"</code> for <code>danger</code>.",
+        "1": "Live-region note: <code>alert</code> and <code>status</code> only fire announcements when the banner is inserted into an already-mounted DOM. A banner present in the initial server render is read in document order, not as an interrupt — mount it dynamically (after a network response, after dismissing a modal, etc.) when you need the announcement.",
+        "2": "Icons are <code>aria-hidden</code> — the title and body carry the message.",
+        "3": "The dismiss button gets <code>aria-label</code> from <code>dismissLabel</code> (defaults to <code>\"Chiudi\"</code>)."
+      },
+      "props": {
+        "variant": "Sets the background tint, the Memphis shadow color, and the default leading icon. <code>danger</code> also switches the wrapper role to <code>alert</code> for screen readers.",
+        "title": "Optional bold heading rendered before the body.",
+        "icon": "Override the variant default icon. Pass <code>false</code> to drop the icon entirely; pass any ReactNode to substitute a custom glyph.",
+        "dismissible": "When true, renders an X button on the trailing edge that hides the banner from local state.",
+        "onDismiss": "Fires when the user clicks the dismiss button. Use it to persist the dismissal.",
+        "dismissLabel": "Aria label for the dismiss button.",
+        "children": "Body content rendered below the title."
+      }
+    },
+    "box": {
+      "lead": "Polymorphic flex primitive. Use it whenever you need a flex container with type-checked direction, gap, alignment and justification — and the option to render as any HTML element via <code>as</code>.",
+      "body": {
+        "polymorphicIntro": "Pass <code>as</code> to render Box as a different tag while keeping the layout utilities. Useful for landmark elements (<code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;aside&gt;</code>) or to forward to a Next <code>Link</code>."
+      },
+      "a11y": {
+        "0": "Most flex layouts in product code — replaces ad-hoc <code>flex flex-row gap-3 items-center</code> stacks.",
+        "1": "For wider, page-level layouts with a max-width, prefer <link1>Container</link1>.",
+        "2": "When the children must split into named regions, use a dedicated layout component such as <link1>AppShell</link1>."
+      },
+      "props": {
+        "as": "Polymorphic element. Pass any HTML tag or component (<code>section</code>, <code>header</code>, <code>aside</code>, <code>Link</code>, …) and Box keeps its layout utilities while delegating semantics to the chosen element.",
+        "direction": "Sets <code>flex-direction</code>.",
+        "gap": "Tailwind spacing step applied to the flex container <code>gap</code>.",
+        "align": "<code>align-items</code>.",
+        "justify": "<code>justify-content</code>.",
+        "wrap": "<code>flex-wrap</code>.",
+        "inline": "Switch to <code>inline-flex</code> when the box must sit inline with text.",
+        "className": "Tailwind classes are merged on top of the variant defaults."
+      }
+    },
+    "breadcrumbs": {
+      "lead": "Hierarchy trail rendered as a labelled <code>&lt;nav&gt;</code> landmark. The last item should be marked <code>current</code> so it renders as plain text with <code>aria-current=\"page\"</code>.",
+      "a11y": {
+        "0": "The wrapper renders <code>&lt;nav aria-label=\"Breadcrumb\"&gt;</code> containing an ordered list — the canonical pattern for breadcrumb landmarks.",
+        "1": "Separators are rendered as <code>role=\"presentation\"</code> + <code>aria-hidden</code>, so screen readers announce only the item labels.",
+        "2": "The current page should be the last item with <code>current</code> set — Radix renders it as a non-link <code>&lt;span&gt;</code> with <code>aria-current=\"page\"</code>."
+      },
+      "props": {
+        "separator": "Custom node rendered between items. Defaults to a Memphis ChevronRightIcon. Override for a slash, dot, or any glyph.",
+        "children": "A list of <code>BreadcrumbItem</code> children.",
+        "className": "Tailwind classes are merged on the wrapping <code>&lt;nav&gt;</code>.",
+        "href": "Link target. Omit on the last (current) item.",
+        "current": "Mark the item as the current page — renders a non-link <code>&lt;span&gt;</code> with <code>aria-current=\"page\"</code>.",
+        "itemChildren": "Item label."
+      }
+    },
+    "button": {
+      "lead": "Bordered, shadowed action surface. Six variants, three sizes plus the dedicated icon size, full keyboard access via a native <code>&lt;button&gt;</code>. Pair with <code>IconButton</code> (documented below) for icon-only triggers — same chrome, locked to a 40×40 square.",
+      "body": {
+        "withInlineIcons": "Place an icon inside the Button alongside text. Keep the visible label so the action stays announce-able.",
+        "fullWidth": "Stretch the button to the container — useful inside narrow forms or mobile sheets.",
+        "useAsLink": "Pass <code>asChild</code> to render a single child element with all Button styles applied (Radix <code>Slot</code> pattern). Useful for navigation CTAs that need both the Memphis press animation and routing — the variant classes, hover lift, and active-press collapse are all merged onto the underlying <code>&lt;a&gt;</code>.",
+        "iconButtonLead": "A square 40×40 button for icon-only actions. Composes <code>Button</code> with <code>size=\"icon\"</code> and the same Memphis press effect; <code>aria-label</code> is required so the action is announced.",
+        "iconButtonVariants": "Same six variants as Button. The icon-only version of <code>link</code> is rarely useful; reach for <code>ghost</code> instead."
+      },
+      "a11y": {
+        "0": "Renders a native <code>&lt;button type=\"button\"&gt;</code>; pass <code>type=\"submit\"</code> when used inside a form.",
+        "1": "Always provide a non-empty label. For icon-only triggers use <code>IconButton</code> (documented below) with an <code>aria-label</code>.",
+        "2": "<code>disabled</code> blocks both pointer and keyboard activation on a real <code>&lt;button&gt;</code>. With <code>asChild</code>, only the disabled CSS utilities apply — for a fully inactive link also remove <code>href</code> or set <code>aria-disabled=\"true\"</code> on the child."
+      },
+      "iconButtonA11y": {
+        "0": "<code>aria-label</code> is required and must be non-empty. The TypeScript signature enforces this — passing <code>aria-label=\"\"</code> is a type error.",
+        "1": "The icon child is rendered visually only; ensure the surrounding context doesn't rely on the icon being announced (it is not).",
+        "2": "The 40×40 square satisfies WCAG 2.5.8 (Level AA, WCAG 2.2), which requires a 24×24 CSS pixel minimum. To reach the 44×44 threshold of WCAG 2.5.5 (Level AAA), wrap the button with a 4px margin or add hit-slop on the parent."
+      },
+      "props": {
+        "variant": "Visual style. Primary/secondary use the brand accents; outline and ghost are neutral; destructive surfaces destructive intent; link reduces to an inline anchor.",
+        "size": "Adjusts vertical padding and font size. <code>icon</code> is a 40×40 square — used internally by <code>IconButton</code>.",
+        "disabled": "On a real <code>&lt;button&gt;</code>, blocks pointer / keyboard activation. With asChild on a non-button child, only the disabled CSS utilities apply — set aria-disabled and remove href on the child for full inertness.",
+        "fullWidth": "Stretches the button to the full width of its container.",
+        "asChild": "When true, render the child element with all Button styles applied (Radix Slot pattern). The child must be a single React element such as a <code>&lt;Link&gt;</code> or <code>&lt;a&gt;</code>.",
+        "className": "Tailwind classes are merged on top of the variant defaults."
+      },
+      "iconButtonProps": {
+        "ariaLabel": "IconButtons have no visible text, so every instance MUST carry a non-empty <code>aria-label</code> for screen readers. The TypeScript signature enforces this.",
+        "children": "A single icon node — typically one of the icons exported from <code>@damo/ui</code>.",
+        "variant": "Same six variants as Button. The size is locked to the 40×40 <code>icon</code> preset.",
+        "disabled": "Blocks pointer and keyboard activation."
+      }
+    },
+    "card": {
+      "lead": "Composable surface container. Five variants share the same Memphis chrome but differ in accent, weight, and elevation.",
+      "body": {
+        "elevatedIntro": "Soft drop shadow rather than the hard Memphis shadow. Good for content that should sit behind primary surfaces.",
+        "inverseIntro": "Flipped <code>bg</code>/<code>fg</code> — use on a light page when you need a section to feel like a dark island."
+      },
+      "props": {
+        "variant": "Visual treatment. Featured uses the gold accent; inverse flips fg/bg for dark surfaces.",
+        "padding": "Inner spacing applied to the body and chrome rows.",
+        "className": "Tailwind classes are merged on top of the variant defaults."
+      }
+    },
+    "checkbox": {
+      "lead": "Memphis-bordered checkbox built on Radix Checkbox. Supports tri-state checked / unchecked / indeterminate, plus all native form semantics (name, value, required).",
+      "a11y": {
+        "0": "Radix Checkbox renders <code>role=\"checkbox\"</code> with <code>aria-checked</code> reflecting the checked state, including <code>\"mixed\"</code> for the indeterminate case.",
+        "1": "Always pair with a <code>Label</code> wired via <code>htmlFor</code>, or supply <code>aria-label</code> when there is no visible text.",
+        "2": "Native keyboard support inherited: <kbd>Space</kbd> toggles the checked state."
+      },
+      "props": {
+        "checked": "Controlled checked state. Pair with <code>onCheckedChange</code>.",
+        "defaultChecked": "Uncontrolled initial checked state.",
+        "onCheckedChange": "Fires whenever the checked state changes.",
+        "disabled": "Disables the input.",
+        "required": "Marks the input as required for native form submission.",
+        "name": "Name attribute for native form submission."
+      }
+    },
+    "chip": {
+      "lead": "Pill-shaped tag with optional status dot and active state. Use chips for filters, tags, and soft status labels. For uppercase Memphis-shadowed badges (status / outcome), reach for <link1>Badge</link1>.",
+      "a11y": {
+        "0": "Chip renders a <code>&lt;span&gt;</code> — when used inside a clickable filter, wrap it in a <code>&lt;button&gt;</code> with <code>aria-pressed</code> reflecting the <code>active</code> state.",
+        "1": "The status dot is purely decorative; the label text must convey the same status (do not rely on color alone)."
+      },
+      "props": {
+        "variant": "Background tint and border color. All variants share the rounded pill shape.",
+        "size": "Padding + text size step.",
+        "dotColor": "When set, prepends an 8×8 dot before children. Accepts any CSS color string (<code>var(--success)</code>, <code>#16a34a</code>, etc.).",
+        "active": "Swap the surface to the primary token (selected look). With <code>dotColor</code> the dot border flips to white for contrast.",
+        "children": "Chip label — supports text or icon + text."
+      }
+    },
+    "color-picker": {
+      "lead": "Native <code>&lt;input type=\"color\"&gt;</code> swatch paired with the design-system Input for a hex string. Both controls share a single value / onChange — the parent decides whether to validate the hex.",
+      "body": {
+        "hideVisibleLabel": "<code>aria-label</code> is preserved on both controls, so the component remains accessible even when the visible label is hidden."
+      },
+      "props": {
+        "label": "Visible label rendered above the controls. Also used as the <code>aria-label</code> on the swatch + hex input.",
+        "value": "Current color string. Pass any value the consumer expects (typically a hex).",
+        "onChange": "Fires whenever the swatch or the hex input emits a new value. Validate the string before re-binding it to state.",
+        "showInput": "Hide the hex text input and show only the color swatch.",
+        "showLabel": "Hide the visible label — <code>aria-label</code> is still wired for screen readers.",
+        "id": "Override the auto-generated id used to wire the label and the color input."
+      }
+    },
+    "combobox": {
+      "lead": "Searchable single-select. Trigger looks like <link1>Select</link1>; the dropdown content uses <code>cmdk</code> for fuzzy matching plus the Damo Memphis chrome on the popover.",
+      "headings": {
+        "comboboxVsSelect": "Combobox vs Select"
+      },
+      "body": {
+        "controlled": "Manage the selection externally for validation or persistence.",
+        "nativeFormSubmission": "Combobox renders a <code>&lt;button&gt;</code> + popover with no hidden form input and no <code>name</code> prop. To submit through a traditional <code>&lt;form&gt;</code>, manage the value with React state and either render your own hidden input or read it from the submit handler."
+      },
+      "vsSelect": {
+        "0": "Reach for <strong>Combobox</strong> when the option list is long enough that scrolling alone is friction (≥ ~10 options) or when users will search by typed input.",
+        "1": "Reach for <link1>Select</link1> for short lists (2-9 items) where keyboard arrow navigation is sufficient."
+      },
+      "a11y": {
+        "0": "The trigger is a plain <code>&lt;button&gt;</code> (no <code>role=\"combobox\"</code>) with <code>aria-expanded</code> reflecting the popover state. This is a button-plus-popover pattern, not the full WAI-ARIA combobox pattern that <link1>Select</link1> provides.",
+        "1": "The dropdown list is rendered by <code>cmdk</code>: type to filter, arrows to move, <kbd>Enter</kbd> to select, <kbd>Esc</kbd> to close.",
+        "2": "Use <code>FormField</code> or pair <code>id</code> with a sibling <code>Label</code> so screen readers announce the field name."
+      },
+      "props": {
+        "options": "Items to render — <code>'{' value, label, disabled? '}'</code>.",
+        "value": "Controlled selected value. Pair with <code>onValueChange</code>.",
+        "defaultValue": "Uncontrolled initial selected value.",
+        "onValueChange": "Fires when an option is picked.",
+        "placeholder": "Trigger text shown when nothing is selected.",
+        "searchPlaceholder": "Placeholder inside the search input.",
+        "emptyMessage": "Shown when the search yields no results.",
+        "disabled": "Disables the trigger.",
+        "id": "id forwarded to the trigger button (label association).",
+        "className": "Tailwind classes merged onto the trigger."
+      }
+    },
+    "container": {
+      "lead": "Centred max-width column with responsive horizontal padding. The default page wrapper for Damo UI documents.",
+      "body": {
+        "sizeVariants": "Six size steps mirror Tailwind's <code>screen-*</code> breakpoints, plus a <code>full</code> option for full-bleed sections.",
+        "unpadded": "Disable padding when the children already manage their own gutters or for full-bleed hero banners."
+      },
+      "props": {
+        "size": "Maximum width breakpoint. <code>full</code> removes the max-width entirely (useful for full-bleed banners that still want centred padding).",
+        "padded": "When true, applies responsive horizontal padding (<code>px-4 md:px-6 lg:px-8</code>).",
+        "className": "Tailwind classes are merged on top of the defaults."
+      }
+    },
+    "context-menu": {
+      "lead": "Right-click menu built on Radix ContextMenu. Mirrors <link1>DropdownMenu</link1> in API and item types — the difference is the trigger: any wrapped element opens on <em>contextmenu</em> events (right click, long press on touch, Shift-F10).",
+      "a11y": {
+        "0": "Radix wires <code>role=\"menu\"</code> + <code>role=\"menuitem\"</code> the same way DropdownMenu does, including support for checkbox / radio items.",
+        "1": "Keyboard: <kbd>Shift</kbd> + <kbd>F10</kbd> opens the menu from the focused trigger. Arrows cycle items; <kbd>Esc</kbd> closes."
+      },
+      "whenToUse": {
+        "0": "File managers, table rows, canvas elements — anywhere users expect a right-click menu of contextual actions.",
+        "1": "Don't replace primary affordances with ContextMenu only — touch users on iOS discover them via long-press, but Android contexts are spotty. Always provide an equivalent action via a button or DropdownMenu."
+      },
+      "props": {
+        "modal": "Trap focus while the menu is open. Set false to allow interaction with the rest of the page.",
+        "onOpenChange": "Fires when the menu opens or closes."
+      }
+    },
+    "date-picker": {
+      "lead": "Single-date picker that pairs a Memphis-styled trigger with the <code>react-day-picker</code> calendar inside a <link1>Popover</link1>. Locale defaults to Italian; pass any DayPicker prop through to override.",
+      "body": {
+        "controlled": "Manage the selection externally to react to changes (validation, persistence, syncing across fields).",
+        "customFormat": "Pass any <code>date-fns</code> format string to <code>formatStr</code>.",
+        "nativeFormSubmission": "DatePicker renders a <code>&lt;button&gt;</code> + popover, not a native <code>&lt;input type=\"date\"&gt;</code>, and ships no hidden form input. To submit the value through a traditional <code>&lt;form&gt;</code>, manage the date with React state and either render your own hidden input or post the value via <code>FormData</code> in the submit handler."
+      },
+      "a11y": {
+        "0": "The calendar inherits <code>react-day-picker</code>'s ARIA wiring (grid + day cells with <code>aria-selected</code>).",
+        "1": "Wrap with <code>FormField</code> (or supply your own label) so the field is announced to screen readers.",
+        "2": "Keyboard: <code>Space</code>/<code>Enter</code> opens the popover, arrow keys navigate days, <code>Esc</code> closes it."
+      },
+      "props": {
+        "value": "Controlled selected date. Pair with <code>onValueChange</code>.",
+        "onValueChange": "Fires when the user picks a day. Receives <code>undefined</code> when the date is cleared.",
+        "placeholder": "Trigger text shown when no date is selected.",
+        "formatStr": "date-fns format string used for the trigger label.",
+        "disabled": "Disables the trigger.",
+        "id": "Forwarded to the trigger button (useful for label association).",
+        "className": "Class name on the wrapper div.",
+        "triggerClassName": "Class name on the trigger button itself."
+      }
+    },
+    "dialog": {
+      "lead": "Modal dialog wrapping Radix Dialog. Two semantic modes via <code>severity</code>: <code>default</code> (informational, overlay closes) and <code>alert</code> (destructive confirmation, overlay does NOT close). A separate <code>tone</code> prop flips the offset shadow to the destructive token.",
+      "headings": {
+        "defaultInformational": "Default — informational",
+        "alertSeverity": "<code>severity=\"alert\"</code> — destructive confirmation",
+        "whenToSwitchToAlert": "When to switch to alert mode",
+        "rootApi": "Dialog (root) API",
+        "contentProps": "DialogContent props"
+      },
+      "body": {
+        "defaultInformational": "Standard modal. Click on the overlay or press <kbd>Esc</kbd> to dismiss.",
+        "alertSeverity": "Flip the role to <code>alertdialog</code>, block overlay-click dismissal, and remove the X button — the user must explicitly choose an action. Pair with <code>tone=\"danger\"</code> to recolour the Memphis shadow."
+      },
+      "whenToAlert": {
+        "0": "The action is destructive (delete, archive, sign out) and must NOT be cancelled accidentally by clicking outside.",
+        "1": "You want screen readers to announce the dialog as <code>alertdialog</code> (more interruptive than the regular <code>dialog</code> role).",
+        "2": "Otherwise leave <code>severity</code> at <code>default</code>."
+      },
+      "a11y": {
+        "0": "Always pair <code>DialogTitle</code> with the content; screen readers announce it as the dialog name.",
+        "1": "Add <code>DialogDescription</code> for non-obvious actions; it is wired as <code>aria-describedby</code>.",
+        "2": "Use <code>DialogClose</code> on close buttons so they close the dialog and return focus to the trigger.",
+        "3": "In <code>severity=\"alert\"</code>, place Cancel first in the footer DOM order so Radix gives it default focus — the layout enforces column-reverse on small viewports so Cancel sits on top there."
+      },
+      "props": {
+        "open": "Controlled open state. Pair with <code>onOpenChange</code>.",
+        "defaultOpen": "Uncontrolled initial open state.",
+        "onOpenChange": "Fires whenever the open state changes.",
+        "modal": "When true (default), focus is trapped inside the dialog and outside content is inert."
+      },
+      "contentProps": {
+        "severity": "<code>default</code> is <code>role=\"dialog\"</code>; clicks on the overlay close it. <code>alert</code> flips to <code>role=\"alertdialog\"</code>, blocks overlay-click dismissal and hides the X button — the user must click an explicit footer action. Use for destructive or otherwise irreversible flows.",
+        "tone": "Visual override. <code>danger</code> swaps the Memphis offset shadow to the destructive token, telegraphing high-stakes actions. Orthogonal to <code>severity</code> — combine freely.",
+        "hideClose": "Hide the built-in X close button. Already implicit when <code>severity=\"alert\"</code> — alert mode never renders the X."
+      }
+    },
+    "drawer": {
+      "lead": "Sliding side panel built on the Radix Dialog primitive. Comes in four sides (left, right, top, bottom), with a close button baked in and the same Memphis shadow chrome as Dialog.",
+      "headings": {
+        "drawerVsDialog": "Drawer vs Dialog"
+      },
+      "body": {
+        "sides": "Right is the default — typical for filters and detail panels. Bottom works well on mobile."
+      },
+      "a11y": {
+        "0": "Built on Radix Dialog: focus is trapped inside the panel while open and returned to the trigger on close. Esc closes the drawer; clicks on the overlay close it too.",
+        "1": "Always pair <code>DrawerTitle</code> and <code>DrawerDescription</code> with the content — Radix wires them as the dialog's accessible name and description.",
+        "2": "The built-in close button uses an Italian label <code>aria-label=\"Chiudi\"</code>. There is currently no prop to override it; if you need a different language, set <code>hideClose</code> and render your own close affordance with <code>DrawerClose</code> as <code>asChild</code>."
+      },
+      "vsDialog": {
+        "0": "Reach for Drawer when the panel hosts a flow of related controls (filters, settings, side editor) — the panel can stay tall and dominate one edge of the screen.",
+        "1": "Reach for <link1>Dialog</link1> for a centred modal — confirmations, single-step forms, or focused tasks."
+      },
+      "props": {
+        "open": "Controlled open state on the root.",
+        "defaultOpen": "Uncontrolled initial open state on the root.",
+        "onOpenChange": "Fires whenever the open state changes.",
+        "side": "Prop on <code>DrawerContent</code>. Sets the slide-in edge of the panel.",
+        "hideClose": "Prop on <code>DrawerContent</code>. Hides the built-in close button (rendered as an X in the upper right). Useful when the consumer renders their own close affordance."
+      }
+    },
+    "dropdown-menu": {
+      "lead": "Composable action menu built on Radix DropdownMenu. Memphis-bordered surface, full keyboard wiring (Enter / Space, arrows, Esc, type-ahead), and selection chrome on radio items that mirrors the <link1>NavItem</link1> gradient. For a non-menu floating panel (free-form preferences, an editor popover, custom chrome), reach for <link2>Popover</link2> instead.",
+      "body": {
+        "mixedItemTypes": "DropdownMenu also exposes <code>DropdownMenuCheckboxItem</code> and <code>DropdownMenuRadioGroup</code> + <code>DropdownMenuRadioItem</code> when the menu drives state instead of firing actions."
+      },
+      "a11y": {
+        "0": "Radix wires the ARIA Menu pattern: trigger gets <code>aria-haspopup</code> + <code>aria-expanded</code>; items get <code>role=\"menuitem\"</code> / <code>menuitemcheckbox</code> / <code>menuitemradio</code>.",
+        "1": "Keyboard: <kbd>Enter</kbd> / <kbd>Space</kbd> open the menu and activate items, arrows cycle, <kbd>Esc</kbd> closes, type-ahead jumps to the first item starting with the typed string."
+      },
+      "comparison": {
+        "0": "<strong>DropdownMenu</strong> opens on click and is the standard \"more actions\" affordance.",
+        "1": "<link1>ContextMenu</link1> opens on right-click of an arbitrary surface (table rows, canvas, file lists).",
+        "2": "<link2>Popover</link2> is for free-form floating content (forms, search, help) — not a menu."
+      },
+      "props": {
+        "open": "Controlled open state on the root.",
+        "defaultOpen": "Uncontrolled initial open state.",
+        "onOpenChange": "Fires when the menu opens or closes.",
+        "modal": "Prop on the root. Default modal traps focus. Set false to allow interaction with the rest of the page while open.",
+        "align": "Prop on <code>DropdownMenuContent</code>. Inline alignment relative to the trigger.",
+        "side": "Prop on <code>DropdownMenuContent</code>. Preferred edge to anchor against."
+      }
+    },
+    "feature-card": {
+      "lead": "Compact 280px feature/highlight card with a primary-tinted Memphis shadow. Use to surface product features on landing pages or in feature grids.",
+      "props": {
+        "title": "Display-font title.",
+        "desc": "Body description.",
+        "meta": "Optional mono uppercase footer label.",
+        "icon": "Optional icon rendered next to the meta."
+      }
+    },
+    "form-field": {
+      "lead": "Accessible wrapper that wires a label, description, and error message to a single input child via <code>aria-describedby</code> and <code>aria-invalid</code>. Ships zero opinions about layout — pair it with <link1>Box</link1> for stacks.",
+      "body": {
+        "errorState": "Pass an <code>error</code> string to surface a validation message. The wrapper sets <code>aria-invalid</code> on the child and links the error to <code>aria-describedby</code>."
+      },
+      "a11y": {
+        "0": "The label is a real <code>&lt;label htmlFor=\"…\"&gt;</code>; clicking it focuses the input.",
+        "1": "Description and error ids are merged into the child's <code>aria-describedby</code>; existing ids passed by the caller are preserved.",
+        "2": "When <code>error</code> is set, the child receives <code>aria-invalid=true</code> automatically."
+      },
+      "props": {
+        "label": "Visible label rendered as a <code>&lt;label&gt;</code> and wired to the child via <code>htmlFor</code>.",
+        "description": "Optional helper text. The id is added to the child via <code>aria-describedby</code>.",
+        "error": "Optional validation message. When present, it is added to <code>aria-describedby</code> and the child also receives <code>aria-invalid=true</code>.",
+        "id": "Override the auto-generated id. Useful when you need to reference the field from outside the form.",
+        "children": "Exactly one child element. The wrapper clones it and injects <code>id</code>, <code>aria-describedby</code>, and <code>aria-invalid</code>.",
+        "labelClassName": "Customise the label classes (e.g. to hide for visually-hidden labels)."
+      }
+    },
+    "hint": {
+      "lead": "Numbered Memphis callout. Use to highlight steps in a how-to, key insights inside long-form docs, or numbered captions on a marketing page.",
+      "body": {
+        "accessibility": "Hint renders a vanilla <code>div</code> with semantic <code>h4</code> + <code>p</code> children. The number tile carries no <code>aria-hidden</code>, so screen readers will announce it before the title — this is intentional, since the number is part of the callout's meaning."
+      },
+      "props": {
+        "num": "Number rendered inside the leading 40×40 tile.",
+        "title": "Short heading rendered in display font.",
+        "children": "Body paragraph below the title.",
+        "className": "Tailwind classes are merged on top of the wrapper."
+      }
+    },
+    "input": {
+      "lead": "Single-line text field. Native <code>&lt;input&gt;</code> with the Memphis 2-px border and focus shadow. Pairs with <code>Label</code> for accessibility.",
+      "a11y": {
+        "0": "Always associate a <code>Label</code> via matching <code>htmlFor</code> / <code>id</code> — placeholders are not labels.",
+        "1": "Use <code>invalid</code> together with <code>aria-describedby</code> pointing at an error message for screen readers."
+      },
+      "props": {
+        "invalid": "Marks the input as invalid (sets aria-invalid + applies the destructive shadow).",
+        "disabled": "Disables the input and applies the muted background.",
+        "rest": "All native input attributes are forwarded."
+      }
+    },
+    "label": {
+      "lead": "Native <code>&lt;label&gt;</code> with the form-label typography baked in (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Use it standalone when you don't need the structured wiring of <link1>FormField</link1>.",
+      "body": {
+        "whenFormField": "For most product forms, <link1>FormField</link1> is preferable: it auto-wires <code>htmlFor</code>, <code>aria-describedby</code>, and <code>aria-invalid</code> based on description / error props. Reach for the standalone Label only when you have a one-off layout that needs custom positioning."
+      },
+      "props": {
+        "htmlFor": "Standard <code>&lt;label&gt;</code> association — when set, clicking the label focuses the field with the matching id.",
+        "children": "Visible label text.",
+        "className": "Tailwind classes are merged on top of the typography defaults."
+      }
+    },
+    "medal": {
+      "lead": "Heptagonal medal SVG with a five-rank token palette. Use it to render leaderboard ranks, achievement badges, and rating tiers.",
+      "body": {
+        "accessibility": "The SVG renders <code>role=\"img\"</code> with <code>aria-label</code> derived from <code>label</code> (or a default like <code>\"gold medal\"</code> when no label is provided)."
+      },
+      "props": {
+        "rank": "Selects the inner / outer / text token (<code>--medal-'{'rank'}'-'{'outer|inner|text'}'</code>).",
+        "value": "Optional centred number / letters (e.g. <code>1</code>, <code>\"M\"</code>, <code>\"GM\"</code>).",
+        "label": "Mono uppercase caption rendered below the medal.",
+        "size": "SVG width and height in pixels."
+      }
+    },
+    "memphis-shape": {
+      "lead": "Inline SVG shape primitives used as decorative accents on landing pages, hero sections, and the design system showcase. Eight variants share a 100×100 viewBox so they scale cleanly.",
+      "body": {
+        "accessibility": "MemphisShape SVGs are rendered with <code>aria-hidden=\"true\"</code> — purely decorative. If you need a meaningful shape (e.g. an icon button), use one of the components in the icon set and supply <code>aria-label</code> on the wrapper."
+      },
+      "props": {
+        "variant": "Shape to render. Filled variants accept a <code>fill</code>; stroke variants accept a <code>stroke</code>.",
+        "size": "Pixel size applied to both width and height of the SVG.",
+        "color": "Fill (or stroke for outline variants). Accepts any CSS color string."
+      }
+    },
+    "nav-item": {
+      "lead": "Sidebar-row primitive used by the Damo UI docs nav and any sidebar that needs the unified selection chrome (gradient + 1px inset outline + 3px accent bar). Polymorphic by default via <code>as</code>.",
+      "body": {
+        "polymorphic": "Pass any element via <code>as</code>. NavItem forwards <code>aria-current</code> when <code>active</code> is true regardless of the rendered tag."
+      },
+      "a11y": {
+        "0": "When <code>active</code> is set, NavItem applies <code>aria-current=\"page\"</code> — the canonical signal for \"you are here\" in a navigation list.",
+        "1": "Default render is <code>&lt;a&gt;</code>; for client-side routing pass <code>as='{'Link'}'</code> (Next) or your router's link component. The selection chrome and class merging are preserved."
+      },
+      "props": {
+        "as": "Polymorphic element. Pass <code>Link</code>, <code>button</code>, or any component to control routing semantics.",
+        "active": "When true, applies the selection chrome (gradient + outline + accent bar) and sets <code>aria-current=\"page\"</code>.",
+        "icon": "Optional leading icon rendered inside a 20×20 slot.",
+        "endAdornment": "Optional trailing element — typically a Badge marking new / beta / count.",
+        "tone": "<code>default</code> is the standard light/dark sidebar tone; <code>onDark</code> swaps the muted text and selection colors to the on-dark navbar palette (used inside <code>AppTopBar</code>).",
+        "children": "Item label."
+      }
+    },
+    "ornament": {
+      "lead": "Decorative section break: two horizontal gradient hairlines flanking a centred glyph. Use between thematic groups inside a page where a plain <code>Separator</code> would feel too clinical.",
+      "body": {
+        "customGlyph": "Pass a child node to replace the default diamond — emojis, icons, or short text accents work well.",
+        "accessibility": "The wrapper carries <code>aria-hidden=\"true\"</code>, which removes Ornament from the accessibility tree entirely — assistive technology skips it. The DOM <code>role=\"separator\"</code> attribute is present for styling consistency but has no AT effect because of the surrounding <code>aria-hidden</code>. For semantic section breaks that should be announced, use <link1>Separator</link1> with <code>decorative=false</code>."
+      },
+      "props": {
+        "children": "Optional glyph rendered between the two gradient hairlines. Defaults to a Memphis diamond.",
+        "className": "Tailwind classes are merged on top of the wrapper."
+      }
+    },
+    "page-header": {
+      "lead": "Top-of-page strip with eyebrow + display title + description + right-aligned actions slot. Renders a real <code>&lt;header&gt;</code> landmark with a bottom hairline border.",
+      "a11y": {
+        "0": "The wrapper is a real <code>&lt;header&gt;</code> — adds a banner landmark when used at the page level.",
+        "1": "The title renders as <code>&lt;h1&gt;</code>; only one PageHeader per route."
+      },
+      "props": {
+        "eyebrow": "Optional small uppercase label rendered above the title.",
+        "title": "Page heading rendered as an <code>&lt;h1&gt;</code> in the display font.",
+        "description": "Optional paragraph below the title.",
+        "actions": "Optional right-aligned slot for primary actions (Buttons, IconButtons, …)."
+      }
+    },
+    "pagination": {
+      "lead": "Numbered page navigator with prev / next chevrons, ellipsis collapsing on long ranges, and localizable labels. The page-window math is exposed as <code>computePageWindow</code> if you need to compose your own UI.",
+      "body": {
+        "longRange": "With many pages, Pagination shows the first / last / current window and inserts ellipsis between gaps."
+      },
+      "a11y": {
+        "0": "Wrapper is <code>&lt;nav aria-label=\"Pagination\"&gt;</code>.",
+        "1": "The current page button gets <code>aria-current=\"page\"</code>; all other page buttons get an <code>aria-label</code> like <code>Pagina 3</code> (localised via <code>labels.page</code>).",
+        "2": "Ellipses render <code>aria-hidden</code> — they are not announced.",
+        "3": "Keyboard: page numbers and the prev/next chevrons are native <code>&lt;button&gt;</code> elements — <kbd>Tab</kbd> moves focus across them, <kbd>Enter</kbd> / <kbd>Space</kbd> activate them. Disabled buttons (prev at page 1, next at the last page) are skipped from the focus order automatically."
+      },
+      "props": {
+        "currentPage": "Active page (1-indexed). Drives <code>aria-current</code> on the matching button.",
+        "totalPages": "Total number of pages.",
+        "maxVisible": "Maximum number of page buttons rendered between the ellipses. Defaults to a sensible window via <code>computePageWindow</code> (also exported).",
+        "onPageChange": "Fires when the user clicks a page number or the prev/next chevrons.",
+        "labels": "Override accessible labels — <code>'{' previous, next, page, pageOf(page, total) '}'</code>. Defaults are English.",
+        "disabled": "Disables every button (useful while a parent fetch is in flight)."
+      }
+    },
+    "popover": {
+      "lead": "Non-modal floating panel anchored to a trigger. Built on Radix Popover, painted with the same Memphis chrome as <code>DropdownMenu</code> and <code>Dialog</code> so floating surfaces feel consistent. Use it as the generic container for preferences, mini-editors, search results, or any <em>non-menu</em> floating content. For an action-list with the full ARIA menu pattern reach for <link1>DropdownMenu</link1>.",
+      "body": {
+        "alignment": "Use <code>align</code> for inline alignment and <code>side</code> / <code>sideOffset</code> for the anchor edge."
+      },
+      "vsList": {
+        "0": "<strong>Popover</strong> — a free-form floating panel. Use it for forms, search results, help text, mini-editors.",
+        "1": "<link1>DropdownMenu</link1> — a list of <em>actions</em> with full keyboard wiring (arrow keys cycle items). Reach for it whenever the content is a menu.",
+        "2": "<link1>Dialog</link1> — a modal centred on the screen. Reach for it when the user must finish a task before continuing."
+      },
+      "a11y": {
+        "0": "Trigger inherits Radix <code>aria-expanded</code> / <code>aria-controls</code>.",
+        "1": "Default <code>modal=false</code> — focus is not trapped, and clicks outside dismiss the panel. Set <code>modal=true</code> when the popover hosts a complete task that should block other interactions.",
+        "2": "Use <code>PopoverClose</code> on close affordances inside the content so focus returns to the trigger."
+      },
+      "props": {
+        "open": "Controlled open state on the root.",
+        "defaultOpen": "Uncontrolled initial open state on the root.",
+        "onOpenChange": "Fires when the open state changes.",
+        "modal": "When true, focus is trapped while open and outside content is inert. Default is false (non-modal).",
+        "align": "Prop on <code>PopoverContent</code>. Alignment of the content relative to the trigger.",
+        "side": "Prop on <code>PopoverContent</code>. Preferred edge to anchor against. Radix flips automatically when there is no room.",
+        "sideOffset": "Gap between trigger and content."
+      }
+    },
+    "progress": {
+      "lead": "Determinate progress bar built on Radix Progress. Memphis-bordered track with a secondary token fill that animates to <code>value</code>.",
+      "body": {
+        "customIndicator": "Override the fill bar with <code>indicatorClassName</code> — useful for success / warning / danger flows.",
+        "indeterminate": "Pass <code>value='{'null'}'</code> when total length is unknown — Radix sets <code>aria-busy=true</code>. Reach for <link1>Spinner</link1> for compact indeterminate feedback."
+      },
+      "a11y": {
+        "0": "Radix sets <code>role=\"progressbar\"</code> with <code>aria-valuemin</code>, <code>aria-valuemax</code>, and <code>aria-valuenow</code>.",
+        "1": "Always supply <code>aria-label</code> or <code>aria-labelledby</code> describing what the bar represents (Uploading file, Profile completion…)."
+      },
+      "props": {
+        "value": "Current progress 0..100. Pass <code>null</code> for an indeterminate state (Radix marks it <code>aria-busy</code>).",
+        "max": "Maximum value forwarded to Radix Progress.",
+        "indicatorClassName": "Tailwind classes applied to the inner indicator (the filling bar).",
+        "className": "Tailwind classes merged on top of the track.",
+        "ariaLabel": "Required when no surrounding visible label is present."
+      }
+    },
+    "radio-group": {
+      "lead": "Mutually-exclusive radio group built on Radix RadioGroup. Wraps each option in a Memphis-bordered button with a filled inner dot when selected. Use it whenever the user must pick exactly one of three or more options; for two-option toggles reach for <link1>SegmentedControl</link1> or <link2>Switch</link2>.",
+      "a11y": {
+        "0": "Radix wires <code>role=\"radiogroup\"</code> on the root and <code>role=\"radio\"</code> on each item with proper <code>aria-checked</code>.",
+        "1": "Pair each <code>RadioGroupItem</code> with a <code>Label</code> wired via <code>htmlFor</code> so the click area extends to the label.",
+        "2": "Keyboard: <kbd>Tab</kbd> moves focus to the currently selected item (roving tabindex); arrow keys cycle items <em>and</em> change the selection; <kbd>Tab</kbd> again moves focus out of the group."
+      },
+      "props": {
+        "value": "Controlled selected value. Pair with <code>onValueChange</code>.",
+        "defaultValue": "Uncontrolled initial selected value.",
+        "onValueChange": "Fires whenever the selection changes.",
+        "name": "Name attribute for native form submission.",
+        "disabled": "Disables every item in the group.",
+        "required": "Marks the group as required for native form submission."
+      }
+    },
+    "scroll-area": {
+      "lead": "Custom-styled scroll container that replaces native scrollbars with a Memphis-themed track and thumb. Composes <code>@radix-ui/react-scroll-area</code>; both vertical and horizontal scrollbars are wired automatically.",
+      "body": {
+        "horizontal": "ScrollArea wires both vertical and horizontal scrollbars; let the inner content overflow horizontally to surface the horizontal bar."
+      },
+      "a11y": {
+        "0": "Bounded panels with overflowing children (file lists, chat threads, tag carousels).",
+        "1": "When you need consistent scrollbar styling across browsers — native bars vary heavily on Safari / Windows / Linux.",
+        "2": "Skip ScrollArea for the document scroll itself — let the browser handle the page-level scroll for accessibility."
+      },
+      "props": {
+        "children": "Scrollable content — wrapped in a Radix viewport that handles overflow.",
+        "className": "Tailwind classes for the outer wrapper. Apply height / width here so overflow is bounded.",
+        "type": "Forwarded to Radix Root. Controls when scrollbars are visible — <code>hover</code> reveals them on pointer hover, <code>always</code> keeps them in place."
+      }
+    },
+    "segmented-control": {
+      "lead": "Single-select toggle group with a Memphis border seam between items. Built on Radix ToggleGroup with <code>type=\"single\"</code>. Use it for 2-5 mutually exclusive options where keeping the choices visible adds clarity.",
+      "a11y": {
+        "0": "The root renders <code>role=\"group\"</code> with each item as <code>role=\"radio\"</code> + <code>aria-checked</code> (Radix ToggleGroup <code>type=\"single\"</code> uses the radio pattern under the hood).",
+        "1": "<code>aria-label</code> (or <code>aria-labelledby</code>) on the root is required: without it the group has no accessible name, and screen readers will announce the items without context.",
+        "2": "Keyboard: <kbd>Tab</kbd> moves focus into the currently selected item (roving tabindex); arrow keys cycle items and move the selection; <kbd>Tab</kbd> again moves focus out of the entire group."
+      },
+      "vsRadio": {
+        "0": "Reach for <strong>SegmentedControl</strong> when 2-5 options fit on one line and the control acts more like a tab strip than a form input.",
+        "1": "Reach for <link1>RadioGroup</link1> when you have many options or want each option on its own line with descriptions."
+      },
+      "props": {
+        "value": "Controlled selected value. Pair with <code>onValueChange</code>.",
+        "defaultValue": "Uncontrolled initial selected value.",
+        "onValueChange": "Fires whenever the selection changes.",
+        "orientation": "Layout axis.",
+        "ariaLabel": "Required when there is no surrounding visible label.",
+        "disabled": "Disables every item in the group."
+      }
+    },
+    "select": {
+      "lead": "Composable dropdown built on Radix Select. Same Memphis border + focus shadow as <link1>Input</link1>. For multi-select or fuzzy search, reach for <link2>Combobox</link2>.",
+      "body": {
+        "grouped": "Wrap related items in <code>SelectGroup</code> with a non-interactive <code>SelectLabel</code>. Use <code>SelectSeparator</code> between groups."
+      },
+      "a11y": {
+        "0": "Trigger renders <code>role=\"combobox\"</code> with <code>aria-expanded</code> and <code>aria-controls</code>.",
+        "1": "Inherits Radix Select keyboard support: type-ahead, arrow navigation, Home/End, Esc to close.",
+        "2": "Provide a label for the trigger via <code>FormField</code> or <code>aria-labelledby</code> when no visible label exists."
+      },
+      "props": {
+        "value": "Controlled selected value. Pair with <code>onValueChange</code>.",
+        "defaultValue": "Uncontrolled initial selected value.",
+        "onValueChange": "Fires whenever the selection changes.",
+        "disabled": "Disables the trigger.",
+        "name": "Native form name.",
+        "open": "Controlled open state of the dropdown. Pair with <code>onOpenChange</code>.",
+        "onOpenChange": "Fires whenever the dropdown opens or closes."
+      }
+    },
+    "separator": {
+      "lead": "Horizontal or vertical divider with three Memphis-aware variants. Composes the Radix Separator primitive, so its semantics flip between decorative and meaningful via <code>decorative</code>.",
+      "a11y": {
+        "0": "Defaults to <code>decorative=true</code> — no role is announced. Use this for purely visual separation.",
+        "1": "Set <code>decorative=false</code> when the divider represents meaningful structure (e.g. between thematic page sections); Radix exposes <code>role=\"separator\"</code> with the right <code>aria-orientation</code>."
+      },
+      "props": {
+        "orientation": "Direction of the divider.",
+        "variant": "<code>solid</code> is a single hairline; <code>dashed</code> switches to a dashed border; <code>memphis-double</code> is a double-bordered slab matching the Memphis aesthetic.",
+        "decorative": "When true (default), the separator is purely decorative and hidden from screen readers. Pass false when the divider conveys meaningful structure that should be announced.",
+        "className": "Tailwind classes are merged on top of the variant defaults."
+      }
+    },
+    "sidebar": {
+      "lead": "Composable side panel with header, body, and footer slots. Used here on the docs site for the navigation rail you see to the left.",
+      "props": {
+        "children": "Compose with SidebarHeader, SidebarBody, SidebarFooter.",
+        "ariaLabel": "Required when the sidebar is the only nav landmark on the page.",
+        "className": "Tailwind classes are merged on top of the defaults."
+      }
+    },
+    "skeleton": {
+      "lead": "Shimmering placeholder block to keep layout stable while async content loads. Mark up the skeleton with the same dimensions as the eventual content to avoid layout shift on swap-in.",
+      "a11y": {
+        "0": "Skeleton sets <code>aria-hidden=\"true\"</code> — it is purely visual and skipped by screen readers.",
+        "1": "When the content arrives, swap the skeleton out atomically. Long-running loads should surface progress via <code>role=\"status\"</code> (use <link1>Spinner</link1> or a hidden status text) so the change is announced."
+      },
+      "props": {
+        "className": "Required: shape the skeleton with width / height / radius utilities. The base Skeleton ships only the shimmer animation and muted background."
+      }
+    },
+    "slider": {
+      "lead": "Memphis-bordered slider with one or more thumbs. Built on Radix Slider — full keyboard support, drag handling, and ARIA semantics come from the primitive.",
+      "body": {
+        "rangeIntro": "Pass two values to render a range with a primary fill between them.",
+        "verticalIntro": "Wrap the Slider in a container with an explicit height — the vertical orientation makes the Slider fill its parent's <code>height</code>."
+      },
+      "a11y": {
+        "0": "Each thumb is a <code>role=\"slider\"</code> with <code>aria-valuemin</code>, <code>aria-valuemax</code>, and <code>aria-valuenow</code>.",
+        "1": "Provide context with <code>aria-label</code> or <code>aria-labelledby</code> — what does the value represent?",
+        "2": "Keyboard: arrows step by <code>step</code>, Home/End jump to min/max, PageUp/PageDown move by 10× step."
+      },
+      "props": {
+        "value": "Controlled value(s). Pair with <code>onValueChange</code>.",
+        "defaultValue": "Uncontrolled initial value(s).",
+        "onValueChange": "Fires while dragging or with keyboard arrows.",
+        "min": "Minimum value.",
+        "max": "Maximum value.",
+        "step": "Increment for arrow-key changes.",
+        "orientation": "Drag axis. Vertical sliders need an explicit height on the wrapper.",
+        "disabled": "Disables interaction.",
+        "inverted": "Reverse the visual direction (right-to-left or top-to-bottom)."
+      }
+    },
+    "spinner": {
+      "lead": "Lightweight SVG spinner with an accessible <code>role=\"status\"</code> announcement. Use for compact, indeterminate loading states inside buttons, list rows or tooltips. For full bars reach for <link1>Progress</link1>.",
+      "body": {
+        "colorOverride": "Spinner uses <code>currentColor</code> — change the wrapper's text color to retint."
+      },
+      "a11y": {
+        "0": "Renders <code>role=\"status\"</code> with the supplied <code>label</code> as <code>aria-label</code>.",
+        "1": "For inline use inside a labelled button, set <code>label=\"\"</code> and rely on the button's own text — avoid duplicate announcements."
+      },
+      "props": {
+        "size": "Width and height of the SVG. Pass any number (px) or CSS unit string.",
+        "label": "Accessible name announced by screen readers (<code>aria-label</code>). Localize for non-Italian UIs.",
+        "className": "Tailwind classes are merged on top of the spin animation + primary color."
+      }
+    },
+    "stat": {
+      "lead": "KPI block: mono uppercase label, big display-font value, optional delta line. Use to surface key metrics in dashboards and overview pages.",
+      "props": {
+        "label": "Mono uppercase label rendered above the value.",
+        "value": "Headline number rendered in the display font.",
+        "delta": "Optional sub-line showing the change vs a baseline.",
+        "deltaTone": "Color of the delta line — success / destructive / muted.",
+        "icon": "Optional icon rendered beside the label."
+      }
+    },
+    "switch": {
+      "lead": "Memphis toggle: square thumb sliding between an ivory and a primary track. Use for boolean preferences that take effect immediately (notifications on / off, dark mode on / off). Built on Radix Switch.",
+      "body": {
+        "vsCheckbox0": "Use <strong>Switch</strong> when toggling a setting takes effect immediately (push notifications, dark mode).",
+        "vsCheckbox1": "Use <link1>Checkbox</link1> when the value is part of a form that gets submitted (accept terms, select preferences)."
+      },
+      "a11y": {
+        "0": "Renders <code>role=\"switch\"</code> with <code>aria-checked</code> reflecting on/off state.",
+        "1": "Always associate a visible label or pass <code>aria-label</code>.",
+        "2": "Keyboard: <kbd>Space</kbd> toggles."
+      },
+      "props": {
+        "checked": "Controlled checked state. Pair with <code>onCheckedChange</code>.",
+        "defaultChecked": "Uncontrolled initial checked state.",
+        "onCheckedChange": "Fires whenever the checked state changes.",
+        "disabled": "Disables the input.",
+        "name": "Name attribute for native form submission.",
+        "value": "Submitted form value when checked. Defaults to <code>\"on\"</code>."
+      }
+    },
+    "table": {
+      "lead": "Memphis-bordered table primitives. Wrap rows in semantic <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> sections via the matching components — the outer container handles overflow + borders.",
+      "a11y": {
+        "0": "Always include <code>TableCaption</code> when the table conveys data — screen readers announce the caption as the table's name.",
+        "1": "Each <code>TableHead</code> renders a real <code>&lt;th&gt;</code>; for row-headers add <code>scope=\"row\"</code>.",
+        "2": "For very large tables consider pairing with <link1>Pagination</link1> and a virtualised body."
+      },
+      "props": {
+        "Table": "Outer scrolling container + Memphis border.",
+        "TableCaption": "Optional caption rendered below the table.",
+        "TableHeader": "Sticky-by-default header section.",
+        "TableBody": "Main data rows.",
+        "TableFooter": "Bordered totals row.",
+        "TableHead": "Column header cell — uppercase mono text.",
+        "TableRow": "Row with hover + selection states.",
+        "TableCell": "Body cell — pad px-4 py-3 by default."
+      }
+    },
+    "tabs": {
+      "lead": "Inline tab strip + matching content panels. Built on Radix Tabs — full keyboard wiring, ARIA semantics, and roving tabindex come from the primitive. Active tab is marked with a primary-colored 3px underline.",
+      "body": {
+        "vsSegmented": "Reach for <link1>SegmentedControl</link1> when the user is filtering or toggling visibility within the same panel; reach for Tabs when each value owns a meaningfully distinct content region with its own ARIA tab panel."
+      },
+      "a11y": {
+        "0": "Radix wires the ARIA Tabs pattern: <code>role=\"tablist\"</code>, <code>role=\"tab\"</code>, and <code>role=\"tabpanel\"</code> with <code>aria-controls</code> / <code>aria-labelledby</code> linking them.",
+        "1": "Keyboard: <kbd>Tab</kbd> moves into the tab strip; arrow keys cycle tabs; Home/End jump to the first/last tab. With <code>activationMode=\"manual\"</code> the focused tab is activated only on Enter/Space."
+      },
+      "props": {
+        "value": "Controlled active tab value.",
+        "defaultValue": "Uncontrolled initial active tab value.",
+        "onValueChange": "Fires when the active tab changes.",
+        "orientation": "Layout direction for keyboard navigation (arrow key axis).",
+        "activationMode": "<code>automatic</code> activates a tab on focus; <code>manual</code> requires Enter/Space — useful when switching tabs is expensive."
+      }
+    },
+    "textarea": {
+      "lead": "Multi-line text input with the same Memphis border, hover, and focus chrome as <link1>Input</link1>. Resizable vertically by default; pair with <link2>FormField</link2> for label + description + error wiring.",
+      "a11y": {
+        "0": "Renders a native <code>&lt;textarea&gt;</code>; native form submission and validation work as expected.",
+        "1": "Pair with <code>FormField</code> (or supply your own <code>aria-labelledby</code> / <code>aria-describedby</code>) so screen readers announce label, description, and error."
+      },
+      "props": {
+        "invalid": "When true, sets <code>aria-invalid</code> and switches the border + Memphis shadow to the destructive token.",
+        "rows": "Visible rows when un-resized.",
+        "disabled": "Disables the field. The Memphis hover/focus styles also drop.",
+        "className": "Tailwind classes are merged on top of the defaults."
+      }
+    },
+    "toast": {
+      "lead": "Transient notification that slides in from the screen edge. Built on Radix Toast — full ARIA live-region wiring, swipe-to-dismiss, and pause-on-hover come from the primitive. Use for non-blocking feedback (saved, copied, sent); for critical errors that need acknowledgement use <link1>Dialog with severity=\"alert\"</link1>.",
+      "body": {
+        "providerIntro": "Mount one <code>ToastProvider</code> + <code>ToastViewport</code> at the root of your app. All toasts emitted anywhere in the tree render inside the viewport.",
+        "variantsIntro": "Click each button to slide the matching toast into the bottom-right of its preview frame. Real <code>Toast</code> instances mounted inside a scoped <code>ToastProvider</code> + <code>ToastViewport</code> — same wiring you'd ship in production.",
+        "emittingIntro": "Toasts in Radix are state-driven: render a <code>&lt;Toast /&gt;</code> with controlled <code>open</code> and toggle it from your event handlers. For app-wide toast emission, build a thin context that owns the queue."
+      },
+      "a11y": {
+        "0": "The viewport sets <code>role=\"region\"</code> with <code>aria-label=\"Notifications\"</code>. Toasts inside render with appropriate <code>role</code> + <code>aria-live</code> per Radix.",
+        "1": "When using <code>ToastAction</code>, supply <code>altText</code> — the accessibility name read aloud when the toast appears. Without it Radix throws.",
+        "2": "Hovering or focusing the viewport pauses the auto-dismiss timer; <kbd>F6</kbd> jumps focus into the viewport from anywhere on the page."
+      },
+      "props": {
+        "variant": "Sets the background tint and Memphis shadow color. Mirrors the variant tokens used by Banner.",
+        "open": "Controlled open state. Pair with <code>onOpenChange</code>.",
+        "onOpenChange": "Fires when the toast opens or closes.",
+        "duration": "Auto-dismiss timeout in milliseconds. Pass <code>Infinity</code> to disable.",
+        "altText": "Prop on <code>ToastAction</code>. Required by Radix when the trigger has no text — used as the accessible action name."
+      }
+    },
+    "tooltip": {
+      "lead": "Small floating label revealed on hover or focus. Built on Radix Tooltip — full keyboard support, smart edge flipping, and ARIA wiring come from the primitive. Wrap your app once in <code>TooltipProvider</code> to share a single delay timer across all tooltips.",
+      "body": {
+        "providerIntro": "Wrap your root layout in a single <code>TooltipProvider</code>. All nested tooltips share its delay. Without the provider, individual tooltips still work but don't coordinate timing.",
+        "iconButtonIntro": "Pair Tooltip with <link1>IconButton</link1> to surface the action's name on hover. <code>aria-label</code> on the IconButton stays the canonical accessible name; the tooltip is supplementary."
+      },
+      "a11y": {
+        "0": "The trigger receives Radix focus management; pressing <kbd>Tab</kbd> opens the tooltip, <kbd>Esc</kbd> closes it.",
+        "1": "Tooltips don't replace labels. For icon-only triggers, always set <code>aria-label</code> on the trigger — the tooltip text alone is not announced as the accessible name.",
+        "2": "Tooltip content is not focusable. Use <link1>Popover</link1> when the user must interact with the floating panel."
+      },
+      "props": {
+        "delayDuration": "Prop on <code>TooltipProvider</code> (and per-<code>Tooltip</code>). Milliseconds before the tooltip opens on hover.",
+        "side": "Prop on <code>TooltipContent</code>. Preferred edge to anchor against; flips automatically.",
+        "sideOffset": "Gap between trigger and tooltip.",
+        "align": "Inline alignment relative to the trigger."
+      }
+    },
+    "user-card": {
+      "lead": "Horizontal user row with avatar + name + optional meta and trailing slots. Memphis frame with a 4px shadow.",
+      "props": {
+        "name": "Display name. Used to derive the default avatar initial.",
+        "avatar": "Custom avatar node. When omitted UserCard renders a circular ink tile with the first letter of <code>name</code>.",
+        "meta": "Optional mono caption rendered under the name.",
+        "trailing": "Optional right-aligned slot — typically a Badge or status chip."
+      }
+    }
+  }
+}

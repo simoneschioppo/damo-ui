@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Slider } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { Slider } from '@damo/ui'`
 
@@ -18,74 +20,76 @@ const VERTICAL_SNIPPET = `<div className="h-40">
   />
 </div>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'value',
-    type: 'number[]',
-    description: 'Controlled value(s). Pair with `onValueChange`.',
-  },
-  {
-    name: 'defaultValue',
-    type: 'number[]',
-    description: 'Uncontrolled initial value(s).',
-  },
-  {
-    name: 'onValueChange',
-    type: '(values: number[]) => void',
-    description: 'Fires while dragging or with keyboard arrows.',
-  },
-  {
-    name: 'min',
-    type: 'number',
-    defaultValue: '0',
-    description: 'Minimum value.',
-  },
-  {
-    name: 'max',
-    type: 'number',
-    defaultValue: '100',
-    description: 'Maximum value.',
-  },
-  {
-    name: 'step',
-    type: 'number',
-    defaultValue: '1',
-    description: 'Increment for arrow-key changes.',
-  },
-  {
-    name: 'orientation',
-    type: "'horizontal' | 'vertical'",
-    defaultValue: "'horizontal'",
-    description: 'Drag axis. Vertical sliders need an explicit height on the wrapper.',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    description: 'Disables interaction.',
-  },
-  {
-    name: 'inverted',
-    type: 'boolean',
-    defaultValue: 'false',
-    description: 'Reverse the visual direction (right-to-left or top-to-bottom).',
-  },
-]
-
 export const metadata = { title: `Slider — ${BRAND.libName}` }
 
-export default function SliderDocsPage() {
+export default async function SliderDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'value',
+      type: 'number[]',
+      description: t.rich('componentDocs.slider.props.value', { code: codeTag }),
+    },
+    {
+      name: 'defaultValue',
+      type: 'number[]',
+      description: t.rich('componentDocs.slider.props.defaultValue', { code: codeTag }),
+    },
+    {
+      name: 'onValueChange',
+      type: '(values: number[]) => void',
+      description: t.rich('componentDocs.slider.props.onValueChange', { code: codeTag }),
+    },
+    {
+      name: 'min',
+      type: 'number',
+      defaultValue: '0',
+      description: t.rich('componentDocs.slider.props.min', { code: codeTag }),
+    },
+    {
+      name: 'max',
+      type: 'number',
+      defaultValue: '100',
+      description: t.rich('componentDocs.slider.props.max', { code: codeTag }),
+    },
+    {
+      name: 'step',
+      type: 'number',
+      defaultValue: '1',
+      description: t.rich('componentDocs.slider.props.step', { code: codeTag }),
+    },
+    {
+      name: 'orientation',
+      type: "'horizontal' | 'vertical'",
+      defaultValue: "'horizontal'",
+      description: t.rich('componentDocs.slider.props.orientation', { code: codeTag }),
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      description: t.rich('componentDocs.slider.props.disabled', { code: codeTag }),
+    },
+    {
+      name: 'inverted',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.slider.props.inverted', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FORMS
+        {tCat('forms')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Slider</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Memphis-bordered slider with one or more thumbs. Built on Radix Slider — full keyboard
-        support, drag handling, and ARIA semantics come from the primitive.
+        {t('componentDocs.slider.lead')}
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Single thumb</h2>
@@ -97,7 +101,7 @@ export default function SliderDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Range slider</h2>
       <p className="text-foreground/80 mb-3">
-        Pass two values to render a range with a primary fill between them.
+        {t.rich('componentDocs.slider.body.rangeIntro', { code: codeTag })}
       </p>
       <Example code={RANGE_SNIPPET}>
         <div className="w-full max-w-md">
@@ -107,8 +111,7 @@ export default function SliderDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Vertical</h2>
       <p className="text-foreground/80 mb-3">
-        Wrap the Slider in a container with an explicit height — the vertical orientation makes the
-        Slider fill its parent's <code className="font-mono">height</code>.
+        {t.rich('componentDocs.slider.body.verticalIntro', { code: codeTag })}
       </p>
       <Example code={VERTICAL_SNIPPET}>
         <div className="h-40">
@@ -116,25 +119,14 @@ export default function SliderDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Slider props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Each thumb is a <code className="font-mono">role=&quot;slider&quot;</code> with{' '}
-          <code className="font-mono">aria-valuemin</code>,{' '}
-          <code className="font-mono">aria-valuemax</code>, and{' '}
-          <code className="font-mono">aria-valuenow</code>.
-        </li>
-        <li>
-          Provide context with <code className="font-mono">aria-label</code> or{' '}
-          <code className="font-mono">aria-labelledby</code> — what does the value represent?
-        </li>
-        <li>
-          Keyboard: arrows step by <code className="font-mono">step</code>, Home/End jump to
-          min/max, PageUp/PageDown move by 10× step.
-        </li>
+        <li>{t.rich('componentDocs.slider.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.slider.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.slider.a11y.2', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

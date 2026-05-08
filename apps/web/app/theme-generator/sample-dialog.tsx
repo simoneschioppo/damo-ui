@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import {
   Badge,
   Button,
@@ -24,23 +25,21 @@ import {
  * having to wire up a separate scene.
  */
 export function SampleDialog() {
+  const t = useTranslations('sampleDialog')
   const [open, setOpen] = useState(false)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" data-testid="open-sample-dialog">
-          Open sample dialog
+          {t('openButton')}
         </Button>
       </DialogTrigger>
 
       <DialogContent data-testid="sample-dialog-content">
         <DialogHeader>
-          <DialogTitle>Pubblica nuova release</DialogTitle>
-          <DialogDescription>
-            Questa è una modale di esempio. Surface, bordo, shadow, tipografia e bottoni seguono i
-            token correnti del theme generator.
-          </DialogDescription>
+          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col gap-3">
@@ -49,12 +48,9 @@ export function SampleDialog() {
             <Badge variant="success">v1.4.2</Badge>
             <Badge variant="default">Stable</Badge>
           </div>
-          <Label htmlFor="sample-dialog-version">Tag versione</Label>
+          <Label htmlFor="sample-dialog-version">{t('versionLabel')}</Label>
           <Input id="sample-dialog-version" defaultValue="v1.4.3-beta" />
-          <p className="text-sm text-muted-foreground m-0">
-            Puoi cambiare i token nel pannello di sinistra: la modale qui sopra si aggiorna live,
-            così verifichi come si presenta con il tema applicato.
-          </p>
+          <p className="text-sm text-muted-foreground m-0">{t('helperText')}</p>
         </div>
 
         <DialogFooter>
@@ -63,14 +59,14 @@ export function SampleDialog() {
             onClick={() => setOpen(false)}
             data-testid="sample-dialog-cancel"
           >
-            Annulla
+            {t('cancel')}
           </Button>
           <Button
             variant="primary"
             onClick={() => setOpen(false)}
             data-testid="sample-dialog-confirm"
           >
-            Pubblica
+            {t('publish')}
           </Button>
         </DialogFooter>
       </DialogContent>

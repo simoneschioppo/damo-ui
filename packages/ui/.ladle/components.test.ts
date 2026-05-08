@@ -19,7 +19,9 @@ describe('.ladle/components.tsx imports', () => {
   const source = readFileSync(componentsPath, 'utf8')
   const importRegex = /^\s*import\s+['"]([^'"]+)['"]/gm
   const imports: string[] = []
-  for (const match of source.matchAll(importRegex)) imports.push(match[1])
+  for (const match of source.matchAll(importRegex)) {
+    if (match[1]) imports.push(match[1])
+  }
 
   it('imports at least one stylesheet', () => {
     const cssImports = imports.filter((spec) => spec.endsWith('.css'))

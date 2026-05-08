@@ -2,6 +2,7 @@
 
 import { forwardRef, type HTMLAttributes } from 'react'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 import { ChevronLeftIcon, ChevronRightIcon } from '../../icons'
 import { computePageWindow, type PageItem } from './pagination-math'
 
@@ -10,13 +11,6 @@ export interface PaginationLabels {
   next: string
   page: string
   pageOf: (page: number, total: number) => string
-}
-
-const DEFAULT_LABELS: PaginationLabels = {
-  previous: 'Precedente',
-  next: 'Successivo',
-  page: 'Pagina',
-  pageOf: (p, t) => `Pagina ${p} di ${t}`,
 }
 
 export interface PaginationProps extends HTMLAttributes<HTMLElement> {
@@ -32,7 +26,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
   { currentPage, totalPages, maxVisible, onPageChange, labels, disabled, className, ...rest },
   ref,
 ) {
-  const L = { ...DEFAULT_LABELS, ...labels }
+  const i18n = useI18n()
+  const L: PaginationLabels = { ...i18n.pagination, ...labels }
   const items = computePageWindow({ currentPage, totalPages, maxVisible })
   const isPrevDisabled = disabled || currentPage <= 1
   const isNextDisabled = disabled || currentPage >= totalPages

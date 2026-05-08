@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Skeleton } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { Skeleton } from '@damo/ui'`
 
@@ -19,30 +21,31 @@ const COMPOSITE_SNIPPET = `<div className="flex items-center gap-3">
   </div>
 </div>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'className',
-    type: 'string',
-    description:
-      'Required: shape the skeleton with width / height / radius utilities. The base Skeleton ships only the shimmer animation and muted background.',
-  },
-]
-
 export const metadata = { title: `Skeleton — ${BRAND.libName}` }
 
-export default function SkeletonDocsPage() {
+export default async function SkeletonDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.skeleton.props.className', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FEEDBACK
+        {tCat('feedback')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Skeleton</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Shimmering placeholder block to keep layout stable while async content loads. Mark up the
-        skeleton with the same dimensions as the eventual content to avoid layout shift on swap-in.
+        {t('componentDocs.skeleton.lead')}
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Basic shapes</h2>
@@ -65,22 +68,17 @@ export default function SkeletonDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Skeleton props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.skeleton.a11y.0', { code: codeTag })}</li>
         <li>
-          Skeleton sets <code className="font-mono">aria-hidden=&quot;true&quot;</code> — it is
-          purely visual and skipped by screen readers.
-        </li>
-        <li>
-          When the content arrives, swap the skeleton out atomically. Long-running loads should
-          surface progress via <code className="font-mono">role=&quot;status&quot;</code> (use{' '}
-          <Link href="/docs/components/spinner" className="text-primary underline">
-            Spinner
-          </Link>{' '}
-          or a hidden status text) so the change is announced.
+          {t.rich('componentDocs.skeleton.a11y.1', {
+            code: codeTag,
+            link1: linkTag('/docs/components/spinner'),
+          })}
         </li>
       </ul>
 
