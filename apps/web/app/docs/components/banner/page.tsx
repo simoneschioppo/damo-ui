@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { Banner } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -33,69 +35,68 @@ const NO_ICON_SNIPPET = `<Banner variant="success" icon={false} title="Saved">
   Use icon={false} to drop the leading icon entirely.
 </Banner>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'variant',
-    type: "'info' | 'success' | 'warning' | 'danger'",
-    defaultValue: "'info'",
-    description:
-      'Sets the background tint, the Memphis shadow color, and the default leading icon. `danger` also switches the wrapper role to `alert` for screen readers.',
-  },
-  {
-    name: 'title',
-    type: 'ReactNode',
-    description: 'Optional bold heading rendered before the body.',
-  },
-  {
-    name: 'icon',
-    type: 'ReactNode | false',
-    description:
-      'Override the variant default icon. Pass `false` to drop the icon entirely; pass any ReactNode to substitute a custom glyph.',
-  },
-  {
-    name: 'dismissible',
-    type: 'boolean',
-    defaultValue: 'false',
-    description:
-      'When true, renders an X button on the trailing edge that hides the banner from local state.',
-  },
-  {
-    name: 'onDismiss',
-    type: '() => void',
-    description: 'Fires when the user clicks the dismiss button. Use it to persist the dismissal.',
-  },
-  {
-    name: 'dismissLabel',
-    type: 'string',
-    defaultValue: "'Chiudi'",
-    description: 'Aria label for the dismiss button.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Body content rendered below the title.',
-  },
-]
-
 export const metadata = { title: `Banner — ${BRAND.libName}` }
 
-export default function BannerDocsPage() {
+export default async function BannerDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'variant',
+      type: "'info' | 'success' | 'warning' | 'danger'",
+      defaultValue: "'info'",
+      description: t.rich('componentDocs.banner.props.variant', { code: codeTag }),
+    },
+    {
+      name: 'title',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.banner.props.title', { code: codeTag }),
+    },
+    {
+      name: 'icon',
+      type: 'ReactNode | false',
+      description: t.rich('componentDocs.banner.props.icon', { code: codeTag }),
+    },
+    {
+      name: 'dismissible',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.banner.props.dismissible', { code: codeTag }),
+    },
+    {
+      name: 'onDismiss',
+      type: '() => void',
+      description: t.rich('componentDocs.banner.props.onDismiss', { code: codeTag }),
+    },
+    {
+      name: 'dismissLabel',
+      type: 'string',
+      defaultValue: "'Chiudi'",
+      description: t.rich('componentDocs.banner.props.dismissLabel', { code: codeTag }),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.banner.props.children', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        ACTIONS &amp; SURFACES
+        {tCat('actionsAndSurfaces')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Banner</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Inline notification surface. Four tone variants (info, success, warning, danger), an
-        optional title, an optional dismiss button, and an icon slot that defaults to a tone-aware
-        glyph but accepts any ReactNode.
+        {t('componentDocs.banner.lead')}
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Variants</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('variants')}</h2>
       <Example code={VARIANTS_SNIPPET}>
         <div className="flex flex-col gap-3 w-full max-w-md">
           <Banner variant="info" title="Heads up">
@@ -113,18 +114,14 @@ export default function BannerDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Dismissible</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('dismissible')}</h2>
       <p className="text-foreground/80 mb-3">
-        Pass <code className="font-mono">dismissible</code> to add a close affordance. The banner
-        clears its local state on click; pair with <code className="font-mono">onDismiss</code> to
-        persist the dismissal (e.g. save to localStorage so it doesn&rsquo;t come back).
+        {t.rich('componentDocs.banner.body.dismissible', { code: codeTag })}
       </p>
       <Code code={DISMISSIBLE_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">No icon</h2>
-      <p className="text-foreground/80 mb-3">
-        Drop the leading icon when the banner is purely text-driven.
-      </p>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('noIcon')}</h2>
+      <p className="text-foreground/80 mb-3">{t('componentDocs.banner.body.noIcon')}</p>
       <Example code={NO_ICON_SNIPPET}>
         <div className="w-full max-w-md">
           <Banner variant="success" icon={false} title="Saved">
@@ -133,34 +130,15 @@ export default function BannerDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Banner props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          The wrapper renders <code className="font-mono">role=&quot;status&quot;</code> for{' '}
-          <code className="font-mono">info</code>, <code className="font-mono">success</code> and{' '}
-          <code className="font-mono">warning</code>;{' '}
-          <code className="font-mono">role=&quot;alert&quot;</code> for{' '}
-          <code className="font-mono">danger</code>.
-        </li>
-        <li>
-          Live-region note: <code className="font-mono">alert</code> and{' '}
-          <code className="font-mono">status</code> only fire announcements when the banner is
-          inserted into an already-mounted DOM. A banner present in the initial server render is
-          read in document order, not as an interrupt — mount it dynamically (after a network
-          response, after dismissing a modal, etc.) when you need the announcement.
-        </li>
-        <li>
-          Icons are <code className="font-mono">aria-hidden</code> — the title and body carry the
-          message.
-        </li>
-        <li>
-          The dismiss button gets <code className="font-mono">aria-label</code> from{' '}
-          <code className="font-mono">dismissLabel</code> (defaults to{' '}
-          <code className="font-mono">&quot;Chiudi&quot;</code>).
-        </li>
+        <li>{t.rich('componentDocs.banner.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.banner.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.banner.a11y.2', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.banner.a11y.3', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

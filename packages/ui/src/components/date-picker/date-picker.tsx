@@ -3,11 +3,11 @@
 import { useState, forwardRef, type ReactNode } from 'react'
 import { DayPicker, type DayPickerProps } from 'react-day-picker'
 import { format } from 'date-fns'
-import { it as itLocale } from 'date-fns/locale'
 import 'react-day-picker/style.css'
 import { Popover, PopoverTrigger, PopoverContent } from '../popover/popover'
 import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon } from '../../icons'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 
 export interface DatePickerProps extends Omit<DayPickerProps, 'mode'> {
   value?: Date
@@ -24,7 +24,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
   {
     value,
     onValueChange,
-    placeholder = 'Seleziona una data',
+    placeholder,
     formatStr = 'PPP',
     disabled,
     id,
@@ -34,6 +34,9 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
   },
   ref,
 ) {
+  const i18n = useI18n()
+  const dateFnsLocale = i18n.datePicker.dateFnsLocale
+  const resolvedPlaceholder = placeholder ?? i18n.datePicker.placeholder
   const [open, setOpen] = useState(false)
   const [internal, setInternal] = useState<Date | undefined>(value)
   const selected = value ?? internal
@@ -66,7 +69,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
             )}
           >
             <span>
-              {selected ? format(selected, formatStr, { locale: itLocale }) : placeholder}
+              {selected ? format(selected, formatStr, { locale: dateFnsLocale }) : resolvedPlaceholder}
             </span>
             <CalendarIcon size={16} className="shrink-0 text-muted-foreground" />
           </button>
@@ -76,7 +79,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
             mode="single"
             selected={selected}
             onSelect={handleSelect}
-            locale={itLocale}
+            locale={dateFnsLocale}
             showOutsideDays
             components={{
               Chevron: ({ orientation }) =>

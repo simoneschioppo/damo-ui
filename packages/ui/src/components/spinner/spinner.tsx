@@ -2,6 +2,7 @@
 
 import { forwardRef, type SVGProps } from 'react'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 
 export interface SpinnerProps extends SVGProps<SVGSVGElement> {
   size?: number | string
@@ -9,14 +10,15 @@ export interface SpinnerProps extends SVGProps<SVGSVGElement> {
 }
 
 export const Spinner = forwardRef<SVGSVGElement, SpinnerProps>(function Spinner(
-  { size = 20, label = 'Caricamento…', className, ...rest },
+  { size = 20, label, className, ...rest },
   ref,
 ) {
+  const i18n = useI18n()
   return (
     <svg
       ref={ref}
       role="status"
-      aria-label={label}
+      aria-label={label ?? i18n.spinner.label}
       viewBox="0 0 24 24"
       width={size}
       height={size}

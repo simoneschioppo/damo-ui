@@ -68,7 +68,7 @@ describe('AC-1 — reduced-motion override is scoped (source contract)', () => {
       /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{([\s\S]*?)^\}/m,
     )
     expect(mediaBlockMatch, 'media block must be present').toBeTruthy()
-    const block = mediaBlockMatch![1]
+    const block = mediaBlockMatch![1]!
 
     // Forbidden: a top-level `*` selector unsupported by any scope.
     // Permitted: `html[data-X] *`, `html:not([data-X]) *`, `.scope *`, etc.

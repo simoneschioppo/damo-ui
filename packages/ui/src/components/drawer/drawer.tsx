@@ -9,6 +9,7 @@ import {
 } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 import { CloseIcon } from '../../icons'
 
 export const Drawer = DialogPrimitive.Root
@@ -87,6 +88,7 @@ export const DrawerContent = forwardRef<
   ElementRef<typeof DialogPrimitive.Content>,
   DrawerContentProps
 >(function DrawerContent({ className, children, side, hideClose, ...rest }, ref) {
+  const i18n = useI18n()
   return (
     <DrawerPortal>
       <DrawerOverlay />
@@ -98,7 +100,7 @@ export const DrawerContent = forwardRef<
         {children}
         {!hideClose && (
           <DrawerClose
-            aria-label="Chiudi"
+            aria-label={i18n.drawer.closeLabel}
             className={cn(
               'absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center',
               'border border-transparent rounded-none text-muted-foreground cursor-pointer',
