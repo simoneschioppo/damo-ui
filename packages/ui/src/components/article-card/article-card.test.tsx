@@ -34,12 +34,12 @@ describe('ArticleCard', () => {
   })
 
   it('does not render an eyebrow when label is omitted', () => {
-    const { queryByTestId } = render(
+    const { container } = render(
       <ArticleCard title="Regola base">
         <p>Testo</p>
       </ArticleCard>,
     )
-    expect(queryByTestId('article-card-label')).toBeNull()
+    expect(container.querySelector('[data-slot="label"]')).toBeNull()
   })
 
   it('applies the display font to the title', () => {
@@ -52,7 +52,7 @@ describe('ArticleCard', () => {
     expect(title.className).toContain('font-display')
   })
 
-  it('applies Memphis frame + surface classes to the root', () => {
+  it('applies Memphis frame + surface classes via Card composition', () => {
     const { container } = render(
       <ArticleCard title="Regola base">
         <p>Testo</p>
@@ -74,14 +74,24 @@ describe('ArticleCard', () => {
     expect(root.className).toContain('rounded-none')
   })
 
-  it('caps the maxWidth to 420px via inline style', () => {
+  it('caps width to 420px via max-w-[420px] className', () => {
     const { container } = render(
       <ArticleCard title="Regola base">
         <p>Testo</p>
       </ArticleCard>,
     )
     const root = container.firstChild as HTMLElement
-    expect(root.style.maxWidth).toBe('420px')
+    expect(root.className).toContain('max-w-[420px]')
+  })
+
+  it('keeps the legacy p-6 padding (off Card scale, applied via className)', () => {
+    const { container } = render(
+      <ArticleCard title="Regola base">
+        <p>Testo</p>
+      </ArticleCard>,
+    )
+    const root = container.firstChild as HTMLElement
+    expect(root.className).toContain('p-6')
   })
 
   it('forwards className', () => {
@@ -94,15 +104,15 @@ describe('ArticleCard', () => {
     expect(root.className).toContain('custom-article')
   })
 
-  it('uses the Memphis card shadow token (not a hardcoded value)', () => {
+  it('inherits the Memphis shadow utility from Card (no inline boxShadow override)', () => {
     const { container } = render(
       <ArticleCard title="Regola base">
         <p>Testo</p>
       </ArticleCard>,
     )
     const root = container.firstChild as HTMLElement
-    const styleAttr = root.getAttribute('style') ?? ''
-    expect(styleAttr).toContain('var(--shadow-memphis-card)')
-    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
+    expect(root.className).toContain('shadow-memphis')
+    // No inline boxShadow — relies on the Card variant's class instead.
+    expect(root.style.boxShadow).toBe('')
   })
 })
