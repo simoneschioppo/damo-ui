@@ -8,6 +8,7 @@ import {
   type HTMLAttributes,
 } from 'react'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 import { CloseIcon } from '../../icons'
 
 /**
@@ -87,6 +88,7 @@ export const DialogContent = forwardRef<
   },
   ref,
 ) {
+  const i18n = useI18n()
   const isAlert = severity === 'alert'
   // Override Radix's default `role="dialog"` only in alert mode. Passing
   // `role={undefined}` would actually wipe Radix's assignment (React removes
@@ -124,7 +126,7 @@ export const DialogContent = forwardRef<
           // Alert mode hides the X button by design — the user must choose
           // an explicit footer action (Cancel / Confirm) to close.
           <DialogClose
-            aria-label="Chiudi"
+            aria-label={i18n.dialog.closeLabel}
             className={cn(
               'absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center',
               'border border-transparent rounded-none text-muted-foreground cursor-pointer',

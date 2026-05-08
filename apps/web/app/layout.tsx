@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { AppTopBar } from '@damo/ui'
+import { getLocale, getMessages, getTranslations } from 'next-intl/server'
+import { AppTopBar, type Locale } from '@damo/ui'
 import { BrandMark } from '../components/BrandMark'
 import { BRAND } from '../lib/brand'
+import { DocsProviders } from './_components/DocsProviders'
 import { DocsPreferencesMenu } from './_components/DocsPreferencesMenu'
 import './globals.css'
 
@@ -12,10 +14,15 @@ export const metadata: Metadata = {
   description: BRAND.tagline,
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = (await getLocale()) as Locale
+  const messages = await getMessages()
+  const t = await getTranslations('nav')
+
   return (
     <html
-      lang="en"
+      lang={locale}
+      data-locale={locale}
       data-theme="light"
       data-palette="default"
       data-density="normal"
@@ -30,17 +37,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body suppressHydrationWarning>
-        <AppTopBar
-          logo={<BrandMark />}
-          nav={
-            <>
-              <Link href="/docs">Docs</Link>
-              <Link href="/theme-generator">Theme Generator</Link>
-            </>
-          }
-          actions={<DocsPreferencesMenu />}
-        />
-        {children}
+        <DocsProviders locale={locale} messages={messages}>
+          <AppTopBar
+            logo={<BrandMark />}
+            nav={
+              <>
+                <Link href="/docs">{t('docs')}</Link>
+                <Link href="/theme-generator">{t('themeGenerator')}</Link>
+              </>
+            }
+            actions={<DocsPreferencesMenu />}
+          />
+          {children}
+        </DocsProviders>
       </body>
     </html>
   )
