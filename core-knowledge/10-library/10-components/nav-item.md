@@ -1,6 +1,6 @@
 # NavItem
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 43a7a02 · Sources:
 `packages/ui/src/components/nav-item/{nav-item.tsx,nav-item.variants.ts,index.ts,nav-item.test.tsx}`.
 
 ## Summary
@@ -94,18 +94,21 @@ set. The source comment is explicit:
 
 - Text → `var(--nav-on-dark-foreground)` (idle), `var(--nav-on-dark-foreground-strong)` (hover/active)
 - Hover bg → `bg-white/5` (5% white tint — fixed, not tokenized)
-- Active gradient → `linear-gradient(135deg, rgba(213,168,69,0.22), rgba(122,57,128,0.12))`
-  — **fixed gold/plum literals**, not tokens. Worth noting.
+- Active gradient → `linear-gradient(135deg, color-mix(in oklab, var(--nav-on-dark-accent-strong) 22%, transparent), color-mix(in oklab, var(--nav-on-dark-accent) 12%, transparent))`
+  — fully tokenized via the same color-mix oklab recipe used by Chip /
+  Toast / Banner / Hint. Theme-generator edits to either accent reach
+  the gradient layer. Source-contract regression guard:
+  `nav-item.tone-on-dark.test.ts` (4 assertions, including absence of
+  the legacy gold/plum rgba literals).
 - Active inset outline → `--nav-on-dark-accent-strong` mixed 30% with transparent
 - Active bar → `bg-[var(--nav-on-dark-accent-strong)]`
 
 ## Notes & gotchas
 
-1. **`onDark` tone has hard-coded gold/plum gradient literals**
-   (`rgba(213,168,69,0.22), rgba(122,57,128,0.12)`). These do **not**
-   read from `--nav-on-dark-*` tokens — only the foreground / accent
-   colors do. Theme-generator changes to gold/plum won't update the
-   gradient. Worth flagging — see Open questions.
+1. **`onDark` tone gradient was tokenized** (was hard-coded gold/plum
+   `rgba(213,168,69,0.22), rgba(122,57,128,0.12)` until commit 54ba84c).
+   Now reads from `--nav-on-dark-accent` and `--nav-on-dark-accent-strong`
+   via `color-mix(in oklab, …)`. Theme-generator edits flow through.
 
 2. **Active bar inset is `left-[-2px]`** in NavItem, but
    `left-1` in DropdownMenuRadioItem. The difference is intentional:
@@ -136,15 +139,11 @@ set. The source comment is explicit:
 
 ## Open questions
 
-1. **Hard-coded gold/plum gradient on `onDark` active** — defeats
-   the theming intent for that tone. Worth replacing with
-   `color-mix(in oklab, var(--nav-on-dark-accent-strong) X%, transparent)`
-   or similar.
-2. **`disabled` opacity-only** — consider `aria-disabled` auto-set
+1. **`disabled` opacity-only** — consider `aria-disabled` auto-set
    (and pointer-events-none).
-3. **Active chrome shared with DropdownMenuRadioItem** — the recipe
+2. **Active chrome shared with DropdownMenuRadioItem** — the recipe
    should live in one place. A `selectionChrome()` cn-helper or a
-   shared CSS class would prevent drift.
-4. **`hover:translate-x-0.5` is decorative motion** — fine on a
+   shared CSS class would prevent drift. Tracked as story #61.
+3. **`hover:translate-x-0.5` is decorative motion** — fine on a
    sidebar, may feel jarring elsewhere. The component doesn't gate
    it; consumers wanting static items override.

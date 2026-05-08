@@ -1,7 +1,7 @@
 # Avatar
 
-Status: documented · Last scan: d63afaf · Sources:
-`packages/ui/src/components/avatar/{avatar.tsx,index.ts}`.
+Status: documented · Last scan: 43a7a02 · Sources:
+`packages/ui/src/components/avatar/{avatar.tsx,index.ts,avatar.test.tsx}`.
 
 ## Summary
 
@@ -82,9 +82,9 @@ image fails to load (or while it's loading, depending on `delayMs`).
 
 ```jsx
 <div className="inline-flex items-center -space-x-2">
-  {shown.map(child => <div className="ring-2 ring-bg rounded-full">{child}</div>)}
+  {shown.map(child => <div className="ring-2 ring-background rounded-full">{child}</div>)}
   {restCount > 0 && (
-    <div className="ring-2 ring-bg rounded-full">
+    <div className="ring-2 ring-background rounded-full">
       <Avatar><AvatarFallback>+{restCount}</AvatarFallback></Avatar>
     </div>
   )}
@@ -92,9 +92,8 @@ image fails to load (or while it's loading, depending on `delayMs`).
 ```
 
 - `-space-x-2` overlaps each subsequent avatar 8px to the left.
-- Each avatar wrapped in a `ring-2 ring-bg` — but ⚠️ **`ring-bg` is
-  not a valid token** in the lib's theme.css. Likely intent was
-  `ring-background`. See Open questions.
+- Each avatar wrapped in `ring-2 ring-background` (corrected from the
+  earlier broken `ring-bg`, fixed in commit 691ef40).
 - `max` caps visible avatars; overflow becomes a `+N` fallback
   avatar at the end (always rendered as a circle with
   AvatarFallback's inverted slab).
@@ -103,43 +102,34 @@ image fails to load (or while it's loading, depending on `delayMs`).
 
 ## Notes & gotchas
 
-1. **`ring-bg` likely broken.** No `--color-bg` token in theme.css;
-   `ring-bg` doesn't resolve. The intended outline (a ring around
-   each avatar matching the page background) probably renders as
-   the Tailwind default ring color or nothing. Fix:
-   `ring-background`. See Open questions.
-
-2. **AvatarGroup's overflow `+N` is a circle by default.** No way
+1. **AvatarGroup's overflow `+N` is a circle by default.** No way
    to make it match a `square`-shape group; consumers needing
    square groups override.
 
-3. **`AvatarImage` is `aspect-square object-cover`** — non-square
+2. **`AvatarImage` is `aspect-square object-cover`** — non-square
    images get cropped, not letterboxed. Suitable for portraits,
    surprising for logos.
 
-4. **`square` shape adds `border-2 border-memphis`** but `circle`
+3. **`square` shape adds `border-2 border-memphis`** but `circle`
    does not. Mixed-shape groups will look uneven.
 
-5. **`size: xl`** is 80×80 — uncommonly large. Reserve for hero
+4. **`size: xl`** is 80×80 — uncommonly large. Reserve for hero
    profile blocks.
 
 ## How to consume (shadcn-style copy)
 
 1. Copy `avatar.tsx` and `index.ts`.
 2. Add `@radix-ui/react-avatar` as a runtime dep.
-3. Replace `ring-bg` → `ring-background` (see Open questions).
-4. Tokens: `--foreground`, `--background`, `--memphis-border-color`,
+3. Tokens: `--foreground`, `--background`, `--memphis-border-color`,
    `--font-display`.
 
 ## Open questions
 
-1. **`ring-bg` token broken.** Same kind of class-name typo as the
-   Tabs `border-b-base`. Easy fix to `ring-background`.
-2. **`AvatarGroup` is hand-rolled** — not Radix-backed. Could be
+1. **`AvatarGroup` is hand-rolled** — not Radix-backed. Could be
    replaced with a `flex` container expectation in the consumer.
-3. **No `status` indicator** (online/offline dot) — common avatar
+2. **No `status` indicator** (online/offline dot) — common avatar
    feature. Today consumers compose with absolutely-positioned
    children inside the Avatar.
-4. **`AvatarImage` vs `AvatarFallback` ordering** is Radix-driven;
+3. **`AvatarImage` vs `AvatarFallback` ordering** is Radix-driven;
    the lib doesn't enforce. Consumers should always render both
    for graceful degradation.

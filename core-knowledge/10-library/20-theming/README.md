@@ -1,6 +1,6 @@
 # Theming
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 43a7a02 · Sources:
 `packages/ui/tailwind.preset.ts`,
 `packages/ui/src/styles/tokens.css`,
 `packages/ui/src/styles/theme.css`,
@@ -143,7 +143,42 @@ Two distinct mechanisms inside this file:
    invariant: keep these `@utility` blocks if you add or rename
    `--duration-*` tokens.
 
-3. **Density** is bridged by re-binding Tailwind's foundational spacing
+3. **`@utility shadow-memphis-{sm,card,lg,hover,active}` (and
+   `shadow-memphis`, `shadow-md`)** declare the Memphis offset-shadow
+   utilities outside `@theme inline`. **Why this exists:** declaring
+   them inside `@theme inline` (as `--shadow-memphis-X: var(--shadow-memphis-X)`)
+   caused Tailwind v4 to emit a top-level `:root, :host { --shadow-memphis-X:
+   var(--shadow-memphis-X) }` rule that **clobbers** the value declared
+   in `tokens.css` (higher cascade weight than `:root`). The token
+   wiped out, the resulting `box-shadow: var(--shadow-memphis-X)`
+   resolved to a self-referential cycle and the painted shadow was
+   wrong everywhere. Mirroring the `duration-*` pattern bypasses the
+   `@theme inline` emission path entirely so the token from
+   `tokens.css` flows through. See #58 for the full forensic trace.
+
+4. **Per-instance Memphis tinted-shadow recipe is broken at runtime
+   (open issue #58 / #66 parked).** The recipe
+   `[--memphis-shadow-color:var(--X)] shadow-memphis` (used by Button
+   ghost, Input invalid, Toast variants, Dialog danger, …) sets the
+   custom property on the consuming element, but `var()` references
+   inside `--shadow-memphis-X` are substituted **at the declaring
+   element** (`:root`) per the CSS Custom Properties spec — not at
+   the consumer. The override is therefore ignored and the painted
+   shadow falls back to the default Memphis color. Closing the gap
+   needs per-color `@utility` blocks (`@utility shadow-memphis-primary
+   { box-shadow: 6px 6px 0 var(--primary); }`) — but Tailwind v4
+   silently strips any `@utility` block whose name doesn't match a
+   known prefix, so path B was abandoned (see #66 comment for the
+   investigation).
+
+5. **`--text-{xs..3xl}` re-bridged in `@theme inline`.** Without this,
+   the typography editor in `/theme-generator` was muted because
+   Tailwind v4's built-in `--text-*` namespace resolves at build time
+   and ignores runtime `:root --text-*` overrides. Fallbacks match
+   Tailwind's stock scale so external consumers without an override
+   still get the default sizes.
+
+6. **Density** is bridged by re-binding Tailwind's foundational spacing
    unit: `--spacing: calc(0.25rem * var(--density-scale-y))`. Because
    Tailwind v4 derives **every** `p-*`, `m-*`, `gap-*` etc. from
    `--spacing`, flipping `[data-density]` re-scales the whole spacing
@@ -212,10 +247,16 @@ This chapter has no sub-files yet. Likely future sub-chapters:
    the preset without a backing variable in `tokens.css` is a smell — the
    preset is a *bridge*, not a fallback.
 
-2. **The `@utility duration-*` blocks in `theme.css` are mandatory.**
-   Tailwind v4 has no auto-namespace for transition-duration. Removing or
-   renaming them silently breaks any animation parameterized by
-   `--duration-*`, including the theme generator's motion sliders.
+2. **The `@utility duration-*` and `@utility shadow-memphis-*` blocks
+   in `theme.css` are mandatory.** Tailwind v4 has no auto-namespace
+   for transition-duration, and the `--shadow-*` namespace cannot
+   safely host the Memphis tiers from inside `@theme inline` (see
+   Architecture #3). Removing or renaming either family silently
+   breaks the theme generator's motion sliders or paints every
+   Memphis component without its signature offset shadow. **Do not**
+   add new tinted shadow utilities (`shadow-memphis-primary`, etc.)
+   here — Tailwind v4 strips custom rules outside known namespaces,
+   tracked as parked work in #66.
 
 3. **Density works because `--spacing` is rebound.** Do **not** introduce
    alternative spacing tokens (e.g. `--spacing-compact`) — flipping

@@ -1,6 +1,6 @@
 # Dialog
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 43a7a02 · Sources:
 `packages/ui/src/components/dialog/{dialog.tsx,index.ts,dialog.test.tsx}`.
 
 > **Note.** A separate `alert-dialog/` component existed historically
@@ -79,6 +79,18 @@ alert dialog can be danger-toned (irreversible delete) or
 default-toned (confirmation), and a default-severity dialog can be
 danger-toned (error report).
 
+> **Recipe caveat (open issue #58).** The per-instance
+> `[--memphis-shadow-color:var(--X)]` override sets the CSS custom
+> property on the consuming element, but `var()` references inside
+> `--shadow-memphis-lg` (declared in `tokens.css` as `<x y z var(--memphis-shadow-color)>`)
+> are substituted **at the declaring element**, not the consuming
+> one. Browsers therefore resolve the inner `var(--memphis-shadow-color)`
+> against `:root`, ignoring the local override. Visually the danger
+> tone falls back to the default Memphis shadow color. Closing the
+> gap requires per-color `@utility` blocks or inline shadow
+> construction, tracked in #58 and #66 (parked — Tailwind v4 strips
+> custom rules outside known namespaces).
+
 ### Content positioning
 
 ```
@@ -125,11 +137,11 @@ hover muted. Hidden when:
    - severity drives **interaction** (blocks dismissal in alert)
    - tone drives **visual urgency** (recolors shadow)
 
-2. **`bg-ink/40` on the overlay does not resolve.** The DialogOverlay
-   uses `bg-ink/40 backdrop-blur-sm`. The token `--ink` is **not
-   defined** in the lib's `tokens.css`. This is a known issue (see
-   Open questions) — overlays render without their dimming layer
-   until a consumer (or the theming layer) adds `--color-ink`.
+2. **Overlay backdrop uses `bg-foreground/40`.** Earlier versions
+   referenced `bg-ink/40`, but `--ink` was never defined in
+   `tokens.css`, so the dim layer rendered transparent. Fixed in
+   commit 4e6b0da by switching to the existing semantic foreground
+   token.
 
 3. **Portal lives in `DialogContent`** — consumers don't need to wrap
    with `<DialogPortal>` themselves. The portal is automatic.
@@ -155,31 +167,24 @@ hover muted. Hidden when:
 3. Replace the `CloseIcon` import.
 4. Tokens needed: `--card`, `--foreground`, `--muted`, `--ring`,
    `--memphis-border-color`, `--shadow-memphis-lg`, `--destructive`
-   (for danger tone), `--z-overlay`, `--z-modal`. Plus the (currently
-   missing) `--ink` for the overlay backdrop.
+   (for danger tone), `--z-overlay`, `--z-modal`.
 5. Translate `aria-label="Chiudi"` if not Italian.
 
 ## Open questions
 
-1. **`bg-ink/40` overlay backdrop is broken.** `--ink` token never
-   defined; was likely a leftover from the v1 audit when palette
-   tokens (plum/gold/paper/ink) lived in the lib. Confirmed by user
-   as a known issue. Likely fix: switch overlay to `bg-foreground/40`
-   (using the lib's existing semantic foreground token) or define
-   `--ink` as an alias.
-2. **`tailwindcss-animate` missing from package deps.** All Radix
+1. **`tailwindcss-animate` missing from package deps.** All Radix
    wrappers use `animate-in`, `fade-in-0`, `zoom-in-95`, etc., which
    come from this plugin. The lib's `package.json` declares neither a
    runtime dep nor a peerDependency. Confirmed by user as known —
    plugin to be added to peerDependencies and documented as required
    consumer setup, particularly relevant for shadcn-style migration
    where each component's deps must be explicit.
-3. **`aria-label="Chiudi"`** — Italian default. See cross-cutting i18n
-   note (also Spinner, Combobox, DatePicker).
-4. **AlertDialog consolidated into Dialog.** Source dir
+2. **`aria-label="Chiudi"`** — Italian default. See cross-cutting i18n
+   note (also Spinner, Combobox, DatePicker). Tracked as story #59.
+3. **AlertDialog consolidated into Dialog.** Source dir
    `alert-dialog/` no longer exists; `severity="alert"` covers the
    case. Consumers migrating from a previous shadcn-style AlertDialog
    need to swap import + add the prop. Migration guide candidate.
-5. **No `size` axis** for DialogContent. `max-w-lg` is the only
+4. **No `size` axis** for DialogContent. `max-w-lg` is the only
    width; consumers override via `className`. Could expose
    `size: 'sm' | 'md' | 'lg' | 'xl' | 'full'`.

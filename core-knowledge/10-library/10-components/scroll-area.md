@@ -1,7 +1,7 @@
 # ScrollArea
 
-Status: documented · Last scan: d63afaf · Sources:
-`packages/ui/src/components/scroll-area/{scroll-area.tsx,index.ts}`.
+Status: documented · Last scan: 43a7a02 · Sources:
+`packages/ui/src/components/scroll-area/{scroll-area.tsx,index.ts,scroll-area.test.tsx}`.
 
 ## Summary
 
@@ -44,18 +44,15 @@ Scrollbar:
 
 Thumb:
   relative flex-1 rounded-pill bg-border-strong
-  hover:bg-ink-muted
+  hover:bg-muted-foreground
   before:absolute before:inset-0 before:rounded-pill
 ```
 
 ## Notes & gotchas
 
-1. **`hover:bg-ink-muted` does not resolve.** `--ink-muted` /
-   `--color-ink-muted` is **not defined** in `tokens.css` or
-   `theme.css`. Same lib-wide `--ink-*` issue flagged in the Dialog
-   chapter Open question 1. Result: scrollbar thumb has no hover
-   color change. Fix: switch to `hover:bg-muted-foreground` (or
-   define `--ink-muted` in the consumer's theme).
+1. **Thumb hover uses `bg-muted-foreground`.** Earlier versions
+   referenced `bg-ink-muted`, but `--ink-muted` was never defined.
+   Fixed in commit eb5198c.
 
 2. **Both scrollbars are always rendered.** Even on a vertically-only
    scrolling area, the horizontal scrollbar exists in the DOM (Radix
@@ -80,14 +77,9 @@ Thumb:
 
 1. Copy `scroll-area.tsx` and `index.ts`.
 2. Add `@radix-ui/react-scroll-area` as a runtime dep.
-3. Replace `bg-ink-muted` with `bg-muted-foreground` (or define
-   `--ink-muted` in the consumer's theme).
-4. Tokens needed: `--border-strong`, the swap from `--ink-muted`
-   above.
+3. Tokens needed: `--border-strong`, `--muted-foreground`.
 
 ## Open questions
 
-1. **`bg-ink-muted` broken** — see Notes #1. Inherits the lib-wide
-   `--ink-*` cleanup task (Dialog Open question 1).
-2. **Single-axis variant?** Many use cases want only vertical scroll
+1. **Single-axis variant?** Many use cases want only vertical scroll
    — could expose `axis: 'both' | 'vertical' | 'horizontal'`.

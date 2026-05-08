@@ -1,7 +1,9 @@
 # Theme Generator
 
-Status: documented · Last scan: d63afaf · Sources:
-`apps/web/app/theme-generator/{page.tsx,theme-state.ts,use-theme-state.ts,presets.ts,exporters.ts,contrast.ts,sample-dialog.tsx}`.
+Status: documented · Last scan: 43a7a02 · Sources:
+`apps/web/app/theme-generator/{page.tsx,theme-state.ts,use-theme-state.ts,presets.ts,exporters.ts,contrast.ts,sample-dialog.tsx,radius-emit.test.tsx}`,
+`apps/web/app/styles/theme.css`,
+`apps/web/app/styles/__tests__/{app-pattern-tokens.test.ts,reduced-motion-scoping.test.ts}`.
 
 ## Summary
 
@@ -271,6 +273,33 @@ generator is itself the most demanding consumer of `@damo/ui`.
 6. **`sample-dialog.tsx` is a preview surface** — not a
    reusable component for the lib. Specific to this page.
 
+7. **Radius emit semantics** (commit fix in PR #67). The DOM-sync
+   layer formats radius values per key, not uniformly:
+   - `pill` → `<N>px` (was forced to `999px`, ignoring user input)
+   - `full` → `<N>%` (was forced to `50%`)
+   - any other key with value `0` → the literal string `'0'`
+   - otherwise → `<N>px`
+   Regression guard: `radius-emit.test.tsx` (uses
+   `@testing-library/react`'s `renderHook` to assert
+   `SET_RADIUS` → emit pipeline).
+
+8. **Reduced-motion scoping** (PR #48 / AC-1). The earlier
+   `apps/web/app/styles/theme.css` shipped a *universal*
+   `@media (prefers-reduced-motion: reduce) { *, *::before, *::after
+   { transition-duration: 0.01ms !important } }` that overrode every
+   duration token edited in the generator — making the Motion
+   sliders silently inert for any visitor whose OS had reduced
+   motion enabled. The rule is now scoped so genuine opt-in still
+   suppresses motion but the editor's preview pane stays
+   demonstrative. Regression guard: `reduced-motion-scoping.test.ts`.
+
+9. **App-pattern token guard** (PR #52 / AC-5). The four
+   `--app-pattern-{color1,color2,color3,size}` tokens edited in the
+   generator update `apps/web/app/styles/patterns.css` consumers via
+   the same DOM-sync path as semantic tokens. Regression guard:
+   `app-pattern-tokens.test.ts` (asserts the tokens are referenced
+   in `patterns.css` and not hard-coded literals).
+
 ## How to consume (the export contract)
 
 The CSS export is the canonical artifact. A consumer's recipe:
@@ -313,3 +342,20 @@ JSON paste-back to re-load a saved theme).
 6. **No "share via URL" feature.** Users editing for hours can lose
    work if localStorage is cleared. Encoding the theme into a URL
    query (or a shareable hash) would help.
+7. **Per-instance Memphis tinted-shadow recipe is broken at runtime
+   (open issue #58).** Editing `--primary` (or `--destructive`,
+   etc.) in the generator does **not** retint the offset shadow on
+   Button ghost / Input invalid / Toast variants / Dialog danger,
+   even though the per-instance class
+   `[--memphis-shadow-color:var(--primary)]` is present. CSS
+   custom-property substitution semantics resolve the inner
+   `var(--memphis-shadow-color)` against `:root`, ignoring the
+   element-level override. See `10-library/20-theming/README.md`
+   Architecture #4. Path-B fix (per-color `@utility` blocks) is
+   parked in #66 because Tailwind v4 strips custom rules outside
+   known namespaces.
+8. **Preview-scene UX gaps** (open bug #64). Some editable tokens
+   (rounded-sm, rounded-selection, shadow-memphis-card) have no
+   visible consumer in the default preview scene, so a user editing
+   them sees no immediate feedback. Either add a consumer to the
+   default scene or surface a "no preview consumer" hint.
