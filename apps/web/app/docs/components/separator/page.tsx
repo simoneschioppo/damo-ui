@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Separator } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -46,11 +47,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Separator — ${BRAND.libName}` }
 
-export default function SeparatorDocsPage() {
+export default async function SeparatorDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        PRIMITIVES
+        {tCat('primitives')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Separator</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -59,7 +62,7 @@ export default function SeparatorDocsPage() {
         <code className="font-mono">decorative</code>.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Solid (default)</h2>
@@ -69,7 +72,7 @@ export default function SeparatorDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Variants</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('variants')}</h2>
       <Example code={VARIANT_SNIPPET}>
         <div className="flex flex-col gap-6 w-full px-6">
           <Separator variant="dashed" />
@@ -86,10 +89,10 @@ export default function SeparatorDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Separator props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           Defaults to <code className="font-mono">decorative=true</code> — no role is announced. Use

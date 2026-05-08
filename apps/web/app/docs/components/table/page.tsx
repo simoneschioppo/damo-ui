@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import {
   Table,
   TableHeader,
@@ -70,11 +71,13 @@ const PARTS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Table — ${BRAND.libName}` }
 
-export default function TableDocsPage() {
+export default async function TableDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        DATA DISPLAY
+        {tCat('dataDisplay')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Table</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -85,10 +88,10 @@ export default function TableDocsPage() {
         outer container handles overflow + borders.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Live preview</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('livePreview')}</h2>
       <Example code={BASIC_SNIPPET}>
         <div className="w-full">
           <Table>
@@ -137,10 +140,10 @@ export default function TableDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Parts</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('parts')}</h2>
       <PropsTable props={PARTS} caption="Table sub-components" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           Always include <code className="font-mono">TableCaption</code> when the table conveys data

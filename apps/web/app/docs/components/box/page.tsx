@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Box } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -80,11 +81,13 @@ export const metadata = {
   description: 'Polymorphic flex primitive with controllable direction, gap, align and justify.',
 }
 
-export default function BoxDocsPage() {
+export default async function BoxDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        PRIMITIVES
+        {tCat('primitives')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Box</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -93,7 +96,7 @@ export default function BoxDocsPage() {
         via <code className="font-mono">as</code>.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Row layout</h2>
@@ -125,7 +128,7 @@ export default function BoxDocsPage() {
       </p>
       <Code code={POLYMORPHIC_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Box props" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">When to use it</h2>

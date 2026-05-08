@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { SegmentedControl, SegmentedControlItem } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -55,11 +56,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `SegmentedControl — ${BRAND.libName}` }
 
-export default function SegmentedControlDocsPage() {
+export default async function SegmentedControlDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FORMS
+        {tCat('forms')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">SegmentedControl</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -68,7 +71,7 @@ export default function SegmentedControlDocsPage() {
         mutually exclusive options where keeping the choices visible adds clarity.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Horizontal (default)</h2>
@@ -89,10 +92,10 @@ export default function SegmentedControlDocsPage() {
         </SegmentedControl>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="SegmentedControl props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           The root renders <code className="font-mono">role=&quot;group&quot;</code> with each item
