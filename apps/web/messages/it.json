@@ -493,28 +493,124 @@
   },
   "componentDocs": {
     "accordion": {
-      "lead": "Sezioni impilate ed espandibili. Costruito su Radix Accordion — gestione completa della tastiera, modalità controllata e non controllata, e il pattern ARIA disclosure arrivano direttamente dalla primitive."
+      "lead": "Sezioni impilate ed espandibili. Costruito su Radix Accordion — gestione completa della tastiera, modalità controllata e non controllata, e il pattern ARIA disclosure arrivano direttamente dalla primitive.",
+      "a11y": {
+        "0": "Radix avvolge ogni <code>AccordionTrigger</code> in un <code>&lt;h3&gt;</code> con un vero <code>&lt;button&gt;</code> all'interno — <code>aria-expanded</code> tiene traccia dello stato aperto e <code>aria-controls</code> lo collega al pannello del contenuto.",
+        "1": "Tastiera: <kbd>Tab</kbd> sposta tra i trigger; <kbd>Enter</kbd> / <kbd>Space</kbd> attivano il pannello in focus; <kbd>Home</kbd> / <kbd>End</kbd> saltano al primo / ultimo trigger."
+      },
+      "props": {
+        "type": "<code>single</code> permette un solo item aperto alla volta; <code>multiple</code> ne permette diversi.",
+        "collapsible": "Valido solo per <code>type=\"single\"</code>. Quando è true l'item attivo può essere chiuso cliccandolo di nuovo.",
+        "value": "Valore/i attivo/i controllato/i o non controllato/i.",
+        "onValueChange": "Viene chiamata ogni volta che gli item attivi cambiano.",
+        "orientation": "Direzione del layout per la navigazione da tastiera."
+      }
     },
     "app-shell": {
-      "lead": "Layout applicativo a due colonne: sidebar sticky (larghezza e tone configurabili) + area principale scrollabile. Lo shell occupa l'intera altezza del viewport e mantiene la sidebar fissa mentre la colonna principale scorre."
+      "lead": "Layout applicativo a due colonne: sidebar sticky (larghezza e tone configurabili) + area principale scrollabile. Lo shell occupa l'intera altezza del viewport e mantiene la sidebar fissa mentre la colonna principale scorre.",
+      "body": {
+        "basicShape": "AppShell occupa l'intero viewport. L'esempio qui sotto mostra un visual statico ridotto in un'anteprima incorniciata — collega la tua Sidebar (e il <link1>PageHeader</link1>) negli slot.",
+        "sidebarPlaceholder": "Il contenuto della pagina scorre qui. La sidebar resta fissata in alto."
+      },
+      "a11y": {
+        "0": "<link1>Sidebar</link1> — pannello laterale componibile con slot header, body e footer.",
+        "1": "<link1>PageHeader</link1> — striscia con eyebrow, titolo e azioni per la parte superiore della colonna principale.",
+        "2": "<link1>AppTopBar</link1> — chrome alternativa per layout senza sidebar (può essere renderizzata anche dentro la colonna principale)."
+      },
+      "props": {
+        "sidebar": "Contenuto renderizzato dentro la colonna sticky <code>&lt;aside&gt;</code>. Abbinalo a un componente Sidebar / Nav.",
+        "sidebarWidth": "Larghezza in pixel della colonna sidebar.",
+        "sidebarTone": "<code>default</code> dipinge la sidebar con la superficie card; <code>onDark</code> la rovescia in ink con testo chiaro — da abbinare a NavItem <code>tone=\"onDark\"</code>.",
+        "children": "Contenuto principale renderizzato nella colonna destra."
+      }
     },
     "app-top-bar": {
-      "lead": "Header del sito con tre slot: brand, navigazione e azioni. Per default è sticky in alto; disattivalo con <code>sticky={false}</code>."
+      "lead": "Header del sito con tre slot: brand, navigazione e azioni. Per default è sticky in alto; disattivalo con <code>sticky={false}</code>.",
+      "a11y": {
+        "0": "L'header viene renderizzato come <code>&lt;header&gt;</code> (ruolo banner).",
+        "1": "Avvolgi il brand mark in un link con un <code>aria-label</code> quando l'etichetta è decorativa (solo icona)."
+      },
+      "props": {
+        "logo": "Slot per il branding. Inserisci un link Next o un anchor che punti alla home.",
+        "nav": "Navigazione inline. Viene renderizzata dentro un elemento &lt;nav&gt;.",
+        "actions": "Controlli allineati a destra. Componili con <code>AttrToggleGroup</code>, <code>Popover</code>, ecc.",
+        "sticky": "Fissa la barra in alto al viewport con z-index header.",
+        "className": "Le classi Tailwind vengono unite sopra i default."
+      }
     },
     "article-card": {
-      "lead": "Card di contenuto neutra con larghezza massima di 420px. Frame Memphis, eyebrow opzionale, titolo nel display font e corpo con leading rilassato."
+      "lead": "Card di contenuto neutra con larghezza massima di 420px. Frame Memphis, eyebrow opzionale, titolo nel display font e corpo con leading rilassato.",
+      "props": {
+        "label": "Eyebrow opzionale mono uppercase.",
+        "title": "Titolo nel display font.",
+        "children": "Contenuto del corpo. Sono ammessi più paragrafi."
+      }
     },
     "aspect-ratio": {
-      "lead": "Blocca un elemento figlio a un rapporto larghezza-altezza specifico. Compone la primitive Radix <code>@radix-ui/react-aspect-ratio</code> — il wrapper garantisce zero layout shift mentre image / video / iframe vengono caricati."
+      "lead": "Blocca un elemento figlio a un rapporto larghezza-altezza specifico. Compone la primitive Radix <code>@radix-ui/react-aspect-ratio</code> — il wrapper garantisce zero layout shift mentre image / video / iframe vengono caricati.",
+      "a11y": {
+        "0": "<code>16 / 9</code> — video widescreen, hero banner",
+        "1": "<code>4 / 3</code> — media legacy, gallerie fotografiche",
+        "2": "<code>1</code> — thumbnail quadrate, avatar",
+        "3": "<code>3 / 4</code> — foto verticali",
+        "4": "<code>21 / 9</code> — hero ultra-wide"
+      },
+      "props": {
+        "ratio": "Rapporto larghezza/altezza (es. <code>16 / 9</code>, <code>4 / 3</code>, <code>1</code> per un quadrato). L'elemento figlio è forzato a riempire il box.",
+        "children": "Passa un singolo elemento che deve riempire il container con aspect-ratio.",
+        "className": "Le classi Tailwind vengono unite sopra il wrapper."
+      }
     },
     "attr-toggle-group": {
-      "lead": "Toggle generico legato a un attributo <code>data-*</code> su <code>&lt;html&gt;</code> e a una chiave <code>localStorage</code>. Si idrata dallo storage al mount, ripulisce i valori persistiti non più validi riportandoli al default configurato e offre due varianti visive: una riga di pulsanti segmentati o un dropdown Select. Usalo per controllare qualsiasi asse del tuo prodotto (theme, palette, density, lingua, valuta, …) senza accoppiare il componente a uno specifico caso d'uso."
+      "lead": "Toggle generico legato a un attributo <code>data-*</code> su <code>&lt;html&gt;</code> e a una chiave <code>localStorage</code>. Si idrata dallo storage al mount, ripulisce i valori persistiti non più validi riportandoli al default configurato e offre due varianti visive: una riga di pulsanti segmentati o un dropdown Select. Usalo per controllare qualsiasi asse del tuo prodotto (theme, palette, density, lingua, valuta, …) senza accoppiare il componente a uno specifico caso d'uso.",
+      "body": {
+        "segmentedIntro": "Visual di default: una riga di pulsanti con bordo Memphis con <code>aria-pressed</code> su ogni opzione e un wrapper <code>role=\"group\"</code> etichettato dall'eyebrow.",
+        "selectIntro": "Da usare quando la lista di opzioni è troppo lunga per una riga di pulsanti o quando la superficie ha poco spazio.",
+        "headlessIntro": "Ometti la prop <code>label</code> quando la UI circostante fornisce già un'intestazione.",
+        "sanitisationIntro": "Se un valore persistito in precedenza non è più presente in <code>options</code> (es. hai rinominato una palette), l'hook lo riporta al <code>defaultValue</code> al mount, poi riscrive il valore corretto in <code>localStorage</code> e sull'attributo <code>data-*</code>. L'utente non vede mai un lampo di stato non aggiornato."
+      },
+      "a11y": {
+        "0": "La variante segmented avvolge le opzioni in <code>role=\"group\"</code>; quando <code>label</code> è impostata, il gruppo è etichettato tramite <code>aria-labelledby</code> che punta all'id dell'eyebrow.",
+        "1": "Ogni pulsante segmented è un <code>&lt;button&gt;</code> nativo con <code>aria-pressed</code> che riflette lo stato attivo.",
+        "2": "La variante select espone <code>role=\"combobox\"</code> tramite la primitive <code>Select</code> del design system — l'interazione completa da tastiera viene ereditata."
+      },
+      "props": {
+        "options": "Lista di coppie <code>{ value, label }</code> tra cui l'utente può scegliere.",
+        "storageKey": "Chiave localStorage che persiste il valore attivo tra le sessioni.",
+        "attribute": "Attributo data-* riprodotto su <code>&lt;html&gt;</code>. Deve corrispondere a <code>^data-[a-z][a-z0-9-]*$</code> — gli attributi non-data vengono rifiutati.",
+        "defaultValue": "Valore iniziale quando nulla è persistito. Ripiega su <code>options[0].value</code>.",
+        "label": "Etichetta eyebrow opzionale renderizzata prima del controllo. Quando fornita, il gruppo interno viene collegato con <code>aria-labelledby</code> all'id dell'eyebrow.",
+        "variant": "<code>segmented</code> è una riga di pulsanti con bordo Memphis; <code>select</code> passa al dropdown Select del design system.",
+        "labelId": "Sovrascrive l'id auto-generato per l'etichetta eyebrow. Usalo quando devi collegare un'etichetta esterna tua.",
+        "className": "Classi Tailwind unite sopra i default del wrapper."
+      }
     },
     "avatar": {
-      "lead": "Avatar utente con immagine + fallback con iniziali. Costruito su Radix Avatar — quando l'immagine non si carica (o durante il caricamento), viene mostrato il fallback."
+      "lead": "Avatar utente con immagine + fallback con iniziali. Costruito su Radix Avatar — quando l'immagine non si carica (o durante il caricamento), viene mostrato il fallback.",
+      "body": {
+        "groupIntro": "Impila più avatar; <code>max</code> limita il numero visibile e renderizza una bolla <code>+N</code> per i restanti."
+      },
+      "a11y": {
+        "0": "Passa sempre <code>alt</code> su <code>AvatarImage</code> — per avatar decorativi una stringa vuota è accettabile; altrimenti descrivi l'utente.",
+        "1": "Il fallback è puramente visivo — il testo <code>alt</code> sull'immagine (quando presente) trasporta il nome accessibile."
+      },
+      "props": {
+        "size": "Diametro di 8/10/14/20 pixel rispettivamente.",
+        "shape": "<code>square</code> aggiunge un bordo Memphis di 2px e rimuove l'arrotondamento.",
+        "children": "Componi con <code>AvatarImage</code> e <code>AvatarFallback</code>."
+      }
     },
     "badge": {
-      "lead": "Etichetta uppercase compatta con micro-shadow Memphis. Usalo per indicare stato, livello del piano o esito su card, righe di tabella e avatar. Per etichette più lunghe con angoli arrotondati usa <link1>Chip</link1>."
+      "lead": "Etichetta uppercase compatta con micro-shadow Memphis. Usalo per indicare stato, livello del piano o esito su card, righe di tabella e avatar. Per etichette più lunghe con angoli arrotondati usa <link1>Chip</link1>.",
+      "a11y": {
+        "0": "Badge renderizza uno <code>&lt;span&gt;</code> — il contenuto testuale è l'unica cosa annunciata. Scegli etichette che si leggano in modo significativo fuori dal contesto (es. <code>PRO</code> invece di <code>P</code>).",
+        "1": "Quando il badge codifica uno stato non ridondante con il testo circostante (es. una singola icona che significa \"new\"), abbinalo a uno <code>&lt;span className=\"sr-only\"&gt;</code> che ne descriva il significato."
+      },
+      "props": {
+        "variant": "Tono visivo. <code>featured</code> usa il token featured del badge; <code>success</code> / <code>warning</code> / <code>info</code> / <code>destructive</code> mappano sugli intent di stato standard; <code>outline</code> rimuove il riempimento.",
+        "children": "Etichetta breve — tipicamente 1-3 parole uppercase.",
+        "className": "Le classi Tailwind vengono unite sopra i default della variante."
+      }
     },
     "banner": {
       "lead": "Superficie di notifica inline. Quattro varianti di tone (info, success, warning, danger), un titolo opzionale, un pulsante di chiusura opzionale e uno slot icon che di default mostra un glifo coerente col tone ma accetta qualsiasi ReactNode.",
@@ -539,10 +635,41 @@
       }
     },
     "box": {
-      "lead": "Primitive flex polimorfica. Usala ogni volta che ti serve un container flex con direzione, gap, allineamento e justification type-checked — con la possibilità di renderizzare come qualsiasi elemento HTML tramite <code>as</code>."
+      "lead": "Primitive flex polimorfica. Usala ogni volta che ti serve un container flex con direzione, gap, allineamento e justification type-checked — con la possibilità di renderizzare come qualsiasi elemento HTML tramite <code>as</code>.",
+      "body": {
+        "polymorphicIntro": "Passa <code>as</code> per renderizzare Box come un tag diverso mantenendo le utilities di layout. Utile per elementi landmark (<code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;aside&gt;</code>) o per inoltrare a un <code>Link</code> di Next."
+      },
+      "a11y": {
+        "0": "La maggior parte dei layout flex nel codice di prodotto — sostituisce gli stack ad-hoc <code>flex flex-row gap-3 items-center</code>.",
+        "1": "Per layout più ampi a livello di pagina con max-width, preferisci <link1>Container</link1>.",
+        "2": "Quando i figli devono essere suddivisi in regioni denominate, usa un componente di layout dedicato come <link1>AppShell</link1>."
+      },
+      "props": {
+        "as": "Elemento polimorfico. Passa qualsiasi tag HTML o componente (<code>section</code>, <code>header</code>, <code>aside</code>, <code>Link</code>, …) e Box mantiene le sue utilities di layout delegando la semantica all'elemento scelto.",
+        "direction": "Imposta <code>flex-direction</code>.",
+        "gap": "Step di spacing Tailwind applicato al <code>gap</code> del container flex.",
+        "align": "<code>align-items</code>.",
+        "justify": "<code>justify-content</code>.",
+        "wrap": "<code>flex-wrap</code>.",
+        "inline": "Passa a <code>inline-flex</code> quando il box deve stare inline con il testo.",
+        "className": "Le classi Tailwind vengono unite sopra i default della variante."
+      }
     },
     "breadcrumbs": {
-      "lead": "Traccia gerarchica resa come landmark <code>&lt;nav&gt;</code> con label. L'ultimo elemento dovrebbe essere marcato <code>current</code> in modo da renderizzarsi come testo semplice con <code>aria-current=\"page\"</code>."
+      "lead": "Traccia gerarchica resa come landmark <code>&lt;nav&gt;</code> con label. L'ultimo elemento dovrebbe essere marcato <code>current</code> in modo da renderizzarsi come testo semplice con <code>aria-current=\"page\"</code>.",
+      "a11y": {
+        "0": "Il wrapper renderizza <code>&lt;nav aria-label=\"Breadcrumb\"&gt;</code> contenente una lista ordinata — il pattern canonico per i landmark breadcrumb.",
+        "1": "I separatori sono renderizzati come <code>role=\"presentation\"</code> + <code>aria-hidden</code>, così gli screen reader annunciano solo le etichette degli item.",
+        "2": "La pagina corrente dovrebbe essere l'ultimo item con <code>current</code> impostato — Radix lo renderizza come <code>&lt;span&gt;</code> non-link con <code>aria-current=\"page\"</code>."
+      },
+      "props": {
+        "separator": "Nodo custom renderizzato tra gli item. Default: una ChevronRightIcon Memphis. Override per uno slash, un punto o qualsiasi glifo.",
+        "children": "Una lista di figli <code>BreadcrumbItem</code>.",
+        "className": "Le classi Tailwind vengono unite sul <code>&lt;nav&gt;</code> wrapper.",
+        "href": "Target del link. Ometti sull'ultimo item (quello corrente).",
+        "current": "Marca l'item come pagina corrente — renderizza uno <code>&lt;span&gt;</code> non-link con <code>aria-current=\"page\"</code>.",
+        "itemChildren": "Etichetta dell'item."
+      }
     },
     "button": {
       "lead": "Superficie d'azione bordata e ombreggiata. Sei varianti, tre size più la size dedicata icon, accesso completo da tastiera tramite un <code>&lt;button&gt;</code> nativo. Abbinalo a <code>IconButton</code> (documentato sotto) per trigger solo-icona — stessa veste, fissato a un quadrato 40×40.",
@@ -579,16 +706,60 @@
       }
     },
     "card": {
-      "lead": "Container di superficie componibile. Cinque varianti condividono la stessa veste Memphis ma differiscono per accent, peso ed elevazione."
+      "lead": "Container di superficie componibile. Cinque varianti condividono la stessa veste Memphis ma differiscono per accent, peso ed elevazione.",
+      "body": {
+        "elevatedIntro": "Drop shadow morbida invece della shadow Memphis dura. Adatta per contenuti che devono stare dietro alle superfici primarie.",
+        "inverseIntro": "Inverte <code>bg</code>/<code>fg</code> — usala su una pagina chiara quando una sezione deve sembrare un'isola scura."
+      },
+      "props": {
+        "variant": "Trattamento visivo. Featured usa l'accent oro; inverse inverte fg/bg per superfici scure.",
+        "padding": "Spaziatura interna applicata al body e alle righe della chrome.",
+        "className": "Le classi Tailwind vengono unite sopra i default della variante."
+      }
     },
     "checkbox": {
-      "lead": "Checkbox bordata Memphis costruita su Radix Checkbox. Supporta tre stati checked / unchecked / indeterminate e tutta la semantica nativa dei form (name, value, required)."
+      "lead": "Checkbox bordata Memphis costruita su Radix Checkbox. Supporta tre stati checked / unchecked / indeterminate e tutta la semantica nativa dei form (name, value, required).",
+      "a11y": {
+        "0": "Radix Checkbox espone <code>role=\"checkbox\"</code> con <code>aria-checked</code> che riflette lo stato selezionato, incluso <code>\"mixed\"</code> per il caso indeterminato.",
+        "1": "Abbinalo sempre a una <code>Label</code> collegata tramite <code>htmlFor</code>, oppure fornisci <code>aria-label</code> quando non c'è testo visibile.",
+        "2": "Supporto da tastiera nativo ereditato: <kbd>Space</kbd> commuta lo stato selezionato."
+      },
+      "props": {
+        "checked": "Stato selezionato controllato. Da abbinare a <code>onCheckedChange</code>.",
+        "defaultChecked": "Stato selezionato iniziale non controllato.",
+        "onCheckedChange": "Si attiva ogni volta che cambia lo stato selezionato.",
+        "disabled": "Disabilita l'input.",
+        "required": "Contrassegna l'input come obbligatorio per l'invio del form nativo.",
+        "name": "Attributo name per l'invio del form nativo."
+      }
     },
     "chip": {
-      "lead": "Tag a forma di pillola con dot di stato opzionale e stato attivo. Usa i chip per filtri, tag ed etichette di stato soft. Per badge uppercase con shadow Memphis (status / esito) usa <link1>Badge</link1>."
+      "lead": "Tag a forma di pillola con dot di stato opzionale e stato attivo. Usa i chip per filtri, tag ed etichette di stato soft. Per badge uppercase con shadow Memphis (status / esito) usa <link1>Badge</link1>.",
+      "a11y": {
+        "0": "Chip viene reso come uno <code>&lt;span&gt;</code> — quando usato dentro un filtro cliccabile, racchiudilo in un <code>&lt;button&gt;</code> con <code>aria-pressed</code> che riflette lo stato <code>active</code>.",
+        "1": "Il pallino di stato è puramente decorativo; il testo dell'etichetta deve trasmettere lo stesso stato (non affidarti solo al colore)."
+      },
+      "props": {
+        "variant": "Tinta di sfondo e colore del bordo. Tutte le varianti condividono la forma a pillola arrotondata.",
+        "size": "Step di padding e dimensione del testo.",
+        "dotColor": "Se impostato, antepone un pallino 8×8 ai children. Accetta qualsiasi stringa di colore CSS (<code>var(--success)</code>, <code>#16a34a</code>, ecc.).",
+        "active": "Cambia la superficie al token primary (look selezionato). Con <code>dotColor</code> il bordo del pallino diventa bianco per contrasto.",
+        "children": "Etichetta del chip — supporta testo oppure icona + testo."
+      }
     },
     "color-picker": {
-      "lead": "Swatch <code>&lt;input type=\"color\"&gt;</code> nativo accoppiato all'Input del design system per una stringa hex. Entrambi i controlli condividono un singolo value / onChange — è il parent a decidere se validare l'hex."
+      "lead": "Swatch <code>&lt;input type=\"color\"&gt;</code> nativo accoppiato all'Input del design system per una stringa hex. Entrambi i controlli condividono un singolo value / onChange — è il parent a decidere se validare l'hex.",
+      "body": {
+        "hideVisibleLabel": "<code>aria-label</code> viene preservato su entrambi i controlli, così il componente resta accessibile anche quando l'etichetta visibile è nascosta."
+      },
+      "props": {
+        "label": "Etichetta visibile mostrata sopra i controlli. Usata anche come <code>aria-label</code> sullo swatch e sull'input hex.",
+        "value": "Stringa colore corrente. Passa qualsiasi valore che il consumer si aspetta (tipicamente un hex).",
+        "onChange": "Si attiva ogni volta che lo swatch o l'input hex emettono un nuovo valore. Valida la stringa prima di rilegarla allo stato.",
+        "showInput": "Nasconde l'input hex e mostra solo lo swatch del colore.",
+        "showLabel": "Nasconde l'etichetta visibile — <code>aria-label</code> resta comunque collegato per gli screen reader.",
+        "id": "Sovrascrive l'id auto-generato usato per collegare la label e l'input colore."
+      }
     },
     "combobox": {
       "lead": "Single-select ricercabile. Il trigger ha lo stesso aspetto di <link1>Select</link1>; il contenuto del dropdown usa <code>cmdk</code> per il fuzzy matching, più la veste Memphis di Damo sul popover.",
@@ -622,10 +793,31 @@
       }
     },
     "container": {
-      "lead": "Colonna centrata con max-width e padding orizzontale responsive. È il wrapper di pagina di default per i documenti Damo UI."
+      "lead": "Colonna centrata con max-width e padding orizzontale responsive. È il wrapper di pagina di default per i documenti Damo UI.",
+      "body": {
+        "sizeVariants": "Sei step di dimensione rispecchiano i breakpoint <code>screen-*</code> di Tailwind, più un'opzione <code>full</code> per le sezioni full-bleed.",
+        "unpadded": "Disabilita il padding quando i children gestiscono già i propri margini interni oppure per hero banner full-bleed."
+      },
+      "props": {
+        "size": "Breakpoint di larghezza massima. <code>full</code> rimuove del tutto il max-width (utile per banner full-bleed che vogliono comunque padding centrato).",
+        "padded": "Se true, applica padding orizzontale responsive (<code>px-4 md:px-6 lg:px-8</code>).",
+        "className": "Le classi Tailwind vengono unite sopra i default."
+      }
     },
     "context-menu": {
-      "lead": "Menu da click destro costruito su Radix ContextMenu. Riprende <link1>DropdownMenu</link1> nell'API e nei tipi di item — la differenza è il trigger: qualsiasi elemento avvolto si apre su eventi <em>contextmenu</em> (click destro, long press su touch, Shift-F10)."
+      "lead": "Menu da click destro costruito su Radix ContextMenu. Riprende <link1>DropdownMenu</link1> nell'API e nei tipi di item — la differenza è il trigger: qualsiasi elemento avvolto si apre su eventi <em>contextmenu</em> (click destro, long press su touch, Shift-F10).",
+      "a11y": {
+        "0": "Radix collega <code>role=\"menu\"</code> e <code>role=\"menuitem\"</code> allo stesso modo di DropdownMenu, incluso il supporto per item checkbox / radio.",
+        "1": "Tastiera: <kbd>Shift</kbd> + <kbd>F10</kbd> apre il menu dal trigger in focus. Le frecce ciclano tra gli item; <kbd>Esc</kbd> chiude."
+      },
+      "whenToUse": {
+        "0": "File manager, righe di tabella, elementi canvas — ovunque gli utenti si aspettino un menu contestuale al click destro.",
+        "1": "Non sostituire le affordance primarie con il solo ContextMenu — gli utenti touch su iOS lo scoprono col long-press, ma su Android il supporto è incostante. Fornisci sempre un'azione equivalente tramite un button o un DropdownMenu."
+      },
+      "props": {
+        "modal": "Intrappola il focus mentre il menu è aperto. Imposta false per consentire l'interazione col resto della pagina.",
+        "onOpenChange": "Si attiva quando il menu si apre o si chiude."
+      }
     },
     "date-picker": {
       "lead": "Date picker singolo che abbina un trigger in stile Memphis al calendario <code>react-day-picker</code> dentro un <link1>Popover</link1>. Locale di default italiano; passa qualsiasi prop di DayPicker per fare override.",
@@ -712,10 +904,36 @@
       }
     },
     "dropdown-menu": {
-      "lead": "Menu di azioni componibile costruito su Radix DropdownMenu. Superficie bordata Memphis, gestione completa della tastiera (Enter / Space, frecce, Esc, type-ahead) e veste di selezione sui radio item che ricalca il gradient di <link1>NavItem</link1>. Per un pannello fluttuante non-menu (preferenze libere, popover di un editor, veste custom) usa invece <link2>Popover</link2>."
+      "lead": "Menu di azioni componibile costruito su Radix DropdownMenu. Superficie bordata Memphis, gestione completa della tastiera (Enter / Space, frecce, Esc, type-ahead) e veste di selezione sui radio item che ricalca il gradient di <link1>NavItem</link1>. Per un pannello fluttuante non-menu (preferenze libere, popover di un editor, veste custom) usa invece <link2>Popover</link2>.",
+      "body": {
+        "mixedItemTypes": "DropdownMenu espone anche <code>DropdownMenuCheckboxItem</code> e <code>DropdownMenuRadioGroup</code> + <code>DropdownMenuRadioItem</code> quando il menu pilota uno stato invece di lanciare azioni."
+      },
+      "a11y": {
+        "0": "Radix collega il pattern ARIA Menu: il trigger riceve <code>aria-haspopup</code> + <code>aria-expanded</code>; gli item ricevono <code>role=\"menuitem\"</code> / <code>menuitemcheckbox</code> / <code>menuitemradio</code>.",
+        "1": "Tastiera: <kbd>Enter</kbd> / <kbd>Space</kbd> aprono il menu e attivano gli item, le frecce ciclano, <kbd>Esc</kbd> chiude, il type-ahead salta al primo item che inizia con la stringa digitata."
+      },
+      "comparison": {
+        "0": "<strong>DropdownMenu</strong> si apre al click ed è l'affordance standard per \"more actions\".",
+        "1": "<link1>ContextMenu</link1> si apre al click destro su una superficie arbitraria (righe di tabella, canvas, liste di file).",
+        "2": "<link2>Popover</link2> è per contenuti floating liberi (form, ricerca, help) — non è un menu."
+      },
+      "props": {
+        "open": "Stato di apertura controllato sul root.",
+        "defaultOpen": "Stato di apertura iniziale non controllato.",
+        "onOpenChange": "Si attiva quando il menu si apre o si chiude.",
+        "modal": "Prop sul root. Il default modal intrappola il focus. Imposta false per consentire l'interazione col resto della pagina mentre è aperto.",
+        "align": "Prop su <code>DropdownMenuContent</code>. Allineamento inline relativo al trigger.",
+        "side": "Prop su <code>DropdownMenuContent</code>. Lato preferito a cui ancorarsi."
+      }
     },
     "feature-card": {
-      "lead": "Card feature/highlight compatta da 280px con shadow Memphis tinta primary. Usala per mettere in evidenza le feature del prodotto su landing page o in griglie di feature."
+      "lead": "Card feature/highlight compatta da 280px con shadow Memphis tinta primary. Usala per mettere in evidenza le feature del prodotto su landing page o in griglie di feature.",
+      "props": {
+        "title": "Titolo in font display.",
+        "desc": "Descrizione del corpo.",
+        "meta": "Etichetta opzionale in footer, font mono maiuscolo.",
+        "icon": "Icona opzionale mostrata accanto al meta."
+      }
     },
     "form-field": {
       "lead": "Wrapper accessibile che collega label, descrizione e messaggio di errore a un singolo input figlio tramite <code>aria-describedby</code> e <code>aria-invalid</code>. Non ha opinioni sul layout — abbinalo a <link1>Box</link1> per gli stack.",
@@ -737,7 +955,16 @@
       }
     },
     "hint": {
-      "lead": "Callout Memphis numerato. Usalo per evidenziare step di una guida, insight chiave dentro documenti long-form o caption numerate su una pagina marketing."
+      "lead": "Callout Memphis numerato. Usalo per evidenziare step di una guida, insight chiave dentro documenti long-form o caption numerate su una pagina marketing.",
+      "body": {
+        "accessibility": "Hint produce un <code>div</code> standard con figli semantici <code>h4</code> + <code>p</code>. La tile numerata non porta <code>aria-hidden</code>, quindi gli screen reader la annunciano prima del titolo — è intenzionale, perché il numero è parte del significato del callout."
+      },
+      "props": {
+        "num": "Numero mostrato dentro la tile iniziale 40×40.",
+        "title": "Heading breve mostrato in font display.",
+        "children": "Paragrafo del corpo sotto il titolo.",
+        "className": "Le classi Tailwind vengono unite sopra il wrapper."
+      }
     },
     "input": {
       "lead": "Campo di testo a riga singola. <code>&lt;input&gt;</code> nativo con il bordo Memphis da 2px e la focus shadow. Si abbina a <code>Label</code> per l'accessibilità.",
@@ -752,40 +979,195 @@
       }
     },
     "label": {
-      "lead": "<code>&lt;label&gt;</code> nativo con la tipografia da form-label già integrata (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Usalo standalone quando non ti serve il wiring strutturato di <link1>FormField</link1>."
+      "lead": "<code>&lt;label&gt;</code> nativo con la tipografia da form-label già integrata (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Usalo standalone quando non ti serve il wiring strutturato di <link1>FormField</link1>.",
+      "body": {
+        "whenFormField": "Per la maggior parte dei form di prodotto, <link1>FormField</link1> è preferibile: collega in automatico <code>htmlFor</code>, <code>aria-describedby</code> e <code>aria-invalid</code> in base alle prop description / error. Usa la Label standalone solo quando hai un layout una tantum che richiede un posizionamento custom."
+      },
+      "props": {
+        "htmlFor": "Associazione standard <code>&lt;label&gt;</code> — se impostato, il click sulla label porta il focus sul campo con l'id corrispondente.",
+        "children": "Testo visibile dell'etichetta.",
+        "className": "Le classi Tailwind vengono unite sopra i default tipografici."
+      }
     },
     "medal": {
-      "lead": "Medaglia SVG ettagonale con palette di token a cinque rank. Usala per renderizzare rank di leaderboard, badge di achievement e tier di rating."
+      "lead": "Medaglia SVG ettagonale con palette di token a cinque rank. Usala per renderizzare rank di leaderboard, badge di achievement e tier di rating.",
+      "body": {
+        "accessibility": "L'SVG produce <code>role=\"img\"</code> con <code>aria-label</code> derivato da <code>label</code> (o un default come <code>\"gold medal\"</code> quando nessuna label è fornita)."
+      },
+      "props": {
+        "rank": "Seleziona il token inner / outer / text (<code>--medal-{rank}-{outer|inner|text}</code>).",
+        "value": "Numero / lettere centrati opzionali (es. <code>1</code>, <code>\"M\"</code>, <code>\"GM\"</code>).",
+        "label": "Caption in font mono maiuscolo mostrata sotto la medaglia.",
+        "size": "Larghezza e altezza dell'SVG in pixel."
+      }
     },
     "memphis-shape": {
-      "lead": "Primitive di forme SVG inline usate come accent decorativi su landing page, hero section e nello showcase del design system. Otto varianti condividono un viewBox 100×100 per scalare in modo pulito."
+      "lead": "Primitive di forme SVG inline usate come accent decorativi su landing page, hero section e nello showcase del design system. Otto varianti condividono un viewBox 100×100 per scalare in modo pulito.",
+      "body": {
+        "accessibility": "Gli SVG di MemphisShape vengono prodotti con <code>aria-hidden=\"true\"</code> — puramente decorativi. Se ti serve una forma significativa (es. un icon button), usa uno dei componenti del set di icone e fornisci <code>aria-label</code> sul wrapper."
+      },
+      "props": {
+        "variant": "Forma da rendere. Le varianti riempite accettano un <code>fill</code>; quelle a stroke accettano uno <code>stroke</code>.",
+        "size": "Dimensione in pixel applicata sia alla larghezza che all'altezza dell'SVG.",
+        "color": "Fill (o stroke per le varianti outline). Accetta qualsiasi stringa di colore CSS."
+      }
     },
     "nav-item": {
-      "lead": "Primitive di riga sidebar usata dalla nav della docs Damo UI e da qualsiasi sidebar che richieda la veste di selezione unificata (gradient + outline interno da 1px + barra accent da 3px). Polimorfica per default tramite <code>as</code>."
+      "lead": "Primitive di riga sidebar usata dalla nav della docs Damo UI e da qualsiasi sidebar che richieda la veste di selezione unificata (gradient + outline interno da 1px + barra accent da 3px). Polimorfica per default tramite <code>as</code>.",
+      "body": {
+        "polymorphic": "Passa qualsiasi elemento tramite <code>as</code>. NavItem inoltra <code>aria-current</code> quando <code>active</code> è true, indipendentemente dal tag renderizzato."
+      },
+      "a11y": {
+        "0": "Quando <code>active</code> è impostato, NavItem applica <code>aria-current=\"page\"</code> — il segnale canonico per \"sei qui\" in una lista di navigazione.",
+        "1": "Il render predefinito è <code>&lt;a&gt;</code>; per il routing client-side passa <code>as={Link}</code> (Next) o il componente link del tuo router. La cromia di selezione e il merging delle classi vengono preservati."
+      },
+      "props": {
+        "as": "Elemento polimorfico. Passa <code>Link</code>, <code>button</code> o qualunque componente per controllare la semantica del routing.",
+        "active": "Quando true, applica la cromia di selezione (gradiente + outline + barra accent) e imposta <code>aria-current=\"page\"</code>.",
+        "icon": "Icona iniziale opzionale renderizzata in uno slot 20×20.",
+        "endAdornment": "Elemento finale opzionale — tipicamente un Badge che indica new / beta / count.",
+        "tone": "<code>default</code> è il tono standard della sidebar light/dark; <code>onDark</code> sostituisce il testo muted e i colori di selezione con la palette della navbar on-dark (usata in <code>AppTopBar</code>).",
+        "children": "Etichetta dell'item."
+      }
     },
     "ornament": {
-      "lead": "Stacco di sezione decorativo: due hairline orizzontali con gradient ai lati di un glifo centrato. Usalo tra gruppi tematici dentro una pagina, dove un semplice <code>Separator</code> risulterebbe troppo asettico."
+      "lead": "Stacco di sezione decorativo: due hairline orizzontali con gradient ai lati di un glifo centrato. Usalo tra gruppi tematici dentro una pagina, dove un semplice <code>Separator</code> risulterebbe troppo asettico.",
+      "body": {
+        "customGlyph": "Passa un nodo figlio per sostituire il diamante predefinito — emoji, icone o brevi accenti testuali funzionano bene.",
+        "accessibility": "Il wrapper porta <code>aria-hidden=\"true\"</code>, che rimuove Ornament dall'accessibility tree completamente — la tecnologia assistiva lo salta. L'attributo DOM <code>role=\"separator\"</code> è presente per coerenza di stile ma non ha effetto AT a causa dell'<code>aria-hidden</code> circostante. Per separazioni semantiche di sezione che devono essere annunciate, usa <link1>Separator</link1> con <code>decorative=false</code>."
+      },
+      "props": {
+        "children": "Glifo opzionale renderizzato tra le due hairline a gradiente. Predefinito un diamante Memphis.",
+        "className": "Le classi Tailwind vengono unite sopra al wrapper."
+      }
     },
     "page-header": {
-      "lead": "Striscia di intestazione di pagina con eyebrow + titolo display + descrizione + slot azioni allineato a destra. Renderizza un vero landmark <code>&lt;header&gt;</code> con un bordo hairline in basso."
+      "lead": "Striscia di intestazione di pagina con eyebrow + titolo display + descrizione + slot azioni allineato a destra. Renderizza un vero landmark <code>&lt;header&gt;</code> con un bordo hairline in basso.",
+      "a11y": {
+        "0": "Il wrapper è un vero <code>&lt;header&gt;</code> — aggiunge un landmark banner quando usato a livello di pagina.",
+        "1": "Il titolo viene renderizzato come <code>&lt;h1&gt;</code>; un solo PageHeader per route."
+      },
+      "props": {
+        "eyebrow": "Piccola etichetta uppercase opzionale renderizzata sopra al titolo.",
+        "title": "Heading di pagina renderizzato come <code>&lt;h1&gt;</code> nel font display.",
+        "description": "Paragrafo opzionale sotto al titolo.",
+        "actions": "Slot opzionale allineato a destra per le azioni primarie (Buttons, IconButtons, …)."
+      }
     },
     "pagination": {
-      "lead": "Navigatore di pagine numerato con chevron prev / next, ellissi che collassano su range lunghi e label localizzabili. La logica della finestra di pagine è esposta come <code>computePageWindow</code> nel caso volessi comporti una UI tua."
+      "lead": "Navigatore di pagine numerato con chevron prev / next, ellissi che collassano su range lunghi e label localizzabili. La logica della finestra di pagine è esposta come <code>computePageWindow</code> nel caso volessi comporti una UI tua.",
+      "body": {
+        "longRange": "Con molte pagine, Pagination mostra la prima / l'ultima / la finestra corrente e inserisce ellissi tra le lacune."
+      },
+      "a11y": {
+        "0": "Il wrapper è <code>&lt;nav aria-label=\"Pagination\"&gt;</code>.",
+        "1": "Il pulsante della pagina corrente riceve <code>aria-current=\"page\"</code>; tutti gli altri pulsanti pagina ricevono un <code>aria-label</code> tipo <code>Pagina 3</code> (localizzato tramite <code>labels.page</code>).",
+        "2": "Le ellissi vengono renderizzate con <code>aria-hidden</code> — non vengono annunciate.",
+        "3": "Tastiera: i numeri di pagina e i chevron prev/next sono elementi <code>&lt;button&gt;</code> nativi — <kbd>Tab</kbd> sposta il focus tra di essi, <kbd>Enter</kbd> / <kbd>Space</kbd> li attivano. I pulsanti disabilitati (prev a pagina 1, next all'ultima pagina) vengono saltati automaticamente dall'ordine di focus."
+      },
+      "props": {
+        "currentPage": "Pagina attiva (1-indexed). Pilota <code>aria-current</code> sul pulsante corrispondente.",
+        "totalPages": "Numero totale di pagine.",
+        "maxVisible": "Numero massimo di pulsanti pagina renderizzati tra le ellissi. Predefinito a una finestra ragionevole tramite <code>computePageWindow</code> (anch'esso esportato).",
+        "onPageChange": "Si attiva quando l'utente clicca un numero di pagina o i chevron prev/next.",
+        "labels": "Sovrascrive le label accessibili — <code>{ previous, next, page, pageOf(page, total) }</code>. I default sono in italiano.",
+        "disabled": "Disabilita ogni pulsante (utile mentre un fetch del parent è in volo)."
+      }
     },
     "popover": {
-      "lead": "Pannello fluttuante non-modale ancorato a un trigger. Costruito su Radix Popover e dipinto con la stessa veste Memphis di <code>DropdownMenu</code> e <code>Dialog</code>, così le superfici fluttuanti restano coerenti. Usalo come container generico per preferenze, mini-editor, risultati di ricerca o qualsiasi contenuto fluttuante <em>non-menu</em>. Per una lista di azioni col pattern ARIA menu completo usa <link1>DropdownMenu</link1>."
+      "lead": "Pannello fluttuante non-modale ancorato a un trigger. Costruito su Radix Popover e dipinto con la stessa veste Memphis di <code>DropdownMenu</code> e <code>Dialog</code>, così le superfici fluttuanti restano coerenti. Usalo come container generico per preferenze, mini-editor, risultati di ricerca o qualsiasi contenuto fluttuante <em>non-menu</em>. Per una lista di azioni col pattern ARIA menu completo usa <link1>DropdownMenu</link1>.",
+      "body": {
+        "alignment": "Usa <code>align</code> per l'allineamento inline e <code>side</code> / <code>sideOffset</code> per il bordo di ancoraggio."
+      },
+      "vsList": {
+        "0": "<strong>Popover</strong> — un pannello flottante a forma libera. Usalo per form, risultati di ricerca, testo di aiuto, mini-editor.",
+        "1": "<link1>DropdownMenu</link1> — una lista di <em>azioni</em> con keyboard wiring completo (le frecce ciclano gli item). Sceglilo ogni volta che il contenuto è un menu.",
+        "2": "<link1>Dialog</link1> — un modale centrato sullo schermo. Sceglilo quando l'utente deve completare un task prima di continuare."
+      },
+      "a11y": {
+        "0": "Il trigger eredita <code>aria-expanded</code> / <code>aria-controls</code> da Radix.",
+        "1": "Default <code>modal=false</code> — il focus non viene intrappolato, e i click esterni chiudono il pannello. Imposta <code>modal=true</code> quando il popover ospita un task completo che deve bloccare altre interazioni.",
+        "2": "Usa <code>PopoverClose</code> sui pulsanti di chiusura dentro al contenuto in modo che il focus torni al trigger."
+      },
+      "props": {
+        "open": "Stato open controllato sulla root.",
+        "defaultOpen": "Stato open iniziale uncontrolled sulla root.",
+        "onOpenChange": "Si attiva quando lo stato open cambia.",
+        "modal": "Quando true, il focus viene intrappolato mentre è aperto e il contenuto esterno è inerte. Default false (non-modale).",
+        "align": "Prop su <code>PopoverContent</code>. Allineamento del contenuto rispetto al trigger.",
+        "side": "Prop su <code>PopoverContent</code>. Bordo preferito a cui ancorarsi. Radix flippa automaticamente quando non c'è spazio.",
+        "sideOffset": "Spazio tra trigger e contenuto."
+      }
     },
     "progress": {
-      "lead": "Progress bar determinata costruita su Radix Progress. Track bordato Memphis con un fill in token secondary che anima fino a <code>value</code>."
+      "lead": "Progress bar determinata costruita su Radix Progress. Track bordato Memphis con un fill in token secondary che anima fino a <code>value</code>.",
+      "body": {
+        "customIndicator": "Sovrascrivi la barra di riempimento con <code>indicatorClassName</code> — utile per flussi success / warning / danger.",
+        "indeterminate": "Passa <code>value={null}</code> quando la lunghezza totale è sconosciuta — Radix imposta <code>aria-busy=true</code>. Sceglie <link1>Spinner</link1> per feedback indeterminato compatto."
+      },
+      "a11y": {
+        "0": "Radix imposta <code>role=\"progressbar\"</code> con <code>aria-valuemin</code>, <code>aria-valuemax</code> e <code>aria-valuenow</code>.",
+        "1": "Fornisci sempre <code>aria-label</code> o <code>aria-labelledby</code> che descriva cosa rappresenta la barra (Caricamento file, Completamento profilo…)."
+      },
+      "props": {
+        "value": "Progresso corrente 0..100. Passa <code>null</code> per uno stato indeterminato (Radix lo marca come <code>aria-busy</code>).",
+        "max": "Valore massimo inoltrato a Radix Progress.",
+        "indicatorClassName": "Classi Tailwind applicate all'indicatore interno (la barra di riempimento).",
+        "className": "Classi Tailwind unite sopra al track.",
+        "ariaLabel": "Richiesto quando non è presente una label visibile circostante."
+      }
     },
     "radio-group": {
-      "lead": "Radio group mutuamente esclusivo costruito su Radix RadioGroup. Avvolge ogni opzione in un pulsante bordato Memphis con un dot interno pieno quando selezionato. Usalo quando l'utente deve scegliere esattamente una di tre o più opzioni; per toggle a due opzioni usa <link1>SegmentedControl</link1> oppure <link2>Switch</link2>."
+      "lead": "Radio group mutuamente esclusivo costruito su Radix RadioGroup. Avvolge ogni opzione in un pulsante bordato Memphis con un dot interno pieno quando selezionato. Usalo quando l'utente deve scegliere esattamente una di tre o più opzioni; per toggle a due opzioni usa <link1>SegmentedControl</link1> oppure <link2>Switch</link2>.",
+      "a11y": {
+        "0": "Radix collega <code>role=\"radiogroup\"</code> sulla root e <code>role=\"radio\"</code> su ogni item con il corretto <code>aria-checked</code>.",
+        "1": "Abbina ogni <code>RadioGroupItem</code> a un <code>Label</code> collegato tramite <code>htmlFor</code> in modo che l'area cliccabile si estenda alla label.",
+        "2": "Tastiera: <kbd>Tab</kbd> sposta il focus all'item selezionato (roving tabindex); le frecce ciclano gli item <em>e</em> cambiano la selezione; <kbd>Tab</kbd> di nuovo sposta il focus fuori dal gruppo."
+      },
+      "props": {
+        "value": "Valore selezionato controllato. Abbinalo a <code>onValueChange</code>.",
+        "defaultValue": "Valore selezionato iniziale uncontrolled.",
+        "onValueChange": "Si attiva ogni volta che la selezione cambia.",
+        "name": "Attributo name per la submission del form nativo.",
+        "disabled": "Disabilita ogni item del gruppo.",
+        "required": "Marca il gruppo come richiesto per la submission del form nativo."
+      }
     },
     "scroll-area": {
-      "lead": "Container di scroll con stile custom che sostituisce le scrollbar native con un track e un thumb a tema Memphis. Compone <code>@radix-ui/react-scroll-area</code>; sia la scrollbar verticale sia quella orizzontale sono cablate in automatico."
+      "lead": "Container di scroll con stile custom che sostituisce le scrollbar native con un track e un thumb a tema Memphis. Compone <code>@radix-ui/react-scroll-area</code>; sia la scrollbar verticale sia quella orizzontale sono cablate in automatico.",
+      "body": {
+        "horizontal": "ScrollArea collega sia le scrollbar verticali che orizzontali; lascia che il contenuto interno trabocchi orizzontalmente per far emergere la barra orizzontale."
+      },
+      "a11y": {
+        "0": "Pannelli delimitati con figli che traboccano (liste di file, thread di chat, caroselli di tag).",
+        "1": "Quando hai bisogno di uno stile coerente delle scrollbar tra browser — le barre native variano molto tra Safari / Windows / Linux.",
+        "2": "Salta ScrollArea per lo scroll del documento stesso — lascia che il browser gestisca lo scroll a livello di pagina per l'accessibilità."
+      },
+      "props": {
+        "children": "Contenuto scrollabile — avvolto in un viewport Radix che gestisce l'overflow.",
+        "className": "Classi Tailwind per il wrapper esterno. Applica height / width qui per delimitare l'overflow.",
+        "type": "Inoltrato al Radix Root. Controlla quando le scrollbar sono visibili — <code>hover</code> le rivela al pointer hover, <code>always</code> le tiene sempre in posizione."
+      }
     },
     "segmented-control": {
-      "lead": "Toggle group single-select con bordo Memphis a fare da cucitura tra gli item. Costruito su Radix ToggleGroup con <code>type=\"single\"</code>. Usalo per 2-5 opzioni mutuamente esclusive in cui mantenere visibili le scelte aggiunge chiarezza."
+      "lead": "Toggle group single-select con bordo Memphis a fare da cucitura tra gli item. Costruito su Radix ToggleGroup con <code>type=\"single\"</code>. Usalo per 2-5 opzioni mutuamente esclusive in cui mantenere visibili le scelte aggiunge chiarezza.",
+      "a11y": {
+        "0": "La root renderizza <code>role=\"group\"</code> con ogni item come <code>role=\"radio\"</code> + <code>aria-checked</code> (Radix ToggleGroup <code>type=\"single\"</code> usa il radio pattern sotto al cofano).",
+        "1": "<code>aria-label</code> (o <code>aria-labelledby</code>) sulla root è richiesto: senza, il gruppo non ha un nome accessibile, e gli screen reader annunceranno gli item senza contesto.",
+        "2": "Tastiera: <kbd>Tab</kbd> sposta il focus dentro all'item correntemente selezionato (roving tabindex); le frecce ciclano gli item e spostano la selezione; <kbd>Tab</kbd> di nuovo sposta il focus fuori dall'intero gruppo."
+      },
+      "vsRadio": {
+        "0": "Sceglie <strong>SegmentedControl</strong> quando 2-5 opzioni stanno su una riga e il controllo si comporta più come una tab strip che come un form input.",
+        "1": "Sceglie <link1>RadioGroup</link1> quando hai molte opzioni o vuoi ogni opzione su una sua riga con descrizioni."
+      },
+      "props": {
+        "value": "Valore selezionato controllato. Abbinalo a <code>onValueChange</code>.",
+        "defaultValue": "Valore selezionato iniziale uncontrolled.",
+        "onValueChange": "Si attiva ogni volta che la selezione cambia.",
+        "orientation": "Asse del layout.",
+        "ariaLabel": "Richiesto quando non è presente una label visibile circostante.",
+        "disabled": "Disabilita ogni item del gruppo."
+      }
     },
     "select": {
       "lead": "Dropdown componibile costruito su Radix Select. Stesso bordo Memphis e focus shadow di <link1>Input</link1>. Per multi-select o ricerca fuzzy usa <link2>Combobox</link2>.",
@@ -808,25 +1190,103 @@
       }
     },
     "separator": {
-      "lead": "Divisore orizzontale o verticale con tre varianti a tema Memphis. Compone la primitive Radix Separator, quindi la sua semantica passa da decorativa a significativa tramite <code>decorative</code>."
+      "lead": "Divisore orizzontale o verticale con tre varianti a tema Memphis. Compone la primitive Radix Separator, quindi la sua semantica passa da decorativa a significativa tramite <code>decorative</code>.",
+      "a11y": {
+        "0": "Default <code>decorative=true</code> — nessun ruolo viene annunciato. Usalo per separazioni puramente visive.",
+        "1": "Imposta <code>decorative=false</code> quando il divider rappresenta una struttura significativa (ad es. tra sezioni tematiche di pagina); Radix espone <code>role=\"separator\"</code> con il corretto <code>aria-orientation</code>."
+      },
+      "props": {
+        "orientation": "Direzione del divider.",
+        "variant": "<code>solid</code> è una singola hairline; <code>dashed</code> passa a un bordo tratteggiato; <code>memphis-double</code> è una banda a doppio bordo che si abbina all'estetica Memphis.",
+        "decorative": "Quando true (default), il separatore è puramente decorativo e nascosto agli screen reader. Passa false quando il divider trasmette una struttura significativa che deve essere annunciata.",
+        "className": "Le classi Tailwind vengono unite sopra ai default della variante."
+      }
     },
     "sidebar": {
-      "lead": "Pannello laterale componibile con slot header, body e footer. Qui è usato sul sito della docs per la nav rail che vedi a sinistra."
+      "lead": "Pannello laterale componibile con slot header, body e footer. Qui è usato sul sito della docs per la nav rail che vedi a sinistra.",
+      "props": {
+        "children": "Componi con SidebarHeader, SidebarBody, SidebarFooter.",
+        "ariaLabel": "Richiesto quando la sidebar è l'unico landmark di navigazione sulla pagina.",
+        "className": "Le classi Tailwind vengono unite sopra ai default."
+      }
     },
     "skeleton": {
-      "lead": "Blocco placeholder con shimmer per mantenere stabile il layout mentre il contenuto async si carica. Dimensiona lo skeleton uguale al contenuto definitivo per evitare layout shift al momento dello swap."
+      "lead": "Blocco placeholder con shimmer per mantenere stabile il layout mentre il contenuto async si carica. Dimensiona lo skeleton uguale al contenuto definitivo per evitare layout shift al momento dello swap.",
+      "a11y": {
+        "0": "Skeleton imposta <code>aria-hidden=\"true\"</code> — è puramente visivo e viene saltato dagli screen reader.",
+        "1": "Quando il contenuto arriva, sostituisci lo skeleton in modo atomico. I caricamenti prolungati dovrebbero comunicare lo stato di avanzamento tramite <code>role=\"status\"</code> (usa <link1>Spinner</link1> o un testo di stato nascosto) così che il cambiamento venga annunciato."
+      },
+      "props": {
+        "className": "Obbligatorio: definisci la forma dello skeleton con utility di width / height / radius. Lo Skeleton di base fornisce solo l’animazione shimmer e lo sfondo muted."
+      }
     },
     "slider": {
-      "lead": "Slider bordato Memphis con uno o più thumb. Costruito su Radix Slider — supporto completo da tastiera, gestione del drag e semantica ARIA arrivano direttamente dalla primitive."
+      "lead": "Slider bordato Memphis con uno o più thumb. Costruito su Radix Slider — supporto completo da tastiera, gestione del drag e semantica ARIA arrivano direttamente dalla primitive.",
+      "body": {
+        "rangeIntro": "Passa due valori per renderizzare un range con un fill primary tra di essi.",
+        "verticalIntro": "Avvolgi lo Slider in un container con un’altezza esplicita — l’orientamento verticale fa sì che lo Slider riempia la <code>height</code> del genitore."
+      },
+      "a11y": {
+        "0": "Ogni thumb ha <code>role=\"slider\"</code> con <code>aria-valuemin</code>, <code>aria-valuemax</code> e <code>aria-valuenow</code>.",
+        "1": "Fornisci contesto con <code>aria-label</code> o <code>aria-labelledby</code> — cosa rappresenta il valore?",
+        "2": "Tastiera: le frecce avanzano di <code>step</code>, Home/End saltano a min/max, PageUp/PageDown si muovono di 10× step."
+      },
+      "props": {
+        "value": "Valore/i controllato/i. Da abbinare a <code>onValueChange</code>.",
+        "defaultValue": "Valore/i iniziale/i in modalità uncontrolled.",
+        "onValueChange": "Si attiva durante il drag o con le frecce della tastiera.",
+        "min": "Valore minimo.",
+        "max": "Valore massimo.",
+        "step": "Incremento per le variazioni con i tasti freccia.",
+        "orientation": "Asse di trascinamento. Gli slider verticali richiedono un’altezza esplicita sul wrapper.",
+        "disabled": "Disabilita l’interazione.",
+        "inverted": "Inverte la direzione visiva (right-to-left o top-to-bottom)."
+      }
     },
     "spinner": {
-      "lead": "Spinner SVG leggero con annuncio accessibile <code>role=\"status\"</code>. Usalo per stati di caricamento indeterminati e compatti dentro pulsanti, righe di lista o tooltip. Per barre piene usa <link1>Progress</link1>."
+      "lead": "Spinner SVG leggero con annuncio accessibile <code>role=\"status\"</code>. Usalo per stati di caricamento indeterminati e compatti dentro pulsanti, righe di lista o tooltip. Per barre piene usa <link1>Progress</link1>.",
+      "body": {
+        "colorOverride": "Spinner usa <code>currentColor</code> — cambia il colore del testo del wrapper per ricolorarlo."
+      },
+      "a11y": {
+        "0": "Renderizza <code>role=\"status\"</code> con la <code>label</code> fornita come <code>aria-label</code>.",
+        "1": "Per l’uso inline dentro un button con label, imposta <code>label=\"\"</code> e affidati al testo del button — evita annunci duplicati."
+      },
+      "props": {
+        "size": "Width e height dell’SVG. Passa un numero (px) o una stringa con unità CSS.",
+        "label": "Nome accessibile annunciato dagli screen reader (<code>aria-label</code>). Localizzalo per UI non italiane.",
+        "className": "Le classi Tailwind vengono fuse sopra l’animazione spin + colore primary."
+      }
     },
     "stat": {
-      "lead": "Blocco KPI: label uppercase mono, valore grande in display font, riga delta opzionale. Usalo per mettere in evidenza metriche chiave su dashboard e pagine di overview."
+      "lead": "Blocco KPI: label uppercase mono, valore grande in display font, riga delta opzionale. Usalo per mettere in evidenza metriche chiave su dashboard e pagine di overview.",
+      "props": {
+        "label": "Label mono uppercase renderizzata sopra il valore.",
+        "value": "Numero principale renderizzato con il display font.",
+        "delta": "Sotto-riga opzionale che mostra la variazione rispetto a una baseline.",
+        "deltaTone": "Colore della riga delta — success / destructive / muted.",
+        "icon": "Icona opzionale renderizzata accanto alla label."
+      }
     },
     "switch": {
-      "lead": "Toggle Memphis: thumb quadrato che scorre tra una traccia ivory e una primary. Usalo per preferenze booleane che hanno effetto immediato (notifiche on / off, dark mode on / off). Costruito su Radix Switch."
+      "lead": "Toggle Memphis: thumb quadrato che scorre tra una traccia ivory e una primary. Usalo per preferenze booleane che hanno effetto immediato (notifiche on / off, dark mode on / off). Costruito su Radix Switch.",
+      "body": {
+        "vsCheckbox0": "Usa <strong>Switch</strong> quando attivare un’impostazione ha effetto immediato (notifiche push, dark mode).",
+        "vsCheckbox1": "Usa <link1>Checkbox</link1> quando il valore fa parte di un form che viene inviato (accetta termini, seleziona preferenze)."
+      },
+      "a11y": {
+        "0": "Renderizza <code>role=\"switch\"</code> con <code>aria-checked</code> che riflette lo stato on/off.",
+        "1": "Associa sempre una label visibile oppure passa <code>aria-label</code>.",
+        "2": "Tastiera: <kbd>Space</kbd> commuta lo stato."
+      },
+      "props": {
+        "checked": "Stato checked controllato. Da abbinare a <code>onCheckedChange</code>.",
+        "defaultChecked": "Stato checked iniziale in modalità uncontrolled.",
+        "onCheckedChange": "Si attiva ogni volta che lo stato checked cambia.",
+        "disabled": "Disabilita l’input.",
+        "name": "Attributo name per l’invio del form nativo.",
+        "value": "Valore inviato dal form quando è checked. Default <code>\"on\"</code>."
+      }
     },
     "table": {
       "lead": "Primitive di tabella bordate Memphis. Avvolgi le righe in sezioni semantiche <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> tramite i componenti corrispondenti — il container esterno gestisce overflow e bordi.",
@@ -847,19 +1307,81 @@
       }
     },
     "tabs": {
-      "lead": "Striscia di tab inline + pannelli di contenuto corrispondenti. Costruito su Radix Tabs — gestione completa della tastiera, semantica ARIA e roving tabindex arrivano dalla primitive. Il tab attivo è marcato da una sottolineatura primary da 3px."
+      "lead": "Striscia di tab inline + pannelli di contenuto corrispondenti. Costruito su Radix Tabs — gestione completa della tastiera, semantica ARIA e roving tabindex arrivano dalla primitive. Il tab attivo è marcato da una sottolineatura primary da 3px.",
+      "body": {
+        "vsSegmented": "Usa <link1>SegmentedControl</link1> quando l’utente sta filtrando o commutando la visibilità all’interno dello stesso pannello; usa Tabs quando ogni valore possiede una regione di contenuto distinta con il proprio ARIA tab panel."
+      },
+      "a11y": {
+        "0": "Radix collega il pattern ARIA Tabs: <code>role=\"tablist\"</code>, <code>role=\"tab\"</code> e <code>role=\"tabpanel\"</code> con <code>aria-controls</code> / <code>aria-labelledby</code> che li mettono in relazione.",
+        "1": "Tastiera: <kbd>Tab</kbd> entra nella tab strip; le frecce ciclano tra i tab; Home/End saltano al primo/ultimo tab. Con <code>activationMode=\"manual\"</code> il tab in focus si attiva solo con Enter/Space."
+      },
+      "props": {
+        "value": "Valore del tab attivo controllato.",
+        "defaultValue": "Valore iniziale del tab attivo in modalità uncontrolled.",
+        "onValueChange": "Si attiva quando il tab attivo cambia.",
+        "orientation": "Direzione di layout per la navigazione da tastiera (asse delle frecce).",
+        "activationMode": "<code>automatic</code> attiva un tab al focus; <code>manual</code> richiede Enter/Space — utile quando cambiare tab è oneroso."
+      }
     },
     "textarea": {
-      "lead": "Input di testo multi-riga con la stessa veste Memphis di bordo, hover e focus di <link1>Input</link1>. Ridimensionabile verticalmente per default; abbinalo a <link2>FormField</link2> per il wiring di label + descrizione + errore."
+      "lead": "Input di testo multi-riga con la stessa veste Memphis di bordo, hover e focus di <link1>Input</link1>. Ridimensionabile verticalmente per default; abbinalo a <link2>FormField</link2> per il wiring di label + descrizione + errore.",
+      "a11y": {
+        "0": "Renderizza una <code>&lt;textarea&gt;</code> nativa; submission e validazione native del form funzionano come ci si aspetta.",
+        "1": "Abbina a <code>FormField</code> (oppure fornisci il tuo <code>aria-labelledby</code> / <code>aria-describedby</code>) così gli screen reader annunciano label, description ed error."
+      },
+      "props": {
+        "invalid": "Se true, imposta <code>aria-invalid</code> e cambia il border e la Memphis shadow al token destructive.",
+        "rows": "Righe visibili senza resize.",
+        "disabled": "Disabilita il campo. Anche gli stili Memphis hover/focus vengono rimossi.",
+        "className": "Le classi Tailwind vengono fuse sopra i default."
+      }
     },
     "toast": {
-      "lead": "Notifica transitoria che entra scivolando dal bordo dello schermo. Costruito su Radix Toast — wiring completo della live region ARIA, swipe-to-dismiss e pause-on-hover arrivano dalla primitive. Usalo per feedback non bloccanti (saved, copied, sent); per errori critici che richiedono presa in carico usa <link1>Dialog con severity=\"alert\"</link1>."
+      "lead": "Notifica transitoria che entra scivolando dal bordo dello schermo. Costruito su Radix Toast — wiring completo della live region ARIA, swipe-to-dismiss e pause-on-hover arrivano dalla primitive. Usalo per feedback non bloccanti (saved, copied, sent); per errori critici che richiedono presa in carico usa <link1>Dialog con severity=\"alert\"</link1>.",
+      "body": {
+        "providerIntro": "Monta un solo <code>ToastProvider</code> + <code>ToastViewport</code> alla radice della tua app. Tutti i toast emessi ovunque nell’albero vengono renderizzati dentro al viewport.",
+        "variantsIntro": "Clicca ogni button per far scivolare il toast corrispondente in basso a destra nel suo preview frame. Sono istanze reali di <code>Toast</code> montate dentro un <code>ToastProvider</code> + <code>ToastViewport</code> con scope locale — lo stesso wiring che useresti in produzione.",
+        "emittingIntro": "I toast in Radix sono guidati dallo state: renderizza un <code>&lt;Toast /&gt;</code> con <code>open</code> controllato e commutalo dai tuoi event handler. Per l’emissione di toast a livello globale, costruisci un context sottile che possiede la queue."
+      },
+      "a11y": {
+        "0": "Il viewport imposta <code>role=\"region\"</code> con <code>aria-label=\"Notifications\"</code>. I toast al suo interno vengono renderizzati con il <code>role</code> e l’<code>aria-live</code> appropriati secondo Radix.",
+        "1": "Quando usi <code>ToastAction</code>, fornisci <code>altText</code> — il nome accessibile letto quando il toast appare. Senza, Radix solleva un errore.",
+        "2": "Hover o focus sul viewport mettono in pausa il timer di auto-dismiss; <kbd>F6</kbd> sposta il focus nel viewport da qualsiasi punto della pagina."
+      },
+      "props": {
+        "variant": "Imposta la tinta di sfondo e il colore della Memphis shadow. Rispecchia i variant token usati da Banner.",
+        "open": "Stato open controllato. Da abbinare a <code>onOpenChange</code>.",
+        "onOpenChange": "Si attiva quando il toast si apre o si chiude.",
+        "duration": "Timeout di auto-dismiss in millisecondi. Passa <code>Infinity</code> per disabilitarlo.",
+        "altText": "Prop su <code>ToastAction</code>. Richiesto da Radix quando il trigger non ha testo — usato come nome accessibile dell’azione."
+      }
     },
     "tooltip": {
-      "lead": "Piccola label fluttuante mostrata su hover o focus. Costruito su Radix Tooltip — supporto completo da tastiera, flipping intelligente sui bordi e wiring ARIA arrivano dalla primitive. Avvolgi l'app una sola volta in <code>TooltipProvider</code> per condividere un singolo timer di delay tra tutti i tooltip."
+      "lead": "Piccola label fluttuante mostrata su hover o focus. Costruito su Radix Tooltip — supporto completo da tastiera, flipping intelligente sui bordi e wiring ARIA arrivano dalla primitive. Avvolgi l'app una sola volta in <code>TooltipProvider</code> per condividere un singolo timer di delay tra tutti i tooltip.",
+      "body": {
+        "providerIntro": "Avvolgi il tuo root layout in un singolo <code>TooltipProvider</code>. Tutti i tooltip annidati condividono il suo delay. Senza il provider, i singoli tooltip funzionano comunque ma non coordinano i tempi.",
+        "iconButtonIntro": "Abbina Tooltip con <link1>IconButton</link1> per mostrare il nome dell’azione in hover. <code>aria-label</code> sull’IconButton resta il nome accessibile canonico; il tooltip è supplementare."
+      },
+      "a11y": {
+        "0": "Il trigger riceve il focus management di Radix; premendo <kbd>Tab</kbd> il tooltip si apre, <kbd>Esc</kbd> lo chiude.",
+        "1": "I tooltip non sostituiscono le label. Per i trigger con sola icona, imposta sempre <code>aria-label</code> sul trigger — il solo testo del tooltip non viene annunciato come nome accessibile.",
+        "2": "Il contenuto del tooltip non è focusable. Usa <link1>Popover</link1> quando l’utente deve interagire con il pannello floating."
+      },
+      "props": {
+        "delayDuration": "Prop su <code>TooltipProvider</code> (e su ogni <code>Tooltip</code>). Millisecondi prima che il tooltip si apra in hover.",
+        "side": "Prop su <code>TooltipContent</code>. Bordo preferito a cui ancorarsi; si capovolge automaticamente.",
+        "sideOffset": "Spazio tra trigger e tooltip.",
+        "align": "Allineamento inline rispetto al trigger."
+      }
     },
     "user-card": {
-      "lead": "Riga utente orizzontale con avatar + nome + meta opzionale e slot trailing. Frame Memphis con shadow da 4px."
+      "lead": "Riga utente orizzontale con avatar + nome + meta opzionale e slot trailing. Frame Memphis con shadow da 4px.",
+      "props": {
+        "name": "Nome visualizzato. Usato per derivare l’iniziale dell’avatar di default.",
+        "avatar": "Nodo avatar personalizzato. Quando omesso, UserCard renderizza un tile circolare ink con la prima lettera di <code>name</code>.",
+        "meta": "Caption mono opzionale renderizzata sotto al nome.",
+        "trailing": "Slot opzionale allineato a destra — tipicamente un Badge o un chip di stato."
+      }
     }
   }
 }

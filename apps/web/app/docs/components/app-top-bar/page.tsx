@@ -33,42 +33,41 @@ const BASIC_SNIPPET = `<AppTopBar
 
 const NON_STICKY_SNIPPET = `<AppTopBar sticky={false} logo={/* … */} />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'logo',
-    type: 'ReactNode',
-    required: true,
-    description: 'Branding slot. Wrap a Next link or anchor that points to home.',
-  },
-  {
-    name: 'nav',
-    type: 'ReactNode',
-    description: 'Inline navigation. Renders inside a <nav> element.',
-  },
-  {
-    name: 'actions',
-    type: 'ReactNode',
-    description: 'Right-aligned controls. Compose with `AttrToggleGroup`, `Popover`, etc.',
-  },
-  {
-    name: 'sticky',
-    type: 'boolean',
-    defaultValue: 'true',
-    description: 'Stick the bar to the viewport top with z-index header.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the defaults.',
-  },
-]
-
 export const metadata = { title: `AppTopBar — ${BRAND.libName}` }
 
 export default async function AppTopBarDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'logo',
+      type: 'ReactNode',
+      required: true,
+      description: t('componentDocs.app-top-bar.props.logo'),
+    },
+    {
+      name: 'nav',
+      type: 'ReactNode',
+      description: t('componentDocs.app-top-bar.props.nav'),
+    },
+    {
+      name: 'actions',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.app-top-bar.props.actions', { code: codeTag }),
+    },
+    {
+      name: 'sticky',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: t('componentDocs.app-top-bar.props.sticky'),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t('componentDocs.app-top-bar.props.className'),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -124,13 +123,8 @@ export default async function AppTopBarDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          The header renders as a <code className="font-mono">&lt;header&gt;</code> (banner role).
-        </li>
-        <li>
-          Wrap the brand mark in a link with an <code className="font-mono">aria-label</code> when
-          the label is decorative (icon-only).
-        </li>
+        <li>{t.rich('componentDocs.app-top-bar.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.app-top-bar.a11y.1', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

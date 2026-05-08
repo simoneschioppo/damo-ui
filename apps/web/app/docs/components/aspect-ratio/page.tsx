@@ -17,32 +17,30 @@ const SQUARE_SNIPPET = `<AspectRatio ratio={1}>
   <Avatar size="full" />
 </AspectRatio>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'ratio',
-    type: 'number',
-    defaultValue: '1',
-    description:
-      'Width-to-height ratio (e.g. `16 / 9`, `4 / 3`, `1` for a square). The child element is forced to fill the box.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Pass a single element that should fill the aspect-ratio container.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the wrapper.',
-  },
-]
-
 export const metadata = { title: `AspectRatio — ${BRAND.libName}` }
 
 export default async function AspectRatioDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'ratio',
+      type: 'number',
+      defaultValue: '1',
+      description: t.rich('componentDocs.aspect-ratio.props.ratio', { code: codeTag }),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t('componentDocs.aspect-ratio.props.children'),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t('componentDocs.aspect-ratio.props.className'),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -83,21 +81,11 @@ export default async function AspectRatioDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Common ratios</h2>
       <ul className="list-disc pl-6 space-y-1 text-foreground/85">
-        <li>
-          <code className="font-mono">16 / 9</code> — widescreen video, hero banners
-        </li>
-        <li>
-          <code className="font-mono">4 / 3</code> — legacy media, photo galleries
-        </li>
-        <li>
-          <code className="font-mono">1</code> — square thumbnails, avatars
-        </li>
-        <li>
-          <code className="font-mono">3 / 4</code> — portrait photo
-        </li>
-        <li>
-          <code className="font-mono">21 / 9</code> — ultra-wide hero
-        </li>
+        <li>{t.rich('componentDocs.aspect-ratio.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.aspect-ratio.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.aspect-ratio.a11y.2', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.aspect-ratio.a11y.3', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.aspect-ratio.a11y.4', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

@@ -14,32 +14,31 @@ const BASIC_SNIPPET = `<ArticleCard label="REGOLA" title="Use semantic tokens, n
   <p>Raw scales are private and can change between releases.</p>
 </ArticleCard>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'label',
-    type: 'string',
-    description: 'Optional mono uppercase eyebrow.',
-  },
-  {
-    name: 'title',
-    type: 'string',
-    required: true,
-    description: 'Display-font headline.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    required: true,
-    description: 'Body content. Multi-paragraph allowed.',
-  },
-]
-
 export const metadata = { title: `ArticleCard — ${BRAND.libName}` }
 
 export default async function ArticleCardDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'label',
+      type: 'string',
+      description: t('componentDocs.article-card.props.label'),
+    },
+    {
+      name: 'title',
+      type: 'string',
+      required: true,
+      description: t('componentDocs.article-card.props.title'),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      required: true,
+      description: t('componentDocs.article-card.props.children'),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">

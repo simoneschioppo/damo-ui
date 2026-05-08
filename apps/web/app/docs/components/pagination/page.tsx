@@ -4,7 +4,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
-import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
+import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 import {
   PaginationBasicExample,
   PaginationLargeExample,
@@ -36,50 +36,47 @@ const LOCALISED_SNIPPET = `<Pagination
   }}
 />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'currentPage',
-    type: 'number',
-    required: true,
-    description: 'Active page (1-indexed). Drives `aria-current` on the matching button.',
-  },
-  {
-    name: 'totalPages',
-    type: 'number',
-    required: true,
-    description: 'Total number of pages.',
-  },
-  {
-    name: 'maxVisible',
-    type: 'number',
-    description:
-      'Maximum number of page buttons rendered between the ellipses. Defaults to a sensible window via `computePageWindow` (also exported).',
-  },
-  {
-    name: 'onPageChange',
-    type: '(page: number) => void',
-    required: true,
-    description: 'Fires when the user clicks a page number or the prev/next chevrons.',
-  },
-  {
-    name: 'labels',
-    type: 'Partial<PaginationLabels>',
-    description:
-      'Override accessible labels — `{ previous, next, page, pageOf(page, total) }`. Defaults are Italian.',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    description: 'Disables every button (useful while a parent fetch is in flight).',
-  },
-]
-
 export const metadata = { title: `Pagination — ${BRAND.libName}` }
 
 export default async function PaginationDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'currentPage',
+      type: 'number',
+      required: true,
+      description: t.rich('componentDocs.pagination.props.currentPage', { code: codeTag }),
+    },
+    {
+      name: 'totalPages',
+      type: 'number',
+      required: true,
+      description: t.rich('componentDocs.pagination.props.totalPages', { code: codeTag }),
+    },
+    {
+      name: 'maxVisible',
+      type: 'number',
+      description: t.rich('componentDocs.pagination.props.maxVisible', { code: codeTag }),
+    },
+    {
+      name: 'onPageChange',
+      type: '(page: number) => void',
+      required: true,
+      description: t.rich('componentDocs.pagination.props.onPageChange', { code: codeTag }),
+    },
+    {
+      name: 'labels',
+      type: 'Partial<PaginationLabels>',
+      description: t.rich('componentDocs.pagination.props.labels', { code: codeTag }),
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      description: t.rich('componentDocs.pagination.props.disabled', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -100,8 +97,7 @@ export default async function PaginationDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Long range — ellipsis collapsing</h2>
       <p className="text-foreground/80 mb-3">
-        With many pages, Pagination shows the first / last / current window and inserts ellipsis
-        between gaps.
+        {t.rich('componentDocs.pagination.body.longRange', { code: codeTag })}
       </p>
       <Example code="<Pagination currentPage={7} totalPages={42} … />">
         <PaginationLargeExample />
@@ -117,26 +113,10 @@ export default async function PaginationDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Wrapper is{' '}
-          <code className="font-mono">&lt;nav aria-label=&quot;Pagination&quot;&gt;</code>.
-        </li>
-        <li>
-          The current page button gets{' '}
-          <code className="font-mono">aria-current=&quot;page&quot;</code>; all other page buttons
-          get an <code className="font-mono">aria-label</code> like{' '}
-          <code className="font-mono">Pagina 3</code> (localised via{' '}
-          <code className="font-mono">labels.page</code>).
-        </li>
-        <li>
-          Ellipses render <code className="font-mono">aria-hidden</code> — they are not announced.
-        </li>
-        <li>
-          Keyboard: page numbers and the prev/next chevrons are native{' '}
-          <code className="font-mono">&lt;button&gt;</code> elements — <kbd>Tab</kbd> moves focus
-          across them, <kbd>Enter</kbd> / <kbd>Space</kbd> activate them. Disabled buttons (prev at
-          page 1, next at the last page) are skipped from the focus order automatically.
-        </li>
+        <li>{t.rich('componentDocs.pagination.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.pagination.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.pagination.a11y.2', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.pagination.a11y.3', { code: codeTag, kbd: kbdTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
