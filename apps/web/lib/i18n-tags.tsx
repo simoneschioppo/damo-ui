@@ -24,6 +24,8 @@ export const strongTag = (chunks: ReactNode) => (
 
 export const emTag = (chunks: ReactNode) => <em>{chunks}</em>
 
+export const kbdTag = (chunks: ReactNode) => <kbd>{chunks}</kbd>
+
 export const brTag = () => <br />
 
 export const linkTag =
