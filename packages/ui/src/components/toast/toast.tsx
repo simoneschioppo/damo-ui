@@ -4,6 +4,7 @@ import * as ToastPrimitive from '@radix-ui/react-toast'
 import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 import { CloseIcon } from '../../icons'
 
 export const ToastProvider = ToastPrimitive.Provider
@@ -117,10 +118,11 @@ export const ToastClose = forwardRef<
   ElementRef<typeof ToastPrimitive.Close>,
   ComponentPropsWithoutRef<typeof ToastPrimitive.Close>
 >(function ToastClose({ className, ...rest }, ref) {
+  const i18n = useI18n()
   return (
     <ToastPrimitive.Close
       ref={ref}
-      aria-label="Chiudi"
+      aria-label={i18n.toast.closeLabel}
       className={cn(
         'shrink-0 inline-flex h-8 w-8 items-center justify-center',
         'text-muted-foreground hover:text-foreground cursor-pointer',

@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "docs": "Documentazione",
+    "themeGenerator": "Generatore di Tema"
+  },
+  "preferences": {
+    "trigger": "Impostazioni di visualizzazione",
+    "theme": {
+      "label": "Tema",
+      "options": {
+        "light": "Chiaro",
+        "dark": "Scuro"
+      }
+    },
+    "palette": {
+      "label": "Palette",
+      "options": {
+        "default": "Prugna+Oro",
+        "neon": "Neon",
+        "sunset": "Tramonto"
+      }
+    },
+    "density": {
+      "label": "Densità",
+      "options": {
+        "compact": "Compatta",
+        "normal": "Normale",
+        "comfortable": "Ampia"
+      }
+    },
+    "language": {
+      "label": "Lingua",
+      "options": {
+        "en": "English",
+        "it": "Italiano"
+      }
+    }
+  },
+  "docsSidebar": {
+    "aria": "Navigazione documentazione",
+    "subtitle": "DOCS",
+    "groups": {
+      "gettingStarted": "Per iniziare",
+      "foundations": "Fondamenti",
+      "primitives": "Primitive",
+      "actionsAndSurfaces": "Azioni e superfici",
+      "forms": "Form",
+      "feedback": "Feedback",
+      "navigation": "Navigazione",
+      "attributeBoundPrimitives": "Primitive vincolate ad attributi",
+      "dataDisplay": "Visualizzazione dati",
+      "layout": "Layout",
+      "cardsAndDecoration": "Card e decorazioni"
+    }
+  }
+}
