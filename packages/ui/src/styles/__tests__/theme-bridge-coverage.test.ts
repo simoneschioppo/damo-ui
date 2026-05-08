@@ -211,18 +211,53 @@ describe('J-11 Radius are bridged', () => {
   })
 })
 
-describe('J-12 Shadow Memphis are bridged', () => {
-  const SHADOWS: ReadonlyArray<readonly [string, string]> = [
-    ['--shadow-memphis-sm',     '--shadow-memphis-sm'],
-    ['--shadow-memphis-card',   '--shadow-memphis-card'],
-    ['--shadow-memphis',        '--shadow-memphis'],     // the 'md' tier — no suffix
-    ['--shadow-memphis-lg',     '--shadow-memphis-lg'],
-    ['--shadow-memphis-hover',  '--shadow-memphis-hover'],
-    ['--shadow-memphis-active', '--shadow-memphis-active'],
-    ['--shadow-md',             '--shadow-md'],          // soft tier
+describe('J-12 Shadow Memphis are exposed via @utility (not @theme inline)', () => {
+  /**
+   * Why this asserts `@utility` instead of `@theme inline` bridges:
+   * v4 compiles theme-namespace declarations of the form
+   * `--shadow-X: var(--shadow-X)` into a top-level
+   * `:root, :host { --shadow-X: var(--shadow-X) }` rule that wins over
+   * `tokens.css` and erases the `<Npx Npx 0 var(--memphis-shadow-color)>`
+   * value — breaking the per-instance `[--memphis-shadow-color:var(--X)]`
+   * recipe across Button/Input/Toast/Banner/etc. We sidestep that emission
+   * by declaring `shadow-memphis-*` (and `shadow-md`) as `@utility` blocks
+   * that read the token at use-time. See issue #58.
+   *
+   * Mirrors the `duration-*` story: those classes are also `@utility`
+   * blocks at the bottom of theme.css for the same reason.
+   */
+  const SHADOW_UTILITIES: ReadonlyArray<readonly [string, string]> = [
+    ['shadow-memphis-sm',     '--shadow-memphis-sm'],
+    ['shadow-memphis-card',   '--shadow-memphis-card'],
+    ['shadow-memphis',        '--shadow-memphis'],     // the 'md' tier — no suffix
+    ['shadow-memphis-lg',     '--shadow-memphis-lg'],
+    ['shadow-memphis-hover',  '--shadow-memphis-hover'],
+    ['shadow-memphis-active', '--shadow-memphis-active'],
+    ['shadow-md',             '--shadow-md'],          // soft tier
   ]
-  it.each(SHADOWS)('bridges %s → %s', (colorVar, sourceVar) => {
-    expect(themeCss).toMatch(bridgesTo(colorVar, sourceVar))
+  it.each(SHADOW_UTILITIES)(
+    '@utility %s reads var(%s)',
+    (utilityName, sourceVar) => {
+      // Match: `@utility <name> { box-shadow: var(<sourceVar>); }`
+      // (with arbitrary whitespace; .replace above already collapsed it).
+      const escapedName = utilityName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+      const escapedSrc = sourceVar.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+      const rx = new RegExp(
+        `@utility\\s+${escapedName}\\s*\\{\\s*box-shadow\\s*:\\s*var\\(\\s*${escapedSrc}\\s*[,)]`,
+      )
+      expect(themeCss).toMatch(rx)
+    },
+  )
+
+  it('does NOT redeclare --shadow-memphis-* inside @theme inline (would shadow tokens.css)', () => {
+    // Anti-regression: if the self-referential bridge sneaks back into
+    // @theme inline, v4 emits :root, :host { --shadow-memphis-X: var(--shadow-memphis-X) }
+    // which clobbers the tokens.css value and breaks the per-instance recipe.
+    const themeInlineMatch = themeCss.match(/@theme inline \{([\s\S]*?)\}/)
+    expect(themeInlineMatch).not.toBeNull()
+    const themeInlineBody = themeInlineMatch![1]
+    expect(themeInlineBody).not.toMatch(/--shadow-memphis(-\w+)?\s*:/)
+    expect(themeInlineBody).not.toMatch(/--shadow-md\s*:/)
   })
 })
 
