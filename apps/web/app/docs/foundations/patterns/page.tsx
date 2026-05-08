@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { MemphisShape } from '@damo/ui'
 import { PatternSwatch } from '../../../_components/showcase'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PATTERNS } from '../../_lib/patterns'
 import { BRAND } from '../../../../lib/brand'
+import { monoTag, linkTag } from '../../../../lib/i18n-tags'
 
 const RAW_CSS_PATTERN = `/* Apply the same pattern directly via CSS — no component required */
 .hero {
@@ -71,22 +73,20 @@ const ONE_PATTERN_RULE = `// ❌ Combining patterns turns into noise
 
 export const metadata = { title: `Patterns — ${BRAND.libName}` }
 
-export default function PatternsFoundationPage() {
+export default async function PatternsFoundationPage() {
+  const tFoundations = await getTranslations('foundations')
+  const t = await getTranslations('foundations.patterns')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FOUNDATIONS
+        {tFoundations('eyebrow')}
       </div>
-      <h1 className="font-display text-5xl leading-[0.95] mb-4">Patterns</h1>
-      <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Texture and shape primitives that fill empty space. Use one at a time — the Memphis look is
-        loud enough that combining patterns turns into noise.
-      </p>
+      <h1 className="font-display text-5xl leading-[0.95] mb-4">{t('h1')}</h1>
+      <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">{t('lead')}</p>
 
-      <h2 className="font-display text-2xl mb-3">Tileable backgrounds</h2>
+      <h2 className="font-display text-2xl mb-3">{t('tilesTitle')}</h2>
       <p className="text-foreground/80 mb-4">
-        Every tile is a pure CSS gradient — there&apos;s no component needed. Apply the{' '}
-        <code className="font-mono">background</code> shorthand directly on any element.
+        {t.rich('tilesBody', { mono: monoTag })}
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
         {PATTERNS.map((p) => (
@@ -102,22 +102,15 @@ export default function PatternsFoundationPage() {
         ))}
       </div>
 
-      <h3 className="font-display text-lg mb-3 mt-8">Using the patterns directly in CSS</h3>
+      <h3 className="font-display text-lg mb-3 mt-8">{t('tilesCssTitle')}</h3>
       <p className="text-foreground/80 mb-3">
-        Drop the same <code className="font-mono">background</code> /{' '}
-        <code className="font-mono">background-image</code> rules anywhere — works on any block
-        element without React.
+        {t.rich('tilesCssBody', { mono: monoTag })}
       </p>
       <Code code={RAW_CSS_PATTERN} lang="css" title="raw CSS application" />
 
-      <h2 className="font-display text-2xl mb-3 mt-12">Shape primitives</h2>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('shapesTitle')}</h2>
       <p className="text-foreground/80 mb-3">
-        Eight Memphis-style SVG shapes: <code className="font-mono">diamond</code>,{' '}
-        <code className="font-mono">circle</code>, <code className="font-mono">triangle</code>,{' '}
-        <code className="font-mono">zigzag</code>, <code className="font-mono">blob</code>,{' '}
-        <code className="font-mono">wave</code>, <code className="font-mono">star</code>,{' '}
-        <code className="font-mono">lbar</code>. Pure SVG with{' '}
-        <code className="font-mono">aria-hidden</code> — they&rsquo;re decoration only.
+        {t.rich('shapesBody', { mono: monoTag })}
       </p>
 
       <Example code={SHAPE_BASIC} previewClassName="px-6 py-10 flex gap-4 flex-wrap items-center">
@@ -131,18 +124,22 @@ export default function PatternsFoundationPage() {
         <MemphisShape variant="lbar" size={64} color="var(--secondary)" />
       </Example>
 
-      <h3 className="font-display text-lg mb-3 mt-8">Props</h3>
+      <h3 className="font-display text-lg mb-3 mt-8">{t('propsTitle')}</h3>
       <div className="border-2 border-memphis bg-card overflow-hidden">
         <table className="w-full text-[13px]">
           <thead className="bg-muted">
             <tr className="text-left">
-              <th className="px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em]">Prop</th>
-              <th className="px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em]">Type</th>
               <th className="px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em]">
-                Default
+                {t('propsHeaders.prop')}
               </th>
               <th className="px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em]">
-                Description
+                {t('propsHeaders.type')}
+              </th>
+              <th className="px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em]">
+                {t('propsHeaders.default')}
+              </th>
+              <th className="px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em]">
+                {t('propsHeaders.description')}
               </th>
             </tr>
           </thead>
@@ -151,59 +148,50 @@ export default function PatternsFoundationPage() {
               <td className="px-4 py-2 font-mono">variant</td>
               <td className="px-4 py-2 font-mono text-muted-foreground">MemphisShapeVariant</td>
               <td className="px-4 py-2 text-muted-foreground">—</td>
-              <td className="px-4 py-2">Which shape to render. Required.</td>
+              <td className="px-4 py-2">{t('propsRows.variant')}</td>
             </tr>
             <tr className="border-t border-memphis/40">
               <td className="px-4 py-2 font-mono">size</td>
               <td className="px-4 py-2 font-mono text-muted-foreground">number</td>
               <td className="px-4 py-2 font-mono text-muted-foreground">64</td>
-              <td className="px-4 py-2">Width &amp; height in px (square).</td>
+              <td className="px-4 py-2">{t('propsRows.size')}</td>
             </tr>
             <tr className="border-t border-memphis/40">
               <td className="px-4 py-2 font-mono">color</td>
               <td className="px-4 py-2 font-mono text-muted-foreground">string</td>
               <td className="px-4 py-2 font-mono text-muted-foreground">var(--secondary)</td>
-              <td className="px-4 py-2">Fill (or stroke for zigzag/wave). Any CSS color.</td>
+              <td className="px-4 py-2">{t('propsRows.color')}</td>
             </tr>
             <tr className="border-t border-memphis/40">
               <td className="px-4 py-2 font-mono">className</td>
               <td className="px-4 py-2 font-mono text-muted-foreground">string</td>
               <td className="px-4 py-2 text-muted-foreground">—</td>
-              <td className="px-4 py-2">Tailwind classes (positioning, opacity, etc.).</td>
+              <td className="px-4 py-2">{t('propsRows.className')}</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <h3 className="font-display text-lg mb-3 mt-8">As decoration behind content</h3>
+      <h3 className="font-display text-lg mb-3 mt-8">{t('decorationTitle')}</h3>
       <p className="text-foreground/80 mb-3">
-        Combine <code className="font-mono">absolute</code> positioning with{' '}
-        <code className="font-mono">-z-10</code> to float a shape behind a section title.
+        {t.rich('decorationBody', { mono: monoTag })}
       </p>
       <Code code={SHAPE_AS_DECORATION} lang="tsx" title="JSX · decorative blob" />
 
-      <h2 className="font-display text-2xl mb-3 mt-12">One pattern per surface</h2>
-      <p className="text-foreground/80 mb-3">
-        Memphis is loud. Stacking patterns kills hierarchy. Use one tile pattern + one shape accent
-        at most per visual unit.
-      </p>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('oneAtATimeTitle')}</h2>
+      <p className="text-foreground/80 mb-3">{t('oneAtATimeBody')}</p>
       <Code code={ONE_PATTERN_RULE} lang="tsx" title="do · don't" />
 
       <p className="text-foreground/80 mt-8">
-        Patterns reference the same semantic tokens as everything else, so they re-color when theme
-        or palette changes — see{' '}
-        <Link href="/docs/foundations/theming" className="text-primary underline">
-          Theming
-        </Link>
-        .
+        {t.rich('themingHint', { link: linkTag('/docs/foundations/theming') })}
       </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <Link href="/docs/foundations/typography" className="text-primary underline">
-          ← Typography
+          {t('prevLink')}
         </Link>
         <Link href="/docs/components/box" className="text-primary underline">
-          Box →
+          {t('nextLink')}
         </Link>
       </div>
     </article>
