@@ -1,8 +1,10 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Button } from '@damo/ui'
 import { Code } from '../_components/Code'
 import { Example } from '../_components/Example'
 import { BRAND } from '../../../lib/brand'
+import { codeTag, monoTag, strongTag, linkTag } from '../../../lib/i18n-tags'
 
 const NPMRC_SNIPPET = `# .npmrc — at the consumer repo root
 @damo:registry=https://npm.pkg.github.com
@@ -81,9 +83,9 @@ export default function RootLayout({ children }) {
                 storageKey="density"
                 attribute="data-density"
                 options={[
-                  { value: 'compact',     label: 'Compatta' },
-                  { value: 'normal',      label: 'Normale' },
-                  { value: 'comfortable', label: 'Ampia' },
+                  { value: 'compact',     label: 'Compact' },
+                  { value: 'normal',      label: 'Normal' },
+                  { value: 'comfortable', label: 'Comfortable' },
                 ]}
                 defaultValue="normal"
               />
@@ -102,114 +104,69 @@ export const metadata = {
   description: `Install ${BRAND.libName} and ship your first component.`,
 }
 
-export default function GettingStartedPage() {
+export default async function GettingStartedPage() {
+  const t = await getTranslations('gettingStarted')
+
   return (
     <article className="prose-sized">
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        GETTING STARTED
+        {t('eyebrow')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">
-        Install {BRAND.libName}
+        {t('headlineLine1')}
         <br />
-        in five minutes.
+        {t('headlineLine2')}
       </h1>
-      <p className="text-lg text-muted-foreground max-w-[60ch] mb-12">
-        {BRAND.libName} is a React + Next.js component library inspired by Memphis design. Tokens,
-        components, and patterns ready to compose into a product UI.
-      </p>
+      <p className="text-lg text-muted-foreground max-w-[60ch] mb-12">{t('lead')}</p>
 
-      <h2 className="font-display text-2xl mb-3">1. Configure your registry</h2>
-      <p className="text-foreground/80 mb-2">
-        {BRAND.libName} is published to GitHub Packages. Add an{' '}
-        <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">.npmrc</code> at
-        your repo root pointing the{' '}
-        <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">@damo</code>{' '}
-        scope at it:
-      </p>
+      <h2 className="font-display text-2xl mb-3">{t('step1.title')}</h2>
+      <p className="text-foreground/80 mb-2">{t.rich('step1.body', { code: codeTag })}</p>
       <Code code={NPMRC_SNIPPET} lang="bash" title=".npmrc" />
 
-      <h2 className="font-display text-2xl mb-3 mt-12">2. Install the package</h2>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('step2.title')}</h2>
       <Code code={INSTALL_SNIPPET} lang="bash" title="terminal" />
 
-      <h2 className="font-display text-2xl mb-3 mt-12">3. Wire the styles</h2>
-      <p className="text-foreground/80 mb-2">
-        Import the design tokens and the global stylesheet once in your root layout. Tokens define
-        colors, typography, radius, shadow, and motion as CSS variables.
-      </p>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('step3.title')}</h2>
+      <p className="text-foreground/80 mb-2">{t('step3.body')}</p>
       <Code code={STYLES_SNIPPET} lang="tsx" title="app/layout.tsx" />
 
       <p className="text-foreground/80 mt-6 mb-2">
-        If you use Tailwind v4, replace your <code className="font-mono">globals.css</code> with:
+        {t.rich('step3.tailwindHint', { mono: monoTag })}
       </p>
       <Code code={TAILWIND_SNIPPET} lang="css" title="app/globals.css" />
 
-      <h2 className="font-display text-2xl mb-3 mt-12">4. Render your first component</h2>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('step4.title')}</h2>
       <Example code={FIRST_BUTTON_SNIPPET}>
         <Button variant="primary">Save</Button>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-12">5. Wire theme, palette, density</h2>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('step5.title')}</h2>
       <p className="text-foreground/80 mb-2">
-        Three orthogonal data-attributes on{' '}
-        <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">
-          &lt;html&gt;
-        </code>{' '}
-        drive every visual choice. Drop the lib&rsquo;s switcher components in your top bar and
-        you&rsquo;re done — they read &amp; write the attributes and persist to{' '}
-        <code className="font-mono">localStorage</code>:
+        {t.rich('step5.body', { code: codeTag, mono: monoTag })}
       </p>
       <Code code={ROOT_LAYOUT_SNIPPET} lang="tsx" title="app/layout.tsx" />
 
       <div className="mt-6 border-2 border-memphis bg-card p-5">
         <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
-          Valid attribute values
+          {t('step5.validValuesEyebrow')}
         </div>
         <ul className="text-foreground/85 text-[14px] space-y-2 leading-relaxed">
-          <li>
-            <code className="font-mono">data-theme</code> — the lib ships{' '}
-            <strong>light only</strong>; declare your own{' '}
-            <code className="font-mono">[data-theme=&apos;dark&apos;]</code> CSS overrides. Wire a{' '}
-            <code className="font-mono">{`<AttrToggleGroup attribute="data-theme">`}</code> to
-            switch between values.
-          </li>
-          <li>
-            <code className="font-mono">data-palette</code> — <strong>no built-ins</strong>; the
-            lib&rsquo;s neutral defaults assume a single palette. Define{' '}
-            <code className="font-mono">[data-palette=&apos;neon&apos;]</code>,{' '}
-            <code className="font-mono">[data-palette=&apos;sunset&apos;]</code>, etc., and pass the
-            same list to{' '}
-            <code className="font-mono">{`<AttrToggleGroup attribute="data-palette">`}</code>.
-          </li>
-          <li>
-            <code className="font-mono">data-density</code> — built-in:{' '}
-            <code className="font-mono">&apos;compact&apos;</code>,{' '}
-            <code className="font-mono">&apos;normal&apos;</code>,{' '}
-            <code className="font-mono">&apos;comfortable&apos;</code>. Drives{' '}
-            <code className="font-mono">--density-scale-y</code> for vertical spacing.
-          </li>
+          <li>{t.rich('step5.themeBullet', { mono: monoTag, strong: strongTag })}</li>
+          <li>{t.rich('step5.paletteBullet', { mono: monoTag, strong: strongTag })}</li>
+          <li>{t.rich('step5.densityBullet', { mono: monoTag })}</li>
         </ul>
       </div>
 
       <p className="text-foreground/80 mt-6 mb-0">
-        Full guide with dark-mode setup, custom palettes, programmatic switching, and FOUC
-        prevention →{' '}
-        <Link href="/docs/foundations/theming" className="text-primary underline">
-          Theming
-        </Link>
-        .
+        {t.rich('themingHint', { link: linkTag('/docs/foundations/theming') })}
       </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <p className="text-foreground/80">
-          Ready to compose? Browse{' '}
-          <Link href="/docs/components/button" className="text-primary underline">
-            components
-          </Link>{' '}
-          or{' '}
-          <Link href="/theme-generator" className="text-primary underline">
-            generate a custom theme
-          </Link>
-          .
+          {t.rich('ctaReady', {
+            componentsLink: linkTag('/docs/components/button'),
+            generatorLink: linkTag('/theme-generator'),
+          })}
         </p>
         <Link
           href={BRAND.repoUrl}
@@ -217,7 +174,7 @@ export default function GettingStartedPage() {
           rel="noreferrer"
           className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
         >
-          View on GitHub →
+          {t('viewOnGithub')}
         </Link>
       </div>
     </article>

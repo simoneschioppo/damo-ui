@@ -14,8 +14,8 @@ test.describe('Theme generator — sample dialog', () => {
 
     const content = page.getByTestId('sample-dialog-content')
     await expect(content).toBeVisible()
-    await expect(content.getByRole('heading', { name: /Pubblica nuova release/ })).toBeVisible()
-    await expect(content.getByLabel('Tag versione')).toBeVisible()
+    await expect(content.getByRole('heading', { name: /Publish new release/ })).toBeVisible()
+    await expect(content.getByLabel('Version tag')).toBeVisible()
     await expect(page.getByTestId('sample-dialog-cancel')).toBeVisible()
     await expect(page.getByTestId('sample-dialog-confirm')).toBeVisible()
   })
