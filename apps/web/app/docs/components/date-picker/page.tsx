@@ -5,6 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { DatePicker } from '@damo/ui'`
 
@@ -67,6 +68,7 @@ export const metadata = { title: `DatePicker — ${BRAND.libName}` }
 export default async function DatePickerDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -74,12 +76,10 @@ export default async function DatePickerDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">DatePicker</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Single-date picker that pairs a Memphis-styled trigger with the{' '}
-        <code className="font-mono">react-day-picker</code> calendar inside a{' '}
-        <Link href="/docs/components/popover" className="text-primary underline">
-          Popover
-        </Link>
-        . Locale defaults to Italian; pass any DayPicker prop through to override.
+        {t.rich('componentDocs.date-picker.lead', {
+          code: codeTag,
+          link1: linkTag('/docs/components/popover'),
+        })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

@@ -13,6 +13,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   TooltipProvider,
@@ -75,6 +76,7 @@ export const metadata = { title: `Tooltip — ${BRAND.libName}` }
 export default async function TooltipDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -82,10 +84,7 @@ export default async function TooltipDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Tooltip</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Small floating label revealed on hover or focus. Built on Radix Tooltip — full keyboard
-        support, smart edge flipping, and ARIA wiring come from the primitive. Wrap your app once in{' '}
-        <code className="font-mono">TooltipProvider</code> to share a single delay timer across all
-        tooltips.
+        {t.rich('componentDocs.tooltip.lead', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

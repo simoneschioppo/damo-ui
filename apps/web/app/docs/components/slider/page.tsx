@@ -5,6 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { Slider } from '@damo/ui'`
 
@@ -77,6 +78,7 @@ export const metadata = { title: `Slider — ${BRAND.libName}` }
 export default async function SliderDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -84,8 +86,7 @@ export default async function SliderDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Slider</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Memphis-bordered slider with one or more thumbs. Built on Radix Slider — full keyboard
-        support, drag handling, and ARIA semantics come from the primitive.
+        {t('componentDocs.slider.lead')}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

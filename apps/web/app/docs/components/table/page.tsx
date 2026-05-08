@@ -15,6 +15,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   Table,
@@ -74,6 +75,7 @@ export const metadata = { title: `Table — ${BRAND.libName}` }
 export default async function TableDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -81,11 +83,7 @@ export default async function TableDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Table</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Memphis-bordered table primitives. Wrap rows in semantic{' '}
-        <code className="font-mono">&lt;thead&gt;</code> /{' '}
-        <code className="font-mono">&lt;tbody&gt;</code> /{' '}
-        <code className="font-mono">&lt;tfoot&gt;</code> sections via the matching components — the
-        outer container handles overflow + borders.
+        {t.rich('componentDocs.table.lead', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

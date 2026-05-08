@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { Medal } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -48,6 +49,7 @@ export const metadata = { title: `Medal — ${BRAND.libName}` }
 export default async function MedalDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -55,8 +57,7 @@ export default async function MedalDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Medal</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Heptagonal medal SVG with a five-rank token palette. Use it to render leaderboard ranks,
-        achievement badges, and rating tiers.
+        {t('componentDocs.medal.lead')}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

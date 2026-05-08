@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
@@ -48,6 +49,7 @@ export const metadata = { title: `AppShell — ${BRAND.libName}` }
 export default async function AppShellDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -55,9 +57,7 @@ export default async function AppShellDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">AppShell</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Two-column app layout: sticky sidebar (configurable width and tone) + scrollable main area.
-        The shell takes the full viewport height and keeps the sidebar pinned while the main column
-        scrolls.
+        {t('componentDocs.app-shell.lead')}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
