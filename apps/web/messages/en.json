@@ -51,6 +51,9 @@
       "dataDisplay": "Data display",
       "layout": "Layout",
       "cardsAndDecoration": "Cards & Decoration"
+    },
+    "entries": {
+      "introduction": "Introduction"
     }
   },
   "brand": {
@@ -117,10 +120,10 @@
     },
     "step5": {
       "title": "5. Wire theme, palette, density",
-      "body": "Three orthogonal data-attributes on <code>&lt;html&gt;</code> drive every visual choice. Drop the lib's switcher components in your top bar and you're done — they read & write the attributes and persist to <mono>localStorage</mono>:",
+      "body": "Three orthogonal data-attributes on <code><html></code> drive every visual choice. Drop the lib's switcher components in your top bar and you're done — they read & write the attributes and persist to <mono>localStorage</mono>:",
       "validValuesEyebrow": "Valid attribute values",
-      "themeBullet": "<mono>data-theme</mono> — the lib ships <strong>light only</strong>; declare your own <mono>[data-theme='dark']</mono> CSS overrides. Wire a <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> to switch between values.",
-      "paletteBullet": "<mono>data-palette</mono> — <strong>no built-ins</strong>; the lib's neutral defaults assume a single palette. Define <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, etc., and pass the same list to <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
+      "themeBullet": "<mono>data-theme</mono> — the lib ships <strong>light only</strong>; declare your own <mono>[data-theme='dark']</mono> CSS overrides. Wire a <mono><AttrToggleGroup attribute=\"data-theme\"></mono> to switch between values.",
+      "paletteBullet": "<mono>data-palette</mono> — <strong>no built-ins</strong>; the lib's neutral defaults assume a single palette. Define <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, etc., and pass the same list to <mono><AttrToggleGroup attribute=\"data-palette\"></mono>.",
       "densityBullet": "<mono>data-density</mono> — built-in: <mono>'compact'</mono>, <mono>'normal'</mono>, <mono>'comfortable'</mono>. Drives <mono>--density-scale-y</mono> for vertical spacing."
     },
     "themingHint": "Full guide with dark-mode setup, custom palettes, programmatic switching, and FOUC prevention → <link>Theming</link>.",
@@ -152,14 +155,14 @@
       "densityTitle": "Density & the multiplier pattern",
       "densityBody": "The density attribute flips a single multiplier: <mono>--density-scale-y</mono>. Bake it into your component spacing and density switching becomes free.",
       "switchingTitle": "Switching modes",
-      "switchingBody": "Three switchers live on <mono>&lt;html&gt;</mono>: <mono>data-theme</mono>, <mono>data-palette</mono>, <mono>data-density</mono>. They are orthogonal — any combination works. See <link>Theming</link> for the full wiring.",
+      "switchingBody": "Three switchers live on <mono><html></mono>: <mono>data-theme</mono>, <mono>data-palette</mono>, <mono>data-density</mono>. They are orthogonal — any combination works. See <link>Theming</link> for the full wiring.",
       "generatorHint": "Want to author a custom theme? The <link>Theme Generator</link> edits all three layers visually and exports CSS, Tailwind, or JSON.",
       "prevLink": "← Getting Started",
       "nextLink": "Theming →"
     },
     "theming": {
       "h1": "Theming",
-      "lead": "Three orthogonal data-attributes on <mono>&lt;html&gt;</mono> drive every visual choice. Switch one without touching the others, define your own variants on top of the lib's neutral defaults, and persist the user's preference across reloads.",
+      "lead": "Three orthogonal data-attributes on <mono><html></mono> drive every visual choice. Switch one without touching the others, define your own variants on top of the lib's neutral defaults, and persist the user's preference across reloads.",
       "switchersTitle": "The three switchers",
       "switchersBody": "Damo UI reads three independent attributes from the document root. They cascade through every component because the design tokens are CSS variables.",
       "themeCardLabel": "Light / Dark",
@@ -183,7 +186,7 @@
       "fouTitle": "6. Preventing the flash",
       "fouBody": "Server-rendered apps render the default theme first, then React hydrates the persisted choice. To avoid the flash of unstyled-theme (FOUT), restore the attributes from <mono>localStorage</mono> in a blocking script before hydration.",
       "scopedTitle": "7. Scoped islands",
-      "scopedBody": "The attributes work on <em>any</em> element, not only <mono>&lt;html&gt;</mono>. Wrap a section in <mono>data-theme=\"dark\"</mono> to flip just that subtree.",
+      "scopedBody": "The attributes work on <em>any</em> element, not only <mono><html></mono>. Wrap a section in <mono>data-theme=\"dark\"</mono> to flip just that subtree.",
       "tipEyebrow": "Tip",
       "tipBody": "The <link>Theme Generator</link> authors light + dark variants visually and exports the CSS overrides for steps 1 and 2. Skip the manual hex hunt.",
       "prevLink": "← Tokens",
@@ -495,7 +498,7 @@
     "accordion": {
       "lead": "Stacked, expandable sections. Built on Radix Accordion — full keyboard wiring, controlled and uncontrolled modes, and the ARIA disclosure pattern come from the primitive.",
       "a11y": {
-        "0": "Radix wraps each <code>AccordionTrigger</code> in an <code>&lt;h3&gt;</code> with a real <code>&lt;button&gt;</code> inside — <code>aria-expanded</code> tracks the open state and <code>aria-controls</code> wires it to the content panel.",
+        "0": "Radix wraps each <code>AccordionTrigger</code> in an <code><h3></code> with a real <code><button></code> inside — <code>aria-expanded</code> tracks the open state and <code>aria-controls</code> wires it to the content panel.",
         "1": "Keyboard: <kbd>Tab</kbd> moves between triggers; <kbd>Enter</kbd> / <kbd>Space</kbd> toggle the focused panel; <kbd>Home</kbd> / <kbd>End</kbd> jump to the first / last trigger."
       },
       "props": {
@@ -518,7 +521,7 @@
         "2": "<link1>AppTopBar</link1> — alternative chrome for non-sidebar layouts (also can render inside the main column)."
       },
       "props": {
-        "sidebar": "Content rendered inside the sticky <code>&lt;aside&gt;</code> column. Pair with a Sidebar / Nav component.",
+        "sidebar": "Content rendered inside the sticky <code><aside></code> column. Pair with a Sidebar / Nav component.",
         "sidebarWidth": "Pixel width of the sidebar column.",
         "sidebarTone": "<code>default</code> paints the sidebar with the card surface; <code>onDark</code> flips it to ink with light text — pair with NavItem <code>tone=\"onDark\"</code>.",
         "children": "Main content rendered in the right column."
@@ -527,12 +530,12 @@
     "app-top-bar": {
       "lead": "Site header with three slots: brand, navigation, and actions. Defaults to sticky top placement; opt out via <code>sticky={false}</code>.",
       "a11y": {
-        "0": "The header renders as a <code>&lt;header&gt;</code> (banner role).",
+        "0": "The header renders as a <code><header></code> (banner role).",
         "1": "Wrap the brand mark in a link with an <code>aria-label</code> when the label is decorative (icon-only)."
       },
       "props": {
         "logo": "Branding slot. Wrap a Next link or anchor that points to home.",
-        "nav": "Inline navigation. Renders inside a &lt;nav&gt; element.",
+        "nav": "Inline navigation. Renders inside a <nav> element.",
         "actions": "Right-aligned controls. Compose with <code>AttrToggleGroup</code>, <code>Popover</code>, etc.",
         "sticky": "Stick the bar to the viewport top with z-index header.",
         "className": "Tailwind classes are merged on top of the defaults."
@@ -562,7 +565,7 @@
       }
     },
     "attr-toggle-group": {
-      "lead": "A generic toggle bound to a <code>data-*</code> attribute on <code>&lt;html&gt;</code> and a <code>localStorage</code> key. It hydrates from storage on mount, sanitises stale persisted values back to the configured default, and offers two visual variants: a segmented button row or a Select dropdown. Use it to control any axis your product needs (theme, palette, density, language, currency, …) without coupling the component to a specific use case.",
+      "lead": "A generic toggle bound to a <code>data-*</code> attribute on <code><html></code> and a <code>localStorage</code> key. It hydrates from storage on mount, sanitises stale persisted values back to the configured default, and offers two visual variants: a segmented button row or a Select dropdown. Use it to control any axis your product needs (theme, palette, density, language, currency, …) without coupling the component to a specific use case.",
       "body": {
         "segmentedIntro": "Default visual: a Memphis-bordered button row with <code>aria-pressed</code> on each option and a <code>role=\"group\"</code> wrapper labelled by the eyebrow.",
         "selectIntro": "Use when the option list is too long for a button row, or when the surface is space-constrained.",
@@ -571,13 +574,13 @@
       },
       "a11y": {
         "0": "The segmented variant wraps options in <code>role=\"group\"</code>; when <code>label</code> is set, the group is labelled via <code>aria-labelledby</code> pointing to the eyebrow id.",
-        "1": "Each segmented button is a native <code>&lt;button&gt;</code> with <code>aria-pressed</code> reflecting the active state.",
+        "1": "Each segmented button is a native <code><button></code> with <code>aria-pressed</code> reflecting the active state.",
         "2": "The select variant exposes <code>role=\"combobox\"</code> via the design-system <code>Select</code> primitive — full keyboard interaction is inherited."
       },
       "props": {
         "options": "List of <code>{ value, label }</code> pairs the user can pick from.",
         "storageKey": "localStorage key that persists the active value across sessions.",
-        "attribute": "data-* attribute mirrored on <code>&lt;html&gt;</code>. Must match <code>^data-[a-z][a-z0-9-]*$</code> — non-data attributes are rejected.",
+        "attribute": "data-* attribute mirrored on <code><html></code>. Must match <code>^data-[a-z][a-z0-9-]*$</code> — non-data attributes are rejected.",
         "defaultValue": "Initial value when nothing is persisted. Falls back to <code>options[0].value</code>.",
         "label": "Optional eyebrow label rendered before the control. When provided, the inner group is wired with <code>aria-labelledby</code> to the eyebrow id.",
         "variant": "<code>segmented</code> is a Memphis-bordered button row; <code>select</code> swaps to the design-system Select dropdown.",
@@ -603,8 +606,8 @@
     "badge": {
       "lead": "Compact uppercase label with a Memphis micro-shadow. Use to mark status, plan tier, or outcome on cards, table rows, and avatars. For longer labels with rounded corners reach for <link1>Chip</link1>.",
       "a11y": {
-        "0": "Badge renders a <code>&lt;span&gt;</code> — the text content is the only thing announced. Pick labels that read meaningfully out of context (e.g. <code>PRO</code> rather than <code>P</code>).",
-        "1": "When the badge encodes status that is not redundant with surrounding text (e.g. a single icon means \"new\"), pair it with a <code>&lt;span className=\"sr-only\"&gt;</code> describing the meaning."
+        "0": "Badge renders a <code><span></code> — the text content is the only thing announced. Pick labels that read meaningfully out of context (e.g. <code>PRO</code> rather than <code>P</code>).",
+        "1": "When the badge encodes status that is not redundant with surrounding text (e.g. a single icon means \"new\"), pair it with a <code><span className=\"sr-only\"></code> describing the meaning."
       },
       "props": {
         "variant": "Visual tone. <code>featured</code> uses the badge featured token; <code>success</code> / <code>warning</code> / <code>info</code> / <code>destructive</code> map to the standard status intents; <code>outline</code> strips the fill.",
@@ -637,7 +640,7 @@
     "box": {
       "lead": "Polymorphic flex primitive. Use it whenever you need a flex container with type-checked direction, gap, alignment and justification — and the option to render as any HTML element via <code>as</code>.",
       "body": {
-        "polymorphicIntro": "Pass <code>as</code> to render Box as a different tag while keeping the layout utilities. Useful for landmark elements (<code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;aside&gt;</code>) or to forward to a Next <code>Link</code>."
+        "polymorphicIntro": "Pass <code>as</code> to render Box as a different tag while keeping the layout utilities. Useful for landmark elements (<code><section></code>, <code><header></code>, <code><aside></code>) or to forward to a Next <code>Link</code>."
       },
       "a11y": {
         "0": "Most flex layouts in product code — replaces ad-hoc <code>flex flex-row gap-3 items-center</code> stacks.",
@@ -656,34 +659,34 @@
       }
     },
     "breadcrumbs": {
-      "lead": "Hierarchy trail rendered as a labelled <code>&lt;nav&gt;</code> landmark. The last item should be marked <code>current</code> so it renders as plain text with <code>aria-current=\"page\"</code>.",
+      "lead": "Hierarchy trail rendered as a labelled <code><nav></code> landmark. The last item should be marked <code>current</code> so it renders as plain text with <code>aria-current=\"page\"</code>.",
       "a11y": {
-        "0": "The wrapper renders <code>&lt;nav aria-label=\"Breadcrumb\"&gt;</code> containing an ordered list — the canonical pattern for breadcrumb landmarks.",
+        "0": "The wrapper renders <code><nav aria-label=\"Breadcrumb\"></code> containing an ordered list — the canonical pattern for breadcrumb landmarks.",
         "1": "Separators are rendered as <code>role=\"presentation\"</code> + <code>aria-hidden</code>, so screen readers announce only the item labels.",
-        "2": "The current page should be the last item with <code>current</code> set — Radix renders it as a non-link <code>&lt;span&gt;</code> with <code>aria-current=\"page\"</code>."
+        "2": "The current page should be the last item with <code>current</code> set — Radix renders it as a non-link <code><span></code> with <code>aria-current=\"page\"</code>."
       },
       "props": {
         "separator": "Custom node rendered between items. Defaults to a Memphis ChevronRightIcon. Override for a slash, dot, or any glyph.",
         "children": "A list of <code>BreadcrumbItem</code> children.",
-        "className": "Tailwind classes are merged on the wrapping <code>&lt;nav&gt;</code>.",
+        "className": "Tailwind classes are merged on the wrapping <code><nav></code>.",
         "href": "Link target. Omit on the last (current) item.",
-        "current": "Mark the item as the current page — renders a non-link <code>&lt;span&gt;</code> with <code>aria-current=\"page\"</code>.",
+        "current": "Mark the item as the current page — renders a non-link <code><span></code> with <code>aria-current=\"page\"</code>.",
         "itemChildren": "Item label."
       }
     },
     "button": {
-      "lead": "Bordered, shadowed action surface. Six variants, three sizes plus the dedicated icon size, full keyboard access via a native <code>&lt;button&gt;</code>. Pair with <code>IconButton</code> (documented below) for icon-only triggers — same chrome, locked to a 40×40 square.",
+      "lead": "Bordered, shadowed action surface. Six variants, three sizes plus the dedicated icon size, full keyboard access via a native <code><button></code>. Pair with <code>IconButton</code> (documented below) for icon-only triggers — same chrome, locked to a 40×40 square.",
       "body": {
         "withInlineIcons": "Place an icon inside the Button alongside text. Keep the visible label so the action stays announce-able.",
         "fullWidth": "Stretch the button to the container — useful inside narrow forms or mobile sheets.",
-        "useAsLink": "Pass <code>asChild</code> to render a single child element with all Button styles applied (Radix <code>Slot</code> pattern). Useful for navigation CTAs that need both the Memphis press animation and routing — the variant classes, hover lift, and active-press collapse are all merged onto the underlying <code>&lt;a&gt;</code>.",
+        "useAsLink": "Pass <code>asChild</code> to render a single child element with all Button styles applied (Radix <code>Slot</code> pattern). Useful for navigation CTAs that need both the Memphis press animation and routing — the variant classes, hover lift, and active-press collapse are all merged onto the underlying <code><a></code>.",
         "iconButtonLead": "A square 40×40 button for icon-only actions. Composes <code>Button</code> with <code>size=\"icon\"</code> and the same Memphis press effect; <code>aria-label</code> is required so the action is announced.",
         "iconButtonVariants": "Same six variants as Button. The icon-only version of <code>link</code> is rarely useful; reach for <code>ghost</code> instead."
       },
       "a11y": {
-        "0": "Renders a native <code>&lt;button type=\"button\"&gt;</code>; pass <code>type=\"submit\"</code> when used inside a form.",
+        "0": "Renders a native <code><button type=\"button\"></code>; pass <code>type=\"submit\"</code> when used inside a form.",
         "1": "Always provide a non-empty label. For icon-only triggers use <code>IconButton</code> (documented below) with an <code>aria-label</code>.",
-        "2": "<code>disabled</code> blocks both pointer and keyboard activation on a real <code>&lt;button&gt;</code>. With <code>asChild</code>, only the disabled CSS utilities apply — for a fully inactive link also remove <code>href</code> or set <code>aria-disabled=\"true\"</code> on the child."
+        "2": "<code>disabled</code> blocks both pointer and keyboard activation on a real <code><button></code>. With <code>asChild</code>, only the disabled CSS utilities apply — for a fully inactive link also remove <code>href</code> or set <code>aria-disabled=\"true\"</code> on the child."
       },
       "iconButtonA11y": {
         "0": "<code>aria-label</code> is required and must be non-empty. The TypeScript signature enforces this — passing <code>aria-label=\"\"</code> is a type error.",
@@ -693,9 +696,9 @@
       "props": {
         "variant": "Visual style. Primary/secondary use the brand accents; outline and ghost are neutral; destructive surfaces destructive intent; link reduces to an inline anchor.",
         "size": "Adjusts vertical padding and font size. <code>icon</code> is a 40×40 square — used internally by <code>IconButton</code>.",
-        "disabled": "On a real <code>&lt;button&gt;</code>, blocks pointer / keyboard activation. With asChild on a non-button child, only the disabled CSS utilities apply — set aria-disabled and remove href on the child for full inertness.",
+        "disabled": "On a real <code><button></code>, blocks pointer / keyboard activation. With asChild on a non-button child, only the disabled CSS utilities apply — set aria-disabled and remove href on the child for full inertness.",
         "fullWidth": "Stretches the button to the full width of its container.",
-        "asChild": "When true, render the child element with all Button styles applied (Radix Slot pattern). The child must be a single React element such as a <code>&lt;Link&gt;</code> or <code>&lt;a&gt;</code>.",
+        "asChild": "When true, render the child element with all Button styles applied (Radix Slot pattern). The child must be a single React element such as a <code><Link></code> or <code><a></code>.",
         "className": "Tailwind classes are merged on top of the variant defaults."
       },
       "iconButtonProps": {
@@ -736,7 +739,7 @@
     "chip": {
       "lead": "Pill-shaped tag with optional status dot and active state. Use chips for filters, tags, and soft status labels. For uppercase Memphis-shadowed badges (status / outcome), reach for <link1>Badge</link1>.",
       "a11y": {
-        "0": "Chip renders a <code>&lt;span&gt;</code> — when used inside a clickable filter, wrap it in a <code>&lt;button&gt;</code> with <code>aria-pressed</code> reflecting the <code>active</code> state.",
+        "0": "Chip renders a <code><span></code> — when used inside a clickable filter, wrap it in a <code><button></code> with <code>aria-pressed</code> reflecting the <code>active</code> state.",
         "1": "The status dot is purely decorative; the label text must convey the same status (do not rely on color alone)."
       },
       "props": {
@@ -748,7 +751,7 @@
       }
     },
     "color-picker": {
-      "lead": "Native <code>&lt;input type=\"color\"&gt;</code> swatch paired with the design-system Input for a hex string. Both controls share a single value / onChange — the parent decides whether to validate the hex.",
+      "lead": "Native <code><input type=\"color\"></code> swatch paired with the design-system Input for a hex string. Both controls share a single value / onChange — the parent decides whether to validate the hex.",
       "body": {
         "hideVisibleLabel": "<code>aria-label</code> is preserved on both controls, so the component remains accessible even when the visible label is hidden."
       },
@@ -768,14 +771,14 @@
       },
       "body": {
         "controlled": "Manage the selection externally for validation or persistence.",
-        "nativeFormSubmission": "Combobox renders a <code>&lt;button&gt;</code> + popover with no hidden form input and no <code>name</code> prop. To submit through a traditional <code>&lt;form&gt;</code>, manage the value with React state and either render your own hidden input or read it from the submit handler."
+        "nativeFormSubmission": "Combobox renders a <code><button></code> + popover with no hidden form input and no <code>name</code> prop. To submit through a traditional <code><form></code>, manage the value with React state and either render your own hidden input or read it from the submit handler."
       },
       "vsSelect": {
         "0": "Reach for <strong>Combobox</strong> when the option list is long enough that scrolling alone is friction (≥ ~10 options) or when users will search by typed input.",
         "1": "Reach for <link1>Select</link1> for short lists (2-9 items) where keyboard arrow navigation is sufficient."
       },
       "a11y": {
-        "0": "The trigger is a plain <code>&lt;button&gt;</code> (no <code>role=\"combobox\"</code>) with <code>aria-expanded</code> reflecting the popover state. This is a button-plus-popover pattern, not the full WAI-ARIA combobox pattern that <link1>Select</link1> provides.",
+        "0": "The trigger is a plain <code><button></code> (no <code>role=\"combobox\"</code>) with <code>aria-expanded</code> reflecting the popover state. This is a button-plus-popover pattern, not the full WAI-ARIA combobox pattern that <link1>Select</link1> provides.",
         "1": "The dropdown list is rendered by <code>cmdk</code>: type to filter, arrows to move, <kbd>Enter</kbd> to select, <kbd>Esc</kbd> to close.",
         "2": "Use <code>FormField</code> or pair <code>id</code> with a sibling <code>Label</code> so screen readers announce the field name."
       },
@@ -824,7 +827,7 @@
       "body": {
         "controlled": "Manage the selection externally to react to changes (validation, persistence, syncing across fields).",
         "customFormat": "Pass any <code>date-fns</code> format string to <code>formatStr</code>.",
-        "nativeFormSubmission": "DatePicker renders a <code>&lt;button&gt;</code> + popover, not a native <code>&lt;input type=\"date\"&gt;</code>, and ships no hidden form input. To submit the value through a traditional <code>&lt;form&gt;</code>, manage the date with React state and either render your own hidden input or post the value via <code>FormData</code> in the submit handler."
+        "nativeFormSubmission": "DatePicker renders a <code><button></code> + popover, not a native <code><input type=\"date\"></code>, and ships no hidden form input. To submit the value through a traditional <code><form></code>, manage the date with React state and either render your own hidden input or post the value via <code>FormData</code> in the submit handler."
       },
       "a11y": {
         "0": "The calendar inherits <code>react-day-picker</code>'s ARIA wiring (grid + day cells with <code>aria-selected</code>).",
@@ -941,12 +944,12 @@
         "errorState": "Pass an <code>error</code> string to surface a validation message. The wrapper sets <code>aria-invalid</code> on the child and links the error to <code>aria-describedby</code>."
       },
       "a11y": {
-        "0": "The label is a real <code>&lt;label htmlFor=\"…\"&gt;</code>; clicking it focuses the input.",
+        "0": "The label is a real <code><label htmlFor=\"…\"></code>; clicking it focuses the input.",
         "1": "Description and error ids are merged into the child's <code>aria-describedby</code>; existing ids passed by the caller are preserved.",
         "2": "When <code>error</code> is set, the child receives <code>aria-invalid=true</code> automatically."
       },
       "props": {
-        "label": "Visible label rendered as a <code>&lt;label&gt;</code> and wired to the child via <code>htmlFor</code>.",
+        "label": "Visible label rendered as a <code><label></code> and wired to the child via <code>htmlFor</code>.",
         "description": "Optional helper text. The id is added to the child via <code>aria-describedby</code>.",
         "error": "Optional validation message. When present, it is added to <code>aria-describedby</code> and the child also receives <code>aria-invalid=true</code>.",
         "id": "Override the auto-generated id. Useful when you need to reference the field from outside the form.",
@@ -967,7 +970,7 @@
       }
     },
     "input": {
-      "lead": "Single-line text field. Native <code>&lt;input&gt;</code> with the Memphis 2-px border and focus shadow. Pairs with <code>Label</code> for accessibility.",
+      "lead": "Single-line text field. Native <code><input></code> with the Memphis 2-px border and focus shadow. Pairs with <code>Label</code> for accessibility.",
       "a11y": {
         "0": "Always associate a <code>Label</code> via matching <code>htmlFor</code> / <code>id</code> — placeholders are not labels.",
         "1": "Use <code>invalid</code> together with <code>aria-describedby</code> pointing at an error message for screen readers."
@@ -979,12 +982,12 @@
       }
     },
     "label": {
-      "lead": "Native <code>&lt;label&gt;</code> with the form-label typography baked in (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Use it standalone when you don't need the structured wiring of <link1>FormField</link1>.",
+      "lead": "Native <code><label></code> with the form-label typography baked in (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Use it standalone when you don't need the structured wiring of <link1>FormField</link1>.",
       "body": {
         "whenFormField": "For most product forms, <link1>FormField</link1> is preferable: it auto-wires <code>htmlFor</code>, <code>aria-describedby</code>, and <code>aria-invalid</code> based on description / error props. Reach for the standalone Label only when you have a one-off layout that needs custom positioning."
       },
       "props": {
-        "htmlFor": "Standard <code>&lt;label&gt;</code> association — when set, clicking the label focuses the field with the matching id.",
+        "htmlFor": "Standard <code><label></code> association — when set, clicking the label focuses the field with the matching id.",
         "children": "Visible label text.",
         "className": "Tailwind classes are merged on top of the typography defaults."
       }
@@ -1019,7 +1022,7 @@
       },
       "a11y": {
         "0": "When <code>active</code> is set, NavItem applies <code>aria-current=\"page\"</code> — the canonical signal for \"you are here\" in a navigation list.",
-        "1": "Default render is <code>&lt;a&gt;</code>; for client-side routing pass <code>as={Link}</code> (Next) or your router's link component. The selection chrome and class merging are preserved."
+        "1": "Default render is <code><a></code>; for client-side routing pass <code>as={Link}</code> (Next) or your router's link component. The selection chrome and class merging are preserved."
       },
       "props": {
         "as": "Polymorphic element. Pass <code>Link</code>, <code>button</code>, or any component to control routing semantics.",
@@ -1042,14 +1045,14 @@
       }
     },
     "page-header": {
-      "lead": "Top-of-page strip with eyebrow + display title + description + right-aligned actions slot. Renders a real <code>&lt;header&gt;</code> landmark with a bottom hairline border.",
+      "lead": "Top-of-page strip with eyebrow + display title + description + right-aligned actions slot. Renders a real <code><header></code> landmark with a bottom hairline border.",
       "a11y": {
-        "0": "The wrapper is a real <code>&lt;header&gt;</code> — adds a banner landmark when used at the page level.",
-        "1": "The title renders as <code>&lt;h1&gt;</code>; only one PageHeader per route."
+        "0": "The wrapper is a real <code><header></code> — adds a banner landmark when used at the page level.",
+        "1": "The title renders as <code><h1></code>; only one PageHeader per route."
       },
       "props": {
         "eyebrow": "Optional small uppercase label rendered above the title.",
-        "title": "Page heading rendered as an <code>&lt;h1&gt;</code> in the display font.",
+        "title": "Page heading rendered as an <code><h1></code> in the display font.",
         "description": "Optional paragraph below the title.",
         "actions": "Optional right-aligned slot for primary actions (Buttons, IconButtons, …)."
       }
@@ -1060,10 +1063,10 @@
         "longRange": "With many pages, Pagination shows the first / last / current window and inserts ellipsis between gaps."
       },
       "a11y": {
-        "0": "Wrapper is <code>&lt;nav aria-label=\"Pagination\"&gt;</code>.",
+        "0": "Wrapper is <code><nav aria-label=\"Pagination\"></code>.",
         "1": "The current page button gets <code>aria-current=\"page\"</code>; all other page buttons get an <code>aria-label</code> like <code>Pagina 3</code> (localised via <code>labels.page</code>).",
         "2": "Ellipses render <code>aria-hidden</code> — they are not announced.",
-        "3": "Keyboard: page numbers and the prev/next chevrons are native <code>&lt;button&gt;</code> elements — <kbd>Tab</kbd> moves focus across them, <kbd>Enter</kbd> / <kbd>Space</kbd> activate them. Disabled buttons (prev at page 1, next at the last page) are skipped from the focus order automatically."
+        "3": "Keyboard: page numbers and the prev/next chevrons are native <code><button></code> elements — <kbd>Tab</kbd> moves focus across them, <kbd>Enter</kbd> / <kbd>Space</kbd> activate them. Disabled buttons (prev at page 1, next at the last page) are skipped from the focus order automatically."
       },
       "props": {
         "currentPage": "Active page (1-indexed). Drives <code>aria-current</code> on the matching button.",
@@ -1289,10 +1292,10 @@
       }
     },
     "table": {
-      "lead": "Memphis-bordered table primitives. Wrap rows in semantic <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> sections via the matching components — the outer container handles overflow + borders.",
+      "lead": "Memphis-bordered table primitives. Wrap rows in semantic <code><thead></code> / <code><tbody></code> / <code><tfoot></code> sections via the matching components — the outer container handles overflow + borders.",
       "a11y": {
         "0": "Always include <code>TableCaption</code> when the table conveys data — screen readers announce the caption as the table's name.",
-        "1": "Each <code>TableHead</code> renders a real <code>&lt;th&gt;</code>; for row-headers add <code>scope=\"row\"</code>.",
+        "1": "Each <code>TableHead</code> renders a real <code><th></code>; for row-headers add <code>scope=\"row\"</code>.",
         "2": "For very large tables consider pairing with <link1>Pagination</link1> and a virtualised body."
       },
       "props": {
@@ -1326,7 +1329,7 @@
     "textarea": {
       "lead": "Multi-line text input with the same Memphis border, hover, and focus chrome as <link1>Input</link1>. Resizable vertically by default; pair with <link2>FormField</link2> for label + description + error wiring.",
       "a11y": {
-        "0": "Renders a native <code>&lt;textarea&gt;</code>; native form submission and validation work as expected.",
+        "0": "Renders a native <code><textarea></code>; native form submission and validation work as expected.",
         "1": "Pair with <code>FormField</code> (or supply your own <code>aria-labelledby</code> / <code>aria-describedby</code>) so screen readers announce label, description, and error."
       },
       "props": {
@@ -1341,7 +1344,7 @@
       "body": {
         "providerIntro": "Mount one <code>ToastProvider</code> + <code>ToastViewport</code> at the root of your app. All toasts emitted anywhere in the tree render inside the viewport.",
         "variantsIntro": "Click each button to slide the matching toast into the bottom-right of its preview frame. Real <code>Toast</code> instances mounted inside a scoped <code>ToastProvider</code> + <code>ToastViewport</code> — same wiring you'd ship in production.",
-        "emittingIntro": "Toasts in Radix are state-driven: render a <code>&lt;Toast /&gt;</code> with controlled <code>open</code> and toggle it from your event handlers. For app-wide toast emission, build a thin context that owns the queue."
+        "emittingIntro": "Toasts in Radix are state-driven: render a <code><Toast /></code> with controlled <code>open</code> and toggle it from your event handlers. For app-wide toast emission, build a thin context that owns the queue."
       },
       "a11y": {
         "0": "The viewport sets <code>role=\"region\"</code> with <code>aria-label=\"Notifications\"</code>. Toasts inside render with appropriate <code>role</code> + <code>aria-live</code> per Radix.",

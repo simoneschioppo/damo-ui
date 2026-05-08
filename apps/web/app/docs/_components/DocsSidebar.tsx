@@ -48,6 +48,7 @@ export function DocsSidebar() {
               <nav aria-label={groupTitle} className="flex flex-col gap-px">
                 {group.entries.map((entry) => {
                 const isActive = pathname === entry.slug
+                const label = entry.labelKey ? t(`entries.${entry.labelKey}`) : entry.label
                 return (
                   <NavItem
                     key={entry.slug}
@@ -61,7 +62,7 @@ export function DocsSidebar() {
                       ) : undefined
                     }
                   >
-                    {entry.label}
+                    {label}
                   </NavItem>
                 )
               })}

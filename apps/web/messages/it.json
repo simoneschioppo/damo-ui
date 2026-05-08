@@ -51,6 +51,9 @@
       "dataDisplay": "Visualizzazione dati",
       "layout": "Layout",
       "cardsAndDecoration": "Card e decorazioni"
+    },
+    "entries": {
+      "introduction": "Introduzione"
     }
   },
   "brand": {
@@ -64,8 +67,8 @@
     "headlineLine1": "token, componenti,",
     "headlineLine2": "pattern Memphis.",
     "leadSuffix": "Componi UI React + Next.js senza rinunciare all'identità visiva.",
-    "browseDocs": "Sfoglia la documentazione",
-    "openThemeGenerator": "Apri il generatore di tema",
+    "browseDocs": "Vai alla docs",
+    "openThemeGenerator": "Apri Theme Generator",
     "features": {
       "components": {
         "title": "47 componenti",
@@ -117,10 +120,10 @@
     },
     "step5": {
       "title": "5. Aggancia tema, palette, densità",
-      "body": "Tre data-attribute ortogonali su <code>&lt;html&gt;</code> guidano ogni scelta visiva. Inserisci i componenti switcher della libreria nella top bar e hai finito — leggono e scrivono gli attributi e li persistono in <mono>localStorage</mono>:",
+      "body": "Tre data-attribute ortogonali su <code><html></code> guidano ogni scelta visiva. Inserisci i componenti switcher della libreria nella top bar e hai finito — leggono e scrivono gli attributi e li persistono in <mono>localStorage</mono>:",
       "validValuesEyebrow": "Valori validi degli attributi",
-      "themeBullet": "<mono>data-theme</mono> — la libreria fornisce <strong>solo light</strong>; dichiara i tuoi override CSS <mono>[data-theme='dark']</mono>. Aggancia un <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> per cambiare valore.",
-      "paletteBullet": "<mono>data-palette</mono> — <strong>nessun built-in</strong>; i default neutri della libreria assumono una palette singola. Definisci <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, ecc., e passa la stessa lista a <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
+      "themeBullet": "<mono>data-theme</mono> — la libreria fornisce <strong>solo light</strong>; dichiara i tuoi override CSS <mono>[data-theme='dark']</mono>. Aggancia un <mono><AttrToggleGroup attribute=\"data-theme\"></mono> per cambiare valore.",
+      "paletteBullet": "<mono>data-palette</mono> — <strong>nessun built-in</strong>; i default neutri della libreria assumono una palette singola. Definisci <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, ecc., e passa la stessa lista a <mono><AttrToggleGroup attribute=\"data-palette\"></mono>.",
       "densityBullet": "<mono>data-density</mono> — built-in: <mono>'compact'</mono>, <mono>'normal'</mono>, <mono>'comfortable'</mono>. Pilota <mono>--density-scale-y</mono> per la spaziatura verticale."
     },
     "themingHint": "Guida completa con setup dark mode, palette custom, switching programmatico e prevenzione FOUC → <link>Theming</link>.",
@@ -152,14 +155,14 @@
       "densityTitle": "Densità e il pattern del moltiplicatore",
       "densityBody": "L'attributo density ribalta un singolo moltiplicatore: <mono>--density-scale-y</mono>. Inseriscilo nella spaziatura del componente e cambiare densità diventa gratis.",
       "switchingTitle": "Cambiare modalità",
-      "switchingBody": "Tre switcher vivono su <mono>&lt;html&gt;</mono>: <mono>data-theme</mono>, <mono>data-palette</mono>, <mono>data-density</mono>. Sono ortogonali — qualunque combinazione funziona. Vedi <link>Theming</link> per il cablaggio completo.",
+      "switchingBody": "Tre switcher vivono su <mono><html></mono>: <mono>data-theme</mono>, <mono>data-palette</mono>, <mono>data-density</mono>. Sono ortogonali — qualunque combinazione funziona. Vedi <link>Theming</link> per il cablaggio completo.",
       "generatorHint": "Vuoi creare un tema custom? Il <link>Generatore di Tema</link> modifica tutti e tre i livelli visivamente ed esporta CSS, Tailwind o JSON.",
       "prevLink": "← Per iniziare",
       "nextLink": "Theming →"
     },
     "theming": {
       "h1": "Theming",
-      "lead": "Tre data-attribute ortogonali su <mono>&lt;html&gt;</mono> guidano ogni scelta visiva. Cambiane uno senza toccare gli altri, definisci le tue varianti sopra i default neutri della libreria e persisti la preferenza dell'utente tra i reload.",
+      "lead": "Tre data-attribute ortogonali su <mono><html></mono> guidano ogni scelta visiva. Cambiane uno senza toccare gli altri, definisci le tue varianti sopra i default neutri della libreria e persisti la preferenza dell'utente tra i reload.",
       "switchersTitle": "I tre switcher",
       "switchersBody": "Damo UI legge tre attributi indipendenti dal document root. Cascadeano in ogni componente perché i design token sono variabili CSS.",
       "themeCardLabel": "Light / Dark",
@@ -183,7 +186,7 @@
       "fouTitle": "6. Prevenire il flash",
       "fouBody": "Le app server-rendered renderizzano prima il tema di default, poi React idrata la scelta persistita. Per evitare il flash di tema-non-stilato (FOUT), ripristina gli attributi da <mono>localStorage</mono> in uno script bloccante prima dell'idratazione.",
       "scopedTitle": "7. Isole scoped",
-      "scopedBody": "Gli attributi funzionano su <em>qualsiasi</em> elemento, non solo <mono>&lt;html&gt;</mono>. Avvolgi una sezione in <mono>data-theme=\"dark\"</mono> per cambiare solo quel sottoalbero.",
+      "scopedBody": "Gli attributi funzionano su <em>qualsiasi</em> elemento, non solo <mono><html></mono>. Avvolgi una sezione in <mono>data-theme=\"dark\"</mono> per cambiare solo quel sottoalbero.",
       "tipEyebrow": "Suggerimento",
       "tipBody": "Il <link>Generatore di Tema</link> crea le varianti light + dark visivamente ed esporta gli override CSS per i passi 1 e 2. Salta la caccia manuale agli hex.",
       "prevLink": "← Token",
@@ -247,7 +250,7 @@
     "typography": {
       "h1": "Tipografia",
       "lead": "Audiowide per il display, Exo 2 per body e UI. La personalità vive in pesi, tracking e l'accent mono dell'eyebrow — non servono altre famiglie.",
-      "specimensTitle": "Esemplari",
+      "specimensTitle": "Esempi",
       "displaySpecimenName": "DISPLAY · AUDIOWIDE · GOOGLE FONTS",
       "displaySpecimenSample": "Damo UI",
       "bodySpecimenName": "BODY · EXO 2 · GOOGLE FONTS",
@@ -495,7 +498,7 @@
     "accordion": {
       "lead": "Sezioni impilate ed espandibili. Costruito su Radix Accordion — gestione completa della tastiera, modalità controllata e non controllata, e il pattern ARIA disclosure arrivano direttamente dalla primitive.",
       "a11y": {
-        "0": "Radix avvolge ogni <code>AccordionTrigger</code> in un <code>&lt;h3&gt;</code> con un vero <code>&lt;button&gt;</code> all'interno — <code>aria-expanded</code> tiene traccia dello stato aperto e <code>aria-controls</code> lo collega al pannello del contenuto.",
+        "0": "Radix avvolge ogni <code>AccordionTrigger</code> in un <code><h3></code> con un vero <code><button></code> all'interno — <code>aria-expanded</code> tiene traccia dello stato aperto e <code>aria-controls</code> lo collega al pannello del contenuto.",
         "1": "Tastiera: <kbd>Tab</kbd> sposta tra i trigger; <kbd>Enter</kbd> / <kbd>Space</kbd> attivano il pannello in focus; <kbd>Home</kbd> / <kbd>End</kbd> saltano al primo / ultimo trigger."
       },
       "props": {
@@ -518,7 +521,7 @@
         "2": "<link1>AppTopBar</link1> — chrome alternativa per layout senza sidebar (può essere renderizzata anche dentro la colonna principale)."
       },
       "props": {
-        "sidebar": "Contenuto renderizzato dentro la colonna sticky <code>&lt;aside&gt;</code>. Abbinalo a un componente Sidebar / Nav.",
+        "sidebar": "Contenuto renderizzato dentro la colonna sticky <code><aside></code>. Abbinalo a un componente Sidebar / Nav.",
         "sidebarWidth": "Larghezza in pixel della colonna sidebar.",
         "sidebarTone": "<code>default</code> dipinge la sidebar con la superficie card; <code>onDark</code> la rovescia in ink con testo chiaro — da abbinare a NavItem <code>tone=\"onDark\"</code>.",
         "children": "Contenuto principale renderizzato nella colonna destra."
@@ -527,12 +530,12 @@
     "app-top-bar": {
       "lead": "Header del sito con tre slot: brand, navigazione e azioni. Per default è sticky in alto; disattivalo con <code>sticky={false}</code>.",
       "a11y": {
-        "0": "L'header viene renderizzato come <code>&lt;header&gt;</code> (ruolo banner).",
+        "0": "L'header viene renderizzato come <code><header></code> (ruolo banner).",
         "1": "Avvolgi il brand mark in un link con un <code>aria-label</code> quando l'etichetta è decorativa (solo icona)."
       },
       "props": {
         "logo": "Slot per il branding. Inserisci un link Next o un anchor che punti alla home.",
-        "nav": "Navigazione inline. Viene renderizzata dentro un elemento &lt;nav&gt;.",
+        "nav": "Navigazione inline. Viene renderizzata dentro un elemento <nav>.",
         "actions": "Controlli allineati a destra. Componili con <code>AttrToggleGroup</code>, <code>Popover</code>, ecc.",
         "sticky": "Fissa la barra in alto al viewport con z-index header.",
         "className": "Le classi Tailwind vengono unite sopra i default."
@@ -562,7 +565,7 @@
       }
     },
     "attr-toggle-group": {
-      "lead": "Toggle generico legato a un attributo <code>data-*</code> su <code>&lt;html&gt;</code> e a una chiave <code>localStorage</code>. Si idrata dallo storage al mount, ripulisce i valori persistiti non più validi riportandoli al default configurato e offre due varianti visive: una riga di pulsanti segmentati o un dropdown Select. Usalo per controllare qualsiasi asse del tuo prodotto (theme, palette, density, lingua, valuta, …) senza accoppiare il componente a uno specifico caso d'uso.",
+      "lead": "Toggle generico legato a un attributo <code>data-*</code> su <code><html></code> e a una chiave <code>localStorage</code>. Si idrata dallo storage al mount, ripulisce i valori persistiti non più validi riportandoli al default configurato e offre due varianti visive: una riga di pulsanti segmentati o un dropdown Select. Usalo per controllare qualsiasi asse del tuo prodotto (theme, palette, density, lingua, valuta, …) senza accoppiare il componente a uno specifico caso d'uso.",
       "body": {
         "segmentedIntro": "Visual di default: una riga di pulsanti con bordo Memphis con <code>aria-pressed</code> su ogni opzione e un wrapper <code>role=\"group\"</code> etichettato dall'eyebrow.",
         "selectIntro": "Da usare quando la lista di opzioni è troppo lunga per una riga di pulsanti o quando la superficie ha poco spazio.",
@@ -571,13 +574,13 @@
       },
       "a11y": {
         "0": "La variante segmented avvolge le opzioni in <code>role=\"group\"</code>; quando <code>label</code> è impostata, il gruppo è etichettato tramite <code>aria-labelledby</code> che punta all'id dell'eyebrow.",
-        "1": "Ogni pulsante segmented è un <code>&lt;button&gt;</code> nativo con <code>aria-pressed</code> che riflette lo stato attivo.",
+        "1": "Ogni pulsante segmented è un <code><button></code> nativo con <code>aria-pressed</code> che riflette lo stato attivo.",
         "2": "La variante select espone <code>role=\"combobox\"</code> tramite la primitive <code>Select</code> del design system — l'interazione completa da tastiera viene ereditata."
       },
       "props": {
         "options": "Lista di coppie <code>{ value, label }</code> tra cui l'utente può scegliere.",
         "storageKey": "Chiave localStorage che persiste il valore attivo tra le sessioni.",
-        "attribute": "Attributo data-* riprodotto su <code>&lt;html&gt;</code>. Deve corrispondere a <code>^data-[a-z][a-z0-9-]*$</code> — gli attributi non-data vengono rifiutati.",
+        "attribute": "Attributo data-* riprodotto su <code><html></code>. Deve corrispondere a <code>^data-[a-z][a-z0-9-]*$</code> — gli attributi non-data vengono rifiutati.",
         "defaultValue": "Valore iniziale quando nulla è persistito. Ripiega su <code>options[0].value</code>.",
         "label": "Etichetta eyebrow opzionale renderizzata prima del controllo. Quando fornita, il gruppo interno viene collegato con <code>aria-labelledby</code> all'id dell'eyebrow.",
         "variant": "<code>segmented</code> è una riga di pulsanti con bordo Memphis; <code>select</code> passa al dropdown Select del design system.",
@@ -603,8 +606,8 @@
     "badge": {
       "lead": "Etichetta uppercase compatta con micro-shadow Memphis. Usalo per indicare stato, livello del piano o esito su card, righe di tabella e avatar. Per etichette più lunghe con angoli arrotondati usa <link1>Chip</link1>.",
       "a11y": {
-        "0": "Badge renderizza uno <code>&lt;span&gt;</code> — il contenuto testuale è l'unica cosa annunciata. Scegli etichette che si leggano in modo significativo fuori dal contesto (es. <code>PRO</code> invece di <code>P</code>).",
-        "1": "Quando il badge codifica uno stato non ridondante con il testo circostante (es. una singola icona che significa \"new\"), abbinalo a uno <code>&lt;span className=\"sr-only\"&gt;</code> che ne descriva il significato."
+        "0": "Badge renderizza uno <code><span></code> — il contenuto testuale è l'unica cosa annunciata. Scegli etichette che si leggano in modo significativo fuori dal contesto (es. <code>PRO</code> invece di <code>P</code>).",
+        "1": "Quando il badge codifica uno stato non ridondante con il testo circostante (es. una singola icona che significa \"new\"), abbinalo a uno <code><span className=\"sr-only\"></code> che ne descriva il significato."
       },
       "props": {
         "variant": "Tono visivo. <code>featured</code> usa il token featured del badge; <code>success</code> / <code>warning</code> / <code>info</code> / <code>destructive</code> mappano sugli intent di stato standard; <code>outline</code> rimuove il riempimento.",
@@ -637,7 +640,7 @@
     "box": {
       "lead": "Primitive flex polimorfica. Usala ogni volta che ti serve un container flex con direzione, gap, allineamento e justification type-checked — con la possibilità di renderizzare come qualsiasi elemento HTML tramite <code>as</code>.",
       "body": {
-        "polymorphicIntro": "Passa <code>as</code> per renderizzare Box come un tag diverso mantenendo le utilities di layout. Utile per elementi landmark (<code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;aside&gt;</code>) o per inoltrare a un <code>Link</code> di Next."
+        "polymorphicIntro": "Passa <code>as</code> per renderizzare Box come un tag diverso mantenendo le utilities di layout. Utile per elementi landmark (<code><section></code>, <code><header></code>, <code><aside></code>) o per inoltrare a un <code>Link</code> di Next."
       },
       "a11y": {
         "0": "La maggior parte dei layout flex nel codice di prodotto — sostituisce gli stack ad-hoc <code>flex flex-row gap-3 items-center</code>.",
@@ -656,34 +659,34 @@
       }
     },
     "breadcrumbs": {
-      "lead": "Traccia gerarchica resa come landmark <code>&lt;nav&gt;</code> con label. L'ultimo elemento dovrebbe essere marcato <code>current</code> in modo da renderizzarsi come testo semplice con <code>aria-current=\"page\"</code>.",
+      "lead": "Traccia gerarchica resa come landmark <code><nav></code> con label. L'ultimo elemento dovrebbe essere marcato <code>current</code> in modo da renderizzarsi come testo semplice con <code>aria-current=\"page\"</code>.",
       "a11y": {
-        "0": "Il wrapper renderizza <code>&lt;nav aria-label=\"Breadcrumb\"&gt;</code> contenente una lista ordinata — il pattern canonico per i landmark breadcrumb.",
+        "0": "Il wrapper renderizza <code><nav aria-label=\"Breadcrumb\"></code> contenente una lista ordinata — il pattern canonico per i landmark breadcrumb.",
         "1": "I separatori sono renderizzati come <code>role=\"presentation\"</code> + <code>aria-hidden</code>, così gli screen reader annunciano solo le etichette degli item.",
-        "2": "La pagina corrente dovrebbe essere l'ultimo item con <code>current</code> impostato — Radix lo renderizza come <code>&lt;span&gt;</code> non-link con <code>aria-current=\"page\"</code>."
+        "2": "La pagina corrente dovrebbe essere l'ultimo item con <code>current</code> impostato — Radix lo renderizza come <code><span></code> non-link con <code>aria-current=\"page\"</code>."
       },
       "props": {
         "separator": "Nodo custom renderizzato tra gli item. Default: una ChevronRightIcon Memphis. Override per uno slash, un punto o qualsiasi glifo.",
         "children": "Una lista di figli <code>BreadcrumbItem</code>.",
-        "className": "Le classi Tailwind vengono unite sul <code>&lt;nav&gt;</code> wrapper.",
+        "className": "Le classi Tailwind vengono unite sul <code><nav></code> wrapper.",
         "href": "Target del link. Ometti sull'ultimo item (quello corrente).",
-        "current": "Marca l'item come pagina corrente — renderizza uno <code>&lt;span&gt;</code> non-link con <code>aria-current=\"page\"</code>.",
+        "current": "Marca l'item come pagina corrente — renderizza uno <code><span></code> non-link con <code>aria-current=\"page\"</code>.",
         "itemChildren": "Etichetta dell'item."
       }
     },
     "button": {
-      "lead": "Superficie d'azione bordata e ombreggiata. Sei varianti, tre size più la size dedicata icon, accesso completo da tastiera tramite un <code>&lt;button&gt;</code> nativo. Abbinalo a <code>IconButton</code> (documentato sotto) per trigger solo-icona — stessa veste, fissato a un quadrato 40×40.",
+      "lead": "Superficie d'azione bordata e ombreggiata. Sei varianti, tre size più la size dedicata icon, accesso completo da tastiera tramite un <code><button></code> nativo. Abbinalo a <code>IconButton</code> (documentato sotto) per trigger solo-icona — stessa veste, fissato a un quadrato 40×40.",
       "body": {
         "withInlineIcons": "Inserisci un'icona dentro al Button accanto al testo. Mantieni la label visibile in modo che l'azione resti annunciabile.",
         "fullWidth": "Allunga il bottone fino al contenitore — utile dentro form stretti o sheet mobile.",
-        "useAsLink": "Passa <code>asChild</code> per renderizzare un singolo elemento figlio con tutti gli stili di Button applicati (pattern <code>Slot</code> di Radix). Utile per CTA di navigazione che hanno bisogno sia dell'animazione di press Memphis sia del routing — le classi di variante, il lift di hover e il collasso active-press vengono tutti uniti sull'<code>&lt;a&gt;</code> sottostante.",
+        "useAsLink": "Passa <code>asChild</code> per renderizzare un singolo elemento figlio con tutti gli stili di Button applicati (pattern <code>Slot</code> di Radix). Utile per CTA di navigazione che hanno bisogno sia dell'animazione di press Memphis sia del routing — le classi di variante, il lift di hover e il collasso active-press vengono tutti uniti sull'<code><a></code> sottostante.",
         "iconButtonLead": "Un bottone quadrato 40×40 per azioni solo-icona. Compone <code>Button</code> con <code>size=\"icon\"</code> e lo stesso effetto di press Memphis; <code>aria-label</code> è obbligatorio così l'azione viene annunciata.",
         "iconButtonVariants": "Le stesse sei varianti di Button. La versione solo-icona di <code>link</code> è raramente utile; usa <code>ghost</code> al suo posto."
       },
       "a11y": {
-        "0": "Renderizza un <code>&lt;button type=\"button\"&gt;</code> nativo; passa <code>type=\"submit\"</code> quando lo usi dentro un form.",
+        "0": "Renderizza un <code><button type=\"button\"></code> nativo; passa <code>type=\"submit\"</code> quando lo usi dentro un form.",
         "1": "Fornisci sempre una label non vuota. Per trigger solo-icona usa <code>IconButton</code> (documentato sotto) con un <code>aria-label</code>.",
-        "2": "<code>disabled</code> blocca sia l'attivazione da puntatore sia da tastiera su un <code>&lt;button&gt;</code> reale. Con <code>asChild</code> si applicano solo le utility CSS di disabled — per un link completamente inattivo rimuovi anche <code>href</code> o imposta <code>aria-disabled=\"true\"</code> sul figlio."
+        "2": "<code>disabled</code> blocca sia l'attivazione da puntatore sia da tastiera su un <code><button></code> reale. Con <code>asChild</code> si applicano solo le utility CSS di disabled — per un link completamente inattivo rimuovi anche <code>href</code> o imposta <code>aria-disabled=\"true\"</code> sul figlio."
       },
       "iconButtonA11y": {
         "0": "<code>aria-label</code> è obbligatorio e deve essere non vuoto. La signature TypeScript lo impone — passare <code>aria-label=\"\"</code> è un errore di tipo.",
@@ -693,9 +696,9 @@
       "props": {
         "variant": "Stile visivo. Primary/secondary usano gli accent del brand; outline e ghost sono neutri; destructive comunica un'intenzione distruttiva; link riduce a un'ancora inline.",
         "size": "Regola padding verticale e dimensione del font. <code>icon</code> è un quadrato 40×40 — usato internamente da <code>IconButton</code>.",
-        "disabled": "Su un <code>&lt;button&gt;</code> reale, blocca l'attivazione da puntatore / tastiera. Con asChild su un figlio non-button, si applicano solo le utility CSS di disabled — imposta aria-disabled e rimuovi href sul figlio per la piena inerzia.",
+        "disabled": "Su un <code><button></code> reale, blocca l'attivazione da puntatore / tastiera. Con asChild su un figlio non-button, si applicano solo le utility CSS di disabled — imposta aria-disabled e rimuovi href sul figlio per la piena inerzia.",
         "fullWidth": "Allunga il bottone fino alla larghezza piena del suo contenitore.",
-        "asChild": "Quando true, renderizza l'elemento figlio con tutti gli stili di Button applicati (pattern Slot di Radix). Il figlio deve essere un singolo elemento React come un <code>&lt;Link&gt;</code> o un <code>&lt;a&gt;</code>.",
+        "asChild": "Quando true, renderizza l'elemento figlio con tutti gli stili di Button applicati (pattern Slot di Radix). Il figlio deve essere un singolo elemento React come un <code><Link></code> o un <code><a></code>.",
         "className": "Le classi Tailwind vengono unite sopra i default della variante."
       },
       "iconButtonProps": {
@@ -736,7 +739,7 @@
     "chip": {
       "lead": "Tag a forma di pillola con dot di stato opzionale e stato attivo. Usa i chip per filtri, tag ed etichette di stato soft. Per badge uppercase con shadow Memphis (status / esito) usa <link1>Badge</link1>.",
       "a11y": {
-        "0": "Chip viene reso come uno <code>&lt;span&gt;</code> — quando usato dentro un filtro cliccabile, racchiudilo in un <code>&lt;button&gt;</code> con <code>aria-pressed</code> che riflette lo stato <code>active</code>.",
+        "0": "Chip viene reso come uno <code><span></code> — quando usato dentro un filtro cliccabile, racchiudilo in un <code><button></code> con <code>aria-pressed</code> che riflette lo stato <code>active</code>.",
         "1": "Il pallino di stato è puramente decorativo; il testo dell'etichetta deve trasmettere lo stesso stato (non affidarti solo al colore)."
       },
       "props": {
@@ -748,7 +751,7 @@
       }
     },
     "color-picker": {
-      "lead": "Swatch <code>&lt;input type=\"color\"&gt;</code> nativo accoppiato all'Input del design system per una stringa hex. Entrambi i controlli condividono un singolo value / onChange — è il parent a decidere se validare l'hex.",
+      "lead": "Swatch <code><input type=\"color\"></code> nativo accoppiato all'Input del design system per una stringa hex. Entrambi i controlli condividono un singolo value / onChange — è il parent a decidere se validare l'hex.",
       "body": {
         "hideVisibleLabel": "<code>aria-label</code> viene preservato su entrambi i controlli, così il componente resta accessibile anche quando l'etichetta visibile è nascosta."
       },
@@ -768,14 +771,14 @@
       },
       "body": {
         "controlled": "Gestisci la selezione esternamente per validazione o persistenza.",
-        "nativeFormSubmission": "Combobox renderizza un <code>&lt;button&gt;</code> + popover senza input form nascosto e senza prop <code>name</code>. Per inviare attraverso un <code>&lt;form&gt;</code> tradizionale, gestisci il valore con React state e o renderizza il tuo input nascosto o leggilo dall'handler di submit."
+        "nativeFormSubmission": "Combobox renderizza un <code><button></code> + popover senza input form nascosto e senza prop <code>name</code>. Per inviare attraverso un <code><form></code> tradizionale, gestisci il valore con React state e o renderizza il tuo input nascosto o leggilo dall'handler di submit."
       },
       "vsSelect": {
         "0": "Usa <strong>Combobox</strong> quando la lista delle opzioni è abbastanza lunga che lo scroll da solo è frizione (≥ ~10 opzioni) o quando gli utenti cercheranno digitando.",
         "1": "Usa <link1>Select</link1> per liste corte (2-9 elementi) dove la navigazione con le frecce della tastiera è sufficiente."
       },
       "a11y": {
-        "0": "Il trigger è un <code>&lt;button&gt;</code> semplice (senza <code>role=\"combobox\"</code>) con <code>aria-expanded</code> che riflette lo stato del popover. Questo è un pattern button-plus-popover, non il pattern WAI-ARIA combobox completo che fornisce <link1>Select</link1>.",
+        "0": "Il trigger è un <code><button></code> semplice (senza <code>role=\"combobox\"</code>) con <code>aria-expanded</code> che riflette lo stato del popover. Questo è un pattern button-plus-popover, non il pattern WAI-ARIA combobox completo che fornisce <link1>Select</link1>.",
         "1": "La lista del dropdown è renderizzata da <code>cmdk</code>: digita per filtrare, frecce per spostarti, <kbd>Enter</kbd> per selezionare, <kbd>Esc</kbd> per chiudere.",
         "2": "Usa <code>FormField</code> o abbina <code>id</code> a una <code>Label</code> sibling, così gli screen reader annunciano il nome del campo."
       },
@@ -824,7 +827,7 @@
       "body": {
         "controlled": "Gestisci la selezione esternamente per reagire ai cambiamenti (validazione, persistenza, sincronizzazione tra campi).",
         "customFormat": "Passa una qualsiasi stringa di formato <code>date-fns</code> a <code>formatStr</code>.",
-        "nativeFormSubmission": "DatePicker renderizza un <code>&lt;button&gt;</code> + popover, non un <code>&lt;input type=\"date\"&gt;</code> nativo, e non include alcun input form nascosto. Per inviare il valore tramite un <code>&lt;form&gt;</code> tradizionale, gestisci la data con uno state React e renderizza un tuo hidden input oppure invia il valore via <code>FormData</code> nel submit handler."
+        "nativeFormSubmission": "DatePicker renderizza un <code><button></code> + popover, non un <code><input type=\"date\"></code> nativo, e non include alcun input form nascosto. Per inviare il valore tramite un <code><form></code> tradizionale, gestisci la data con uno state React e renderizza un tuo hidden input oppure invia il valore via <code>FormData</code> nel submit handler."
       },
       "a11y": {
         "0": "Il calendario eredita il wiring ARIA di <code>react-day-picker</code> (grid + celle dei giorni con <code>aria-selected</code>).",
@@ -941,12 +944,12 @@
         "errorState": "Passa una stringa <code>error</code> per mostrare un messaggio di validazione. Il wrapper imposta <code>aria-invalid</code> sul figlio e collega l'errore a <code>aria-describedby</code>."
       },
       "a11y": {
-        "0": "La label è una vera <code>&lt;label htmlFor=\"…\"&gt;</code>; cliccarla porta il focus sull'input.",
+        "0": "La label è una vera <code><label htmlFor=\"…\"></code>; cliccarla porta il focus sull'input.",
         "1": "Gli id di descrizione ed errore vengono uniti all'<code>aria-describedby</code> del figlio; gli id già passati dal caller sono preservati.",
         "2": "Quando <code>error</code> è impostato, il figlio riceve automaticamente <code>aria-invalid=true</code>."
       },
       "props": {
-        "label": "Label visibile renderizzata come <code>&lt;label&gt;</code> e collegata al figlio tramite <code>htmlFor</code>.",
+        "label": "Label visibile renderizzata come <code><label></code> e collegata al figlio tramite <code>htmlFor</code>.",
         "description": "Testo di aiuto opzionale. L'id viene aggiunto al figlio tramite <code>aria-describedby</code>.",
         "error": "Messaggio di validazione opzionale. Quando è presente, viene aggiunto a <code>aria-describedby</code> e il figlio riceve anche <code>aria-invalid=true</code>.",
         "id": "Sovrascrive l'id auto-generato. Utile quando devi referenziare il campo da fuori il form.",
@@ -967,7 +970,7 @@
       }
     },
     "input": {
-      "lead": "Campo di testo a riga singola. <code>&lt;input&gt;</code> nativo con il bordo Memphis da 2px e la focus shadow. Si abbina a <code>Label</code> per l'accessibilità.",
+      "lead": "Campo di testo a riga singola. <code><input></code> nativo con il bordo Memphis da 2px e la focus shadow. Si abbina a <code>Label</code> per l'accessibilità.",
       "a11y": {
         "0": "Associa sempre una <code>Label</code> tramite <code>htmlFor</code> / <code>id</code> corrispondenti — i placeholder non sono label.",
         "1": "Usa <code>invalid</code> insieme a <code>aria-describedby</code> che punta a un messaggio di errore per gli screen reader."
@@ -979,12 +982,12 @@
       }
     },
     "label": {
-      "lead": "<code>&lt;label&gt;</code> nativo con la tipografia da form-label già integrata (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Usalo standalone quando non ti serve il wiring strutturato di <link1>FormField</link1>.",
+      "lead": "<code><label></code> nativo con la tipografia da form-label già integrata (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Usalo standalone quando non ti serve il wiring strutturato di <link1>FormField</link1>.",
       "body": {
         "whenFormField": "Per la maggior parte dei form di prodotto, <link1>FormField</link1> è preferibile: collega in automatico <code>htmlFor</code>, <code>aria-describedby</code> e <code>aria-invalid</code> in base alle prop description / error. Usa la Label standalone solo quando hai un layout una tantum che richiede un posizionamento custom."
       },
       "props": {
-        "htmlFor": "Associazione standard <code>&lt;label&gt;</code> — se impostato, il click sulla label porta il focus sul campo con l'id corrispondente.",
+        "htmlFor": "Associazione standard <code><label></code> — se impostato, il click sulla label porta il focus sul campo con l'id corrispondente.",
         "children": "Testo visibile dell'etichetta.",
         "className": "Le classi Tailwind vengono unite sopra i default tipografici."
       }
@@ -1019,7 +1022,7 @@
       },
       "a11y": {
         "0": "Quando <code>active</code> è impostato, NavItem applica <code>aria-current=\"page\"</code> — il segnale canonico per \"sei qui\" in una lista di navigazione.",
-        "1": "Il render predefinito è <code>&lt;a&gt;</code>; per il routing client-side passa <code>as={Link}</code> (Next) o il componente link del tuo router. La cromia di selezione e il merging delle classi vengono preservati."
+        "1": "Il render predefinito è <code><a></code>; per il routing client-side passa <code>as={Link}</code> (Next) o il componente link del tuo router. La cromia di selezione e il merging delle classi vengono preservati."
       },
       "props": {
         "as": "Elemento polimorfico. Passa <code>Link</code>, <code>button</code> o qualunque componente per controllare la semantica del routing.",
@@ -1042,14 +1045,14 @@
       }
     },
     "page-header": {
-      "lead": "Striscia di intestazione di pagina con eyebrow + titolo display + descrizione + slot azioni allineato a destra. Renderizza un vero landmark <code>&lt;header&gt;</code> con un bordo hairline in basso.",
+      "lead": "Striscia di intestazione di pagina con eyebrow + titolo display + descrizione + slot azioni allineato a destra. Renderizza un vero landmark <code><header></code> con un bordo hairline in basso.",
       "a11y": {
-        "0": "Il wrapper è un vero <code>&lt;header&gt;</code> — aggiunge un landmark banner quando usato a livello di pagina.",
-        "1": "Il titolo viene renderizzato come <code>&lt;h1&gt;</code>; un solo PageHeader per route."
+        "0": "Il wrapper è un vero <code><header></code> — aggiunge un landmark banner quando usato a livello di pagina.",
+        "1": "Il titolo viene renderizzato come <code><h1></code>; un solo PageHeader per route."
       },
       "props": {
         "eyebrow": "Piccola etichetta uppercase opzionale renderizzata sopra al titolo.",
-        "title": "Heading di pagina renderizzato come <code>&lt;h1&gt;</code> nel font display.",
+        "title": "Heading di pagina renderizzato come <code><h1></code> nel font display.",
         "description": "Paragrafo opzionale sotto al titolo.",
         "actions": "Slot opzionale allineato a destra per le azioni primarie (Buttons, IconButtons, …)."
       }
@@ -1060,10 +1063,10 @@
         "longRange": "Con molte pagine, Pagination mostra la prima / l'ultima / la finestra corrente e inserisce ellissi tra le lacune."
       },
       "a11y": {
-        "0": "Il wrapper è <code>&lt;nav aria-label=\"Pagination\"&gt;</code>.",
+        "0": "Il wrapper è <code><nav aria-label=\"Pagination\"></code>.",
         "1": "Il pulsante della pagina corrente riceve <code>aria-current=\"page\"</code>; tutti gli altri pulsanti pagina ricevono un <code>aria-label</code> tipo <code>Pagina 3</code> (localizzato tramite <code>labels.page</code>).",
         "2": "Le ellissi vengono renderizzate con <code>aria-hidden</code> — non vengono annunciate.",
-        "3": "Tastiera: i numeri di pagina e i chevron prev/next sono elementi <code>&lt;button&gt;</code> nativi — <kbd>Tab</kbd> sposta il focus tra di essi, <kbd>Enter</kbd> / <kbd>Space</kbd> li attivano. I pulsanti disabilitati (prev a pagina 1, next all'ultima pagina) vengono saltati automaticamente dall'ordine di focus."
+        "3": "Tastiera: i numeri di pagina e i chevron prev/next sono elementi <code><button></code> nativi — <kbd>Tab</kbd> sposta il focus tra di essi, <kbd>Enter</kbd> / <kbd>Space</kbd> li attivano. I pulsanti disabilitati (prev a pagina 1, next all'ultima pagina) vengono saltati automaticamente dall'ordine di focus."
       },
       "props": {
         "currentPage": "Pagina attiva (1-indexed). Pilota <code>aria-current</code> sul pulsante corrispondente.",
@@ -1289,10 +1292,10 @@
       }
     },
     "table": {
-      "lead": "Primitive di tabella bordate Memphis. Avvolgi le righe in sezioni semantiche <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> tramite i componenti corrispondenti — il container esterno gestisce overflow e bordi.",
+      "lead": "Primitive di tabella bordate Memphis. Avvolgi le righe in sezioni semantiche <code><thead></code> / <code><tbody></code> / <code><tfoot></code> tramite i componenti corrispondenti — il container esterno gestisce overflow e bordi.",
       "a11y": {
         "0": "Includi sempre una <code>TableCaption</code> quando la tabella veicola dati — gli screen reader annunciano la caption come nome della tabella.",
-        "1": "Ogni <code>TableHead</code> renderizza un vero <code>&lt;th&gt;</code>; per le row-header aggiungi <code>scope=\"row\"</code>.",
+        "1": "Ogni <code>TableHead</code> renderizza un vero <code><th></code>; per le row-header aggiungi <code>scope=\"row\"</code>.",
         "2": "Per tabelle molto grandi considera l'abbinamento con <link1>Pagination</link1> e un body virtualizzato."
       },
       "props": {
@@ -1326,7 +1329,7 @@
     "textarea": {
       "lead": "Input di testo multi-riga con la stessa veste Memphis di bordo, hover e focus di <link1>Input</link1>. Ridimensionabile verticalmente per default; abbinalo a <link2>FormField</link2> per il wiring di label + descrizione + errore.",
       "a11y": {
-        "0": "Renderizza una <code>&lt;textarea&gt;</code> nativa; submission e validazione native del form funzionano come ci si aspetta.",
+        "0": "Renderizza una <code><textarea></code> nativa; submission e validazione native del form funzionano come ci si aspetta.",
         "1": "Abbina a <code>FormField</code> (oppure fornisci il tuo <code>aria-labelledby</code> / <code>aria-describedby</code>) così gli screen reader annunciano label, description ed error."
       },
       "props": {
@@ -1341,7 +1344,7 @@
       "body": {
         "providerIntro": "Monta un solo <code>ToastProvider</code> + <code>ToastViewport</code> alla radice della tua app. Tutti i toast emessi ovunque nell’albero vengono renderizzati dentro al viewport.",
         "variantsIntro": "Clicca ogni button per far scivolare il toast corrispondente in basso a destra nel suo preview frame. Sono istanze reali di <code>Toast</code> montate dentro un <code>ToastProvider</code> + <code>ToastViewport</code> con scope locale — lo stesso wiring che useresti in produzione.",
-        "emittingIntro": "I toast in Radix sono guidati dallo state: renderizza un <code>&lt;Toast /&gt;</code> con <code>open</code> controllato e commutalo dai tuoi event handler. Per l’emissione di toast a livello globale, costruisci un context sottile che possiede la queue."
+        "emittingIntro": "I toast in Radix sono guidati dallo state: renderizza un <code><Toast /></code> con <code>open</code> controllato e commutalo dai tuoi event handler. Per l’emissione di toast a livello globale, costruisci un context sottile che possiede la queue."
       },
       "a11y": {
         "0": "Il viewport imposta <code>role=\"region\"</code> con <code>aria-label=\"Notifications\"</code>. I toast al suo interno vengono renderizzati con il <code>role</code> e l’<code>aria-live</code> appropriati secondo Radix.",
