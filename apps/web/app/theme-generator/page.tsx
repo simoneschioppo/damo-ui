@@ -380,38 +380,44 @@ interface ThemeEditorProps {
   onChange: (key: keyof SemanticTheme, value: string) => void
 }
 
+// Maps SEMANTIC_GROUPS top-level keys (surfaces/intents/statuses/chrome/
+// memphis/badges) → display title. Capitalised; not yet wired through the
+// translation catalog because the SEMANTIC_GROUPS shape isn't symmetric
+// across modes.
+function semanticGroupTitle(groupKey: keyof typeof SEMANTIC_GROUPS): string {
+  return groupKey.charAt(0).toUpperCase() + groupKey.slice(1)
+}
+
+// Maps the english label string of each SEMANTIC_GROUPS entry to its
+// translation-catalog key under `themeGenerator.semanticGroups.*`. Hoisted
+// so we don't rebuild the lookup every render and so TS catches missing
+// labels at the use site.
+const SEMANTIC_LABEL_TO_KEY: Readonly<Record<string, string>> = {
+  Background: 'background',
+  Card: 'card',
+  Popover: 'popover',
+  Muted: 'muted',
+  Primary: 'primary',
+  Secondary: 'secondary',
+  Destructive: 'destructive',
+  Success: 'success',
+  Warning: 'warning',
+  Info: 'info',
+  Border: 'border',
+  'Border strong': 'borderStrong',
+  'Focus ring': 'focusRing',
+  Shadow: 'shadow',
+  Featured: 'featured',
+}
+
 function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorProps) {
   const tGroups = useTranslations('themeGenerator.semanticGroups')
   const divPair = (key: keyof SemanticTheme): { lightValue: string; darkValue: string } => ({
     lightValue: mode === 'light' ? semantic[key] : otherSemantic[key],
     darkValue: mode === 'dark' ? semantic[key] : otherSemantic[key],
   })
-  // Maps SEMANTIC_GROUPS top-level keys (surfaces/intents/statuses/chrome/
-  // memphis/badges) → message-catalog keys. Surfaces/intents/etc. aren't in
-  // the catalog yet, so for now we capitalize them; only the entry.label
-  // values are mapped via the dictionary below.
-  const groupTitle = (groupKey: keyof typeof SEMANTIC_GROUPS): string =>
-    groupKey.charAt(0).toUpperCase() + groupKey.slice(1)
-  // Maps the label string of each SEMANTIC_GROUPS entry to a translation key.
-  const labelToKey: Record<string, string> = {
-    Background: 'background',
-    Card: 'card',
-    Popover: 'popover',
-    Muted: 'muted',
-    Primary: 'primary',
-    Secondary: 'secondary',
-    Destructive: 'destructive',
-    Success: 'success',
-    Warning: 'warning',
-    Info: 'info',
-    Border: 'border',
-    'Border strong': 'borderStrong',
-    'Focus ring': 'focusRing',
-    Shadow: 'shadow',
-    Featured: 'featured',
-  }
   const tLabel = (label: string): string => {
-    const key = labelToKey[label]
+    const key = SEMANTIC_LABEL_TO_KEY[label]
     return key ? tGroups(key) : label
   }
   return (
@@ -419,7 +425,7 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
       {(Object.keys(SEMANTIC_GROUPS) as ReadonlyArray<keyof typeof SEMANTIC_GROUPS>).map(
         (groupKey) => (
           <AccordionItem key={groupKey} value={groupKey}>
-            <AccordionTrigger>{groupTitle(groupKey)}</AccordionTrigger>
+            <AccordionTrigger>{semanticGroupTitle(groupKey)}</AccordionTrigger>
             <AccordionContent>
               <div style={{ ...stackStyle, gap: 12 }}>
                 {SEMANTIC_GROUPS[groupKey].map((entry) => {
@@ -875,7 +881,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 
       {/* Motion */}
       <AccordionItem value="motion">
-        <AccordionTrigger>Motion</AccordionTrigger>
+        <AccordionTrigger>{t('motionTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={stackStyle}>
             <span className="eyebrow">{t('motionDurations')}</span>

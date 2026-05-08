@@ -1,28 +1,31 @@
 import { cookies } from 'next/headers'
 import { getRequestConfig } from 'next-intl/server'
+import {
+  DEFAULT_LOCALE,
+  LOCALE_COOKIE,
+  SUPPORTED_LOCALES,
+  isSupportedLocale,
+  type AppLocale,
+} from './locales'
 
-export const SUPPORTED_LOCALES = ['en', 'it'] as const
-export type AppLocale = (typeof SUPPORTED_LOCALES)[number]
-export const DEFAULT_LOCALE: AppLocale = 'en'
-export const LOCALE_COOKIE = 'NEXT_LOCALE'
-
-function isSupported(value: string | undefined): value is AppLocale {
-  return value === 'en' || value === 'it'
-}
+export { SUPPORTED_LOCALES, DEFAULT_LOCALE, LOCALE_COOKIE, type AppLocale }
 
 export default getRequestConfig(async () => {
   const cookieStore = await cookies()
   const candidate = cookieStore.get(LOCALE_COOKIE)?.value
-  const locale: AppLocale = isSupported(candidate) ? candidate : DEFAULT_LOCALE
+  const locale: AppLocale = isSupportedLocale(candidate) ? candidate : DEFAULT_LOCALE
 
   const messages = (await import(`../messages/${locale}.json`)).default
 
   return {
     locale,
     messages,
-    // Missing IT keys fall back silently to EN — keeps the IT catalog free
-    // to grow asymmetrically without runtime errors.
-    onError: () => undefined,
+    // In production: silent fallback so missing IT keys don't blow up live.
+    // In dev: log so we notice catalog regressions while iterating.
+    onError:
+      process.env.NODE_ENV === 'production'
+        ? () => undefined
+        : (err) => console.warn('[i18n]', err.code, err.message),
     getMessageFallback: ({ key, namespace }) => `${namespace ?? ''}.${key}`,
   }
 })

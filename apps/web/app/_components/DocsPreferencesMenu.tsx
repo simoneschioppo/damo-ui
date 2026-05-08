@@ -19,6 +19,10 @@ const PALETTE_VALUES = ['default', 'neon', 'sunset'] as const
 const DENSITY_VALUES = ['compact', 'normal', 'comfortable'] as const
 const LANGUAGE_VALUES: ReadonlyArray<Locale> = ['en', 'it']
 
+function isAppLocale(value: string): value is Locale {
+  return value === 'en' || value === 'it'
+}
+
 interface PrefOption<T extends string> {
   readonly value: T
   readonly label: string
@@ -81,7 +85,8 @@ function PrefGroup<T extends string>({ label, options, current, onSelect }: Pref
  */
 export function DocsPreferencesMenu() {
   const t = useTranslations('preferences')
-  const initialLocale = useIntlLocale() as Locale
+  const rawLocale = useIntlLocale()
+  const initialLocale: Locale = isAppLocale(rawLocale) ? rawLocale : 'en'
 
   const [theme, setTheme] = usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light')
   const [palette, setPalette] = usePersistedAttr<'default' | 'neon' | 'sunset'>(

@@ -2,10 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import type { Locale } from '@damo/ui'
+import { LOCALE_COOKIE, SUPPORTED_LOCALES } from '../i18n/locales'
 
-const SUPPORTED: ReadonlyArray<Locale> = ['en', 'it']
 const STORAGE_KEY = 'locale'
-const COOKIE_KEY = 'NEXT_LOCALE'
 const COOKIE_MAX_AGE_SEC = 60 * 60 * 24 * 365
 
 function isLocale(value: string | null | undefined): value is Locale {
@@ -16,8 +15,13 @@ function readLocaleFromDom(initial: Locale): Locale {
   if (typeof document === 'undefined') return initial
   const dataAttr = document.documentElement.getAttribute('data-locale')
   if (isLocale(dataAttr)) return dataAttr
-  const stored = window.localStorage.getItem(STORAGE_KEY)
-  if (isLocale(stored)) return stored
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY)
+    if (isLocale(stored)) return stored
+  } catch {
+    // Storage unavailable (Safari private mode, blocked cookies, etc.) —
+    // fall through to the server-resolved initial value.
+  }
   return initial
 }
 
@@ -49,15 +53,24 @@ export function usePersistedLocale(initial: Locale): readonly [Locale, (next: Lo
   }, [])
 
   const setLocale = useCallback((next: Locale) => {
-    if (!SUPPORTED.includes(next)) return
+    if (!SUPPORTED_LOCALES.includes(next)) return
     setLocaleState(next)
     if (typeof document !== 'undefined') {
       document.documentElement.setAttribute('data-locale', next)
       document.documentElement.setAttribute('lang', next)
     }
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem(STORAGE_KEY, next)
-      document.cookie = `${COOKIE_KEY}=${next}; path=/; max-age=${COOKIE_MAX_AGE_SEC}; samesite=lax`
+      // localStorage write can throw in Safari private mode / when storage is
+      // full / when cookies are blocked. The cookie write below is independent
+      // and the locale state already updated in React, so we tolerate failure
+      // here — the user just loses cross-reload preference until they switch
+      // again on a session that allows storage.
+      try {
+        window.localStorage.setItem(STORAGE_KEY, next)
+      } catch {
+        // Intentionally swallowed — see comment above.
+      }
+      document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=${COOKIE_MAX_AGE_SEC}; samesite=lax; secure`
     }
   }, [])
 

@@ -61,8 +61,6 @@ export const emTag = (chunks: ReactNode) => <em>{decodeEntities(chunks)}</em>
 
 export const kbdTag = (chunks: ReactNode) => <kbd>{decodeEntities(chunks)}</kbd>
 
-export const brTag = () => <br />
-
 export const linkTag =
   (href: string, options?: { external?: boolean; className?: string }) =>
   (chunks: ReactNode) => {
