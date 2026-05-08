@@ -124,7 +124,7 @@
       "validValuesEyebrow": "Valid attribute values",
       "themeBullet": "<mono>data-theme</mono> — the lib ships <strong>light only</strong>; declare your own <mono>[data-theme='dark']</mono> CSS overrides. Wire a <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> to switch between values.",
       "paletteBullet": "<mono>data-palette</mono> — <strong>no built-ins</strong>; the lib's neutral defaults assume a single palette. Define <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, etc., and pass the same list to <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
-      "densityBullet": "<mono>data-density</mono> — built-in: <mono>'compact'</mono>, <mono>'normal'</mono>, <mono>'comfortable'</mono>. Drives <mono>--density-scale-y</mono> for vertical spacing."
+      "densityBullet": "<mono>data-density</mono> — built-in: <mono>compact</mono>, <mono>normal</mono>, <mono>comfortable</mono>. Drives <mono>--density-scale-y</mono> for vertical spacing."
     },
     "themingHint": "Full guide with dark-mode setup, custom palettes, programmatic switching, and FOUC prevention → <link>Theming</link>.",
     "ctaReady": "Ready to compose? Browse <componentsLink>components</componentsLink> or <generatorLink>generate a custom theme</generatorLink>.",
@@ -578,7 +578,7 @@
         "2": "The select variant exposes <code>role=\"combobox\"</code> via the design-system <code>Select</code> primitive — full keyboard interaction is inherited."
       },
       "props": {
-        "options": "List of <code>{ value, label }</code> pairs the user can pick from.",
+        "options": "List of <code>'{' value, label '}'</code> pairs the user can pick from.",
         "storageKey": "localStorage key that persists the active value across sessions.",
         "attribute": "data-* attribute mirrored on <code>&lt;html&gt;</code>. Must match <code>^data-[a-z][a-z0-9-]*$</code> — non-data attributes are rejected.",
         "defaultValue": "Initial value when nothing is persisted. Falls back to <code>options[0].value</code>.",
@@ -783,7 +783,7 @@
         "2": "Use <code>FormField</code> or pair <code>id</code> with a sibling <code>Label</code> so screen readers announce the field name."
       },
       "props": {
-        "options": "Items to render — <code>{ value, label, disabled? }</code>.",
+        "options": "Items to render — <code>'{' value, label, disabled? '}'</code>.",
         "value": "Controlled selected value. Pair with <code>onValueChange</code>.",
         "defaultValue": "Uncontrolled initial selected value.",
         "onValueChange": "Fires when an option is picked.",
@@ -998,7 +998,7 @@
         "accessibility": "The SVG renders <code>role=\"img\"</code> with <code>aria-label</code> derived from <code>label</code> (or a default like <code>\"gold medal\"</code> when no label is provided)."
       },
       "props": {
-        "rank": "Selects the inner / outer / text token (<code>--medal-{rank}-{outer|inner|text}</code>).",
+        "rank": "Selects the inner / outer / text token (<code>--medal-'{'rank'}'-'{'outer|inner|text'}'</code>).",
         "value": "Optional centred number / letters (e.g. <code>1</code>, <code>\"M\"</code>, <code>\"GM\"</code>).",
         "label": "Mono uppercase caption rendered below the medal.",
         "size": "SVG width and height in pixels."
@@ -1022,7 +1022,7 @@
       },
       "a11y": {
         "0": "When <code>active</code> is set, NavItem applies <code>aria-current=\"page\"</code> — the canonical signal for \"you are here\" in a navigation list.",
-        "1": "Default render is <code>&lt;a&gt;</code>; for client-side routing pass <code>as={Link}</code> (Next) or your router's link component. The selection chrome and class merging are preserved."
+        "1": "Default render is <code>&lt;a&gt;</code>; for client-side routing pass <code>as='{'Link'}'</code> (Next) or your router's link component. The selection chrome and class merging are preserved."
       },
       "props": {
         "as": "Polymorphic element. Pass <code>Link</code>, <code>button</code>, or any component to control routing semantics.",
@@ -1073,7 +1073,7 @@
         "totalPages": "Total number of pages.",
         "maxVisible": "Maximum number of page buttons rendered between the ellipses. Defaults to a sensible window via <code>computePageWindow</code> (also exported).",
         "onPageChange": "Fires when the user clicks a page number or the prev/next chevrons.",
-        "labels": "Override accessible labels — <code>{ previous, next, page, pageOf(page, total) }</code>. Defaults are Italian.",
+        "labels": "Override accessible labels — <code>'{' previous, next, page, pageOf(page, total) '}'</code>. Defaults are Italian.",
         "disabled": "Disables every button (useful while a parent fetch is in flight)."
       }
     },
