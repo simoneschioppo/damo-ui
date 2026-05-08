@@ -1,5 +1,6 @@
 // Utilities
 export { cn } from './lib/cn'
+export { selectionChromeClasses, type SelectionChromeOptions } from './lib/selection-chrome'
 
 // i18n
 export {
