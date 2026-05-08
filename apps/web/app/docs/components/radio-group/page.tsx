@@ -5,6 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { RadioGroup, RadioGroupItem, Label } from '@damo/ui'`
 
@@ -61,6 +62,7 @@ export const metadata = { title: `RadioGroup — ${BRAND.libName}` }
 export default async function RadioGroupDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -68,17 +70,10 @@ export default async function RadioGroupDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">RadioGroup</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Mutually-exclusive radio group built on Radix RadioGroup. Wraps each option in a
-        Memphis-bordered button with a filled inner dot when selected. Use it whenever the user must
-        pick exactly one of three or more options; for two-option toggles reach for{' '}
-        <Link href="/docs/components/segmented-control" className="text-primary underline">
-          SegmentedControl
-        </Link>{' '}
-        or{' '}
-        <Link href="/docs/components/switch" className="text-primary underline">
-          Switch
-        </Link>
-        .
+        {t.rich('componentDocs.radio-group.lead', {
+          link1: linkTag('/docs/components/segmented-control'),
+          link2: linkTag('/docs/components/switch'),
+        })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

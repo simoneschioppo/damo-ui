@@ -5,6 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { Progress } from '@damo/ui'`
 
@@ -47,6 +48,7 @@ export const metadata = { title: `Progress — ${BRAND.libName}` }
 export default async function ProgressDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -54,8 +56,7 @@ export default async function ProgressDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Progress</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Determinate progress bar built on Radix Progress. Memphis-bordered track with a secondary
-        token fill that animates to <code className="font-mono">value</code>.
+        {t.rich('componentDocs.progress.lead', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

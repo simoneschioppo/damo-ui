@@ -12,6 +12,7 @@ import {
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   Sidebar,
@@ -59,6 +60,7 @@ export const metadata = { title: `Sidebar — ${BRAND.libName}` }
 export default async function SidebarDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -66,8 +68,7 @@ export default async function SidebarDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Sidebar</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Composable side panel with header, body, and footer slots. Used here on the docs site for
-        the navigation rail you see to the left.
+        {t('componentDocs.sidebar.lead')}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

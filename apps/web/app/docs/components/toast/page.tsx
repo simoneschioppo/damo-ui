@@ -4,6 +4,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { ToastVariantPreview } from './_examples'
 
 const IMPORT_SNIPPET = `import {
@@ -77,6 +78,7 @@ export const metadata = { title: `Toast — ${BRAND.libName}` }
 export default async function ToastDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -84,14 +86,9 @@ export default async function ToastDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Toast</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Transient notification that slides in from the screen edge. Built on Radix Toast — full ARIA
-        live-region wiring, swipe-to-dismiss, and pause-on-hover come from the primitive. Use for
-        non-blocking feedback (saved, copied, sent); for critical errors that need acknowledgement
-        use{' '}
-        <Link href="/docs/components/dialog" className="text-primary underline">
-          Dialog with severity=&quot;alert&quot;
-        </Link>
-        .
+        {t.rich('componentDocs.toast.lead', {
+          link1: linkTag('/docs/components/dialog'),
+        })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

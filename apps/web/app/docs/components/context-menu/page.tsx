@@ -13,6 +13,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   ContextMenu,
@@ -61,6 +62,7 @@ export const metadata = { title: `ContextMenu — ${BRAND.libName}` }
 export default async function ContextMenuDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -68,12 +70,10 @@ export default async function ContextMenuDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">ContextMenu</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Right-click menu built on Radix ContextMenu. Mirrors{' '}
-        <Link href="/docs/components/dropdown-menu" className="text-primary underline">
-          DropdownMenu
-        </Link>{' '}
-        in API and item types — the difference is the trigger: any wrapped element opens on{' '}
-        <em>contextmenu</em> events (right click, long press on touch, Shift-F10).
+        {t.rich('componentDocs.context-menu.lead', {
+          em: emTag,
+          link1: linkTag('/docs/components/dropdown-menu'),
+        })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

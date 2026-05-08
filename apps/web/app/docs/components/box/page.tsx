@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { Box } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -84,6 +85,7 @@ export const metadata = {
 export default async function BoxDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -91,9 +93,7 @@ export default async function BoxDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Box</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Polymorphic flex primitive. Use it whenever you need a flex container with type-checked
-        direction, gap, alignment and justification — and the option to render as any HTML element
-        via <code className="font-mono">as</code>.
+        {t.rich('componentDocs.box.lead', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
