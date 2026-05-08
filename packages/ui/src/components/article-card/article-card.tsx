@@ -1,6 +1,7 @@
 'use client'
 
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
+import { Card } from '../card'
 import { cn } from '../../lib/cn'
 
 export interface ArticleCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -12,19 +13,20 @@ export interface ArticleCardProps extends Omit<HTMLAttributes<HTMLDivElement>, '
 }
 
 /**
- * ArticleCard — neutral content card (max-width 420px). Memphis frame (2px
- * border-memphis + 4px black shadow), optional eyebrow label, display-font
- * title, and a relaxed-leading ink-soft body.
+ * ArticleCard — neutral content card (max-width 420px). Composes <Card> for
+ * frame + shadow; keeps a bespoke eyebrow label, display-font title, and
+ * relaxed-leading body.
  */
 export const ArticleCard = forwardRef<HTMLDivElement, ArticleCardProps>(function ArticleCard(
   { label, title, children, className, ...rest },
   ref,
 ) {
   return (
-    <div
+    <Card
       ref={ref}
-      className={cn('p-6 border-2 border-memphis rounded-none bg-card', className)}
-      style={{ maxWidth: '420px', boxShadow: 'var(--shadow-memphis-card)' }}
+      variant="default"
+      padding="none"
+      className={cn('p-6 max-w-[420px]', className)}
       {...rest}
     >
       {label && (
@@ -42,6 +44,6 @@ export const ArticleCard = forwardRef<HTMLDivElement, ArticleCardProps>(function
       <div data-slot="body" className="text-muted-foreground text-sm leading-relaxed">
         {children}
       </div>
-    </div>
+    </Card>
   )
 })
