@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Textarea, FormField } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -40,11 +41,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Textarea — ${BRAND.libName}` }
 
-export default function TextareaDocsPage() {
+export default async function TextareaDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FORMS
+        {tCat('forms')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Textarea</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -59,24 +62,24 @@ export default function TextareaDocsPage() {
         for label + description + error wiring.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Basic usage</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('basicUsage')}</h2>
       <Example code={BASIC_SNIPPET}>
         <div className="w-full max-w-md">
           <Textarea placeholder="Tell us more…" rows={4} />
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Invalid state</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('invalidState')}</h2>
       <Example code={INVALID_SNIPPET}>
         <div className="w-full max-w-md">
           <Textarea invalid defaultValue="Too short" rows={3} />
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">With FormField</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('withFormField')}</h2>
       <Example code={FORMFIELD_SNIPPET}>
         <div className="w-full max-w-md">
           <FormField label="Notes" description="Markdown is supported.">
@@ -85,10 +88,10 @@ export default function TextareaDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Textarea props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           Renders a native <code className="font-mono">&lt;textarea&gt;</code>; native form

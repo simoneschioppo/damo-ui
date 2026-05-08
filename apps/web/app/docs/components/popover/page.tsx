@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import {
   Popover,
   PopoverTrigger,
@@ -82,11 +83,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Popover — ${BRAND.libName}` }
 
-export default function PopoverDocsPage() {
+export default async function PopoverDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FORMS
+        {tCat('forms')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Popover</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -102,10 +105,10 @@ export default function PopoverDocsPage() {
         .
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Live example</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('live')}</h2>
       <div className="my-6 border-2 border-memphis bg-background shadow-memphis px-6 py-10 flex items-center justify-center gap-4">
         <Popover>
           <PopoverTrigger asChild>
@@ -147,7 +150,7 @@ export default function PopoverDocsPage() {
       </p>
       <Code code={ALIGN_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Popover props" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Popover vs DropdownMenu vs Dialog</h2>
@@ -172,7 +175,7 @@ export default function PopoverDocsPage() {
         </li>
       </ul>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           Trigger inherits Radix <code className="font-mono">aria-expanded</code> /{' '}
