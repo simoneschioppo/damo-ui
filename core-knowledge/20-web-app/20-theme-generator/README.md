@@ -1,7 +1,7 @@
 # Theme Generator
 
-Status: documented · Last scan: 43a7a02 · Sources:
-`apps/web/app/theme-generator/{page.tsx,theme-state.ts,use-theme-state.ts,presets.ts,exporters.ts,contrast.ts,sample-dialog.tsx,radius-emit.test.tsx}`,
+Status: documented · Last scan: e53c5be · Sources:
+`apps/web/app/theme-generator/{page.tsx,theme-state.ts,use-theme-state.ts,presets.ts,exporters.ts,contrast.ts,sample-dialog.tsx,token-preview-chip.tsx,radius-emit.test.tsx,token-preview-chip.test.tsx}`,
 `apps/web/app/styles/theme.css`,
 `apps/web/app/styles/__tests__/{app-pattern-tokens.test.ts,reduced-motion-scoping.test.ts}`.
 
@@ -225,6 +225,40 @@ in the editor.
 A purpose-built preview canvas — renders a sample Dialog with various
 states so the user sees the theme applied in a non-trivial scenario.
 
+### `token-preview-chip.tsx`
+
+Inline preview chips rendered next to each radius and shadow-memphis
+sidebar control (PR #72, issue #64). Two variants:
+
+```ts
+type TokenPreviewChipProps =
+  | { variant: 'radius'; tokenKey: RadiusKey }
+  | { variant: 'shadow-memphis'; tokenKey: ShadowMemphisKey }
+```
+
+Stateless and free of subscriptions: each chip is a 28×28 `<span>`
+whose inline `style` references the live CSS variable
+(`var(--radius-{k})` or `var(--shadow-memphis-{k})`). It re-paints
+automatically as soon as the reducer rewrites the `<style>` override
+block — no extra plumbing, no mode prop, no listening to theme state.
+
+The chip exists to close a UX gap: the default `components` preview
+scene didn't render any consumer for `--radius-sm`,
+`--radius-selection`, or `--shadow-memphis-card`, so editing those
+sliders produced no visual feedback unless the user switched scenes.
+The chip surfaces the live token value next to the control itself.
+
+`page.tsx` wires one chip per entry of `RADIUS_KEYS` and one per
+entry of `SHADOW_MEMPHIS_KEYS`, both placed inside the existing
+`pairHeaderStyle` row alongside the `<Label>`. The chip is decorative
+but exposes an `aria-label` so screen-reader users can locate it.
+Tests use `satisfies Record<Key, true>` so adding a new `RadiusKey` /
+`ShadowMemphisKey` breaks compile rather than silently skipping
+coverage.
+
+**Critical quirk:** the `md` shadow-memphis key requires special
+handling — see Notes & gotchas #10.
+
 ### `page.tsx`
 
 The 1218-line UI. Two main columns:
@@ -300,6 +334,30 @@ generator is itself the most demanding consumer of `@damo/ui`.
    `app-pattern-tokens.test.ts` (asserts the tokens are referenced
    in `patterns.css` and not hard-coded literals).
 
+10. **Shadow-memphis emitter alias for `md`** — silent-empty trap.
+    `emitFoundationsVars` (`use-theme-state.ts:460`) writes the `md`
+    shadow-memphis value to the *bare* `--shadow-memphis` variable,
+    NOT to `--shadow-memphis-md`. Every other key in
+    `SHADOW_MEMPHIS_KEYS` (`sm`, `card`, `lg`, `hover`, `active`)
+    follows the suffixed `--shadow-memphis-{k}` convention. This is
+    a historical alias kept for compatibility with the lib's
+    canonical "memphis card shadow" name.
+
+    Anyone consuming a shadow-memphis token by interpolating the key
+    (`var(--shadow-memphis-${k})`) will silently produce a non-existent
+    variable for `md` and fall through to the cascade (effectively
+    "no shadow"). `TokenPreviewChip` handles this explicitly:
+
+    ```ts
+    const cssVar = k === 'md' ? '--shadow-memphis' : `--shadow-memphis-${k}`
+    ```
+
+    Regression guard: a dedicated test in
+    `token-preview-chip.test.tsx` asserts `boxShadow` for `md` is
+    `var(--shadow-memphis)`, not the suffixed form. Caught during
+    adversarial review of PR #72 (would have shipped a dead `md`
+    chip otherwise).
+
 ## How to consume (the export contract)
 
 The CSS export is the canonical artifact. A consumer's recipe:
@@ -354,8 +412,3 @@ JSON paste-back to re-load a saved theme).
    Architecture #4. Path-B fix (per-color `@utility` blocks) is
    parked in #66 because Tailwind v4 strips custom rules outside
    known namespaces.
-8. **Preview-scene UX gaps** (open bug #64). Some editable tokens
-   (rounded-sm, rounded-selection, shadow-memphis-card) have no
-   visible consumer in the default preview scene, so a user editing
-   them sees no immediate feedback. Either add a consumer to the
-   default scene or surface a "no preview consumer" hint.

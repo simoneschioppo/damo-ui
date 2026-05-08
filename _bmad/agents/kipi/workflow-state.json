@@ -24,55 +24,55 @@
         {
           "path": "packages/ui/src/components/{button,icon-button,badge,chip,label,separator,spinner,skeleton}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[8 files — batch C.1 Primitives]",
+          "chapter": "10-library/10-components/[8 files \u2014 batch C.1 Primitives]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{input,textarea,checkbox,radio-group,switch,select}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[6 files — batch C.2 Form base]",
+          "chapter": "10-library/10-components/[6 files \u2014 batch C.2 Form base]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{combobox,slider,segmented-control,attr-toggle-group,color-picker,date-picker}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[6 files — batch C.3 Form advanced]",
+          "chapter": "10-library/10-components/[6 files \u2014 batch C.3 Form advanced]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{form-field,hint}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[2 files — batch C.4 Form composition]",
+          "chapter": "10-library/10-components/[2 files \u2014 batch C.4 Form composition]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{dialog,drawer,popover,tooltip,dropdown-menu,context-menu,toast}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[7 files — batch C.5 Overlays]",
+          "chapter": "10-library/10-components/[7 files \u2014 batch C.5 Overlays]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{box,container,aspect-ratio,scroll-area,app-shell,app-top-bar,sidebar,page-header}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[8 files — batch C.6 Layout]",
+          "chapter": "10-library/10-components/[8 files \u2014 batch C.6 Layout]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{tabs,breadcrumbs,pagination,nav-item,accordion}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[5 files — batch C.7 Navigation]",
+          "chapter": "10-library/10-components/[5 files \u2014 batch C.7 Navigation]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{table,card,article-card,feature-card,user-card,avatar,stat,progress}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[8 files — batch C.8 Data display]",
+          "chapter": "10-library/10-components/[8 files \u2014 batch C.8 Data display]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{banner,medal,memphis-shape,ornament}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[4 files — batch C.9 Decorative]",
+          "chapter": "10-library/10-components/[4 files \u2014 batch C.9 Decorative]",
           "completed_at": "2026-05-06"
         },
         {
@@ -99,21 +99,21 @@
       "processed": []
     },
     "update": {
-      "queued": [
+      "queued": [],
+      "runs": [
         {
-          "queued_at": "2026-05-08T17:48:32+00:00",
-          "trigger": "post-code-change",
+          "chapter": "20-web-app/20-theme-generator/README.md",
           "paths": [
             "apps/web/app/theme-generator/page.tsx",
             "apps/web/app/theme-generator/token-preview-chip.tsx",
             "apps/web/app/theme-generator/token-preview-chip.test.tsx"
           ],
-          "source_agent": "bmad-quick-dev",
+          "sha": "e53c5be",
           "gh_issue": 64,
-          "gh_pr": 72
-        }
-      ],
-      "runs": [
+          "gh_pr": 72,
+          "queued_at": "2026-05-08T17:48:32+00:00",
+          "completed_at": "2026-05-08T17:55:00+00:00"
+        },
         {
           "chapter": "10-library/10-components/dialog.md",
           "paths": [
@@ -256,6 +256,72 @@
             "index.md"
           ],
           "completed_at": "2026-05-08T16:21:45+00:00"
+        },
+        {
+          "kind": "metadata-sync",
+          "chapters": [
+            "10-library/10-components/README.md",
+            "10-library/10-components/spinner.md",
+            "10-library/10-components/combobox.md",
+            "10-library/10-components/date-picker.md",
+            "10-library/10-components/dialog.md",
+            "10-library/10-components/drawer.md",
+            "10-library/10-components/toast.md",
+            "10-library/10-components/pagination.md",
+            "10-library/10-components/banner.md",
+            "20-web-app/10-docs-site/README.md",
+            "20-web-app/00-architecture.md"
+          ],
+          "old_shas": {
+            "10-library/10-components/README.md": "43a7a02",
+            "10-library/10-components/spinner.md": "d63afaf",
+            "10-library/10-components/combobox.md": "d63afaf",
+            "10-library/10-components/date-picker.md": "d63afaf",
+            "10-library/10-components/dialog.md": "43a7a02",
+            "10-library/10-components/drawer.md": "43a7a02",
+            "10-library/10-components/toast.md": "d63afaf",
+            "10-library/10-components/pagination.md": "d63afaf",
+            "10-library/10-components/banner.md": "d63afaf",
+            "20-web-app/10-docs-site/README.md": "d63afaf",
+            "20-web-app/00-architecture.md": "d63afaf"
+          },
+          "new_sha": "e53c5be",
+          "rationale": "Backfill: chapters were updated in content during the i18n run (sha 27c8471) but their per-chapter last_scan_sha was not bumped. No post-i18n drift on any source file. Safe metadata-only bump.",
+          "completed_at": "2026-05-08T18:10:23+00:00"
+        },
+        {
+          "kind": "content-update",
+          "chapters": [
+            "10-library/30-build-and-publish/README.md",
+            "30-cross-cutting/15-e2e.md"
+          ],
+          "details": {
+            "10-library/30-build-and-publish/README.md": {
+              "paths": [
+                "packages/ui/package.json",
+                "packages/ui/.ladle/components.tsx",
+                "packages/ui/.ladle/components.test.ts"
+              ],
+              "commits": [
+                "493936b",
+                "337698d"
+              ],
+              "edits": "Added tailwindcss-animate to peer deps; replaced broken Ladle imports section with post-fix description + regression guard; removed gotcha #7 + open question #1 about resolved Ladle bug; added new gotcha #8 about the static import test."
+            },
+            "30-cross-cutting/15-e2e.md": {
+              "paths": [
+                "e2e/tests/scenarios/i18n-switcher.spec.ts"
+              ],
+              "commits": [
+                "9217a1c",
+                "44baf27",
+                "25d7620"
+              ],
+              "edits": "Added i18n-switcher.spec.ts to layout tree and to the smoke/docs flows scenario list with a description of its coverage (story 1.1 \u2014 locale switch, html lang flip, persistence)."
+            }
+          },
+          "sha": "e53c5be",
+          "completed_at": "2026-05-08T18:13:58+00:00"
         }
       ]
     }
@@ -289,7 +355,7 @@
     },
     "10-library/10-components/README.md": {
       "status": "documented",
-      "last_scan_sha": "43a7a02",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/"
       ]
@@ -345,7 +411,7 @@
     "10-library/10-components/spinner.md": {
       "status": "documented",
       "tier": "THIN",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/spinner/"
       ]
@@ -409,7 +475,7 @@
     "10-library/10-components/combobox.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/combobox/"
       ]
@@ -449,7 +515,7 @@
     "10-library/10-components/date-picker.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/date-picker/"
       ]
@@ -473,7 +539,7 @@
     "10-library/10-components/dialog.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "43a7a02",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/dialog/"
       ]
@@ -481,7 +547,7 @@
     "10-library/10-components/drawer.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "43a7a02",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/drawer/"
       ]
@@ -521,7 +587,7 @@
     "10-library/10-components/toast.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/toast/"
       ]
@@ -609,7 +675,7 @@
     "10-library/10-components/pagination.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/pagination/"
       ]
@@ -697,7 +763,7 @@
     "10-library/10-components/banner.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/src/components/banner/"
       ]
@@ -757,13 +823,14 @@
     },
     "10-library/30-build-and-publish/README.md": {
       "status": "documented",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/tsup.config.ts",
         "packages/ui/package.json",
         "packages/ui/.ladle/config.mjs",
         "packages/ui/.ladle/components.tsx",
-        ".npmrc"
+        ".npmrc",
+        "packages/ui/.ladle/components.test.ts"
       ]
     },
     "10-library/40-testing/README.md": {
@@ -777,7 +844,7 @@
     },
     "20-web-app/00-architecture.md": {
       "status": "documented",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "apps/web/app/layout.tsx",
         "apps/web/app/page.tsx",
@@ -792,7 +859,7 @@
     },
     "20-web-app/10-docs-site/README.md": {
       "status": "documented",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "apps/web/app/docs/layout.tsx",
         "apps/web/app/docs/_components/",
@@ -804,7 +871,7 @@
     },
     "20-web-app/20-theme-generator/README.md": {
       "status": "documented",
-      "last_scan_sha": "43a7a02",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "apps/web/app/theme-generator/page.tsx",
         "apps/web/app/theme-generator/theme-state.ts",
@@ -812,7 +879,8 @@
         "apps/web/app/theme-generator/presets.ts",
         "apps/web/app/theme-generator/exporters.ts",
         "apps/web/app/theme-generator/contrast.ts",
-        "apps/web/app/theme-generator/sample-dialog.tsx"
+        "apps/web/app/theme-generator/sample-dialog.tsx",
+        "apps/web/app/theme-generator/token-preview-chip.tsx"
       ]
     },
     "20-web-app/30-deployment.md": {
@@ -841,7 +909,7 @@
       "sources": [
         "e2e/"
       ],
-      "last_scan_sha": "43a7a02"
+      "last_scan_sha": "e53c5be"
     },
     "30-cross-cutting/20-conventions.md": {
       "status": "pending",
