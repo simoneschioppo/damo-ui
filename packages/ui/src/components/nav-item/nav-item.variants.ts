@@ -1,4 +1,45 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+import { selectionChromeClasses } from '../../lib/selection-chrome'
+
+// Selection chrome (rounded-selection radius + 135° tinted gradient + 1px
+// inset outline + 3px ::before bar) is shared with DropdownMenuRadioItem.
+// Source of truth: `packages/ui/src/lib/selection-chrome.ts`. The bar inset
+// (-2px) intentionally bleeds into the sidebar's left padding gutter, which
+// is why NavItem differs from RadioItem (left-1 inside an overflow-hidden
+// menu panel).
+const navItemDefaultChrome = selectionChromeClasses({
+  gate: 'aria-[current=page]',
+  radiusToken: 'rounded-selection',
+  gradientFrom: 'var(--primary)',
+  gradientFromMix: 18,
+  gradientTo: 'var(--secondary)',
+  gradientToMix: 10,
+  outlineToken: 'var(--primary)',
+  outlineMix: 30,
+  barColor: 'bg-primary',
+  barInset: '-2px',
+  barTop: '2',
+  barBottom: '2',
+})
+
+// onDark mirrors the same recipe but every token is swapped to the
+// `--nav-on-dark-*` set so the theme generator's "Nav on dark" controls
+// reach the gradient/outline/bar layers (regression guard:
+// `nav-item.tone-on-dark.test.ts`).
+const navItemOnDarkChrome = selectionChromeClasses({
+  gate: 'aria-[current=page]',
+  radiusToken: 'rounded-selection',
+  gradientFrom: 'var(--nav-on-dark-accent-strong)',
+  gradientFromMix: 22,
+  gradientTo: 'var(--nav-on-dark-accent)',
+  gradientToMix: 12,
+  outlineToken: 'var(--nav-on-dark-accent-strong)',
+  outlineMix: 30,
+  barColor: 'bg-[var(--nav-on-dark-accent-strong)]',
+  barInset: '-2px',
+  barTop: '2',
+  barBottom: '2',
+})
 
 export const navItemVariants = cva(
   [
@@ -15,15 +56,7 @@ export const navItemVariants = cva(
         default: [
           'text-muted-foreground hover:text-foreground hover:bg-muted hover:translate-x-0.5',
           'aria-[current=page]:text-foreground',
-          'aria-[current=page]:rounded-selection',
-          'aria-[current=page]:bg-[linear-gradient(135deg,color-mix(in_oklab,var(--primary)_18%,transparent),color-mix(in_oklab,var(--secondary)_10%,transparent))]',
-          'aria-[current=page]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--primary)_30%,transparent)]',
-          'aria-[current=page]:before:content-[""] aria-[current=page]:before:absolute',
-          // Bleeds 2px into the sidebar's left rail/padding gutter — matches the
-          // reference and gives the bar room to land outside the rounded outline.
-          'aria-[current=page]:before:left-[-2px] aria-[current=page]:before:top-2 aria-[current=page]:before:bottom-2',
-          'aria-[current=page]:before:w-[3px] aria-[current=page]:before:rounded-[2px]',
-          'aria-[current=page]:before:bg-primary',
+          ...navItemDefaultChrome,
         ],
         onDark: [
           // Idle + hover colours read from the nav-on-dark identity tokens so
@@ -32,17 +65,7 @@ export const navItemVariants = cva(
           // and ignored token overrides.
           'text-[var(--nav-on-dark-foreground)] hover:text-[var(--nav-on-dark-foreground-strong)] hover:bg-white/5 hover:translate-x-0.5',
           'aria-[current=page]:text-[var(--nav-on-dark-accent)]',
-          'aria-[current=page]:rounded-selection',
-          // Token-driven gradient — was previously hard-coded gold/plum
-          // rgba literals which made the theme generator's "Nav on dark"
-          // accent edits silently ignored. Mirrors the color-mix tinting
-          // recipe used by Chip / Toast / Banner / Hint.
-          'aria-[current=page]:bg-[linear-gradient(135deg,color-mix(in_oklab,var(--nav-on-dark-accent-strong)_22%,transparent),color-mix(in_oklab,var(--nav-on-dark-accent)_12%,transparent))]',
-          'aria-[current=page]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--nav-on-dark-accent-strong)_30%,transparent)]',
-          'aria-[current=page]:before:content-[""] aria-[current=page]:before:absolute',
-          'aria-[current=page]:before:left-[-2px] aria-[current=page]:before:top-2 aria-[current=page]:before:bottom-2',
-          'aria-[current=page]:before:w-[3px] aria-[current=page]:before:rounded-[2px]',
-          'aria-[current=page]:before:bg-[var(--nav-on-dark-accent-strong)]',
+          ...navItemOnDarkChrome,
         ],
       },
     },
