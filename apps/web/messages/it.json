@@ -482,7 +482,8 @@
       "shadowSoft": "Soft",
       "shadowMdOpacity": "opacity md · {opacity}",
       "motionDurations": "Durate (ms)",
-      "motionEasings": "Easing"
+      "motionEasings": "Easing",
+      "motionTitle": "Motion"
     }
   },
   "sampleDialog": {
@@ -528,7 +529,7 @@
       }
     },
     "app-top-bar": {
-      "lead": "Header del sito con tre slot: brand, navigazione e azioni. Per default è sticky in alto; disattivalo con <code>sticky={false}</code>.",
+      "lead": "Header del sito con tre slot: brand, navigazione e azioni. Per default è sticky in alto; disattivalo con <code>sticky='{'false'}'</code>.",
       "a11y": {
         "0": "L'header viene renderizzato come <code>&lt;header&gt;</code> (ruolo banner).",
         "1": "Avvolgi il brand mark in un link con un <code>aria-label</code> quando l'etichetta è decorativa (solo icona)."
@@ -679,7 +680,7 @@
       "body": {
         "withInlineIcons": "Inserisci un'icona dentro al Button accanto al testo. Mantieni la label visibile in modo che l'azione resti annunciabile.",
         "fullWidth": "Allunga il bottone fino al contenitore — utile dentro form stretti o sheet mobile.",
-        "useAsLink": "Passa <code>asChild</code> per renderizzare un singolo elemento figlio con tutti gli stili di Button applicati (pattern <code>Slot</code> di Radix). Utile per CTA di navigazione che hanno bisogno sia dell'animazione di press Memphis sia del routing — le classi di variante, il lift di hover e il collasso active-press vengono tutti uniti sull'<code>&lt;a&gt;</code> sottostante.",
+        "useAsLink": "Passa <code>asChild</code> per renderizzare un singolo elemento figlio con tutti gli stili di Button applicati (pattern <code>Slot</code> di Radix). Utile per CTA di navigazione che hanno bisogno sia dell'animazione di press Memphis sia del routing — le classi di variante, il lift di hover e il collasso active-press vengono tutti uniti sull''<code>&lt;a&gt;</code> sottostante.",
         "iconButtonLead": "Un bottone quadrato 40×40 per azioni solo-icona. Compone <code>Button</code> con <code>size=\"icon\"</code> e lo stesso effetto di press Memphis; <code>aria-label</code> è obbligatorio così l'azione viene annunciata.",
         "iconButtonVariants": "Le stesse sei varianti di Button. La versione solo-icona di <code>link</code> è raramente utile; usa <code>ghost</code> al suo posto."
       },
@@ -945,7 +946,7 @@
       },
       "a11y": {
         "0": "La label è una vera <code>&lt;label htmlFor=\"…\"&gt;</code>; cliccarla porta il focus sull'input.",
-        "1": "Gli id di descrizione ed errore vengono uniti all'<code>aria-describedby</code> del figlio; gli id già passati dal caller sono preservati.",
+        "1": "Gli id di descrizione ed errore vengono uniti all''<code>aria-describedby</code> del figlio; gli id già passati dal caller sono preservati.",
         "2": "Quando <code>error</code> è impostato, il figlio riceve automaticamente <code>aria-invalid=true</code>."
       },
       "props": {
@@ -1037,7 +1038,7 @@
       "lead": "Stacco di sezione decorativo: due hairline orizzontali con gradient ai lati di un glifo centrato. Usalo tra gruppi tematici dentro una pagina, dove un semplice <code>Separator</code> risulterebbe troppo asettico.",
       "body": {
         "customGlyph": "Passa un nodo figlio per sostituire il diamante predefinito — emoji, icone o brevi accenti testuali funzionano bene.",
-        "accessibility": "Il wrapper porta <code>aria-hidden=\"true\"</code>, che rimuove Ornament dall'accessibility tree completamente — la tecnologia assistiva lo salta. L'attributo DOM <code>role=\"separator\"</code> è presente per coerenza di stile ma non ha effetto AT a causa dell'<code>aria-hidden</code> circostante. Per separazioni semantiche di sezione che devono essere annunciate, usa <link1>Separator</link1> con <code>decorative=false</code>."
+        "accessibility": "Il wrapper porta <code>aria-hidden=\"true\"</code>, che rimuove Ornament dall'accessibility tree completamente — la tecnologia assistiva lo salta. L'attributo DOM <code>role=\"separator\"</code> è presente per coerenza di stile ma non ha effetto AT a causa dell''<code>aria-hidden</code> circostante. Per separazioni semantiche di sezione che devono essere annunciate, usa <link1>Separator</link1> con <code>decorative=false</code>."
       },
       "props": {
         "children": "Glifo opzionale renderizzato tra le due hairline a gradiente. Predefinito un diamante Memphis.",
@@ -1073,7 +1074,7 @@
         "totalPages": "Numero totale di pagine.",
         "maxVisible": "Numero massimo di pulsanti pagina renderizzati tra le ellissi. Predefinito a una finestra ragionevole tramite <code>computePageWindow</code> (anch'esso esportato).",
         "onPageChange": "Si attiva quando l'utente clicca un numero di pagina o i chevron prev/next.",
-        "labels": "Sovrascrive le label accessibili — <code>'{' previous, next, page, pageOf(page, total) '}'</code>. I default sono in italiano.",
+        "labels": "Sovrascrive le label accessibili — <code>'{' previous, next, page, pageOf(page, total) '}'</code>. I default sono in inglese.",
         "disabled": "Disabilita ogni pulsante (utile mentre un fetch del parent è in volo)."
       }
     },
@@ -1106,7 +1107,7 @@
       "lead": "Progress bar determinata costruita su Radix Progress. Track bordato Memphis con un fill in token secondary che anima fino a <code>value</code>.",
       "body": {
         "customIndicator": "Sovrascrivi la barra di riempimento con <code>indicatorClassName</code> — utile per flussi success / warning / danger.",
-        "indeterminate": "Passa <code>value={null}</code> quando la lunghezza totale è sconosciuta — Radix imposta <code>aria-busy=true</code>. Sceglie <link1>Spinner</link1> per feedback indeterminato compatto."
+        "indeterminate": "Passa <code>value='{'null'}'</code> quando la lunghezza totale è sconosciuta — Radix imposta <code>aria-busy=true</code>. Scegli <link1>Spinner</link1> per feedback indeterminato compatto."
       },
       "a11y": {
         "0": "Radix imposta <code>role=\"progressbar\"</code> con <code>aria-valuemin</code>, <code>aria-valuemax</code> e <code>aria-valuenow</code>.",
@@ -1160,8 +1161,8 @@
         "2": "Tastiera: <kbd>Tab</kbd> sposta il focus dentro all'item correntemente selezionato (roving tabindex); le frecce ciclano gli item e spostano la selezione; <kbd>Tab</kbd> di nuovo sposta il focus fuori dall'intero gruppo."
       },
       "vsRadio": {
-        "0": "Sceglie <strong>SegmentedControl</strong> quando 2-5 opzioni stanno su una riga e il controllo si comporta più come una tab strip che come un form input.",
-        "1": "Sceglie <link1>RadioGroup</link1> quando hai molte opzioni o vuoi ogni opzione su una sua riga con descrizioni."
+        "0": "Scegli <strong>SegmentedControl</strong> quando 2-5 opzioni stanno su una riga e il controllo si comporta più come una tab strip che come un form input.",
+        "1": "Scegli <link1>RadioGroup</link1> quando hai molte opzioni o vuoi ogni opzione su una sua riga con descrizioni."
       },
       "props": {
         "value": "Valore selezionato controllato. Abbinalo a <code>onValueChange</code>.",

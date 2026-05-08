@@ -482,7 +482,8 @@
       "shadowSoft": "Soft",
       "shadowMdOpacity": "md opacity · {opacity}",
       "motionDurations": "Durations (ms)",
-      "motionEasings": "Easings"
+      "motionEasings": "Easings",
+      "motionTitle": "Motion"
     }
   },
   "sampleDialog": {
@@ -528,7 +529,7 @@
       }
     },
     "app-top-bar": {
-      "lead": "Site header with three slots: brand, navigation, and actions. Defaults to sticky top placement; opt out via <code>sticky={false}</code>.",
+      "lead": "Site header with three slots: brand, navigation, and actions. Defaults to sticky top placement; opt out via <code>sticky='{'false'}'</code>.",
       "a11y": {
         "0": "The header renders as a <code>&lt;header&gt;</code> (banner role).",
         "1": "Wrap the brand mark in a link with an <code>aria-label</code> when the label is decorative (icon-only)."
@@ -1073,7 +1074,7 @@
         "totalPages": "Total number of pages.",
         "maxVisible": "Maximum number of page buttons rendered between the ellipses. Defaults to a sensible window via <code>computePageWindow</code> (also exported).",
         "onPageChange": "Fires when the user clicks a page number or the prev/next chevrons.",
-        "labels": "Override accessible labels — <code>'{' previous, next, page, pageOf(page, total) '}'</code>. Defaults are Italian.",
+        "labels": "Override accessible labels — <code>'{' previous, next, page, pageOf(page, total) '}'</code>. Defaults are English.",
         "disabled": "Disables every button (useful while a parent fetch is in flight)."
       }
     },
@@ -1106,7 +1107,7 @@
       "lead": "Determinate progress bar built on Radix Progress. Memphis-bordered track with a secondary token fill that animates to <code>value</code>.",
       "body": {
         "customIndicator": "Override the fill bar with <code>indicatorClassName</code> — useful for success / warning / danger flows.",
-        "indeterminate": "Pass <code>value={null}</code> when total length is unknown — Radix sets <code>aria-busy=true</code>. Reach for <link1>Spinner</link1> for compact indeterminate feedback."
+        "indeterminate": "Pass <code>value='{'null'}'</code> when total length is unknown — Radix sets <code>aria-busy=true</code>. Reach for <link1>Spinner</link1> for compact indeterminate feedback."
       },
       "a11y": {
         "0": "Radix sets <code>role=\"progressbar\"</code> with <code>aria-valuemin</code>, <code>aria-valuemax</code>, and <code>aria-valuenow</code>.",
