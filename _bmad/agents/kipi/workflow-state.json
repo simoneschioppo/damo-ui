@@ -99,21 +99,21 @@
       "processed": []
     },
     "update": {
-      "queued": [
+      "queued": [],
+      "runs": [
         {
-          "queued_at": "2026-05-08T17:48:32+00:00",
-          "trigger": "post-code-change",
+          "chapter": "20-web-app/20-theme-generator/README.md",
           "paths": [
             "apps/web/app/theme-generator/page.tsx",
             "apps/web/app/theme-generator/token-preview-chip.tsx",
             "apps/web/app/theme-generator/token-preview-chip.test.tsx"
           ],
-          "source_agent": "bmad-quick-dev",
+          "sha": "e53c5be",
           "gh_issue": 64,
-          "gh_pr": 72
-        }
-      ],
-      "runs": [
+          "gh_pr": 72,
+          "queued_at": "2026-05-08T17:48:32+00:00",
+          "completed_at": "2026-05-08T17:55:00+00:00"
+        },
         {
           "chapter": "10-library/10-components/dialog.md",
           "paths": [
@@ -804,7 +804,7 @@
     },
     "20-web-app/20-theme-generator/README.md": {
       "status": "documented",
-      "last_scan_sha": "43a7a02",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "apps/web/app/theme-generator/page.tsx",
         "apps/web/app/theme-generator/theme-state.ts",
@@ -812,7 +812,8 @@
         "apps/web/app/theme-generator/presets.ts",
         "apps/web/app/theme-generator/exporters.ts",
         "apps/web/app/theme-generator/contrast.ts",
-        "apps/web/app/theme-generator/sample-dialog.tsx"
+        "apps/web/app/theme-generator/sample-dialog.tsx",
+        "apps/web/app/theme-generator/token-preview-chip.tsx"
       ]
     },
     "20-web-app/30-deployment.md": {
