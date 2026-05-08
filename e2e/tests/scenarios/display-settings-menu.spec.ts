@@ -42,7 +42,7 @@ test.describe('Docs preferences menu (topbar cog)', () => {
 
   test('persists across reload', async ({ page }) => {
     await page.getByRole('button', { name: 'Display settings' }).click()
-    await page.getByRole('button', { name: 'Compatta' }).click()
+    await page.getByRole('button', { name: 'Compact' }).click()
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')
     await page.reload()
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')

@@ -1,8 +1,10 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { TypeSpecimen } from '../../../_components/showcase'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { BRAND } from '../../../../lib/brand'
+import { monoTag, strongTag, linkTag } from '../../../../lib/i18n-tags'
 
 interface TypeRow {
   readonly name: string
@@ -130,142 +132,123 @@ const EYEBROW_PATTERN = `// The "eyebrow" pattern: small uppercase mono accent a
 
 export const metadata = { title: `Typography — ${BRAND.libName}` }
 
-export default function TypographyFoundationPage() {
+export default async function TypographyFoundationPage() {
+  const tFoundations = await getTranslations('foundations')
+  const t = await getTranslations('foundations.typography')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FOUNDATIONS
+        {tFoundations('eyebrow')}
       </div>
-      <h1 className="font-display text-5xl leading-[0.95] mb-4">Typography</h1>
-      <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Audiowide for display, Exo 2 for body and UI. The personality lives in weight, tracking, and
-        the eyebrow mono accent — no extra families needed.
-      </p>
+      <h1 className="font-display text-5xl leading-[0.95] mb-4">{t('h1')}</h1>
+      <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">{t('lead')}</p>
 
-      <h2 className="font-display text-2xl mb-3">Specimens</h2>
+      <h2 className="font-display text-2xl mb-3">{t('specimensTitle')}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
         <TypeSpecimen
-          name="DISPLAY · AUDIOWIDE · GOOGLE FONTS"
-          sample="Damo UI"
+          name={t('displaySpecimenName')}
+          sample={t('displaySpecimenSample')}
           fontFamily="var(--font-display)"
           sampleSize={64}
         />
         <TypeSpecimen
-          name="BODY · EXO 2 · GOOGLE FONTS"
-          sample="Ogni token al suo posto."
+          name={t('bodySpecimenName')}
+          sample={t('bodySpecimenSample')}
           fontFamily="var(--font-body)"
           sampleSize={36}
         />
       </div>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Scale</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('scaleTitle')}</h2>
       <div className="border-2 border-memphis bg-card shadow-memphis mb-12">
-        {TYPE_SCALE.map((t, idx) => (
+        {TYPE_SCALE.map((row, idx) => (
           <div
-            key={t.name}
+            key={row.name}
             className={`grid grid-cols-[140px_1fr_140px] gap-6 items-baseline px-4 py-4 ${
               idx === 0 ? '' : 'border-t border-memphis/40'
             }`}
           >
             <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              {t.name}
+              {row.name}
             </div>
             <div
               style={{
-                fontFamily: fontVar(t.font),
-                fontSize: t.size,
-                fontWeight: t.weight,
+                fontFamily: fontVar(row.font),
+                fontSize: row.size,
+                fontWeight: row.weight,
                 lineHeight: 1.1,
-                textTransform: t.upper === true ? 'uppercase' : 'none',
-                letterSpacing: t.track !== undefined ? `${t.track}em` : '0',
+                textTransform: row.upper === true ? 'uppercase' : 'none',
+                letterSpacing: row.track !== undefined ? `${row.track}em` : '0',
                 color: 'var(--foreground)',
               }}
             >
-              {t.upper === true ? 'DAMO · UI · DESIGN' : 'Damo UI · token e componenti'}
+              {row.upper === true ? t('scaleSampleUpper') : t('scaleSampleNormal')}
             </div>
             <div className="font-mono text-[11px] text-primary text-right">
-              {t.size}px / {t.weight}
+              {row.size}px / {row.weight}
               <br />
-              <span className="text-muted-foreground">--font-{t.font}</span>
+              <span className="text-muted-foreground">--font-{row.font}</span>
             </div>
           </div>
         ))}
       </div>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Loading the fonts</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('loadingTitle')}</h2>
       <p className="text-foreground/80 mb-3">
-        The lib ships <code className="font-mono">var(--font-*)</code> tokens but{' '}
-        <strong>does not</strong> embed font files. Load Audiowide + Exo 2 yourself (Google Fonts
-        link or <code className="font-mono">next/font</code>) and bind the families to the
-        lib&rsquo;s variables.
+        {t.rich('loadingBody', { mono: monoTag, strong: strongTag })}
       </p>
       <Code code={FONTS_LOAD} lang="tsx" title="option A · Google Fonts <link>" />
       <Code code={FONTS_TOKEN_OVERRIDE} lang="css" title="option A · bind to tokens" />
       <p className="text-foreground/80 mt-6 mb-3">
-        Or use Next.js <code className="font-mono">next/font/google</code> for self-hosted,
-        FOUT-free loading:
+        {t.rich('loadingNextHint', { mono: monoTag })}
       </p>
       <Code code={NEXT_LOCAL_FONTS} lang="tsx" title="option B · next/font/google" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Using fonts in JSX (Tailwind)</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('tailwindTitle')}</h2>
       <p className="text-foreground/80 mb-3">
-        Three Tailwind utilities map to the three families:{' '}
-        <code className="font-mono">font-display</code>,{' '}
-        <code className="font-mono">font-body</code>, <code className="font-mono">font-mono</code>.
+        {t.rich('tailwindBody', { mono: monoTag })}
       </p>
       <Example code={TAILWIND_FONTS} previewClassName="px-6 py-8 flex flex-col gap-3 items-start">
         <h3 className="font-display text-4xl leading-[0.95]">Damo UI</h3>
         <p className="font-body text-base text-foreground/80">
-          Body copy uses the body family by default.
+          {t('tailwindPreviewBody')}
         </p>
         <code className="font-mono text-sm bg-muted px-2 py-1 border border-memphis/40">
           npm install @damo/ui
         </code>
       </Example>
 
-      <h3 className="font-display text-lg mb-3 mt-8">Helper classes</h3>
+      <h3 className="font-display text-lg mb-3 mt-8">{t('helperTitle')}</h3>
       <p className="text-foreground/80 mb-3">
-        Three CSS classes ship with <code className="font-mono">@damo/ui/styles/globals.css</code>{' '}
-        for the most common Memphis-flavoured patterns.
+        {t.rich('helperBody', { mono: monoTag })}
       </p>
       <Example code={HELPER_CLASSES} previewClassName="px-6 py-8 flex flex-col gap-3 items-start">
-        <h2 className="display text-4xl">Display heading</h2>
-        <code className="mono text-sm">read-only mono span</code>
-        <span className="eyebrow">SECTION LABEL</span>
+        <h2 className="display text-4xl">{t('helperPreviewDisplay')}</h2>
+        <code className="mono text-sm">{t('helperPreviewMono')}</code>
+        <span className="eyebrow">{t('helperPreviewEyebrow')}</span>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Using fonts in CSS</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('cssTitle')}</h2>
       <Code code={CSS_FONT_USAGE} lang="css" title="any stylesheet" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">The eyebrow pattern</h2>
-      <p className="text-foreground/80 mb-3">
-        Section headers in {BRAND.libName} pair an uppercase mono accent (the &ldquo;eyebrow&rdquo;)
-        with a display headline. The contrast in family + tracking is what gives the layout its
-        Memphis edge.
-      </p>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('eyebrowPatternTitle')}</h2>
+      <p className="text-foreground/80 mb-3">{t('eyebrowPatternBody')}</p>
       <Example code={EYEBROW_PATTERN} previewClassName="px-6 py-8 flex flex-col items-start gap-1">
-        <span className="eyebrow">FOUNDATIONS</span>
-        <h3 className="font-display text-4xl leading-[0.95]">Typography</h3>
-        <p className="text-muted-foreground">Sub-copy explaining the section.</p>
+        <span className="eyebrow">{tFoundations('eyebrow')}</span>
+        <h3 className="font-display text-4xl leading-[0.95]">{t('h1')}</h3>
+        <p className="text-muted-foreground">{t('eyebrowPreviewSubcopy')}</p>
       </Example>
 
       <p className="text-foreground/80 mt-8">
-        Need to swap fonts entirely? Override <code className="font-mono">--font-display</code>,{' '}
-        <code className="font-mono">--font-body</code>,{' '}
-        <code className="font-mono">--font-mono</code> at <code className="font-mono">:root</code> —
-        every utility and helper re-points automatically. See{' '}
-        <Link href="/docs/foundations/tokens" className="text-primary underline">
-          Tokens
-        </Link>{' '}
-        for the override pattern.
+        {t.rich('swapHint', { mono: monoTag, link: linkTag('/docs/foundations/tokens') })}
       </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <Link href="/docs/foundations/colors" className="text-primary underline">
-          ← Colors
+          {t('prevLink')}
         </Link>
         <Link href="/docs/foundations/patterns" className="text-primary underline">
-          Patterns →
+          {t('nextLink')}
         </Link>
       </div>
     </article>

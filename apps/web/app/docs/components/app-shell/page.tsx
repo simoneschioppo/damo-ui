@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
@@ -14,60 +16,55 @@ const ON_DARK_SNIPPET = `<AppShell sidebar={<Nav />} sidebarTone="onDark">
   …
 </AppShell>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'sidebar',
-    type: 'ReactNode',
-    required: true,
-    description:
-      'Content rendered inside the sticky `<aside>` column. Pair with a Sidebar / Nav component.',
-  },
-  {
-    name: 'sidebarWidth',
-    type: 'number',
-    defaultValue: '240',
-    description: 'Pixel width of the sidebar column.',
-  },
-  {
-    name: 'sidebarTone',
-    type: "'default' | 'onDark'",
-    defaultValue: "'default'",
-    description:
-      '`default` paints the sidebar with the card surface; `onDark` flips it to ink with light text — pair with NavItem `tone="onDark"`.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Main content rendered in the right column.',
-  },
-]
-
 export const metadata = { title: `AppShell — ${BRAND.libName}` }
 
-export default function AppShellDocsPage() {
+export default async function AppShellDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'sidebar',
+      type: 'ReactNode',
+      required: true,
+      description: t.rich('componentDocs.app-shell.props.sidebar', { code: codeTag }),
+    },
+    {
+      name: 'sidebarWidth',
+      type: 'number',
+      defaultValue: '240',
+      description: t.rich('componentDocs.app-shell.props.sidebarWidth', { code: codeTag }),
+    },
+    {
+      name: 'sidebarTone',
+      type: "'default' | 'onDark'",
+      defaultValue: "'default'",
+      description: t.rich('componentDocs.app-shell.props.sidebarTone', { code: codeTag }),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.app-shell.props.children', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        LAYOUT
+        {tCat('layout')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">AppShell</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Two-column app layout: sticky sidebar (configurable width and tone) + scrollable main area.
-        The shell takes the full viewport height and keeps the sidebar pinned while the main column
-        scrolls.
+        {t('componentDocs.app-shell.lead')}
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Basic shape</h2>
       <p className="text-foreground/80 mb-3">
-        AppShell occupies the full viewport. The example below shows a static visual scaled into a
-        framed preview — wire your own Sidebar (and{' '}
-        <Link href="/docs/components/page-header" className="text-primary underline">
-          PageHeader
-        </Link>
-        ) inside the slots.
+        {t.rich('componentDocs.app-shell.body.basicShape', {
+          link1: linkTag('/docs/components/page-header'),
+        })}
       </p>
       <div className="my-6 border-2 border-memphis bg-background shadow-memphis overflow-hidden">
         <div className="grid grid-cols-[180px_1fr] min-h-[260px]">
@@ -84,7 +81,7 @@ export default function AppShellDocsPage() {
               Main
             </div>
             <p className="text-sm text-muted-foreground">
-              Page content scrolls here. The sidebar stays pinned at the top.
+              {t('componentDocs.app-shell.body.sidebarPlaceholder')}
             </p>
           </main>
         </div>
@@ -94,28 +91,25 @@ export default function AppShellDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">On-dark sidebar</h2>
       <Code code={ON_DARK_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="AppShell props" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Pairs well with</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
-          <Link href="/docs/components/sidebar" className="text-primary underline">
-            Sidebar
-          </Link>{' '}
-          — composable side panel with header, body, footer slots.
+          {t.rich('componentDocs.app-shell.a11y.0', {
+            link1: linkTag('/docs/components/sidebar'),
+          })}
         </li>
         <li>
-          <Link href="/docs/components/page-header" className="text-primary underline">
-            PageHeader
-          </Link>{' '}
-          — eyebrow + title + actions strip for the top of the main column.
+          {t.rich('componentDocs.app-shell.a11y.1', {
+            link1: linkTag('/docs/components/page-header'),
+          })}
         </li>
         <li>
-          <Link href="/docs/components/app-top-bar" className="text-primary underline">
-            AppTopBar
-          </Link>{' '}
-          — alternative chrome for non-sidebar layouts (also can render inside the main column).
+          {t.rich('componentDocs.app-shell.a11y.2', {
+            link1: linkTag('/docs/components/app-top-bar'),
+          })}
         </li>
       </ul>
 
