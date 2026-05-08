@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
@@ -72,11 +73,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `ColorPicker — ${BRAND.libName}` }
 
-export default function ColorPickerDocsPage() {
+export default async function ColorPickerDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        SHOWCASE / DS
+        {tCat('cardsAndDecoration')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">ColorPicker</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -85,7 +88,7 @@ export default function ColorPickerDocsPage() {
         — the parent decides whether to validate the hex.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Basic — swatch + hex input</h2>
@@ -107,7 +110,7 @@ export default function ColorPickerDocsPage() {
         <ColorPickerNoLabelExample />
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="ColorPicker props" />
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

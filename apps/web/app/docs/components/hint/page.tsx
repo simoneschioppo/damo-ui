@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Hint } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -43,11 +44,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Hint — ${BRAND.libName}` }
 
-export default function HintDocsPage() {
+export default async function HintDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FEEDBACK
+        {tCat('feedback')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Hint</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -55,10 +58,10 @@ export default function HintDocsPage() {
         docs, or numbered captions on a marketing page.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Live preview</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('livePreview')}</h2>
       <Example code={BASIC_SNIPPET}>
         <div className="w-full max-w-2xl flex flex-col gap-4">
           <Hint num={1} title="Numbered insight">
@@ -71,10 +74,10 @@ export default function HintDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Hint props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <p className="text-foreground/85">
         Hint renders a vanilla <code className="font-mono">div</code> with semantic{' '}
         <code className="font-mono">h4</code> + <code className="font-mono">p</code> children. The

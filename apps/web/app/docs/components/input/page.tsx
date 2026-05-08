@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Input, Label } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -37,11 +38,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Input — ${BRAND.libName}` }
 
-export default function InputDocsPage() {
+export default async function InputDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        COMPONENTS
+        {tCat('actionsAndSurfaces')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Input</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -50,10 +53,10 @@ export default function InputDocsPage() {
         for accessibility.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Basic usage</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('basicUsage')}</h2>
       <Example code={BASIC_SNIPPET} previewClassName="px-6 py-10">
         <div className="w-full max-w-sm flex flex-col gap-2">
           <Label htmlFor="email-doc">Email</Label>
@@ -61,7 +64,7 @@ export default function InputDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Invalid state</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('invalidState')}</h2>
       <Example code={INVALID_SNIPPET} previewClassName="px-6 py-10">
         <div className="w-full max-w-sm flex flex-col gap-2">
           <Label htmlFor="invalid-email-doc">Email</Label>
@@ -69,17 +72,17 @@ export default function InputDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Disabled</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('disabled')}</h2>
       <Example code={DISABLED_SNIPPET} previewClassName="px-6 py-10">
         <div className="w-full max-w-sm">
           <Input defaultValue="readonly@example.com" disabled />
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">API</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('api')}</h2>
       <PropsTable props={PROPS} caption="Input props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           Always associate a <code className="font-mono">Label</code> via matching{' '}

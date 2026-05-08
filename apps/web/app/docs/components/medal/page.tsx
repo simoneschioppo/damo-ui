@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Medal } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -44,11 +45,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Medal — ${BRAND.libName}` }
 
-export default function MedalDocsPage() {
+export default async function MedalDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        DATA DISPLAY
+        {tCat('dataDisplay')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Medal</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -56,7 +59,7 @@ export default function MedalDocsPage() {
         achievement badges, and rating tiers.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">All ranks</h2>
@@ -70,7 +73,7 @@ export default function MedalDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Sizes</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('sizes')}</h2>
       <Example code={SIZE_SNIPPET}>
         <div className="flex items-end gap-6">
           <Medal rank="gold" value={1} size={48} />
@@ -79,10 +82,10 @@ export default function MedalDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Medal props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <p className="text-foreground/85">
         The SVG renders <code className="font-mono">role=&quot;img&quot;</code> with{' '}
         <code className="font-mono">aria-label</code> derived from{' '}
