@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import {
   Button,
   Dialog,
@@ -130,6 +131,7 @@ const CONTENT_PROPS: ReadonlyArray<PropDef> = [
 export default async function DialogDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -137,11 +139,7 @@ export default async function DialogDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Dialog</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Modal dialog wrapping Radix Dialog. Two semantic modes via{' '}
-        <code className="font-mono">severity</code>: <code className="font-mono">default</code>{' '}
-        (informational, overlay closes) and <code className="font-mono">alert</code> (destructive
-        confirmation, overlay does NOT close). A separate <code className="font-mono">tone</code>{' '}
-        prop flips the offset shadow to the destructive token.
+        {t.rich('componentDocs.dialog.lead', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

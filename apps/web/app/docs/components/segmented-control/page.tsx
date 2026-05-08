@@ -5,6 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { SegmentedControl, SegmentedControlItem } from '@damo/ui'`
 
@@ -59,6 +60,7 @@ export const metadata = { title: `SegmentedControl — ${BRAND.libName}` }
 export default async function SegmentedControlDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -66,9 +68,7 @@ export default async function SegmentedControlDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">SegmentedControl</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Single-select toggle group with a Memphis border seam between items. Built on Radix
-        ToggleGroup with <code className="font-mono">type=&quot;single&quot;</code>. Use it for 2-5
-        mutually exclusive options where keeping the choices visible adds clarity.
+        {t.rich('componentDocs.segmented-control.lead', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

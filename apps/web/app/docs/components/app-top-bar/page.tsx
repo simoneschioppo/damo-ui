@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 import { AppTopBar, AttrToggleGroup, Button } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
@@ -67,6 +68,7 @@ export const metadata = { title: `AppTopBar — ${BRAND.libName}` }
 export default async function AppTopBarDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -74,8 +76,7 @@ export default async function AppTopBarDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">AppTopBar</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Site header with three slots: brand, navigation, and actions. Defaults to sticky top
-        placement; opt out via <code className="font-mono">sticky=&#123;false&#125;</code>.
+        {t.rich('componentDocs.app-top-bar.lead', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

@@ -12,6 +12,7 @@ import {
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   Popover,
@@ -86,6 +87,7 @@ export const metadata = { title: `Popover — ${BRAND.libName}` }
 export default async function PopoverDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -93,16 +95,11 @@ export default async function PopoverDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Popover</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Non-modal floating panel anchored to a trigger. Built on Radix Popover, painted with the
-        same Memphis chrome as <code className="font-mono">DropdownMenu</code> and{' '}
-        <code className="font-mono">Dialog</code> so floating surfaces feel consistent. Use it as
-        the generic container for preferences, mini-editors, search results, or any{' '}
-        <em>non-menu</em> floating content. For an action-list with the full ARIA menu pattern reach
-        for{' '}
-        <Link href="/docs/components/dropdown-menu" className="text-primary underline">
-          DropdownMenu
-        </Link>
-        .
+        {t.rich('componentDocs.popover.lead', {
+          code: codeTag,
+          em: emTag,
+          link1: linkTag('/docs/components/dropdown-menu'),
+        })}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

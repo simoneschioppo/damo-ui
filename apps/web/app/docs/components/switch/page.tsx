@@ -5,6 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { Switch, Label } from '@damo/ui'`
 
@@ -56,6 +57,7 @@ export const metadata = { title: `Switch — ${BRAND.libName}` }
 export default async function SwitchDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -63,9 +65,7 @@ export default async function SwitchDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Switch</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Memphis toggle: square thumb sliding between an ivory and a primary track. Use for boolean
-        preferences that take effect immediately (notifications on / off, dark mode on / off). Built
-        on Radix Switch.
+        {t('componentDocs.switch.lead')}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

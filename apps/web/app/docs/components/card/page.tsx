@@ -13,6 +13,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   Card,
@@ -89,6 +90,7 @@ export const metadata = { title: `Card — ${BRAND.libName}` }
 export default async function CardDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -96,8 +98,7 @@ export default async function CardDocsPage() {
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Card</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Composable surface container. Five variants share the same Memphis chrome but differ in
-        accent, weight, and elevation.
+        {t('componentDocs.card.lead')}
       </p>
 
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>

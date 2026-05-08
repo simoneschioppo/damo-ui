@@ -490,5 +490,166 @@
     "helperText": "Puoi cambiare i token nel pannello di sinistra: la modale qui sopra si aggiorna live, così verifichi come si presenta con il tema applicato.",
     "cancel": "Annulla",
     "publish": "Pubblica"
+  },
+  "componentDocs": {
+    "accordion": {
+      "lead": "Sezioni impilate ed espandibili. Costruito su Radix Accordion — gestione completa della tastiera, modalità controllata e non controllata, e il pattern ARIA disclosure arrivano direttamente dalla primitive."
+    },
+    "app-shell": {
+      "lead": "Layout applicativo a due colonne: sidebar sticky (larghezza e tone configurabili) + area principale scrollabile. Lo shell occupa l'intera altezza del viewport e mantiene la sidebar fissa mentre la colonna principale scorre."
+    },
+    "app-top-bar": {
+      "lead": "Header del sito con tre slot: brand, navigazione e azioni. Per default è sticky in alto; disattivalo con <code>sticky={false}</code>."
+    },
+    "article-card": {
+      "lead": "Card di contenuto neutra con larghezza massima di 420px. Frame Memphis, eyebrow opzionale, titolo nel display font e corpo con leading rilassato."
+    },
+    "aspect-ratio": {
+      "lead": "Blocca un elemento figlio a un rapporto larghezza-altezza specifico. Compone la primitive Radix <code>@radix-ui/react-aspect-ratio</code> — il wrapper garantisce zero layout shift mentre image / video / iframe vengono caricati."
+    },
+    "attr-toggle-group": {
+      "lead": "Toggle generico legato a un attributo <code>data-*</code> su <code>&lt;html&gt;</code> e a una chiave <code>localStorage</code>. Si idrata dallo storage al mount, ripulisce i valori persistiti non più validi riportandoli al default configurato e offre due varianti visive: una riga di pulsanti segmentati o un dropdown Select. Usalo per controllare qualsiasi asse del tuo prodotto (theme, palette, density, lingua, valuta, …) senza accoppiare il componente a uno specifico caso d'uso."
+    },
+    "avatar": {
+      "lead": "Avatar utente con immagine + fallback con iniziali. Costruito su Radix Avatar — quando l'immagine non si carica (o durante il caricamento), viene mostrato il fallback."
+    },
+    "badge": {
+      "lead": "Etichetta uppercase compatta con micro-shadow Memphis. Usalo per indicare stato, livello del piano o esito su card, righe di tabella e avatar. Per etichette più lunghe con angoli arrotondati usa <link1>Chip</link1>."
+    },
+    "banner": {
+      "lead": "Superficie di notifica inline. Quattro varianti di tone (info, success, warning, danger), un titolo opzionale, un pulsante di chiusura opzionale e uno slot icon che di default mostra un glifo coerente col tone ma accetta qualsiasi ReactNode."
+    },
+    "box": {
+      "lead": "Primitive flex polimorfica. Usala ogni volta che ti serve un container flex con direzione, gap, allineamento e justification type-checked — con la possibilità di renderizzare come qualsiasi elemento HTML tramite <code>as</code>."
+    },
+    "breadcrumbs": {
+      "lead": "Traccia gerarchica resa come landmark <code>&lt;nav&gt;</code> con label. L'ultimo elemento dovrebbe essere marcato <code>current</code> in modo da renderizzarsi come testo semplice con <code>aria-current=\"page\"</code>."
+    },
+    "button": {
+      "lead": "Superficie d'azione bordata e ombreggiata. Sei varianti, tre size più la size dedicata icon, accesso completo da tastiera tramite un <code>&lt;button&gt;</code> nativo. Abbinalo a <code>IconButton</code> (documentato sotto) per trigger solo-icona — stessa veste, fissato a un quadrato 40×40."
+    },
+    "card": {
+      "lead": "Container di superficie componibile. Cinque varianti condividono la stessa veste Memphis ma differiscono per accent, peso ed elevazione."
+    },
+    "checkbox": {
+      "lead": "Checkbox bordata Memphis costruita su Radix Checkbox. Supporta tre stati checked / unchecked / indeterminate e tutta la semantica nativa dei form (name, value, required)."
+    },
+    "chip": {
+      "lead": "Tag a forma di pillola con dot di stato opzionale e stato attivo. Usa i chip per filtri, tag ed etichette di stato soft. Per badge uppercase con shadow Memphis (status / esito) usa <link1>Badge</link1>."
+    },
+    "color-picker": {
+      "lead": "Swatch <code>&lt;input type=\"color\"&gt;</code> nativo accoppiato all'Input del design system per una stringa hex. Entrambi i controlli condividono un singolo value / onChange — è il parent a decidere se validare l'hex."
+    },
+    "combobox": {
+      "lead": "Single-select ricercabile. Il trigger ha lo stesso aspetto di <link1>Select</link1>; il contenuto del dropdown usa <code>cmdk</code> per il fuzzy matching, più la veste Memphis di Damo sul popover."
+    },
+    "container": {
+      "lead": "Colonna centrata con max-width e padding orizzontale responsive. È il wrapper di pagina di default per i documenti Damo UI."
+    },
+    "context-menu": {
+      "lead": "Menu da click destro costruito su Radix ContextMenu. Riprende <link1>DropdownMenu</link1> nell'API e nei tipi di item — la differenza è il trigger: qualsiasi elemento avvolto si apre su eventi <em>contextmenu</em> (click destro, long press su touch, Shift-F10)."
+    },
+    "date-picker": {
+      "lead": "Date picker singolo che abbina un trigger in stile Memphis al calendario <code>react-day-picker</code> dentro un <link1>Popover</link1>. Locale di default italiano; passa qualsiasi prop di DayPicker per fare override."
+    },
+    "dialog": {
+      "lead": "Dialog modale che incapsula Radix Dialog. Due modalità semantiche tramite <code>severity</code>: <code>default</code> (informativa, l'overlay chiude) e <code>alert</code> (conferma distruttiva, l'overlay NON chiude). Una prop separata <code>tone</code> sposta l'offset shadow verso il token destructive."
+    },
+    "drawer": {
+      "lead": "Pannello laterale scorrevole costruito sulla primitive Radix Dialog. Disponibile su quattro lati (left, right, top, bottom), con close button integrato e la stessa veste shadow Memphis di Dialog."
+    },
+    "dropdown-menu": {
+      "lead": "Menu di azioni componibile costruito su Radix DropdownMenu. Superficie bordata Memphis, gestione completa della tastiera (Enter / Space, frecce, Esc, type-ahead) e veste di selezione sui radio item che ricalca il gradient di <link1>NavItem</link1>. Per un pannello fluttuante non-menu (preferenze libere, popover di un editor, veste custom) usa invece <link2>Popover</link2>."
+    },
+    "feature-card": {
+      "lead": "Card feature/highlight compatta da 280px con shadow Memphis tinta primary. Usala per mettere in evidenza le feature del prodotto su landing page o in griglie di feature."
+    },
+    "form-field": {
+      "lead": "Wrapper accessibile che collega label, descrizione e messaggio di errore a un singolo input figlio tramite <code>aria-describedby</code> e <code>aria-invalid</code>. Non ha opinioni sul layout — abbinalo a <link1>Box</link1> per gli stack."
+    },
+    "hint": {
+      "lead": "Callout Memphis numerato. Usalo per evidenziare step di una guida, insight chiave dentro documenti long-form o caption numerate su una pagina marketing."
+    },
+    "input": {
+      "lead": "Campo di testo a riga singola. <code>&lt;input&gt;</code> nativo con il bordo Memphis da 2px e la focus shadow. Si abbina a <code>Label</code> per l'accessibilità."
+    },
+    "label": {
+      "lead": "<code>&lt;label&gt;</code> nativo con la tipografia da form-label già integrata (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Usalo standalone quando non ti serve il wiring strutturato di <link1>FormField</link1>."
+    },
+    "medal": {
+      "lead": "Medaglia SVG ettagonale con palette di token a cinque rank. Usala per renderizzare rank di leaderboard, badge di achievement e tier di rating."
+    },
+    "memphis-shape": {
+      "lead": "Primitive di forme SVG inline usate come accent decorativi su landing page, hero section e nello showcase del design system. Otto varianti condividono un viewBox 100×100 per scalare in modo pulito."
+    },
+    "nav-item": {
+      "lead": "Primitive di riga sidebar usata dalla nav della docs Damo UI e da qualsiasi sidebar che richieda la veste di selezione unificata (gradient + outline interno da 1px + barra accent da 3px). Polimorfica per default tramite <code>as</code>."
+    },
+    "ornament": {
+      "lead": "Stacco di sezione decorativo: due hairline orizzontali con gradient ai lati di un glifo centrato. Usalo tra gruppi tematici dentro una pagina, dove un semplice <code>Separator</code> risulterebbe troppo asettico."
+    },
+    "page-header": {
+      "lead": "Striscia di intestazione di pagina con eyebrow + titolo display + descrizione + slot azioni allineato a destra. Renderizza un vero landmark <code>&lt;header&gt;</code> con un bordo hairline in basso."
+    },
+    "pagination": {
+      "lead": "Navigatore di pagine numerato con chevron prev / next, ellissi che collassano su range lunghi e label localizzabili. La logica della finestra di pagine è esposta come <code>computePageWindow</code> nel caso volessi comporti una UI tua."
+    },
+    "popover": {
+      "lead": "Pannello fluttuante non-modale ancorato a un trigger. Costruito su Radix Popover e dipinto con la stessa veste Memphis di <code>DropdownMenu</code> e <code>Dialog</code>, così le superfici fluttuanti restano coerenti. Usalo come container generico per preferenze, mini-editor, risultati di ricerca o qualsiasi contenuto fluttuante <em>non-menu</em>. Per una lista di azioni col pattern ARIA menu completo usa <link1>DropdownMenu</link1>."
+    },
+    "progress": {
+      "lead": "Progress bar determinata costruita su Radix Progress. Track bordato Memphis con un fill in token secondary che anima fino a <code>value</code>."
+    },
+    "radio-group": {
+      "lead": "Radio group mutuamente esclusivo costruito su Radix RadioGroup. Avvolge ogni opzione in un pulsante bordato Memphis con un dot interno pieno quando selezionato. Usalo quando l'utente deve scegliere esattamente una di tre o più opzioni; per toggle a due opzioni usa <link1>SegmentedControl</link1> oppure <link2>Switch</link2>."
+    },
+    "scroll-area": {
+      "lead": "Container di scroll con stile custom che sostituisce le scrollbar native con un track e un thumb a tema Memphis. Compone <code>@radix-ui/react-scroll-area</code>; sia la scrollbar verticale sia quella orizzontale sono cablate in automatico."
+    },
+    "segmented-control": {
+      "lead": "Toggle group single-select con bordo Memphis a fare da cucitura tra gli item. Costruito su Radix ToggleGroup con <code>type=\"single\"</code>. Usalo per 2-5 opzioni mutuamente esclusive in cui mantenere visibili le scelte aggiunge chiarezza."
+    },
+    "select": {
+      "lead": "Dropdown componibile costruito su Radix Select. Stesso bordo Memphis e focus shadow di <link1>Input</link1>. Per multi-select o ricerca fuzzy usa <link2>Combobox</link2>."
+    },
+    "separator": {
+      "lead": "Divisore orizzontale o verticale con tre varianti a tema Memphis. Compone la primitive Radix Separator, quindi la sua semantica passa da decorativa a significativa tramite <code>decorative</code>."
+    },
+    "sidebar": {
+      "lead": "Pannello laterale componibile con slot header, body e footer. Qui è usato sul sito della docs per la nav rail che vedi a sinistra."
+    },
+    "skeleton": {
+      "lead": "Blocco placeholder con shimmer per mantenere stabile il layout mentre il contenuto async si carica. Dimensiona lo skeleton uguale al contenuto definitivo per evitare layout shift al momento dello swap."
+    },
+    "slider": {
+      "lead": "Slider bordato Memphis con uno o più thumb. Costruito su Radix Slider — supporto completo da tastiera, gestione del drag e semantica ARIA arrivano direttamente dalla primitive."
+    },
+    "spinner": {
+      "lead": "Spinner SVG leggero con annuncio accessibile <code>role=\"status\"</code>. Usalo per stati di caricamento indeterminati e compatti dentro pulsanti, righe di lista o tooltip. Per barre piene usa <link1>Progress</link1>."
+    },
+    "stat": {
+      "lead": "Blocco KPI: label uppercase mono, valore grande in display font, riga delta opzionale. Usalo per mettere in evidenza metriche chiave su dashboard e pagine di overview."
+    },
+    "switch": {
+      "lead": "Toggle Memphis: thumb quadrato che scorre tra una traccia ivory e una primary. Usalo per preferenze booleane che hanno effetto immediato (notifiche on / off, dark mode on / off). Costruito su Radix Switch."
+    },
+    "table": {
+      "lead": "Primitive di tabella bordate Memphis. Avvolgi le righe in sezioni semantiche <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> tramite i componenti corrispondenti — il container esterno gestisce overflow e bordi."
+    },
+    "tabs": {
+      "lead": "Striscia di tab inline + pannelli di contenuto corrispondenti. Costruito su Radix Tabs — gestione completa della tastiera, semantica ARIA e roving tabindex arrivano dalla primitive. Il tab attivo è marcato da una sottolineatura primary da 3px."
+    },
+    "textarea": {
+      "lead": "Input di testo multi-riga con la stessa veste Memphis di bordo, hover e focus di <link1>Input</link1>. Ridimensionabile verticalmente per default; abbinalo a <link2>FormField</link2> per il wiring di label + descrizione + errore."
+    },
+    "toast": {
+      "lead": "Notifica transitoria che entra scivolando dal bordo dello schermo. Costruito su Radix Toast — wiring completo della live region ARIA, swipe-to-dismiss e pause-on-hover arrivano dalla primitive. Usalo per feedback non bloccanti (saved, copied, sent); per errori critici che richiedono presa in carico usa <link1>Dialog con severity=\"alert\"</link1>."
+    },
+    "tooltip": {
+      "lead": "Piccola label fluttuante mostrata su hover o focus. Costruito su Radix Tooltip — supporto completo da tastiera, flipping intelligente sui bordi e wiring ARIA arrivano dalla primitive. Avvolgi l'app una sola volta in <code>TooltipProvider</code> per condividere un singolo timer di delay tra tutti i tooltip."
+    },
+    "user-card": {
+      "lead": "Riga utente orizzontale con avatar + nome + meta opzionale e slot trailing. Frame Memphis con shadow da 4px."
+    }
   }
 }
