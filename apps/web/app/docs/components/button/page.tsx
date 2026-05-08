@@ -180,7 +180,7 @@ export default async function ButtonDocsPage() {
         {t.rich('componentDocs.button.body.fullWidth', { code: codeTag })}
       </p>
       <Example code={FULL_WIDTH_SNIPPET} previewClassName="px-6 py-10">
-        <div className="w-full max-w-sm">
+        <div className="w-full">
           <Button variant="primary" fullWidth>
             Continue
           </Button>
