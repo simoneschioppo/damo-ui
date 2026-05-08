@@ -99,7 +99,40 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "story": "1.1-i18n-application-wide",
+          "paths": [
+            "packages/ui/src/lib/i18n/",
+            "packages/ui/src/components/spinner/spinner.tsx",
+            "packages/ui/src/components/combobox/combobox.tsx",
+            "packages/ui/src/components/date-picker/date-picker.tsx",
+            "packages/ui/src/components/pagination/pagination.tsx",
+            "packages/ui/src/components/banner/banner.tsx",
+            "packages/ui/src/components/dialog/dialog.tsx",
+            "packages/ui/src/components/drawer/drawer.tsx",
+            "packages/ui/src/components/toast/toast.tsx",
+            "packages/ui/src/index.ts",
+            "apps/web/i18n/",
+            "apps/web/messages/",
+            "apps/web/next.config.ts",
+            "apps/web/app/layout.tsx",
+            "apps/web/app/_components/DocsProviders.tsx",
+            "apps/web/app/_components/DocsPreferencesMenu.tsx",
+            "apps/web/app/docs/_components/docs-nav.ts",
+            "apps/web/app/docs/_components/DocsSidebar.tsx",
+            "apps/web/lib/usePersistedLocale.ts"
+          ],
+          "chapters_likely_affected": [
+            "10-library/10-components/{spinner,combobox,date-picker,pagination,banner,dialog,drawer,toast}.md",
+            "10-library/00-architecture.md",
+            "10-library/15-hooks.md",
+            "20-web-app/10-docs-site/README.md"
+          ],
+          "note": "New <I18nProvider> + useI18n hook published from the lib (EN default, IT alternative). Docs site adopts next-intl in no-routing mode. Language switcher added to DocsPreferencesMenu.",
+          "queued_at": "2026-05-08"
+        }
+      ],
       "runs": [
         {
           "chapter": "10-library/10-components/dialog.md",

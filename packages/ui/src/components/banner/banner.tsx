@@ -2,6 +2,7 @@
 
 import { forwardRef, type HTMLAttributes, type ReactNode, useState } from 'react'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 import { bannerVariants, type BannerVariants } from './banner.variants'
 import { CloseIcon, InfoIcon, CheckIcon, BoltIcon, TargetIcon } from '../../icons'
 
@@ -27,13 +28,15 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(function Banner(
     icon,
     dismissible,
     onDismiss,
-    dismissLabel = 'Chiudi',
+    dismissLabel,
     className,
     children,
     ...rest
   },
   ref,
 ) {
+  const i18n = useI18n()
+  const resolvedDismissLabel = dismissLabel ?? i18n.banner.dismissLabel
   const [dismissed, setDismissed] = useState(false)
   if (dismissed) return null
 
@@ -65,7 +68,7 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(function Banner(
       {dismissible && (
         <button
           type="button"
-          aria-label={dismissLabel}
+          aria-label={resolvedDismissLabel}
           onClick={handleDismiss}
           className={cn(
             'shrink-0 inline-flex h-8 w-8 items-center justify-center',

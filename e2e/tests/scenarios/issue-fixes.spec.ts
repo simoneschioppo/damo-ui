@@ -9,28 +9,28 @@ test.describe('Density picker writes data-density + localStorage', () => {
 
   async function selectDensity(
     page: import('@playwright/test').Page,
-    name: 'Compatta' | 'Normale' | 'Ampia',
+    name: 'Compact' | 'Normal' | 'Comfortable',
   ) {
     await page.getByRole('button', { name: 'Display settings' }).click()
     await page.getByRole('button', { name }).click()
   }
 
-  test('clicking Compatta sets compact', async ({ page }) => {
-    await selectDensity(page, 'Compatta')
+  test('clicking Compact sets compact', async ({ page }) => {
+    await selectDensity(page, 'Compact')
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')
     const stored = await page.evaluate(() => localStorage.getItem('density'))
     expect(stored).toBe('compact')
   })
 
-  test('clicking Ampia sets comfortable', async ({ page }) => {
-    await selectDensity(page, 'Ampia')
+  test('clicking Comfortable sets comfortable', async ({ page }) => {
+    await selectDensity(page, 'Comfortable')
     await expect(page.locator('html')).toHaveAttribute('data-density', 'comfortable')
     const stored = await page.evaluate(() => localStorage.getItem('density'))
     expect(stored).toBe('comfortable')
   })
 
   test('selection persists across reloads', async ({ page }) => {
-    await selectDensity(page, 'Compatta')
+    await selectDensity(page, 'Compact')
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')
     await page.reload()
     await expect(page.locator('html')).toHaveAttribute('data-density', 'compact')
@@ -39,7 +39,7 @@ test.describe('Density picker writes data-density + localStorage', () => {
     // aria-current="page" (the same chrome trigger NavItem uses for sidebar
     // selection).
     const popover = page.getByRole('dialog')
-    const item = popover.getByRole('button', { name: 'Compatta' })
+    const item = popover.getByRole('button', { name: 'Compact' })
     await expect(item).toHaveAttribute('aria-current', 'page')
   })
 })

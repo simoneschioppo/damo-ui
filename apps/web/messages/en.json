@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "docs": "Docs",
+    "themeGenerator": "Theme Generator"
+  },
+  "preferences": {
+    "trigger": "Display settings",
+    "theme": {
+      "label": "Theme",
+      "options": {
+        "light": "Light",
+        "dark": "Dark"
+      }
+    },
+    "palette": {
+      "label": "Palette",
+      "options": {
+        "default": "Plum+Gold",
+        "neon": "Neon",
+        "sunset": "Sunset"
+      }
+    },
+    "density": {
+      "label": "Density",
+      "options": {
+        "compact": "Compact",
+        "normal": "Normal",
+        "comfortable": "Comfortable"
+      }
+    },
+    "language": {
+      "label": "Language",
+      "options": {
+        "en": "English",
+        "it": "Italiano"
+      }
+    }
+  },
+  "docsSidebar": {
+    "aria": "Documentation navigation",
+    "subtitle": "DOCS",
+    "groups": {
+      "gettingStarted": "Getting Started",
+      "foundations": "Foundations",
+      "primitives": "Primitives",
+      "actionsAndSurfaces": "Actions & Surfaces",
+      "forms": "Forms",
+      "feedback": "Feedback",
+      "navigation": "Navigation",
+      "attributeBoundPrimitives": "Attribute-bound primitives",
+      "dataDisplay": "Data display",
+      "layout": "Layout",
+      "cardsAndDecoration": "Cards & Decoration"
+    }
+  }
+}

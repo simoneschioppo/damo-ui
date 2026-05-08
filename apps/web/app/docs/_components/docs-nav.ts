@@ -1,3 +1,16 @@
+export type DocsNavGroupKey =
+  | 'gettingStarted'
+  | 'foundations'
+  | 'primitives'
+  | 'actionsAndSurfaces'
+  | 'forms'
+  | 'feedback'
+  | 'navigation'
+  | 'attributeBoundPrimitives'
+  | 'dataDisplay'
+  | 'layout'
+  | 'cardsAndDecoration'
+
 export interface DocsNavEntry {
   readonly slug: string
   readonly label: string
@@ -5,16 +18,21 @@ export interface DocsNavEntry {
 }
 
 export interface DocsNavGroup {
+  /** i18n key under `docsSidebar.groups.{key}` for the group title. */
+  readonly key: DocsNavGroupKey
+  /** English fallback title — used when no translation is mounted. */
   readonly title: string
   readonly entries: ReadonlyArray<DocsNavEntry>
 }
 
 export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
   {
+    key: 'gettingStarted',
     title: 'Getting Started',
     entries: [{ slug: '/docs/getting-started', label: 'Introduction' }],
   },
   {
+    key: 'foundations',
     title: 'Foundations',
     entries: [
       { slug: '/docs/foundations/tokens', label: 'Tokens' },
@@ -25,6 +43,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     ],
   },
   {
+    key: 'primitives',
     title: 'Primitives',
     entries: [
       { slug: '/docs/components/box', label: 'Box' },
@@ -37,6 +56,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     ],
   },
   {
+    key: 'actionsAndSurfaces',
     title: 'Actions & Surfaces',
     entries: [
       { slug: '/docs/components/button', label: 'Button & IconButton' },
@@ -47,6 +67,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     ],
   },
   {
+    key: 'forms',
     title: 'Forms',
     entries: [
       { slug: '/docs/components/input', label: 'Input' },
@@ -64,6 +85,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     ],
   },
   {
+    key: 'feedback',
     title: 'Feedback',
     entries: [
       { slug: '/docs/components/tooltip', label: 'Tooltip' },
@@ -77,6 +99,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     ],
   },
   {
+    key: 'navigation',
     title: 'Navigation',
     entries: [
       { slug: '/docs/components/tabs', label: 'Tabs' },
@@ -88,10 +111,12 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     ],
   },
   {
+    key: 'attributeBoundPrimitives',
     title: 'Attribute-bound primitives',
     entries: [{ slug: '/docs/components/attr-toggle-group', label: 'AttrToggleGroup' }],
   },
   {
+    key: 'dataDisplay',
     title: 'Data display',
     entries: [
       { slug: '/docs/components/avatar', label: 'Avatar' },
@@ -102,6 +127,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     ],
   },
   {
+    key: 'layout',
     title: 'Layout',
     entries: [
       { slug: '/docs/components/app-shell', label: 'AppShell' },
@@ -111,6 +137,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
     ],
   },
   {
+    key: 'cardsAndDecoration',
     title: 'Cards & Decoration',
     entries: [
       { slug: '/docs/components/color-picker', label: 'ColorPicker' },
