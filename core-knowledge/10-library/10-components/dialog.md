@@ -1,6 +1,6 @@
 # Dialog
 
-Status: documented · Last scan: 43a7a02 · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `packages/ui/src/components/dialog/{dialog.tsx,index.ts,dialog.test.tsx}`.
 
 > **Note.** A separate `alert-dialog/` component existed historically
@@ -129,7 +129,9 @@ hover muted. Hidden when:
 - `hideClose === true` (consumer override), or
 - `severity === 'alert'` (alert mode requires explicit footer action).
 
-`aria-label="Chiudi"` (Italian) — see Open questions.
+`aria-label` resolves from `useI18n().dialog.closeLabel` (`'Close'`
+in EN, `'Chiudi'` in IT). Bare trees fall back to EN. See
+[16-i18n.md](../16-i18n.md).
 
 ## Notes & gotchas
 
@@ -168,7 +170,9 @@ hover muted. Hidden when:
 4. Tokens needed: `--card`, `--foreground`, `--muted`, `--ring`,
    `--memphis-border-color`, `--shadow-memphis-lg`, `--destructive`
    (for danger tone), `--z-overlay`, `--z-modal`.
-5. Translate `aria-label="Chiudi"` if not Italian.
+5. The X button's `aria-label` is read from `useI18n().dialog.closeLabel`.
+   A copy-paste consumer must either lift `lib/i18n/` too, or stub
+   `useI18n` to return a static dictionary.
 
 ## Open questions
 
@@ -179,12 +183,14 @@ hover muted. Hidden when:
    plugin to be added to peerDependencies and documented as required
    consumer setup, particularly relevant for shadcn-style migration
    where each component's deps must be explicit.
-2. **`aria-label="Chiudi"`** — Italian default. See cross-cutting i18n
-   note (also Spinner, Combobox, DatePicker). Tracked as story #59.
-3. **AlertDialog consolidated into Dialog.** Source dir
+2. **AlertDialog consolidated into Dialog.** Source dir
    `alert-dialog/` no longer exists; `severity="alert"` covers the
    case. Consumers migrating from a previous shadcn-style AlertDialog
    need to swap import + add the prop. Migration guide candidate.
-4. **No `size` axis** for DialogContent. `max-w-lg` is the only
+3. **No `size` axis** for DialogContent. `max-w-lg` is the only
    width; consumers override via `className`. Could expose
    `size: 'sm' | 'md' | 'lg' | 'xl' | 'full'`.
+
+(The previous `aria-label="Chiudi"` Italian-default open question
+was resolved by PR #69 — the close label is now locale-aware via
+`useI18n()`.)

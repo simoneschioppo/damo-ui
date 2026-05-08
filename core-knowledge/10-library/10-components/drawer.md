@@ -1,6 +1,6 @@
 # Drawer
 
-Status: documented · Last scan: 43a7a02 · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `packages/ui/src/components/drawer/{drawer.tsx,index.ts,drawer.test.tsx}`.
 
 ## Summary
@@ -113,8 +113,9 @@ has no `severity` axis to suppress it.
 
 ## Open questions
 
-1. Inherits Dialog's open questions for missing
-   `tailwindcss-animate` and Italian close `aria-label`.
+1. Inherits Dialog's open question for missing `tailwindcss-animate`.
+   The close `aria-label` is now locale-aware via
+   `useI18n().drawer.closeLabel` (resolved in PR #69).
 2. **No `size` axis on top/bottom drawers** beyond the 75vh cap.
    Consumers might want `size: 'sm' | 'md' | 'lg'` for sliding sheets
    that aren't full-width on top/bottom.

@@ -1,6 +1,6 @@
 # Pagination
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `packages/ui/src/components/pagination/{pagination.tsx,pagination-math.ts,pagination-math.test.ts,index.ts}`.
 
 ## Summary
@@ -26,24 +26,29 @@ pure module (`pagination-math.ts`) with its own tests.
 | `totalPages`   | `number`                            | (req)   | |
 | `onPageChange` | `(page: number) => void`            | (req)   | Called on prev/next/page-button |
 | `maxVisible`   | `number`                            | `7`     | Max visible page-number buttons; clamped to ≥ 5 |
-| `labels`       | `Partial<PaginationLabels>`         | Italian defaults | See below |
+| `labels`       | `Partial<PaginationLabels>`         | _resolved from `useI18n().pagination`_ | See below |
 | `disabled`     | `boolean`                           | —       | Disables all buttons |
 | `className`    | `string`                            | —       | |
 | …native        | `HTMLAttributes<HTMLElement>`       | —       | |
 
-### Default labels (Italian)
+### Default labels (locale-aware)
+
+When the `labels` prop is omitted, defaults come from
+`useI18n().pagination`:
 
 ```ts
-{
-  previous: 'Precedente',
-  next: 'Successivo',
-  page: 'Pagina',
-  pageOf: (p, t) => `Pagina ${p} di ${t}`,
-}
+// EN (default fallback)
+{ previous: 'Previous', next: 'Next', page: 'Page',
+  pageOf: (p, t) => `Page ${p} of ${t}` }
+
+// IT (under <I18nProvider locale="it">)
+{ previous: 'Precedente', next: 'Successivo', page: 'Pagina',
+  pageOf: (p, t) => `Pagina ${p} di ${t}` }
 ```
 
-Same i18n leakage as Spinner / Combobox / DatePicker. Consumers
-override via the `labels` prop.
+Caller-passed `labels` is shallow-merged on top of the dict, so a
+consumer can override just one entry without losing the rest. See
+[16-i18n.md](../16-i18n.md) for the provider contract.
 
 ## Internal architecture
 
@@ -117,26 +122,31 @@ in the row.
    indicator. This is intentional but worth noting for transitional
    states.
 
-6. **Italian label defaults** — see Open questions.
+6. **Locale-aware label defaults.** When `labels` is omitted, the
+   component reads from `useI18n().pagination` (see [16-i18n.md](../16-i18n.md)).
+   Consumers can still pass the `labels` prop for fully custom
+   wording — the prop is shallow-merged over the dict.
 
 ## How to consume (shadcn-style copy)
 
 1. Copy the whole `pagination/` folder (including
    `pagination-math.ts` — the math is the load-bearing part).
 2. Replace icon imports.
-3. Translate labels via `labels` prop.
+3. Defaults come from `useI18n()`. A copy-paste consumer should lift
+   `lib/i18n/` too, or pass `labels` explicitly to bypass the dict.
 4. No external runtime deps.
 
 ## Open questions
 
-1. **Italian default labels.** Same flag as Spinner, Combobox,
-   DatePicker.
-2. **`computePageWindow` not re-exported** — promote so consumers
+1. **`computePageWindow` not re-exported** — promote so consumers
    building custom paginators don't need to copy the math.
-3. The "Page N of M" readout is hard-coded position (right of the
+2. The "Page N of M" readout is hard-coded position (right of the
    buttons). A `showLabel?: boolean` or `labelPosition` axis would
    help embedded layouts.
-4. **`onPageChange(currentPage - 1)` does not validate** — relies on
+3. **`onPageChange(currentPage - 1)` does not validate** — relies on
    `disabled` to prevent fired calls at the boundaries. If a
    consumer programmatically clicks the disabled prev button (rare),
    the handler still fires. Could guard with a manual `if`.
+
+(The previous "Italian default labels" open question was resolved
+by PR #69 — labels now route through `useI18n()`.)

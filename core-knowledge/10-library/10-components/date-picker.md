@@ -1,6 +1,6 @@
 # DatePicker
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `packages/ui/src/components/date-picker/{date-picker.tsx,index.ts}`.
 
 ## Summary
@@ -98,7 +98,10 @@ align="start">` — popover sized to the calendar's natural width.
 
 Three lib-specific tweaks:
 - `mode="single"` — locked.
-- `locale={itLocale}` — Italian month/weekday names.
+- `locale={i18n.datePicker.dateFnsLocale}` — month/weekday names.
+  EN trees use date-fns `enUS`; IT trees use date-fns `it`. The
+  locale is read from the active dictionary so it switches with
+  `<I18nProvider locale="...">`.
 - `showOutsideDays` — fills the calendar grid with neighbouring
   month days, faded.
 - Custom `Chevron` component → uses the lib's `ChevronLeftIcon` /
@@ -110,10 +113,13 @@ unconditionally — see Open questions.
 
 ## Notes & gotchas
 
-1. **Italian locale and Italian default placeholder.** Same i18n
-   leakage flagged across Spinner / Combobox. The locale and
-   placeholder both default to Italian; consumers wanting English
-   need to pass `locale={enUS}` and `placeholder="Select a date"`.
+1. **Locale-aware defaults.** Both the calendar's `locale` (date-fns
+   bundle) and the trigger `placeholder` resolve from
+   `useI18n().datePicker.{dateFnsLocale,placeholder}`. EN trees show
+   `'Pick a date'` + `enUS` formatting; IT trees show `'Seleziona una
+   data'` + `it` formatting. Bare trees fall back to EN. See
+   [16-i18n.md](../16-i18n.md). The `formatStr` prop still wins for
+   custom token strings.
 
 2. **`react-day-picker/style.css` is force-imported.** Every consumer
    of DatePicker pulls in the DayPicker base CSS, regardless of
@@ -143,20 +149,23 @@ unconditionally — see Open questions.
 2. Add `react-day-picker` and `date-fns` as runtime deps.
 3. Pull `Popover` + Radix dep along.
 4. Replace icon imports.
-5. Decide on locale: keep Italian, or accept a `locale` prop and
-   default to the consumer's app locale.
+5. Locale + placeholder default come from `useI18n()`. A copy-paste
+   consumer should lift `lib/i18n/` too (or stub `useI18n` to return
+   a static dict). DayPicker's `locale` prop can still override
+   directly.
 
 ## Open questions
 
-1. **Italian default locale and placeholder.** Same flag as Spinner
-   and Combobox — flip to English or document the Italian-first stance.
-2. **`react-day-picker/style.css` import.** Inconsistent with the
+1. **`react-day-picker/style.css` import.** Inconsistent with the
    "lib doesn't ship compiled CSS" rule. Either document the
    exception or theme DayPicker via the lib's tokens (which would
    require restyling DayPicker's class names — significant work).
-3. **No range mode.** A `DateRangePicker` would require a parallel
+2. **No range mode.** A `DateRangePicker` would require a parallel
    wrapper (different `mode` and different state shape).
-4. **Trigger displays the localised date.** If the consumer wants an
+3. **Trigger displays the localised date.** If the consumer wants an
    ISO display (`2026-05-06`), they pass `formatStr="yyyy-MM-dd"` —
    but the locale still applies. Worth documenting that `formatStr`
    alone doesn't escape locale formatting.
+
+(The previous "Italian default locale + placeholder" open question
+was resolved by PR #69 — both now route through `useI18n()`.)

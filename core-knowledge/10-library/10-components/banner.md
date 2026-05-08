@@ -1,6 +1,6 @@
 # Banner
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `packages/ui/src/components/banner/{banner.tsx,banner.variants.ts,index.ts}`.
 
 ## Summary
@@ -25,7 +25,7 @@ hidden state on dismiss).
 | `icon`        | `ReactNode \| false`                              | per-variant default |
 | `dismissible` | `boolean`                                         | —           |
 | `onDismiss`   | `() => void`                                      | —           |
-| `dismissLabel`| `string`                                          | `'Chiudi'`  |
+| `dismissLabel`| `string`                                          | _resolved from `useI18n().banner.dismissLabel`_ |
 | `className`   | `string`                                          | —           |
 | …native       | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>`   | —           |
 
@@ -109,7 +109,9 @@ border-2 border-memphis shadow-memphis rounded-none
 1. **Self-managed dismiss state.** No controlled mode. For
    reset-on-something semantics, use `<Banner key={...}>`.
 
-2. **Italian dismiss label** — same i18n flag as Dialog/Drawer/Toast.
+2. **Locale-aware `dismissLabel`** — when omitted, resolves from
+   `useI18n().banner.dismissLabel` (`'Dismiss'` in EN, `'Chiudi'` in
+   IT). Bare trees fall back to EN. See [16-i18n.md](../16-i18n.md).
 
 3. **`info` variant doesn't tint its background.** Other variants do.
    Intentional but worth knowing.
@@ -130,10 +132,13 @@ border-2 border-memphis shadow-memphis rounded-none
 
 ## Open questions
 
-1. **Italian default `dismissLabel`.** Same flag as Dialog/Toast.
-2. **No controlled mode.** Add `open` / `onOpenChange` for
+1. **No controlled mode.** Add `open` / `onOpenChange` for
    parent-driven dismissal patterns.
-3. **`info` background asymmetry** with the other variants — either
+2. **`info` background asymmetry** with the other variants — either
    tint info's background or document the deliberate choice.
-4. **Could share the variant recipe with Toast** — same color-mix
+3. **Could share the variant recipe with Toast** — same color-mix
    percentages, same shadow tinting, same status set.
+
+(The previous "Italian default dismissLabel" open question was
+resolved by PR #69 — the lib now ships an i18n dictionary with EN as
+default.)

@@ -1,6 +1,6 @@
 # Docs Site
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `apps/web/app/docs/{layout.tsx,page.tsx,getting-started/,foundations/,components/,_components/,_lib/}`.
 
 ## Summary
@@ -55,17 +55,31 @@ predates AppShell or chose not to use it. See Open questions.
 ```ts
 export interface DocsNavEntry {
   readonly slug: string
-  readonly label: string
+  readonly label: string                // English literal — also the fallback
+  readonly labelKey?: string            // i18n key under docsSidebar.entries.* (only used by the Introduction entry)
   readonly status?: 'beta' | 'stub'
 }
 
 export interface DocsNavGroup {
-  readonly title: string
+  readonly key: DocsNavGroupKey         // i18n key under docsSidebar.groups.*
+  readonly title: string                // English fallback when no provider mounted
   readonly entries: ReadonlyArray<DocsNavEntry>
 }
 
 export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [...]
 ```
+
+**Group titles** are translated via the `key` field — the sidebar
+calls `t(\`groups.${group.key}\`)` so all 11 group titles flip
+language with the active locale.
+
+**Entry labels** are intentionally **literal**: `"Box"`, `"Button"`,
+`"Combobox"` etc. are component **API identifiers** and stay in
+English. The single exception is the Introduction entry, which
+carries `labelKey: 'introduction'` so the sidebar resolves it via
+`docsSidebar.entries.introduction`. To localise another entry,
+add a `labelKey` to it and a matching message under
+`docsSidebar.entries.*` in both catalogs.
 
 Single readonly module exporting the nav structure. Groups:
 
@@ -100,7 +114,7 @@ prefix is Next's convention for non-routable folders):
 | `_components/CopyButton.tsx`       | Copy-to-clipboard button |
 | `_components/Example.tsx`          | Server component that pairs preview + code |
 | `_components/PropsTable.tsx`       | Tabular props reference |
-| `_components/DocsSidebar.tsx`      | Sidebar nav, reads `DOCS_NAV` |
+| `_components/DocsSidebar.tsx`      | Sidebar nav, reads `DOCS_NAV` and translates group titles + the Introduction entry via `useTranslations('docsSidebar')` |
 | `_components/docs-nav.ts`          | The nav source of truth (above) |
 | `_components/highlight.ts`         | Server-only syntax highlighter |
 | `_lib/active-section.ts`           | "Currently visible heading" tracking for sidebar TOC |
@@ -176,6 +190,35 @@ Custom layouts per chapter (no shared template). Each combines:
 Memphis pattern showcase (the `--shadow-memphis-*`,
 `--memphis-shape-*` decorative renders) plus their CSS sources.
 
+### i18n integration on doc pages
+
+Every page that renders user copy (landing, getting-started, all
+five foundations, all 53 component pages, theme generator, sample
+dialog, 404, brand chrome) is an **async server component** that
+calls `getTranslations('<namespace>')` from `next-intl/server`. The
+translation namespace mirrors the catalog structure:
+
+- `gettingStarted.*` — landing into the framework.
+- `foundations.{tokens,theming,colors,typography,patterns}.*` — one
+  per foundation page; section titles + body prose + tip eyebrows.
+- `componentDocs.<slug>.{lead,body.*,a11y.*,props.*}` — per-slug
+  content for each of the 53 component pages.
+- `docsChrome.{categories,sections,propsTable,copyButton}` — chrome
+  shared across all component pages (eyebrow above the h1, common
+  section headings like "Import" / "Props" / "Accessibility", the
+  `<PropsTable>` headers, the Copy / Copied label).
+- `themeGenerator.*` — sidebar + scenes + export tabs + identity
+  editor sections.
+
+For inline-markup messages (paragraphs that mix prose with
+`<code>` or cross-page `<Link>` references), pages use
+`t.rich('<key>', { code: codeTag, link: linkTag('/foo'), ... })`
+with formatters from `apps/web/lib/i18n-tags.tsx`. The formatters
+decode HTML entities so the catalog can store `&lt;input&gt;`
+without triggering ICU's tag-parser; see the i18n wiring section in
+[../00-architecture.md](../00-architecture.md) for the escaping
+contract.
+
 ## Notes & gotchas
 
 1. **`DOCS_NAV` is the contract.** New components must be added
@@ -200,6 +243,18 @@ Memphis pattern showcase (the `--shadow-memphis-*`,
 6. **`generateStaticParams` only stub-pre-renders `status: 'stub'`
    entries.** Real `page.tsx` files take precedence at build time
    per Next App Router rules.
+
+7. **Server-component pages are async.** Every doc page calls
+   `await getTranslations(...)` (and PROPS arrays were moved into
+   the function body to access `t.rich(...)` inline). RSC caching
+   keeps the per-request cost negligible, but be aware if you ever
+   set `cache: 'no-store'` on a doc route.
+
+8. **i18n catalog parity is enforced manually.** `messages/en.json`
+   and `messages/it.json` must keep an identical key tree. There is
+   no schema check in CI yet — drift would surface as a
+   missing-key console.warn in dev (per `request.ts`'s
+   non-production `onError`).
 
 ## How to consume (lessons / patterns to lift)
 
