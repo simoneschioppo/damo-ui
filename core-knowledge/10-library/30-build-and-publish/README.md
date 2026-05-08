@@ -1,10 +1,11 @@
 # Build and Publish
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: e53c5be · Sources:
 `packages/ui/tsup.config.ts`,
 `packages/ui/package.json`,
 `packages/ui/.ladle/config.mjs`,
 `packages/ui/.ladle/components.tsx`,
+`packages/ui/.ladle/components.test.ts`,
 `packages/ui/dist/` (current build output shape),
 `.npmrc` (root).
 
@@ -51,9 +52,13 @@ Pinning facts:
   questions — declaring `sideEffects: ["**/*.css"]` is the typical
   shadcn-style preparation.
 - **Peer dependencies:** `react >=18`, `react-dom >=18`,
-  `tailwindcss >=4`. Tailwind v3 consumers are supported through the
-  preset shim but `tailwindcss >=4` is the declared peer (see
-  Invariants).
+  `tailwindcss >=4`, `tailwindcss-animate`. Tailwind v3 consumers are
+  supported through the preset shim but `tailwindcss >=4` is the
+  declared peer (see Invariants). `tailwindcss-animate` was promoted
+  to peer in commit `493936b` because the lib's overlay components
+  rely on its `animate-in` / `fade-in-0` / `zoom-in-95` /
+  `slide-in-from-*` utilities — affects Dialog, Drawer, Popover,
+  Tooltip, DropdownMenu, ContextMenu, Toast, Accordion.
 - **Runtime dependencies:** Radix primitives (20+), `class-variance-authority`,
   `clsx`, `cmdk`, `date-fns`, `react-day-picker`, `tailwind-merge`.
   These are real runtime deps, not peer — every consumer of `@damo/ui`
@@ -143,22 +148,28 @@ CSS files are **not** bundled — they are copied verbatim from
 every story in a `<div data-theme={globalState.theme}>` so the Ladle
 theme switcher toggles the lib's own theme attribute.
 
-**⚠️ Known issue (open question 1).** The provider currently imports two
-files that **do not exist** in `src/styles/`:
+The provider currently imports three CSS files from the lib's own
+sources, all of which exist on disk:
 
 ```ts
-import '../src/styles/tokens.css'   // ✅ exists
-import '../src/styles/themes.css'   // ❌ filename is theme.css (singular)
-import '../src/styles/globals.css'  // ✅ exists
-import '../src/styles/patterns.css' // ❌ no such file under src/styles/
+import '../src/styles/tokens.css'
+import '../src/styles/theme.css'
+import '../src/styles/globals.css'
 ```
 
-`pnpm --filter @damo/ui dev` is therefore broken until either:
-- the imports are corrected to `theme.css` and the `patterns.css` import
-  is removed (or replaced with a real source), **or**
-- the missing files are reintroduced under `src/styles/`.
+**Historical fix (commit `337698d`).** The provider previously also
+imported `../src/styles/themes.css` (typo for `theme.css`) and
+`../src/styles/patterns.css` (a file that lives in `apps/web`, not the
+lib — Memphis pattern decoration is intentionally consumer territory,
+see `10-library/20-theming/README.md`). Both broke `pnpm --filter
+@damo/ui dev` on cold start. The fix renamed the typo and dropped the
+patterns import outright.
 
-This is logged as an Open question and not silently "fixed" by Kipi.
+**Regression guard:** `.ladle/components.test.ts` is a static smoke
+test that re-reads `.ladle/components.tsx`, extracts every relative
+CSS import via regex, and asserts each one resolves to a real file on
+disk. It also asserts neither dropped filename ever returns. Runs in
+the lib's vitest suite, so a future broken-import edit fails CI.
 
 ## Publish status — today
 
@@ -243,14 +254,15 @@ This direction shapes near-term work the lib should not violate:
    first auditing every module that imports CSS — those imports must
    be listed.
 
-7. **Ladle imports are currently broken** (see Open question 1). Do
-   not paper over by silently renaming files; the right move is a
-   deliberate fix with a paired audit of what `themes.css` and
-   `patterns.css` were supposed to contain.
-
-8. **Version is bumped in-tree but not published.** Don't treat
+7. **Version is bumped in-tree but not published.** Don't treat
    `0.3.0` as a release tag. Cross-reference the root `CHANGELOG.md`
    and `PUBLICATION_READINESS.md` for the actual readiness story.
+
+8. **Ladle CSS imports have a static regression guard.** The
+   provider's CSS imports must resolve on disk; `components.test.ts`
+   enforces this. If you add a new CSS file or rename one, update
+   the import AND let the test confirm it resolves rather than only
+   verifying via `pnpm dev`.
 
 ## How to consume
 
@@ -280,38 +292,32 @@ Concrete CLI / registry shape to be defined — see Open questions.
 
 ## Open questions
 
-1. **Ladle import bug.** `themes.css` and `patterns.css` are imported
-   by `.ladle/components.tsx` but absent from `src/styles/`. The
-   intent (and content) of these files needs to be recovered before
-   they're either restored or the imports are pruned. **Confirmed by
-   user as a known issue, not a regression to silently fix.**
-
-2. **CI release workflow.** No release pipeline has been documented
+1. **CI release workflow.** No release pipeline has been documented
    yet — `private: true` blocks the standard `npm publish`. If a
    workflow is added later (e.g. one that strips `private`, runs a
    changeset, and publishes to GitHub Packages), it must be
    documented in `30-cross-cutting/10-ci-cd.md` and cross-referenced
    here.
 
-3. **`sideEffects` declaration.** Once the CSS import surface is
+2. **`sideEffects` declaration.** Once the CSS import surface is
    stable, declare `sideEffects: ["**/*.css"]` so consumer bundlers
    can tree-shake aggressively.
 
-4. **Per-component dependency manifest.** For shadcn-style migration,
+3. **Per-component dependency manifest.** For shadcn-style migration,
    each component needs a declaration of its runtime npm deps. This
    could live alongside the source (`<component>.deps.json`) or in a
    central registry. Decision pending.
 
-5. **Migration target on npm.** Package name on public npm? `@damo/ui`,
+4. **Migration target on npm.** Package name on public npm? `@damo/ui`,
    `damo-ui`, or a new scope? Affects CLI, registry URL, install
    strings, and brand.
 
-6. **Copy-paste contract for hooks and `lib/cn`.** Single-file
+5. **Copy-paste contract for hooks and `lib/cn`.** Single-file
    components are easy; cross-cutting helpers (the `cn` utility, the
    two hooks) need a documented "copied alongside" rule so consumers
    don't end up with stale duplicates.
 
-7. **Distinction between dependencies and shadcn-time installs.**
+6. **Distinction between dependencies and shadcn-time installs.**
    Today every Radix primitive is a runtime `dependency` of the lib.
    Post-migration the lib package itself may have **zero** runtime
    deps and instead the registry instructs the CLI to install them

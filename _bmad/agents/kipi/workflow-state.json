@@ -288,6 +288,40 @@
           "new_sha": "e53c5be",
           "rationale": "Backfill: chapters were updated in content during the i18n run (sha 27c8471) but their per-chapter last_scan_sha was not bumped. No post-i18n drift on any source file. Safe metadata-only bump.",
           "completed_at": "2026-05-08T18:10:23+00:00"
+        },
+        {
+          "kind": "content-update",
+          "chapters": [
+            "10-library/30-build-and-publish/README.md",
+            "30-cross-cutting/15-e2e.md"
+          ],
+          "details": {
+            "10-library/30-build-and-publish/README.md": {
+              "paths": [
+                "packages/ui/package.json",
+                "packages/ui/.ladle/components.tsx",
+                "packages/ui/.ladle/components.test.ts"
+              ],
+              "commits": [
+                "493936b",
+                "337698d"
+              ],
+              "edits": "Added tailwindcss-animate to peer deps; replaced broken Ladle imports section with post-fix description + regression guard; removed gotcha #7 + open question #1 about resolved Ladle bug; added new gotcha #8 about the static import test."
+            },
+            "30-cross-cutting/15-e2e.md": {
+              "paths": [
+                "e2e/tests/scenarios/i18n-switcher.spec.ts"
+              ],
+              "commits": [
+                "9217a1c",
+                "44baf27",
+                "25d7620"
+              ],
+              "edits": "Added i18n-switcher.spec.ts to layout tree and to the smoke/docs flows scenario list with a description of its coverage (story 1.1 \u2014 locale switch, html lang flip, persistence)."
+            }
+          },
+          "sha": "e53c5be",
+          "completed_at": "2026-05-08T18:13:58+00:00"
         }
       ]
     }
@@ -789,13 +823,14 @@
     },
     "10-library/30-build-and-publish/README.md": {
       "status": "documented",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "e53c5be",
       "sources": [
         "packages/ui/tsup.config.ts",
         "packages/ui/package.json",
         "packages/ui/.ladle/config.mjs",
         "packages/ui/.ladle/components.tsx",
-        ".npmrc"
+        ".npmrc",
+        "packages/ui/.ladle/components.test.ts"
       ]
     },
     "10-library/40-testing/README.md": {
@@ -874,7 +909,7 @@
       "sources": [
         "e2e/"
       ],
-      "last_scan_sha": "43a7a02"
+      "last_scan_sha": "e53c5be"
     },
     "30-cross-cutting/20-conventions.md": {
       "status": "pending",
