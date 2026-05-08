@@ -54,6 +54,6 @@ describe('Drawer — sides', () => {
     )
     await user.click(screen.getByRole('button', { name: 'Open' }))
     expect(screen.getByRole('dialog')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Chiudi' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
   })
 })

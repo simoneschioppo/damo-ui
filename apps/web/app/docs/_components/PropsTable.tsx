@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { getTranslations } from 'next-intl/server'
 
 export interface PropDef {
   readonly name: string
@@ -15,7 +16,8 @@ export interface PropsTableProps {
 
 const cellClass = 'px-4 py-3 align-top border-b border-memphis/40 last:border-b-0'
 
-export function PropsTable({ props, caption }: PropsTableProps) {
+export async function PropsTable({ props, caption }: PropsTableProps) {
+  const t = await getTranslations('docsChrome.propsTable')
   return (
     <div className="my-6 border-2 border-memphis bg-card shadow-memphis overflow-x-auto">
       {caption !== undefined && (
@@ -29,22 +31,22 @@ export function PropsTable({ props, caption }: PropsTableProps) {
             <th
               className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}
             >
-              Prop
+              {t('prop')}
             </th>
             <th
               className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}
             >
-              Type
+              {t('type')}
             </th>
             <th
               className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}
             >
-              Default
+              {t('default')}
             </th>
             <th
               className={`${cellClass} text-left font-mono uppercase tracking-[0.12em] text-[11px]`}
             >
-              Description
+              {t('description')}
             </th>
           </tr>
         </thead>

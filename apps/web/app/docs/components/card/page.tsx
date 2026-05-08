@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import {
   Card,
   CardHeader,
@@ -12,6 +13,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
+import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   Card,
@@ -62,45 +64,45 @@ const INVERSE_SNIPPET = `<Card variant="inverse" padding="md">
   <CardBody>fg/bg flipped — drop on a light page for instant contrast.</CardBody>
 </Card>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'variant',
-    type: "'default' | 'elevated' | 'featured' | 'interactive' | 'inverse'",
-    defaultValue: "'default'",
-    description:
-      'Visual treatment. Featured uses the gold accent; inverse flips fg/bg for dark surfaces.',
-  },
-  {
-    name: 'padding',
-    type: "'sm' | 'md' | 'lg'",
-    defaultValue: "'md'",
-    description: 'Inner spacing applied to the body and chrome rows.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the variant defaults.',
-  },
-]
-
 export const metadata = { title: `Card — ${BRAND.libName}` }
 
-export default function CardDocsPage() {
+export default async function CardDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
+  const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'variant',
+      type: "'default' | 'elevated' | 'featured' | 'interactive' | 'inverse'",
+      defaultValue: "'default'",
+      description: t('componentDocs.card.props.variant'),
+    },
+    {
+      name: 'padding',
+      type: "'sm' | 'md' | 'lg'",
+      defaultValue: "'md'",
+      description: t('componentDocs.card.props.padding'),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t('componentDocs.card.props.className'),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        COMPONENTS
+        {tCat('actionsAndSurfaces')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Card</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Composable surface container. Five variants share the same Memphis chrome but differ in
-        accent, weight, and elevation.
+        {t('componentDocs.card.lead')}
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Composition</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('composition')}</h2>
       <Example code={BASIC_SNIPPET} previewClassName="px-6 py-10 flex justify-center">
         <div className="w-full max-w-md">
           <Card variant="default">
@@ -142,8 +144,7 @@ export default function CardDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Elevated variant</h2>
       <p className="text-foreground/80 mb-3">
-        Soft drop shadow rather than the hard Memphis shadow. Good for content that should sit
-        behind primary surfaces.
+        {t('componentDocs.card.body.elevatedIntro')}
       </p>
       <Example code={ELEVATED_SNIPPET} previewClassName="px-6 py-10 flex justify-center">
         <div className="w-full max-w-md">
@@ -161,8 +162,7 @@ export default function CardDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Inverse variant</h2>
       <p className="text-foreground/80 mb-3">
-        Flipped <code className="font-mono">bg</code>/<code className="font-mono">fg</code> — use on
-        a light page when you need a section to feel like a dark island.
+        {t.rich('componentDocs.card.body.inverseIntro', { code: codeTag })}
       </p>
       <Example code={INVERSE_SNIPPET} previewClassName="px-6 py-10 flex justify-center">
         <div className="w-full max-w-md">
@@ -175,7 +175,7 @@ export default function CardDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">API</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('api')}</h2>
       <PropsTable props={PROPS} caption="Card props" />
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

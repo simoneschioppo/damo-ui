@@ -3,6 +3,7 @@
 import { Command as CommandPrimitive } from 'cmdk'
 import { useState, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 import { Popover, PopoverTrigger, PopoverContent } from '../popover/popover'
 import { ChevronDownIcon, CheckIcon, SearchIcon } from '../../icons'
 
@@ -30,13 +31,17 @@ export function Combobox({
   value,
   defaultValue,
   onValueChange,
-  placeholder = 'Scegli…',
-  searchPlaceholder = 'Cerca…',
-  emptyMessage = 'Nessun risultato',
+  placeholder,
+  searchPlaceholder,
+  emptyMessage,
   disabled,
   id,
   className,
 }: ComboboxProps) {
+  const i18n = useI18n()
+  const resolvedPlaceholder = placeholder ?? i18n.combobox.placeholder
+  const resolvedSearchPlaceholder = searchPlaceholder ?? i18n.combobox.searchPlaceholder
+  const resolvedEmptyMessage = emptyMessage ?? i18n.combobox.emptyMessage
   const [open, setOpen] = useState(false)
   const [internal, setInternal] = useState<string | undefined>(defaultValue)
   const selected = value ?? internal
@@ -69,7 +74,9 @@ export function Combobox({
             className,
           )}
         >
-          <span className="truncate">{selectedOption ? selectedOption.label : placeholder}</span>
+          <span className="truncate">
+            {selectedOption ? selectedOption.label : resolvedPlaceholder}
+          </span>
           <ChevronDownIcon size={16} />
         </button>
       </PopoverTrigger>
@@ -78,13 +85,13 @@ export function Combobox({
           <div className="flex items-center gap-2 border-b border-border px-3 py-2">
             <SearchIcon size={16} />
             <CommandPrimitive.Input
-              placeholder={searchPlaceholder}
+              placeholder={resolvedSearchPlaceholder}
               className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground text-sm"
             />
           </div>
           <CommandPrimitive.List className="max-h-60 overflow-y-auto p-1">
             <CommandPrimitive.Empty className="py-4 text-center text-sm text-muted-foreground">
-              {emptyMessage}
+              {resolvedEmptyMessage}
             </CommandPrimitive.Empty>
             {options.map((o) => (
               <CommandPrimitive.Item

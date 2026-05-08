@@ -1,6 +1,18 @@
 // Utilities
 export { cn } from './lib/cn'
 
+// i18n
+export {
+  I18nProvider,
+  useI18n,
+  useLocale,
+  dictionaries,
+  DEFAULT_LOCALE,
+  type I18nProviderProps,
+  type Dictionary,
+  type Locale,
+} from './lib/i18n'
+
 // Icons
 export * from './icons'
 

@@ -14,6 +14,7 @@
  */
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useTranslations } from 'next-intl'
 import {
   Accordion,
   AccordionContent,
@@ -112,24 +113,20 @@ const EASING_CHOICES: ReadonlyArray<{ value: string; label: string }> = [
   { value: 'ease-out', label: 'ease-out' },
 ]
 
-const INCLUDE_OPTIONS: Record<
-  'css' | 'tailwind',
-  ReadonlyArray<{ key: IncludeKey; label: string }>
-> = {
+type IncludeOption = { key: IncludeKey; labelKey: string }
+
+const INCLUDE_OPTIONS: Record<'css' | 'tailwind', ReadonlyArray<IncludeOption>> = {
   css: [
-    { key: 'rawPalette', label: 'Raw palette (ink / brand / paper)' },
-    { key: 'semanticLight', label: 'Semantic — light' },
-    { key: 'semanticDark', label: 'Semantic — dark' },
-    { key: 'identity', label: 'Identity (medals / charts / nav-on-dark / pattern)' },
-    { key: 'foundations', label: 'Foundations (typography / radius / shadow / spacing / motion)' },
+    { key: 'rawPalette', labelKey: 'rawPalette' },
+    { key: 'semanticLight', labelKey: 'semanticLight' },
+    { key: 'semanticDark', labelKey: 'semanticDark' },
+    { key: 'identity', labelKey: 'identity' },
+    { key: 'foundations', labelKey: 'foundations' },
   ],
   tailwind: [
-    { key: 'semanticLight', label: 'Semantic colors' },
-    { key: 'identity', label: 'Identity (charts / memphis aliases)' },
-    {
-      key: 'foundations',
-      label: 'Foundations (typography / radius / shadow / spacing / motion / z-index)',
-    },
+    { key: 'semanticLight', labelKey: 'tailwindSemantic' },
+    { key: 'identity', labelKey: 'tailwindIdentity' },
+    { key: 'foundations', labelKey: 'tailwindFoundations' },
   ],
 }
 
@@ -319,6 +316,7 @@ interface PaletteEditorProps {
 }
 
 function PaletteEditor({ palette, otherPalette, mode, dispatch }: PaletteEditorProps) {
+  const t = useTranslations('themeGenerator.paletteEditor')
   return (
     <>
       <p
@@ -329,14 +327,13 @@ function PaletteEditor({ palette, otherPalette, mode, dispatch }: PaletteEditorP
           lineHeight: 1.5,
         }}
       >
-        Editing raw scales does not automatically update the Theme tab values. Use Reset to
-        re-derive semantic tokens from the current palette.
+        {t('helpText')}
       </p>
       <Accordion type="multiple" defaultValue={['ink', 'brand', 'paper']}>
         {(['ink', 'brand', 'paper'] as const).map((group) => (
           <AccordionItem key={group} value={group}>
             <AccordionTrigger>
-              {group} ({PALETTE_STEPS[group].length} steps)
+              {t('groupHeader', { group, count: PALETTE_STEPS[group].length })}
             </AccordionTrigger>
             <AccordionContent>
               <div style={stackStyle}>
@@ -383,17 +380,52 @@ interface ThemeEditorProps {
   onChange: (key: keyof SemanticTheme, value: string) => void
 }
 
+// Maps SEMANTIC_GROUPS top-level keys (surfaces/intents/statuses/chrome/
+// memphis/badges) → display title. Capitalised; not yet wired through the
+// translation catalog because the SEMANTIC_GROUPS shape isn't symmetric
+// across modes.
+function semanticGroupTitle(groupKey: keyof typeof SEMANTIC_GROUPS): string {
+  return groupKey.charAt(0).toUpperCase() + groupKey.slice(1)
+}
+
+// Maps the english label string of each SEMANTIC_GROUPS entry to its
+// translation-catalog key under `themeGenerator.semanticGroups.*`. Hoisted
+// so we don't rebuild the lookup every render and so TS catches missing
+// labels at the use site.
+const SEMANTIC_LABEL_TO_KEY: Readonly<Record<string, string>> = {
+  Background: 'background',
+  Card: 'card',
+  Popover: 'popover',
+  Muted: 'muted',
+  Primary: 'primary',
+  Secondary: 'secondary',
+  Destructive: 'destructive',
+  Success: 'success',
+  Warning: 'warning',
+  Info: 'info',
+  Border: 'border',
+  'Border strong': 'borderStrong',
+  'Focus ring': 'focusRing',
+  Shadow: 'shadow',
+  Featured: 'featured',
+}
+
 function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorProps) {
+  const tGroups = useTranslations('themeGenerator.semanticGroups')
   const divPair = (key: keyof SemanticTheme): { lightValue: string; darkValue: string } => ({
     lightValue: mode === 'light' ? semantic[key] : otherSemantic[key],
     darkValue: mode === 'dark' ? semantic[key] : otherSemantic[key],
   })
+  const tLabel = (label: string): string => {
+    const key = SEMANTIC_LABEL_TO_KEY[label]
+    return key ? tGroups(key) : label
+  }
   return (
     <Accordion type="multiple" defaultValue={['surfaces', 'intents', 'statuses']}>
       {(Object.keys(SEMANTIC_GROUPS) as ReadonlyArray<keyof typeof SEMANTIC_GROUPS>).map(
         (groupKey) => (
           <AccordionItem key={groupKey} value={groupKey}>
-            <AccordionTrigger style={{ textTransform: 'capitalize' }}>{groupKey}</AccordionTrigger>
+            <AccordionTrigger>{semanticGroupTitle(groupKey)}</AccordionTrigger>
             <AccordionContent>
               <div style={{ ...stackStyle, gap: 12 }}>
                 {SEMANTIC_GROUPS[groupKey].map((entry) => {
@@ -402,10 +434,11 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
                     const fgKey = entry.fg as keyof SemanticTheme
                     const bgVal = semantic[bgKey]
                     const fgVal = semantic[fgKey]
+                    const label = tLabel(entry.label)
                     return (
                       <div key={entry.label} style={pairBlockStyle}>
                         <div style={pairHeaderStyle}>
-                          <Label>{entry.label}</Label>
+                          <Label>{label}</Label>
                           <ContrastBadge fg={fgVal} bg={bgVal} />
                         </div>
                         <div style={pairRowStyle}>
@@ -416,7 +449,7 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
                             fillWidth
                           >
                             <ColorPicker
-                              label={`${entry.label} background`}
+                              label={`${label} background`}
                               value={bgVal}
                               onChange={(v) => onChange(bgKey, v)}
                               showLabel={false}
@@ -431,7 +464,7 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
                             fillWidth
                           >
                             <ColorPicker
-                              label={`${entry.label} foreground`}
+                              label={`${label} foreground`}
                               value={fgVal}
                               onChange={(v) => onChange(fgKey, v)}
                               showLabel={false}
@@ -444,6 +477,7 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
                   // Chrome / memphis primitives — single color, no foreground pair
                   const singleKey = entry.key as keyof SemanticTheme
                   const singleVal = semantic[singleKey]
+                  const singleLabel = tLabel(entry.label)
                   return (
                     <DivergenceWrapper
                       key={entry.label}
@@ -451,7 +485,7 @@ function ThemeEditor({ semantic, otherSemantic, mode, onChange }: ThemeEditorPro
                       {...divPair(singleKey)}
                     >
                       <ColorPicker
-                        label={entry.label}
+                        label={singleLabel}
                         value={singleVal}
                         onChange={(v) => onChange(singleKey, v)}
                       />
@@ -480,16 +514,17 @@ interface IdentityEditorProps {
 }
 
 function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: IdentityEditorProps) {
+  const t = useTranslations('themeGenerator.identity')
   return (
     <Accordion type="multiple" defaultValue={['medals']}>
       {/* Medals */}
       <AccordionItem value="medals">
-        <AccordionTrigger>Medals</AccordionTrigger>
+        <AccordionTrigger>{t('medalsTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={{ ...stackStyle, gap: 12 }}>
             {(['bronze', 'silver', 'gold', 'master', 'grandmaster'] as const).map((rank) => (
               <div key={rank} style={pairBlockStyle}>
-                <Label>{rank}</Label>
+                <Label>{t(`medalRanks.${rank}`)}</Label>
                 {(['outer', 'inner', 'text'] as const).map((slot) => {
                   const lightVal =
                     mode === 'light'
@@ -499,7 +534,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                     mode === 'dark' ? identity.medals[rank][slot] : otherIdentity.medals[rank][slot]
                   return (
                     <div key={slot} style={pairRowStyle}>
-                      <span style={pairPrefixWideStyle}>{slot}</span>
+                      <span style={pairPrefixWideStyle}>{t(`medalSlots.${slot}`)}</span>
                       <DivergenceWrapper
                         token={`medal-${rank}-${slot}`}
                         lightValue={lightVal}
@@ -526,7 +561,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 
       {/* Charts */}
       <AccordionItem value="charts">
-        <AccordionTrigger>Charts</AccordionTrigger>
+        <AccordionTrigger>{t('chartsTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={stackStyle}>
             {(['1', '2', '3', '4', '5'] as const).map((index) => {
@@ -541,7 +576,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                   darkValue={darkVal}
                 >
                   <ColorPicker
-                    label={`Chart ${index}`}
+                    label={t('chartLabel', { index })}
                     value={identity.charts[index]}
                     onChange={(v) => dispatch({ type: 'SET_CHART', mode, index, value: v })}
                   />
@@ -554,7 +589,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 
       {/* Nav on dark */}
       <AccordionItem value="nav-on-dark">
-        <AccordionTrigger>Nav on dark</AccordionTrigger>
+        <AccordionTrigger>{t('navOnDarkTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={stackStyle}>
             {(['accent', 'accentStrong', 'foreground', 'foregroundStrong'] as const).map((key) => {
@@ -583,7 +618,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 
       {/* App pattern */}
       <AccordionItem value="app-pattern">
-        <AccordionTrigger>App pattern</AccordionTrigger>
+        <AccordionTrigger>{t('appPatternTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={stackStyle}>
             {(['color1', 'color2', 'color3'] as const).map((key) => {
@@ -621,7 +656,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
               lightValue={String(theme.identity.light.appPattern.size)}
               darkValue={String(theme.identity.dark.appPattern.size)}
             >
-              <Label>Size · {identity.appPattern.size}px</Label>
+              <Label>{t('appPatternSize', { px: identity.appPattern.size })}</Label>
               <Slider
                 value={[identity.appPattern.size]}
                 min={20}
@@ -641,7 +676,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 
       {/* Typography */}
       <AccordionItem value="typography">
-        <AccordionTrigger>Typography</AccordionTrigger>
+        <AccordionTrigger>{t('typographyTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={stackStyle}>
             {(
@@ -650,12 +685,13 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                   id: 'tg-font-display',
                   slot: 'display',
                   field: 'fontDisplay',
-                  label: 'Display font',
+                  labelKey: 'displayFont',
                 },
-                { id: 'tg-font-body', slot: 'body', field: 'fontBody', label: 'Body font' },
-                { id: 'tg-font-mono', slot: 'mono', field: 'fontMono', label: 'Mono font' },
+                { id: 'tg-font-body', slot: 'body', field: 'fontBody', labelKey: 'bodyFont' },
+                { id: 'tg-font-mono', slot: 'mono', field: 'fontMono', labelKey: 'monoFont' },
               ] as const
-            ).map(({ id, slot, field, label }) => {
+            ).map(({ id, slot, field, labelKey }) => {
+              const label = t(labelKey)
               const lightVal = theme.typography.light[field]
               const darkVal = theme.typography.dark[field]
               return (
@@ -708,7 +744,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 
       {/* Radius */}
       <AccordionItem value="radius">
-        <AccordionTrigger>Radius</AccordionTrigger>
+        <AccordionTrigger>{t('radiusTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={stackStyle}>
             {RADIUS_KEYS.map((k) => {
@@ -746,10 +782,10 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 
       {/* Shadow Memphis */}
       <AccordionItem value="shadow">
-        <AccordionTrigger>Shadow</AccordionTrigger>
+        <AccordionTrigger>{t('shadowTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={{ ...stackStyle, gap: 12 }}>
-            <span className="eyebrow">Memphis</span>
+            <span className="eyebrow">{t('shadowMemphis')}</span>
             {SHADOW_MEMPHIS_KEYS.map((k) => {
               const lightSig = JSON.stringify(theme.shadowMemphis.light[k])
               const darkSig = JSON.stringify(theme.shadowMemphis.dark[k])
@@ -815,13 +851,13 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                 </DivergenceWrapper>
               )
             })}
-            <span className="eyebrow">Soft</span>
+            <span className="eyebrow">{t('shadowSoft')}</span>
             <DivergenceWrapper
               token="shadow-soft-md"
               lightValue={String(theme.shadowSoft.light.md)}
               darkValue={String(theme.shadowSoft.dark.md)}
             >
-              <Label>md opacity · {theme.shadowSoft[mode].md.toFixed(2)}</Label>
+              <Label>{t('shadowMdOpacity', { opacity: theme.shadowSoft[mode].md.toFixed(2) })}</Label>
               <Slider
                 value={[Math.round(theme.shadowSoft[mode].md * 100)]}
                 min={0}
@@ -845,10 +881,10 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 
       {/* Motion */}
       <AccordionItem value="motion">
-        <AccordionTrigger>Motion</AccordionTrigger>
+        <AccordionTrigger>{t('motionTitle')}</AccordionTrigger>
         <AccordionContent>
           <div style={stackStyle}>
-            <span className="eyebrow">Durations (ms)</span>
+            <span className="eyebrow">{t('motionDurations')}</span>
             {DURATION_KEYS.map((k) => {
               const lightVal = String(theme.motion.light.durations[k])
               const darkVal = String(theme.motion.dark.durations[k])
@@ -877,7 +913,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                 </div>
               )
             })}
-            <span className="eyebrow">Easings</span>
+            <span className="eyebrow">{t('motionEasings')}</span>
             {(['memphis', 'out'] as const).map((k) => {
               const lightVal = theme.motion.light.easings[k]
               const darkVal = theme.motion.dark.easings[k]
@@ -922,6 +958,7 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
 // ═══════════════════════════════════════════════════════════
 
 export default function ThemeGeneratorPage() {
+  const t = useTranslations('themeGenerator')
   const { theme, dispatch } = useThemeState()
 
   const [editorTab, setEditorTab] = useState<EditorTab>('theme')
@@ -998,19 +1035,21 @@ export default function ThemeGeneratorPage() {
   return (
     <div style={pageStyle}>
       {/* ─── Sidebar ──────────────────────────────────── */}
-      <Sidebar aria-label="Theme controls">
+      <Sidebar aria-label={t('sidebar.aria')}>
         <SidebarHeader>
-          <SidebarBrand>Theme Generator</SidebarBrand>
-          <SidebarSubtitle>{BRAND.libName} · TOKEN EDITOR</SidebarSubtitle>
+          <SidebarBrand>{t('sidebar.brand')}</SidebarBrand>
+          <SidebarSubtitle>
+            {BRAND.libName} · {t('sidebar.subtitle')}
+          </SidebarSubtitle>
         </SidebarHeader>
 
         <SidebarBody>
           {/* Editor tabs: Palette / Theme / Identity */}
           <Tabs value={editorTab} onValueChange={(v) => setEditorTab(v as EditorTab)}>
             <TabsList>
-              <TabsTrigger value="palette">Palette</TabsTrigger>
-              <TabsTrigger value="theme">Theme</TabsTrigger>
-              <TabsTrigger value="identity">Identity</TabsTrigger>
+              <TabsTrigger value="palette">{t('sidebar.tabs.palette')}</TabsTrigger>
+              <TabsTrigger value="theme">{t('sidebar.tabs.theme')}</TabsTrigger>
+              <TabsTrigger value="identity">{t('sidebar.tabs.identity')}</TabsTrigger>
             </TabsList>
 
             {/* Edit-mode toggle — Light / Dark (independent of preview).
@@ -1018,14 +1057,14 @@ export default function ThemeGeneratorPage() {
                 also be customised per mode. */}
             <div style={{ marginTop: 12, marginBottom: 12 }}>
               <div style={rowStyle}>
-                <Label>Editing:</Label>
+                <Label>{t('sidebar.editingLabel')}</Label>
                 <Button
                   variant={editMode === 'light' ? 'primary' : 'outline'}
                   size="sm"
                   onClick={() => setEditMode('light')}
                   aria-pressed={editMode === 'light'}
                 >
-                  Light
+                  {t('sidebar.lightButton')}
                 </Button>
                 <Button
                   variant={editMode === 'dark' ? 'primary' : 'outline'}
@@ -1033,7 +1072,7 @@ export default function ThemeGeneratorPage() {
                   onClick={() => setEditMode('dark')}
                   aria-pressed={editMode === 'dark'}
                 >
-                  Dark
+                  {t('sidebar.darkButton')}
                 </Button>
               </div>
               <div
@@ -1051,7 +1090,7 @@ export default function ThemeGeneratorPage() {
                   border: '2px solid var(--memphis-border-color)',
                 }}
               >
-                Editing the {editMode} variant — values below apply when{' '}
+                {t('sidebar.editingHeader', { mode: editMode })}{' '}
                 <code>data-theme=&quot;{editMode}&quot;</code>
               </div>
             </div>
@@ -1099,7 +1138,7 @@ export default function ThemeGeneratorPage() {
               dispatch({ type: 'RESET', preset })
             }}
           >
-            Reset
+            {t('sidebar.reset')}
           </Button>
         </SidebarFooter>
       </Sidebar>
@@ -1111,8 +1150,8 @@ export default function ThemeGeneratorPage() {
           onValueChange={(v) => setPreviewPaneTab(v as 'preview' | 'export')}
         >
           <TabsList>
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="export">Export</TabsTrigger>
+            <TabsTrigger value="preview">{t('preview.tab')}</TabsTrigger>
+            <TabsTrigger value="export">{t('export.tab')}</TabsTrigger>
           </TabsList>
 
           {/* Preview tab */}
@@ -1122,12 +1161,12 @@ export default function ThemeGeneratorPage() {
                 {/* Scene tabs */}
                 <Tabs value={sceneTab} onValueChange={(v) => setSceneTab(v as SceneTab)}>
                   <TabsList>
-                    <TabsTrigger value="components">Components</TabsTrigger>
-                    <TabsTrigger value="gallery">Gallery</TabsTrigger>
-                    <TabsTrigger value="auth">Auth</TabsTrigger>
-                    <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-                    <TabsTrigger value="profile">Profile</TabsTrigger>
-                    <TabsTrigger value="feed">Feed</TabsTrigger>
+                    <TabsTrigger value="components">{t('preview.scenes.components')}</TabsTrigger>
+                    <TabsTrigger value="gallery">{t('preview.scenes.gallery')}</TabsTrigger>
+                    <TabsTrigger value="auth">{t('preview.scenes.auth')}</TabsTrigger>
+                    <TabsTrigger value="dashboard">{t('preview.scenes.dashboard')}</TabsTrigger>
+                    <TabsTrigger value="profile">{t('preview.scenes.profile')}</TabsTrigger>
+                    <TabsTrigger value="feed">{t('preview.scenes.feed')}</TabsTrigger>
                   </TabsList>
                 </Tabs>
                 <SampleDialog />
@@ -1156,7 +1195,7 @@ export default function ThemeGeneratorPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 16 }}>
               {/* Section A: Format selector */}
               <section>
-                <Label>Format</Label>
+                <Label>{t('export.format')}</Label>
                 <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
                   <Button
                     variant={exportTab === 'css' ? 'primary' : 'outline'}
@@ -1185,7 +1224,7 @@ export default function ThemeGeneratorPage() {
               {/* Section B: Include toggles — only for CSS and Tailwind */}
               {(exportTab === 'css' || exportTab === 'tailwind') && (
                 <section>
-                  <Label>Include</Label>
+                  <Label>{t('export.include')}</Label>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
                     {INCLUDE_OPTIONS[exportTab].map((opt) => (
                       <label
@@ -1196,7 +1235,9 @@ export default function ThemeGeneratorPage() {
                           checked={includeFlags[opt.key]}
                           onCheckedChange={(v) => setIncludeFlag(opt.key, !!v)}
                         />
-                        <span style={{ fontSize: 13 }}>{opt.label}</span>
+                        <span style={{ fontSize: 13 }}>
+                          {t(`export.includeOptions.${opt.labelKey}`)}
+                        </span>
                       </label>
                     ))}
                   </div>
@@ -1205,21 +1246,21 @@ export default function ThemeGeneratorPage() {
 
               {/* Section C: Output preview */}
               <section>
-                <Label>Output</Label>
+                <Label>{t('export.output')}</Label>
                 <pre style={{ ...preBoxStyle, marginTop: 8 }}>{filteredOutput}</pre>
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                   <Button variant="primary" onClick={() => handleCopy(filteredOutput)}>
                     {copyState === 'copied'
-                      ? 'Copied!'
+                      ? t('export.copied')
                       : copyState === 'error'
-                        ? 'Copy failed'
-                        : 'Copy'}
+                        ? t('export.copyFailed')
+                        : t('export.copy')}
                   </Button>
                   <Button
                     variant="outline"
                     onClick={() => handleDownload(filteredOutput, downloadFilename)}
                   >
-                    Download
+                    {t('export.download')}
                   </Button>
                 </div>
               </section>

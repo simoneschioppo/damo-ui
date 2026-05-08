@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 export interface CopyButtonProps {
   readonly text: string
@@ -9,7 +10,9 @@ export interface CopyButtonProps {
 
 const RESET_DELAY_MS = 1500
 
-export function CopyButton({ text, label = 'Copy code' }: CopyButtonProps) {
+export function CopyButton({ text, label }: CopyButtonProps) {
+  const t = useTranslations('docsChrome.copyButton')
+  const resolvedLabel = label ?? t('label')
   const [copied, setCopied] = useState(false)
   const timerRef = useRef<number | null>(null)
 
@@ -35,10 +38,10 @@ export function CopyButton({ text, label = 'Copy code' }: CopyButtonProps) {
     <button
       type="button"
       onClick={copy}
-      aria-label={label}
+      aria-label={resolvedLabel}
       className="px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.15em] border border-[#30363d] bg-transparent text-[#c9d1d9] hover:bg-[#21262d] hover:border-[#8b949e] transition-colors"
     >
-      {copied ? 'Copied' : 'Copy'}
+      {copied ? t('copied') : t('default')}
     </button>
   )
 }
