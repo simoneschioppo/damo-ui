@@ -99,7 +99,29 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "queued_at": "2026-05-08T20:36:00+00:00",
+          "trigger": "post-code-change",
+          "source_agent": "bmad-quick-dev",
+          "gh_issue": 60,
+          "paths": [
+            "packages/ui/src/components/article-card/article-card.tsx",
+            "packages/ui/src/components/article-card/article-card.test.tsx",
+            "packages/ui/src/components/feature-card/feature-card.tsx",
+            "packages/ui/src/components/feature-card/feature-card.test.tsx",
+            "packages/ui/src/components/user-card/user-card.tsx",
+            "packages/ui/src/components/user-card/user-card.test.tsx"
+          ],
+          "affected_chapters": [
+            "10-library/10-components/article-card.md",
+            "10-library/10-components/feature-card.md",
+            "10-library/10-components/user-card.md",
+            "10-library/10-components/card.md"
+          ],
+          "rationale": "gh-60 refactor: ArticleCard/FeatureCard/UserCard now compose <Card> for frame+shadow+padding. Public APIs unchanged. Shadow unified to 6px (`--shadow-memphis`) across all 4 cards (was 4px `--shadow-memphis-card` on the 3 specialized). card.md OQ #1 is resolved by this work even though card.tsx itself was not modified."
+        }
+      ],
       "runs": [
         {
           "chapter": "20-web-app/20-theme-generator/README.md",
