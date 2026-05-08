@@ -14,6 +14,8 @@ export type DocsNavGroupKey =
 export interface DocsNavEntry {
   readonly slug: string
   readonly label: string
+  /** Optional i18n key under `docsSidebar.entries.{key}` for the label. */
+  readonly labelKey?: string
   readonly status?: 'beta' | 'stub'
 }
 
@@ -29,7 +31,9 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
   {
     key: 'gettingStarted',
     title: 'Getting Started',
-    entries: [{ slug: '/docs/getting-started', label: 'Introduction' }],
+    entries: [
+      { slug: '/docs/getting-started', label: 'Introduction', labelKey: 'introduction' },
+    ],
   },
   {
     key: 'foundations',
