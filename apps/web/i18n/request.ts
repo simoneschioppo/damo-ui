@@ -20,12 +20,21 @@ export default getRequestConfig(async () => {
   return {
     locale,
     messages,
+    // Silences `ENVIRONMENT_FALLBACK` in dev/prod and prevents SSR markup
+    // mismatches caused by server↔client time-zone differences. UTC is fine
+    // for the docs site (no time-of-day formatting outside the playground).
+    timeZone: 'UTC',
     // In production: silent fallback so missing IT keys don't blow up live.
     // In dev: log so we notice catalog regressions while iterating.
+    // (Filters out ENVIRONMENT_FALLBACK to avoid the harmless time-zone
+    // notice now that we set it explicitly above.)
     onError:
       process.env.NODE_ENV === 'production'
         ? () => undefined
-        : (err) => console.warn('[i18n]', err.code, err.message),
+        : (err) => {
+            if (err.code === 'ENVIRONMENT_FALLBACK') return
+            console.warn('[i18n]', err.code, err.message)
+          },
     getMessageFallback: ({ key, namespace }) => `${namespace ?? ''}.${key}`,
   }
 })

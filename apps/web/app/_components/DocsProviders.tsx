@@ -19,7 +19,7 @@ interface DocsProvidersProps {
  */
 export function DocsProviders({ locale, messages, children }: DocsProvidersProps) {
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider locale={locale} messages={messages} timeZone="UTC">
       <I18nProvider locale={locale}>{children}</I18nProvider>
     </NextIntlClientProvider>
   )
