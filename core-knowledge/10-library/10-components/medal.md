@@ -1,7 +1,7 @@
 # Medal
 
-Status: documented · Last scan: d63afaf · Sources:
-`packages/ui/src/components/medal/{medal.tsx,index.ts,medal.test.tsx}`.
+Status: documented · Last scan: 43a7a02 · Sources:
+`packages/ui/src/components/medal/{medal.tsx,index.ts,medal.test.tsx,medal.tokens.test.ts}`.
 
 ## Summary
 
@@ -124,6 +124,11 @@ contour regardless of the outer fill.
 6. **All colors are tokenized** — overriding `--medal-gold-inner`
    in a parent re-tints all gold medals downstream. Useful for
    per-page brand variants.
+
+7. **Source-contract regression guard.** `medal.tokens.test.ts`
+   asserts the 15 `--medal-*` tokens are referenced by name in
+   `medal.tsx`, catching renames or accidental hard-codes before
+   they ship.
 
 ## How to consume (shadcn-style copy)
 

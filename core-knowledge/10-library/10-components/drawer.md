@@ -1,7 +1,7 @@
 # Drawer
 
-Status: documented · Last scan: d63afaf · Sources:
-`packages/ui/src/components/drawer/{drawer.tsx,index.ts}`.
+Status: documented · Last scan: 43a7a02 · Sources:
+`packages/ui/src/components/drawer/{drawer.tsx,index.ts,drawer.test.tsx}`.
 
 ## Summary
 
@@ -17,8 +17,7 @@ inside the panel rather than the page.
 
 10 exports. Most mirror Dialog's structure — for any concept shared
 with Dialog (overlay, header conventions, X button, animation
-classes, `--ink` overlay bug, missing `tailwindcss-animate`), see the
-Dialog chapter.
+classes, missing `tailwindcss-animate`), see the Dialog chapter.
 
 | Export                | Pass-through to                          |
 |-----------------------|------------------------------------------|
@@ -26,7 +25,7 @@ Dialog chapter.
 | `DrawerTrigger`       | `DialogPrimitive.Trigger`                |
 | `DrawerPortal`        | `DialogPrimitive.Portal`                 |
 | `DrawerClose`         | `DialogPrimitive.Close`                  |
-| `DrawerOverlay`       | styled — same as DialogOverlay (same `bg-ink/40` issue) |
+| `DrawerOverlay`       | styled — same as DialogOverlay (`bg-foreground/40`) |
 | `DrawerContent`       | styled — edge-anchored panel             |
 | `DrawerHeader`        | layout div — `pr-8 border-b border-border pb-3` |
 | `DrawerBody`          | layout div — `flex-1 overflow-auto py-3` |
@@ -92,34 +91,30 @@ has no `severity` axis to suppress it.
    focus-trap, scroll-lock, and close behavior. The Drawer just
    restyles the Content.
 
-2. **Same `bg-ink/40` overlay bug as Dialog** — see Dialog chapter,
-   Open questions.
-
-3. **No `severity="alert"` analog.** Drawers are not modal commitment
+2. **No `severity="alert"` analog.** Drawers are not modal commitment
    surfaces; if you need an alert, use Dialog. To prevent dismissal,
    override `onPointerDownOutside`/`onEscapeKeyDown` manually.
 
-4. **`max-h-[75vh]` on top/bottom drawers** caps height so they don't
+3. **`max-h-[75vh]` on top/bottom drawers** caps height so they don't
    cover the whole viewport; left/right use `h-full`. If a top drawer
    needs a different cap, override via `className`.
 
-5. **`max-w-md`** (28rem) on left/right drawers. Wider drawers
+4. **`max-w-md`** (28rem) on left/right drawers. Wider drawers
    override via `className="max-w-2xl"` etc.
 
-6. **Animation requires `tailwindcss-animate`** — see Dialog chapter
+5. **Animation requires `tailwindcss-animate`** — see Dialog chapter
    Open questions.
 
 ## How to consume (shadcn-style copy)
 
 1. Copy `drawer.tsx` and `index.ts`.
 2. Add `@radix-ui/react-dialog` and `tailwindcss-animate`.
-3. Same overlay token caveat as Dialog (`--ink`).
-4. Replace `CloseIcon` import.
+3. Replace `CloseIcon` import.
 
 ## Open questions
 
-1. Inherits Dialog's open questions for `bg-ink/40`, missing
-   `tailwindcss-animate`, and Italian close `aria-label`.
+1. Inherits Dialog's open questions for missing
+   `tailwindcss-animate` and Italian close `aria-label`.
 2. **No `size` axis on top/bottom drawers** beyond the 75vh cap.
    Consumers might want `size: 'sm' | 'md' | 'lg'` for sliding sheets
    that aren't full-width on top/bottom.

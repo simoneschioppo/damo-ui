@@ -1,7 +1,7 @@
 # Tabs
 
-Status: documented · Last scan: d63afaf · Sources:
-`packages/ui/src/components/tabs/{tabs.tsx,index.ts}`.
+Status: documented · Last scan: 43a7a02 · Sources:
+`packages/ui/src/components/tabs/{tabs.tsx,index.ts,tabs.test.tsx}`.
 
 ## Summary
 
@@ -27,13 +27,12 @@ the rule for that segment.
 ### TabsList
 
 ```
-inline-flex items-center gap-1 border-b-base border-memphis
+inline-flex items-center gap-1 border-b-2 border-memphis
 ```
 
-⚠️ **`border-b-base` does not resolve.** `base` is not in Tailwind's
-`borderWidth` scale and not in the lib's preset / theme.css. The v1
-audit dropped `border-thin/base/thick` tokens; this class survived.
-Likely intent was `border-b-2`. See Open questions.
+The 2px Memphis bottom rule spans the full TabsList width. (Earlier
+versions used the unresolved `border-b-base` class — fixed in commit
+0519728.)
 
 ### TabsTrigger
 
@@ -53,9 +52,8 @@ trigger is active, its 3px primary bar visually "replaces" the 2px
 black rule for that segment (3px primary covers the 2px black behind
 it).
 
-If the underlying `border-b-base` becomes `border-b-2` (assumed
-intent), the math holds. If it's a different width the overlap may
-not align.
+With the 2px list border now in place, the math holds: the active
+trigger's 3px primary bar covers the 2px black rule for its segment.
 
 ### TabsContent
 
@@ -65,30 +63,21 @@ not the panel).
 
 ## Notes & gotchas
 
-1. **`border-b-base` is unresolved Tailwind.** Likely a stale class
-   left from the pre-audit token set. Tabs probably renders with **no
-   bottom rule on the list** today, only the active trigger's 3px bar.
+1. **`-mb-[2px]` matters.** Without it, the active bar would sit
+   above (not on) the list rule.
 
-2. **`-mb-[2px]` matters.** Without it, the active bar would sit
-   above (not on) the list rule. Don't strip when fixing #1.
-
-3. **No vertical orientation styling.** Radix supports
+2. **No vertical orientation styling.** Radix supports
    `orientation="vertical"` but the lib's classes assume horizontal.
    Vertical tabs need consumer overrides.
 
-4. **No size variant.** `text-sm px-4 py-2` is the only size.
+3. **No size variant.** `text-sm px-4 py-2` is the only size.
 
 ## How to consume (shadcn-style copy)
 
 1. Copy `tabs.tsx` and `index.ts`.
 2. Add `@radix-ui/react-tabs` as a runtime dep.
-3. Replace `border-b-base` with `border-b-2`.
 
 ## Open questions
 
-1. **`border-b-base` is unresolved** — confirmed the lib v1 audit
-   dropped `border-thin/base/thick` (see theming chapter inline
-   comments). This class was missed during cleanup. Easy fix:
-   `border-b-2`.
-2. No "pill" / "boxed" alternate variant. The underline style is
+1. No "pill" / "boxed" alternate variant. The underline style is
    the only look.
