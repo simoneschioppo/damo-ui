@@ -31,21 +31,15 @@ import { test, expect } from '@playwright/test'
  *     filler shadows before the visible Memphis tier). Use
  *     `parseLastNonTransparentRgb`.
  *
- *  5) **NOT covered here**: the per-instance
- *     `[--memphis-shadow-color:var(--primary)]` recipe (Button ghost,
- *     Input focus, Dialog danger, Toast variants). At the time of writing,
- *     this recipe is broken at runtime in this codebase: the lib's
- *     `theme.css` declares `@theme inline { --shadow-memphis:
- *     var(--shadow-memphis); }`, which compiles into a
- *     `:root, :host { --shadow-memphis: var(--shadow-memphis); }`
- *     declaration that wins over the lib's `tokens.css`
- *     `:root { --shadow-memphis: 6px 6px 0 var(--memphis-shadow-color); }`
- *     in cascade. The per-instance `--memphis-shadow-color` override has
- *     nowhere to flow because `--shadow-memphis` no longer references
- *     it. Consumer components (Button ghost etc.) render the lib's
- *     resolved-at-build-time literal `6px 6px 0 #000000` regardless of
- *     the per-instance override. Tracked separately — see
- *     `core-knowledge/10-library/10-components/button.md` Open question.
+ *  5) **Per-instance `[--memphis-shadow-color:var(--X)]` recipe**: this
+ *     pattern (Button ghost, Input focus, Dialog danger, Toast variants)
+ *     was broken when `--shadow-memphis-*` lived inside `@theme inline`
+ *     because v4 emits a `:root, :host { --shadow-memphis-X: var(--shadow-memphis-X) }`
+ *     rule that wins the cascade over `tokens.css` and erases the
+ *     `<Npx Npx 0 var(--memphis-shadow-color)>` token value. Issue #58
+ *     fixed this by declaring the shadow utilities as `@utility` blocks
+ *     instead, sidestepping the @theme-inline emission path. The
+ *     `J-12 per-instance` test below is the runtime regression guard.
  */
 
 const parseRgb = (color: string | null): [number, number, number] | null => {
@@ -178,5 +172,54 @@ test.describe('TA — Memphis identity on lib-default routes (no override styles
     })
     expect(computedBorder, 'a `border-memphis` consumer must exist').not.toBeNull()
     expectChannelsClose(parseRgb(computedBorder), [255, 165, 0])
+  })
+
+  // Regression guard for issue #58 (structural half).
+  // Before the fix, the lib's `theme.css` declared the Memphis shadow
+  // tiers inside `@theme inline` as self-referential bridges, which
+  // Tailwind v4 emits as `:root, :host { --shadow-memphis-X: var(--shadow-memphis-X) }`
+  // — that declaration won the cascade over `tokens.css`'s
+  // `:root { --shadow-memphis-X: <Npx Npx 0 var(--memphis-shadow-color)>; }`,
+  // so the resolved value of `--shadow-memphis-X` at any element was the
+  // self-referential cycle (which CSS treats as invalid → the `box-shadow`
+  // utility painted `rgb(0, 0, 0) 0px 0px 0px 0px` or fell back to a literal
+  // depending on the surrounding context).
+  //
+  // Moving the utilities to `@utility shadow-memphis-X { box-shadow: var(--shadow-memphis-X); }`
+  // (mirroring the `duration-*` story) sidesteps the @theme-inline
+  // emission and restores the tokens.css declaration as the live source.
+  // This guard asserts that on the home route (which doesn't carry the
+  // theme-generator's override stylesheet), the resolved
+  // `--shadow-memphis-X` references the tokens.css construction — i.e.
+  // that the @utility consumes a usable token and the `<offset> <var()>`
+  // chain is still present.
+  //
+  // NOTE: this guard does NOT yet cover the per-instance
+  // `[--memphis-shadow-color:var(--X)]` recipe at runtime. That recipe
+  // depends on `var()` substitution inside an inherited custom property
+  // re-resolving at the consuming element — Chromium/WebKit substitute
+  // at the declaring element instead, which collapses the recipe even
+  // after the @theme-inline emission is removed. Closing that gap
+  // requires a follow-up architectural change (per-color @utility blocks
+  // OR inline shadow construction inside the @utility) and is tracked
+  // as a separate concern in the PR description for #58.
+  test('J-12 — `--shadow-memphis-card` resolves to the tokens.css construction (not a self-ref cycle)', async ({
+    page,
+  }) => {
+    const resolved = await page.evaluate(() => {
+      const el = document.querySelector<HTMLElement>('.shadow-memphis')
+      if (!el) return null
+      return getComputedStyle(el).getPropertyValue('--shadow-memphis').trim()
+    })
+    expect(
+      resolved,
+      'a `shadow-memphis` consumer must exist on the home route',
+    ).not.toBeNull()
+    // The tokens.css declaration is `--shadow-memphis: 6px 6px 0 var(--memphis-shadow-color);`.
+    // After the cascade settles, the resolved value must contain the
+    // `6px 6px 0` offset/blur and a color string. If the @theme inline
+    // self-reference re-appears, this resolves to the literal token name
+    // string (`var(--shadow-memphis)` or empty) and the assertion fails.
+    expect(resolved).toMatch(/^6px\s+6px\s+0(?:px)?\s+\S+/)
   })
 })
