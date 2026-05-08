@@ -53,7 +53,7 @@ describe('UserCard', () => {
     expect(getByTestId('custom-avatar')).toBeTruthy()
   })
 
-  it('applies Memphis frame classes on the root', () => {
+  it('applies Memphis frame classes via Card composition', () => {
     const { container } = render(<UserCard name="Mario" />)
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
@@ -70,6 +70,16 @@ describe('UserCard', () => {
     expect(root.className).toContain('rounded-none')
   })
 
+  it('keeps the row layout (flex, gap, full-width, p-4) on the composed Card root', () => {
+    const { container } = render(<UserCard name="Mario" />)
+    const root = container.firstChild as HTMLElement
+    expect(root.className).toContain('flex')
+    expect(root.className).toContain('items-center')
+    expect(root.className).toContain('gap-[14px]')
+    expect(root.className).toContain('w-full')
+    expect(root.className).toContain('p-4')
+  })
+
   it('forwards className to the root', () => {
     const { container } = render(<UserCard name="Mario" className="custom-user" />)
     const root = container.firstChild as HTMLElement
@@ -82,7 +92,7 @@ describe('UserCard', () => {
     expect(root.getAttribute('data-testid')).toBe('user-root')
   })
 
-  it('uses a 48x48 plum-900 circle for the default avatar', () => {
+  it('uses a 48x48 circle for the default avatar', () => {
     const { container } = render(<UserCard name="Mario" />)
     const avatar = container.querySelector('[data-slot="avatar"]') as HTMLElement
     expect(avatar).not.toBeNull()
@@ -92,11 +102,10 @@ describe('UserCard', () => {
     expect(avatar.className).toContain('rounded-full')
   })
 
-  it('uses the Memphis card shadow token (not a hardcoded value)', () => {
+  it('inherits the Memphis shadow utility from Card (no inline boxShadow override)', () => {
     const { container } = render(<UserCard name="Mario" />)
     const root = container.firstChild as HTMLElement
-    const styleAttr = root.getAttribute('style') ?? ''
-    expect(styleAttr).toContain('var(--shadow-memphis-card)')
-    expect(styleAttr).not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
+    expect(root.className).toContain('shadow-memphis')
+    expect(root.style.boxShadow).toBe('')
   })
 })
