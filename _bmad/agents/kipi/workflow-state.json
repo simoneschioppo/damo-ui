@@ -99,7 +99,34 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "kind": "content-update",
+          "gh_issue": 61,
+          "chapters": [
+            "10-library/10-components/nav-item.md",
+            "10-library/10-components/dropdown-menu.md"
+          ],
+          "details": {
+            "10-library/10-components/nav-item.md": {
+              "paths": [
+                "packages/ui/src/components/nav-item/nav-item.variants.ts",
+                "packages/ui/src/components/nav-item/nav-item.tone-on-dark.test.ts",
+                "packages/ui/src/lib/selection-chrome.ts"
+              ],
+              "edits": "Update Internal architecture (default + onDark tones now consume selectionChromeClasses helper). Resolve Open question 2 — selection chrome is now a single source of truth at packages/ui/src/lib/selection-chrome.ts. Add a pointer to the new helper from the consume guide."
+            },
+            "10-library/10-components/dropdown-menu.md": {
+              "paths": [
+                "packages/ui/src/components/dropdown-menu/dropdown-menu.tsx",
+                "packages/ui/src/lib/selection-chrome.ts"
+              ],
+              "edits": "Update RadioItem 'selected chrome' section to point at selectionChromeClasses helper. Resolve Open question 1 — the recipe lives in lib/selection-chrome.ts and is parametrized by gate, tokens, and bar inset. Bar-inset rationale (left-1 inside overflow-hidden vs. -2px sidebar bleed) preserved."
+            }
+          },
+          "queued_at": "2026-05-08T21:18:00+00:00"
+        }
+      ],
       "runs": [
         {
           "kind": "content-update",
