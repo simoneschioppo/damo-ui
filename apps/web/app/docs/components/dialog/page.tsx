@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
+import { codeTag, monoTag, strongTag, emTag, kbdTag, linkTag } from '../../../../lib/i18n-tags'
 import {
   Button,
   Dialog,
@@ -78,60 +78,57 @@ const ALERT_SNIPPET = `<Dialog>
   </DialogContent>
 </Dialog>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'open',
-    type: 'boolean',
-    description: 'Controlled open state. Pair with `onOpenChange`.',
-  },
-  {
-    name: 'defaultOpen',
-    type: 'boolean',
-    defaultValue: 'false',
-    description: 'Uncontrolled initial open state.',
-  },
-  {
-    name: 'onOpenChange',
-    type: '(open: boolean) => void',
-    description: 'Fires whenever the open state changes.',
-  },
-  {
-    name: 'modal',
-    type: 'boolean',
-    defaultValue: 'true',
-    description:
-      'When true (default), focus is trapped inside the dialog and outside content is inert.',
-  },
-]
-
-const CONTENT_PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'severity',
-    type: "'default' | 'alert'",
-    defaultValue: "'default'",
-    description:
-      '`default` is `role="dialog"`; clicks on the overlay close it. `alert` flips to `role="alertdialog"`, blocks overlay-click dismissal and hides the X button — the user must click an explicit footer action. Use for destructive or otherwise irreversible flows.',
-  },
-  {
-    name: 'tone',
-    type: "'default' | 'danger'",
-    defaultValue: "'default'",
-    description:
-      'Visual override. `danger` swaps the Memphis offset shadow to the destructive token, telegraphing high-stakes actions. Orthogonal to `severity` — combine freely.',
-  },
-  {
-    name: 'hideClose',
-    type: 'boolean',
-    defaultValue: 'false',
-    description:
-      'Hide the built-in X close button. Already implicit when `severity="alert"` — alert mode never renders the X.',
-  },
-]
-
 export default async function DialogDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'open',
+      type: 'boolean',
+      description: t.rich('componentDocs.dialog.props.open', { code: codeTag }),
+    },
+    {
+      name: 'defaultOpen',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.dialog.props.defaultOpen', { code: codeTag }),
+    },
+    {
+      name: 'onOpenChange',
+      type: '(open: boolean) => void',
+      description: t.rich('componentDocs.dialog.props.onOpenChange', { code: codeTag }),
+    },
+    {
+      name: 'modal',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: t.rich('componentDocs.dialog.props.modal', { code: codeTag }),
+    },
+  ]
+
+  const CONTENT_PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'severity',
+      type: "'default' | 'alert'",
+      defaultValue: "'default'",
+      description: t.rich('componentDocs.dialog.contentProps.severity', { code: codeTag }),
+    },
+    {
+      name: 'tone',
+      type: "'default' | 'danger'",
+      defaultValue: "'default'",
+      description: t.rich('componentDocs.dialog.contentProps.tone', { code: codeTag }),
+    },
+    {
+      name: 'hideClose',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.dialog.contentProps.hideClose', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -145,9 +142,11 @@ export default async function DialogDocsPage() {
       <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Default — informational</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">
+        {t('componentDocs.dialog.headings.defaultInformational')}
+      </h2>
       <p className="text-foreground/80 mb-3">
-        Standard modal. Click on the overlay or press <kbd>Esc</kbd> to dismiss.
+        {t.rich('componentDocs.dialog.body.defaultInformational', { code: codeTag, kbd: kbdTag })}
       </p>
       <div className="my-6 border-2 border-memphis bg-background shadow-memphis px-6 py-10 flex items-center justify-center">
         <Dialog>
@@ -176,12 +175,10 @@ export default async function DialogDocsPage() {
       <Code code={BASIC_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">
-        <code className="font-mono">severity=&quot;alert&quot;</code> — destructive confirmation
+        {t.rich('componentDocs.dialog.headings.alertSeverity', { code: codeTag })}
       </h2>
       <p className="text-foreground/80 mb-3">
-        Flip the role to <code className="font-mono">alertdialog</code>, block overlay-click
-        dismissal, and remove the X button — the user must explicitly choose an action. Pair with{' '}
-        <code className="font-mono">tone=&quot;danger&quot;</code> to recolour the Memphis shadow.
+        {t.rich('componentDocs.dialog.body.alertSeverity', { code: codeTag })}
       </p>
       <div className="my-6 border-2 border-memphis bg-background shadow-memphis px-6 py-10 flex items-center justify-center">
         <Dialog>
@@ -208,48 +205,31 @@ export default async function DialogDocsPage() {
       </div>
       <Code code={ALERT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">When to switch to alert mode</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">
+        {t('componentDocs.dialog.headings.whenToSwitchToAlert')}
+      </h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          The action is destructive (delete, archive, sign out) and must NOT be cancelled
-          accidentally by clicking outside.
-        </li>
-        <li>
-          You want screen readers to announce the dialog as{' '}
-          <code className="font-mono">alertdialog</code> (more interruptive than the regular{' '}
-          <code className="font-mono">dialog</code> role).
-        </li>
-        <li>
-          Otherwise leave <code className="font-mono">severity</code> at{' '}
-          <code className="font-mono">default</code>.
-        </li>
+        <li>{t.rich('componentDocs.dialog.whenToAlert.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.dialog.whenToAlert.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.dialog.whenToAlert.2', { code: codeTag })}</li>
       </ul>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Dialog (root) API</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">
+        {t('componentDocs.dialog.headings.rootApi')}
+      </h2>
       <PropsTable props={PROPS} caption="Dialog props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">DialogContent props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">
+        {t('componentDocs.dialog.headings.contentProps')}
+      </h2>
       <PropsTable props={CONTENT_PROPS} caption="DialogContent severity/tone" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Always pair <code className="font-mono">DialogTitle</code> with the content; screen
-          readers announce it as the dialog name.
-        </li>
-        <li>
-          Add <code className="font-mono">DialogDescription</code> for non-obvious actions; it is
-          wired as <code className="font-mono">aria-describedby</code>.
-        </li>
-        <li>
-          Use <code className="font-mono">DialogClose</code> on close buttons so they close the
-          dialog and return focus to the trigger.
-        </li>
-        <li>
-          In <code className="font-mono">severity=&quot;alert&quot;</code>, place Cancel first in
-          the footer DOM order so Radix gives it default focus — the layout enforces column-reverse
-          on small viewports so Cancel sits on top there.
-        </li>
+        <li>{t.rich('componentDocs.dialog.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.dialog.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.dialog.a11y.2', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.dialog.a11y.3', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

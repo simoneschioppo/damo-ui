@@ -57,44 +57,44 @@ const SIDES_SNIPPET = `<DrawerContent side="left">…</DrawerContent>
 <DrawerContent side="top">…</DrawerContent>
 <DrawerContent side="bottom">…</DrawerContent>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'open',
-    type: 'boolean',
-    description: 'Controlled open state on the root.',
-  },
-  {
-    name: 'defaultOpen',
-    type: 'boolean',
-    defaultValue: 'false',
-    description: 'Uncontrolled initial open state on the root.',
-  },
-  {
-    name: 'onOpenChange',
-    type: '(open: boolean) => void',
-    description: 'Fires whenever the open state changes.',
-  },
-  {
-    name: 'side',
-    type: "'left' | 'right' | 'top' | 'bottom'",
-    defaultValue: "'right'",
-    description: 'Prop on `DrawerContent`. Sets the slide-in edge of the panel.',
-  },
-  {
-    name: 'hideClose',
-    type: 'boolean',
-    defaultValue: 'false',
-    description:
-      'Prop on `DrawerContent`. Hides the built-in close button (rendered as an X in the upper right). Useful when the consumer renders their own close affordance.',
-  },
-]
-
 export const metadata = { title: `Drawer — ${BRAND.libName}` }
 
 export default async function DrawerDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'open',
+      type: 'boolean',
+      description: t.rich('componentDocs.drawer.props.open', { code: codeTag }),
+    },
+    {
+      name: 'defaultOpen',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.drawer.props.defaultOpen', { code: codeTag }),
+    },
+    {
+      name: 'onOpenChange',
+      type: '(open: boolean) => void',
+      description: t.rich('componentDocs.drawer.props.onOpenChange', { code: codeTag }),
+    },
+    {
+      name: 'side',
+      type: "'left' | 'right' | 'top' | 'bottom'",
+      defaultValue: "'right'",
+      description: t.rich('componentDocs.drawer.props.side', { code: codeTag }),
+    },
+    {
+      name: 'hideClose',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.drawer.props.hideClose', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -138,9 +138,7 @@ export default async function DrawerDocsPage() {
       <Code code={BASIC_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('sides')}</h2>
-      <p className="text-foreground/80 mb-3">
-        Right is the default — typical for filters and detail panels. Bottom works well on mobile.
-      </p>
+      <p className="text-foreground/80 mb-3">{t('componentDocs.drawer.body.sides')}</p>
       <Code code={SIDES_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
@@ -148,37 +146,21 @@ export default async function DrawerDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Built on Radix Dialog: focus is trapped inside the panel while open and returned to the
-          trigger on close. Esc closes the drawer; clicks on the overlay close it too.
-        </li>
-        <li>
-          Always pair <code className="font-mono">DrawerTitle</code> and{' '}
-          <code className="font-mono">DrawerDescription</code> with the content — Radix wires them
-          as the dialog's accessible name and description.
-        </li>
-        <li>
-          The built-in close button uses an Italian label{' '}
-          <code className="font-mono">aria-label=&quot;Chiudi&quot;</code>. There is currently no
-          prop to override it; if you need a different language, set{' '}
-          <code className="font-mono">hideClose</code> and render your own close affordance with{' '}
-          <code className="font-mono">DrawerClose</code> as{' '}
-          <code className="font-mono">asChild</code>.
-        </li>
+        <li>{t.rich('componentDocs.drawer.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.drawer.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.drawer.a11y.2', { code: codeTag })}</li>
       </ul>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Drawer vs Dialog</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">
+        {t('componentDocs.drawer.headings.drawerVsDialog')}
+      </h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.drawer.vsDialog.0', { code: codeTag })}</li>
         <li>
-          Reach for Drawer when the panel hosts a flow of related controls (filters, settings, side
-          editor) — the panel can stay tall and dominate one edge of the screen.
-        </li>
-        <li>
-          Reach for{' '}
-          <Link href="/docs/components/dialog" className="text-primary underline">
-            Dialog
-          </Link>{' '}
-          for a centred modal — confirmations, single-step forms, or focused tasks.
+          {t.rich('componentDocs.drawer.vsDialog.1', {
+            code: codeTag,
+            link1: linkTag('/docs/components/dialog'),
+          })}
         </li>
       </ul>
 
