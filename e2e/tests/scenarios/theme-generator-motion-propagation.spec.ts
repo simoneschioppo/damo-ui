@@ -1,6 +1,19 @@
 import { test, expect, type Page } from '@playwright/test'
 
 /**
+ * Parse a CSS transition-duration computed string into seconds.
+ * Tolerates `'0s'`, `'0.01ms'`, `'1500ms'`, `'1.5s'`, `'1e-05s'`,
+ * `'0.00001s'`. Returns NaN when unrecognised.
+ */
+function parseDurationToSeconds(s: string): number {
+  const m = s.trim().match(/^([+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)(ms|s)?$/i)
+  if (!m) return NaN
+  const value = Number(m[1])
+  const unit = (m[2] || 's').toLowerCase()
+  return unit === 'ms' ? value / 1000 : value
+}
+
+/**
  * AC-1 (J-13a) — Motion durations propagation
  *
  * Acceptance: when a `--duration-*` var is overridden at runtime on `<html>`,
@@ -147,9 +160,15 @@ test.describe('AC-1 — Theme generator motion durations propagate to consumers'
       })
 
       expect(computed).not.toBeNull()
-      // Accept browser-normalized variants of "0.01ms".
-      // Chromium emits scientific notation (1e-05s) for very small values.
-      expect(['0.01ms', '0s', '0.0001s', '1e-05s']).toContain(computed)
+      // Browsers emit "0.01ms" in many forms: '0.01ms', '0s', '0.0001s',
+      // '1e-05s' (Chromium scientific), '0.00001s' (WebKit decimal).
+      // Compare numerically by parsing the duration into seconds and
+      // asserting it's effectively zero (< 1ms = 0.001s).
+      const seconds = parseDurationToSeconds(computed!)
+      expect(
+        seconds,
+        `expected near-zero duration, got ${computed} (${seconds}s)`,
+      ).toBeLessThanOrEqual(0.001)
       await ctx.close()
     })
   })
