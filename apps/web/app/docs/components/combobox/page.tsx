@@ -5,7 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
-import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
+import { codeTag, monoTag, strongTag, emTag, kbdTag, linkTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { Combobox } from '@damo/ui'`
 
@@ -44,69 +44,70 @@ const COUNTRIES = [
   { value: 'au', label: 'Australia' },
 ]
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'options',
-    type: 'ComboboxOption[]',
-    required: true,
-    description: 'Items to render — `{ value, label, disabled? }`.',
-  },
-  {
-    name: 'value',
-    type: 'string',
-    description: 'Controlled selected value. Pair with `onValueChange`.',
-  },
-  {
-    name: 'defaultValue',
-    type: 'string',
-    description: 'Uncontrolled initial selected value.',
-  },
-  {
-    name: 'onValueChange',
-    type: '(value: string) => void',
-    description: 'Fires when an option is picked.',
-  },
-  {
-    name: 'placeholder',
-    type: 'ReactNode',
-    defaultValue: "'Scegli…'",
-    description: 'Trigger text shown when nothing is selected.',
-  },
-  {
-    name: 'searchPlaceholder',
-    type: 'string',
-    defaultValue: "'Cerca…'",
-    description: 'Placeholder inside the search input.',
-  },
-  {
-    name: 'emptyMessage',
-    type: 'ReactNode',
-    defaultValue: "'Nessun risultato'",
-    description: 'Shown when the search yields no results.',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    description: 'Disables the trigger.',
-  },
-  {
-    name: 'id',
-    type: 'string',
-    description: 'id forwarded to the trigger button (label association).',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes merged onto the trigger.',
-  },
-]
-
 export const metadata = { title: `Combobox — ${BRAND.libName}` }
 
 export default async function ComboboxDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'options',
+      type: 'ComboboxOption[]',
+      required: true,
+      description: t.rich('componentDocs.combobox.props.options', { code: codeTag }),
+    },
+    {
+      name: 'value',
+      type: 'string',
+      description: t.rich('componentDocs.combobox.props.value', { code: codeTag }),
+    },
+    {
+      name: 'defaultValue',
+      type: 'string',
+      description: t.rich('componentDocs.combobox.props.defaultValue', { code: codeTag }),
+    },
+    {
+      name: 'onValueChange',
+      type: '(value: string) => void',
+      description: t.rich('componentDocs.combobox.props.onValueChange', { code: codeTag }),
+    },
+    {
+      name: 'placeholder',
+      type: 'ReactNode',
+      defaultValue: "'Scegli…'",
+      description: t.rich('componentDocs.combobox.props.placeholder', { code: codeTag }),
+    },
+    {
+      name: 'searchPlaceholder',
+      type: 'string',
+      defaultValue: "'Cerca…'",
+      description: t.rich('componentDocs.combobox.props.searchPlaceholder', { code: codeTag }),
+    },
+    {
+      name: 'emptyMessage',
+      type: 'ReactNode',
+      defaultValue: "'Nessun risultato'",
+      description: t.rich('componentDocs.combobox.props.emptyMessage', { code: codeTag }),
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      description: t.rich('componentDocs.combobox.props.disabled', { code: codeTag }),
+    },
+    {
+      name: 'id',
+      type: 'string',
+      description: t.rich('componentDocs.combobox.props.id', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.combobox.props.className', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -131,58 +132,39 @@ export default async function ComboboxDocsPage() {
       </Example>
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('controlled')}</h2>
-      <p className="text-foreground/80 mb-3">
-        Manage the selection externally for validation or persistence.
-      </p>
+      <p className="text-foreground/80 mb-3">{t('componentDocs.combobox.body.controlled')}</p>
       <Code code={CONTROLLED_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Combobox props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Combobox vs Select</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">
+        {t('componentDocs.combobox.headings.comboboxVsSelect')}
+      </h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.combobox.vsSelect.0', { strong: strongTag })}</li>
         <li>
-          Reach for <strong>Combobox</strong> when the option list is long enough that scrolling
-          alone is friction (≥ ~10 options) or when users will search by typed input.
-        </li>
-        <li>
-          Reach for{' '}
-          <Link href="/docs/components/select" className="text-primary underline">
-            Select
-          </Link>{' '}
-          for short lists (2-9 items) where keyboard arrow navigation is sufficient.
+          {t.rich('componentDocs.combobox.vsSelect.1', {
+            link1: linkTag('/docs/components/select'),
+          })}
         </li>
       </ul>
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('nativeFormSubmission')}</h2>
       <p className="text-foreground/85 mb-3">
-        Combobox renders a <code className="font-mono">&lt;button&gt;</code> + popover with no
-        hidden form input and no <code className="font-mono">name</code> prop. To submit through a
-        traditional <code className="font-mono">&lt;form&gt;</code>, manage the value with React
-        state and either render your own hidden input or read it from the submit handler.
+        {t.rich('componentDocs.combobox.body.nativeFormSubmission', { code: codeTag })}
       </p>
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
-          The trigger is a plain <code className="font-mono">&lt;button&gt;</code> (no{' '}
-          <code className="font-mono">role=&quot;combobox&quot;</code>) with{' '}
-          <code className="font-mono">aria-expanded</code> reflecting the popover state. This is a
-          button-plus-popover pattern, not the full WAI-ARIA combobox pattern that{' '}
-          <Link href="/docs/components/select" className="text-primary underline">
-            Select
-          </Link>{' '}
-          provides.
+          {t.rich('componentDocs.combobox.a11y.0', {
+            code: codeTag,
+            link1: linkTag('/docs/components/select'),
+          })}
         </li>
-        <li>
-          The dropdown list is rendered by <code className="font-mono">cmdk</code>: type to filter,
-          arrows to move, <kbd>Enter</kbd> to select, <kbd>Esc</kbd> to close.
-        </li>
-        <li>
-          Use <code className="font-mono">FormField</code> or pair{' '}
-          <code className="font-mono">id</code> with a sibling{' '}
-          <code className="font-mono">Label</code> so screen readers announce the field name.
-        </li>
+        <li>{t.rich('componentDocs.combobox.a11y.1', { code: codeTag, kbd: kbdTag })}</li>
+        <li>{t.rich('componentDocs.combobox.a11y.2', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

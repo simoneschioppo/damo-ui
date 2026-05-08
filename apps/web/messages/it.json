@@ -517,7 +517,26 @@
       "lead": "Etichetta uppercase compatta con micro-shadow Memphis. Usalo per indicare stato, livello del piano o esito su card, righe di tabella e avatar. Per etichette più lunghe con angoli arrotondati usa <link1>Chip</link1>."
     },
     "banner": {
-      "lead": "Superficie di notifica inline. Quattro varianti di tone (info, success, warning, danger), un titolo opzionale, un pulsante di chiusura opzionale e uno slot icon che di default mostra un glifo coerente col tone ma accetta qualsiasi ReactNode."
+      "lead": "Superficie di notifica inline. Quattro varianti di tone (info, success, warning, danger), un titolo opzionale, un pulsante di chiusura opzionale e uno slot icon che di default mostra un glifo coerente col tone ma accetta qualsiasi ReactNode.",
+      "body": {
+        "dismissible": "Passa <code>dismissible</code> per aggiungere un'affordance di chiusura. Il banner pulisce il proprio stato locale al click; abbinalo a <code>onDismiss</code> per persistere la chiusura (es. salvando in localStorage in modo che non torni).",
+        "noIcon": "Rimuovi l'icona iniziale quando il banner è puramente testuale."
+      },
+      "a11y": {
+        "0": "Il wrapper renderizza <code>role=\"status\"</code> per <code>info</code>, <code>success</code> e <code>warning</code>; <code>role=\"alert\"</code> per <code>danger</code>.",
+        "1": "Nota sulla live-region: <code>alert</code> e <code>status</code> attivano gli annunci solo quando il banner viene inserito in un DOM già montato. Un banner presente nel server render iniziale viene letto nell'ordine del documento, non come interruzione — montalo dinamicamente (dopo una risposta di rete, dopo aver chiuso una modale, ecc.) quando ti serve l'annuncio.",
+        "2": "Le icone sono <code>aria-hidden</code> — il titolo e il body trasportano il messaggio.",
+        "3": "Il pulsante di chiusura riceve <code>aria-label</code> da <code>dismissLabel</code> (default <code>\"Chiudi\"</code>)."
+      },
+      "props": {
+        "variant": "Imposta la tinta di sfondo, il colore dell'ombra Memphis e l'icona iniziale di default. <code>danger</code> cambia anche il role del wrapper in <code>alert</code> per gli screen reader.",
+        "title": "Heading in grassetto opzionale renderizzato prima del body.",
+        "icon": "Fa override dell'icona di default della variante. Passa <code>false</code> per rimuovere completamente l'icona; passa qualsiasi ReactNode per sostituire un glifo custom.",
+        "dismissible": "Quando true, renderizza un pulsante X sul bordo finale che nasconde il banner dallo stato locale.",
+        "onDismiss": "Si attiva quando l'utente clicca il pulsante di chiusura. Usalo per persistere la chiusura.",
+        "dismissLabel": "Aria label per il pulsante di chiusura.",
+        "children": "Contenuto del body renderizzato sotto al titolo."
+      }
     },
     "box": {
       "lead": "Primitive flex polimorfica. Usala ogni volta che ti serve un container flex con direzione, gap, allineamento e justification type-checked — con la possibilità di renderizzare come qualsiasi elemento HTML tramite <code>as</code>."
@@ -526,7 +545,38 @@
       "lead": "Traccia gerarchica resa come landmark <code>&lt;nav&gt;</code> con label. L'ultimo elemento dovrebbe essere marcato <code>current</code> in modo da renderizzarsi come testo semplice con <code>aria-current=\"page\"</code>."
     },
     "button": {
-      "lead": "Superficie d'azione bordata e ombreggiata. Sei varianti, tre size più la size dedicata icon, accesso completo da tastiera tramite un <code>&lt;button&gt;</code> nativo. Abbinalo a <code>IconButton</code> (documentato sotto) per trigger solo-icona — stessa veste, fissato a un quadrato 40×40."
+      "lead": "Superficie d'azione bordata e ombreggiata. Sei varianti, tre size più la size dedicata icon, accesso completo da tastiera tramite un <code>&lt;button&gt;</code> nativo. Abbinalo a <code>IconButton</code> (documentato sotto) per trigger solo-icona — stessa veste, fissato a un quadrato 40×40.",
+      "body": {
+        "withInlineIcons": "Inserisci un'icona dentro al Button accanto al testo. Mantieni la label visibile in modo che l'azione resti annunciabile.",
+        "fullWidth": "Allunga il bottone fino al contenitore — utile dentro form stretti o sheet mobile.",
+        "useAsLink": "Passa <code>asChild</code> per renderizzare un singolo elemento figlio con tutti gli stili di Button applicati (pattern <code>Slot</code> di Radix). Utile per CTA di navigazione che hanno bisogno sia dell'animazione di press Memphis sia del routing — le classi di variante, il lift di hover e il collasso active-press vengono tutti uniti sull'<code>&lt;a&gt;</code> sottostante.",
+        "iconButtonLead": "Un bottone quadrato 40×40 per azioni solo-icona. Compone <code>Button</code> con <code>size=\"icon\"</code> e lo stesso effetto di press Memphis; <code>aria-label</code> è obbligatorio così l'azione viene annunciata.",
+        "iconButtonVariants": "Le stesse sei varianti di Button. La versione solo-icona di <code>link</code> è raramente utile; usa <code>ghost</code> al suo posto."
+      },
+      "a11y": {
+        "0": "Renderizza un <code>&lt;button type=\"button\"&gt;</code> nativo; passa <code>type=\"submit\"</code> quando lo usi dentro un form.",
+        "1": "Fornisci sempre una label non vuota. Per trigger solo-icona usa <code>IconButton</code> (documentato sotto) con un <code>aria-label</code>.",
+        "2": "<code>disabled</code> blocca sia l'attivazione da puntatore sia da tastiera su un <code>&lt;button&gt;</code> reale. Con <code>asChild</code> si applicano solo le utility CSS di disabled — per un link completamente inattivo rimuovi anche <code>href</code> o imposta <code>aria-disabled=\"true\"</code> sul figlio."
+      },
+      "iconButtonA11y": {
+        "0": "<code>aria-label</code> è obbligatorio e deve essere non vuoto. La signature TypeScript lo impone — passare <code>aria-label=\"\"</code> è un errore di tipo.",
+        "1": "L'icona figlia è renderizzata solo visivamente; assicurati che il contesto circostante non si affidi al fatto che l'icona venga annunciata (non lo è).",
+        "2": "Il quadrato 40×40 soddisfa WCAG 2.5.8 (Level AA, WCAG 2.2), che richiede un minimo di 24×24 pixel CSS. Per raggiungere la soglia 44×44 di WCAG 2.5.5 (Level AAA), avvolgi il bottone con un margin da 4px o aggiungi hit-slop sul parent."
+      },
+      "props": {
+        "variant": "Stile visivo. Primary/secondary usano gli accent del brand; outline e ghost sono neutri; destructive comunica un'intenzione distruttiva; link riduce a un'ancora inline.",
+        "size": "Regola padding verticale e dimensione del font. <code>icon</code> è un quadrato 40×40 — usato internamente da <code>IconButton</code>.",
+        "disabled": "Su un <code>&lt;button&gt;</code> reale, blocca l'attivazione da puntatore / tastiera. Con asChild su un figlio non-button, si applicano solo le utility CSS di disabled — imposta aria-disabled e rimuovi href sul figlio per la piena inerzia.",
+        "fullWidth": "Allunga il bottone fino alla larghezza piena del suo contenitore.",
+        "asChild": "Quando true, renderizza l'elemento figlio con tutti gli stili di Button applicati (pattern Slot di Radix). Il figlio deve essere un singolo elemento React come un <code>&lt;Link&gt;</code> o un <code>&lt;a&gt;</code>.",
+        "className": "Le classi Tailwind vengono unite sopra i default della variante."
+      },
+      "iconButtonProps": {
+        "ariaLabel": "Gli IconButton non hanno testo visibile, quindi ogni istanza DEVE portare un <code>aria-label</code> non vuoto per gli screen reader. La signature TypeScript lo impone.",
+        "children": "Un singolo nodo icona — tipicamente una delle icone esportate da <code>@damo/ui</code>.",
+        "variant": "Le stesse sei varianti di Button. La size è bloccata sul preset <code>icon</code> 40×40.",
+        "disabled": "Blocca l'attivazione da puntatore e tastiera."
+      }
     },
     "card": {
       "lead": "Container di superficie componibile. Cinque varianti condividono la stessa veste Memphis ma differiscono per accent, peso ed elevazione."
@@ -541,7 +591,35 @@
       "lead": "Swatch <code>&lt;input type=\"color\"&gt;</code> nativo accoppiato all'Input del design system per una stringa hex. Entrambi i controlli condividono un singolo value / onChange — è il parent a decidere se validare l'hex."
     },
     "combobox": {
-      "lead": "Single-select ricercabile. Il trigger ha lo stesso aspetto di <link1>Select</link1>; il contenuto del dropdown usa <code>cmdk</code> per il fuzzy matching, più la veste Memphis di Damo sul popover."
+      "lead": "Single-select ricercabile. Il trigger ha lo stesso aspetto di <link1>Select</link1>; il contenuto del dropdown usa <code>cmdk</code> per il fuzzy matching, più la veste Memphis di Damo sul popover.",
+      "headings": {
+        "comboboxVsSelect": "Combobox vs Select"
+      },
+      "body": {
+        "controlled": "Gestisci la selezione esternamente per validazione o persistenza.",
+        "nativeFormSubmission": "Combobox renderizza un <code>&lt;button&gt;</code> + popover senza input form nascosto e senza prop <code>name</code>. Per inviare attraverso un <code>&lt;form&gt;</code> tradizionale, gestisci il valore con React state e o renderizza il tuo input nascosto o leggilo dall'handler di submit."
+      },
+      "vsSelect": {
+        "0": "Usa <strong>Combobox</strong> quando la lista delle opzioni è abbastanza lunga che lo scroll da solo è frizione (≥ ~10 opzioni) o quando gli utenti cercheranno digitando.",
+        "1": "Usa <link1>Select</link1> per liste corte (2-9 elementi) dove la navigazione con le frecce della tastiera è sufficiente."
+      },
+      "a11y": {
+        "0": "Il trigger è un <code>&lt;button&gt;</code> semplice (senza <code>role=\"combobox\"</code>) con <code>aria-expanded</code> che riflette lo stato del popover. Questo è un pattern button-plus-popover, non il pattern WAI-ARIA combobox completo che fornisce <link1>Select</link1>.",
+        "1": "La lista del dropdown è renderizzata da <code>cmdk</code>: digita per filtrare, frecce per spostarti, <kbd>Enter</kbd> per selezionare, <kbd>Esc</kbd> per chiudere.",
+        "2": "Usa <code>FormField</code> o abbina <code>id</code> a una <code>Label</code> sibling, così gli screen reader annunciano il nome del campo."
+      },
+      "props": {
+        "options": "Item da renderizzare — <code>{ value, label, disabled? }</code>.",
+        "value": "Valore selezionato controllato. Abbinalo a <code>onValueChange</code>.",
+        "defaultValue": "Valore selezionato iniziale non controllato.",
+        "onValueChange": "Si attiva quando un'opzione viene scelta.",
+        "placeholder": "Testo del trigger mostrato quando nulla è selezionato.",
+        "searchPlaceholder": "Placeholder dentro all'input di ricerca.",
+        "emptyMessage": "Mostrato quando la ricerca non produce risultati.",
+        "disabled": "Disabilita il trigger.",
+        "id": "id inoltrato al pulsante trigger (associazione con la label).",
+        "className": "Classi Tailwind unite sul trigger."
+      }
     },
     "container": {
       "lead": "Colonna centrata con max-width e padding orizzontale responsive. È il wrapper di pagina di default per i documenti Damo UI."
@@ -550,13 +628,88 @@
       "lead": "Menu da click destro costruito su Radix ContextMenu. Riprende <link1>DropdownMenu</link1> nell'API e nei tipi di item — la differenza è il trigger: qualsiasi elemento avvolto si apre su eventi <em>contextmenu</em> (click destro, long press su touch, Shift-F10)."
     },
     "date-picker": {
-      "lead": "Date picker singolo che abbina un trigger in stile Memphis al calendario <code>react-day-picker</code> dentro un <link1>Popover</link1>. Locale di default italiano; passa qualsiasi prop di DayPicker per fare override."
+      "lead": "Date picker singolo che abbina un trigger in stile Memphis al calendario <code>react-day-picker</code> dentro un <link1>Popover</link1>. Locale di default italiano; passa qualsiasi prop di DayPicker per fare override.",
+      "body": {
+        "controlled": "Gestisci la selezione esternamente per reagire ai cambiamenti (validazione, persistenza, sincronizzazione tra campi).",
+        "customFormat": "Passa una qualsiasi stringa di formato <code>date-fns</code> a <code>formatStr</code>.",
+        "nativeFormSubmission": "DatePicker renderizza un <code>&lt;button&gt;</code> + popover, non un <code>&lt;input type=\"date\"&gt;</code> nativo, e non include alcun input form nascosto. Per inviare il valore tramite un <code>&lt;form&gt;</code> tradizionale, gestisci la data con uno state React e renderizza un tuo hidden input oppure invia il valore via <code>FormData</code> nel submit handler."
+      },
+      "a11y": {
+        "0": "Il calendario eredita il wiring ARIA di <code>react-day-picker</code> (grid + celle dei giorni con <code>aria-selected</code>).",
+        "1": "Avvolgilo con <code>FormField</code> (o fornisci una tua label) così il campo viene annunciato dagli screen reader.",
+        "2": "Tastiera: <code>Space</code>/<code>Enter</code> apre il popover, le frecce navigano tra i giorni, <code>Esc</code> lo chiude."
+      },
+      "props": {
+        "value": "Data selezionata controllata. Abbinala a <code>onValueChange</code>.",
+        "onValueChange": "Si attiva quando l'utente sceglie un giorno. Riceve <code>undefined</code> quando la data viene cancellata.",
+        "placeholder": "Testo del trigger mostrato quando nessuna data è selezionata.",
+        "formatStr": "Stringa di formato date-fns usata per la label del trigger.",
+        "disabled": "Disabilita il trigger.",
+        "id": "Inoltrato al pulsante trigger (utile per associare una label).",
+        "className": "Class name sul div wrapper.",
+        "triggerClassName": "Class name sul pulsante trigger stesso."
+      }
     },
     "dialog": {
-      "lead": "Dialog modale che incapsula Radix Dialog. Due modalità semantiche tramite <code>severity</code>: <code>default</code> (informativa, l'overlay chiude) e <code>alert</code> (conferma distruttiva, l'overlay NON chiude). Una prop separata <code>tone</code> sposta l'offset shadow verso il token destructive."
+      "lead": "Dialog modale che incapsula Radix Dialog. Due modalità semantiche tramite <code>severity</code>: <code>default</code> (informativa, l'overlay chiude) e <code>alert</code> (conferma distruttiva, l'overlay NON chiude). Una prop separata <code>tone</code> sposta l'offset shadow verso il token destructive.",
+      "headings": {
+        "defaultInformational": "Default — informativo",
+        "alertSeverity": "<code>severity=\"alert\"</code> — conferma distruttiva",
+        "whenToSwitchToAlert": "Quando passare alla modalità alert",
+        "rootApi": "API di Dialog (root)",
+        "contentProps": "Props di DialogContent"
+      },
+      "body": {
+        "defaultInformational": "Modale standard. Clicca sull'overlay o premi <kbd>Esc</kbd> per chiudere.",
+        "alertSeverity": "Cambia il role in <code>alertdialog</code>, blocca la chiusura via click sull'overlay e rimuovi il pulsante X — l'utente deve scegliere esplicitamente un'azione. Abbinalo a <code>tone=\"danger\"</code> per ricolorare l'ombra Memphis."
+      },
+      "whenToAlert": {
+        "0": "L'azione è distruttiva (delete, archive, sign out) e NON deve essere annullata accidentalmente cliccando fuori.",
+        "1": "Vuoi che gli screen reader annuncino il dialog come <code>alertdialog</code> (più interruttivo del normale role <code>dialog</code>).",
+        "2": "Altrimenti lascia <code>severity</code> a <code>default</code>."
+      },
+      "a11y": {
+        "0": "Abbina sempre <code>DialogTitle</code> al contenuto; gli screen reader lo annunciano come nome del dialog.",
+        "1": "Aggiungi <code>DialogDescription</code> per le azioni non ovvie; è collegata come <code>aria-describedby</code>.",
+        "2": "Usa <code>DialogClose</code> sui pulsanti di chiusura, in modo che chiudano il dialog e restituiscano il focus al trigger.",
+        "3": "Con <code>severity=\"alert\"</code>, metti Cancel per primo nell'ordine DOM del footer in modo che Radix gli dia il focus di default — il layout impone column-reverse su viewport piccoli, così Cancel resta sopra."
+      },
+      "props": {
+        "open": "Stato di apertura controllato. Abbinalo a <code>onOpenChange</code>.",
+        "defaultOpen": "Stato iniziale di apertura non controllato.",
+        "onOpenChange": "Si attiva ogni volta che lo stato di apertura cambia.",
+        "modal": "Quando true (default), il focus è intrappolato dentro al dialog e il contenuto esterno è inerte."
+      },
+      "contentProps": {
+        "severity": "<code>default</code> è <code>role=\"dialog\"</code>; i click sull'overlay lo chiudono. <code>alert</code> passa a <code>role=\"alertdialog\"</code>, blocca la chiusura via click sull'overlay e nasconde il pulsante X — l'utente deve cliccare un'azione esplicita nel footer. Usalo per flussi distruttivi o comunque irreversibili.",
+        "tone": "Override visivo. <code>danger</code> sostituisce l'offset shadow Memphis con il token destructive, telegrafando azioni ad alto rischio. Ortogonale a <code>severity</code> — combinabile liberamente.",
+        "hideClose": "Nasconde il pulsante di chiusura X integrato. Già implicito quando <code>severity=\"alert\"</code> — la modalità alert non renderizza mai la X."
+      }
     },
     "drawer": {
-      "lead": "Pannello laterale scorrevole costruito sulla primitive Radix Dialog. Disponibile su quattro lati (left, right, top, bottom), con close button integrato e la stessa veste shadow Memphis di Dialog."
+      "lead": "Pannello laterale scorrevole costruito sulla primitive Radix Dialog. Disponibile su quattro lati (left, right, top, bottom), con close button integrato e la stessa veste shadow Memphis di Dialog.",
+      "headings": {
+        "drawerVsDialog": "Drawer vs Dialog"
+      },
+      "body": {
+        "sides": "Right è il default — tipico per filtri e pannelli di dettaglio. Bottom funziona bene su mobile."
+      },
+      "a11y": {
+        "0": "Costruito su Radix Dialog: il focus è intrappolato dentro al pannello quando aperto e restituito al trigger alla chiusura. Esc chiude il drawer; anche i click sull'overlay lo chiudono.",
+        "1": "Abbina sempre <code>DrawerTitle</code> e <code>DrawerDescription</code> al contenuto — Radix li collega come nome accessibile e descrizione del dialog.",
+        "2": "Il pulsante di chiusura integrato usa una label italiana <code>aria-label=\"Chiudi\"</code>. Attualmente non c'è una prop per fare override; se ti serve una lingua diversa, imposta <code>hideClose</code> e renderizza la tua chiusura con <code>DrawerClose</code> come <code>asChild</code>."
+      },
+      "vsDialog": {
+        "0": "Usa Drawer quando il pannello ospita un flusso di controlli correlati (filtri, impostazioni, editor laterale) — il pannello può restare alto e dominare un bordo dello schermo.",
+        "1": "Usa <link1>Dialog</link1> per una modale centrata — conferme, form a singolo step o task focalizzati."
+      },
+      "props": {
+        "open": "Stato di apertura controllato sulla root.",
+        "defaultOpen": "Stato iniziale di apertura non controllato sulla root.",
+        "onOpenChange": "Si attiva ogni volta che lo stato di apertura cambia.",
+        "side": "Prop su <code>DrawerContent</code>. Imposta il bordo da cui scivola dentro il pannello.",
+        "hideClose": "Prop su <code>DrawerContent</code>. Nasconde il pulsante di chiusura integrato (renderizzato come una X in alto a destra). Utile quando il consumer renderizza la propria affordance di chiusura."
+      }
     },
     "dropdown-menu": {
       "lead": "Menu di azioni componibile costruito su Radix DropdownMenu. Superficie bordata Memphis, gestione completa della tastiera (Enter / Space, frecce, Esc, type-ahead) e veste di selezione sui radio item che ricalca il gradient di <link1>NavItem</link1>. Per un pannello fluttuante non-menu (preferenze libere, popover di un editor, veste custom) usa invece <link2>Popover</link2>."
@@ -565,13 +718,38 @@
       "lead": "Card feature/highlight compatta da 280px con shadow Memphis tinta primary. Usala per mettere in evidenza le feature del prodotto su landing page o in griglie di feature."
     },
     "form-field": {
-      "lead": "Wrapper accessibile che collega label, descrizione e messaggio di errore a un singolo input figlio tramite <code>aria-describedby</code> e <code>aria-invalid</code>. Non ha opinioni sul layout — abbinalo a <link1>Box</link1> per gli stack."
+      "lead": "Wrapper accessibile che collega label, descrizione e messaggio di errore a un singolo input figlio tramite <code>aria-describedby</code> e <code>aria-invalid</code>. Non ha opinioni sul layout — abbinalo a <link1>Box</link1> per gli stack.",
+      "body": {
+        "errorState": "Passa una stringa <code>error</code> per mostrare un messaggio di validazione. Il wrapper imposta <code>aria-invalid</code> sul figlio e collega l'errore a <code>aria-describedby</code>."
+      },
+      "a11y": {
+        "0": "La label è una vera <code>&lt;label htmlFor=\"…\"&gt;</code>; cliccarla porta il focus sull'input.",
+        "1": "Gli id di descrizione ed errore vengono uniti all'<code>aria-describedby</code> del figlio; gli id già passati dal caller sono preservati.",
+        "2": "Quando <code>error</code> è impostato, il figlio riceve automaticamente <code>aria-invalid=true</code>."
+      },
+      "props": {
+        "label": "Label visibile renderizzata come <code>&lt;label&gt;</code> e collegata al figlio tramite <code>htmlFor</code>.",
+        "description": "Testo di aiuto opzionale. L'id viene aggiunto al figlio tramite <code>aria-describedby</code>.",
+        "error": "Messaggio di validazione opzionale. Quando è presente, viene aggiunto a <code>aria-describedby</code> e il figlio riceve anche <code>aria-invalid=true</code>.",
+        "id": "Sovrascrive l'id auto-generato. Utile quando devi referenziare il campo da fuori il form.",
+        "children": "Esattamente un elemento figlio. Il wrapper lo clona e gli inietta <code>id</code>, <code>aria-describedby</code> e <code>aria-invalid</code>.",
+        "labelClassName": "Personalizza le classi della label (es. per nasconderla con visually-hidden)."
+      }
     },
     "hint": {
       "lead": "Callout Memphis numerato. Usalo per evidenziare step di una guida, insight chiave dentro documenti long-form o caption numerate su una pagina marketing."
     },
     "input": {
-      "lead": "Campo di testo a riga singola. <code>&lt;input&gt;</code> nativo con il bordo Memphis da 2px e la focus shadow. Si abbina a <code>Label</code> per l'accessibilità."
+      "lead": "Campo di testo a riga singola. <code>&lt;input&gt;</code> nativo con il bordo Memphis da 2px e la focus shadow. Si abbina a <code>Label</code> per l'accessibilità.",
+      "a11y": {
+        "0": "Associa sempre una <code>Label</code> tramite <code>htmlFor</code> / <code>id</code> corrispondenti — i placeholder non sono label.",
+        "1": "Usa <code>invalid</code> insieme a <code>aria-describedby</code> che punta a un messaggio di errore per gli screen reader."
+      },
+      "props": {
+        "invalid": "Marca l'input come invalido (imposta aria-invalid + applica la shadow destructive).",
+        "disabled": "Disabilita l'input e applica lo sfondo muted.",
+        "rest": "Tutti gli attributi nativi dell'input vengono inoltrati."
+      }
     },
     "label": {
       "lead": "<code>&lt;label&gt;</code> nativo con la tipografia da form-label già integrata (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Usalo standalone quando non ti serve il wiring strutturato di <link1>FormField</link1>."
@@ -610,7 +788,24 @@
       "lead": "Toggle group single-select con bordo Memphis a fare da cucitura tra gli item. Costruito su Radix ToggleGroup con <code>type=\"single\"</code>. Usalo per 2-5 opzioni mutuamente esclusive in cui mantenere visibili le scelte aggiunge chiarezza."
     },
     "select": {
-      "lead": "Dropdown componibile costruito su Radix Select. Stesso bordo Memphis e focus shadow di <link1>Input</link1>. Per multi-select o ricerca fuzzy usa <link2>Combobox</link2>."
+      "lead": "Dropdown componibile costruito su Radix Select. Stesso bordo Memphis e focus shadow di <link1>Input</link1>. Per multi-select o ricerca fuzzy usa <link2>Combobox</link2>.",
+      "body": {
+        "grouped": "Avvolgi gli item correlati in un <code>SelectGroup</code> con una <code>SelectLabel</code> non interattiva. Usa <code>SelectSeparator</code> tra i gruppi."
+      },
+      "a11y": {
+        "0": "Il trigger renderizza <code>role=\"combobox\"</code> con <code>aria-expanded</code> e <code>aria-controls</code>.",
+        "1": "Eredita il supporto da tastiera di Radix Select: type-ahead, navigazione con frecce, Home/End, Esc per chiudere.",
+        "2": "Fornisci una label per il trigger tramite <code>FormField</code> o <code>aria-labelledby</code> quando non c'è una label visibile."
+      },
+      "props": {
+        "value": "Valore selezionato controllato. Abbinalo a <code>onValueChange</code>.",
+        "defaultValue": "Valore iniziale selezionato non controllato.",
+        "onValueChange": "Si attiva ogni volta che la selezione cambia.",
+        "disabled": "Disabilita il trigger.",
+        "name": "Name nativo del form.",
+        "open": "Stato open controllato del dropdown. Abbinalo a <code>onOpenChange</code>.",
+        "onOpenChange": "Si attiva ogni volta che il dropdown si apre o si chiude."
+      }
     },
     "separator": {
       "lead": "Divisore orizzontale o verticale con tre varianti a tema Memphis. Compone la primitive Radix Separator, quindi la sua semantica passa da decorativa a significativa tramite <code>decorative</code>."
@@ -634,7 +829,22 @@
       "lead": "Toggle Memphis: thumb quadrato che scorre tra una traccia ivory e una primary. Usalo per preferenze booleane che hanno effetto immediato (notifiche on / off, dark mode on / off). Costruito su Radix Switch."
     },
     "table": {
-      "lead": "Primitive di tabella bordate Memphis. Avvolgi le righe in sezioni semantiche <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> tramite i componenti corrispondenti — il container esterno gestisce overflow e bordi."
+      "lead": "Primitive di tabella bordate Memphis. Avvolgi le righe in sezioni semantiche <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> tramite i componenti corrispondenti — il container esterno gestisce overflow e bordi.",
+      "a11y": {
+        "0": "Includi sempre una <code>TableCaption</code> quando la tabella veicola dati — gli screen reader annunciano la caption come nome della tabella.",
+        "1": "Ogni <code>TableHead</code> renderizza un vero <code>&lt;th&gt;</code>; per le row-header aggiungi <code>scope=\"row\"</code>.",
+        "2": "Per tabelle molto grandi considera l'abbinamento con <link1>Pagination</link1> e un body virtualizzato."
+      },
+      "props": {
+        "Table": "Container esterno scrollabile + bordo Memphis.",
+        "TableCaption": "Caption opzionale renderizzata sotto la tabella.",
+        "TableHeader": "Sezione header sticky di default.",
+        "TableBody": "Righe principali di dati.",
+        "TableFooter": "Riga totali bordata.",
+        "TableHead": "Cella header di colonna — testo mono uppercase.",
+        "TableRow": "Riga con stati hover + selezione.",
+        "TableCell": "Cella body — padding px-4 py-3 di default."
+      }
     },
     "tabs": {
       "lead": "Striscia di tab inline + pannelli di contenuto corrispondenti. Costruito su Radix Tabs — gestione completa della tastiera, semantica ARIA e roving tabindex arrivano dalla primitive. Il tab attivo è marcato da una sottolineatura primary da 3px."

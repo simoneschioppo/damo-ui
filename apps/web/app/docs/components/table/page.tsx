@@ -55,27 +55,56 @@ const BASIC_SNIPPET = `<Table>
   </TableFooter>
 </Table>`
 
-const PARTS: ReadonlyArray<PropDef> = [
-  { name: 'Table', type: 'wrapper', description: 'Outer scrolling container + Memphis border.' },
-  {
-    name: 'TableCaption',
-    type: 'caption',
-    description: 'Optional caption rendered below the table.',
-  },
-  { name: 'TableHeader', type: 'thead', description: 'Sticky-by-default header section.' },
-  { name: 'TableBody', type: 'tbody', description: 'Main data rows.' },
-  { name: 'TableFooter', type: 'tfoot', description: 'Bordered totals row.' },
-  { name: 'TableHead', type: 'th', description: 'Column header cell — uppercase mono text.' },
-  { name: 'TableRow', type: 'tr', description: 'Row with hover + selection states.' },
-  { name: 'TableCell', type: 'td', description: 'Body cell — pad px-4 py-3 by default.' },
-]
-
 export const metadata = { title: `Table — ${BRAND.libName}` }
 
 export default async function TableDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PARTS: ReadonlyArray<PropDef> = [
+    {
+      name: 'Table',
+      type: 'wrapper',
+      description: t.rich('componentDocs.table.props.Table', { code: codeTag }),
+    },
+    {
+      name: 'TableCaption',
+      type: 'caption',
+      description: t.rich('componentDocs.table.props.TableCaption', { code: codeTag }),
+    },
+    {
+      name: 'TableHeader',
+      type: 'thead',
+      description: t.rich('componentDocs.table.props.TableHeader', { code: codeTag }),
+    },
+    {
+      name: 'TableBody',
+      type: 'tbody',
+      description: t.rich('componentDocs.table.props.TableBody', { code: codeTag }),
+    },
+    {
+      name: 'TableFooter',
+      type: 'tfoot',
+      description: t.rich('componentDocs.table.props.TableFooter', { code: codeTag }),
+    },
+    {
+      name: 'TableHead',
+      type: 'th',
+      description: t.rich('componentDocs.table.props.TableHead', { code: codeTag }),
+    },
+    {
+      name: 'TableRow',
+      type: 'tr',
+      description: t.rich('componentDocs.table.props.TableRow', { code: codeTag }),
+    },
+    {
+      name: 'TableCell',
+      type: 'td',
+      description: t.rich('componentDocs.table.props.TableCell', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -143,21 +172,13 @@ export default async function TableDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.table.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.table.a11y.1', { code: codeTag })}</li>
         <li>
-          Always include <code className="font-mono">TableCaption</code> when the table conveys data
-          — screen readers announce the caption as the table&rsquo;s name.
-        </li>
-        <li>
-          Each <code className="font-mono">TableHead</code> renders a real{' '}
-          <code className="font-mono">&lt;th&gt;</code>; for row-headers add{' '}
-          <code className="font-mono">scope=&quot;row&quot;</code>.
-        </li>
-        <li>
-          For very large tables consider pairing with{' '}
-          <Link href="/docs/components/pagination" className="text-primary underline">
-            Pagination
-          </Link>{' '}
-          and a virtualised body.
+          {t.rich('componentDocs.table.a11y.2', {
+            code: codeTag,
+            link1: linkTag('/docs/components/pagination'),
+          })}
         </li>
       </ul>
 

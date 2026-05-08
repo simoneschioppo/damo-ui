@@ -517,7 +517,26 @@
       "lead": "Compact uppercase label with a Memphis micro-shadow. Use to mark status, plan tier, or outcome on cards, table rows, and avatars. For longer labels with rounded corners reach for <link1>Chip</link1>."
     },
     "banner": {
-      "lead": "Inline notification surface. Four tone variants (info, success, warning, danger), an optional title, an optional dismiss button, and an icon slot that defaults to a tone-aware glyph but accepts any ReactNode."
+      "lead": "Inline notification surface. Four tone variants (info, success, warning, danger), an optional title, an optional dismiss button, and an icon slot that defaults to a tone-aware glyph but accepts any ReactNode.",
+      "body": {
+        "dismissible": "Pass <code>dismissible</code> to add a close affordance. The banner clears its local state on click; pair with <code>onDismiss</code> to persist the dismissal (e.g. save to localStorage so it doesn't come back).",
+        "noIcon": "Drop the leading icon when the banner is purely text-driven."
+      },
+      "a11y": {
+        "0": "The wrapper renders <code>role=\"status\"</code> for <code>info</code>, <code>success</code> and <code>warning</code>; <code>role=\"alert\"</code> for <code>danger</code>.",
+        "1": "Live-region note: <code>alert</code> and <code>status</code> only fire announcements when the banner is inserted into an already-mounted DOM. A banner present in the initial server render is read in document order, not as an interrupt — mount it dynamically (after a network response, after dismissing a modal, etc.) when you need the announcement.",
+        "2": "Icons are <code>aria-hidden</code> — the title and body carry the message.",
+        "3": "The dismiss button gets <code>aria-label</code> from <code>dismissLabel</code> (defaults to <code>\"Chiudi\"</code>)."
+      },
+      "props": {
+        "variant": "Sets the background tint, the Memphis shadow color, and the default leading icon. <code>danger</code> also switches the wrapper role to <code>alert</code> for screen readers.",
+        "title": "Optional bold heading rendered before the body.",
+        "icon": "Override the variant default icon. Pass <code>false</code> to drop the icon entirely; pass any ReactNode to substitute a custom glyph.",
+        "dismissible": "When true, renders an X button on the trailing edge that hides the banner from local state.",
+        "onDismiss": "Fires when the user clicks the dismiss button. Use it to persist the dismissal.",
+        "dismissLabel": "Aria label for the dismiss button.",
+        "children": "Body content rendered below the title."
+      }
     },
     "box": {
       "lead": "Polymorphic flex primitive. Use it whenever you need a flex container with type-checked direction, gap, alignment and justification — and the option to render as any HTML element via <code>as</code>."
@@ -526,7 +545,38 @@
       "lead": "Hierarchy trail rendered as a labelled <code>&lt;nav&gt;</code> landmark. The last item should be marked <code>current</code> so it renders as plain text with <code>aria-current=\"page\"</code>."
     },
     "button": {
-      "lead": "Bordered, shadowed action surface. Six variants, three sizes plus the dedicated icon size, full keyboard access via a native <code>&lt;button&gt;</code>. Pair with <code>IconButton</code> (documented below) for icon-only triggers — same chrome, locked to a 40×40 square."
+      "lead": "Bordered, shadowed action surface. Six variants, three sizes plus the dedicated icon size, full keyboard access via a native <code>&lt;button&gt;</code>. Pair with <code>IconButton</code> (documented below) for icon-only triggers — same chrome, locked to a 40×40 square.",
+      "body": {
+        "withInlineIcons": "Place an icon inside the Button alongside text. Keep the visible label so the action stays announce-able.",
+        "fullWidth": "Stretch the button to the container — useful inside narrow forms or mobile sheets.",
+        "useAsLink": "Pass <code>asChild</code> to render a single child element with all Button styles applied (Radix <code>Slot</code> pattern). Useful for navigation CTAs that need both the Memphis press animation and routing — the variant classes, hover lift, and active-press collapse are all merged onto the underlying <code>&lt;a&gt;</code>.",
+        "iconButtonLead": "A square 40×40 button for icon-only actions. Composes <code>Button</code> with <code>size=\"icon\"</code> and the same Memphis press effect; <code>aria-label</code> is required so the action is announced.",
+        "iconButtonVariants": "Same six variants as Button. The icon-only version of <code>link</code> is rarely useful; reach for <code>ghost</code> instead."
+      },
+      "a11y": {
+        "0": "Renders a native <code>&lt;button type=\"button\"&gt;</code>; pass <code>type=\"submit\"</code> when used inside a form.",
+        "1": "Always provide a non-empty label. For icon-only triggers use <code>IconButton</code> (documented below) with an <code>aria-label</code>.",
+        "2": "<code>disabled</code> blocks both pointer and keyboard activation on a real <code>&lt;button&gt;</code>. With <code>asChild</code>, only the disabled CSS utilities apply — for a fully inactive link also remove <code>href</code> or set <code>aria-disabled=\"true\"</code> on the child."
+      },
+      "iconButtonA11y": {
+        "0": "<code>aria-label</code> is required and must be non-empty. The TypeScript signature enforces this — passing <code>aria-label=\"\"</code> is a type error.",
+        "1": "The icon child is rendered visually only; ensure the surrounding context doesn't rely on the icon being announced (it is not).",
+        "2": "The 40×40 square satisfies WCAG 2.5.8 (Level AA, WCAG 2.2), which requires a 24×24 CSS pixel minimum. To reach the 44×44 threshold of WCAG 2.5.5 (Level AAA), wrap the button with a 4px margin or add hit-slop on the parent."
+      },
+      "props": {
+        "variant": "Visual style. Primary/secondary use the brand accents; outline and ghost are neutral; destructive surfaces destructive intent; link reduces to an inline anchor.",
+        "size": "Adjusts vertical padding and font size. <code>icon</code> is a 40×40 square — used internally by <code>IconButton</code>.",
+        "disabled": "On a real <code>&lt;button&gt;</code>, blocks pointer / keyboard activation. With asChild on a non-button child, only the disabled CSS utilities apply — set aria-disabled and remove href on the child for full inertness.",
+        "fullWidth": "Stretches the button to the full width of its container.",
+        "asChild": "When true, render the child element with all Button styles applied (Radix Slot pattern). The child must be a single React element such as a <code>&lt;Link&gt;</code> or <code>&lt;a&gt;</code>.",
+        "className": "Tailwind classes are merged on top of the variant defaults."
+      },
+      "iconButtonProps": {
+        "ariaLabel": "IconButtons have no visible text, so every instance MUST carry a non-empty <code>aria-label</code> for screen readers. The TypeScript signature enforces this.",
+        "children": "A single icon node — typically one of the icons exported from <code>@damo/ui</code>.",
+        "variant": "Same six variants as Button. The size is locked to the 40×40 <code>icon</code> preset.",
+        "disabled": "Blocks pointer and keyboard activation."
+      }
     },
     "card": {
       "lead": "Composable surface container. Five variants share the same Memphis chrome but differ in accent, weight, and elevation."
@@ -541,7 +591,35 @@
       "lead": "Native <code>&lt;input type=\"color\"&gt;</code> swatch paired with the design-system Input for a hex string. Both controls share a single value / onChange — the parent decides whether to validate the hex."
     },
     "combobox": {
-      "lead": "Searchable single-select. Trigger looks like <link1>Select</link1>; the dropdown content uses <code>cmdk</code> for fuzzy matching plus the Damo Memphis chrome on the popover."
+      "lead": "Searchable single-select. Trigger looks like <link1>Select</link1>; the dropdown content uses <code>cmdk</code> for fuzzy matching plus the Damo Memphis chrome on the popover.",
+      "headings": {
+        "comboboxVsSelect": "Combobox vs Select"
+      },
+      "body": {
+        "controlled": "Manage the selection externally for validation or persistence.",
+        "nativeFormSubmission": "Combobox renders a <code>&lt;button&gt;</code> + popover with no hidden form input and no <code>name</code> prop. To submit through a traditional <code>&lt;form&gt;</code>, manage the value with React state and either render your own hidden input or read it from the submit handler."
+      },
+      "vsSelect": {
+        "0": "Reach for <strong>Combobox</strong> when the option list is long enough that scrolling alone is friction (≥ ~10 options) or when users will search by typed input.",
+        "1": "Reach for <link1>Select</link1> for short lists (2-9 items) where keyboard arrow navigation is sufficient."
+      },
+      "a11y": {
+        "0": "The trigger is a plain <code>&lt;button&gt;</code> (no <code>role=\"combobox\"</code>) with <code>aria-expanded</code> reflecting the popover state. This is a button-plus-popover pattern, not the full WAI-ARIA combobox pattern that <link1>Select</link1> provides.",
+        "1": "The dropdown list is rendered by <code>cmdk</code>: type to filter, arrows to move, <kbd>Enter</kbd> to select, <kbd>Esc</kbd> to close.",
+        "2": "Use <code>FormField</code> or pair <code>id</code> with a sibling <code>Label</code> so screen readers announce the field name."
+      },
+      "props": {
+        "options": "Items to render — <code>{ value, label, disabled? }</code>.",
+        "value": "Controlled selected value. Pair with <code>onValueChange</code>.",
+        "defaultValue": "Uncontrolled initial selected value.",
+        "onValueChange": "Fires when an option is picked.",
+        "placeholder": "Trigger text shown when nothing is selected.",
+        "searchPlaceholder": "Placeholder inside the search input.",
+        "emptyMessage": "Shown when the search yields no results.",
+        "disabled": "Disables the trigger.",
+        "id": "id forwarded to the trigger button (label association).",
+        "className": "Tailwind classes merged onto the trigger."
+      }
     },
     "container": {
       "lead": "Centred max-width column with responsive horizontal padding. The default page wrapper for Damo UI documents."
@@ -550,13 +628,88 @@
       "lead": "Right-click menu built on Radix ContextMenu. Mirrors <link1>DropdownMenu</link1> in API and item types — the difference is the trigger: any wrapped element opens on <em>contextmenu</em> events (right click, long press on touch, Shift-F10)."
     },
     "date-picker": {
-      "lead": "Single-date picker that pairs a Memphis-styled trigger with the <code>react-day-picker</code> calendar inside a <link1>Popover</link1>. Locale defaults to Italian; pass any DayPicker prop through to override."
+      "lead": "Single-date picker that pairs a Memphis-styled trigger with the <code>react-day-picker</code> calendar inside a <link1>Popover</link1>. Locale defaults to Italian; pass any DayPicker prop through to override.",
+      "body": {
+        "controlled": "Manage the selection externally to react to changes (validation, persistence, syncing across fields).",
+        "customFormat": "Pass any <code>date-fns</code> format string to <code>formatStr</code>.",
+        "nativeFormSubmission": "DatePicker renders a <code>&lt;button&gt;</code> + popover, not a native <code>&lt;input type=\"date\"&gt;</code>, and ships no hidden form input. To submit the value through a traditional <code>&lt;form&gt;</code>, manage the date with React state and either render your own hidden input or post the value via <code>FormData</code> in the submit handler."
+      },
+      "a11y": {
+        "0": "The calendar inherits <code>react-day-picker</code>'s ARIA wiring (grid + day cells with <code>aria-selected</code>).",
+        "1": "Wrap with <code>FormField</code> (or supply your own label) so the field is announced to screen readers.",
+        "2": "Keyboard: <code>Space</code>/<code>Enter</code> opens the popover, arrow keys navigate days, <code>Esc</code> closes it."
+      },
+      "props": {
+        "value": "Controlled selected date. Pair with <code>onValueChange</code>.",
+        "onValueChange": "Fires when the user picks a day. Receives <code>undefined</code> when the date is cleared.",
+        "placeholder": "Trigger text shown when no date is selected.",
+        "formatStr": "date-fns format string used for the trigger label.",
+        "disabled": "Disables the trigger.",
+        "id": "Forwarded to the trigger button (useful for label association).",
+        "className": "Class name on the wrapper div.",
+        "triggerClassName": "Class name on the trigger button itself."
+      }
     },
     "dialog": {
-      "lead": "Modal dialog wrapping Radix Dialog. Two semantic modes via <code>severity</code>: <code>default</code> (informational, overlay closes) and <code>alert</code> (destructive confirmation, overlay does NOT close). A separate <code>tone</code> prop flips the offset shadow to the destructive token."
+      "lead": "Modal dialog wrapping Radix Dialog. Two semantic modes via <code>severity</code>: <code>default</code> (informational, overlay closes) and <code>alert</code> (destructive confirmation, overlay does NOT close). A separate <code>tone</code> prop flips the offset shadow to the destructive token.",
+      "headings": {
+        "defaultInformational": "Default — informational",
+        "alertSeverity": "<code>severity=\"alert\"</code> — destructive confirmation",
+        "whenToSwitchToAlert": "When to switch to alert mode",
+        "rootApi": "Dialog (root) API",
+        "contentProps": "DialogContent props"
+      },
+      "body": {
+        "defaultInformational": "Standard modal. Click on the overlay or press <kbd>Esc</kbd> to dismiss.",
+        "alertSeverity": "Flip the role to <code>alertdialog</code>, block overlay-click dismissal, and remove the X button — the user must explicitly choose an action. Pair with <code>tone=\"danger\"</code> to recolour the Memphis shadow."
+      },
+      "whenToAlert": {
+        "0": "The action is destructive (delete, archive, sign out) and must NOT be cancelled accidentally by clicking outside.",
+        "1": "You want screen readers to announce the dialog as <code>alertdialog</code> (more interruptive than the regular <code>dialog</code> role).",
+        "2": "Otherwise leave <code>severity</code> at <code>default</code>."
+      },
+      "a11y": {
+        "0": "Always pair <code>DialogTitle</code> with the content; screen readers announce it as the dialog name.",
+        "1": "Add <code>DialogDescription</code> for non-obvious actions; it is wired as <code>aria-describedby</code>.",
+        "2": "Use <code>DialogClose</code> on close buttons so they close the dialog and return focus to the trigger.",
+        "3": "In <code>severity=\"alert\"</code>, place Cancel first in the footer DOM order so Radix gives it default focus — the layout enforces column-reverse on small viewports so Cancel sits on top there."
+      },
+      "props": {
+        "open": "Controlled open state. Pair with <code>onOpenChange</code>.",
+        "defaultOpen": "Uncontrolled initial open state.",
+        "onOpenChange": "Fires whenever the open state changes.",
+        "modal": "When true (default), focus is trapped inside the dialog and outside content is inert."
+      },
+      "contentProps": {
+        "severity": "<code>default</code> is <code>role=\"dialog\"</code>; clicks on the overlay close it. <code>alert</code> flips to <code>role=\"alertdialog\"</code>, blocks overlay-click dismissal and hides the X button — the user must click an explicit footer action. Use for destructive or otherwise irreversible flows.",
+        "tone": "Visual override. <code>danger</code> swaps the Memphis offset shadow to the destructive token, telegraphing high-stakes actions. Orthogonal to <code>severity</code> — combine freely.",
+        "hideClose": "Hide the built-in X close button. Already implicit when <code>severity=\"alert\"</code> — alert mode never renders the X."
+      }
     },
     "drawer": {
-      "lead": "Sliding side panel built on the Radix Dialog primitive. Comes in four sides (left, right, top, bottom), with a close button baked in and the same Memphis shadow chrome as Dialog."
+      "lead": "Sliding side panel built on the Radix Dialog primitive. Comes in four sides (left, right, top, bottom), with a close button baked in and the same Memphis shadow chrome as Dialog.",
+      "headings": {
+        "drawerVsDialog": "Drawer vs Dialog"
+      },
+      "body": {
+        "sides": "Right is the default — typical for filters and detail panels. Bottom works well on mobile."
+      },
+      "a11y": {
+        "0": "Built on Radix Dialog: focus is trapped inside the panel while open and returned to the trigger on close. Esc closes the drawer; clicks on the overlay close it too.",
+        "1": "Always pair <code>DrawerTitle</code> and <code>DrawerDescription</code> with the content — Radix wires them as the dialog's accessible name and description.",
+        "2": "The built-in close button uses an Italian label <code>aria-label=\"Chiudi\"</code>. There is currently no prop to override it; if you need a different language, set <code>hideClose</code> and render your own close affordance with <code>DrawerClose</code> as <code>asChild</code>."
+      },
+      "vsDialog": {
+        "0": "Reach for Drawer when the panel hosts a flow of related controls (filters, settings, side editor) — the panel can stay tall and dominate one edge of the screen.",
+        "1": "Reach for <link1>Dialog</link1> for a centred modal — confirmations, single-step forms, or focused tasks."
+      },
+      "props": {
+        "open": "Controlled open state on the root.",
+        "defaultOpen": "Uncontrolled initial open state on the root.",
+        "onOpenChange": "Fires whenever the open state changes.",
+        "side": "Prop on <code>DrawerContent</code>. Sets the slide-in edge of the panel.",
+        "hideClose": "Prop on <code>DrawerContent</code>. Hides the built-in close button (rendered as an X in the upper right). Useful when the consumer renders their own close affordance."
+      }
     },
     "dropdown-menu": {
       "lead": "Composable action menu built on Radix DropdownMenu. Memphis-bordered surface, full keyboard wiring (Enter / Space, arrows, Esc, type-ahead), and selection chrome on radio items that mirrors the <link1>NavItem</link1> gradient. For a non-menu floating panel (free-form preferences, an editor popover, custom chrome), reach for <link2>Popover</link2> instead."
@@ -565,13 +718,38 @@
       "lead": "Compact 280px feature/highlight card with a primary-tinted Memphis shadow. Use to surface product features on landing pages or in feature grids."
     },
     "form-field": {
-      "lead": "Accessible wrapper that wires a label, description, and error message to a single input child via <code>aria-describedby</code> and <code>aria-invalid</code>. Ships zero opinions about layout — pair it with <link1>Box</link1> for stacks."
+      "lead": "Accessible wrapper that wires a label, description, and error message to a single input child via <code>aria-describedby</code> and <code>aria-invalid</code>. Ships zero opinions about layout — pair it with <link1>Box</link1> for stacks.",
+      "body": {
+        "errorState": "Pass an <code>error</code> string to surface a validation message. The wrapper sets <code>aria-invalid</code> on the child and links the error to <code>aria-describedby</code>."
+      },
+      "a11y": {
+        "0": "The label is a real <code>&lt;label htmlFor=\"…\"&gt;</code>; clicking it focuses the input.",
+        "1": "Description and error ids are merged into the child's <code>aria-describedby</code>; existing ids passed by the caller are preserved.",
+        "2": "When <code>error</code> is set, the child receives <code>aria-invalid=true</code> automatically."
+      },
+      "props": {
+        "label": "Visible label rendered as a <code>&lt;label&gt;</code> and wired to the child via <code>htmlFor</code>.",
+        "description": "Optional helper text. The id is added to the child via <code>aria-describedby</code>.",
+        "error": "Optional validation message. When present, it is added to <code>aria-describedby</code> and the child also receives <code>aria-invalid=true</code>.",
+        "id": "Override the auto-generated id. Useful when you need to reference the field from outside the form.",
+        "children": "Exactly one child element. The wrapper clones it and injects <code>id</code>, <code>aria-describedby</code>, and <code>aria-invalid</code>.",
+        "labelClassName": "Customise the label classes (e.g. to hide for visually-hidden labels)."
+      }
     },
     "hint": {
       "lead": "Numbered Memphis callout. Use to highlight steps in a how-to, key insights inside long-form docs, or numbered captions on a marketing page."
     },
     "input": {
-      "lead": "Single-line text field. Native <code>&lt;input&gt;</code> with the Memphis 2-px border and focus shadow. Pairs with <code>Label</code> for accessibility."
+      "lead": "Single-line text field. Native <code>&lt;input&gt;</code> with the Memphis 2-px border and focus shadow. Pairs with <code>Label</code> for accessibility.",
+      "a11y": {
+        "0": "Always associate a <code>Label</code> via matching <code>htmlFor</code> / <code>id</code> — placeholders are not labels.",
+        "1": "Use <code>invalid</code> together with <code>aria-describedby</code> pointing at an error message for screen readers."
+      },
+      "props": {
+        "invalid": "Marks the input as invalid (sets aria-invalid + applies the destructive shadow).",
+        "disabled": "Disables the input and applies the muted background.",
+        "rest": "All native input attributes are forwarded."
+      }
     },
     "label": {
       "lead": "Native <code>&lt;label&gt;</code> with the form-label typography baked in (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Use it standalone when you don't need the structured wiring of <link1>FormField</link1>."
@@ -610,7 +788,24 @@
       "lead": "Single-select toggle group with a Memphis border seam between items. Built on Radix ToggleGroup with <code>type=\"single\"</code>. Use it for 2-5 mutually exclusive options where keeping the choices visible adds clarity."
     },
     "select": {
-      "lead": "Composable dropdown built on Radix Select. Same Memphis border + focus shadow as <link1>Input</link1>. For multi-select or fuzzy search, reach for <link2>Combobox</link2>."
+      "lead": "Composable dropdown built on Radix Select. Same Memphis border + focus shadow as <link1>Input</link1>. For multi-select or fuzzy search, reach for <link2>Combobox</link2>.",
+      "body": {
+        "grouped": "Wrap related items in <code>SelectGroup</code> with a non-interactive <code>SelectLabel</code>. Use <code>SelectSeparator</code> between groups."
+      },
+      "a11y": {
+        "0": "Trigger renders <code>role=\"combobox\"</code> with <code>aria-expanded</code> and <code>aria-controls</code>.",
+        "1": "Inherits Radix Select keyboard support: type-ahead, arrow navigation, Home/End, Esc to close.",
+        "2": "Provide a label for the trigger via <code>FormField</code> or <code>aria-labelledby</code> when no visible label exists."
+      },
+      "props": {
+        "value": "Controlled selected value. Pair with <code>onValueChange</code>.",
+        "defaultValue": "Uncontrolled initial selected value.",
+        "onValueChange": "Fires whenever the selection changes.",
+        "disabled": "Disables the trigger.",
+        "name": "Native form name.",
+        "open": "Controlled open state of the dropdown. Pair with <code>onOpenChange</code>.",
+        "onOpenChange": "Fires whenever the dropdown opens or closes."
+      }
     },
     "separator": {
       "lead": "Horizontal or vertical divider with three Memphis-aware variants. Composes the Radix Separator primitive, so its semantics flip between decorative and meaningful via <code>decorative</code>."
@@ -634,7 +829,22 @@
       "lead": "Memphis toggle: square thumb sliding between an ivory and a primary track. Use for boolean preferences that take effect immediately (notifications on / off, dark mode on / off). Built on Radix Switch."
     },
     "table": {
-      "lead": "Memphis-bordered table primitives. Wrap rows in semantic <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> sections via the matching components — the outer container handles overflow + borders."
+      "lead": "Memphis-bordered table primitives. Wrap rows in semantic <code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code> / <code>&lt;tfoot&gt;</code> sections via the matching components — the outer container handles overflow + borders.",
+      "a11y": {
+        "0": "Always include <code>TableCaption</code> when the table conveys data — screen readers announce the caption as the table's name.",
+        "1": "Each <code>TableHead</code> renders a real <code>&lt;th&gt;</code>; for row-headers add <code>scope=\"row\"</code>.",
+        "2": "For very large tables consider pairing with <link1>Pagination</link1> and a virtualised body."
+      },
+      "props": {
+        "Table": "Outer scrolling container + Memphis border.",
+        "TableCaption": "Optional caption rendered below the table.",
+        "TableHeader": "Sticky-by-default header section.",
+        "TableBody": "Main data rows.",
+        "TableFooter": "Bordered totals row.",
+        "TableHead": "Column header cell — uppercase mono text.",
+        "TableRow": "Row with hover + selection states.",
+        "TableCell": "Body cell — pad px-4 py-3 by default."
+      }
     },
     "tabs": {
       "lead": "Inline tab strip + matching content panels. Built on Radix Tabs — full keyboard wiring, ARIA semantics, and roving tabindex come from the primitive. Active tab is marked with a primary-colored 3px underline."

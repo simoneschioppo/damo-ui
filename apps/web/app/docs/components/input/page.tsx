@@ -17,32 +17,33 @@ const INVALID_SNIPPET = `<Label htmlFor="invalid-email">Email</Label>
 
 const DISABLED_SNIPPET = `<Input defaultValue="readonly@example.com" disabled />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'invalid',
-    type: 'boolean',
-    defaultValue: 'false',
-    description: 'Marks the input as invalid (sets aria-invalid + applies the destructive shadow).',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    defaultValue: 'false',
-    description: 'Disables the input and applies the muted background.',
-  },
-  {
-    name: '...rest',
-    type: 'InputHTMLAttributes<HTMLInputElement>',
-    description: 'All native input attributes are forwarded.',
-  },
-]
-
 export const metadata = { title: `Input — ${BRAND.libName}` }
 
 export default async function InputDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.input.props.invalid', { code: codeTag }),
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.input.props.disabled', { code: codeTag }),
+    },
+    {
+      name: '...rest',
+      type: 'InputHTMLAttributes<HTMLInputElement>',
+      description: t.rich('componentDocs.input.props.rest', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -84,16 +85,8 @@ export default async function InputDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Always associate a <code className="font-mono">Label</code> via matching{' '}
-          <code className="font-mono">htmlFor</code> / <code className="font-mono">id</code> —
-          placeholders are not labels.
-        </li>
-        <li>
-          Use <code className="font-mono">invalid</code> together with{' '}
-          <code className="font-mono">aria-describedby</code> pointing at an error message for
-          screen readers.
-        </li>
+        <li>{t.rich('componentDocs.input.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.input.a11y.1', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
