@@ -24,44 +24,43 @@ const DOT_SNIPPET = `<Chip dotColor="var(--success)">Active</Chip>
 <Chip dotColor="var(--destructive)">Offline</Chip>
 <Chip active dotColor="var(--primary)">Selected</Chip>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'variant',
-    type: "'default' | 'accent' | 'brand' | 'success' | 'warning' | 'danger'",
-    defaultValue: "'default'",
-    description: 'Background tint and border color. All variants share the rounded pill shape.',
-  },
-  {
-    name: 'size',
-    type: "'sm' | 'md' | 'lg'",
-    defaultValue: "'md'",
-    description: 'Padding + text size step.',
-  },
-  {
-    name: 'dotColor',
-    type: 'string',
-    description:
-      'When set, prepends an 8×8 dot before children. Accepts any CSS color string (`var(--success)`, `#16a34a`, etc.).',
-  },
-  {
-    name: 'active',
-    type: 'boolean',
-    description:
-      'Swap the surface to the primary token (selected look). With `dotColor` the dot border flips to white for contrast.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Chip label — supports text or icon + text.',
-  },
-]
-
 export const metadata = { title: `Chip — ${BRAND.libName}` }
 
 export default async function ChipDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'variant',
+      type: "'default' | 'accent' | 'brand' | 'success' | 'warning' | 'danger'",
+      defaultValue: "'default'",
+      description: t.rich('componentDocs.chip.props.variant', { code: codeTag }),
+    },
+    {
+      name: 'size',
+      type: "'sm' | 'md' | 'lg'",
+      defaultValue: "'md'",
+      description: t.rich('componentDocs.chip.props.size', { code: codeTag }),
+    },
+    {
+      name: 'dotColor',
+      type: 'string',
+      description: t.rich('componentDocs.chip.props.dotColor', { code: codeTag }),
+    },
+    {
+      name: 'active',
+      type: 'boolean',
+      description: t.rich('componentDocs.chip.props.active', { code: codeTag }),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.chip.props.children', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -112,16 +111,8 @@ export default async function ChipDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Chip renders a <code className="font-mono">&lt;span&gt;</code> — when used inside a
-          clickable filter, wrap it in a <code className="font-mono">&lt;button&gt;</code> with{' '}
-          <code className="font-mono">aria-pressed</code> reflecting the{' '}
-          <code className="font-mono">active</code> state.
-        </li>
-        <li>
-          The status dot is purely decorative; the label text must convey the same status (do not
-          rely on color alone).
-        </li>
+        <li>{t.rich('componentDocs.chip.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.chip.a11y.1', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

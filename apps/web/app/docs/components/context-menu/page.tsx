@@ -13,7 +13,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
-import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
+import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   ContextMenu,
@@ -42,27 +42,27 @@ const BASIC_SNIPPET = `<ContextMenu>
   </ContextMenuContent>
 </ContextMenu>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'modal',
-    type: 'boolean',
-    defaultValue: 'true',
-    description:
-      'Trap focus while the menu is open. Set false to allow interaction with the rest of the page.',
-  },
-  {
-    name: 'onOpenChange',
-    type: '(open: boolean) => void',
-    description: 'Fires when the menu opens or closes.',
-  },
-]
-
 export const metadata = { title: `ContextMenu — ${BRAND.libName}` }
 
 export default async function ContextMenuDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'modal',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: t.rich('componentDocs.context-menu.props.modal', { code: codeTag }),
+    },
+    {
+      name: 'onOpenChange',
+      type: '(open: boolean) => void',
+      description: t.rich('componentDocs.context-menu.props.onOpenChange', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -105,28 +105,14 @@ export default async function ContextMenuDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('whenToUse')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          File managers, table rows, canvas elements — anywhere users expect a right-click menu of
-          contextual actions.
-        </li>
-        <li>
-          Don&rsquo;t replace primary affordances with ContextMenu only — touch users on iOS
-          discover them via long-press, but Android contexts are spotty. Always provide an
-          equivalent action via a button or DropdownMenu.
-        </li>
+        <li>{t('componentDocs.context-menu.whenToUse.0')}</li>
+        <li>{t('componentDocs.context-menu.whenToUse.1')}</li>
       </ul>
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Radix wires <code className="font-mono">role=&quot;menu&quot;</code> +{' '}
-          <code className="font-mono">role=&quot;menuitem&quot;</code> the same way DropdownMenu
-          does, including support for checkbox / radio items.
-        </li>
-        <li>
-          Keyboard: <kbd>Shift</kbd> + <kbd>F10</kbd> opens the menu from the focused trigger.
-          Arrows cycle items; <kbd>Esc</kbd> closes.
-        </li>
+        <li>{t.rich('componentDocs.context-menu.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.context-menu.a11y.1', { code: codeTag, kbd: kbdTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

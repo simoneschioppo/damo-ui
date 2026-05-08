@@ -23,37 +23,36 @@ const CUSTOM_AVATAR_SNIPPET = `<UserCard
   meta="MEMBRO DAL 2026"
 />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'name',
-    type: 'string',
-    required: true,
-    description: 'Display name. Used to derive the default avatar initial.',
-  },
-  {
-    name: 'avatar',
-    type: 'ReactNode',
-    description:
-      'Custom avatar node. When omitted UserCard renders a circular ink tile with the first letter of `name`.',
-  },
-  {
-    name: 'meta',
-    type: 'ReactNode',
-    description: 'Optional mono caption rendered under the name.',
-  },
-  {
-    name: 'trailing',
-    type: 'ReactNode',
-    description: 'Optional right-aligned slot — typically a Badge or status chip.',
-  },
-]
-
 export const metadata = { title: `UserCard — ${BRAND.libName}` }
 
 export default async function UserCardDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'name',
+      type: 'string',
+      required: true,
+      description: t.rich('componentDocs.user-card.props.name', { code: codeTag }),
+    },
+    {
+      name: 'avatar',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.user-card.props.avatar', { code: codeTag }),
+    },
+    {
+      name: 'meta',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.user-card.props.meta', { code: codeTag }),
+    },
+    {
+      name: 'trailing',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.user-card.props.trailing', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">

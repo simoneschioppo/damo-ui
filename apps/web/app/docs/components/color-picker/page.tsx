@@ -32,52 +32,51 @@ const NO_LABEL_SNIPPET = `<ColorPicker
   showLabel={false}
 />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'label',
-    type: 'string',
-    required: true,
-    description:
-      'Visible label rendered above the controls. Also used as the `aria-label` on the swatch + hex input.',
-  },
-  {
-    name: 'value',
-    type: 'string',
-    required: true,
-    description: 'Current color string. Pass any value the consumer expects (typically a hex).',
-  },
-  {
-    name: 'onChange',
-    type: '(next: string) => void',
-    required: true,
-    description:
-      'Fires whenever the swatch or the hex input emits a new value. Validate the string before re-binding it to state.',
-  },
-  {
-    name: 'showInput',
-    type: 'boolean',
-    defaultValue: 'true',
-    description: 'Hide the hex text input and show only the color swatch.',
-  },
-  {
-    name: 'showLabel',
-    type: 'boolean',
-    defaultValue: 'true',
-    description: 'Hide the visible label — `aria-label` is still wired for screen readers.',
-  },
-  {
-    name: 'id',
-    type: 'string',
-    description: 'Override the auto-generated id used to wire the label and the color input.',
-  },
-]
-
 export const metadata = { title: `ColorPicker — ${BRAND.libName}` }
 
 export default async function ColorPickerDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'label',
+      type: 'string',
+      required: true,
+      description: t.rich('componentDocs.color-picker.props.label', { code: codeTag }),
+    },
+    {
+      name: 'value',
+      type: 'string',
+      required: true,
+      description: t.rich('componentDocs.color-picker.props.value', { code: codeTag }),
+    },
+    {
+      name: 'onChange',
+      type: '(next: string) => void',
+      required: true,
+      description: t.rich('componentDocs.color-picker.props.onChange', { code: codeTag }),
+    },
+    {
+      name: 'showInput',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: t.rich('componentDocs.color-picker.props.showInput', { code: codeTag }),
+    },
+    {
+      name: 'showLabel',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: t.rich('componentDocs.color-picker.props.showLabel', { code: codeTag }),
+    },
+    {
+      name: 'id',
+      type: 'string',
+      description: t.rich('componentDocs.color-picker.props.id', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -103,8 +102,7 @@ export default async function ColorPickerDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Hide the visible label</h2>
       <p className="text-foreground/80 mb-3">
-        <code className="font-mono">aria-label</code> is preserved on both controls, so the
-        component remains accessible even when the visible label is hidden.
+        {t.rich('componentDocs.color-picker.body.hideVisibleLabel', { code: codeTag })}
       </p>
       <Example code={NO_LABEL_SNIPPET}>
         <ColorPickerNoLabelExample />

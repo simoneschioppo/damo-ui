@@ -18,40 +18,37 @@ const VERTICAL_SNIPPET = `<div className="flex h-8 items-center gap-3">
   <span>Right</span>
 </div>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'orientation',
-    type: "'horizontal' | 'vertical'",
-    defaultValue: "'horizontal'",
-    description: 'Direction of the divider.',
-  },
-  {
-    name: 'variant',
-    type: "'solid' | 'dashed' | 'memphis-double'",
-    defaultValue: "'solid'",
-    description:
-      '`solid` is a single hairline; `dashed` switches to a dashed border; `memphis-double` is a double-bordered slab matching the Memphis aesthetic.',
-  },
-  {
-    name: 'decorative',
-    type: 'boolean',
-    defaultValue: 'true',
-    description:
-      'When true (default), the separator is purely decorative and hidden from screen readers. Pass false when the divider conveys meaningful structure that should be announced.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the variant defaults.',
-  },
-]
-
 export const metadata = { title: `Separator — ${BRAND.libName}` }
 
 export default async function SeparatorDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'orientation',
+      type: "'horizontal' | 'vertical'",
+      defaultValue: "'horizontal'",
+      description: t.rich('componentDocs.separator.props.orientation', { code: codeTag }),
+    },
+    {
+      name: 'variant',
+      type: "'solid' | 'dashed' | 'memphis-double'",
+      defaultValue: "'solid'",
+      description: t.rich('componentDocs.separator.props.variant', { code: codeTag }),
+    },
+    {
+      name: 'decorative',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: t.rich('componentDocs.separator.props.decorative', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.separator.props.className', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -94,16 +91,8 @@ export default async function SeparatorDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Defaults to <code className="font-mono">decorative=true</code> — no role is announced. Use
-          this for purely visual separation.
-        </li>
-        <li>
-          Set <code className="font-mono">decorative=false</code> when the divider represents
-          meaningful structure (e.g. between thematic page sections); Radix exposes{' '}
-          <code className="font-mono">role=&quot;separator&quot;</code> with the right{' '}
-          <code className="font-mono">aria-orientation</code>.
-        </li>
+        <li>{t.rich('componentDocs.separator.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.separator.a11y.1', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

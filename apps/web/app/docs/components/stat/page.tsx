@@ -15,43 +15,43 @@ const GROUP_SNIPPET = `<Stat label="Active users" value="1,284" delta="-3%" delt
 <Stat label="Conversion" value="6.4%" delta="±0%" deltaTone="neutral" />
 <Stat label="Tickets open" value="12" icon={<BoltIcon size={14} />} />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'label',
-    type: 'ReactNode',
-    required: true,
-    description: 'Mono uppercase label rendered above the value.',
-  },
-  {
-    name: 'value',
-    type: 'ReactNode',
-    required: true,
-    description: 'Headline number rendered in the display font.',
-  },
-  {
-    name: 'delta',
-    type: 'ReactNode',
-    description: 'Optional sub-line showing the change vs a baseline.',
-  },
-  {
-    name: 'deltaTone',
-    type: "'positive' | 'negative' | 'neutral'",
-    defaultValue: "'neutral'",
-    description: 'Color of the delta line — success / destructive / muted.',
-  },
-  {
-    name: 'icon',
-    type: 'ReactNode',
-    description: 'Optional icon rendered beside the label.',
-  },
-]
-
 export const metadata = { title: `Stat — ${BRAND.libName}` }
 
 export default async function StatDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'label',
+      type: 'ReactNode',
+      required: true,
+      description: t.rich('componentDocs.stat.props.label', { code: codeTag }),
+    },
+    {
+      name: 'value',
+      type: 'ReactNode',
+      required: true,
+      description: t.rich('componentDocs.stat.props.value', { code: codeTag }),
+    },
+    {
+      name: 'delta',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.stat.props.delta', { code: codeTag }),
+    },
+    {
+      name: 'deltaTone',
+      type: "'positive' | 'negative' | 'neutral'",
+      defaultValue: "'neutral'",
+      description: t.rich('componentDocs.stat.props.deltaTone', { code: codeTag }),
+    },
+    {
+      name: 'icon',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.stat.props.icon', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">

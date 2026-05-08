@@ -5,7 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
-import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
+import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import { Checkbox, Label } from '@damo/ui'`
 
@@ -20,45 +20,46 @@ const STATES_SNIPPET = `<Checkbox defaultChecked />
 <Checkbox disabled />
 <Checkbox defaultChecked disabled />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'checked',
-    type: "boolean | 'indeterminate'",
-    description: 'Controlled checked state. Pair with `onCheckedChange`.',
-  },
-  {
-    name: 'defaultChecked',
-    type: 'boolean',
-    description: 'Uncontrolled initial checked state.',
-  },
-  {
-    name: 'onCheckedChange',
-    type: '(checked: boolean | "indeterminate") => void',
-    description: 'Fires whenever the checked state changes.',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    description: 'Disables the input.',
-  },
-  {
-    name: 'required',
-    type: 'boolean',
-    description: 'Marks the input as required for native form submission.',
-  },
-  {
-    name: 'name',
-    type: 'string',
-    description: 'Name attribute for native form submission.',
-  },
-]
-
 export const metadata = { title: `Checkbox — ${BRAND.libName}` }
 
 export default async function CheckboxDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'checked',
+      type: "boolean | 'indeterminate'",
+      description: t.rich('componentDocs.checkbox.props.checked', { code: codeTag }),
+    },
+    {
+      name: 'defaultChecked',
+      type: 'boolean',
+      description: t.rich('componentDocs.checkbox.props.defaultChecked', { code: codeTag }),
+    },
+    {
+      name: 'onCheckedChange',
+      type: '(checked: boolean | "indeterminate") => void',
+      description: t.rich('componentDocs.checkbox.props.onCheckedChange', { code: codeTag }),
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      description: t.rich('componentDocs.checkbox.props.disabled', { code: codeTag }),
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      description: t.rich('componentDocs.checkbox.props.required', { code: codeTag }),
+    },
+    {
+      name: 'name',
+      type: 'string',
+      description: t.rich('componentDocs.checkbox.props.name', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -96,19 +97,9 @@ export default async function CheckboxDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Radix Checkbox renders <code className="font-mono">role=&quot;checkbox&quot;</code> with{' '}
-          <code className="font-mono">aria-checked</code> reflecting the checked state, including{' '}
-          <code className="font-mono">&quot;mixed&quot;</code> for the indeterminate case.
-        </li>
-        <li>
-          Always pair with a <code className="font-mono">Label</code> wired via{' '}
-          <code className="font-mono">htmlFor</code>, or supply{' '}
-          <code className="font-mono">aria-label</code> when there is no visible text.
-        </li>
-        <li>
-          Native keyboard support inherited: <kbd>Space</kbd> toggles the checked state.
-        </li>
+        <li>{t.rich('componentDocs.checkbox.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.checkbox.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.checkbox.a11y.2', { code: codeTag, kbd: kbdTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

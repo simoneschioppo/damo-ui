@@ -37,30 +37,29 @@ const BASIC_SNIPPET = `<Sidebar aria-label="Main navigation">
   <SidebarFooter>v0.3.0</SidebarFooter>
 </Sidebar>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Compose with SidebarHeader, SidebarBody, SidebarFooter.',
-  },
-  {
-    name: 'aria-label',
-    type: 'string',
-    description: 'Required when the sidebar is the only nav landmark on the page.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the defaults.',
-  },
-]
-
 export const metadata = { title: `Sidebar — ${BRAND.libName}` }
 
 export default async function SidebarDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.sidebar.props.children', { code: codeTag }),
+    },
+    {
+      name: 'aria-label',
+      type: 'string',
+      description: t.rich('componentDocs.sidebar.props.ariaLabel', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.sidebar.props.className', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
