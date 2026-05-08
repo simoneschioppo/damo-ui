@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import {
   Select,
   SelectTrigger,
@@ -96,11 +97,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Select — ${BRAND.libName}` }
 
-export default function SelectDocsPage() {
+export default async function SelectDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FORMS
+        {tCat('forms')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Select</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -115,10 +118,10 @@ export default function SelectDocsPage() {
         .
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Basic usage</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('basicUsage')}</h2>
       <Example code={BASIC_SNIPPET}>
         <Select defaultValue="medium">
           <SelectTrigger className="w-[180px]">
@@ -132,7 +135,7 @@ export default function SelectDocsPage() {
         </Select>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Grouped options</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('groupedOptions')}</h2>
       <p className="text-foreground/80 mb-3">
         Wrap related items in <code className="font-mono">SelectGroup</code> with a non-interactive{' '}
         <code className="font-mono">SelectLabel</code>. Use{' '}
@@ -163,7 +166,7 @@ export default function SelectDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">Props (Select root)</h2>
       <PropsTable props={PROPS} caption="Select props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           Trigger renders <code className="font-mono">role=&quot;combobox&quot;</code> with{' '}

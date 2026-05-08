@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import {
   TooltipProvider,
   Tooltip,
@@ -71,11 +72,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Tooltip — ${BRAND.libName}` }
 
-export default function TooltipDocsPage() {
+export default async function TooltipDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FEEDBACK
+        {tCat('feedback')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Tooltip</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -85,7 +88,7 @@ export default function TooltipDocsPage() {
         tooltips.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Provider — once per app</h2>
@@ -96,7 +99,7 @@ export default function TooltipDocsPage() {
       </p>
       <Code code={PROVIDER_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Basic usage</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('basicUsage')}</h2>
       <Example code={BASIC_SNIPPET}>
         <TooltipProvider delayDuration={100}>
           <Tooltip>
@@ -130,10 +133,10 @@ export default function TooltipDocsPage() {
         </TooltipProvider>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Tooltip props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           The trigger receives Radix focus management; pressing <kbd>Tab</kbd> opens the tooltip,{' '}

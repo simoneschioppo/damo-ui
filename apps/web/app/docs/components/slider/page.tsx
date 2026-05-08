@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Slider } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -73,11 +74,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Slider — ${BRAND.libName}` }
 
-export default function SliderDocsPage() {
+export default async function SliderDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FORMS
+        {tCat('forms')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Slider</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -85,7 +88,7 @@ export default function SliderDocsPage() {
         support, drag handling, and ARIA semantics come from the primitive.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Single thumb</h2>
@@ -116,10 +119,10 @@ export default function SliderDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Slider props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           Each thumb is a <code className="font-mono">role=&quot;slider&quot;</code> with{' '}

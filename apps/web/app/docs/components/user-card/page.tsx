@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { UserCard, Badge } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -48,11 +49,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `UserCard — ${BRAND.libName}` }
 
-export default function UserCardDocsPage() {
+export default async function UserCardDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        SHOWCASE / DS
+        {tCat('cardsAndDecoration')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">UserCard</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -60,7 +63,7 @@ export default function UserCardDocsPage() {
         with a 4px shadow.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Basic</h2>
@@ -84,7 +87,7 @@ export default function UserCardDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">Custom avatar</h2>
       <Code code={CUSTOM_AVATAR_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="UserCard props" />
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

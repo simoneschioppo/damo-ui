@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Combobox } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -101,11 +102,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `Combobox — ${BRAND.libName}` }
 
-export default function ComboboxDocsPage() {
+export default async function ComboboxDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FORMS
+        {tCat('forms')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">Combobox</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -117,23 +120,23 @@ export default function ComboboxDocsPage() {
         the Damo Memphis chrome on the popover.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Basic usage</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('basicUsage')}</h2>
       <Example code={BASIC_SNIPPET}>
         <div className="w-full max-w-xs">
           <Combobox options={COUNTRIES} placeholder="Pick a country" />
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Controlled</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('controlled')}</h2>
       <p className="text-foreground/80 mb-3">
         Manage the selection externally for validation or persistence.
       </p>
       <Code code={CONTROLLED_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Combobox props" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Combobox vs Select</h2>
@@ -151,7 +154,7 @@ export default function ComboboxDocsPage() {
         </li>
       </ul>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Native form submission</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('nativeFormSubmission')}</h2>
       <p className="text-foreground/85 mb-3">
         Combobox renders a <code className="font-mono">&lt;button&gt;</code> + popover with no
         hidden form input and no <code className="font-mono">name</code> prop. To submit through a
@@ -159,7 +162,7 @@ export default function ComboboxDocsPage() {
         state and either render your own hidden input or read it from the submit handler.
       </p>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           The trigger is a plain <code className="font-mono">&lt;button&gt;</code> (no{' '}

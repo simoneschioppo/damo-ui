@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
@@ -44,11 +45,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `AppShell — ${BRAND.libName}` }
 
-export default function AppShellDocsPage() {
+export default async function AppShellDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        LAYOUT
+        {tCat('layout')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">AppShell</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -57,7 +60,7 @@ export default function AppShellDocsPage() {
         scrolls.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Basic shape</h2>
@@ -94,7 +97,7 @@ export default function AppShellDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">On-dark sidebar</h2>
       <Code code={ON_DARK_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="AppShell props" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Pairs well with</h2>

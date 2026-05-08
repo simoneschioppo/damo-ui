@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { AspectRatio } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -37,11 +38,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `AspectRatio — ${BRAND.libName}` }
 
-export default function AspectRatioDocsPage() {
+export default async function AspectRatioDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        PRIMITIVES
+        {tCat('primitives')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">AspectRatio</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -50,7 +53,7 @@ export default function AspectRatioDocsPage() {
         guarantees no layout shift while the image / video / iframe loads.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">16:9 image</h2>
@@ -75,7 +78,7 @@ export default function AspectRatioDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="AspectRatio props" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Common ratios</h2>

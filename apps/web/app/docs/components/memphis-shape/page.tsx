@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { MemphisShape } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
@@ -54,11 +55,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `MemphisShape — ${BRAND.libName}` }
 
-export default function MemphisShapeDocsPage() {
+export default async function MemphisShapeDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        SHOWCASE / DS
+        {tCat('cardsAndDecoration')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">MemphisShape</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -66,7 +69,7 @@ export default function MemphisShapeDocsPage() {
         the design system showcase. Eight variants share a 100×100 viewBox so they scale cleanly.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">All variants</h2>
@@ -92,10 +95,10 @@ export default function MemphisShapeDocsPage() {
         </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Props</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="MemphisShape props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <p className="text-foreground/85">
         MemphisShape SVGs are rendered with{' '}
         <code className="font-mono">aria-hidden=&quot;true&quot;</code> — purely decorative. If you

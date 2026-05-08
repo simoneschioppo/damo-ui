@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { AppTopBar, AttrToggleGroup, Button } from '@damo/ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
@@ -63,11 +64,13 @@ const PROPS: ReadonlyArray<PropDef> = [
 
 export const metadata = { title: `AppTopBar — ${BRAND.libName}` }
 
-export default function AppTopBarDocsPage() {
+export default async function AppTopBarDocsPage() {
+  const tCat = await getTranslations('docsChrome.categories')
+  const tSec = await getTranslations('docsChrome.sections')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        LAYOUT
+        {tCat('layout')}
       </div>
       <h1 className="font-display text-5xl leading-[0.95] mb-4">AppTopBar</h1>
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
@@ -75,10 +78,10 @@ export default function AppTopBarDocsPage() {
         placement; opt out via <code className="font-mono">sticky=&#123;false&#125;</code>.
       </p>
 
-      <h2 className="font-display text-2xl mb-3">Import</h2>
+      <h2 className="font-display text-2xl mb-3">{tSec('import')}</h2>
       <Code code={IMPORT_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Live preview</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('livePreview')}</h2>
       <div className="my-6 border-2 border-memphis bg-background shadow-memphis">
         <AppTopBar
           sticky={false}
@@ -109,16 +112,16 @@ export default function AppTopBarDocsPage() {
         />
       </div>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Basic usage</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('basicUsage')}</h2>
       <Code code={BASIC_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Non-sticky variant</h2>
       <Code code={NON_STICKY_SNIPPET} lang="tsx" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">API</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('api')}</h2>
       <PropsTable props={PROPS} caption="AppTopBar props" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Accessibility</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
           The header renders as a <code className="font-mono">&lt;header&gt;</code> (banner role).
