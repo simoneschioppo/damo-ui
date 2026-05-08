@@ -1,6 +1,6 @@
 # UserCard
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 99227a4 · Sources:
 `packages/ui/src/components/user-card/{user-card.tsx,index.ts,user-card.test.tsx}`.
 
 ## Summary
@@ -9,6 +9,13 @@ Horizontal row card with a circular avatar (or initial fallback),
 name + optional meta caption, and an optional right-aligned
 `trailing` slot. Used for user lists, member rows, leaderboard
 entries, etc.
+
+> **As of gh-60**, UserCard composes `<Card variant="default"
+> padding="none" className="flex items-center gap-[14px] w-full p-4">`
+> internally. Public API is unchanged. The Memphis shadow is now the
+> 6px canonical `--shadow-memphis` (inherited from Card's default
+> variant), aligning with sibling cards. Was previously the 4px
+> card-tier `--shadow-memphis-card` set inline.
 
 ## Public API
 
@@ -23,22 +30,26 @@ entries, etc.
 | `avatar`  | `ReactNode` | optional — replaces the default initial circle |
 | `meta`    | `ReactNode` | optional — mono caption below name |
 | `trailing`| `ReactNode` | optional — right-aligned slot (chip, action, etc.) |
-| `className`| `string`   | merged onto wrapper |
+| `className`| `string`   | merged onto the underlying `<Card>` |
 | …native   | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | `children` omitted |
 
 ## Internal architecture
 
 ```jsx
-<div className="flex items-center gap-[14px] w-full p-4
-                border-2 border-memphis rounded-none bg-card"
-     style={{ boxShadow: 'var(--shadow-memphis-card)' }}>
+<Card
+  variant="default"
+  padding="none"
+  className={cn('flex items-center gap-[14px] w-full p-4', className)}
+  ref={ref}
+  {...rest}
+>
   <Avatar />               {/* either custom or initial fallback */}
   <div className="flex-1 min-w-0">
     <div data-slot="name" className="font-bold text-card-foreground text-base">{name}</div>
     {meta && <div data-slot="meta" …>{meta}</div>}
   </div>
   {trailing && <div data-slot="trailing" className="shrink-0">{trailing}</div>}
-</div>
+</Card>
 ```
 
 ### Avatar / initial fallback
@@ -68,18 +79,32 @@ questions.
 
 ### Layout details
 
+- `padding="none"` + `p-4` className: same off-scale padding pattern as
+  ArticleCard (Card's scale jumps from `sm: p-3` to `md: p-5`; UserCard
+  needs 16px = `p-4`). The `padding="none"` token resolves to `p-0`,
+  immediately overridden by `p-4` via `tailwind-merge` in `cn()`.
 - `gap-[14px]` — arbitrary spacing (14px), not a token. The lib's
-  spacing scale jumps from 12 (gap-3) to 16 (gap-4), and 14 is the
+  spacing scale jumps from 12 (`gap-3`) to 16 (`gap-4`), and 14 is the
   visual sweet spot for this row.
 - `min-w-0` on the middle column — same flex-shrink trick used in
   Sidebar's body. Without it, long names break the layout.
 - `shrink-0` on avatar and trailing — hold their natural width
   while the middle column shrinks/truncates.
 
-### Memphis card shadow
+### Memphis shadow (inherited from Card)
 
-Inline `boxShadow: 'var(--shadow-memphis-card)'` — same 4px tier
-as ArticleCard / FeatureCard / Hint.
+The Memphis frame and shadow now come from `<Card variant="default">`:
+
+```
+border-2 border-memphis shadow-memphis rounded-none bg-card
+```
+
+`shadow-memphis` resolves to `--shadow-memphis` (6px tier) — the
+canonical Memphis shadow. **Pre-gh-60**, UserCard set
+`style={{ boxShadow: 'var(--shadow-memphis-card)' }}` inline, the 4px
+tier. The +2px shift was an intentional choice in gh-60 to unify all
+four card components on a single shadow scale; the 4px token survives
+in `tokens.css` for any external consumer that still wants it.
 
 ## Notes & gotchas
 
@@ -96,19 +121,37 @@ as ArticleCard / FeatureCard / Hint.
    Hand-rolled circle. Worth folding in (especially for `AvatarImage`
    from-URL fallback). See Open questions.
 
-4. **Source comment mentions "first letter of `name` in a plum-900
-   circle"** — describes a brand consumer's palette, not lib defaults.
-   The lib renders `bg-foreground` (neutral). Plum is a consumer
-   palette token.
-
-5. **`gap-[14px]`** is non-tokenized spacing — flagged because the
+4. **`gap-[14px]`** is non-tokenized spacing — flagged because the
    lib elsewhere stays on the spacing scale.
+
+5. **Composition tax.** Copying UserCard to another repo now
+   requires copying `Card` and `card.variants.ts` too — see
+   "How to consume" below.
 
 ## How to consume (shadcn-style copy)
 
-Single-folder copy. Tokens: `--card`, `--card-foreground`,
-`--memphis-border-color`, `--shadow-memphis-card`, `--foreground`,
-`--background`, `--muted-foreground`, `--font-display`.
+UserCard now depends on `<Card>`, so a clean copy needs:
+
+1. `packages/ui/src/components/card/card.tsx`
+2. `packages/ui/src/components/card/card.variants.ts`
+3. `packages/ui/src/components/card/index.ts`
+4. `packages/ui/src/components/user-card/user-card.tsx`
+5. `packages/ui/src/lib/cn.ts`
+
+Tokens: `--card`, `--card-foreground`, `--memphis-border-color`,
+`--shadow-memphis`, `--foreground`, `--background`, `--muted-foreground`,
+`--font-display`. No external runtime deps.
+
+For a single-file copy, replace `<Card variant="default" padding="none">`
+with a `<div>` carrying the recipe inline:
+
+```jsx
+<div className={cn(
+  'flex items-center gap-[14px] w-full p-4',
+  'border-2 border-memphis shadow-memphis rounded-none bg-card',
+  className,
+)}>…</div>
+```
 
 ## Open questions
 
@@ -121,5 +164,6 @@ Single-folder copy. Tokens: `--card`, `--card-foreground`,
    or `gap-4` (16px) or tokenize.
 4. **Non-Latin / emoji-only names** truncate poorly via `charAt`.
    Use `Array.from(name)[0]` or grapheme-aware logic.
-5. **Source comment references "plum-900"** — consumer-palette
-   leakage in a doc comment.
+5. **Source comment used to reference "plum-900"** — consumer-palette
+   leakage. Cleaned up in gh-60 (now reads "in a circle"); flag here in
+   case any other surface still leaks consumer palette names.

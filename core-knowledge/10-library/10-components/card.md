@@ -1,6 +1,6 @@
 # Card
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 99227a4 · Sources:
 `packages/ui/src/components/card/{card.tsx,card.variants.ts,index.ts,card.test.tsx}`.
 
 ## Summary
@@ -8,9 +8,11 @@ Status: documented · Last scan: d63afaf · Sources:
 Generic surface container — the lib's primary "wrap content in a
 bordered box" primitive. 5 variants × 4 padding sizes via cva, plus
 6 compose-able sub-parts (Header / Title / Description / Body /
-Footer). Distinct from the **specialized cards**
-(ArticleCard, FeatureCard, UserCard) which target specific layouts;
-`<Card>` is the flexible base.
+Footer). The **specialized cards** (ArticleCard, FeatureCard,
+UserCard) compose `<Card>` internally for their frame, shadow, and
+padding (since gh-60); they layer their own slot conventions on top
+and target specific layouts. `<Card>` itself remains the flexible
+base for ad-hoc surfaces.
 
 ## Public API
 
@@ -149,12 +151,18 @@ content-heavy regions on dark themes.
 
 ## Open questions
 
-1. **Specialized cards** (ArticleCard, FeatureCard, UserCard) don't
-   compose on top of `<Card>` — they're independent components. Worth
-   considering a refactor where they become Card variants or layouts
-   with a shared frame, especially before npm migration.
-2. **`interactive` variant misleads** — looks clickable, isn't. Add
+1. **`interactive` variant misleads** — looks clickable, isn't. Add
    an `as` prop or a friendly `onClick` warning.
-3. **`inverse` variant is the only anti-Memphis surface** — possibly
+2. **`inverse` variant is the only anti-Memphis surface** — possibly
    move to a separate `<DarkCard>` component to reduce cognitive
    load on the variant axis.
+
+> ~~**Specialized cards** don't compose on top of `<Card>`~~
+> **Resolved (gh-60)** — ArticleCard, FeatureCard, and UserCard now
+> compose `<Card>` internally for frame + shadow + padding. Public
+> APIs unchanged. Off-scale paddings (`p-6` ArticleCard, `p-4`
+> UserCard) handled via `padding="none"` + className escape hatch;
+> FeatureCard maps cleanly onto `padding="md"` + `variant="featured"`.
+> The 4px `--shadow-memphis-card` shadow used pre-refactor was
+> unified to the canonical 6px `--shadow-memphis`; the 4px token
+> survives in `tokens.css` for any external consumer that needs it.

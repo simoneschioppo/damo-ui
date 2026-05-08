@@ -102,6 +102,47 @@
       "queued": [],
       "runs": [
         {
+          "kind": "content-update",
+          "gh_issue": 60,
+          "chapters": [
+            "10-library/10-components/article-card.md",
+            "10-library/10-components/feature-card.md",
+            "10-library/10-components/user-card.md",
+            "10-library/10-components/card.md"
+          ],
+          "details": {
+            "10-library/10-components/article-card.md": {
+              "paths": [
+                "packages/ui/src/components/article-card/article-card.tsx",
+                "packages/ui/src/components/article-card/article-card.test.tsx"
+              ],
+              "edits": "Rewrote Summary, Internal architecture (Card composition), and Inline-styles section (now Off-scale padding + className overrides). Updated Notes & gotchas #5 (inline styles minimal) and added #6 (composition tax). Replaced How-to-consume with Card+cn deps + single-file fallback. Resolved OQ #3 (compose Card)."
+            },
+            "10-library/10-components/feature-card.md": {
+              "paths": [
+                "packages/ui/src/components/feature-card/feature-card.tsx",
+                "packages/ui/src/components/feature-card/feature-card.test.tsx"
+              ],
+              "edits": "Rewrote Summary and Internal architecture. Reframed Primary-tinted shadow recipe as inherited from Card's featured variant. Updated Notes & gotchas #2 (FeatureCard is featured-variant + fixed width). Added Padding-from-Card-scale subsection. Updated How-to-consume with Card deps. Resolved OQ #4 (fold into Card variant=featured)."
+            },
+            "10-library/10-components/user-card.md": {
+              "paths": [
+                "packages/ui/src/components/user-card/user-card.tsx",
+                "packages/ui/src/components/user-card/user-card.test.tsx"
+              ],
+              "edits": "Rewrote Summary, Internal architecture, and Memphis shadow subsection (now 6px inherited from Card default, was 4px inline). Updated Layout details with padding=none + p-4 escape hatch. Added composition tax note. Updated How-to-consume with Card deps + single-file fallback. Updated OQ #5 to reflect plum-900 cleanup."
+            },
+            "10-library/10-components/card.md": {
+              "paths": [],
+              "edits": "Patched Summary to reflect that specialized cards now compose Card. Resolved OQ #1 (specialized cards composition); renumbered remaining OQs."
+            }
+          },
+          "shadow_unification_note": "All four specialized cards previously used --shadow-memphis-card (4px); aligned to Card's default --shadow-memphis (6px) per gh-60 spec change log. The 4px token survives in tokens.css.",
+          "sha": "99227a4",
+          "queued_at": "2026-05-08T20:36:00+00:00",
+          "completed_at": "2026-05-08T20:48:00+00:00"
+        },
+        {
           "chapter": "20-web-app/20-theme-generator/README.md",
           "paths": [
             "apps/web/app/theme-generator/page.tsx",
@@ -707,7 +748,7 @@
     "10-library/10-components/card.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "99227a4",
       "sources": [
         "packages/ui/src/components/card/"
       ]
@@ -715,7 +756,7 @@
     "10-library/10-components/article-card.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "99227a4",
       "sources": [
         "packages/ui/src/components/article-card/"
       ]
@@ -723,7 +764,7 @@
     "10-library/10-components/feature-card.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "99227a4",
       "sources": [
         "packages/ui/src/components/feature-card/"
       ]
@@ -731,7 +772,7 @@
     "10-library/10-components/user-card.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "99227a4",
       "sources": [
         "packages/ui/src/components/user-card/"
       ]
