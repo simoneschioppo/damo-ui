@@ -8,7 +8,28 @@ import {
   type HTMLAttributes,
 } from 'react'
 import { cn } from '../../lib/cn'
+import { selectionChromeClasses } from '../../lib/selection-chrome'
 import { CheckIcon, ChevronRightIcon } from '../../icons'
+
+// Selection chrome shared with NavItem (`aria-current="page"`). Mirrors the
+// same recipe so persistent selection reads consistently across the library
+// (sidebar entries, settings menus, etc.). Bar inset is `1` (not `-2px` like
+// NavItem) because Content has `overflow-hidden` and a bleeding bar would
+// be clipped. Source of truth: `packages/ui/src/lib/selection-chrome.ts`.
+const radioItemSelectionChrome = selectionChromeClasses({
+  gate: 'data-[state=checked]',
+  radiusToken: 'rounded-selection',
+  gradientFrom: 'var(--primary)',
+  gradientFromMix: 18,
+  gradientTo: 'var(--secondary)',
+  gradientToMix: 10,
+  outlineToken: 'var(--primary)',
+  outlineMix: 30,
+  barColor: 'bg-primary',
+  barInset: '1',
+  barTop: '1.5',
+  barBottom: '1.5',
+})
 
 export const DropdownMenu = DropdownMenuPrimitive.Root
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
@@ -94,20 +115,8 @@ export const DropdownMenuRadioItem = forwardRef<
       className={cn(
         itemBaseClass,
         'pl-8 pr-2',
-        // Selected radio item: subtle gradient + 1px inset outline + 3px
-        // ::before bar pinned to the inner left edge. Mirrors the NavItem
-        // selection chrome so persistent selection reads consistently across
-        // the library (sidebar entries, settings menus, etc.).
         'data-[state=checked]:text-foreground',
-        'data-[state=checked]:rounded-selection',
-        'data-[state=checked]:bg-[linear-gradient(135deg,color-mix(in_oklab,var(--primary)_18%,transparent),color-mix(in_oklab,var(--secondary)_10%,transparent))]',
-        'data-[state=checked]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--primary)_30%,transparent)]',
-        'data-[state=checked]:before:content-[""] data-[state=checked]:before:absolute',
-        // Bar sits inside the menu panel (overflow-hidden), so we keep it
-        // flush at left-1 instead of bleeding outwards like NavItem does.
-        'data-[state=checked]:before:left-1 data-[state=checked]:before:top-1.5 data-[state=checked]:before:bottom-1.5',
-        'data-[state=checked]:before:w-[3px] data-[state=checked]:before:rounded-[2px]',
-        'data-[state=checked]:before:bg-primary',
+        ...radioItemSelectionChrome,
         className,
       )}
       {...rest}
