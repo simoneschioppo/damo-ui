@@ -1,9 +1,12 @@
 # Web App Architecture
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `apps/web/app/{layout.tsx,page.tsx,not-found.tsx,globals.css,styles/}`,
 `apps/web/{next.config.ts,tailwind.config.ts,package.json,components/,lib/}`,
-`apps/web/app/_components/`.
+`apps/web/app/_components/`,
+`apps/web/i18n/{locales.ts,request.ts}`,
+`apps/web/messages/{en,it}.json`,
+`apps/web/lib/{i18n-tags.tsx,usePersistedLocale.ts}`.
 
 ## Summary
 
@@ -24,6 +27,12 @@ Two concrete deliverables, one Next app:
 
 ```
 apps/web/
+├── i18n/
+│   ├── locales.ts            ← shared constants (LOCALE_COOKIE, SUPPORTED_LOCALES, isSupportedLocale, DEFAULT_LOCALE)
+│   └── request.ts            ← next-intl getRequestConfig — server-side cookie → locale + messages
+├── messages/
+│   ├── en.json               ← EN catalog (default) — ~600 keys
+│   └── it.json               ← IT catalog — full parity with EN
 ├── app/                      ← Next App Router root
 │   ├── layout.tsx            ← root layout: AppTopBar + theme html attributes
 │   ├── page.tsx              ← landing page
@@ -49,7 +58,10 @@ apps/web/
 │       ├── contrast.ts       ← WCAG ratio + AA badges
 │       └── sample-dialog.tsx ← preview canvas
 ├── components/                ← top-level non-routed components (BrandMark)
-├── lib/                       ← top-level app utilities (brand.ts)
+├── lib/
+│   ├── brand.ts              ← brand strings (lib name, tagline, mascot dimensions, repo URL)
+│   ├── i18n-tags.tsx         ← reusable t.rich() formatter tags (codeTag, monoTag, linkTag, …) + entity decoder
+│   └── usePersistedLocale.ts ← client hook: locale ↔ localStorage + cookie + <html lang> + data-locale
 ├── public/                    ← static assets (mascot images)
 ├── test-utils/                ← Vitest helpers
 ├── next.config.ts             ← path aliases for @damo/ui resolution
@@ -109,6 +121,121 @@ overlays render correctly inside the playground but would be broken
 for an external consumer of `@damo/ui` who didn't ship a similar
 ink palette. (Recorded as Open question in the build-and-publish
 chapter.)
+
+## i18n wiring
+
+Application-wide internationalisation runs on **`next-intl` in
+no-routing mode** — locale is decided per-request from the
+`NEXT_LOCALE` cookie, not from a URL prefix. This keeps existing
+internal links unchanged and matches the localStorage-based UX of
+the existing theme/palette/density switchers.
+
+### Files
+
+- **`apps/web/i18n/locales.ts`** — shared constants imported by both
+  the server (`request.ts`) and the client (`usePersistedLocale.ts`):
+  `SUPPORTED_LOCALES = ['en', 'it']`, `DEFAULT_LOCALE = 'en'`,
+  `LOCALE_COOKIE = 'NEXT_LOCALE'`, `isSupportedLocale()` guard. Lives
+  in its own file because `request.ts` imports `next/headers`
+  (server-only) and a `'use client'` consumer cannot transitively
+  pull it in.
+- **`apps/web/i18n/request.ts`** — `next-intl` `getRequestConfig`
+  callback. Reads `NEXT_LOCALE` from cookies, validates against the
+  allowlist (preventing path-traversal in the dynamic
+  `import('../messages/<locale>.json')`), defaults to `'en'`. In
+  dev, `onError` logs missing-key errors via `console.warn`; in
+  production it's silent so stragglers don't crash the page.
+- **`apps/web/messages/{en,it}.json`** — message catalogs, key
+  parity 1:1, ~600 keys each.
+- **`apps/web/lib/usePersistedLocale.ts`** — client hook that
+  bridges `next-intl`'s server-resolved locale with the persisted
+  client state. On switch: sets `localStorage.locale` (try/catch
+  for Safari private mode), the `NEXT_LOCALE` cookie (with
+  `Secure; SameSite=Lax`), `<html lang>`, and `data-locale`.
+- **`apps/web/lib/i18n-tags.tsx`** — reusable formatter tags for
+  `t.rich(...)`: `codeTag`, `monoTag`, `strongTag`, `emTag`,
+  `kbdTag`, `linkTag(href)`. Each decodes HTML entities (`&lt;`,
+  `&gt;`, `&amp;`, `&quot;`, `&apos;`) on its text chunks before
+  rendering, so the message catalog can carry literal `<` and `>`
+  inside `<code>` chunks without triggering ICU's tag-parser.
+
+### Provider boundary — `<DocsProviders>`
+
+The root layout colocates `next-intl`'s `<NextIntlClientProvider>`
+with the lib's `<I18nProvider>` (see
+[10-library/16-i18n.md](../10-library/16-i18n.md)) inside
+`apps/web/app/_components/DocsProviders.tsx`:
+
+```tsx
+'use client'
+export function DocsProviders({ locale, messages, children }) {
+  return (
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <I18nProvider locale={locale}>{children}</I18nProvider>
+    </NextIntlClientProvider>
+  )
+}
+```
+
+Locale flows once: server resolves it from the cookie, layout
+forwards it to `<DocsProviders>`, both providers see the same
+value. Lib components (Spinner, Combobox, DatePicker, Pagination,
+Banner, Dialog, Drawer, Toast) read their default labels from
+`useI18n()`, while docs-site code reads from `useTranslations()`.
+
+### Catalog structure (top-level namespaces)
+
+| Namespace          | Owner                    | Notes                              |
+|--------------------|--------------------------|------------------------------------|
+| `nav`              | root layout AppTopBar    | "Docs" / "Theme Generator"         |
+| `preferences`      | DocsPreferencesMenu      | theme/palette/density/language axes |
+| `docsSidebar`      | DocsSidebar              | group titles + entries.introduction |
+| `docsChrome`       | shared docs primitives   | PropsTable headers, CopyButton, category eyebrows, common section headings |
+| `home`, `notFound` | landing + 404            | hero copy, CTAs, brand alt-text    |
+| `gettingStarted`   | /docs/getting-started    | step bullets + body                |
+| `foundations.*`    | /docs/foundations/*      | one sub-namespace per foundation page |
+| `componentDocs.*`  | /docs/components/*       | per-slug `lead`, `body.*`, `a11y.*`, `props.*` |
+| `themeGenerator.*` | /theme-generator         | sidebar tabs, scenes, export, identity sections |
+| `sampleDialog`     | sample-dialog.tsx        | published-release modal copy       |
+| `brand`            | landing + 404            | mascot alt-text                    |
+
+### ICU escaping gotchas (learned)
+
+`next-intl`'s message parser is ICU-based. Three traps surfaced
+during PR #69 and are documented here for future contributors:
+
+1. **Bare `{X}` placeholders inside `<code>` chunks.** ICU treats
+   `{anything}` as a placeholder name; if there's no matching
+   formatter, the parser strips the chunk and the whole message
+   falls back to its key. Fix: escape with ICU literal quotes —
+   `<code>'{' value, label '}'</code>` renders as
+   `<code>{ value, label }</code>`. Same for `{false}`, `{null}`,
+   `{rank}` etc.
+2. **Apostrophe followed by syntax char.** ICU enters quote-mode
+   when `'` precedes `{`, `}`, `#`, or `<`. The Italian apostrophe
+   in `sull'<code>` would consume the `<code>` boundary. Fix:
+   double the apostrophe (`sull''<code>`) — `''` is the ICU
+   literal apostrophe escape and renders unchanged.
+3. **Bare angle brackets inside `<code>` chunks.** Patterns like
+   `<code><html></code>` get re-parsed by next-intl as nested tags;
+   `<html>` isn't a registered formatter so the parser bails.
+   Fix: store `&lt;`/`&gt;` in the catalog and let `i18n-tags.tsx`
+   formatters decode them at render time. Catalog-walk script in
+   the PR enforces this by re-encoding any non-registered `<X>`.
+
+The `i18n-tags.tsx` formatters and the catalog encoding rules above
+are the canonical contract — when adding new translatable messages,
+prefer entity-encoded angle brackets and ICU-escaped braces for any
+content inside `<code>` chunks.
+
+### Switcher UX
+
+`DocsPreferencesMenu` exposes a Language axis (English / Italiano)
+above the existing Theme / Palette / Density axes. Selecting a
+language calls `setLocale(next)` (writes localStorage + cookie +
+`<html lang>` + `data-locale`) then `window.location.reload()` so
+RSC chrome (nav, sidebar group titles, eyebrows, section headings,
+component leads) re-renders under the new locale.
 
 ## Library wiring (`next.config.ts`)
 
@@ -183,29 +310,39 @@ final CSS.
 ## Root layout (`app/layout.tsx`)
 
 ```jsx
-<html lang="en"
-      data-theme="light"
-      data-palette="default"
-      data-density="normal"
-      suppressHydrationWarning>
-  <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
-    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet"/>
-  </head>
-  <body suppressHydrationWarning>
-    <AppTopBar
-      logo={<BrandMark />}
-      nav={<><Link href="/docs">Docs</Link><Link href="/theme-generator">Theme Generator</Link></>}
-      actions={<DocsPreferencesMenu />}
-    />
-    {children}
-  </body>
-</html>
+export default async function RootLayout({ children }) {
+  const locale = (await getLocale()) as Locale
+  const messages = await getMessages()
+  const t = await getTranslations('nav')
+  return (
+    <html lang={locale}
+          data-locale={locale}
+          data-theme="light"
+          data-palette="default"
+          data-density="normal"
+          suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@300;400;500;600;700;800&display=swap"
+              rel="stylesheet"/>
+      </head>
+      <body suppressHydrationWarning>
+        <DocsProviders locale={locale} messages={messages}>
+          <AppTopBar
+            logo={<BrandMark />}
+            nav={<><Link href="/docs">{t('docs')}</Link><Link href="/theme-generator">{t('themeGenerator')}</Link></>}
+            actions={<DocsPreferencesMenu />}
+          />
+          {children}
+        </DocsProviders>
+      </body>
+    </html>
+  )
+}
 ```
 
-Three things load-bearing:
+Four things load-bearing:
 
 1. **`data-theme` / `data-palette` / `data-density`** on `<html>`
    are the three attributes the lib's `AttrToggleGroup` (and its
@@ -223,10 +360,17 @@ Three things load-bearing:
    `--font-body: 'Exo 2'`). External consumers swapping the theme
    need to load their own fonts.
 
+4. **`<html lang>` and `<html data-locale>` are server-resolved**
+   from the `NEXT_LOCALE` cookie via `next-intl/server`'s
+   `getLocale()`. The `<DocsProviders>` wrapper colocates
+   `<NextIntlClientProvider>` with the lib's `<I18nProvider>` so
+   docs-site translations and lib component defaults share the
+   active locale. See the i18n wiring section above.
+
 `<AppTopBar>` is the lib's component — same Memphis-bordered
 header used in any consumer app. The `actions` slot hosts the
-playground's combined preferences menu (theme/palette/density
-switchers in a popover).
+playground's combined preferences menu (language / theme / palette
+/ density switchers in a popover).
 
 ## Top-level shared components
 

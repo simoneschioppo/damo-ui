@@ -1,6 +1,6 @@
 # Combobox
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `packages/ui/src/components/combobox/{combobox.tsx,index.ts}`.
 
 ## Summary
@@ -99,10 +99,12 @@ o.value`) marks the chosen value. Don't confuse cmdk's `selected` with
 
 ## Notes & gotchas
 
-1. **Italian default strings.** `placeholder`, `searchPlaceholder`,
-   `emptyMessage` default to Italian (`'Scegli…'`, `'Cerca…'`, `'Nessun
-   risultato'`). Same i18n leakage flagged for Spinner. See Open
-   questions.
+1. **Locale-aware defaults.** When omitted, `placeholder`,
+   `searchPlaceholder`, `emptyMessage` resolve from
+   `useI18n().combobox.{placeholder,searchPlaceholder,emptyMessage}`.
+   Bare trees fall back to EN (`'Choose…'`, `'Search…'`, `'No results'`);
+   under `<I18nProvider locale="it">` they become `'Scegli…'`,
+   `'Cerca…'`, `'Nessun risultato'`. See [16-i18n.md](../16-i18n.md).
 
 2. **Not `forwardRef`.** Combobox is a `function` component — no ref
    forwarding to the trigger button. If a consumer needs the trigger
@@ -133,21 +135,21 @@ o.value`) marks the chosen value. Don't confuse cmdk's `selected` with
 2. Add `cmdk` as a runtime dep.
 3. Pull Popover (and its Radix dep) along — Combobox composes Popover.
 4. Replace icon imports as needed.
-5. Decide on i18n: replace the Italian defaults or require the props.
+5. Defaults read from `useI18n()`. A copy-paste consumer must either
+   lift `lib/i18n/` too, or stub `useI18n` to return a static dict.
 
 ## Open questions
 
-1. **Italian defaults** for `placeholder` / `searchPlaceholder` /
-   `emptyMessage`. The library otherwise prefers English — flip these,
-   or adopt a documented "Italian-first" stance for a few user-facing
-   defaults.
-2. **Search against `value` vs `label`.** Likely a bug — confirm
+1. **Search against `value` vs `label`.** Likely a bug — confirm
    intent before fixing.
-3. **No multi-select variant.** A `MultiCombobox` is a common
+2. **No multi-select variant.** A `MultiCombobox` is a common
    request. Today consumers compose two Comboboxes or build their
    own with cmdk directly.
-4. **No async option loading.** Static `options` array only. For
+3. **No async option loading.** Static `options` array only. For
    server-side search the consumer needs to debounce upstream and
    recompute `options`.
-5. **Trigger ref not forwarded.** Promote to `forwardRef` if
+4. **Trigger ref not forwarded.** Promote to `forwardRef` if
    integration with form libraries needs ref access.
+
+(The previous "Italian defaults" open question was resolved by PR
+#69 — defaults now route through `useI18n()`.)

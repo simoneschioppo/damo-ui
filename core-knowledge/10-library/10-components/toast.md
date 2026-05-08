@@ -1,6 +1,6 @@
 # Toast
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 27c8471 · Sources:
 `packages/ui/src/components/toast/{toast.tsx,index.ts}`.
 
 ## Summary
@@ -116,8 +116,9 @@ Toast's already-shadowed surface.
 
 ### ToastClose
 
-X icon button (32×32) at the right edge. `aria-label="Chiudi"`
-(Italian) — same i18n flag as Dialog/Drawer.
+X icon button (32×32) at the right edge. `aria-label` resolves from
+`useI18n().toast.closeLabel` (`'Close'` EN / `'Chiudi'` IT). See
+[16-i18n.md](../16-i18n.md).
 
 ## Notes & gotchas
 
@@ -135,13 +136,11 @@ X icon button (32×32) at the right edge. `aria-label="Chiudi"`
    use of partial-fade — toasts fade to 80% then slide out the
    right. Looks softer than a full fade.
 
-5. **Italian close label** — see Dialog open question.
-
-6. **No timer prop** — Radix's `duration` controls auto-dismiss
+5. **No timer prop** — Radix's `duration` controls auto-dismiss
    timing, passed through to `ToastPrimitive.Root`. Default Radix
    duration is 5 seconds.
 
-7. **Animation requires `tailwindcss-animate`** — see Dialog chapter
+6. **Animation requires `tailwindcss-animate`** — see Dialog chapter
    Open questions.
 
 ## How to consume (shadcn-style copy)
@@ -159,8 +158,10 @@ X icon button (32×32) at the right edge. `aria-label="Chiudi"`
    `<Toast>` mount/unmount state themselves. shadcn ships a
    `useToast` hook for this; the lib doesn't. Worth shipping
    before npm migration.
-2. **Italian close label** — i18n flag.
-3. **Action button has no variant axis.** Single visual style. For
+2. **Action button has no variant axis.** Single visual style. For
    destructive actions inside a danger toast, consumers can't
    visually emphasize the action.
-4. Inherits the lib-wide `tailwindcss-animate` open question.
+3. Inherits the lib-wide `tailwindcss-animate` open question.
+
+(The previous "Italian close label" open question was resolved by
+PR #69 — `aria-label` now reads from `useI18n().toast.closeLabel`.)

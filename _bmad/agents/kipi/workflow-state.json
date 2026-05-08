@@ -24,55 +24,55 @@
         {
           "path": "packages/ui/src/components/{button,icon-button,badge,chip,label,separator,spinner,skeleton}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[8 files \u2014 batch C.1 Primitives]",
+          "chapter": "10-library/10-components/[8 files — batch C.1 Primitives]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{input,textarea,checkbox,radio-group,switch,select}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[6 files \u2014 batch C.2 Form base]",
+          "chapter": "10-library/10-components/[6 files — batch C.2 Form base]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{combobox,slider,segmented-control,attr-toggle-group,color-picker,date-picker}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[6 files \u2014 batch C.3 Form advanced]",
+          "chapter": "10-library/10-components/[6 files — batch C.3 Form advanced]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{form-field,hint}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[2 files \u2014 batch C.4 Form composition]",
+          "chapter": "10-library/10-components/[2 files — batch C.4 Form composition]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{dialog,drawer,popover,tooltip,dropdown-menu,context-menu,toast}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[7 files \u2014 batch C.5 Overlays]",
+          "chapter": "10-library/10-components/[7 files — batch C.5 Overlays]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{box,container,aspect-ratio,scroll-area,app-shell,app-top-bar,sidebar,page-header}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[8 files \u2014 batch C.6 Layout]",
+          "chapter": "10-library/10-components/[8 files — batch C.6 Layout]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{tabs,breadcrumbs,pagination,nav-item,accordion}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[5 files \u2014 batch C.7 Navigation]",
+          "chapter": "10-library/10-components/[5 files — batch C.7 Navigation]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{table,card,article-card,feature-card,user-card,avatar,stat,progress}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[8 files \u2014 batch C.8 Data display]",
+          "chapter": "10-library/10-components/[8 files — batch C.8 Data display]",
           "completed_at": "2026-05-06"
         },
         {
           "path": "packages/ui/src/components/{banner,medal,memphis-shape,ornament}/",
           "sha": "d63afaf",
-          "chapter": "10-library/10-components/[4 files \u2014 batch C.9 Decorative]",
+          "chapter": "10-library/10-components/[4 files — batch C.9 Decorative]",
           "completed_at": "2026-05-06"
         },
         {
@@ -99,40 +99,7 @@
       "processed": []
     },
     "update": {
-      "queued": [
-        {
-          "story": "1.1-i18n-application-wide",
-          "paths": [
-            "packages/ui/src/lib/i18n/",
-            "packages/ui/src/components/spinner/spinner.tsx",
-            "packages/ui/src/components/combobox/combobox.tsx",
-            "packages/ui/src/components/date-picker/date-picker.tsx",
-            "packages/ui/src/components/pagination/pagination.tsx",
-            "packages/ui/src/components/banner/banner.tsx",
-            "packages/ui/src/components/dialog/dialog.tsx",
-            "packages/ui/src/components/drawer/drawer.tsx",
-            "packages/ui/src/components/toast/toast.tsx",
-            "packages/ui/src/index.ts",
-            "apps/web/i18n/",
-            "apps/web/messages/",
-            "apps/web/next.config.ts",
-            "apps/web/app/layout.tsx",
-            "apps/web/app/_components/DocsProviders.tsx",
-            "apps/web/app/_components/DocsPreferencesMenu.tsx",
-            "apps/web/app/docs/_components/docs-nav.ts",
-            "apps/web/app/docs/_components/DocsSidebar.tsx",
-            "apps/web/lib/usePersistedLocale.ts"
-          ],
-          "chapters_likely_affected": [
-            "10-library/10-components/{spinner,combobox,date-picker,pagination,banner,dialog,drawer,toast}.md",
-            "10-library/00-architecture.md",
-            "10-library/15-hooks.md",
-            "20-web-app/10-docs-site/README.md"
-          ],
-          "note": "New <I18nProvider> + useI18n hook published from the lib (EN default, IT alternative). Docs site adopts next-intl in no-routing mode. Language switcher added to DocsPreferencesMenu.",
-          "queued_at": "2026-05-08"
-        }
-      ],
+      "queued": [],
       "runs": [
         {
           "chapter": "10-library/10-components/dialog.md",
@@ -233,6 +200,49 @@
           ],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
+        },
+        {
+          "story": "1.1-i18n-application-wide",
+          "paths": [
+            "packages/ui/src/lib/i18n/",
+            "packages/ui/src/components/spinner/spinner.tsx",
+            "packages/ui/src/components/combobox/combobox.tsx",
+            "packages/ui/src/components/date-picker/date-picker.tsx",
+            "packages/ui/src/components/pagination/pagination.tsx",
+            "packages/ui/src/components/banner/banner.tsx",
+            "packages/ui/src/components/dialog/dialog.tsx",
+            "packages/ui/src/components/drawer/drawer.tsx",
+            "packages/ui/src/components/toast/toast.tsx",
+            "packages/ui/src/index.ts",
+            "apps/web/i18n/",
+            "apps/web/messages/",
+            "apps/web/next.config.ts",
+            "apps/web/app/layout.tsx",
+            "apps/web/app/_components/DocsProviders.tsx",
+            "apps/web/app/_components/DocsPreferencesMenu.tsx",
+            "apps/web/app/docs/_components/docs-nav.ts",
+            "apps/web/app/docs/_components/DocsSidebar.tsx",
+            "apps/web/lib/usePersistedLocale.ts"
+          ],
+          "sha": "27c8471",
+          "chapters_updated": [
+            "10-library/00-architecture.md",
+            "10-library/15-hooks.md",
+            "10-library/16-i18n.md",
+            "10-library/10-components/README.md",
+            "10-library/10-components/spinner.md",
+            "10-library/10-components/banner.md",
+            "10-library/10-components/dialog.md",
+            "10-library/10-components/drawer.md",
+            "10-library/10-components/toast.md",
+            "10-library/10-components/combobox.md",
+            "10-library/10-components/date-picker.md",
+            "10-library/10-components/pagination.md",
+            "20-web-app/00-architecture.md",
+            "20-web-app/10-docs-site/README.md",
+            "index.md"
+          ],
+          "completed_at": "2026-05-08T16:21:45+00:00"
         }
       ]
     }

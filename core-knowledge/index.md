@@ -14,9 +14,10 @@ Status legend: 🟢 documented · 🟡 pending · 🔴 outdated
 - 🟡 [Publishing model](00-overview/02-publishing-model.md)
 
 ## 10 — Library (`packages/ui`) — priority 1
-- 🟡 [Architecture](10-library/00-architecture.md)
-- 🟡 [Components](10-library/10-components/README.md) (per-component sub-chapters — see below)
-- 🟡 [Hooks](10-library/15-hooks.md)
+- 🟢 [Architecture](10-library/00-architecture.md)
+- 🟢 [Components](10-library/10-components/README.md) (per-component sub-chapters — see below)
+- 🟢 [Hooks](10-library/15-hooks.md)
+- 🟢 [i18n](10-library/16-i18n.md)
 - 🟡 [Icons](10-library/17-icons.md)
 - 🟡 [Library utilities (`lib/`)](10-library/18-lib-utils.md)
 - 🟢 [Theming](10-library/20-theming/README.md)
