@@ -52,5 +52,392 @@
       "layout": "Layout",
       "cardsAndDecoration": "Card e decorazioni"
     }
+  },
+  "brand": {
+    "tagline": "Componenti React, token e pattern ispirati al Memphis design.",
+    "mascotAlt": "Mascotte di Damo UI — un axolotl viola con gli occhiali",
+    "mascotHeroAlt": "Mascotte di Damo UI — un axolotl viola che programma su una pila di libri",
+    "homeAria": "Damo UI home"
+  },
+  "home": {
+    "eyebrow": "DOCUMENTAZIONE",
+    "headlineLine1": "token, componenti,",
+    "headlineLine2": "pattern Memphis.",
+    "leadSuffix": "Componi UI React + Next.js senza rinunciare all'identità visiva.",
+    "browseDocs": "Sfoglia la documentazione",
+    "openThemeGenerator": "Apri il generatore di tema",
+    "features": {
+      "components": {
+        "title": "47 componenti",
+        "desc": "Bottoni, card, dialog, input e oltre 40 altri, tutti con la veste Memphis."
+      },
+      "tokens": {
+        "title": "Token a 3 livelli",
+        "desc": "Scale grezze alimentano coppie semantiche che alimentano override d'identità — switchabili al volo."
+      },
+      "themeGenerator": {
+        "title": "Generatore di Tema",
+        "desc": "Editor visivo con palette per modalità ed export CSS / Tailwind / JSON."
+      }
+    },
+    "quickInstall": {
+      "eyebrow": "INSTALLAZIONE RAPIDA",
+      "heading": "Tre passaggi e stai renderizzando.",
+      "step1": "Aggiungi lo scope <code>@damo</code> al tuo <mono>.npmrc</mono>.",
+      "step2": "<mono>pnpm add @damo/ui</mono>.",
+      "step3": "<link>Configura gli stili e parti</link>."
+    }
+  },
+  "notFound": {
+    "eyebrow": "ERRORE · 404",
+    "heading": "Pagina non trovata.",
+    "body": "Quel link non porta da nessuna parte. Torna alla home, oppure salta direttamente nella documentazione.",
+    "backHome": "Torna alla home",
+    "openDocs": "Apri la documentazione"
+  },
+  "gettingStarted": {
+    "eyebrow": "PER INIZIARE",
+    "headlineLine1": "Installa Damo UI",
+    "headlineLine2": "in cinque minuti.",
+    "lead": "Damo UI è una libreria di componenti React + Next.js ispirata al Memphis design. Token, componenti e pattern pronti per essere composti in una UI di prodotto.",
+    "step1": {
+      "title": "1. Configura il tuo registry",
+      "body": "Damo UI è pubblicato su GitHub Packages. Aggiungi un <code>.npmrc</code> nella root del repo che punti lo scope <code>@damo</code> al registry:"
+    },
+    "step2": {
+      "title": "2. Installa il pacchetto"
+    },
+    "step3": {
+      "title": "3. Aggancia gli stili",
+      "body": "Importa i design token e il foglio di stile globale una volta nel root layout. I token definiscono colori, tipografia, raggi, shadow e motion come variabili CSS.",
+      "tailwindHint": "Se usi Tailwind v4, sostituisci il tuo <mono>globals.css</mono> con:"
+    },
+    "step4": {
+      "title": "4. Renderizza il primo componente"
+    },
+    "step5": {
+      "title": "5. Aggancia tema, palette, densità",
+      "body": "Tre data-attribute ortogonali su <code>&lt;html&gt;</code> guidano ogni scelta visiva. Inserisci i componenti switcher della libreria nella top bar e hai finito — leggono e scrivono gli attributi e li persistono in <mono>localStorage</mono>:",
+      "validValuesEyebrow": "Valori validi degli attributi",
+      "themeBullet": "<mono>data-theme</mono> — la libreria fornisce <strong>solo light</strong>; dichiara i tuoi override CSS <mono>[data-theme='dark']</mono>. Aggancia un <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> per cambiare valore.",
+      "paletteBullet": "<mono>data-palette</mono> — <strong>nessun built-in</strong>; i default neutri della libreria assumono una palette singola. Definisci <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, ecc., e passa la stessa lista a <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
+      "densityBullet": "<mono>data-density</mono> — built-in: <mono>'compact'</mono>, <mono>'normal'</mono>, <mono>'comfortable'</mono>. Pilota <mono>--density-scale-y</mono> per la spaziatura verticale."
+    },
+    "themingHint": "Guida completa con setup dark mode, palette custom, switching programmatico e prevenzione FOUC → <link>Theming</link>.",
+    "ctaReady": "Pronto a comporre? Sfoglia i <componentsLink>componenti</componentsLink> oppure <generatorLink>genera un tema custom</generatorLink>.",
+    "viewOnGithub": "Vedi su GitHub →"
+  },
+  "foundations": {
+    "eyebrow": "FONDAMENTI",
+    "tokens": {
+      "h1": "Token",
+      "lead": "Damo UI usa un'architettura di token a tre livelli. Le scale grezze sono private; le coppie semantiche sono la superficie pubblica; i token d'identità sono override specifici per componente. Ogni token è una variabile CSS, quindi tema, palette e densità si cambiano live senza ricompilare.",
+      "section1": {
+        "title": "1. Palette grezza (privata)",
+        "body": "Scale numeriche come <mono>--plum-*</mono>, <mono>--gold-*</mono>, <mono>--paper-*</mono>. Alimentano il livello semantico ma <em>non</em> sono esposte come utility Tailwind — usarle direttamente accoppia il tuo codice a specifiche di brand."
+      },
+      "section2": {
+        "title": "2. Token semantici (pubblici)",
+        "body": "Coppie <mono>bg</mono>/<mono>fg</mono>: <mono>--background</mono> + <mono>--foreground</mono>, <mono>--primary</mono> + <mono>--primary-foreground</mono>, ecc. Questo è il livello che il codice di prodotto dovrebbe consumare.",
+        "consumingTitle": "Consumare i token semantici",
+        "consumingBody": "Tre modi equivalenti. Scegli quello che fa al caso tuo:"
+      },
+      "section3": {
+        "title": "3. Token d'identità",
+        "body": "Override specifici per componente. Riferiscono il livello semantico ma permettono aggiustamenti mirati — <mono>--nav-on-dark-*</mono>, <mono>--badge-*</mono>, <mono>--chart-*</mono>. Aggiungine altri quando un componente ha bisogno di un valore che il livello semantico non esprime.",
+        "addingCustomTitle": "Aggiungere un token d'identità custom"
+      },
+      "overrideTitle": "Override dei token",
+      "overrideBody": "Ogni token è semplicemente una variabile CSS. Fai override su <mono>:root</mono> per cambiare l'intero documento, oppure scopa una classe wrapper per un'isola:",
+      "densityTitle": "Densità e il pattern del moltiplicatore",
+      "densityBody": "L'attributo density ribalta un singolo moltiplicatore: <mono>--density-scale-y</mono>. Inseriscilo nella spaziatura del componente e cambiare densità diventa gratis.",
+      "switchingTitle": "Cambiare modalità",
+      "switchingBody": "Tre switcher vivono su <mono>&lt;html&gt;</mono>: <mono>data-theme</mono>, <mono>data-palette</mono>, <mono>data-density</mono>. Sono ortogonali — qualunque combinazione funziona. Vedi <link>Theming</link> per il cablaggio completo.",
+      "generatorHint": "Vuoi creare un tema custom? Il <link>Generatore di Tema</link> modifica tutti e tre i livelli visivamente ed esporta CSS, Tailwind o JSON.",
+      "prevLink": "← Per iniziare",
+      "nextLink": "Theming →"
+    },
+    "theming": {
+      "h1": "Theming",
+      "lead": "Tre data-attribute ortogonali su <mono>&lt;html&gt;</mono> guidano ogni scelta visiva. Cambiane uno senza toccare gli altri, definisci le tue varianti sopra i default neutri della libreria e persisti la preferenza dell'utente tra i reload.",
+      "switchersTitle": "I tre switcher",
+      "switchersBody": "Damo UI legge tre attributi indipendenti dal document root. Cascadeano in ogni componente perché i design token sono variabili CSS.",
+      "themeCardLabel": "Light / Dark",
+      "themeCardBody": "Cambia surface, foreground e veste Memphis. La libreria fornisce <strong>solo light</strong> — sei <em>tu</em> a dichiarare l'override dark.",
+      "paletteCardLabel": "Varianti di brand",
+      "paletteCardBody": "Nessun valore built-in — dichiara la lista che vuoi (<mono>default</mono>, <mono>neon</mono>, <mono>sunset</mono>…) e fai override di <mono>--primary</mono> e affini per ogni palette.",
+      "densityCardLabel": "compact / normal / comfortable",
+      "densityCardBody": "Moltiplica la spaziatura verticale via <mono>--density-scale-y</mono>. La libreria fornisce questi tre valori out of the box.",
+      "darkTitle": "1. Aggiungere la dark mode",
+      "darkBody": "Ridichiara ogni token pubblico sotto <mono>[data-theme='dark']</mono>. Devi fare override solo del livello semantico — i componenti consumano quello, mai le scale grezze direttamente.",
+      "darkRefList": "La lista completa dei token che puoi sovrascrivere è in <colorsLink>Colors</colorsLink> (semantico) e <tokensLink>Tokens</tokensLink> (architettura).",
+      "customPaletteTitle": "2. Aggiungere palette custom",
+      "customPaletteBody": "Stesso pattern, attributo diverso. Puoi scopare una palette a una singola modalità concatenando i selettori d'attributo.",
+      "densityScaleTitle": "3. Scala di densità",
+      "densityScaleBody": "Density ribalta una singola variabile CSS che i componenti moltiplicano nel loro padding verticale. Puoi cambiare i moltiplicatori globalmente se i default non si adattano al tuo prodotto.",
+      "dropInTitle": "4. Componenti switcher drop-in",
+      "dropInBody": "La libreria fornisce tre controlli che leggono e scrivono gli attributi e li persistono in <mono>localStorage</mono>. Mettili dove vuoi — la navbar è la posizione più comune.",
+      "dropInPropsLink": "Tutte le props in <link>AttrToggleGroup</link>.",
+      "programmaticTitle": "5. Switching programmatico",
+      "programmaticBody": "Se i componenti built-in non vanno bene (UI custom, pagina settings, media query system-preference, A/B test…) ribalta gli attributi a mano:",
+      "fouTitle": "6. Prevenire il flash",
+      "fouBody": "Le app server-rendered renderizzano prima il tema di default, poi React idrata la scelta persistita. Per evitare il flash di tema-non-stilato (FOUT), ripristina gli attributi da <mono>localStorage</mono> in uno script bloccante prima dell'idratazione.",
+      "scopedTitle": "7. Isole scoped",
+      "scopedBody": "Gli attributi funzionano su <em>qualsiasi</em> elemento, non solo <mono>&lt;html&gt;</mono>. Avvolgi una sezione in <mono>data-theme=\"dark\"</mono> per cambiare solo quel sottoalbero.",
+      "tipEyebrow": "Suggerimento",
+      "tipBody": "Il <link>Generatore di Tema</link> crea le varianti light + dark visivamente ed esporta gli override CSS per i passi 1 e 2. Salta la caccia manuale agli hex.",
+      "prevLink": "← Token",
+      "nextLink": "Colors →"
+    },
+    "colors": {
+      "h1": "Colori",
+      "lead": "Tre scale di brand (Plum, Gold, Paper) e oltre venti token semantici. Cambia palette nella navbar per vedere ogni swatch di questa pagina aggiornarsi live. Usa il livello semantico nel codice di prodotto — si re-punta automaticamente quando tema o palette cambiano.",
+      "brandScalesTitle": "Scale di brand",
+      "scales": {
+        "ink": {
+          "name": "Ink",
+          "desc": "Primario scuro — foreground, testo, sfondi notturni"
+        },
+        "brand": {
+          "name": "Brand",
+          "desc": "Accent brand — bottoni, bordi, highlight"
+        },
+        "paper": {
+          "name": "Paper",
+          "desc": "Sfondi caldi ivory/cream — base del prodotto"
+        }
+      },
+      "semanticTokens": {
+        "background": "Sfondo principale dell'app",
+        "card": "Card, modali, superfici elevate",
+        "muted": "Superficie secondaria, hover",
+        "foreground": "Testo primario, bordi",
+        "mutedForeground": "Testo secondario, hint",
+        "primary": "Brand highlight (gold)",
+        "secondary": "Brand secondario (plum)",
+        "memphisBorder": "Bordo Memphis 2px"
+      },
+      "semanticTitle": "Token semantici",
+      "semanticBody": "Usali nel codice di prodotto. Si re-puntano automaticamente quando la palette cambia.",
+      "jsxTitle": "Usare i colori in JSX (Tailwind)",
+      "jsxBody": "Ogni token semantico è esposto come utility Tailwind: <mono>bg-*</mono>, <mono>text-*</mono>, <mono>border-*</mono>. Accoppia il bg con il foreground corrispondente per garantire il contrasto.",
+      "examplesTitle": "Titolo",
+      "examplesSubtitle": "Sottotitolo",
+      "examplesPrimary": "Azione primaria",
+      "examplesSecondary": "Secondaria",
+      "statusTitle": "Colori di stato",
+      "statusSaved": "Salvato",
+      "statusHeadsUp": "Attenzione",
+      "statusFailed": "Azione fallita",
+      "statusInfo": "Info",
+      "cssTitle": "Usare i colori in CSS",
+      "cssBody": "Hai bisogno di un colore fuori dalle utility Tailwind? Leggi la variabile direttamente.",
+      "inlineTitle": "Fallback inline style",
+      "pairTitle": "Sempre accoppia bg + foreground",
+      "pairBody": "Ogni semantico di sfondo è fornito con una variante foreground accoppiata. Mescolarli è l'unico modo per garantire il contrasto tra temi e palette custom.",
+      "darkTitle": "Aggiungere la dark mode",
+      "darkBody": "La libreria fornisce <strong>solo light</strong>. Ridichiara i token semantici sotto <mono>[data-theme='dark']</mono> e l'intera UI si ribalta quando l'utente cambia tema.",
+      "customPaletteTitle": "Aggiungere palette custom",
+      "customPaletteBody": "Stesso pattern con <mono>data-palette</mono>. Fai override solo dei token che devono cambiare — tutto il resto eredita dalla palette di default.",
+      "fullListTitle": "Lista completa dei token semantici",
+      "themingHint": "Cablaggio completo del theming (prevenzione FOUC, isole scoped, switching programmatico) → <link>Theming</link>.",
+      "prevLink": "← Theming",
+      "nextLink": "Tipografia →"
+    },
+    "typography": {
+      "h1": "Tipografia",
+      "lead": "Audiowide per il display, Exo 2 per body e UI. La personalità vive in pesi, tracking e l'accent mono dell'eyebrow — non servono altre famiglie.",
+      "specimensTitle": "Esemplari",
+      "displaySpecimenName": "DISPLAY · AUDIOWIDE · GOOGLE FONTS",
+      "displaySpecimenSample": "Damo UI",
+      "bodySpecimenName": "BODY · EXO 2 · GOOGLE FONTS",
+      "bodySpecimenSample": "Ogni token al suo posto.",
+      "scaleTitle": "Scala",
+      "scaleSampleUpper": "DAMO · UI · DESIGN",
+      "scaleSampleNormal": "Damo UI · token e componenti",
+      "loadingTitle": "Caricare i font",
+      "loadingBody": "La libreria fornisce i token <mono>var(--font-*)</mono> ma <strong>non</strong> embedda i file dei font. Carica Audiowide + Exo 2 da te (link Google Fonts o <mono>next/font</mono>) e collega le famiglie alle variabili della libreria.",
+      "loadingNextHint": "Oppure usa <mono>next/font/google</mono> di Next.js per caricamento self-hosted senza FOUT:",
+      "tailwindTitle": "Usare i font in JSX (Tailwind)",
+      "tailwindBody": "Tre utility Tailwind mappano le tre famiglie: <mono>font-display</mono>, <mono>font-body</mono>, <mono>font-mono</mono>.",
+      "tailwindPreviewBody": "Il body copy usa la famiglia body di default.",
+      "helperTitle": "Classi helper",
+      "helperBody": "Tre classi CSS sono distribuite con <mono>@damo/ui/styles/globals.css</mono> per i pattern Memphis più comuni.",
+      "helperPreviewDisplay": "Heading display",
+      "helperPreviewMono": "span mono read-only",
+      "helperPreviewEyebrow": "ETICHETTA SEZIONE",
+      "cssTitle": "Usare i font in CSS",
+      "eyebrowPatternTitle": "Il pattern eyebrow",
+      "eyebrowPatternBody": "Le intestazioni di sezione in Damo UI accoppiano un accent mono uppercase (l'\"eyebrow\") con un titolo display. Il contrasto in famiglia + tracking è ciò che dà al layout il suo spirito Memphis.",
+      "eyebrowPreviewSubcopy": "Sotto-copia che spiega la sezione.",
+      "swapHint": "Devi cambiare i font del tutto? Sovrascrivi <mono>--font-display</mono>, <mono>--font-body</mono>, <mono>--font-mono</mono> su <mono>:root</mono> — ogni utility e helper si re-punta automaticamente. Vedi <link>Token</link> per il pattern di override.",
+      "prevLink": "← Colori",
+      "nextLink": "Pattern →"
+    },
+    "patterns": {
+      "h1": "Pattern",
+      "lead": "Texture e shape primitive che riempiono lo spazio vuoto. Usane uno alla volta — il look Memphis è abbastanza forte che combinare pattern diventa rumore.",
+      "tilesTitle": "Sfondi tileabili",
+      "tilesBody": "Ogni tile è un puro gradient CSS — non serve nessun componente. Applica la shorthand <mono>background</mono> direttamente su qualsiasi elemento.",
+      "tilesCssTitle": "Usare i pattern direttamente in CSS",
+      "tilesCssBody": "Inserisci le stesse regole <mono>background</mono> / <mono>background-image</mono> ovunque — funzionano su qualsiasi elemento block senza React.",
+      "shapesTitle": "Shape primitive",
+      "shapesBody": "Otto shape SVG in stile Memphis: <mono>diamond</mono>, <mono>circle</mono>, <mono>triangle</mono>, <mono>zigzag</mono>, <mono>blob</mono>, <mono>wave</mono>, <mono>star</mono>, <mono>lbar</mono>. SVG puro con <mono>aria-hidden</mono> — sono solo decorazione.",
+      "propsTitle": "Props",
+      "propsHeaders": {
+        "prop": "Prop",
+        "type": "Tipo",
+        "default": "Default",
+        "description": "Descrizione"
+      },
+      "propsRows": {
+        "variant": "Quale shape renderizzare. Obbligatorio.",
+        "size": "Larghezza & altezza in px (quadrato).",
+        "color": "Fill (o stroke per zigzag/wave). Qualsiasi colore CSS.",
+        "className": "Classi Tailwind (posizionamento, opacity, ecc.)."
+      },
+      "decorationTitle": "Come decorazione dietro al contenuto",
+      "decorationBody": "Combina posizionamento <mono>absolute</mono> con <mono>-z-10</mono> per far galleggiare uno shape dietro il titolo di una sezione.",
+      "oneAtATimeTitle": "Un pattern per superficie",
+      "oneAtATimeBody": "Memphis è forte. Sovrapporre pattern uccide la gerarchia. Usa al massimo un tile pattern + un accent shape per unità visiva.",
+      "themingHint": "I pattern referenziano gli stessi token semantici di tutto il resto, quindi si ricolorano quando tema o palette cambiano — vedi <link>Theming</link>.",
+      "prevLink": "← Tipografia",
+      "nextLink": "Box →"
+    }
+  },
+  "docsChrome": {
+    "propsTable": {
+      "prop": "Prop",
+      "type": "Tipo",
+      "default": "Default",
+      "description": "Descrizione"
+    },
+    "copyButton": {
+      "label": "Copia codice",
+      "default": "Copia",
+      "copied": "Copiato"
+    }
+  },
+  "themeGenerator": {
+    "sidebar": {
+      "aria": "Controlli del tema",
+      "brand": "Generatore di Tema",
+      "subtitle": "EDITOR DEI TOKEN",
+      "tabs": {
+        "palette": "Palette",
+        "theme": "Tema",
+        "identity": "Identità"
+      },
+      "editingLabel": "Modifica:",
+      "lightButton": "Chiaro",
+      "darkButton": "Scuro",
+      "editingHeader": "Stai modificando la variante {mode} — i valori qui sotto si applicano quando",
+      "reset": "Reset"
+    },
+    "preview": {
+      "tab": "Anteprima",
+      "scenes": {
+        "components": "Componenti",
+        "gallery": "Galleria",
+        "auth": "Auth",
+        "dashboard": "Dashboard",
+        "profile": "Profilo",
+        "feed": "Feed"
+      }
+    },
+    "export": {
+      "tab": "Export",
+      "format": "Formato",
+      "include": "Includi",
+      "output": "Output",
+      "copy": "Copia",
+      "copied": "Copiato!",
+      "copyFailed": "Copia fallita",
+      "download": "Scarica",
+      "includeOptions": {
+        "rawPalette": "Palette grezza (ink / brand / paper)",
+        "semanticLight": "Semantici — light",
+        "semanticDark": "Semantici — dark",
+        "identity": "Identità (medals / charts / nav-on-dark / pattern)",
+        "foundations": "Fondamenti (tipografia / radius / shadow / spacing / motion)",
+        "tailwindSemantic": "Colori semantici",
+        "tailwindIdentity": "Identità (charts / alias memphis)",
+        "tailwindFoundations": "Fondamenti (tipografia / radius / shadow / spacing / motion / z-index)"
+      }
+    },
+    "paletteEditor": {
+      "helpText": "Modificare le scale grezze non aggiorna automaticamente i valori del tab Tema. Usa Reset per ri-derivare i token semantici dalla palette corrente.",
+      "groupHeader": "{group} ({count} step)"
+    },
+    "presets": {
+      "default": "Prugna + Oro (default)",
+      "neon": "Neon (magenta + lime)",
+      "sunset": "Tramonto (terracotta + arancio)"
+    },
+    "easing": {
+      "memphis": "memphis (default)",
+      "out": "out",
+      "linear": "linear",
+      "ease": "ease",
+      "easeIn": "ease-in",
+      "easeOut": "ease-out"
+    },
+    "semanticGroups": {
+      "background": "Sfondo",
+      "card": "Card",
+      "popover": "Popover",
+      "muted": "Muted",
+      "primary": "Primario",
+      "secondary": "Secondario",
+      "destructive": "Distruttivo",
+      "success": "Successo",
+      "warning": "Avviso",
+      "info": "Info",
+      "border": "Bordo",
+      "borderStrong": "Bordo forte",
+      "focusRing": "Focus ring",
+      "shadow": "Shadow",
+      "featured": "In evidenza"
+    },
+    "identity": {
+      "medalsTitle": "Medaglie",
+      "medalRanks": {
+        "bronze": "Bronzo",
+        "silver": "Argento",
+        "gold": "Oro",
+        "master": "Maestro",
+        "grandmaster": "Gran Maestro"
+      },
+      "medalSlots": {
+        "outer": "esterno",
+        "inner": "interno",
+        "text": "testo"
+      },
+      "chartsTitle": "Grafici",
+      "chartLabel": "Grafico {index}",
+      "navOnDarkTitle": "Nav su sfondo scuro",
+      "appPatternTitle": "Pattern d'app",
+      "appPatternSize": "Dimensione · {px}px",
+      "typographyTitle": "Tipografia",
+      "displayFont": "Font display",
+      "bodyFont": "Font body",
+      "monoFont": "Font mono",
+      "radiusTitle": "Raggio",
+      "shadowTitle": "Shadow",
+      "shadowMemphis": "Memphis",
+      "shadowSoft": "Soft",
+      "shadowMdOpacity": "opacity md · {opacity}",
+      "motionDurations": "Durate (ms)",
+      "motionEasings": "Easing"
+    }
+  },
+  "sampleDialog": {
+    "openButton": "Apri dialog di esempio",
+    "title": "Pubblica nuova release",
+    "description": "Questa è una modale di esempio. Surface, bordo, shadow, tipografia e bottoni seguono i token correnti del theme generator.",
+    "versionLabel": "Tag versione",
+    "helperText": "Puoi cambiare i token nel pannello di sinistra: la modale qui sopra si aggiorna live, così verifichi come si presenta con il tema applicato.",
+    "cancel": "Annulla",
+    "publish": "Pubblica"
   }
 }
