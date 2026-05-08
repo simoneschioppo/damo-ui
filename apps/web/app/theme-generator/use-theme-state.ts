@@ -440,7 +440,18 @@ function emitFoundationsVars(theme: Theme, mode: ThemeMode, lines: string[]): vo
   const r = theme.radius[mode]
   ;(['none', 'sm', 'md', 'selection', 'pill', 'full'] as const).forEach((k) => {
     const v = r[k]
-    const css = k === 'pill' ? '999px' : k === 'full' ? '50%' : v === 0 ? '0' : `${v}px`
+    // `pill` is conventionally a large pixel radius (default 999) so any
+    // height clips to a stadium shape; `full` is a percentage (default 50)
+    // so border-radius scales with the element's size to render a circle
+    // / ellipse. Both keys are user-editable: emit the user's numeric
+    // value with the canonical unit per key. Previously these forced the
+    // literal constants `999px` / `50%`, silently ignoring user input
+    // (issue #63).
+    const css =
+      k === 'pill' ? `${v}px` :
+      k === 'full' ? `${v}%` :
+      v === 0 ? '0' :
+      `${v}px`
     lines.push(`  --radius-${k}: ${css};`)
   })
   const sm = theme.shadowMemphis[mode]
