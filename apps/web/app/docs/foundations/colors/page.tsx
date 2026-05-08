@@ -1,22 +1,24 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { ColorScale, TokenSwatch } from '../../../_components/showcase'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { BRAND } from '../../../../lib/brand'
+import { monoTag, strongTag, linkTag } from '../../../../lib/i18n-tags'
 
 const PLUM_STOPS = [{ k: 900 }, { k: 800 }, { k: 700 }, { k: 500 }, { k: 300 }, { k: 100 }] as const
 const GOLD_STOPS = [{ k: 500 }, { k: 400 }, { k: 300 }, { k: 200 }, { k: 100 }] as const
 const PAPER_STOPS = [{ k: 300 }, { k: 200 }, { k: 100 }, { k: 50 }] as const
 
-const SEMANTIC = [
-  { name: 'Background', cssVar: '--background', usage: "Sfondo principale dell'app" },
-  { name: 'Card', cssVar: '--card', usage: 'Card, modali, superfici elevate' },
-  { name: 'Muted', cssVar: '--muted', usage: 'Superficie secondaria, hover' },
-  { name: 'Foreground', cssVar: '--foreground', usage: 'Testo primario, bordi' },
-  { name: 'Muted Foreground', cssVar: '--muted-foreground', usage: 'Testo secondario, hint' },
-  { name: 'Primary', cssVar: '--primary', usage: 'Brand highlight (gold)' },
-  { name: 'Secondary', cssVar: '--secondary', usage: 'Brand secondario (plum)' },
-  { name: 'Memphis Border', cssVar: '--memphis-border-color', usage: 'Bordo Memphis 2px' },
+const SEMANTIC_KEYS = [
+  { name: 'Background', cssVar: '--background', usageKey: 'background' },
+  { name: 'Card', cssVar: '--card', usageKey: 'card' },
+  { name: 'Muted', cssVar: '--muted', usageKey: 'muted' },
+  { name: 'Foreground', cssVar: '--foreground', usageKey: 'foreground' },
+  { name: 'Muted Foreground', cssVar: '--muted-foreground', usageKey: 'mutedForeground' },
+  { name: 'Primary', cssVar: '--primary', usageKey: 'primary' },
+  { name: 'Secondary', cssVar: '--secondary', usageKey: 'secondary' },
+  { name: 'Memphis Border', cssVar: '--memphis-border-color', usageKey: 'memphisBorder' },
 ] as const
 
 const TAILWIND_BASIC = `<div className="bg-background text-foreground">
@@ -131,144 +133,128 @@ const TOKENS = [
 
 export const metadata = { title: `Colors — ${BRAND.libName}` }
 
-export default function ColorsFoundationPage() {
+export default async function ColorsFoundationPage() {
+  const tFoundations = await getTranslations('foundations')
+  const t = await getTranslations('foundations.colors')
+  const tTokens = await getTranslations('foundations.colors.semanticTokens')
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-        FOUNDATIONS
+        {tFoundations('eyebrow')}
       </div>
-      <h1 className="font-display text-5xl leading-[0.95] mb-4">Colors</h1>
-      <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">
-        Three brand scales (Plum, Gold, Paper) and twenty+ semantic tokens. Switch the palette in
-        the navbar to see every swatch on this page update live. Use the semantic layer in product
-        code — it re-points automatically when theme or palette changes.
-      </p>
+      <h1 className="font-display text-5xl leading-[0.95] mb-4">{t('h1')}</h1>
+      <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">{t('lead')}</p>
 
-      <h2 className="font-display text-2xl mb-3">Brand scales</h2>
+      <h2 className="font-display text-2xl mb-3">{t('brandScalesTitle')}</h2>
       <div className="border-2 border-memphis bg-card shadow-memphis p-4 mb-8">
         <ColorScale
-          name="Ink"
+          name={t('scales.ink.name')}
           token="ink"
-          desc="Primario scuro — foreground, testo, sfondi notturni"
+          desc={t('scales.ink.desc')}
           stops={PLUM_STOPS}
         />
         <ColorScale
-          name="Brand"
+          name={t('scales.brand.name')}
           token="brand"
-          desc="Accent brand — bottoni, bordi, highlight"
+          desc={t('scales.brand.desc')}
           stops={GOLD_STOPS}
         />
         <ColorScale
-          name="Paper"
+          name={t('scales.paper.name')}
           token="paper"
-          desc="Sfondi caldi ivory/cream — base del prodotto"
+          desc={t('scales.paper.desc')}
           stops={PAPER_STOPS}
         />
       </div>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Semantic tokens</h2>
-      <p className="text-foreground/80 mb-4">
-        Use these in product code. They re-point automatically when the palette changes.
-      </p>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('semanticTitle')}</h2>
+      <p className="text-foreground/80 mb-4">{t('semanticBody')}</p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
-        {SEMANTIC.map((s) => (
-          <TokenSwatch key={s.cssVar} name={s.name} cssVar={s.cssVar} usage={s.usage} />
+        {SEMANTIC_KEYS.map((s) => (
+          <TokenSwatch key={s.cssVar} name={s.name} cssVar={s.cssVar} usage={tTokens(s.usageKey)} />
         ))}
       </div>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Using colors in JSX (Tailwind)</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('jsxTitle')}</h2>
       <p className="text-foreground/80 mb-3">
-        Every semantic token is exposed as a Tailwind utility:{' '}
-        <code className="font-mono">bg-*</code>, <code className="font-mono">text-*</code>,{' '}
-        <code className="font-mono">border-*</code>. Pair the bg with its matching foreground for
-        guaranteed contrast.
+        {t.rich('jsxBody', { mono: monoTag })}
       </p>
       <Example code={TAILWIND_BASIC} previewClassName="px-6 py-10 flex flex-col items-center gap-3">
         <div className="bg-card text-card-foreground border-2 border-memphis p-4 w-full max-w-sm">
-          <h3 className="text-foreground font-display text-xl mb-1">Title</h3>
-          <p className="text-muted-foreground">Subtitle</p>
+          <h3 className="text-foreground font-display text-xl mb-1">{t('examplesTitle')}</h3>
+          <p className="text-muted-foreground">{t('examplesSubtitle')}</p>
         </div>
         <div className="flex gap-2">
           <button
             className="bg-primary text-primary-foreground px-4 py-2 border-2 border-memphis"
             type="button"
           >
-            Primary action
+            {t('examplesPrimary')}
           </button>
           <button
             className="bg-secondary text-secondary-foreground px-4 py-2 border-2 border-memphis"
             type="button"
           >
-            Secondary
+            {t('examplesSecondary')}
           </button>
         </div>
       </Example>
 
-      <h3 className="font-display text-lg mb-3 mt-8">Status colors</h3>
+      <h3 className="font-display text-lg mb-3 mt-8">{t('statusTitle')}</h3>
       <Example
         code={TAILWIND_STATUS}
         previewClassName="px-6 py-8 flex flex-wrap gap-3 justify-center"
       >
         <div className="bg-success text-success-foreground px-3 py-1.5 border-2 border-memphis">
-          Saved
+          {t('statusSaved')}
         </div>
         <div className="bg-warning text-warning-foreground px-3 py-1.5 border-2 border-memphis">
-          Heads up
+          {t('statusHeadsUp')}
         </div>
         <div className="bg-destructive text-destructive-foreground px-3 py-1.5 border-2 border-memphis">
-          Action failed
+          {t('statusFailed')}
         </div>
-        <div className="bg-info text-info-foreground px-3 py-1.5 border-2 border-memphis">FYI</div>
+        <div className="bg-info text-info-foreground px-3 py-1.5 border-2 border-memphis">
+          {t('statusInfo')}
+        </div>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Using colors in CSS</h2>
-      <p className="text-foreground/80 mb-3">
-        Need a color outside Tailwind&rsquo;s utilities? Read the variable directly.
-      </p>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('cssTitle')}</h2>
+      <p className="text-foreground/80 mb-3">{t('cssBody')}</p>
       <Code code={CSS_VAR_USAGE} lang="css" title="any stylesheet" />
 
-      <h3 className="font-display text-lg mb-3 mt-8">Inline style fallback</h3>
+      <h3 className="font-display text-lg mb-3 mt-8">{t('inlineTitle')}</h3>
       <Code code={REACT_INLINE} lang="tsx" title="JSX inline style" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Always pair bg + foreground</h2>
-      <p className="text-foreground/80 mb-3">
-        Each background semantic ships with a matching foreground variant. Mixing them is the only
-        way to guarantee contrast across themes and custom palettes.
-      </p>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('pairTitle')}</h2>
+      <p className="text-foreground/80 mb-3">{t('pairBody')}</p>
       <Code code={FOREGROUND_PAIR_TIP} lang="tsx" title="contrast pairing" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Adding dark mode</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('darkTitle')}</h2>
       <p className="text-foreground/80 mb-3">
-        The lib ships <strong>light only</strong>. Re-declare semantic tokens under{' '}
-        <code className="font-mono">[data-theme=&apos;dark&apos;]</code> and the whole UI flips when
-        the user toggles theme.
+        {t.rich('darkBody', { mono: monoTag, strong: strongTag })}
       </p>
       <Code code={DARK_OVERRIDE} lang="css" title="dark mode override" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Adding custom palettes</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('customPaletteTitle')}</h2>
       <p className="text-foreground/80 mb-3">
-        Same pattern with <code className="font-mono">data-palette</code>. Override only the tokens
-        that should change — everything else inherits from the default palette.
+        {t.rich('customPaletteBody', { mono: monoTag })}
       </p>
       <Code code={PALETTE_OVERRIDE} lang="css" title="palette override" />
 
-      <h2 className="font-display text-2xl mb-3 mt-10">Full semantic token list</h2>
+      <h2 className="font-display text-2xl mb-3 mt-10">{t('fullListTitle')}</h2>
       <Code code={SEMANTIC_REFERENCE} lang="ts" title="reference" />
 
       <p className="text-foreground/80 mt-8">
-        Full theming wiring (FOUC prevention, scoped islands, programmatic switching) →{' '}
-        <Link href="/docs/foundations/theming" className="text-primary underline">
-          Theming
-        </Link>
-        .
+        {t.rich('themingHint', { link: linkTag('/docs/foundations/theming') })}
       </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <Link href="/docs/foundations/theming" className="text-primary underline">
-          ← Theming
+          {t('prevLink')}
         </Link>
         <Link href="/docs/foundations/typography" className="text-primary underline">
-          Typography →
+          {t('nextLink')}
         </Link>
       </div>
     </article>

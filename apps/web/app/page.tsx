@@ -1,46 +1,38 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { Button, MemphisShape } from '@damo/ui'
 import { BRAND } from '../lib/brand'
+import { codeTag, monoTag, linkTag } from '../lib/i18n-tags'
 
-const features = [
-  {
-    title: '47 components',
-    desc: 'Buttons, cards, dialogs, inputs, and 40+ more, all on a Memphis-styled chrome.',
-  },
-  {
-    title: '3-layer tokens',
-    desc: 'Raw scales feed semantic pairs that feed identity overrides — switchable live.',
-  },
-  {
-    title: 'Theme Generator',
-    desc: 'Visual editor with per-mode palette and CSS / Tailwind / JSON exports.',
-  },
-] as const
+const FEATURE_KEYS = ['components', 'tokens', 'themeGenerator'] as const
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations('home')
+  const brandT = await getTranslations('brand')
+
   return (
     <main className="px-6 sm:px-10 lg:px-16 py-16 max-w-[1200px] mx-auto">
       <section className="grid grid-cols-1 lg:grid-cols-[1fr_460px] gap-12 items-center mb-20">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-4">
-            DOCUMENTATION
+            {t('eyebrow')}
           </div>
           <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-6">
             {BRAND.libName} —
             <br />
-            tokens, components,
+            {t('headlineLine1')}
             <br />
-            patterns Memphis.
+            {t('headlineLine2')}
           </h1>
           <p className="text-lg text-muted-foreground max-w-[60ch] mb-8">
-            {BRAND.tagline} Compose React + Next.js UIs without giving up the visual identity.
+            {brandT('tagline')} {t('leadSuffix')}
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="primary" size="lg">
-              <Link href="/docs">Browse docs</Link>
+              <Link href="/docs">{t('browseDocs')}</Link>
             </Button>
             <Button asChild variant="ghost" size="lg">
-              <Link href="/theme-generator">Open theme generator</Link>
+              <Link href="/theme-generator">{t('openThemeGenerator')}</Link>
             </Button>
           </div>
         </div>
@@ -58,7 +50,7 @@ export default function HomePage() {
           />
           <img
             src={BRAND.mascotHeroSrc}
-            alt={BRAND.mascotHeroAlt}
+            alt={brandT('mascotHeroAlt')}
             width={320}
             height={Math.round(320 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
             className="relative"
@@ -83,36 +75,29 @@ export default function HomePage() {
       </section>
 
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t-2 border-memphis pt-10">
-        {features.map((f) => (
+        {FEATURE_KEYS.map((key) => (
           <div
-            key={f.title}
+            key={key}
             className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-2"
           >
-            <div className="font-display text-xl tracking-wide">{f.title}</div>
-            <p className="text-sm text-muted-foreground">{f.desc}</p>
+            <div className="font-display text-xl tracking-wide">
+              {t(`features.${key}.title`)}
+            </div>
+            <p className="text-sm text-muted-foreground">{t(`features.${key}.desc`)}</p>
           </div>
         ))}
       </section>
 
       <section className="mt-20 border-t-2 border-memphis pt-10">
         <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
-          QUICK INSTALL
+          {t('quickInstall.eyebrow')}
         </div>
-        <h2 className="font-display text-3xl mb-4">Three steps and you're rendering.</h2>
+        <h2 className="font-display text-3xl mb-4">{t('quickInstall.heading')}</h2>
         <ol className="space-y-2 text-foreground/85 list-decimal pl-5">
+          <li>{t.rich('quickInstall.step1', { code: codeTag, mono: monoTag })}</li>
+          <li>{t.rich('quickInstall.step2', { mono: monoTag })}</li>
           <li>
-            Add{' '}
-            <code className="font-mono bg-muted px-1.5 py-0.5 border border-memphis/40">@damo</code>{' '}
-            scope to your <code className="font-mono">.npmrc</code>.
-          </li>
-          <li>
-            <code className="font-mono">pnpm add @damo/ui</code>.
-          </li>
-          <li>
-            <Link href="/docs/getting-started" className="text-primary underline">
-              Wire styles and ship
-            </Link>
-            .
+            {t.rich('quickInstall.step3', { link: linkTag('/docs/getting-started') })}
           </li>
         </ol>
       </section>
