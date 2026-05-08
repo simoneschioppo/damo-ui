@@ -36,8 +36,8 @@ test.describe('i18n switcher', () => {
     await page.getByRole('button', { name: 'Italiano' }).click()
 
     // The switcher fires a reload so the RSC chrome re-renders in IT.
-    await page.waitForLoadState('networkidle')
-
+    // Wait on a content assertion that becomes true only after rerender —
+    // `networkidle` was flaky in CI under load.
     await expect(page.locator('html')).toHaveAttribute('lang', 'it')
     await expect(page.locator('html')).toHaveAttribute('data-locale', 'it')
 
@@ -58,12 +58,10 @@ test.describe('i18n switcher', () => {
   test('switching back to English restores EN chrome', async ({ page }) => {
     await page.getByRole('button', { name: 'Display settings' }).click()
     await page.getByRole('button', { name: 'Italiano' }).click()
-    await page.waitForLoadState('networkidle')
     await expect(page.locator('html')).toHaveAttribute('lang', 'it')
 
     await page.getByRole('button', { name: 'Impostazioni di visualizzazione' }).click()
     await page.getByRole('button', { name: 'English' }).click()
-    await page.waitForLoadState('networkidle')
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
     await expect(page.getByRole('link', { name: 'Docs', exact: true })).toBeVisible()
