@@ -79,14 +79,12 @@
   --radius-pill: var(--radius-pill);
   --radius-full: var(--radius-full);
 
-  /* Shadows */
-  --shadow-memphis-sm: var(--shadow-memphis-sm);
-  --shadow-memphis-card: var(--shadow-memphis-card);
-  --shadow-memphis: var(--shadow-memphis);
-  --shadow-memphis-lg: var(--shadow-memphis-lg);
-  --shadow-memphis-hover: var(--shadow-memphis-hover);
-  --shadow-memphis-active: var(--shadow-memphis-active);
-  --shadow-md: var(--shadow-md);
+  /* Shadows — intentionally NOT bridged here. See the @utility block below
+   * for the Memphis shadow tiers and `--shadow-md`. The self-referential
+   * `--shadow-X: var(--shadow-X)` form Tailwind v4 emits inside @theme
+   * inline materializes a `:root, :host { --shadow-X: var(--shadow-X) }`
+   * declaration that wins the cascade over `tokens.css` and breaks the
+   * per-instance `[--memphis-shadow-color:var(--X)]` recipe. See #58. */
 
   /* Motion — easings only.
      Tailwind v4 has a `--ease-*` namespace that auto-generates ease-* utility
@@ -131,3 +129,42 @@
 @utility duration-slow {
   transition-duration: var(--duration-slow);
 }
+
+/* Named Memphis shadow utilities.
+ * These were originally declared inside `@theme inline` as
+ * `--shadow-memphis-X: var(--shadow-memphis-X)` so v4's `--shadow-*`
+ * namespace would generate `shadow-memphis-X` utilities. The catch:
+ * Tailwind v4 compiles every theme-namespace declaration into a top-level
+ * `:root, :host { --shadow-memphis-X: var(--shadow-memphis-X) }` rule,
+ * which sits at higher cascade weight than `tokens.css` and clobbers the
+ * `<Npx Npx 0 var(--memphis-shadow-color)>` declaration. With the token
+ * wiped out, the `box-shadow: var(--shadow-memphis-X)` utility resolves
+ * to a self-referential cycle (treated as invalid → falls back to the
+ * initial value or empty), so the painted shadow is wrong everywhere.
+ *
+ * Declaring the utilities here (mirroring the `duration-*` block above)
+ * sidesteps the @theme-inline emission path entirely: `box-shadow` reads
+ * `--shadow-memphis-X` from `tokens.css` at use-time, so the token is
+ * available again and the theme-generator's literal-value override at
+ * `:root[data-palette='X']` keeps flowing through.
+ *
+ * NOTE: this fix restores the structural cascade for `--shadow-memphis-X`,
+ * but the per-instance recipe `[--memphis-shadow-color:var(--primary)]`
+ * (Button ghost, Input focus, Toast variants, Dialog danger, …) is a
+ * separate concern. Browsers substitute `var()` references inside an
+ * inherited custom property at the *declaring* element rather than the
+ * consuming element, so the inner `var(--memphis-shadow-color)` inside
+ * tokens.css's `--shadow-memphis-X: <Npx Npx 0 var(--memphis-shadow-color)>`
+ * still resolves at `:root` and ignores per-instance overrides. Closing
+ * that gap requires a follow-up architectural change (per-color @utility
+ * blocks or inline shadow construction inside the @utility) and is
+ * tracked separately in #58's PR description.
+ *
+ * See: https://github.com/simoneschioppo/damo-ui/issues/58 */
+@utility shadow-memphis-sm     { box-shadow: var(--shadow-memphis-sm); }
+@utility shadow-memphis-card   { box-shadow: var(--shadow-memphis-card); }
+@utility shadow-memphis        { box-shadow: var(--shadow-memphis); }
+@utility shadow-memphis-lg     { box-shadow: var(--shadow-memphis-lg); }
+@utility shadow-memphis-hover  { box-shadow: var(--shadow-memphis-hover); }
+@utility shadow-memphis-active { box-shadow: var(--shadow-memphis-active); }
+@utility shadow-md             { box-shadow: var(--shadow-md); }
