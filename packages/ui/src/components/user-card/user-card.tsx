@@ -1,11 +1,12 @@
 'use client'
 
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
+import { Card } from '../card'
 import { cn } from '../../lib/cn'
 
 export interface UserCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   name: string
-  /** Custom avatar node. Defaults to the first letter of `name` in a plum-900 circle. */
+  /** Custom avatar node. Defaults to the first letter of `name` in a circle. */
   avatar?: ReactNode
   /** Optional mono caption line rendered under the name. */
   meta?: ReactNode
@@ -16,8 +17,8 @@ export interface UserCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chi
 
 /**
  * UserCard — horizontal row with avatar, name + optional meta line, and an
- * optional right-aligned slot. Memphis frame (2px border-memphis + 4px black
- * shadow). Slots replace the previous domain-specific elo/mode/clock props.
+ * optional right-aligned slot. Composes <Card> for the Memphis frame and
+ * shadow; layout (flex row, gap, full-width, p-4 padding) is added on top.
  */
 export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserCard(
   { name, avatar, meta, trailing, className, ...rest },
@@ -26,14 +27,11 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
   const initial = name.trim().charAt(0).toUpperCase() || '?'
 
   return (
-    <div
+    <Card
       ref={ref}
-      className={cn(
-        'flex items-center gap-[14px] w-full p-4',
-        'border-2 border-memphis rounded-none bg-card',
-        className,
-      )}
-      style={{ boxShadow: 'var(--shadow-memphis-card)' }}
+      variant="default"
+      padding="none"
+      className={cn('flex items-center gap-[14px] w-full p-4', className)}
       {...rest}
     >
       {avatar ? (
@@ -70,6 +68,6 @@ export const UserCard = forwardRef<HTMLDivElement, UserCardProps>(function UserC
           {trailing}
         </div>
       )}
-    </div>
+    </Card>
   )
 })

@@ -39,7 +39,7 @@ describe('FeatureCard', () => {
     expect(getByTestId('feature-icon')).toBeTruthy()
   })
 
-  it('applies Memphis frame + gold shadow on the root', () => {
+  it('applies Memphis frame classes via Card composition', () => {
     const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
     expect(root.className).toContain('border-2')
@@ -53,19 +53,28 @@ describe('FeatureCard', () => {
     expect(root.className).toContain('rounded-none')
   })
 
-  it('has a fixed width of 280px via inline style', () => {
+  it('has a fixed width of 280px via w-[280px] className', () => {
     const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
-    expect(root.style.width).toBe('280px')
+    expect(root.className).toContain('w-[280px]')
   })
 
-  it('uses the Memphis card shadow token recoloured via --memphis-shadow-color override', () => {
+  it('uses Card variant="featured" so --memphis-shadow-color is wired to var(--primary)', () => {
     const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
-    expect(root.style.boxShadow).toContain('var(--shadow-memphis-card)')
-    expect(root.style.getPropertyValue('--memphis-shadow-color')).toContain('var(--primary)')
-    // Guard against the previous hardcoded shadow regressing back.
-    expect(root.getAttribute('style') ?? '').not.toMatch(/box-shadow:\s*\d+px\s+\d+px\s+0/)
+    // The featured Card variant adds the arbitrary `[--memphis-shadow-color:var(--primary)]`
+    // utility, which Tailwind compiles into a class that sets the CSS custom property.
+    expect(root.className).toContain('[--memphis-shadow-color:var(--primary)]')
+    // Shadow utility is the standard Memphis shadow, recoloured by the override above.
+    expect(root.className).toContain('shadow-memphis')
+    // Guard against the previous inline-style approach regressing back.
+    expect(root.style.boxShadow).toBe('')
+  })
+
+  it('applies Card padding="md" (p-5) by default', () => {
+    const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
+    const root = container.firstChild as HTMLElement
+    expect(root.className).toContain('p-5')
   })
 
   it('forwards className', () => {
