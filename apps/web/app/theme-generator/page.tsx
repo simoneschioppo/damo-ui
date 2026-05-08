@@ -54,6 +54,7 @@ import {
 
 import { useThemeState } from './use-theme-state'
 import { SampleDialog } from './sample-dialog'
+import { TokenPreviewChip } from './token-preview-chip'
 import {
   PALETTE_STEPS,
   SEMANTIC_GROUPS,
@@ -752,9 +753,12 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
               const darkVal = String(theme.radius.dark[k])
               return (
                 <div key={k}>
-                  <Label>
-                    {k} · {theme.radius[mode][k]}px
-                  </Label>
+                  <div style={pairHeaderStyle}>
+                    <Label>
+                      {k} · {theme.radius[mode][k]}px
+                    </Label>
+                    <TokenPreviewChip variant="radius" tokenKey={k} />
+                  </div>
                   <DivergenceWrapper
                     token={`radius-${k}`}
                     lightValue={lightVal}
@@ -798,7 +802,10 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
                   darkValue={darkSig}
                 >
                   <div style={pairBlockStyle}>
-                    <Label>{k}</Label>
+                    <div style={pairHeaderStyle}>
+                      <Label>{k}</Label>
+                      <TokenPreviewChip variant="shadow-memphis" tokenKey={k} />
+                    </div>
                     <div style={pairRowStyle}>
                       <span style={pairPrefixShortStyle}>X</span>
                       <Input
