@@ -15,26 +15,24 @@ const CUSTOM_SNIPPET = `<Ornament>
   <span aria-hidden>✦</span>
 </Ornament>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description:
-      'Optional glyph rendered between the two gradient hairlines. Defaults to a Memphis diamond.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the wrapper.',
-  },
-]
-
 export const metadata = { title: `Ornament — ${BRAND.libName}` }
 
 export default async function OrnamentDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.ornament.props.children', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.ornament.props.className', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -57,8 +55,7 @@ export default async function OrnamentDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Custom glyph</h2>
       <p className="text-foreground/80 mb-3">
-        Pass a child node to replace the default diamond — emojis, icons, or short text accents work
-        well.
+        {t.rich('componentDocs.ornament.body.customGlyph', { code: codeTag })}
       </p>
       <Example code={CUSTOM_SNIPPET}>
         <div className="w-full px-6">
@@ -75,16 +72,10 @@ export default async function OrnamentDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <p className="text-foreground/85">
-        The wrapper carries <code className="font-mono">aria-hidden=&quot;true&quot;</code>, which
-        removes Ornament from the accessibility tree entirely — assistive technology skips it. The
-        DOM <code className="font-mono">role=&quot;separator&quot;</code> attribute is present for
-        styling consistency but has no AT effect because of the surrounding{' '}
-        <code className="font-mono">aria-hidden</code>. For semantic section breaks that should be
-        announced, use{' '}
-        <Link href="/docs/components/separator" className="text-primary underline">
-          Separator
-        </Link>{' '}
-        with <code className="font-mono">decorative=false</code>.
+        {t.rich('componentDocs.ornament.body.accessibility', {
+          code: codeTag,
+          link1: linkTag('/docs/components/separator'),
+        })}
       </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

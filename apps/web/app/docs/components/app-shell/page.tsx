@@ -16,40 +16,37 @@ const ON_DARK_SNIPPET = `<AppShell sidebar={<Nav />} sidebarTone="onDark">
   …
 </AppShell>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'sidebar',
-    type: 'ReactNode',
-    required: true,
-    description:
-      'Content rendered inside the sticky `<aside>` column. Pair with a Sidebar / Nav component.',
-  },
-  {
-    name: 'sidebarWidth',
-    type: 'number',
-    defaultValue: '240',
-    description: 'Pixel width of the sidebar column.',
-  },
-  {
-    name: 'sidebarTone',
-    type: "'default' | 'onDark'",
-    defaultValue: "'default'",
-    description:
-      '`default` paints the sidebar with the card surface; `onDark` flips it to ink with light text — pair with NavItem `tone="onDark"`.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Main content rendered in the right column.',
-  },
-]
-
 export const metadata = { title: `AppShell — ${BRAND.libName}` }
 
 export default async function AppShellDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'sidebar',
+      type: 'ReactNode',
+      required: true,
+      description: t.rich('componentDocs.app-shell.props.sidebar', { code: codeTag }),
+    },
+    {
+      name: 'sidebarWidth',
+      type: 'number',
+      defaultValue: '240',
+      description: t.rich('componentDocs.app-shell.props.sidebarWidth', { code: codeTag }),
+    },
+    {
+      name: 'sidebarTone',
+      type: "'default' | 'onDark'",
+      defaultValue: "'default'",
+      description: t.rich('componentDocs.app-shell.props.sidebarTone', { code: codeTag }),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.app-shell.props.children', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -65,12 +62,9 @@ export default async function AppShellDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Basic shape</h2>
       <p className="text-foreground/80 mb-3">
-        AppShell occupies the full viewport. The example below shows a static visual scaled into a
-        framed preview — wire your own Sidebar (and{' '}
-        <Link href="/docs/components/page-header" className="text-primary underline">
-          PageHeader
-        </Link>
-        ) inside the slots.
+        {t.rich('componentDocs.app-shell.body.basicShape', {
+          link1: linkTag('/docs/components/page-header'),
+        })}
       </p>
       <div className="my-6 border-2 border-memphis bg-background shadow-memphis overflow-hidden">
         <div className="grid grid-cols-[180px_1fr] min-h-[260px]">
@@ -87,7 +81,7 @@ export default async function AppShellDocsPage() {
               Main
             </div>
             <p className="text-sm text-muted-foreground">
-              Page content scrolls here. The sidebar stays pinned at the top.
+              {t('componentDocs.app-shell.body.sidebarPlaceholder')}
             </p>
           </main>
         </div>
@@ -103,22 +97,19 @@ export default async function AppShellDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">Pairs well with</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
-          <Link href="/docs/components/sidebar" className="text-primary underline">
-            Sidebar
-          </Link>{' '}
-          — composable side panel with header, body, footer slots.
+          {t.rich('componentDocs.app-shell.a11y.0', {
+            link1: linkTag('/docs/components/sidebar'),
+          })}
         </li>
         <li>
-          <Link href="/docs/components/page-header" className="text-primary underline">
-            PageHeader
-          </Link>{' '}
-          — eyebrow + title + actions strip for the top of the main column.
+          {t.rich('componentDocs.app-shell.a11y.1', {
+            link1: linkTag('/docs/components/page-header'),
+          })}
         </li>
         <li>
-          <Link href="/docs/components/app-top-bar" className="text-primary underline">
-            AppTopBar
-          </Link>{' '}
-          — alternative chrome for non-sidebar layouts (also can render inside the main column).
+          {t.rich('componentDocs.app-shell.a11y.2', {
+            link1: linkTag('/docs/components/app-top-bar'),
+          })}
         </li>
       </ul>
 

@@ -20,50 +20,46 @@ const SEPARATOR_SNIPPET = `<Breadcrumbs separator={<span aria-hidden>/</span>}>
   …
 </Breadcrumbs>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'separator',
-    type: 'ReactNode',
-    description:
-      'Custom node rendered between items. Defaults to a Memphis ChevronRightIcon. Override for a slash, dot, or any glyph.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'A list of `BreadcrumbItem` children.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on the wrapping `<nav>`.',
-  },
-]
-
-const ITEM_PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'href',
-    type: 'string',
-    description: 'Link target. Omit on the last (current) item.',
-  },
-  {
-    name: 'current',
-    type: 'boolean',
-    description:
-      'Mark the item as the current page — renders a non-link `<span>` with `aria-current="page"`.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Item label.',
-  },
-]
-
 export const metadata = { title: `Breadcrumbs — ${BRAND.libName}` }
 
 export default async function BreadcrumbsDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'separator',
+      type: 'ReactNode',
+      description: t('componentDocs.breadcrumbs.props.separator'),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.breadcrumbs.props.children', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.breadcrumbs.props.className', { code: codeTag }),
+    },
+  ]
+  const ITEM_PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'href',
+      type: 'string',
+      description: t('componentDocs.breadcrumbs.props.href'),
+    },
+    {
+      name: 'current',
+      type: 'boolean',
+      description: t.rich('componentDocs.breadcrumbs.props.current', { code: codeTag }),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t('componentDocs.breadcrumbs.props.itemChildren'),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -104,22 +100,9 @@ export default async function BreadcrumbsDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          The wrapper renders{' '}
-          <code className="font-mono">&lt;nav aria-label=&quot;Breadcrumb&quot;&gt;</code>{' '}
-          containing an ordered list — the canonical pattern for breadcrumb landmarks.
-        </li>
-        <li>
-          Separators are rendered as{' '}
-          <code className="font-mono">role=&quot;presentation&quot;</code> +{' '}
-          <code className="font-mono">aria-hidden</code>, so screen readers announce only the item
-          labels.
-        </li>
-        <li>
-          The current page should be the last item with <code className="font-mono">current</code>{' '}
-          set — Radix renders it as a non-link <code className="font-mono">&lt;span&gt;</code> with{' '}
-          <code className="font-mono">aria-current=&quot;page&quot;</code>.
-        </li>
+        <li>{t.rich('componentDocs.breadcrumbs.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.breadcrumbs.a11y.1', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.breadcrumbs.a11y.2', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

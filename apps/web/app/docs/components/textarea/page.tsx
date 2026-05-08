@@ -15,37 +15,36 @@ const FORMFIELD_SNIPPET = `<FormField label="Notes" description="Markdown is sup
   <Textarea rows={4} />
 </FormField>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'invalid',
-    type: 'boolean',
-    description:
-      'When true, sets `aria-invalid` and switches the border + Memphis shadow to the destructive token.',
-  },
-  {
-    name: 'rows',
-    type: 'number',
-    defaultValue: '4',
-    description: 'Visible rows when un-resized.',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    description: 'Disables the field. The Memphis hover/focus styles also drop.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the defaults.',
-  },
-]
-
 export const metadata = { title: `Textarea — ${BRAND.libName}` }
 
 export default async function TextareaDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'invalid',
+      type: 'boolean',
+      description: t.rich('componentDocs.textarea.props.invalid', { code: codeTag }),
+    },
+    {
+      name: 'rows',
+      type: 'number',
+      defaultValue: '4',
+      description: t.rich('componentDocs.textarea.props.rows', { code: codeTag }),
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      description: t.rich('componentDocs.textarea.props.disabled', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.textarea.props.className', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -90,16 +89,8 @@ export default async function TextareaDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Renders a native <code className="font-mono">&lt;textarea&gt;</code>; native form
-          submission and validation work as expected.
-        </li>
-        <li>
-          Pair with <code className="font-mono">FormField</code> (or supply your own{' '}
-          <code className="font-mono">aria-labelledby</code> /{' '}
-          <code className="font-mono">aria-describedby</code>) so screen readers announce label,
-          description, and error.
-        </li>
+        <li>{t.rich('componentDocs.textarea.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.textarea.a11y.1', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

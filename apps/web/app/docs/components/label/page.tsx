@@ -12,31 +12,31 @@ const IMPORT_SNIPPET = `import { Label, Input } from '@damo/ui'`
 const BASIC_SNIPPET = `<Label htmlFor="email">Email</Label>
 <Input id="email" type="email" />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'htmlFor',
-    type: 'string',
-    description:
-      'Standard `<label>` association — when set, clicking the label focuses the field with the matching id.',
-  },
-  {
-    name: 'children',
-    type: 'ReactNode',
-    description: 'Visible label text.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the typography defaults.',
-  },
-]
-
 export const metadata = { title: `Label — ${BRAND.libName}` }
 
 export default async function LabelDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'htmlFor',
+      type: 'string',
+      description: t.rich('componentDocs.label.props.htmlFor', { code: codeTag }),
+    },
+    {
+      name: 'children',
+      type: 'ReactNode',
+      description: t.rich('componentDocs.label.props.children', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.label.props.className', { code: codeTag }),
+    },
+  ]
+
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -66,14 +66,10 @@ export default async function LabelDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">When to reach for FormField</h2>
       <p className="text-foreground/85">
-        For most product forms,{' '}
-        <Link href="/docs/components/form-field" className="text-primary underline">
-          FormField
-        </Link>{' '}
-        is preferable: it auto-wires <code className="font-mono">htmlFor</code>,{' '}
-        <code className="font-mono">aria-describedby</code>, and{' '}
-        <code className="font-mono">aria-invalid</code> based on description / error props. Reach
-        for the standalone Label only when you have a one-off layout that needs custom positioning.
+        {t.rich('componentDocs.label.body.whenFormField', {
+          code: codeTag,
+          link1: linkTag('/docs/components/form-field'),
+        })}
       </p>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">

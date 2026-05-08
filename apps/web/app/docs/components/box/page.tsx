@@ -26,57 +26,6 @@ const POLYMORPHIC_SNIPPET = `<Box as="section" direction="column" gap={4}>
   <p>Paragraph</p>
 </Box>`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'as',
-    type: 'ElementType',
-    defaultValue: "'div'",
-    description:
-      'Polymorphic element. Pass any HTML tag or component (`section`, `header`, `aside`, `Link`, …) and Box keeps its layout utilities while delegating semantics to the chosen element.',
-  },
-  {
-    name: 'direction',
-    type: "'row' | 'row-reverse' | 'column' | 'column-reverse'",
-    defaultValue: "'row'",
-    description: 'Sets `flex-direction`.',
-  },
-  {
-    name: 'gap',
-    type: '0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 16 | 20',
-    defaultValue: '0',
-    description: 'Tailwind spacing step applied to the flex container `gap`.',
-  },
-  {
-    name: 'align',
-    type: "'start' | 'center' | 'end' | 'stretch' | 'baseline'",
-    defaultValue: "'stretch'",
-    description: '`align-items`.',
-  },
-  {
-    name: 'justify',
-    type: "'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'",
-    defaultValue: "'start'",
-    description: '`justify-content`.',
-  },
-  {
-    name: 'wrap',
-    type: "'wrap' | 'nowrap' | 'wrap-reverse'",
-    defaultValue: "'nowrap'",
-    description: '`flex-wrap`.',
-  },
-  {
-    name: 'inline',
-    type: 'boolean',
-    defaultValue: 'false',
-    description: 'Switch to `inline-flex` when the box must sit inline with text.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the variant defaults.',
-  },
-]
-
 export const metadata = {
   title: `Box — ${BRAND.libName}`,
   description: 'Polymorphic flex primitive with controllable direction, gap, align and justify.',
@@ -86,6 +35,55 @@ export default async function BoxDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'as',
+      type: 'ElementType',
+      defaultValue: "'div'",
+      description: t.rich('componentDocs.box.props.as', { code: codeTag }),
+    },
+    {
+      name: 'direction',
+      type: "'row' | 'row-reverse' | 'column' | 'column-reverse'",
+      defaultValue: "'row'",
+      description: t.rich('componentDocs.box.props.direction', { code: codeTag }),
+    },
+    {
+      name: 'gap',
+      type: '0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 16 | 20',
+      defaultValue: '0',
+      description: t.rich('componentDocs.box.props.gap', { code: codeTag }),
+    },
+    {
+      name: 'align',
+      type: "'start' | 'center' | 'end' | 'stretch' | 'baseline'",
+      defaultValue: "'stretch'",
+      description: t.rich('componentDocs.box.props.align', { code: codeTag }),
+    },
+    {
+      name: 'justify',
+      type: "'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'",
+      defaultValue: "'start'",
+      description: t.rich('componentDocs.box.props.justify', { code: codeTag }),
+    },
+    {
+      name: 'wrap',
+      type: "'wrap' | 'nowrap' | 'wrap-reverse'",
+      defaultValue: "'nowrap'",
+      description: t.rich('componentDocs.box.props.wrap', { code: codeTag }),
+    },
+    {
+      name: 'inline',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t.rich('componentDocs.box.props.inline', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t('componentDocs.box.props.className'),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -119,12 +117,7 @@ export default async function BoxDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Polymorphic — render as any element</h2>
       <p className="text-foreground/80 mb-3">
-        Pass <code className="font-mono">as</code> to render Box as a different tag while keeping
-        the layout utilities. Useful for landmark elements (
-        <code className="font-mono">&lt;section&gt;</code>,{' '}
-        <code className="font-mono">&lt;header&gt;</code>,{' '}
-        <code className="font-mono">&lt;aside&gt;</code>) or to forward to a Next{' '}
-        <code className="font-mono">Link</code>.
+        {t.rich('componentDocs.box.body.polymorphicIntro', { code: codeTag })}
       </p>
       <Code code={POLYMORPHIC_SNIPPET} lang="tsx" />
 
@@ -133,23 +126,16 @@ export default async function BoxDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">When to use it</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.box.a11y.0', { code: codeTag })}</li>
         <li>
-          Most flex layouts in product code — replaces ad-hoc{' '}
-          <code className="font-mono">flex flex-row gap-3 items-center</code> stacks.
+          {t.rich('componentDocs.box.a11y.1', {
+            link1: linkTag('/docs/components/container'),
+          })}
         </li>
         <li>
-          For wider, page-level layouts with a max-width, prefer{' '}
-          <Link href="/docs/components/container" className="text-primary underline">
-            Container
-          </Link>
-          .
-        </li>
-        <li>
-          When the children must split into named regions, use a dedicated layout component such as{' '}
-          <Link href="/docs/components/app-shell" className="text-primary underline">
-            AppShell
-          </Link>
-          .
+          {t.rich('componentDocs.box.a11y.2', {
+            link1: linkTag('/docs/components/app-shell'),
+          })}
         </li>
       </ul>
 

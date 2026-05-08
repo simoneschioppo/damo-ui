@@ -16,33 +16,32 @@ const SIZES_SNIPPET = `<Spinner size={16} />
 const COLOR_SNIPPET = `<Spinner className="text-secondary" />
 <Spinner className="text-success" />`
 
-const PROPS: ReadonlyArray<PropDef> = [
-  {
-    name: 'size',
-    type: 'number | string',
-    defaultValue: '20',
-    description: 'Width and height of the SVG. Pass any number (px) or CSS unit string.',
-  },
-  {
-    name: 'label',
-    type: 'string',
-    defaultValue: "'Caricamento…'",
-    description:
-      'Accessible name announced by screen readers (`aria-label`). Localize for non-Italian UIs.',
-  },
-  {
-    name: 'className',
-    type: 'string',
-    description: 'Tailwind classes are merged on top of the spin animation + primary color.',
-  },
-]
-
 export const metadata = { title: `Spinner — ${BRAND.libName}` }
 
 export default async function SpinnerDocsPage() {
   const tCat = await getTranslations('docsChrome.categories')
   const tSec = await getTranslations('docsChrome.sections')
   const t = await getTranslations()
+
+  const PROPS: ReadonlyArray<PropDef> = [
+    {
+      name: 'size',
+      type: 'number | string',
+      defaultValue: '20',
+      description: t.rich('componentDocs.spinner.props.size', { code: codeTag }),
+    },
+    {
+      name: 'label',
+      type: 'string',
+      defaultValue: "'Caricamento…'",
+      description: t.rich('componentDocs.spinner.props.label', { code: codeTag }),
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: t.rich('componentDocs.spinner.props.className', { code: codeTag }),
+    },
+  ]
   return (
     <article>
       <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
@@ -70,8 +69,7 @@ export default async function SpinnerDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">Color override</h2>
       <p className="text-foreground/80 mb-3">
-        Spinner uses <code className="font-mono">currentColor</code> — change the wrapper&rsquo;s
-        text color to retint.
+        {t.rich('componentDocs.spinner.body.colorOverride', { code: codeTag })}
       </p>
       <Example code={COLOR_SNIPPET}>
         <div className="flex items-center gap-6">
@@ -86,15 +84,8 @@ export default async function SpinnerDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
-        <li>
-          Renders <code className="font-mono">role=&quot;status&quot;</code> with the supplied{' '}
-          <code className="font-mono">label</code> as <code className="font-mono">aria-label</code>.
-        </li>
-        <li>
-          For inline use inside a labelled button, set{' '}
-          <code className="font-mono">label=&quot;&quot;</code> and rely on the button&rsquo;s own
-          text — avoid duplicate announcements.
-        </li>
+        <li>{t.rich('componentDocs.spinner.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.spinner.a11y.1', { code: codeTag })}</li>
       </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
