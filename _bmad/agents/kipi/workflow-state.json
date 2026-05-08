@@ -99,7 +99,20 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "queued_at": "2026-05-08T17:48:32+00:00",
+          "trigger": "post-code-change",
+          "paths": [
+            "apps/web/app/theme-generator/page.tsx",
+            "apps/web/app/theme-generator/token-preview-chip.tsx",
+            "apps/web/app/theme-generator/token-preview-chip.test.tsx"
+          ],
+          "source_agent": "bmad-quick-dev",
+          "gh_issue": 64,
+          "gh_pr": 72
+        }
+      ],
       "runs": [
         {
           "chapter": "10-library/10-components/dialog.md",
