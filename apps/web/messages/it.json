@@ -124,7 +124,7 @@
       "validValuesEyebrow": "Valori validi degli attributi",
       "themeBullet": "<mono>data-theme</mono> — la libreria fornisce <strong>solo light</strong>; dichiara i tuoi override CSS <mono>[data-theme='dark']</mono>. Aggancia un <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> per cambiare valore.",
       "paletteBullet": "<mono>data-palette</mono> — <strong>nessun built-in</strong>; i default neutri della libreria assumono una palette singola. Definisci <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, ecc., e passa la stessa lista a <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
-      "densityBullet": "<mono>data-density</mono> — built-in: <mono>'compact'</mono>, <mono>'normal'</mono>, <mono>'comfortable'</mono>. Pilota <mono>--density-scale-y</mono> per la spaziatura verticale."
+      "densityBullet": "<mono>data-density</mono> — built-in: <mono>compact</mono>, <mono>normal</mono>, <mono>comfortable</mono>. Pilota <mono>--density-scale-y</mono> per la spaziatura verticale."
     },
     "themingHint": "Guida completa con setup dark mode, palette custom, switching programmatico e prevenzione FOUC → <link>Theming</link>.",
     "ctaReady": "Pronto a comporre? Sfoglia i <componentsLink>componenti</componentsLink> oppure <generatorLink>genera un tema custom</generatorLink>.",
@@ -578,7 +578,7 @@
         "2": "La variante select espone <code>role=\"combobox\"</code> tramite la primitive <code>Select</code> del design system — l'interazione completa da tastiera viene ereditata."
       },
       "props": {
-        "options": "Lista di coppie <code>{ value, label }</code> tra cui l'utente può scegliere.",
+        "options": "Lista di coppie <code>'{' value, label '}'</code> tra cui l'utente può scegliere.",
         "storageKey": "Chiave localStorage che persiste il valore attivo tra le sessioni.",
         "attribute": "Attributo data-* riprodotto su <code>&lt;html&gt;</code>. Deve corrispondere a <code>^data-[a-z][a-z0-9-]*$</code> — gli attributi non-data vengono rifiutati.",
         "defaultValue": "Valore iniziale quando nulla è persistito. Ripiega su <code>options[0].value</code>.",
@@ -783,7 +783,7 @@
         "2": "Usa <code>FormField</code> o abbina <code>id</code> a una <code>Label</code> sibling, così gli screen reader annunciano il nome del campo."
       },
       "props": {
-        "options": "Item da renderizzare — <code>{ value, label, disabled? }</code>.",
+        "options": "Item da renderizzare — <code>'{' value, label, disabled? '}'</code>.",
         "value": "Valore selezionato controllato. Abbinalo a <code>onValueChange</code>.",
         "defaultValue": "Valore selezionato iniziale non controllato.",
         "onValueChange": "Si attiva quando un'opzione viene scelta.",
@@ -998,7 +998,7 @@
         "accessibility": "L'SVG produce <code>role=\"img\"</code> con <code>aria-label</code> derivato da <code>label</code> (o un default come <code>\"gold medal\"</code> quando nessuna label è fornita)."
       },
       "props": {
-        "rank": "Seleziona il token inner / outer / text (<code>--medal-{rank}-{outer|inner|text}</code>).",
+        "rank": "Seleziona il token inner / outer / text (<code>--medal-'{'rank'}'-'{'outer|inner|text'}'</code>).",
         "value": "Numero / lettere centrati opzionali (es. <code>1</code>, <code>\"M\"</code>, <code>\"GM\"</code>).",
         "label": "Caption in font mono maiuscolo mostrata sotto la medaglia.",
         "size": "Larghezza e altezza dell'SVG in pixel."
@@ -1022,7 +1022,7 @@
       },
       "a11y": {
         "0": "Quando <code>active</code> è impostato, NavItem applica <code>aria-current=\"page\"</code> — il segnale canonico per \"sei qui\" in una lista di navigazione.",
-        "1": "Il render predefinito è <code>&lt;a&gt;</code>; per il routing client-side passa <code>as={Link}</code> (Next) o il componente link del tuo router. La cromia di selezione e il merging delle classi vengono preservati."
+        "1": "Il render predefinito è <code>&lt;a&gt;</code>; per il routing client-side passa <code>as='{'Link'}'</code> (Next) o il componente link del tuo router. La cromia di selezione e il merging delle classi vengono preservati."
       },
       "props": {
         "as": "Elemento polimorfico. Passa <code>Link</code>, <code>button</code> o qualunque componente per controllare la semantica del routing.",
@@ -1073,7 +1073,7 @@
         "totalPages": "Numero totale di pagine.",
         "maxVisible": "Numero massimo di pulsanti pagina renderizzati tra le ellissi. Predefinito a una finestra ragionevole tramite <code>computePageWindow</code> (anch'esso esportato).",
         "onPageChange": "Si attiva quando l'utente clicca un numero di pagina o i chevron prev/next.",
-        "labels": "Sovrascrive le label accessibili — <code>{ previous, next, page, pageOf(page, total) }</code>. I default sono in italiano.",
+        "labels": "Sovrascrive le label accessibili — <code>'{' previous, next, page, pageOf(page, total) '}'</code>. I default sono in italiano.",
         "disabled": "Disabilita ogni pulsante (utile mentre un fetch del parent è in volo)."
       }
     },
