@@ -55,9 +55,19 @@ const expectChannelsClose = (
 }
 
 async function enableDarkTheme(page: Page) {
+  // The docs site hydrates with `usePersistedAttr('theme', 'data-theme', 'light')`,
+  // which reads localStorage in a `useEffect` and re-applies `data-theme`
+  // on the post-hydration tick. Seed storage, reload, then wait for the
+  // effect to flip the attribute to 'dark' before reading any token.
   await page.evaluate(() => {
-    document.documentElement.setAttribute('data-theme', 'dark')
+    window.localStorage.setItem('theme', 'dark')
   })
+  await page.reload()
+  await page.waitForFunction(
+    () => document.documentElement.getAttribute('data-theme') === 'dark',
+    null,
+    { timeout: 5000 },
+  )
 }
 
 async function readRootVar(page: Page, name: string): Promise<string> {
@@ -74,20 +84,15 @@ test.describe('Plum+Gold dark mode tokens (#91)', () => {
   })
 
   test('--primary resolves to brand.400 (#d5a845) in dark', async ({ page }) => {
-    const value = await readRootVar(page, '--primary')
-    // The CSS reads `var(--brand-400)` so the resolved color matches brand.400.
-    const rgb = parseRgbTriplet(value) ??
-      // Fallback: when the var resolves to a hex, the browser may return the
-      // unresolved string. Force resolution by computing on a probe element.
-      (await page.evaluate(() => {
-        const probe = document.createElement('div')
-        probe.style.color = 'var(--primary)'
-        document.body.appendChild(probe)
-        const c = getComputedStyle(probe).color
-        probe.remove()
-        return c
-      }).then(parseRgbTriplet))
-    expectChannelsClose(rgb, [213, 168, 69], '--primary')
+    const color = await page.evaluate(() => {
+      const el = document.createElement('div')
+      el.style.color = 'var(--primary)'
+      document.body.appendChild(el)
+      const c = getComputedStyle(el).color
+      el.remove()
+      return c
+    })
+    expectChannelsClose(parseRgbTriplet(color), [213, 168, 69], '--primary')
   })
 
   test('--warning resolves to custom amber #e8a435 (decoupled from --primary)', async ({ page }) => {
@@ -169,10 +174,12 @@ test.describe('Plum+Gold dark mode tokens (#91)', () => {
   })
 
   test('Ghost button paints box-shadow with brand.400 (Memphis legibility on dark plum)', async ({ page }) => {
-    // The home page renders a Button asChild wrapping `<Link href="/theme-generator">`,
-    // so the styled element is the anchor itself.
-    const ghost = page.locator('a[href="/theme-generator"]').first()
-    await ghost.waitFor({ state: 'visible' })
+    // The home page renders `<Button asChild variant="ghost"><Link href="/theme-generator">…</Link></Button>`.
+    // `asChild` flattens Button's className onto the anchor, so we target the
+    // anchor that actually carries the Memphis ghost class — there may be
+    // unstyled nav links to the same href elsewhere on the page.
+    const ghost = page.locator('a[href="/theme-generator"].shadow-memphis-primary').first()
+    await ghost.waitFor({ state: 'visible', timeout: 10_000 })
     const shadow = await ghost.evaluate((el) => getComputedStyle(el).boxShadow)
     const rgb = parseLastNonTransparentRgb(shadow)
     expectChannelsClose(rgb, [213, 168, 69], 'ghost.boxShadow', 4)
