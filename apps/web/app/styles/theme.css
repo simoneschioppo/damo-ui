@@ -6,10 +6,17 @@
  * layer that re-skins the lib in the Memphis "ink + brand" identity.
  *
  * Structure:
- *   :root, :root[data-theme='light']  → light values (default)
- *   :root[data-theme='dark']          → dark values (full re-declaration)
- *   :root[data-palette='cyberpunk']   → raw palette overrides (orthogonal to theme)
- *   :root[data-palette='sunset']      → raw palette overrides
+ *   :root, :root[data-theme='light']                 → light values (default)
+ *   :root[data-theme='dark']                         → dark values (full re-declaration)
+ *   :root[data-palette='sunset']                     → raw palette overrides (orthogonal to theme)
+ *   :root[data-palette='cyberpunk']                  → raw palette overrides
+ *   :root[data-palette='forest']                     → raw palette overrides
+ *   :root[data-palette='cyberpunk']:not([data-theme='dark']) → light-only override (gh-93)
+ *   :root[data-theme='dark'][data-palette='sunset']  → mode+palette override (gh-93)
+ *
+ * Palette and palette+theme blocks must be declared AFTER the dark block —
+ * specificity ties (0,1,0 / 0,2,0 vs. 0,1,0 of the dark block) but later
+ * source order wins, which is what we want.
  *
  * Consumers of the lib who want this theme can copy this file into
  * their own app. The /theme-generator page can also produce custom
@@ -185,11 +192,7 @@
 /* ── Palette: Cyberpunk (electric violet + neon amber) ─── */
 
 /*
- * gh-93: replaces the old "Neon" preset. The vivid amber
- * `--brand-500: #ffab00` fails WCAG AA against white, so we override
- * `--primary-foreground` to ink.900 inside this palette block. Specificity
- * ties with [data-theme='dark'], but source order puts palette blocks last
- * so the override wins in light AND stays consistent in dark.
+ * gh-93: replaces the old "Neon" preset.
  */
 :root[data-palette='cyberpunk'] {
   --ink-100: #f0d4ff;
@@ -204,7 +207,17 @@
   --brand-300: #ffd740;
   --brand-400: #ffc107;
   --brand-500: #ffab00;
+}
 
+/*
+ * Light-only semantic override (gh-93 review HIGH-2).
+ * The vivid amber `--brand-500: #ffab00` fails WCAG AA against white text
+ * (~1.97 ratio). Override `--primary-foreground` to ink.900 (~12.96 ratio).
+ * Scoped to NOT match dark — the dark block already sets the same value
+ * via the canonical mapping, but keeping this override light-only prevents
+ * a future dark-default change from being silently negated here.
+ */
+:root[data-palette='cyberpunk']:not([data-theme='dark']) {
   --primary-foreground: var(--ink-900);
 }
 

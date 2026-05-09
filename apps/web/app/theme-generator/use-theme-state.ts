@@ -3,8 +3,6 @@
 import { useCallback, useReducer, useEffect } from 'react'
 import {
   DEFAULT_THEME,
-  computeSemanticLight,
-  computeSemanticDark,
   type Theme,
   type ThemeMode,
   type SemanticTheme,
@@ -17,7 +15,13 @@ import {
   type MotionDurationKey,
   type MotionEasingKey,
 } from './theme-state'
-import { type PresetName, applyPreset, PRESET_PALETTES, PRESET_NAMES } from './presets'
+import {
+  type PresetName,
+  applyPreset,
+  computePresetSemantic,
+  PRESET_PALETTES,
+  PRESET_NAMES,
+} from './presets'
 
 type Action =
   | { type: 'SET_PRESET'; preset: PresetName }
@@ -138,6 +142,9 @@ export function reducer(state: Theme, action: Action): Theme {
       // current palette still matches some known preset (i.e., the user
       // has not diverged that mode). Modes that have been diverged keep
       // their custom palette; their semantic is left untouched too.
+      // gh-93: derive each mode's semantic via `computePresetSemantic` so
+      // per-preset overrides (e.g. cyberpunk light primaryForeground,
+      // sunset dark memphisBorderColor) survive the navbar sync path.
       const newPalette = PRESET_PALETTES[action.preset]
       const lightUntouched = isKnownPresetPalette(state.palette.light)
       const darkUntouched = isKnownPresetPalette(state.palette.dark)
@@ -148,8 +155,10 @@ export function reducer(state: Theme, action: Action): Theme {
           dark: darkUntouched ? newPalette : state.palette.dark,
         },
         semantic: {
-          light: lightUntouched ? computeSemanticLight(newPalette) : state.semantic.light,
-          dark: darkUntouched ? computeSemanticDark(newPalette) : state.semantic.dark,
+          light: lightUntouched
+            ? computePresetSemantic(action.preset, 'light')
+            : state.semantic.light,
+          dark: darkUntouched ? computePresetSemantic(action.preset, 'dark') : state.semantic.dark,
         },
       }
     }

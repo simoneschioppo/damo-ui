@@ -117,7 +117,24 @@ const PRESET_SEMANTIC_OVERRIDES: Partial<Record<PresetName, PresetSemanticOverri
   sunset: { dark: { memphisBorderColor: '#000000' } },
   // Cyberpunk's vivid amber `brand.500 = #ffab00` fails WCAG AA against
   // white text (~1.97). Override to ink.900 for ~12.96 contrast.
-  cyberpunk: { light: { primaryForeground: '#170731' } },
+  // Tied to CYBERPUNK_PALETTE.ink['900'] so a future palette edit stays in sync.
+  cyberpunk: { light: { primaryForeground: CYBERPUNK_PALETTE.ink['900'] } },
+}
+
+/**
+ * Compute a preset's semantic theme for a single mode, applying the
+ * canonical mapping AND the per-preset semantic overrides for that mode.
+ *
+ * Exported because the reducer's `SYNC_PRESET` branch (navbar-driven palette
+ * change without wiping user edits) needs to recompute one mode at a time
+ * and must not skip the override merge — gh-93 found a regression where the
+ * override was applied only via `applyPreset` (the SET_PRESET branch).
+ */
+export function computePresetSemantic(preset: PresetName, mode: 'light' | 'dark'): SemanticTheme {
+  const palette = PRESET_PALETTES[preset]
+  const base = mode === 'light' ? computeSemanticLight(palette) : computeSemanticDark(palette)
+  const modeOverrides = PRESET_SEMANTIC_OVERRIDES[preset]?.[mode]
+  return modeOverrides ? { ...base, ...modeOverrides } : base
 }
 
 /**
@@ -126,17 +143,14 @@ const PRESET_SEMANTIC_OVERRIDES: Partial<Record<PresetName, PresetSemanticOverri
  * - Resets BOTH palette modes (light + dark) to the preset's palette —
  *   any per-mode palette divergence is intentionally discarded so the
  *   user sees the preset's intended look uniformly.
- * - Re-derives semantic light + dark from the preset palette.
- * - Merges per-preset semantic overrides on top of the canonical result.
+ * - Re-derives semantic light + dark from the preset palette and merges
+ *   per-preset semantic overrides via `computePresetSemantic`.
  * - Preserves identity (medals/charts/navOnDark/appPattern) for both
  *   modes, including any user-diverged dark-mode customisations.
  * - Preserves typography, radius, shadow, spacing, motion.
  */
 export function applyPreset(theme: Theme, preset: PresetName): Theme {
   const newPalette = PRESET_PALETTES[preset]
-  const overrides = PRESET_SEMANTIC_OVERRIDES[preset]
-  const baseLight = computeSemanticLight(newPalette)
-  const baseDark = computeSemanticDark(newPalette)
   return {
     ...theme,
     palette: {
@@ -144,8 +158,8 @@ export function applyPreset(theme: Theme, preset: PresetName): Theme {
       dark: newPalette,
     },
     semantic: {
-      light: overrides?.light ? { ...baseLight, ...overrides.light } : baseLight,
-      dark: overrides?.dark ? { ...baseDark, ...overrides.dark } : baseDark,
+      light: computePresetSemantic(preset, 'light'),
+      dark: computePresetSemantic(preset, 'dark'),
     },
   }
 }

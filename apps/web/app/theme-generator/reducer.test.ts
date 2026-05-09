@@ -235,4 +235,23 @@ describe('reducer — SYNC_PRESET (navbar-driven) preserves palette divergence',
     expect(next.palette.light.brand['500']).toBe('#f58a1e')
     expect(next.palette.dark.brand['500']).toBe('#f58a1e')
   })
+
+  /**
+   * gh-93 regression: SYNC_PRESET historically called computeSemanticLight/Dark
+   * directly, bypassing the per-preset semantic-overrides merge that runs
+   * inside applyPreset. The override leak then surfaced at runtime on the
+   * navbar-driven path (MutationObserver + persisted attr), not on the
+   * sidebar SET_PRESET path. The fix routes both branches through
+   * `computePresetSemantic`. Keep these guards in place.
+   */
+  it('SYNC_PRESET applies cyberpunk light primaryForeground override on a fresh theme', () => {
+    const next = reducer(DEFAULT_THEME, { type: 'SYNC_PRESET', preset: 'cyberpunk' })
+    // ink.900 of the cyberpunk palette — vivid amber primary needs dark text
+    expect(next.semantic.light.primaryForeground).toBe('#170731')
+  })
+
+  it('SYNC_PRESET applies sunset dark memphisBorderColor override on a fresh theme', () => {
+    const next = reducer(DEFAULT_THEME, { type: 'SYNC_PRESET', preset: 'sunset' })
+    expect(next.semantic.dark.memphisBorderColor).toBe('#000000')
+  })
 })
