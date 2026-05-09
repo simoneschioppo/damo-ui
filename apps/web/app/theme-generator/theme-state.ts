@@ -275,8 +275,11 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
     borderStrong: p.paper['50'] + '38',
     ring: p.brand['400'],
 
+    // gh-91: shadow stays solid black in dark (consistent with foundations).
+    // Border lifts to a light gray so the Memphis 2px frame stays visible
+    // against the dark plum surfaces — black borders disappeared into bg/card.
     memphisShadowColor: '#000000',
-    memphisBorderColor: '#000000',
+    memphisBorderColor: '#cccccc',
 
     badgeFeatured: p.brand['400'],
     badgeFeaturedForeground: p.ink['900'],
