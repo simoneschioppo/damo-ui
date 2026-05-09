@@ -192,6 +192,33 @@ describe('gh-93 — preset roster', () => {
 })
 
 /**
+ * gh-95: structural guards for paper-ramp divergence between presets.
+ * Before gh-95 every preset shared `DEFAULT_THEME.palette.light.paper`; gh-95
+ * established the precedent that a preset can carry its own paper ramp. Catch
+ * a future refactor that silently collapses cyberpunk/forest paper back to
+ * the default cream (the per-preset hex assertions cover values, not the
+ * "is divergent at all" property).
+ */
+describe('gh-95 — preset paper ramps may diverge from the default cream', () => {
+  const defaultPaper50 = DEFAULT_THEME.palette.light.paper['50']
+
+  it('cyberpunk paper.50 is NOT the default cream', () => {
+    const cy = applyPreset(DEFAULT_THEME, 'cyberpunk')
+    expect(cy.palette.light.paper['50']).not.toBe(defaultPaper50)
+  })
+
+  it('forest paper.50 is NOT the default cream', () => {
+    const fo = applyPreset(DEFAULT_THEME, 'forest')
+    expect(fo.palette.light.paper['50']).not.toBe(defaultPaper50)
+  })
+
+  it('sunset paper.50 still tracks the default cream (sunset shares paper)', () => {
+    const sun = applyPreset(DEFAULT_THEME, 'sunset')
+    expect(sun.palette.light.paper['50']).toBe(defaultPaper50)
+  })
+})
+
+/**
  * gh-95: Cyberpunk palette rebalanced — brand moved from vivid amber to deep
  * teal/cyan, paper from cream to cool cyan cream, and the gh-93 light
  * primaryForeground override removed (deep teal contrasts AA with white).
