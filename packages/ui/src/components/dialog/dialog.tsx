@@ -111,10 +111,16 @@ export const DialogContent = forwardRef<
         className={cn(
           'fixed left-1/2 top-1/2 z-modal -translate-x-1/2 -translate-y-1/2',
           'w-full max-w-lg bg-card text-foreground',
-          'border-2 border-memphis shadow-memphis-lg rounded-none',
+          'border-2 border-memphis rounded-none',
           'p-6 flex flex-col gap-4',
           'focus:outline-none',
-          tone === 'danger' && '[--memphis-shadow-color:var(--destructive)]',
+          // Mutually-exclusive shadow tier×tint via the per-color @utility
+          // (see #66 for the per-color utilities that replaced the broken
+          // inherited-var recipe). Emitting both `shadow-memphis-lg` and
+          // its tinted variant on the same element would leave source-order
+          // ambiguity that `tailwind-merge` cannot disambiguate for custom
+          // utilities, so we pick exactly one.
+          tone === 'danger' ? 'shadow-memphis-lg-destructive' : 'shadow-memphis-lg',
           'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
           'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',
           className,

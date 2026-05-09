@@ -33,10 +33,14 @@ export const buttonVariants = cva(
         ghost: [
           'bg-card text-card-foreground',
           'border-2 border-memphis rounded-none',
-          '[--memphis-shadow-color:var(--primary)] shadow-memphis',
-          'hover:bg-muted hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis-hover',
-          'active:translate-x-[3px] active:translate-y-[3px] active:shadow-memphis-active',
-          'data-[state=open]:translate-x-[3px] data-[state=open]:translate-y-[3px] data-[state=open]:shadow-memphis-active',
+          // Primary-tinted Memphis shadow at rest plus matching tinted
+          // hover/active offsets — without the per-color hover/active
+          // utilities the shadow would jolt back to default black on
+          // every state change. See #66.
+          'shadow-memphis-primary',
+          'hover:bg-muted hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis-primary-hover',
+          'active:translate-x-[3px] active:translate-y-[3px] active:shadow-memphis-primary-active',
+          'data-[state=open]:translate-x-[3px] data-[state=open]:translate-y-[3px] data-[state=open]:shadow-memphis-primary-active',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         ],
         destructive: [

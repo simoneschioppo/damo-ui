@@ -124,7 +124,13 @@ describe('Dialog — tone="danger"', () => {
     )
     await user.click(screen.getByRole('button', { name: 'Open' }))
     const content = screen.getByRole('dialog')
-    expect(content.className).toContain('[--memphis-shadow-color:var(--destructive)]')
+    // Post-#66: tinting flows through the per-color `shadow-memphis-lg-destructive`
+    // utility, mutually exclusive with the default `shadow-memphis-lg`.
+    // Use classList.contains for exact-token comparison — substring
+    // matches like `toContain('shadow-memphis-lg')` would trivially pass
+    // on `shadow-memphis-lg-destructive` and miss the regression.
+    expect(content.classList.contains('shadow-memphis-lg-destructive')).toBe(true)
+    expect(content.classList.contains('shadow-memphis-lg')).toBe(false)
   })
 
   it('does not apply the destructive shadow override in default tone', async () => {
@@ -141,7 +147,8 @@ describe('Dialog — tone="danger"', () => {
     )
     await user.click(screen.getByRole('button', { name: 'Open' }))
     const content = screen.getByRole('dialog')
-    expect(content.className).not.toContain('[--memphis-shadow-color:var(--destructive)]')
+    expect(content.classList.contains('shadow-memphis-lg-destructive')).toBe(false)
+    expect(content.classList.contains('shadow-memphis-lg')).toBe(true)
   })
 })
 
@@ -160,7 +167,8 @@ describe('Dialog — severity + tone are orthogonal', () => {
     )
     await user.click(screen.getByRole('button', { name: 'Open' }))
     const content = screen.getByRole('alertdialog')
-    expect(content.className).not.toContain('[--memphis-shadow-color:var(--destructive)]')
+    expect(content.classList.contains('shadow-memphis-lg-destructive')).toBe(false)
+    expect(content.classList.contains('shadow-memphis-lg')).toBe(true)
   })
 
   it('alert + danger tone combines both', async () => {
@@ -177,7 +185,8 @@ describe('Dialog — severity + tone are orthogonal', () => {
     )
     await user.click(screen.getByRole('button', { name: 'Open' }))
     const content = screen.getByRole('alertdialog')
-    expect(content.className).toContain('[--memphis-shadow-color:var(--destructive)]')
+    expect(content.classList.contains('shadow-memphis-lg-destructive')).toBe(true)
+    expect(content.classList.contains('shadow-memphis-lg')).toBe(false)
   })
 })
 

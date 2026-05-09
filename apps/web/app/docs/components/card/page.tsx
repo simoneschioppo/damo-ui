@@ -143,9 +143,7 @@ export default async function CardDocsPage() {
       </Example>
 
       <h2 className="font-display text-2xl mb-3 mt-10">Elevated variant</h2>
-      <p className="text-foreground/80 mb-3">
-        {t('componentDocs.card.body.elevatedIntro')}
-      </p>
+      <p className="text-foreground/80 mb-3">{t('componentDocs.card.body.elevatedIntro')}</p>
       <Example code={ELEVATED_SNIPPET} previewClassName="px-6 py-10 flex justify-center">
         <div className="w-full max-w-md">
           <Card variant="elevated" padding="md">

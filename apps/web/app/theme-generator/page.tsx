@@ -864,7 +864,9 @@ function IdentityEditor({ theme, identity, otherIdentity, mode, dispatch }: Iden
               lightValue={String(theme.shadowSoft.light.md)}
               darkValue={String(theme.shadowSoft.dark.md)}
             >
-              <Label>{t('shadowMdOpacity', { opacity: theme.shadowSoft[mode].md.toFixed(2) })}</Label>
+              <Label>
+                {t('shadowMdOpacity', { opacity: theme.shadowSoft[mode].md.toFixed(2) })}
+              </Label>
               <Slider
                 value={[Math.round(theme.shadowSoft[mode].md * 100)]}
                 min={0}

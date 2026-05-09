@@ -23,7 +23,9 @@ export const SelectTrigger = forwardRef<
         'transition-colors duration-fast cursor-pointer',
         'hover:bg-muted',
         'data-[placeholder]:text-muted-foreground',
-        'focus-visible:outline-none focus-visible:border-primary focus-visible:[--memphis-shadow-color:var(--primary)] focus-visible:shadow-memphis',
+        // Primary-tinted Memphis shadow on focus (see #66 for the per-color
+        // utilities that replaced the broken inherited-var recipe).
+        'focus-visible:outline-none focus-visible:border-primary focus-visible:shadow-memphis-primary',
         'disabled:opacity-50 disabled:pointer-events-none',
         className,
       )}

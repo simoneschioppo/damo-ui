@@ -81,9 +81,7 @@ export default async function ContainerDocsPage() {
       <Code code={SIZE_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">Unpadded</h2>
-      <p className="text-foreground/80 mb-3">
-        {t('componentDocs.container.body.unpadded')}
-      </p>
+      <p className="text-foreground/80 mb-3">{t('componentDocs.container.body.unpadded')}</p>
       <Code code={UNPADDED_SNIPPET} lang="tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
