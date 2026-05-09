@@ -105,7 +105,7 @@ describe('TokenPreviewChip — issue #64', () => {
     it('radius chip has horizontal breathing room from the slider/input', () => {
       const { getByTestId } = render(<TokenPreviewChip variant="radius" tokenKey="sm" />)
       const el = getByTestId('token-preview-chip-radius-sm')
-      expect(el.style.marginRight).toBe('8px')
+      expect(el.style.marginRight).toBe('16px')
     })
   })
 })
