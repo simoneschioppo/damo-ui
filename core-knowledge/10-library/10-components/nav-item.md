@@ -1,6 +1,6 @@
 # NavItem
 
-Status: documented · Last scan: 3a33508 · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `packages/ui/src/components/nav-item/{nav-item.tsx,nav-item.variants.ts,index.ts,nav-item.test.tsx,nav-item.tone-on-dark.test.ts}`,
 `packages/ui/src/lib/selection-chrome.ts`.
 
@@ -193,7 +193,7 @@ selectionChromeClasses({
 2. ~~**Active chrome shared with DropdownMenuRadioItem**~~ —
    **RESOLVED in gh-61 / PR #75.** The recipe now lives in
    `packages/ui/src/lib/selection-chrome.ts` as
-   `selectionChromeClasses(opts)`, exported from `@damo/ui`. Both
+   `selectionChromeClasses(opts)`, exported from `damo-ui`. Both
    NavItem (default + onDark) and `DropdownMenuRadioItem` consume it.
    The bar-inset divergence is an explicit parameter, the
    `color-mix(in oklab, …)` literal lives only in the helper, and a

@@ -1,6 +1,6 @@
 # Theming
 
-Status: documented · Last scan: c38c933 · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `packages/ui/tailwind.preset.ts`,
 `packages/ui/src/styles/tokens.css`,
 `packages/ui/src/styles/theme.css`,
@@ -38,20 +38,20 @@ override semantic vars from a parent selector without forking files.
 
 The theming surface is exposed via `package.json` `exports`. Consumers see:
 
-| Subpath                       | Kind      | Purpose                                          |
-| ----------------------------- | --------- | ------------------------------------------------ |
-| `@damo/ui/styles/tokens.css`  | CSS       | Layer 1 — declares every CSS variable on `:root` |
-| `@damo/ui/styles/theme.css`   | CSS       | Layer 2 — Tailwind v4 bridge (`@theme inline`)   |
-| `@damo/ui/styles/globals.css` | CSS       | Optional reset + base typography utilities       |
-| `@damo/ui/tailwind.preset`    | TS module | Legacy v3-style preset (Tailwind v3 compat shim) |
+| Subpath                      | Kind      | Purpose                                          |
+| ---------------------------- | --------- | ------------------------------------------------ |
+| `damo-ui/styles/tokens.css`  | CSS       | Layer 1 — declares every CSS variable on `:root` |
+| `damo-ui/styles/theme.css`   | CSS       | Layer 2 — Tailwind v4 bridge (`@theme inline`)   |
+| `damo-ui/styles/globals.css` | CSS       | Optional reset + base typography utilities       |
+| `damo-ui/tailwind.preset`    | TS module | Legacy v3-style preset (Tailwind v3 compat shim) |
 
 Recommended consumer wiring (Tailwind **v4**):
 
 ```css
 /* in the consumer's root stylesheet */
-@import '@damo/ui/styles/tokens.css'; /* values */
-@import '@damo/ui/styles/theme.css'; /* tailwind bridge */
-@import '@damo/ui/styles/globals.css'; /* optional reset */
+@import 'damo-ui/styles/tokens.css'; /* values */
+@import 'damo-ui/styles/theme.css'; /* tailwind bridge */
+@import 'damo-ui/styles/globals.css'; /* optional reset */
 ```
 
 Tailwind v4 picks up the bridged tokens automatically — no preset needed.
@@ -60,18 +60,18 @@ Recommended consumer wiring (Tailwind **v3**):
 
 ```ts
 // tailwind.config.ts
-import damo from '@damo/ui/tailwind.preset'
+import damo from 'damo-ui/tailwind.preset'
 export default { presets: [damo], content: [...] }
 ```
 
 The TypeScript module surface for theming is intentionally tiny:
 
-| Export                           | From                                                       |
-| -------------------------------- | ---------------------------------------------------------- |
-| `default` (preset)               | `@damo/ui/tailwind.preset`                                 |
-| `hexToRgb`, `relativeLuminance`, | `contrast-utils.ts` (internal — not                        |
-| `contrastRatio`, `passesAA`      | re-exported from `src/index.ts`)                           |
-| `useResolvedCssVars` (hook)      | `@damo/ui` (consumes tokens at runtime; see hooks chapter) |
+| Export                           | From                                                      |
+| -------------------------------- | --------------------------------------------------------- |
+| `default` (preset)               | `damo-ui/tailwind.preset`                                 |
+| `hexToRgb`, `relativeLuminance`, | `contrast-utils.ts` (internal — not                       |
+| `contrastRatio`, `passesAA`      | re-exported from `src/index.ts`)                          |
+| `useResolvedCssVars` (hook)      | `damo-ui` (consumes tokens at runtime; see hooks chapter) |
 
 Contrast utilities are **not** part of the public package export today; they
 are consumed in-tree by tests and by the web app's theme generator (which
@@ -354,7 +354,7 @@ This chapter has no sub-files yet. Likely future sub-chapters:
 ## How to consume (shadcn-style copy)
 
 A consumer who is copying-pasting components rather than depending on
-`@damo/ui` needs:
+`damo-ui` needs:
 
 1. **Copy `tokens.css`** into the consumer's `app/styles/` (or
    equivalent) and import it from the consumer's root stylesheet. Edit

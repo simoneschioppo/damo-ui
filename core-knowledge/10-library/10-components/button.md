@@ -1,6 +1,6 @@
 # Button
 
-Status: documented · Last scan: c38c933 · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `packages/ui/src/components/button/{button.tsx,button.variants.ts,index.ts,button.test.tsx,button.stories.tsx}`.
 
 > **Canonical primitive.** Button establishes the patterns the rest of the
@@ -20,7 +20,7 @@ visual or animation classes.
 
 ## Public API
 
-Exported from `@damo/ui` as:
+Exported from `damo-ui` as:
 
 | Export           | Kind                                                                                         |
 | ---------------- | -------------------------------------------------------------------------------------------- |

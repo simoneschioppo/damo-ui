@@ -1,6 +1,6 @@
 # DropdownMenu
 
-Status: documented · Last scan: 3a33508 · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `packages/ui/src/components/dropdown-menu/{dropdown-menu.tsx,index.ts,dropdown-menu.test.tsx}`,
 `packages/ui/src/lib/selection-chrome.ts`.
 
@@ -210,7 +210,7 @@ typography.
    recipe**~~ — **RESOLVED in gh-61 / PR #75.** Extracted as
    `selectionChromeClasses(opts)` at
    `packages/ui/src/lib/selection-chrome.ts`, exported from
-   `@damo/ui`. Both call-sites consume it with their own option
+   `damo-ui`. Both call-sites consume it with their own option
    payload (gate, tokens, bar inset). Drift protection: a
    source-contract regression test asserts the literal
    `linear-gradient(135deg` no longer appears in either

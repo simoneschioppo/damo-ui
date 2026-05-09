@@ -1,11 +1,11 @@
 # Docs Site
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `apps/web/app/docs/{layout.tsx,page.tsx,getting-started/,foundations/,components/,_components/,_lib/}`.
 
 ## Summary
 
-The documentation surface for `@damo/ui`, served at `/docs/*`. Two-
+The documentation surface for `damo-ui`, served at `/docs/*`. Two-
 column responsive layout (sidebar + content), with grouped navigation
 defined in a single source-of-truth file. Per-component pages render
 real component examples via a `<Example>` server component that pairs
@@ -152,13 +152,13 @@ A typical real component page (e.g.
 
 ```ts
 import Link from 'next/link'
-import { Button, IconButton } from '@damo/ui'
+import { Button, IconButton } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Button } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Button } from 'damo-ui'`
 const BASIC_SNIPPET = `…`
 const SIZES_SNIPPET = `…`
 
@@ -263,7 +263,7 @@ contract.
 
 ## How to consume (lessons / patterns to lift)
 
-For external docs consumers building on `@damo/ui`:
+For external docs consumers building on `damo-ui`:
 
 - The `<Example>` pattern (server-rendered preview + syntax
   highlight) is portable: pull the Code/Example/CopyButton trio

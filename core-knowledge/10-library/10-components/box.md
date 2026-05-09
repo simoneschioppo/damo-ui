@@ -1,6 +1,6 @@
 # Box
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `packages/ui/src/components/box/{box.tsx,box.variants.ts,index.ts}`.
 
 ## Summary
@@ -55,7 +55,7 @@ times in a row.
 5. **`boxVariants` not re-exported** from `index.ts`. Source has
    `BoxVariants` type but only the component is re-exported. If a
    consumer needs the cva instance, they import it deep
-   (`@damo/ui/components/box/box.variants` — not part of public
+   (`damo-ui/components/box/box.variants` — not part of public
    exports). Worth promoting if needed.
 
 ## How to consume (shadcn-style copy)

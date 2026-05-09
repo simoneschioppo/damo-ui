@@ -1,6 +1,6 @@
 # Web App Architecture
 
-Status: documented · Last scan: d0f212a · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `apps/web/app/{layout.tsx,page.tsx,not-found.tsx,globals.css,styles/}`,
 `apps/web/{next.config.ts,tailwind.config.ts,package.json,components/,lib/}`,
 `apps/web/app/_components/`,
@@ -13,7 +13,7 @@ Status: documented · Last scan: d0f212a · Sources:
 ## Summary
 
 `apps/web` is a **Next.js 15 App Router** project that doubles as
-**(a) the documentation site** for `@damo/ui` and **(b) the live
+**(a) the documentation site** for `damo-ui` and **(b) the live
 theme generator** that produces consumable tokens. Workspace-wired
 to the lib via path aliases (zero-build dev — Next imports
 `packages/ui/src` directly), with a custom Tailwind v4 + lib-tokens
@@ -80,7 +80,7 @@ apps/web/
 │   ├── to-ico.d.ts (removed; obsolete after inline-encoder switch)
 │   └── __tests__/icons-output.test.ts
 ├── test-utils/                ← Vitest helpers
-├── next.config.ts             ← path aliases for @damo/ui resolution
+├── next.config.ts             ← path aliases for damo-ui resolution
 ├── tailwind.config.ts         ← v3-compat preset for legacy paths
 ├── postcss.config.js
 └── package.json
@@ -94,14 +94,14 @@ theme override:
 
 ```css
 /* 1. Lib base — token contract + reset */
-@import '@damo/ui/styles/tokens.css';
-@import '@damo/ui/styles/globals.css';
+@import 'damo-ui/styles/tokens.css';
+@import 'damo-ui/styles/globals.css';
 
 /* 2. Tailwind v4 entry */
 @import 'tailwindcss';
 
 /* 3. Tailwind v4 bridge — exposes lib tokens as utility classes */
-@import '@damo/ui/styles/theme.css';
+@import 'damo-ui/styles/theme.css';
 
 /* 4. Playground's own theme — overrides lib's neutral defaults */
 @import './styles/theme.css';
@@ -116,7 +116,7 @@ Cascade order is critical:
 
 1. **Lib tokens** declare neutral grayscale defaults on `:root`.
 2. **Tailwind v4** picks up tokens via `@theme inline` from
-   `@damo/ui/styles/theme.css`.
+   `damo-ui/styles/theme.css`.
 3. **Playground theme** (`apps/web/app/styles/theme.css`)
    re-declares every semantic var with the Memphis "ink + plum +
    gold + paper" identity. This is the demonstration theme, not
@@ -134,7 +134,7 @@ The `--ink-100/300/500/700/800/900` palette tokens that the lib's
 overlay components (Dialog, Drawer, ScrollArea) reference but don't
 define are declared in **this app's** `app/styles/theme.css`. So the
 overlays render correctly inside the playground but would be broken
-for an external consumer of `@damo/ui` who didn't ship a similar
+for an external consumer of `damo-ui` who didn't ship a similar
 ink palette. (Recorded as Open question in the build-and-publish
 chapter.)
 
@@ -255,7 +255,7 @@ component leads) re-renders under the new locale.
 
 ## Library wiring (`next.config.ts`)
 
-The web app **imports `@damo/ui` source directly**, not the built
+The web app **imports `damo-ui` source directly**, not the built
 `dist/`:
 
 ```ts
@@ -263,18 +263,18 @@ const uiSrc = path.resolve(__dirname, '../../packages/ui/src')
 
 const config: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@damo/ui'],
+  transpilePackages: ['damo-ui'],
   webpack: (config) => {
     config.resolve.alias = {
-      '@damo/ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
-      '@damo/ui': path.join(uiSrc, 'index.ts'),
+      'damo-ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
+      'damo-ui': path.join(uiSrc, 'index.ts'),
     }
     return config
   },
   turbopack: {
     resolveAlias: {
-      '@damo/ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
-      '@damo/ui': path.join(uiSrc, 'index.ts'),
+      'damo-ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
+      'damo-ui': path.join(uiSrc, 'index.ts'),
     },
   },
 }
@@ -292,13 +292,13 @@ implications:
    bypasses them. This is intentional but worth knowing for
    debugging.
 
-`transpilePackages: ['@damo/ui']` ensures Next compiles the lib's
+`transpilePackages: ['damo-ui']` ensures Next compiles the lib's
 TS source (rather than expecting pre-built JS).
 
 ## Tailwind config (`tailwind.config.ts`)
 
 ```ts
-import damo from '@damo/ui/tailwind.preset'
+import damo from 'damo-ui/tailwind.preset'
 
 const config: Config = {
   presets: [damo as Config],
@@ -508,7 +508,7 @@ the mascot's silhouette would muddle.
 
 ## Notes & gotchas
 
-1. **The web app is the canonical consumer of `@damo/ui`.** Bugs
+1. **The web app is the canonical consumer of `damo-ui`.** Bugs
    in the lib's components surface here first. The development
    loop is "edit lib source → reload `apps/web`".
 
@@ -522,28 +522,28 @@ the mascot's silhouette would muddle.
    not exercised. To validate a release shape, build the lib and
    temporarily remove the alias.
 
-4. **`transpilePackages: ['@damo/ui']`** is required because Next 13+
+4. **`transpilePackages: ['damo-ui']`** is required because Next 13+
    doesn't compile workspace TS by default.
 
 5. **`tailwind.config.ts` is a shim**, not the source of truth.
 
 ## How to consume (reference architecture for an external app)
 
-A consumer wiring `@damo/ui` into a fresh Next 15 + Tailwind v4 app
+A consumer wiring `damo-ui` into a fresh Next 15 + Tailwind v4 app
 should mirror this stylesheet pipeline:
 
 ```css
-@import '@damo/ui/styles/tokens.css';
-@import '@damo/ui/styles/globals.css';
+@import 'damo-ui/styles/tokens.css';
+@import 'damo-ui/styles/globals.css';
 @import 'tailwindcss';
-@import '@damo/ui/styles/theme.css';
+@import 'damo-ui/styles/theme.css';
 /* Optional: consumer's own brand override */
 @import './styles/my-theme.css';
-@source '../node_modules/@damo/ui/dist/**/*.js';
+@source '../node_modules/damo-ui/dist/**/*.js';
 ```
 
 For workspace setups, the alias trick in `next.config.ts` is the
-fastest dev loop. For external consumers, install `@damo/ui` from
+fastest dev loop. For external consumers, install `damo-ui` from
 the registry (once published) and use `dist/` directly — no alias.
 
 ## Open questions
