@@ -71,7 +71,7 @@ export const WithRadioGroup = () => {
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={palette} onValueChange={setPalette}>
           <DropdownMenuRadioItem value="plum">Plum</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="neon">Neon</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="cyberpunk">Cyberpunk</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="sunset">Sunset</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>

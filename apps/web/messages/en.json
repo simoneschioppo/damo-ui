@@ -16,8 +16,9 @@
       "label": "Palette",
       "options": {
         "default": "Plum+Gold",
-        "neon": "Neon",
-        "sunset": "Sunset"
+        "sunset": "Sunset",
+        "cyberpunk": "Cyberpunk",
+        "forest": "Forest"
       }
     },
     "density": {
@@ -123,7 +124,7 @@
       "body": "Three orthogonal data-attributes on <code>&lt;html&gt;</code> drive every visual choice. Drop the lib's switcher components in your top bar and you're done — they read & write the attributes and persist to <mono>localStorage</mono>:",
       "validValuesEyebrow": "Valid attribute values",
       "themeBullet": "<mono>data-theme</mono> — the lib ships <strong>light only</strong>; declare your own <mono>[data-theme='dark']</mono> CSS overrides. Wire a <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> to switch between values.",
-      "paletteBullet": "<mono>data-palette</mono> — <strong>no built-ins</strong>; the lib's neutral defaults assume a single palette. Define <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, etc., and pass the same list to <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
+      "paletteBullet": "<mono>data-palette</mono> — <strong>no built-ins</strong>; the lib's neutral defaults assume a single palette. Define <mono>[data-palette='cyberpunk']</mono>, <mono>[data-palette='sunset']</mono>, etc., and pass the same list to <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
       "densityBullet": "<mono>data-density</mono> — built-in: <mono>compact</mono>, <mono>normal</mono>, <mono>comfortable</mono>. Drives <mono>--density-scale-y</mono> for vertical spacing."
     },
     "themingHint": "Full guide with dark-mode setup, custom palettes, programmatic switching, and FOUC prevention → <link>Theming</link>.",
@@ -168,7 +169,7 @@
       "themeCardLabel": "Light / Dark",
       "themeCardBody": "Toggles surfaces, foreground, and Memphis chrome. The lib ships <strong>light only</strong> — <em>you</em> declare the dark override.",
       "paletteCardLabel": "Brand variants",
-      "paletteCardBody": "No built-in values — declare any list you want (<mono>default</mono>, <mono>neon</mono>, <mono>sunset</mono>…) and override <mono>--primary</mono> & friends per palette.",
+      "paletteCardBody": "No built-in values — declare any list you want (<mono>default</mono>, <mono>sunset</mono>, <mono>cyberpunk</mono>, <mono>forest</mono>…) and override <mono>--primary</mono> & friends per palette.",
       "densityCardLabel": "compact / normal / comfortable",
       "densityCardBody": "Multiplies vertical spacing via <mono>--density-scale-y</mono>. Lib ships these three values out of the box.",
       "darkTitle": "1. Adding dark mode",
@@ -425,8 +426,9 @@
     },
     "presets": {
       "default": "Plum + Gold (default)",
-      "neon": "Neon (magenta + lime)",
-      "sunset": "Sunset (terracotta + orange)"
+      "sunset": "Sunset (terracotta + orange)",
+      "cyberpunk": "Cyberpunk (violet + amber)",
+      "forest": "Forest (green + amber)"
     },
     "easing": {
       "memphis": "memphis (default)",
