@@ -8,7 +8,7 @@ import {
   ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuShortcut,
-} from '@damo/ui'
+} from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
@@ -22,7 +22,7 @@ const IMPORT_SNIPPET = `import {
   ContextMenuItem,
   ContextMenuLabel,
   ContextMenuSeparator,
-} from '@damo/ui'`
+} from 'damo-ui'`
 
 const BASIC_SNIPPET = `<ContextMenu>
   <ContextMenuTrigger asChild>

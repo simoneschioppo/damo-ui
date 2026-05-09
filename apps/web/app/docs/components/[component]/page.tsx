@@ -61,7 +61,7 @@ export default async function ComponentStubPage({ params }: PageProps) {
         <li>
           Import it directly:{' '}
           <code className="font-mono bg-card border-2 border-memphis px-2 py-0.5">
-            {`import { ${entry.label} } from '@damo/ui'`}
+            {`import { ${entry.label} } from 'damo-ui'`}
           </code>
         </li>
         <li>

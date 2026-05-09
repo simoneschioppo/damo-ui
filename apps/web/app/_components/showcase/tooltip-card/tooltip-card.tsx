@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, type HTMLAttributes } from 'react'
-import { cn } from '@damo/ui'
+import { cn } from 'damo-ui'
 
 export interface TooltipCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   label: string

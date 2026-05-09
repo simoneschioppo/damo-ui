@@ -2,7 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] — 1.0.0 candidate
+## [Unreleased] — Phase 2 pre-publication audit (gh-79)
+
+Pre-publication housekeeping ahead of the public-npm soft-launch (#82). No runtime behaviour changes — only naming, licensing, and consumer-facing docs.
+
+### Breaking — package surface
+
+- **Package renamed `@damo/ui` → `damo-ui`.** The library now publishes as the unscoped `damo-ui` package on public npm. Consumers must update imports from `@damo/ui` and `@damo/ui/<sub>` to `damo-ui` and `damo-ui/<sub>` respectively. The `exports` map keys themselves are unchanged — only the consumer-facing import specifier moves.
+- **GitHub Packages registry retired.** `publishConfig.registry` removed from `packages/ui/package.json`; the future `pnpm publish` defaults to npmjs.org with `access: public`. Consumers no longer need an `@damo:registry=https://npm.pkg.github.com` `.npmrc` block.
+- **`@damo-ui/*` scope reserved** for ecosystem packages introduced post-1.0 (`@damo-ui/cli`, `@damo-ui/registry`, `@damo-ui/mcp`).
+
+### Added
+
+- **`LICENSE`** at repo root (MIT, © 2026 Simone Schioppo). Library is now MIT-licensed; `packages/ui/package.json` declares `license: "MIT"`.
+- README rewritten for public consumers: install snippet (`pnpm add damo-ui`), Tailwind v4 setup, basic usage example, "0.x preview, breaking changes possible at 1.0" disclaimer.
+
+### Internal
+
+- `apps/web` and `e2e` workspaces (`@damo/web`, `@damo/e2e`) are unchanged — they remain private monorepo workspaces and are never published.
+- `PUBLICATION_READINESS.md` refreshed with the post-rename audit snapshot and re-run checklist using the new filter names.
+
+## [0.3.0] — 1.0.0 candidate (theme architecture refactor)
 
 This is the v1 publish-prep run. Cycle 9 unified AlertDialog into Dialog and replaced the bespoke SettingsMenu / theme-preset switchers with generic primitives; the audit run that followed (cycles 10–19, PRs #26–34) hardened the token surface so every editable variable in the theme generator drives at least one preview pixel, and removed every var that no component consumed.
 
