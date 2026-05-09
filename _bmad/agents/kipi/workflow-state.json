@@ -99,7 +99,22 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "kind": "content-update",
+          "gh_issue": 91,
+          "chapters": [
+            "10-library/20-theming/README.md",
+            "20-web-app/20-theme-generator/README.md"
+          ],
+          "paths": [
+            "apps/web/app/styles/theme.css",
+            "apps/web/app/theme-generator/theme-state.ts"
+          ],
+          "summary": "Plum+Gold dark mode refinement (task 1 of N in default-theme review). Two-layer change: (1) docs theme.css `:root[data-theme='dark']` block — semantic deltas (--muted ink.700→ink.800, --muted-foreground ink.300→paper.50 by user choice for full-white text on muted, --primary brand.500→brand.400 for Memphis tinted-shadow legibility on dark plum, --warning decoupled from primary as custom amber #e8a435, --ring + --badge-featured follow primary) plus first-time chart + medal overrides (--chart-{1..5} adapted for dark contrast: ink.300/brand.400/dark-success/dark-destructive/ink.100; --medal-gold-outer + --medal-master-outer paper.50 since the light value ink.900 collided with --background); (2) generator theme-state.ts — `computeSemanticDark` mirrors the docs CSS deltas; `DEFAULT_IDENTITY` was split into `DEFAULT_IDENTITY_LIGHT` + `DEFAULT_IDENTITY_DARK`, with the dark variant carrying medals.gold/master.outer = paper.50, charts/appPattern adapted for dark contrast. Light theme + other presets (Neon, Sunset) untouched. Theme-generator chapter likely needs a 'Identity is per-mode' note since `_LIGHT`/`_DARK` is a new architectural primitive.",
+          "queued_at": "2026-05-09T14:35:00+00:00"
+        }
+      ],
       "runs": [
         {
           "kind": "content-update",
