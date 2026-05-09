@@ -10,6 +10,7 @@ How to consume, Open questions. **THIN** = compact (Summary + API +
 notes only).
 
 ## Primitives (batch C.1)
+
 - 🟢 [Button](button.md) — FULL · canonical primitive
 - 🟢 [IconButton](icon-button.md) — THIN
 - 🟢 [Badge](badge.md) — STANDARD
@@ -20,6 +21,7 @@ notes only).
 - 🟢 [Skeleton](skeleton.md) — THIN
 
 ## Form controls — base inputs (batch C.2)
+
 - 🟢 [Input](input.md) — STANDARD (focus shadow recipe canonical)
 - 🟢 [Textarea](textarea.md) — STANDARD
 - 🟢 [Checkbox](checkbox.md) — STANDARD
@@ -28,6 +30,7 @@ notes only).
 - 🟢 [Select](select.md) — STANDARD (10 exports — first compound component)
 
 ## Form controls — advanced (batch C.3)
+
 - 🟢 [Combobox](combobox.md) — FULL (cmdk + Popover, single-select)
 - 🟢 [Slider](slider.md) — STANDARD (range mode via array value, density-aware)
 - 🟢 [SegmentedControl](segmented-control.md) — STANDARD (Radix toggle-group single)
@@ -36,10 +39,12 @@ notes only).
 - 🟢 [DatePicker](date-picker.md) — FULL (DayPicker + Popover, Italian locale)
 
 ## Form composition (batch C.4)
+
 - 🟢 [FormField](form-field.md) — STANDARD (clone-and-merge child for a11y wiring)
 - 🟢 [Hint](hint.md) — STANDARD (numbered callout, not a form helper)
 
 ## Overlays (batch C.5)
+
 - 🟢 [Dialog](dialog.md) — FULL (severity/tone axes, AlertDialog consolidated here)
 - 🟢 [Drawer](drawer.md) — STANDARD (4-side cva, Header/Body/Footer)
 - 🟢 [Popover](popover.md) — STANDARD (forceMount Portal+Content)
@@ -49,6 +54,7 @@ notes only).
 - 🟢 [Toast](toast.md) — FULL (variants tint bg + shadow, responsive viewport)
 
 ## Layout (batch C.6)
+
 - 🟢 [Box](box.md) — STANDARD (polymorphic flex)
 - 🟢 [Container](container.md) — THIN (max-width centerer)
 - 🟢 [AspectRatio](aspect-ratio.md) — THIN (Radix passthrough)
@@ -59,6 +65,7 @@ notes only).
 - 🟢 [PageHeader](page-header.md) — STANDARD (responsive heading block)
 
 ## Navigation (batch C.7)
+
 - 🟢 [Tabs](tabs.md) — STANDARD (underlined active)
 - 🟢 [Breadcrumbs](breadcrumbs.md) — STANDARD (auto-injected separators)
 - 🟢 [Pagination](pagination.md) — FULL (windowed math factored out)
@@ -66,6 +73,7 @@ notes only).
 - 🟢 [Accordion](accordion.md) — STANDARD (Radix wrap, fade only)
 
 ## Data display (batch C.8)
+
 - 🟢 [Table](table.md) — STANDARD (8 exports, no default hover)
 - 🟢 [Card](card.md) — FULL (5 variants × 4 sizes + 5 sub-parts)
 - 🟢 [ArticleCard](article-card.md) — STANDARD (specialized 420px)
@@ -76,12 +84,14 @@ notes only).
 - 🟢 [Progress](progress.md) — STANDARD (translate-based fill, soft chrome)
 
 ## Decorative (batch C.9)
+
 - 🟢 [Banner](banner.md) — STANDARD (4 variants, self-managed dismiss)
 - 🟢 [Medal](medal.md) — STANDARD (5 ranks, heptagon SVG)
 - 🟢 [MemphisShape](memphis-shape.md) — STANDARD (8 decorative variants)
 - 🟢 [Ornament](ornament.md) — THIN (decorative section divider)
 
 ## Cross-cutting patterns (established by Button)
+
 The following are documented in [Button](button.md) and inherited by
 all primitives unless explicitly overridden:
 

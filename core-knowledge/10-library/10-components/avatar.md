@@ -12,39 +12,39 @@ inverted-colored display-font text.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
-| `Avatar`           | `forwardRef<…, AvatarProps>` — Radix Root + cva |
-| `AvatarImage`      | `forwardRef<…, AvatarPrimitive.Image props>` — styled image |
-| `AvatarFallback`   | `forwardRef<…, AvatarPrimitive.Fallback props>` — styled fallback |
-| `AvatarGroup`      | `forwardRef<HTMLDivElement, AvatarGroupProps>` — stacked overlap |
+| Export           | Kind                                                              |
+| ---------------- | ----------------------------------------------------------------- |
+| `Avatar`         | `forwardRef<…, AvatarProps>` — Radix Root + cva                   |
+| `AvatarImage`    | `forwardRef<…, AvatarPrimitive.Image props>` — styled image       |
+| `AvatarFallback` | `forwardRef<…, AvatarPrimitive.Fallback props>` — styled fallback |
+| `AvatarGroup`    | `forwardRef<HTMLDivElement, AvatarGroupProps>` — stacked overlap  |
 
-| `AvatarProps`      | Type                                                              | Default |
-|--------------------|-------------------------------------------------------------------|---------|
-| `size`             | `'sm' \| 'md' \| 'lg' \| 'xl'`                                    | `'md'`  |
-| `shape`            | `'circle' \| 'square'`                                            | `'circle'` |
-| …Radix             | `ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>`           | —       |
+| `AvatarProps` | Type                                                    | Default    |
+| ------------- | ------------------------------------------------------- | ---------- |
+| `size`        | `'sm' \| 'md' \| 'lg' \| 'xl'`                          | `'md'`     |
+| `shape`       | `'circle' \| 'square'`                                  | `'circle'` |
+| …Radix        | `ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>` | —          |
 
-| `AvatarGroupProps` | Type                              | Default |
-|--------------------|-----------------------------------|---------|
-| `max`              | `number`                          | —       |
-| `children`         | `ReactNode`                       | (req)   |
-| …native            | `HTMLAttributes<HTMLDivElement>`  | —       |
+| `AvatarGroupProps` | Type                             | Default |
+| ------------------ | -------------------------------- | ------- |
+| `max`              | `number`                         | —       |
+| `children`         | `ReactNode`                      | (req)   |
+| …native            | `HTMLAttributes<HTMLDivElement>` | —       |
 
 ### Sizes
 
-| Size | Dimensions    | Text  |
-|------|---------------|-------|
-| `sm` | `h-8 w-8`     | `text-xs`   |
-| `md` | `h-10 w-10`   | `text-sm`   |
-| `lg` | `h-14 w-14`   | `text-base` |
-| `xl` | `h-20 w-20`   | `text-lg`   |
+| Size | Dimensions  | Text        |
+| ---- | ----------- | ----------- |
+| `sm` | `h-8 w-8`   | `text-xs`   |
+| `md` | `h-10 w-10` | `text-sm`   |
+| `lg` | `h-14 w-14` | `text-base` |
+| `xl` | `h-20 w-20` | `text-lg`   |
 
 ### Shapes
 
-| Shape    | Classes |
-|----------|---------|
-| `circle` | `rounded-full` |
+| Shape    | Classes                                |
+| -------- | -------------------------------------- |
+| `circle` | `rounded-full`                         |
 | `square` | `rounded-none border-2 border-memphis` |
 
 ## Internal architecture
@@ -82,10 +82,14 @@ image fails to load (or while it's loading, depending on `delayMs`).
 
 ```jsx
 <div className="inline-flex items-center -space-x-2">
-  {shown.map(child => <div className="ring-2 ring-background rounded-full">{child}</div>)}
+  {shown.map((child) => (
+    <div className="ring-2 ring-background rounded-full">{child}</div>
+  ))}
   {restCount > 0 && (
     <div className="ring-2 ring-background rounded-full">
-      <Avatar><AvatarFallback>+{restCount}</AvatarFallback></Avatar>
+      <Avatar>
+        <AvatarFallback>+{restCount}</AvatarFallback>
+      </Avatar>
     </div>
   )}
 </div>

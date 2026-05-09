@@ -9,11 +9,13 @@ Initialized: **2026-05-06**
 Status legend: 🟢 documented · 🟡 pending · 🔴 outdated
 
 ## 00 — Overview
+
 - 🟡 [What is damo-ui](00-overview/00-what-is-damo-ui.md)
 - 🟡 [Monorepo layout](00-overview/01-monorepo-layout.md)
 - 🟡 [Publishing model](00-overview/02-publishing-model.md)
 
 ## 10 — Library (`packages/ui`) — priority 1
+
 - 🟢 [Architecture](10-library/00-architecture.md)
 - 🟢 [Components](10-library/10-components/README.md) (per-component sub-chapters — see below)
 - 🟢 [Hooks](10-library/15-hooks.md)
@@ -25,12 +27,14 @@ Status legend: 🟢 documented · 🟡 pending · 🔴 outdated
 - 🟡 [Testing](10-library/40-testing/README.md)
 
 ## 20 — Web app (`apps/web`) — priority 2
+
 - 🟢 [Architecture](20-web-app/00-architecture.md)
 - 🟢 [Docs site](20-web-app/10-docs-site/README.md)
 - 🟢 [Theme generator](20-web-app/20-theme-generator/README.md)
 - 🟡 [Deployment](20-web-app/30-deployment.md)
 
 ## 30 — Cross-cutting
+
 - 🟡 [Tooling](30-cross-cutting/00-tooling.md)
 - 🟡 [CI / CD](30-cross-cutting/10-ci-cd.md)
 - 🟡 [End-to-end tests](30-cross-cutting/15-e2e.md)
@@ -38,5 +42,6 @@ Status legend: 🟢 documented · 🟡 pending · 🔴 outdated
 - 🟡 [Publication readiness](30-cross-cutting/30-publication-readiness.md)
 
 ## Inbox
+
 - [ready-for-classify/](ready-for-classify/) — processed `user-data/`
   drops awaiting merge into a chapter via `*4 Update Knowledge`.

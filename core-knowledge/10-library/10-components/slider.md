@@ -13,8 +13,8 @@ thumbs from a multi-element `value`).
 
 ## Public API
 
-| Export   | Kind |
-|----------|------|
+| Export   | Kind                                                                                                         |
+| -------- | ------------------------------------------------------------------------------------------------------------ |
 | `Slider` | `forwardRef<ElementRef<typeof SliderPrimitive.Root>, ComponentPropsWithoutRef<typeof SliderPrimitive.Root>>` |
 
 Props are exactly Radix's `Slider.Root`: `value`, `defaultValue`

@@ -52,6 +52,7 @@ expansion in 2026-05).
 - Render in real Radix portals where applicable; do not stub.
 
 Examples:
+
 - `dialog/dialog.test.tsx` — severity / tone / hideClose / portal
 - `nav-item/nav-item.test.tsx` — `aria-current="page"` driving the
   selection chrome
@@ -63,24 +64,25 @@ These tests **read source files as strings and grep for invariants**.
 They run in jsdom but do not touch the DOM at all — they simply
 guard textual contracts that jsdom cannot otherwise enforce.
 
-| File | Asserts |
-|------|---------|
-| `theme-bridge-coverage.test.ts` | every Damo token used by a component is bridged in `theme.css` to the corresponding Tailwind utility namespace |
-| `chart-tokens.test.ts` | `--chart-1..5` present in `tokens.css` and bridged in `theme.css` (regression guard for J-08a) |
-| `typography-bridge.test.ts` | `--text-xs..3xl` re-declared in `@theme inline` so runtime overrides flow through (regression guard for J-10 / AC-2) |
-| `contrast-utils.test.ts` | the WCAG contrast helpers behave correctly across hex/luminance/ratio/AA |
+| File                            | Asserts                                                                                                              |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `theme-bridge-coverage.test.ts` | every Damo token used by a component is bridged in `theme.css` to the corresponding Tailwind utility namespace       |
+| `chart-tokens.test.ts`          | `--chart-1..5` present in `tokens.css` and bridged in `theme.css` (regression guard for J-08a)                       |
+| `typography-bridge.test.ts`     | `--text-xs..3xl` re-declared in `@theme inline` so runtime overrides flow through (regression guard for J-10 / AC-2) |
+| `contrast-utils.test.ts`        | the WCAG contrast helpers behave correctly across hex/luminance/ratio/AA                                             |
 
 Component-side counterparts:
 
-| File | Asserts |
-|------|---------|
-| `medal/medal.tokens.test.ts` | the 15 `--medal-*` tokens are all referenced by name in `medal.tsx` |
+| File                                     | Asserts                                                                                                                                 |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `medal/medal.tokens.test.ts`             | the 15 `--medal-*` tokens are all referenced by name in `medal.tsx`                                                                     |
 | `nav-item/nav-item.tone-on-dark.test.ts` | the legacy gold/plum rgba literals are absent and the gradient reads from `--nav-on-dark-accent`/`-strong` via `color-mix(in oklab, …)` |
 
 ### Mocks scaffolding (`src/mocks/`)
 
 Lightweight stubs (`ResizeObserver`, `matchMedia`, …) registered in
 `vitest.setup.ts`. Add a mock here only when:
+
 - jsdom genuinely lacks the API; and
 - multiple tests need it.
 
@@ -109,7 +111,7 @@ Vitest run cannot prove that editing `--primary` actually re-tints
 the `bg-primary` utility in a real browser. Two tiers cover the gap:
 
 1. **Tier 1 (this suite, lib-side):** source-contract tests prove
-   the token is *bridged correctly* — that the textual mapping in
+   the token is _bridged correctly_ — that the textual mapping in
    `theme.css` exists and is shaped right. Cheap, reliable, fast.
 2. **Tier 2 (`/e2e`, repo-level):** Playwright drives the live
    `/theme-generator` page in chromium and webkit, mutates a token

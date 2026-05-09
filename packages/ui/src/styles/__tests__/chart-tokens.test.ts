@@ -19,21 +19,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
  * already correct).
  */
 describe('AC-4 — Chart tokens are bridged for Tailwind utilities', () => {
-  const themeCss = readFileSync(
-    resolve(__dirname, '..', 'theme.css'),
-    'utf8',
-  )
+  const themeCss = readFileSync(resolve(__dirname, '..', 'theme.css'), 'utf8')
 
   const CHART_KEYS = ['1', '2', '3', '4', '5'] as const
 
-  it.each(CHART_KEYS)(
-    '@theme inline declares --color-chart-%s: var(--chart-%s)',
-    (key) => {
-      const compact = themeCss.replace(/\s+/g, ' ')
-      const pattern = new RegExp(
-        `--color-chart-${key}\\s*:\\s*var\\(--chart-${key}\\b`,
-      )
-      expect(compact).toMatch(pattern)
-    },
-  )
+  it.each(CHART_KEYS)('@theme inline declares --color-chart-%s: var(--chart-%s)', (key) => {
+    const compact = themeCss.replace(/\s+/g, ' ')
+    const pattern = new RegExp(`--color-chart-${key}\\s*:\\s*var\\(--chart-${key}\\b`)
+    expect(compact).toMatch(pattern)
+  })
 })

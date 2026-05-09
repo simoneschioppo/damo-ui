@@ -19,28 +19,28 @@ an explicit footer action.
 
 ## Public API
 
-| Export                  | Pass-through to                          |
-|-------------------------|------------------------------------------|
-| `Dialog`                | `DialogPrimitive.Root`                   |
-| `DialogTrigger`         | `DialogPrimitive.Trigger`                |
-| `DialogPortal`          | `DialogPrimitive.Portal`                 |
-| `DialogClose`           | `DialogPrimitive.Close`                  |
-| `DialogOverlay`         | styled — full-screen backdrop            |
-| `DialogContent`         | styled — centered modal panel            |
-| `DialogHeader`          | layout div — `flex flex-col gap-1 pr-8`  |
-| `DialogFooter`          | layout div — responsive flex (column on mobile, row on desktop) |
-| `DialogTitle`           | styled — display font, large             |
-| `DialogDescription`     | styled — small muted text                |
+| Export              | Pass-through to                                                 |
+| ------------------- | --------------------------------------------------------------- |
+| `Dialog`            | `DialogPrimitive.Root`                                          |
+| `DialogTrigger`     | `DialogPrimitive.Trigger`                                       |
+| `DialogPortal`      | `DialogPrimitive.Portal`                                        |
+| `DialogClose`       | `DialogPrimitive.Close`                                         |
+| `DialogOverlay`     | styled — full-screen backdrop                                   |
+| `DialogContent`     | styled — centered modal panel                                   |
+| `DialogHeader`      | layout div — `flex flex-col gap-1 pr-8`                         |
+| `DialogFooter`      | layout div — responsive flex (column on mobile, row on desktop) |
+| `DialogTitle`       | styled — display font, large                                    |
+| `DialogDescription` | styled — small muted text                                       |
 
 ### `DialogContentProps`
 
 Extends Radix's Content props with two additional axes:
 
-| Prop        | Type                       | Default     | Notes |
-|-------------|----------------------------|-------------|-------|
-| `severity`  | `'default' \| 'alert'`     | `'default'` | `'alert'` switches `role` to `alertdialog`, blocks pointer-down-outside and interact-outside, and hides the X button |
-| `tone`      | `'default' \| 'danger'`    | `'default'` | `'danger'` recolors the Memphis offset shadow to `--destructive` |
-| `hideClose` | `boolean`                  | —           | Hide the X button regardless of severity |
+| Prop        | Type                    | Default     | Notes                                                                                                                |
+| ----------- | ----------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------- |
+| `severity`  | `'default' \| 'alert'`  | `'default'` | `'alert'` switches `role` to `alertdialog`, blocks pointer-down-outside and interact-outside, and hides the X button |
+| `tone`      | `'default' \| 'danger'` | `'default'` | `'danger'` recolors the Memphis offset shadow to `--destructive`                                                     |
+| `hideClose` | `boolean`               | —           | Hide the X button regardless of severity                                                                             |
 
 ## Internal architecture
 
@@ -68,6 +68,7 @@ The X button is also hidden in alert mode (`!hideClose && !isAlert`)
 ### Tone = 'danger'
 
 A single class:
+
 ```
 [--memphis-shadow-color:var(--destructive)]
 ```
@@ -126,6 +127,7 @@ These come from `tailwindcss-animate` (see Open questions).
 
 When rendered, fixed at `absolute right-3 top-3`, 32×32, no border,
 hover muted. Hidden when:
+
 - `hideClose === true` (consumer override), or
 - `severity === 'alert'` (alert mode requires explicit footer action).
 

@@ -14,22 +14,22 @@ times in a row.
 
 ## Public API
 
-| Export        | Kind |
-|---------------|------|
-| `Box`         | polymorphic forwardRef component |
+| Export        | Kind                                                          |
+| ------------- | ------------------------------------------------------------- |
+| `Box`         | polymorphic forwardRef component                              |
 | `BoxProps<E>` | generic type — `BoxOwnProps<E> & ComponentPropsWithoutRef<E>` |
-| `boxVariants` | (not re-exported from `index.ts`, see Notes #5) |
+| `boxVariants` | (not re-exported from `index.ts`, see Notes #5)               |
 
-| Prop        | Type                                                          | Default     |
-|-------------|---------------------------------------------------------------|-------------|
-| `as`        | `ElementType`                                                 | `'div'`     |
-| `direction` | `'row' \| 'row-reverse' \| 'column' \| 'column-reverse'`      | `'row'`     |
-| `gap`       | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 8 \| 10 \| 12 \| 16 \| 20`| `0`         |
-| `align`     | `'start' \| 'center' \| 'end' \| 'stretch' \| 'baseline'`     | `'stretch'` |
-| `justify`   | `'start' \| 'center' \| 'end' \| 'between' \| 'around' \| 'evenly'` | `'start'` |
-| `wrap`      | `'wrap' \| 'nowrap' \| 'wrap-reverse'`                        | `'nowrap'`  |
-| `inline`    | `boolean`                                                     | `false`     |
-| `className` | `string`                                                      | —           |
+| Prop        | Type                                                                | Default     |
+| ----------- | ------------------------------------------------------------------- | ----------- |
+| `as`        | `ElementType`                                                       | `'div'`     |
+| `direction` | `'row' \| 'row-reverse' \| 'column' \| 'column-reverse'`            | `'row'`     |
+| `gap`       | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 8 \| 10 \| 12 \| 16 \| 20`      | `0`         |
+| `align`     | `'start' \| 'center' \| 'end' \| 'stretch' \| 'baseline'`           | `'stretch'` |
+| `justify`   | `'start' \| 'center' \| 'end' \| 'between' \| 'around' \| 'evenly'` | `'start'`   |
+| `wrap`      | `'wrap' \| 'nowrap' \| 'wrap-reverse'`                              | `'nowrap'`  |
+| `inline`    | `boolean`                                                           | `false`     |
+| `className` | `string`                                                            | —           |
 
 ## Notes
 
@@ -40,7 +40,7 @@ times in a row.
    forwardRef-with-generic shape.
 
 2. **`gap` is a finite enum**, not arbitrary. The set `{0,1,2,3,4,5,6,
-   8,10,12,16,20}` matches the lib's spacing tokens. For non-listed
+8,10,12,16,20}` matches the lib's spacing tokens. For non-listed
    values, drop to `className="gap-7"` etc.
 
 3. **`inline: true` uses `!inline-flex`** (with `!important`). The

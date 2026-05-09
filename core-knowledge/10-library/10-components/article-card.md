@@ -11,7 +11,7 @@ className), Memphis frame inherited from the generic `<Card>`. Three
 slots: optional eyebrow label, required title, body children.
 
 > **As of gh-60**, ArticleCard composes `<Card variant="default"
-> padding="none" className="p-6 max-w-[420px]">` internally. Public API
+padding="none" className="p-6 max-w-[420px]">` internally. Public API
 > is unchanged. Shadow is now the canonical 6px Memphis shadow
 > (`--shadow-memphis`) — was previously the 4px card-tier shadow
 > (`--shadow-memphis-card`). The 4px shadow tier survives in `tokens.css`
@@ -19,18 +19,18 @@ slots: optional eyebrow label, required title, body children.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
+| Export             | Kind                                           |
+| ------------------ | ---------------------------------------------- |
 | `ArticleCard`      | `forwardRef<HTMLDivElement, ArticleCardProps>` |
-| `ArticleCardProps` | see below |
+| `ArticleCardProps` | see below                                      |
 
-| Prop      | Type        | Notes |
-|-----------|-------------|-------|
-| `title`   | `string`    | required — renders as `<h4>` |
-| `label`   | `string`    | optional — eyebrow above title |
-| `children`| `ReactNode` | body content (multi-paragraph allowed) |
-| `className`| `string`   | merged onto the underlying `<Card>` |
-| …native   | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>` | `title` omitted because of prop conflict |
+| Prop        | Type                                            | Notes                                    |
+| ----------- | ----------------------------------------------- | ---------------------------------------- |
+| `title`     | `string`                                        | required — renders as `<h4>`             |
+| `label`     | `string`                                        | optional — eyebrow above title           |
+| `children`  | `ReactNode`                                     | body content (multi-paragraph allowed)   |
+| `className` | `string`                                        | merged onto the underlying `<Card>`      |
+| …native     | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>` | `title` omitted because of prop conflict |
 
 ## Internal architecture
 
@@ -43,14 +43,15 @@ slots: optional eyebrow label, required title, body children.
   {...rest}
 >
   {label && (
-    <div data-slot="label"
-         className="font-mono font-bold uppercase text-muted-foreground text-xs mb-2"
-         style={{ letterSpacing: '0.2em' }}>
+    <div
+      data-slot="label"
+      className="font-mono font-bold uppercase text-muted-foreground text-xs mb-2"
+      style={{ letterSpacing: '0.2em' }}
+    >
       {label}
     </div>
   )}
-  <h4 data-slot="title"
-      className="font-display text-foreground text-xl m-0 mb-3 leading-tight">
+  <h4 data-slot="title" className="font-display text-foreground text-xl m-0 mb-3 leading-tight">
     {title}
   </h4>
   <div data-slot="body" className="text-muted-foreground text-sm leading-relaxed">

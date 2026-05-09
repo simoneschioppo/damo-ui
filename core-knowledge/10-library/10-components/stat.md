@@ -13,20 +13,20 @@ container (a Card, a grid cell, etc.).
 
 ## Public API
 
-| Export       | Kind |
-|--------------|------|
-| `Stat`       | `forwardRef<HTMLDivElement, StatProps>` |
-| `StatProps`  | see below |
+| Export      | Kind                                    |
+| ----------- | --------------------------------------- |
+| `Stat`      | `forwardRef<HTMLDivElement, StatProps>` |
+| `StatProps` | see below                               |
 
-| Prop        | Type                                                | Default     |
-|-------------|-----------------------------------------------------|-------------|
-| `label`     | `ReactNode`                                         | (required)  |
-| `value`     | `ReactNode`                                         | (required)  |
-| `delta`     | `ReactNode`                                         | —           |
-| `deltaTone` | `'positive' \| 'negative' \| 'neutral'`             | `'neutral'` |
-| `icon`      | `ReactNode`                                         | —           |
-| `className` | `string`                                            | —           |
-| …native     | `HTMLAttributes<HTMLDivElement>`                    | —           |
+| Prop        | Type                                    | Default     |
+| ----------- | --------------------------------------- | ----------- |
+| `label`     | `ReactNode`                             | (required)  |
+| `value`     | `ReactNode`                             | (required)  |
+| `delta`     | `ReactNode`                             | —           |
+| `deltaTone` | `'positive' \| 'negative' \| 'neutral'` | `'neutral'` |
+| `icon`      | `ReactNode`                             | —           |
+| `className` | `string`                                | —           |
+| …native     | `HTMLAttributes<HTMLDivElement>`        | —           |
 
 ## Internal architecture
 
@@ -38,14 +38,16 @@ container (a Card, a grid cell, etc.).
       {label}
     </span>
   </div>
-  <span className="font-display text-3xl leading-none text-foreground">
-    {value}
-  </span>
+  <span className="font-display text-3xl leading-none text-foreground">{value}</span>
   {delta !== undefined && (
-    <span className={cn('text-xs font-semibold font-mono',
-                        positive && 'text-success',
-                        negative && 'text-destructive',
-                        neutral && 'text-muted-foreground')}>
+    <span
+      className={cn(
+        'text-xs font-semibold font-mono',
+        positive && 'text-success',
+        negative && 'text-destructive',
+        neutral && 'text-muted-foreground',
+      )}
+    >
       {delta}
     </span>
   )}
@@ -53,6 +55,7 @@ container (a Card, a grid cell, etc.).
 ```
 
 Three rows top-to-bottom:
+
 1. **Label row**: optional icon + uppercase mono caption.
 2. **Value**: display-font, 30px, leading-none (so multi-stat rows
    align baselines cleanly).
@@ -76,11 +79,11 @@ The delta `ReactNode` is responsible for the actual content (e.g.
    to no inter-line space. Don't pass multi-line strings.
 
 3. **`delta !== undefined`** — explicit undefined check (not
-   truthy). A `delta={0}` or `delta={false}` *would* render. This
+   truthy). A `delta={0}` or `delta={false}` _would_ render. This
    matches React conventions but worth noting.
 
 4. **`icon` is `ReactNode`** — pass any sized icon (`<TrendUpIcon
-   size={14} />`). The wrapper is `inline-flex` with no fixed size.
+size={14} />`). The wrapper is `inline-flex` with no fixed size.
 
 5. **Label uses `font-mono uppercase tracking-wider`** — same
    typography as Label / TableHead / SelectLabel. Reads as

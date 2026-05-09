@@ -13,11 +13,11 @@ text-background`).
 
 ## Public API
 
-| Export                     | Kind |
-|----------------------------|------|
-| `SegmentedControl`         | `forwardRef<…, SegmentedControlProps>` |
-| `SegmentedControlItem`     | `forwardRef<…, ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item>>` |
-| `SegmentedControlProps`    | `Omit<ToggleGroupSingleRootProps, 'type' \| 'orientation'> & { orientation?: 'horizontal' \| 'vertical' }` |
+| Export                  | Kind                                                                                                       |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `SegmentedControl`      | `forwardRef<…, SegmentedControlProps>`                                                                     |
+| `SegmentedControlItem`  | `forwardRef<…, ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item>>`                                |
+| `SegmentedControlProps` | `Omit<ToggleGroupSingleRootProps, 'type' \| 'orientation'> & { orientation?: 'horizontal' \| 'vertical' }` |
 
 Notable type narrowing: `ToggleGroupSingleRootProps` extracts only the
 `type: 'single'` variant of Radix's discriminated union, so consumers
@@ -57,7 +57,7 @@ data-[orientation=vertical]:not-first:border-t-memphis
 Three details worth flagging:
 
 1. **`focus-visible:outline-offset-[-2px]`** (negative offset). The
-   focus ring is drawn *inside* the item rather than outside —
+   focus ring is drawn _inside_ the item rather than outside —
    because items share a Memphis-bordered container, an outside ring
    would be clipped by the neighbour. Inside-offset preserves the
    ring inside the segment box.

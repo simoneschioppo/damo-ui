@@ -19,27 +19,21 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
  * xs, sm, base, lg, xl, 2xl, 3xl.
  */
 describe('AC-2 — Typography sizes flow through @theme inline', () => {
-  const themeCss = readFileSync(
-    resolve(__dirname, '..', 'theme.css'),
-    'utf8',
-  )
+  const themeCss = readFileSync(resolve(__dirname, '..', 'theme.css'), 'utf8')
 
   const SIZE_KEYS = ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'] as const
 
-  it.each(SIZE_KEYS)(
-    'declares --text-%s: var(--text-%s) inside @theme inline',
-    (key) => {
-      // Allow whitespace flexibility — match the literal token names but
-      // collapse whitespace before regex.
-      const compact = themeCss.replace(/\s+/g, ' ')
-      // Match `--text-<key>: var(--text-<key>[, fallback])` — fallback
-      // is allowed (recommended for external consumer compat) but the
-      // primary bridging declaration must reference the same token name
-      // so runtime :root overrides win.
-      const pattern = new RegExp(
-        `--text-${key.replace(/[-/\\^$*+?.()|[\\]{}]/g, '\\$&')}\\s*:\\s*var\\(--text-${key.replace(/[-/\\^$*+?.()|[\\]{}]/g, '\\$&')}(\\s*,[^)]*)?\\)`,
-      )
-      expect(compact).toMatch(pattern)
-    },
-  )
+  it.each(SIZE_KEYS)('declares --text-%s: var(--text-%s) inside @theme inline', (key) => {
+    // Allow whitespace flexibility — match the literal token names but
+    // collapse whitespace before regex.
+    const compact = themeCss.replace(/\s+/g, ' ')
+    // Match `--text-<key>: var(--text-<key>[, fallback])` — fallback
+    // is allowed (recommended for external consumer compat) but the
+    // primary bridging declaration must reference the same token name
+    // so runtime :root overrides win.
+    const pattern = new RegExp(
+      `--text-${key.replace(/[-/\\^$*+?.()|[\\]{}]/g, '\\$&')}\\s*:\\s*var\\(--text-${key.replace(/[-/\\^$*+?.()|[\\]{}]/g, '\\$&')}(\\s*,[^)]*)?\\)`,
+    )
+    expect(compact).toMatch(pattern)
+  })
 })

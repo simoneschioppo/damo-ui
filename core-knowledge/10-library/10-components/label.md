@@ -12,10 +12,10 @@ forwardRef wrapper. Intended for use above form controls; for the
 
 ## Public API
 
-| Export       | Kind |
-|--------------|------|
+| Export       | Kind                                       |
+| ------------ | ------------------------------------------ |
 | `Label`      | `forwardRef<HTMLLabelElement, LabelProps>` |
-| `LabelProps` | `LabelHTMLAttributes<HTMLLabelElement>` |
+| `LabelProps` | `LabelHTMLAttributes<HTMLLabelElement>`    |
 
 No variants, no extra props. `htmlFor` is the standard native attribute
 and links the label to its control.

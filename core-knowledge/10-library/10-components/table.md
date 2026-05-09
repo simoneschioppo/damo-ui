@@ -14,16 +14,16 @@ with mono-uppercase column titles, body with neutral 1px row dividers.
 
 8 exports — one for each table semantic element:
 
-| Export          | Renders                | Notes |
-|-----------------|------------------------|-------|
-| `Table`         | wrapper `<div>` + `<table>` | wrapper provides overflow + Memphis frame |
-| `TableHeader`   | `<thead>`              | inverted slab |
-| `TableBody`     | `<tbody>`              | last child has no bottom border |
-| `TableFooter`   | `<tfoot>`              | muted bg, top Memphis rule |
-| `TableRow`      | `<tr>`                 | bottom border, supports `data-state="selected"` |
-| `TableHead`     | `<th>`                 | mono-uppercase column header |
-| `TableCell`     | `<td>`                 | standard cell |
-| `TableCaption`  | `<caption>`            | bottom-aligned (browser default) |
+| Export         | Renders                     | Notes                                           |
+| -------------- | --------------------------- | ----------------------------------------------- |
+| `Table`        | wrapper `<div>` + `<table>` | wrapper provides overflow + Memphis frame       |
+| `TableHeader`  | `<thead>`                   | inverted slab                                   |
+| `TableBody`    | `<tbody>`                   | last child has no bottom border                 |
+| `TableFooter`  | `<tfoot>`                   | muted bg, top Memphis rule                      |
+| `TableRow`     | `<tr>`                      | bottom border, supports `data-state="selected"` |
+| `TableHead`    | `<th>`                      | mono-uppercase column header                    |
+| `TableCell`    | `<td>`                      | standard cell                                   |
+| `TableCaption` | `<caption>`                 | bottom-aligned (browser default)                |
 
 All accept native `*HTMLAttributes` plus `className`.
 
@@ -38,6 +38,7 @@ All accept native `*HTMLAttributes` plus `className`.
 ```
 
 Two reasons for the wrapper:
+
 1. **Overflow scrolls horizontally** when columns exceed container
    width — the `<table>` itself can't scroll.
 2. **Memphis frame** sits on the wrapper so it stays consistent with

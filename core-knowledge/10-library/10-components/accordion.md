@@ -13,12 +13,12 @@ section is open** via a CSS-only transform.
 
 ## Public API
 
-| Export                 | Pass-through to                          | Styled? |
-|------------------------|------------------------------------------|---------|
-| `Accordion`            | `AccordionPrimitive.Root`                | no      |
-| `AccordionItem`        | styled — bottom border per item          | yes     |
-| `AccordionTrigger`     | styled — flex header with rotating chevron | yes  |
-| `AccordionContent`     | styled — animated panel                  | yes     |
+| Export             | Pass-through to                            | Styled? |
+| ------------------ | ------------------------------------------ | ------- |
+| `Accordion`        | `AccordionPrimitive.Root`                  | no      |
+| `AccordionItem`    | styled — bottom border per item            | yes     |
+| `AccordionTrigger` | styled — flex header with rotating chevron | yes     |
+| `AccordionContent` | styled — animated panel                    | yes     |
 
 `Accordion` props are Radix's: `type` (`single` | `multiple`),
 `value`, `defaultValue`, `onValueChange`, `collapsible`, `disabled`,

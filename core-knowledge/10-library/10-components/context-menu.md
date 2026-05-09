@@ -16,23 +16,23 @@ heavier DropdownMenu which functions as a designed menu surface.
 
 11 exports, mirroring DropdownMenu's surface:
 
-| Export                     | Pass-through to                              | Styled? |
-|----------------------------|----------------------------------------------|---------|
-| `ContextMenu`              | `ContextMenuPrimitive.Root`                  | no |
-| `ContextMenuTrigger`       | `ContextMenuPrimitive.Trigger`               | no |
-| `ContextMenuGroup`         | `ContextMenuPrimitive.Group`                 | no |
-| `ContextMenuPortal`        | `ContextMenuPrimitive.Portal`                | no |
-| `ContextMenuSub`           | `ContextMenuPrimitive.Sub`                   | no |
-| `ContextMenuRadioGroup`    | `ContextMenuPrimitive.RadioGroup`            | no |
-| `ContextMenuContent`       | `…Content`                                   | yes — soft panel |
-| `ContextMenuItem`          | `…Item`                                      | yes |
-| `ContextMenuCheckboxItem`  | `…CheckboxItem`                              | yes |
-| `ContextMenuRadioItem`     | `…RadioItem`                                 | yes — small dot indicator |
-| `ContextMenuLabel`         | `…Label`                                     | yes — uppercase muted |
-| `ContextMenuSeparator`     | `…Separator`                                 | yes — `bg-border` |
-| `ContextMenuShortcut`      | plain `<span>`                               | yes |
-| `ContextMenuSubTrigger`    | `…SubTrigger`                                | yes |
-| `ContextMenuSubContent`    | `…SubContent`                                | yes |
+| Export                    | Pass-through to                   | Styled?                   |
+| ------------------------- | --------------------------------- | ------------------------- |
+| `ContextMenu`             | `ContextMenuPrimitive.Root`       | no                        |
+| `ContextMenuTrigger`      | `ContextMenuPrimitive.Trigger`    | no                        |
+| `ContextMenuGroup`        | `ContextMenuPrimitive.Group`      | no                        |
+| `ContextMenuPortal`       | `ContextMenuPrimitive.Portal`     | no                        |
+| `ContextMenuSub`          | `ContextMenuPrimitive.Sub`        | no                        |
+| `ContextMenuRadioGroup`   | `ContextMenuPrimitive.RadioGroup` | no                        |
+| `ContextMenuContent`      | `…Content`                        | yes — soft panel          |
+| `ContextMenuItem`         | `…Item`                           | yes                       |
+| `ContextMenuCheckboxItem` | `…CheckboxItem`                   | yes                       |
+| `ContextMenuRadioItem`    | `…RadioItem`                      | yes — small dot indicator |
+| `ContextMenuLabel`        | `…Label`                          | yes — uppercase muted     |
+| `ContextMenuSeparator`    | `…Separator`                      | yes — `bg-border`         |
+| `ContextMenuShortcut`     | plain `<span>`                    | yes                       |
+| `ContextMenuSubTrigger`   | `…SubTrigger`                     | yes                       |
+| `ContextMenuSubContent`   | `…SubContent`                     | yes                       |
 
 Items, CheckboxItems, RadioItems, and SubTriggers accept the same
 optional `inset?: boolean` prop as DropdownMenu.
@@ -42,17 +42,17 @@ optional `inset?: boolean` prop as DropdownMenu.
 This component is **deliberately not a copy** of DropdownMenu. The
 visual axes differ:
 
-| Concern         | DropdownMenu                | ContextMenu                  |
-|-----------------|-----------------------------|------------------------------|
-| Content border  | `border-2 border-memphis`   | `border border-border`       |
-| Content shadow  | `shadow-memphis`            | `shadow-md`                  |
-| Content radius  | `rounded-none`              | `rounded-md`                 |
-| Content padding | `p-2`                       | `p-1`                        |
-| Item radius     | `rounded-none`              | `rounded-sm`                 |
-| Item hover      | `bg-foreground/5`           | `bg-muted`                   |
-| RadioItem chrome| Gradient + outline + bar    | Small dot indicator          |
-| Label color     | `text-primary`              | `text-muted-foreground`      |
-| Separator bg    | `bg-memphis`                | `bg-border`                  |
+| Concern          | DropdownMenu              | ContextMenu             |
+| ---------------- | ------------------------- | ----------------------- |
+| Content border   | `border-2 border-memphis` | `border border-border`  |
+| Content shadow   | `shadow-memphis`          | `shadow-md`             |
+| Content radius   | `rounded-none`            | `rounded-md`            |
+| Content padding  | `p-2`                     | `p-1`                   |
+| Item radius      | `rounded-none`            | `rounded-sm`            |
+| Item hover       | `bg-foreground/5`         | `bg-muted`              |
+| RadioItem chrome | Gradient + outline + bar  | Small dot indicator     |
+| Label color      | `text-primary`            | `text-muted-foreground` |
+| Separator bg     | `bg-memphis`              | `bg-border`             |
 
 Reading: ContextMenu = neutral OS-style; DropdownMenu = decorated app
 menu.

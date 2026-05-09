@@ -16,18 +16,18 @@ hard-cornered, with the lib's signature heavy shadow.
 
 8 exports:
 
-| Export                   | Pass-through to                          | Notes |
-|--------------------------|------------------------------------------|-------|
-| `Select`                 | `SelectPrimitive.Root`                   | Unstyled — controlled/uncontrolled selection root |
-| `SelectGroup`            | `SelectPrimitive.Group`                  | Unstyled — groups items |
-| `SelectValue`            | `SelectPrimitive.Value`                  | Unstyled — renders selected value text |
-| `SelectTrigger`          | `SelectPrimitive.Trigger`                | Styled — Memphis trigger with chevron |
-| `SelectContent`          | `SelectPrimitive.Portal` + `Content`     | Styled — portal-rendered popover |
-| `SelectLabel`            | `SelectPrimitive.Label`                  | Styled — small uppercase mono label |
-| `SelectItem`             | `SelectPrimitive.Item`                   | Styled — left-padded with check indicator |
-| `SelectScrollUpButton`   | `SelectPrimitive.ScrollUpButton`         | Styled — chevron-up scroll affordance |
-| `SelectScrollDownButton` | `SelectPrimitive.ScrollDownButton`       | Styled — chevron-down scroll affordance |
-| `SelectSeparator`        | `SelectPrimitive.Separator`              | Styled — `h-px bg-border my-1` |
+| Export                   | Pass-through to                      | Notes                                             |
+| ------------------------ | ------------------------------------ | ------------------------------------------------- |
+| `Select`                 | `SelectPrimitive.Root`               | Unstyled — controlled/uncontrolled selection root |
+| `SelectGroup`            | `SelectPrimitive.Group`              | Unstyled — groups items                           |
+| `SelectValue`            | `SelectPrimitive.Value`              | Unstyled — renders selected value text            |
+| `SelectTrigger`          | `SelectPrimitive.Trigger`            | Styled — Memphis trigger with chevron             |
+| `SelectContent`          | `SelectPrimitive.Portal` + `Content` | Styled — portal-rendered popover                  |
+| `SelectLabel`            | `SelectPrimitive.Label`              | Styled — small uppercase mono label               |
+| `SelectItem`             | `SelectPrimitive.Item`               | Styled — left-padded with check indicator         |
+| `SelectScrollUpButton`   | `SelectPrimitive.ScrollUpButton`     | Styled — chevron-up scroll affordance             |
+| `SelectScrollDownButton` | `SelectPrimitive.ScrollDownButton`   | Styled — chevron-down scroll affordance           |
+| `SelectSeparator`        | `SelectPrimitive.Separator`          | Styled — `h-px bg-border my-1`                    |
 
 Composition (canonical):
 

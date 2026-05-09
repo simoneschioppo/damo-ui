@@ -176,9 +176,7 @@ export default async function ColorsFoundationPage() {
       </div>
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('jsxTitle')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('jsxBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('jsxBody', { mono: monoTag })}</p>
       <Example code={TAILWIND_BASIC} previewClassName="px-6 py-10 flex flex-col items-center gap-3">
         <div className="bg-card text-card-foreground border-2 border-memphis p-4 w-full max-w-sm">
           <h3 className="text-foreground font-display text-xl mb-1">{t('examplesTitle')}</h3>
@@ -237,9 +235,7 @@ export default async function ColorsFoundationPage() {
       <Code code={DARK_OVERRIDE} lang="css" title="dark mode override" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('customPaletteTitle')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('customPaletteBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('customPaletteBody', { mono: monoTag })}</p>
       <Code code={PALETTE_OVERRIDE} lang="css" title="palette override" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('fullListTitle')}</h2>

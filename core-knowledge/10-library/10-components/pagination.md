@@ -12,24 +12,24 @@ pure module (`pagination-math.ts`) with its own tests.
 
 ## Public API
 
-| Export              | Kind |
-|---------------------|------|
+| Export              | Kind                                       |
+| ------------------- | ------------------------------------------ |
 | `Pagination`        | `forwardRef<HTMLElement, PaginationProps>` |
-| `PaginationProps`   | see below |
-| `PaginationLabels`  | label-customization type |
-| `computePageWindow` | (not re-exported from index — see Notes) |
-| `PageItem`          | type — `number \| '…'` |
+| `PaginationProps`   | see below                                  |
+| `PaginationLabels`  | label-customization type                   |
+| `computePageWindow` | (not re-exported from index — see Notes)   |
+| `PageItem`          | type — `number \| '…'`                     |
 
-| Prop           | Type                                | Default | Notes |
-|----------------|-------------------------------------|---------|-------|
-| `currentPage`  | `number`                            | (req)   | 1-based |
-| `totalPages`   | `number`                            | (req)   | |
-| `onPageChange` | `(page: number) => void`            | (req)   | Called on prev/next/page-button |
-| `maxVisible`   | `number`                            | `7`     | Max visible page-number buttons; clamped to ≥ 5 |
-| `labels`       | `Partial<PaginationLabels>`         | _resolved from `useI18n().pagination`_ | See below |
-| `disabled`     | `boolean`                           | —       | Disables all buttons |
-| `className`    | `string`                            | —       | |
-| …native        | `HTMLAttributes<HTMLElement>`       | —       | |
+| Prop           | Type                          | Default                                | Notes                                           |
+| -------------- | ----------------------------- | -------------------------------------- | ----------------------------------------------- |
+| `currentPage`  | `number`                      | (req)                                  | 1-based                                         |
+| `totalPages`   | `number`                      | (req)                                  |                                                 |
+| `onPageChange` | `(page: number) => void`      | (req)                                  | Called on prev/next/page-button                 |
+| `maxVisible`   | `number`                      | `7`                                    | Max visible page-number buttons; clamped to ≥ 5 |
+| `labels`       | `Partial<PaginationLabels>`   | _resolved from `useI18n().pagination`_ | See below                                       |
+| `disabled`     | `boolean`                     | —                                      | Disables all buttons                            |
+| `className`    | `string`                      | —                                      |                                                 |
+| …native        | `HTMLAttributes<HTMLElement>` | —                                      |                                                 |
 
 ### Default labels (locale-aware)
 
@@ -58,6 +58,7 @@ Returns an array of `PageItem` (`number | '…'`) representing the
 visible page-number buttons.
 
 Algorithm:
+
 1. If `totalPages <= 0` → empty.
 2. Clamp `max = Math.max(5, maxVisible ?? 7)`.
 3. Clamp `current` into `[1, totalPages]`.
@@ -111,7 +112,7 @@ in the row.
    the numeric column tidy.
 
 3. **Label is rendered as plain text** (`text-xs text-muted-foreground
-   font-mono`) at the right of the row. No interaction; just a
+font-mono`) at the right of the row. No interaction; just a
    readout.
 
 4. **`computePageWindow` not re-exported.** It's importable

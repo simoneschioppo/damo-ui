@@ -13,18 +13,18 @@ panel typically rendered into that slot.
 
 ## Public API
 
-| Export        | Kind |
-|---------------|------|
-| `AppShell`    | `forwardRef<HTMLDivElement, AppShellProps>` |
-| `AppShellProps` | see below |
+| Export          | Kind                                        |
+| --------------- | ------------------------------------------- |
+| `AppShell`      | `forwardRef<HTMLDivElement, AppShellProps>` |
+| `AppShellProps` | see below                                   |
 
-| Prop           | Type                          | Default     | Notes |
-|----------------|-------------------------------|-------------|-------|
-| `sidebar`      | `ReactNode`                   | (required)  | Rendered into the left column |
-| `sidebarWidth` | `number`                      | `240`       | px |
-| `sidebarTone`  | `'default' \| 'onDark'`       | `'default'` | `'onDark'` flips sidebar to `bg-foreground text-background` |
-| `className`    | `string`                      | —           | Applied to outer grid |
-| …native        | `HTMLAttributes<HTMLDivElement>` | —        | |
+| Prop           | Type                             | Default     | Notes                                                       |
+| -------------- | -------------------------------- | ----------- | ----------------------------------------------------------- |
+| `sidebar`      | `ReactNode`                      | (required)  | Rendered into the left column                               |
+| `sidebarWidth` | `number`                         | `240`       | px                                                          |
+| `sidebarTone`  | `'default' \| 'onDark'`          | `'default'` | `'onDark'` flips sidebar to `bg-foreground text-background` |
+| `className`    | `string`                         | —           | Applied to outer grid                                       |
+| …native        | `HTMLAttributes<HTMLDivElement>` | —           |                                                             |
 
 Children render into the `<main>` slot (right column).
 

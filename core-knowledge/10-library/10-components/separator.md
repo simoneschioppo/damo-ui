@@ -12,26 +12,26 @@ a11y semantics (`decorative` defaults to `true` → `role="none"`; set
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
-| `Separator`        | `forwardRef<HTMLDivElement, SeparatorProps>` |
-| `SeparatorProps`   | `Omit<ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>, 'orientation'> & SeparatorVariants` |
-| `separatorVariants`| `cva` instance |
-| `SeparatorVariants`| `VariantProps<typeof separatorVariants>` |
+| Export              | Kind                                                                                                |
+| ------------------- | --------------------------------------------------------------------------------------------------- |
+| `Separator`         | `forwardRef<HTMLDivElement, SeparatorProps>`                                                        |
+| `SeparatorProps`    | `Omit<ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>, 'orientation'> & SeparatorVariants` |
+| `separatorVariants` | `cva` instance                                                                                      |
+| `SeparatorVariants` | `VariantProps<typeof separatorVariants>`                                                            |
 
-| Prop          | Type                                  | Default        |
-|---------------|---------------------------------------|----------------|
-| `orientation` | `'horizontal' \| 'vertical'`          | `'horizontal'` |
-| `variant`     | `'solid' \| 'dashed' \| 'memphis-double'` | `'solid'`  |
-| `decorative`  | `boolean` (Radix passthrough)         | `true`         |
-| `className`   | `string`                              | —              |
+| Prop          | Type                                      | Default        |
+| ------------- | ----------------------------------------- | -------------- |
+| `orientation` | `'horizontal' \| 'vertical'`              | `'horizontal'` |
+| `variant`     | `'solid' \| 'dashed' \| 'memphis-double'` | `'solid'`      |
+| `decorative`  | `boolean` (Radix passthrough)             | `true`         |
+| `className`   | `string`                                  | —              |
 
 ### Variants
 
-| Variant          | Style |
-|------------------|-------|
-| `solid`          | `bg-border`, `h-px` (or `w-px` vertical) |
-| `dashed`         | Transparent bg, dashed `border-border-strong`, flips border-edge per orientation |
+| Variant          | Style                                                                                                                   |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `solid`          | `bg-border`, `h-px` (or `w-px` vertical)                                                                                |
+| `dashed`         | Transparent bg, dashed `border-border-strong`, flips border-edge per orientation                                        |
 | `memphis-double` | Two parallel `border-memphis` rules with 4px gap (`h-1` horizontal, `w-1` vertical), flips border-edges per orientation |
 
 The `dashed` and `memphis-double` variants use `data-[orientation=…]`

@@ -85,12 +85,40 @@
     {
       "priority": "HIGH",
       "action": "Run /bmad:tea:automate to harden 11 PARTIAL journeys with computed-style assertions.",
-      "requirements": ["J-02", "J-03", "J-04", "J-05", "J-06", "J-07", "J-09", "J-11", "J-12", "J-13b"]
+      "requirements": [
+        "J-02",
+        "J-03",
+        "J-04",
+        "J-05",
+        "J-06",
+        "J-07",
+        "J-09",
+        "J-11",
+        "J-12",
+        "J-13b"
+      ]
     },
     {
       "priority": "MEDIUM",
       "action": "Promote inferred journeys to formal acceptance criteria (theme-generator PRD).",
-      "requirements": ["J-01", "J-02", "J-03", "J-04", "J-05", "J-06", "J-07", "J-08a", "J-08b", "J-08c", "J-09", "J-10", "J-11", "J-12", "J-13a", "J-13b"]
+      "requirements": [
+        "J-01",
+        "J-02",
+        "J-03",
+        "J-04",
+        "J-05",
+        "J-06",
+        "J-07",
+        "J-08a",
+        "J-08b",
+        "J-08c",
+        "J-09",
+        "J-10",
+        "J-11",
+        "J-12",
+        "J-13a",
+        "J-13b"
+      ]
     },
     {
       "priority": "LOW",

@@ -11,17 +11,17 @@ max-width using Tailwind's `max-w-screen-*` scale plus `full`) and
 
 ## Public API
 
-| Export        | Kind |
-|---------------|------|
-| `Container`   | `forwardRef<HTMLDivElement, ContainerProps>` |
+| Export           | Kind                                                 |
+| ---------------- | ---------------------------------------------------- |
+| `Container`      | `forwardRef<HTMLDivElement, ContainerProps>`         |
 | `ContainerProps` | `HTMLAttributes<HTMLDivElement> & ContainerVariants` |
 
-| Prop      | Type                                            | Default |
-|-----------|-------------------------------------------------|---------|
-| `size`    | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| 'full'` | `'lg'`  |
-| `padded`  | `boolean`                                       | `true`  |
-| `className`| `string`                                       | —       |
-| …native   | `HTMLAttributes<HTMLDivElement>`                | —       |
+| Prop        | Type                                              | Default |
+| ----------- | ------------------------------------------------- | ------- |
+| `size`      | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' \| 'full'` | `'lg'`  |
+| `padded`    | `boolean`                                         | `true`  |
+| `className` | `string`                                          | —       |
+| …native     | `HTMLAttributes<HTMLDivElement>`                  | —       |
 
 ### Variants
 

@@ -17,19 +17,19 @@ and similar enumerable callouts.
 
 ## Public API
 
-| Export    | Kind |
-|-----------|------|
-| `Hint`    | `forwardRef<HTMLDivElement, HintProps>` |
-| `HintProps` | see below |
+| Export      | Kind                                    |
+| ----------- | --------------------------------------- |
+| `Hint`      | `forwardRef<HTMLDivElement, HintProps>` |
+| `HintProps` | see below                               |
 
-| Prop      | Type        | Default | Notes |
-|-----------|-------------|---------|-------|
-| `num`     | `number`    | (required) | Displayed inside the leading tile |
-| `title`   | `ReactNode` | (required) | Heading (`<h4>` semantically) |
-| `children`| `ReactNode` | (required) | Body text |
-| `className`| `string`   | —       | Merged to outer `<div>` |
-| `style`   | `CSSProperties` | —   | Merged with the lib's inline `background` and `boxShadow` |
-| …native   | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>` | — | `title` is omitted because it conflicts with the prop |
+| Prop        | Type                                            | Default    | Notes                                                     |
+| ----------- | ----------------------------------------------- | ---------- | --------------------------------------------------------- |
+| `num`       | `number`                                        | (required) | Displayed inside the leading tile                         |
+| `title`     | `ReactNode`                                     | (required) | Heading (`<h4>` semantically)                             |
+| `children`  | `ReactNode`                                     | (required) | Body text                                                 |
+| `className` | `string`                                        | —          | Merged to outer `<div>`                                   |
+| `style`     | `CSSProperties`                                 | —          | Merged with the lib's inline `background` and `boxShadow` |
+| …native     | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>` | —          | `title` is omitted because it conflicts with the prop     |
 
 ## Internal architecture
 
@@ -83,7 +83,7 @@ brand variant uses it as a tint, not a fill).
 2. **`mb-6` is baked in.** The component injects vertical spacing
    below itself (`mb-6` = 24px). Consumers stacking Hints get
    automatic gaps; consumers placing Hint inside a flex/grid with
-   `gap` get *extra* space. Override via `className`.
+   `gap` get _extra_ space. Override via `className`.
 
 3. **Inline styles + Tailwind mix.** Background and shadow are inline
    (because `color-mix` and the shadow token resist Tailwind

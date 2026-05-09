@@ -20,6 +20,7 @@ context:
 ## Boundaries & Constraints
 
 **Always:**
+
 - Public TS interfaces of `ArticleCardProps`, `FeatureCardProps`, `UserCardProps` are unchanged (same fields, same optionality).
 - Visual parity: same border, same shadow, same padding (in pixels), same dimensions, same slot typography. Verified by tests + manual diff in docs page.
 - `className` and `...rest` props flow through to the underlying `<Card>` and merge with its variant classes.
@@ -27,10 +28,12 @@ context:
 - Specialized cards remain exported from `packages/ui/src/index.ts` with their original names.
 
 **Ask First:**
+
 - If `shadow-memphis` (Card's class) and `var(--shadow-memphis-card)` (inline shadow on specialized cards) resolve to different CSS values, halt and ask whether to (a) add a new Card variant or (b) keep an inline override on the specialized card.
 - If a specialized card's required padding (`p-6` for ArticleCard, `p-4` for UserCard) cannot be expressed via Card's scale (`none|sm|md|lg`) without visual regression, halt and ask whether to extend Card's padding scale or use the `padding="none"` + className escape hatch.
 
 **Never:**
+
 - Do not edit files inside `core-knowledge/` directly — queue Kipi handshake at the end.
 - Do not rename or remove `ArticleCard`, `FeatureCard`, `UserCard`. (Out of scope per issue.)
 - Do not change Card's own variants/sub-parts unless the "Ask First" gate fires.
@@ -38,13 +41,13 @@ context:
 
 ## I/O & Edge-Case Matrix
 
-| Scenario | Input / State | Expected Output / Behavior |
-|----------|---------------|---------------------------|
-| ArticleCard label optional | with/without `label` prop | Label slot rendered or absent; `max-w-[420px]` always applied |
-| FeatureCard footer optional | with/without `meta`/`icon` | Footer row rendered when either present, else absent; primary tint via `variant="featured"` |
-| UserCard avatar fallback | `name="Foo"`, no `avatar` | First grapheme `"F"` in circle; custom `avatar` overrides |
-| UserCard optional slots | `meta` / `trailing` undefined | Slots not in DOM |
-| All cards: passthrough | `className="x"`, `data-testid="y"` | Merged onto root `<Card>`; single root element (no double `<div>`) |
+| Scenario                    | Input / State                      | Expected Output / Behavior                                                                  |
+| --------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------- |
+| ArticleCard label optional  | with/without `label` prop          | Label slot rendered or absent; `max-w-[420px]` always applied                               |
+| FeatureCard footer optional | with/without `meta`/`icon`         | Footer row rendered when either present, else absent; primary tint via `variant="featured"` |
+| UserCard avatar fallback    | `name="Foo"`, no `avatar`          | First grapheme `"F"` in circle; custom `avatar` overrides                                   |
+| UserCard optional slots     | `meta` / `trailing` undefined      | Slots not in DOM                                                                            |
+| All cards: passthrough      | `className="x"`, `data-testid="y"` | Merged onto root `<Card>`; single root element (no double `<div>`)                          |
 
 </frozen-after-approval>
 
@@ -64,6 +67,7 @@ context:
 ## Tasks & Acceptance
 
 **Execution:**
+
 - [x] `packages/ui/src/components/article-card/article-card.tsx` -- replace outer `<div>` with `<Card variant="default" padding="none" className={cn("p-6 max-w-[420px]", className)} ref={ref} {...rest}>`; drop inline `style={{ maxWidth, boxShadow }}`; keep label/title/body slots verbatim.
 - [x] `packages/ui/src/components/article-card/article-card.test.tsx` -- replace `expect(...).toHaveStyle({ maxWidth })` with className assertion; replace `var(--shadow-memphis-card)` style check with class-based check (`shadow-memphis`); confirm `border-2 border-memphis rounded-none` still present (now via Card).
 - [x] `packages/ui/src/components/feature-card/feature-card.tsx` -- replace outer `<div>` with `<Card variant="featured" padding="md" className={cn("w-[280px]", className)} ref={ref} {...rest}>`; drop inline `--memphis-shadow-color` override (variant="featured" provides it) and inline boxShadow; keep title/desc/meta/icon slots verbatim.
@@ -72,6 +76,7 @@ context:
 - [x] `packages/ui/src/components/user-card/user-card.test.tsx` -- replace inline `style.boxShadow` check with class-based check; confirm Memphis frame, gap, full-width still present.
 
 **Acceptance Criteria:**
+
 - Given a consumer importing `ArticleCard` / `FeatureCard` / `UserCard`, when they pass any combination of public props, then the rendered output is visually identical (border, shadow, padding in px, dimensions, typography, slots) to pre-refactor output.
 - Given the workspace, when `pnpm --filter @damo/ui test` runs, then all existing tests pass without skips or `.only`.
 - Given the workspace, when `pnpm --filter @damo/ui typecheck` runs, then there are no new type errors.
@@ -91,12 +96,14 @@ context:
 ## Verification
 
 **Commands:**
+
 - `pnpm --filter @damo/ui test` -- expected: all tests pass (Card + 3 specialized cards).
 - `pnpm --filter @damo/ui typecheck` -- expected: no type errors.
 - `pnpm --filter @damo/ui build` -- expected: clean build.
 - `pnpm --filter web dev` then visit `/docs/components/article-card`, `/feature-card`, `/user-card` -- expected: visual diff vs `main` branch is zero.
 
 **Manual checks:**
+
 - DevTools → inspect each specialized card's root element → confirm it carries Card's variant classes (`shadow-memphis`, `border-2 border-memphis rounded-none`, etc.) AND the specialized card's own classes (e.g. `max-w-[420px]`).
 - Confirm `data-slot` attributes still present inside.
 - After merge, queue Kipi handshake to update the 4 core-knowledge chapters (Card OQ 1, ArticleCard OQ 3, FeatureCard OQ 4, UserCard composition note).

@@ -13,12 +13,12 @@ custom layouts).
 
 ## Public API
 
-| Export           | Kind |
-|------------------|------|
-| `ScrollArea`     | `forwardRef<HTMLDivElement, ScrollAreaProps>` |
-| `ScrollBar`      | `forwardRef<HTMLDivElement, ScrollBarProps>` |
-| `ScrollAreaProps`| `ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>` |
-| `ScrollBarProps` | `ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>` |
+| Export            | Kind                                                                       |
+| ----------------- | -------------------------------------------------------------------------- |
+| `ScrollArea`      | `forwardRef<HTMLDivElement, ScrollAreaProps>`                              |
+| `ScrollBar`       | `forwardRef<HTMLDivElement, ScrollBarProps>`                               |
+| `ScrollAreaProps` | `ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>`                |
+| `ScrollBarProps`  | `ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>` |
 
 `ScrollArea` props are Radix's `Root` — notably `type` (`auto` |
 `always` | `scroll` | `hover`), `scrollHideDelay`.

@@ -15,9 +15,11 @@ Status: documented · Last scan: 27c8471 · Sources:
 theme generator** that produces consumable tokens. Workspace-wired
 to the lib via path aliases (zero-build dev — Next imports
 `packages/ui/src` directly), with a custom Tailwind v4 + lib-tokens
-+ playground-theme stylesheet pipeline.
+
+- playground-theme stylesheet pipeline.
 
 Two concrete deliverables, one Next app:
+
 - **`/docs/*`** — component documentation surface (per-component
   pages, foundations chapters, sidebar nav). See docs site chapter.
 - **`/theme-generator`** — three-layer token editor that exports
@@ -185,19 +187,19 @@ Banner, Dialog, Drawer, Toast) read their default labels from
 
 ### Catalog structure (top-level namespaces)
 
-| Namespace          | Owner                    | Notes                              |
-|--------------------|--------------------------|------------------------------------|
-| `nav`              | root layout AppTopBar    | "Docs" / "Theme Generator"         |
-| `preferences`      | DocsPreferencesMenu      | theme/palette/density/language axes |
-| `docsSidebar`      | DocsSidebar              | group titles + entries.introduction |
-| `docsChrome`       | shared docs primitives   | PropsTable headers, CopyButton, category eyebrows, common section headings |
-| `home`, `notFound` | landing + 404            | hero copy, CTAs, brand alt-text    |
-| `gettingStarted`   | /docs/getting-started    | step bullets + body                |
-| `foundations.*`    | /docs/foundations/*      | one sub-namespace per foundation page |
-| `componentDocs.*`  | /docs/components/*       | per-slug `lead`, `body.*`, `a11y.*`, `props.*` |
-| `themeGenerator.*` | /theme-generator         | sidebar tabs, scenes, export, identity sections |
-| `sampleDialog`     | sample-dialog.tsx        | published-release modal copy       |
-| `brand`            | landing + 404            | mascot alt-text                    |
+| Namespace          | Owner                  | Notes                                                                      |
+| ------------------ | ---------------------- | -------------------------------------------------------------------------- |
+| `nav`              | root layout AppTopBar  | "Docs" / "Theme Generator"                                                 |
+| `preferences`      | DocsPreferencesMenu    | theme/palette/density/language axes                                        |
+| `docsSidebar`      | DocsSidebar            | group titles + entries.introduction                                        |
+| `docsChrome`       | shared docs primitives | PropsTable headers, CopyButton, category eyebrows, common section headings |
+| `home`, `notFound` | landing + 404          | hero copy, CTAs, brand alt-text                                            |
+| `gettingStarted`   | /docs/getting-started  | step bullets + body                                                        |
+| `foundations.*`    | /docs/foundations/\*   | one sub-namespace per foundation page                                      |
+| `componentDocs.*`  | /docs/components/\*    | per-slug `lead`, `body.*`, `a11y.*`, `props.*`                             |
+| `themeGenerator.*` | /theme-generator       | sidebar tabs, scenes, export, identity sections                            |
+| `sampleDialog`     | sample-dialog.tsx      | published-release modal copy                                               |
+| `brand`            | landing + 404          | mascot alt-text                                                            |
 
 ### ICU escaping gotchas (learned)
 
@@ -251,14 +253,14 @@ const config: NextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       '@damo/ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
-      '@damo/ui':       path.join(uiSrc, 'index.ts'),
+      '@damo/ui': path.join(uiSrc, 'index.ts'),
     }
     return config
   },
   turbopack: {
     resolveAlias: {
       '@damo/ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
-      '@damo/ui':       path.join(uiSrc, 'index.ts'),
+      '@damo/ui': path.join(uiSrc, 'index.ts'),
     },
   },
 }
@@ -286,11 +288,7 @@ import damo from '@damo/ui/tailwind.preset'
 
 const config: Config = {
   presets: [damo as Config],
-  content: [
-    './app/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    '../../packages/ui/dist/**/*.js',
-  ],
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', '../../packages/ui/dist/**/*.js'],
 }
 ```
 

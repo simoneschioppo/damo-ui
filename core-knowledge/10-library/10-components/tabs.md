@@ -12,12 +12,12 @@ the rule for that segment.
 
 ## Public API
 
-| Export         | Pass-through to                          | Styled? |
-|----------------|------------------------------------------|---------|
-| `Tabs`         | `TabsPrimitive.Root`                     | no      |
-| `TabsList`     | styled — bottom-bordered row             | yes     |
-| `TabsTrigger`  | styled — underlined-on-active            | yes     |
-| `TabsContent`  | styled — top-padded content              | yes     |
+| Export        | Pass-through to               | Styled? |
+| ------------- | ----------------------------- | ------- |
+| `Tabs`        | `TabsPrimitive.Root`          | no      |
+| `TabsList`    | styled — bottom-bordered row  | yes     |
+| `TabsTrigger` | styled — underlined-on-active | yes     |
+| `TabsContent` | styled — top-padded content   | yes     |
 
 `Tabs` props are Radix's: `value`, `defaultValue`, `onValueChange`,
 `orientation`, `dir`, `activationMode`.

@@ -12,17 +12,17 @@ defaults to `text-primary`.
 
 ## Public API
 
-| Export        | Kind |
-|---------------|------|
-| `Spinner`     | `forwardRef<SVGSVGElement, SpinnerProps>` |
-| `SpinnerProps`| `SVGProps<SVGSVGElement> & { size?: number \| string; label?: string }` |
+| Export         | Kind                                                                    |
+| -------------- | ----------------------------------------------------------------------- |
+| `Spinner`      | `forwardRef<SVGSVGElement, SpinnerProps>`                               |
+| `SpinnerProps` | `SVGProps<SVGSVGElement> & { size?: number \| string; label?: string }` |
 
-| Prop      | Type                  | Default          |
-|-----------|-----------------------|------------------|
-| `size`    | `number \| string`    | `20`             |
-| `label`   | `string`              | _resolved from `useI18n().spinner.label`_ |
-| `className`| `string`             | —                |
-| …native   | `SVGProps<SVGSVGElement>` | —              |
+| Prop        | Type                      | Default                                   |
+| ----------- | ------------------------- | ----------------------------------------- |
+| `size`      | `number \| string`        | `20`                                      |
+| `label`     | `string`                  | _resolved from `useI18n().spinner.label`_ |
+| `className` | `string`                  | —                                         |
+| …native     | `SVGProps<SVGSVGElement>` | —                                         |
 
 The `label` is exposed as `aria-label` on the SVG; `role="status"` is
 also set so assistive tech announces the loading state.

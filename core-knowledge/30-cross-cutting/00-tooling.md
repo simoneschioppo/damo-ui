@@ -3,10 +3,12 @@
 Status: pending
 
 ## Intended scope
+
 The shared developer toolchain across the monorepo: TypeScript base
 config, ESLint, Prettier, pnpm workspaces, and any repo-level scripts.
 
 ## TOC (stub)
+
 - `tsconfig.base.json` and per-package overrides
 - `eslint.config.mjs` (flat config)
 - `.prettierrc.json`, `.prettierignore`

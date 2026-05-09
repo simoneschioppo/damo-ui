@@ -14,12 +14,12 @@ to be quiet, peripheral chrome.
 
 ## Public API
 
-| Export             | Pass-through to                          |
-|--------------------|------------------------------------------|
-| `TooltipProvider`  | `TooltipPrimitive.Provider`              |
-| `Tooltip`          | `TooltipPrimitive.Root`                  |
-| `TooltipTrigger`   | `TooltipPrimitive.Trigger`               |
-| `TooltipContent`   | styled — Portal + inverted panel         |
+| Export            | Pass-through to                  |
+| ----------------- | -------------------------------- |
+| `TooltipProvider` | `TooltipPrimitive.Provider`      |
+| `Tooltip`         | `TooltipPrimitive.Root`          |
+| `TooltipTrigger`  | `TooltipPrimitive.Trigger`       |
+| `TooltipContent`  | styled — Portal + inverted panel |
 
 The consumer **must** wrap their app in `<TooltipProvider>` (typically
 once, at the layout root) for any Tooltip to work. This is Radix's
@@ -28,7 +28,7 @@ contract — the lib doesn't change it.
 `TooltipContent` props are Radix's, with one default:
 
 | Prop         | Default |
-|--------------|---------|
+| ------------ | ------- |
 | `sideOffset` | `4`     |
 
 ## Internal architecture

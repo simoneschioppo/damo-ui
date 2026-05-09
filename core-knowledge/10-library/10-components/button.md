@@ -22,45 +22,45 @@ visual or animation classes.
 
 Exported from `@damo/ui` as:
 
-| Export                         | Kind        |
-|--------------------------------|-------------|
-| `Button`                       | `forwardRef` component |
-| `ButtonProps`                  | type — extends `ButtonHTMLAttributes<HTMLButtonElement>` + `ButtonVariants` + `{ asChild? }` |
-| `buttonVariants`               | `cva` instance — usable to apply Button styling to non-Button elements |
-| `ButtonVariants`               | type — `VariantProps<typeof buttonVariants>` |
+| Export           | Kind                                                                                         |
+| ---------------- | -------------------------------------------------------------------------------------------- |
+| `Button`         | `forwardRef` component                                                                       |
+| `ButtonProps`    | type — extends `ButtonHTMLAttributes<HTMLButtonElement>` + `ButtonVariants` + `{ asChild? }` |
+| `buttonVariants` | `cva` instance — usable to apply Button styling to non-Button elements                       |
+| `ButtonVariants` | type — `VariantProps<typeof buttonVariants>`                                                 |
 
 ### Props
 
-| Prop        | Type                                                    | Default     | Notes |
-|-------------|---------------------------------------------------------|-------------|-------|
-| `variant`   | `'primary' \| 'secondary' \| 'ghost' \| 'destructive' \| 'outline' \| 'link'` | `'primary'` | See Variants |
-| `size`      | `'sm' \| 'md' \| 'lg' \| 'icon'`                        | `'md'`      | `icon` is square 40×40 |
-| `fullWidth` | `boolean`                                               | `false`     | `w-full` |
-| `asChild`   | `boolean`                                               | `false`     | Renders the child element with Button styles via Radix `Slot` |
-| `type`      | `'button' \| 'submit' \| 'reset'`                       | `'button'`  | Forwarded only to `<button>`, **not** to `asChild` children |
-| `className` | `string`                                                | —           | Merged via `cn` (i.e. `tailwind-merge` semantics) |
-| …native     | `ButtonHTMLAttributes<HTMLButtonElement>`               | —           | All native button attributes pass through |
-| `ref`       | `Ref<HTMLButtonElement>`                                | —           | Forwarded; with `asChild` it points to the rendered **child** node |
+| Prop        | Type                                                                          | Default     | Notes                                                              |
+| ----------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------ |
+| `variant`   | `'primary' \| 'secondary' \| 'ghost' \| 'destructive' \| 'outline' \| 'link'` | `'primary'` | See Variants                                                       |
+| `size`      | `'sm' \| 'md' \| 'lg' \| 'icon'`                                              | `'md'`      | `icon` is square 40×40                                             |
+| `fullWidth` | `boolean`                                                                     | `false`     | `w-full`                                                           |
+| `asChild`   | `boolean`                                                                     | `false`     | Renders the child element with Button styles via Radix `Slot`      |
+| `type`      | `'button' \| 'submit' \| 'reset'`                                             | `'button'`  | Forwarded only to `<button>`, **not** to `asChild` children        |
+| `className` | `string`                                                                      | —           | Merged via `cn` (i.e. `tailwind-merge` semantics)                  |
+| …native     | `ButtonHTMLAttributes<HTMLButtonElement>`                                     | —           | All native button attributes pass through                          |
+| `ref`       | `Ref<HTMLButtonElement>`                                                      | —           | Forwarded; with `asChild` it points to the rendered **child** node |
 
 ### Variants
 
-| Variant       | Surface                          | Shadow / border                               | Press affordance |
-|---------------|----------------------------------|-----------------------------------------------|------------------|
-| `primary`     | `bg-primary`                     | `border-2 border-memphis shadow-memphis`      | yes (active + data-[state=open]) |
-| `secondary`   | `bg-secondary`                   | `border-2 border-memphis shadow-memphis`      | yes (active + data-[state=open]) |
-| `ghost`       | `bg-card`                        | `border-2 border-memphis`, shadow uses `--primary` as memphis color | yes |
-| `destructive` | `bg-destructive`                 | `border-2 border-memphis shadow-memphis`      | yes |
-| `outline`     | `bg-card`                        | `border-2 border-memphis`, no shadow          | **no press** (intentionally) |
-| `link`        | `bg-transparent text-primary underline` | no border, no shadow                  | **no press** (intentionally) |
+| Variant       | Surface                                 | Shadow / border                                                     | Press affordance                 |
+| ------------- | --------------------------------------- | ------------------------------------------------------------------- | -------------------------------- |
+| `primary`     | `bg-primary`                            | `border-2 border-memphis shadow-memphis`                            | yes (active + data-[state=open]) |
+| `secondary`   | `bg-secondary`                          | `border-2 border-memphis shadow-memphis`                            | yes (active + data-[state=open]) |
+| `ghost`       | `bg-card`                               | `border-2 border-memphis`, shadow uses `--primary` as memphis color | yes                              |
+| `destructive` | `bg-destructive`                        | `border-2 border-memphis shadow-memphis`                            | yes                              |
+| `outline`     | `bg-card`                               | `border-2 border-memphis`, no shadow                                | **no press** (intentionally)     |
+| `link`        | `bg-transparent text-primary underline` | no border, no shadow                                                | **no press** (intentionally)     |
 
 ### Sizes
 
-| Size   | Padding / dimensions               | Text class | Gap   |
-|--------|------------------------------------|------------|-------|
-| `sm`   | `px-3 py-1.5`                      | `text-sm`  | `gap-1.5` |
-| `md`   | `px-5 py-2.5`                      | `text-base`| `gap-2`   |
-| `lg`   | `px-7 py-3.5`                      | `text-lg`  | `gap-2.5` |
-| `icon` | `h-10 w-10 p-0` (40×40)            | inherits   | —     |
+| Size   | Padding / dimensions    | Text class  | Gap       |
+| ------ | ----------------------- | ----------- | --------- |
+| `sm`   | `px-3 py-1.5`           | `text-sm`   | `gap-1.5` |
+| `md`   | `px-5 py-2.5`           | `text-base` | `gap-2`   |
+| `lg`   | `px-7 py-3.5`           | `text-lg`   | `gap-2.5` |
+| `icon` | `h-10 w-10 p-0` (40×40) | inherits    | —         |
 
 A compound variant set forces `link` to drop padding regardless of
 size, while preserving the text class for that size (`!p-0` overrides
@@ -147,7 +147,7 @@ consumer override last.**
 
 4. **Focus ring uses `outline-ring` token.** Every variant exposes
    `focus-visible:outline focus-visible:outline-2
-   focus-visible:outline-offset-2 focus-visible:outline-ring` (offset 2,
+focus-visible:outline-offset-2 focus-visible:outline-ring` (offset 2,
    except `link` uses offset 4 because the underline sits on the text).
 
 5. **Disabled treatment is a base class, not per-variant.**
@@ -182,6 +182,7 @@ To lift Button into a consumer repo:
    has no aesthetic opinions.
 
 Per-component runtime deps (for the future shadcn-CLI registry):
+
 - `@radix-ui/react-slot`
 - `class-variance-authority`
 - `clsx` + `tailwind-merge` (transitively, via `cn`)

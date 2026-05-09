@@ -13,20 +13,20 @@ hex strings before passing them to `onChange`.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
+| Export             | Kind                                           |
+| ------------------ | ---------------------------------------------- |
 | `ColorPicker`      | `forwardRef<HTMLDivElement, ColorPickerProps>` |
-| `ColorPickerProps` | see below |
+| `ColorPickerProps` | see below                                      |
 
-| Prop        | Type                          | Default | Notes |
-|-------------|-------------------------------|---------|-------|
-| `id`        | `string`                      | auto via `useId` | Forwarded to swatch, used for `htmlFor` |
-| `label`     | `string`                      | (required) | Used as visible Label and as `aria-label` even when hidden |
-| `value`     | `string`                      | (required, controlled) | Hex string typically; native input expects `#rrggbb` |
-| `onChange`  | `(next: string) => void`      | (required) | Called from both swatch and hex input |
-| `showInput` | `boolean`                     | `true`  | Hide the hex input to show only the swatch |
-| `showLabel` | `boolean`                     | `true`  | Hide the visible Label; aria-label still set |
-| `className` | `string`                      | —       | |
+| Prop        | Type                     | Default                | Notes                                                      |
+| ----------- | ------------------------ | ---------------------- | ---------------------------------------------------------- |
+| `id`        | `string`                 | auto via `useId`       | Forwarded to swatch, used for `htmlFor`                    |
+| `label`     | `string`                 | (required)             | Used as visible Label and as `aria-label` even when hidden |
+| `value`     | `string`                 | (required, controlled) | Hex string typically; native input expects `#rrggbb`       |
+| `onChange`  | `(next: string) => void` | (required)             | Called from both swatch and hex input                      |
+| `showInput` | `boolean`                | `true`                 | Hide the hex input to show only the swatch                 |
+| `showLabel` | `boolean`                | `true`                 | Hide the visible Label; aria-label still set               |
+| `className` | `string`                 | —                      |                                                            |
 
 ## Internal architecture
 
@@ -45,6 +45,7 @@ Two-row composition:
 ### Swatch (native `<input type="color">`)
 
 Inline `style` (not Tailwind classes — see Notes #2):
+
 ```
 { width: 44, height: 'calc(var(--spacing) * 10)',
   padding: 2, border: '2px solid var(--memphis-border-color)',
@@ -59,6 +60,7 @@ swatch grows/shrinks with the lib's density token.
 
 Uses the lib's `Input` component (Memphis idiom + tinted focus
 shadow), with inline overrides:
+
 ```
 { minWidth: '6ch', flex: 1, fontFamily: 'var(--font-mono)' }
 ```

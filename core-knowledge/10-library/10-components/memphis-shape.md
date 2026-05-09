@@ -12,18 +12,18 @@ to any pixel size via the `size` prop.
 
 ## Public API
 
-| Export                | Kind |
-|-----------------------|------|
-| `MemphisShape`        | `forwardRef<SVGSVGElement, MemphisShapeProps>` |
+| Export                | Kind                                                                                      |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| `MemphisShape`        | `forwardRef<SVGSVGElement, MemphisShapeProps>`                                            |
 | `MemphisShapeVariant` | `'diamond' \| 'circle' \| 'triangle' \| 'zigzag' \| 'blob' \| 'wave' \| 'star' \| 'lbar'` |
 
-| Prop      | Type                  | Default              |
-|-----------|-----------------------|----------------------|
-| `variant` | `MemphisShapeVariant` | (required)           |
-| `size`    | `number`              | `64`                 |
-| `color`   | `string`              | `'var(--secondary)'` |
-| `className`| `string`             | —                    |
-| …native   | `Omit<SVGAttributes<SVGSVGElement>, 'fill'>` | — | `fill` is excluded from the surface (driven by `color`) |
+| Prop        | Type                                         | Default              |
+| ----------- | -------------------------------------------- | -------------------- | ------------------------------------------------------- |
+| `variant`   | `MemphisShapeVariant`                        | (required)           |
+| `size`      | `number`                                     | `64`                 |
+| `color`     | `string`                                     | `'var(--secondary)'` |
+| `className` | `string`                                     | —                    |
+| …native     | `Omit<SVGAttributes<SVGSVGElement>, 'fill'>` | —                    | `fill` is excluded from the surface (driven by `color`) |
 
 ## Internal architecture
 
@@ -38,16 +38,16 @@ Source comment lists this taxonomy explicitly.
 
 ### Variant geometry summary
 
-| Variant   | Render | Notes |
-|-----------|--------|-------|
-| `diamond` | `<polygon points="50,6 94,50 50,94 6,50" />` | 45° rotated square |
-| `circle`  | `<circle cx=50 cy=50 r=44 />` | |
-| `triangle`| `<polygon points="50,10 90,90 10,90" />` | upward-pointing |
-| `zigzag`  | `<polyline …>` 6 vertices, `strokeWidth=6`, round joins/caps | 3 zigzags across viewBox |
-| `blob`    | `<path d="M50 6 C72 6 …" />` | irregular rounded path |
-| `wave`    | `<path d="M4 50 Q 20 10 36 50 T 68 50 T 96 50" />` strokeWidth=6 | sine-like quadratic |
-| `star`    | 10-vertex polygon (5-point star) | manually computed inner/outer radii |
-| `lbar`    | `<path d="M10 10 H 90 V 28 H 28 V 90 H 10 Z" />` | L-shape |
+| Variant    | Render                                                           | Notes                               |
+| ---------- | ---------------------------------------------------------------- | ----------------------------------- |
+| `diamond`  | `<polygon points="50,6 94,50 50,94 6,50" />`                     | 45° rotated square                  |
+| `circle`   | `<circle cx=50 cy=50 r=44 />`                                    |                                     |
+| `triangle` | `<polygon points="50,10 90,90 10,90" />`                         | upward-pointing                     |
+| `zigzag`   | `<polyline …>` 6 vertices, `strokeWidth=6`, round joins/caps     | 3 zigzags across viewBox            |
+| `blob`     | `<path d="M50 6 C72 6 …" />`                                     | irregular rounded path              |
+| `wave`     | `<path d="M4 50 Q 20 10 36 50 T 68 50 T 96 50" />` strokeWidth=6 | sine-like quadratic                 |
+| `star`     | 10-vertex polygon (5-point star)                                 | manually computed inner/outer radii |
+| `lbar`     | `<path d="M10 10 H 90 V 28 H 28 V 90 H 10 Z" />`                 | L-shape                             |
 
 ### Exhaustiveness guard
 
