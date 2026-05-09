@@ -10,7 +10,7 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from '@damo/ui'
+} from 'damo-ui'
 
 interface VariantPreviewProps {
   variant: 'default' | 'success' | 'warning' | 'danger'
