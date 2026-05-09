@@ -17,7 +17,7 @@ import {
   type MotionDurationKey,
   type MotionEasingKey,
 } from './theme-state'
-import { type PresetName, applyPreset, PRESET_PALETTES } from './presets'
+import { type PresetName, applyPreset, PRESET_PALETTES, PRESET_NAMES } from './presets'
 
 type Action =
   | { type: 'SET_PRESET'; preset: PresetName }
@@ -483,11 +483,8 @@ export function useThemeState() {
     if (typeof document === 'undefined') return
 
     const root = document.documentElement
-    const presetFromAttr = (attr: string | null): PresetName => {
-      if (attr === 'neon') return 'neon'
-      if (attr === 'sunset') return 'sunset'
-      return 'default'
-    }
+    const presetFromAttr = (attr: string | null): PresetName =>
+      (PRESET_NAMES as readonly string[]).includes(attr ?? '') ? (attr as PresetName) : 'default'
 
     // Initial sync — uses SYNC_PRESET so any pre-existing palette
     // divergence (e.g., restored from storage in the future) is preserved.

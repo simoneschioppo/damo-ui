@@ -96,10 +96,10 @@ const DARK_OVERRIDE = `/* app/globals.css — declare the dark variant once.
 `
 
 const PALETTE_OVERRIDE = `/* Add a custom palette and switch via data-palette */
-:root[data-palette='neon'] {
-  --primary: #b6ff3c;
-  --primary-foreground: #0a0a0a;
-  --secondary: #ff2bd6;
+:root[data-palette='cyberpunk'] {
+  --primary: #ffab00;
+  --primary-foreground: #170731;
+  --secondary: #7c4dff;
   --secondary-foreground: #ffffff;
 }
 `
