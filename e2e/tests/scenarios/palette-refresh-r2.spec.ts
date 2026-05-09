@@ -157,7 +157,11 @@ test.describe('Palette refresh r2 — runtime CSS cascade (#93)', () => {
     expect(themeAttr, 'test pre-condition: should be in light mode').not.toBe('dark')
 
     // ink.900 cyberpunk = #170731 → rgb(23, 7, 49)
-    expectChannelsClose(parseRgbTriplet(color), [23, 7, 49], '--primary-foreground (cyberpunk light)')
+    expectChannelsClose(
+      parseRgbTriplet(color),
+      [23, 7, 49],
+      '--primary-foreground (cyberpunk light)',
+    )
 
     // Explicit negative assertion: must NOT be white (#ffffff)
     const triplet = parseRgbTriplet(color)
@@ -193,11 +197,7 @@ test.describe('Palette refresh r2 — runtime CSS cascade (#93)', () => {
     })
 
     // #000000 → rgb(0, 0, 0)
-    expectChannelsClose(
-      parseRgbTriplet(color),
-      [0, 0, 0],
-      '--memphis-border-color (sunset dark)',
-    )
+    expectChannelsClose(parseRgbTriplet(color), [0, 0, 0], '--memphis-border-color (sunset dark)')
 
     // Negative assertion: must NOT be the gh-91 dark default #cccccc
     const triplet = parseRgbTriplet(color)
@@ -217,6 +217,18 @@ test.describe('Palette refresh r2 — runtime CSS cascade (#93)', () => {
     page,
   }) => {
     await enablePalette(page, 'forest')
+
+    // /theme-generator injects a `<style id="theme-generator-overrides">` tag
+    // emitting the active state's palette+semantic; the MutationObserver on
+    // `data-palette` re-applies it after we seed the attribute. Webkit lands
+    // there a beat later than chromium, so poll until the cascade settles on
+    // the forest brand instead of probing once.
+    await expect
+      .poll(
+        async () => parseRgbTriplet(await probeVarAsColor(page, '--primary'))?.[0],
+        { timeout: 5000 },
+      )
+      .toBeLessThanOrEqual(170) // forest brand.500 R = 168 (plum default would be 196)
 
     const [primaryColor, primaryFgColor] = await Promise.all([
       probeVarAsColor(page, '--primary'),
