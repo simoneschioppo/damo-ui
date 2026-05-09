@@ -227,7 +227,7 @@ describe('reducer — SYNC_PRESET (navbar-driven) preserves palette divergence',
     })
     const next = reducer(diverged, { type: 'SYNC_PRESET', preset: 'cyberpunk' })
     // Dark was not edited → it follows the new preset
-    expect(next.palette.dark.brand['500']).toBe('#ffab00') // cyberpunk brand-500
+    expect(next.palette.dark.brand['500']).toBe('#0f766e') // cyberpunk brand-500 (gh-95 cyan)
   })
 
   it('SYNC_PRESET on a fresh theme behaves like SET_PRESET', () => {
@@ -242,14 +242,10 @@ describe('reducer — SYNC_PRESET (navbar-driven) preserves palette divergence',
    * inside applyPreset. The override leak then surfaced at runtime on the
    * navbar-driven path (MutationObserver + persisted attr), not on the
    * sidebar SET_PRESET path. The fix routes both branches through
-   * `computePresetSemantic`. Keep these guards in place.
+   * `computePresetSemantic`. gh-95 dropped the cyberpunk override (deep teal
+   * contrasts AA with white on its own); sunset's dark memphis override
+   * remains and keeps guarding the SYNC_PRESET path here.
    */
-  it('SYNC_PRESET applies cyberpunk light primaryForeground override on a fresh theme', () => {
-    const next = reducer(DEFAULT_THEME, { type: 'SYNC_PRESET', preset: 'cyberpunk' })
-    // ink.900 of the cyberpunk palette — vivid amber primary needs dark text
-    expect(next.semantic.light.primaryForeground).toBe('#170731')
-  })
-
   it('SYNC_PRESET applies sunset dark memphisBorderColor override on a fresh theme', () => {
     const next = reducer(DEFAULT_THEME, { type: 'SYNC_PRESET', preset: 'sunset' })
     expect(next.semantic.dark.memphisBorderColor).toBe('#000000')
