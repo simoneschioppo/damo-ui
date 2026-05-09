@@ -99,7 +99,15 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "queued_at": "2026-05-09T12:30:08+00:00",
+          "trigger": "post-code-change",
+          "paths": [".github/workflows/ci.yml", "e2e/playwright.config.ts"],
+          "source_agent": "claude-code:bmad-quick-dev",
+          "context": "PR #90 perf(ci) — Playwright browser cache, concurrency cancel-in-progress, lib build artifact reuse, prod webserver (next start in CI). Chapters affected: 30-cross-cutting/10-ci-cd.md (status pending — first scan opportunity for this chapter), 30-cross-cutting/15-e2e.md (last_scan_sha e53c5be). Latest commit: c7f3758."
+        }
+      ],
       "runs": [
         {
           "kind": "content-update",
