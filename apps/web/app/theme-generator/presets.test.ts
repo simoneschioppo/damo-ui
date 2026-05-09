@@ -30,8 +30,23 @@ describe('computeSemanticDark', () => {
   describe('gh-91 — dark semantic deltas', () => {
     const sem = computeSemanticDark(DEFAULT_THEME.palette.dark)
 
+    it('background stays at ink.900 — never collides with card/muted in dark', () => {
+      // Anchor the dark surface stack: bg = ink.900 is the floor.
+      expect(sem.background).toBe(DEFAULT_THEME.palette.dark.ink['900'])
+      expect(sem.card).not.toBe(sem.background)
+    })
+
     it('muted maps to ink.800 (was ink.700) — tighter step from background', () => {
       expect(sem.muted).toBe(DEFAULT_THEME.palette.dark.ink['800'])
+    })
+
+    it('muted == card in dark — deliberate flat-stack design (gh-91 review HIGH-1)', () => {
+      // After gh-91 the dark surface stack collapses to two layers:
+      // background (ink.900) and card+muted (both ink.800). This is
+      // intentional — flagged in the spec's Design notes. Components
+      // that paint `bg-muted` inside a `bg-card` container will read
+      // flush. A future palette task can re-introduce a third tier.
+      expect(sem.muted).toBe(sem.card)
     })
 
     it('mutedForeground maps to paper.50 (was ink.300) — full-white text on muted by design', () => {
