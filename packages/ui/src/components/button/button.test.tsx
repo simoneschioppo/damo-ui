@@ -125,13 +125,22 @@ describe('Button', () => {
     // styles via data-[state=open] keeps the button visually engaged for the
     // full lifetime of the menu instead of snapping back when the browser
     // releases :active as focus moves into the portal.
+    // Ghost mirrors the active press with the primary-tinted active utility
+    // (the others use the default-black active). Same offset and translate,
+    // different shadow color baked into the @utility — see #66.
+    const PRESS_CLASS_BY_VARIANT = {
+      primary: 'data-[state=open]:shadow-memphis-active',
+      secondary: 'data-[state=open]:shadow-memphis-active',
+      ghost: 'data-[state=open]:shadow-memphis-primary-active',
+      destructive: 'data-[state=open]:shadow-memphis-active',
+    } as const
     for (const variant of ['primary', 'secondary', 'ghost', 'destructive'] as const) {
       it(`mirrors the active press transform on data-[state=open] for ${variant}`, () => {
         const { getByRole } = render(<Button variant={variant}>Open menu</Button>)
         const btn = getByRole('button')
         expect(btn.className).toContain('data-[state=open]:translate-x-[3px]')
         expect(btn.className).toContain('data-[state=open]:translate-y-[3px]')
-        expect(btn.className).toContain('data-[state=open]:shadow-memphis-active')
+        expect(btn.className).toContain(PRESS_CLASS_BY_VARIANT[variant])
       })
     }
 
