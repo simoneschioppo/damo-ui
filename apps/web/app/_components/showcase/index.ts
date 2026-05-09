@@ -1,6 +1,6 @@
 // Apps/web private showcase components.
 //
-// These were originally part of @damo/ui but were narrow to design-system
+// These were originally part of damo-ui but were narrow to design-system
 // documentation surfaces, so they were moved here in cycle 8 to keep the
 // public lib API focused on general-purpose web components. They live with
 // the docs site that actually consumes them.

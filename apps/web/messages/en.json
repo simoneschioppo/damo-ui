@@ -86,10 +86,9 @@
     },
     "quickInstall": {
       "eyebrow": "QUICK INSTALL",
-      "heading": "Three steps and you're rendering.",
-      "step1": "Add <code>@damo</code> scope to your <mono>.npmrc</mono>.",
-      "step2": "<mono>pnpm add @damo/ui</mono>.",
-      "step3": "<link>Wire styles and ship</link>."
+      "heading": "Two steps and you're rendering.",
+      "step1": "<mono>pnpm add damo-ui</mono>.",
+      "step2": "<link>Wire styles and ship</link>."
     }
   },
   "notFound": {
@@ -102,25 +101,21 @@
   "gettingStarted": {
     "eyebrow": "GETTING STARTED",
     "headlineLine1": "Install Damo UI",
-    "headlineLine2": "in five minutes.",
+    "headlineLine2": "in four minutes.",
     "lead": "Damo UI is a React + Next.js component library inspired by Memphis design. Tokens, components, and patterns ready to compose into a product UI.",
     "step1": {
-      "title": "1. Configure your registry",
-      "body": "Damo UI is published to GitHub Packages. Add an <code>.npmrc</code> at your repo root pointing the <code>@damo</code> scope at it:"
+      "title": "1. Install the package"
     },
     "step2": {
-      "title": "2. Install the package"
-    },
-    "step3": {
-      "title": "3. Wire the styles",
+      "title": "2. Wire the styles",
       "body": "Import the design tokens and the global stylesheet once in your root layout. Tokens define colors, typography, radius, shadow, and motion as CSS variables.",
       "tailwindHint": "If you use Tailwind v4, replace your <mono>globals.css</mono> with:"
     },
-    "step4": {
-      "title": "4. Render your first component"
+    "step3": {
+      "title": "3. Render your first component"
     },
-    "step5": {
-      "title": "5. Wire theme, palette, density",
+    "step4": {
+      "title": "4. Wire theme, palette, density",
       "body": "Three orthogonal data-attributes on <code>&lt;html&gt;</code> drive every visual choice. Drop the lib's switcher components in your top bar and you're done — they read & write the attributes and persist to <mono>localStorage</mono>:",
       "validValuesEyebrow": "Valid attribute values",
       "themeBullet": "<mono>data-theme</mono> — the lib ships <strong>light only</strong>; declare your own <mono>[data-theme='dark']</mono> CSS overrides. Wire a <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> to switch between values.",
@@ -266,7 +261,7 @@
       "tailwindBody": "Three Tailwind utilities map to the three families: <mono>font-display</mono>, <mono>font-body</mono>, <mono>font-mono</mono>.",
       "tailwindPreviewBody": "Body copy uses the body family by default.",
       "helperTitle": "Helper classes",
-      "helperBody": "Three CSS classes ship with <mono>@damo/ui/styles/globals.css</mono> for the most common Memphis-flavoured patterns.",
+      "helperBody": "Three CSS classes ship with <mono>damo-ui/styles/globals.css</mono> for the most common Memphis-flavoured patterns.",
       "helperPreviewDisplay": "Display heading",
       "helperPreviewMono": "read-only mono span",
       "helperPreviewEyebrow": "SECTION LABEL",
@@ -706,7 +701,7 @@
       },
       "iconButtonProps": {
         "ariaLabel": "IconButtons have no visible text, so every instance MUST carry a non-empty <code>aria-label</code> for screen readers. The TypeScript signature enforces this.",
-        "children": "A single icon node — typically one of the icons exported from <code>@damo/ui</code>.",
+        "children": "A single icon node — typically one of the icons exported from <code>damo-ui</code>.",
         "variant": "Same six variants as Button. The size is locked to the 40×40 <code>icon</code> preset.",
         "disabled": "Blocks pointer and keyboard activation."
       }

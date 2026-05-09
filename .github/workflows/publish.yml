@@ -3,16 +3,17 @@ name: Publish
 on:
   push:
     tags:
-      - 'v*'
+      - 'damo-ui@*'
 
 jobs:
   publish:
-    # Disabled: package not yet published. Flip to true after creating @damo org + Team plan.
+    # Disabled until Phase 5 (#82) — soft-launch on public npm as damo-ui@0.4.0.
+    # Flip `if: false` → `if: true` and provision an NPM_TOKEN repo secret first.
     if: false
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -23,16 +24,15 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@damo'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install
         run: pnpm install --frozen-lockfile
 
       - name: Build lib
-        run: pnpm --filter @damo/ui build
+        run: pnpm --filter damo-ui build
 
-      - name: Publish to GitHub Packages
-        run: pnpm --filter @damo/ui publish --access restricted --no-git-checks
+      - name: Publish to npm
+        run: pnpm --filter damo-ui publish --access public --no-git-checks
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

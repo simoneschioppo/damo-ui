@@ -105,7 +105,35 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "queued_at": "2026-05-09T17:02:40+00:00",
+          "trigger": "post-code-change",
+          "source_agent": "bmad-create-story (gh-79)",
+          "paths": [
+            "packages/ui/package.json",
+            "packages/ui/README.md",
+            "packages/ui/src/styles/globals.css",
+            "packages/ui/src/components/accordion/accordion.stories.tsx",
+            "packages/ui/__tests__/package-contract.test.ts",
+            "packages/ui/tailwind.preset.ts",
+            "apps/web/package.json",
+            "apps/web/app/docs/getting-started/page.tsx",
+            "apps/web/app/page.tsx",
+            "apps/web/messages/en.json",
+            "apps/web/messages/it.json",
+            "scripts/check-docs-sync.mjs",
+            ".github/workflows/publish.yml",
+            "LICENSE",
+            "README.md",
+            "CONTRIBUTING.md",
+            "CHANGELOG.md",
+            "PUBLICATION_READINESS.md",
+            "package.json"
+          ],
+          "note": "gh-79 Phase 2 pre-publication audit: package renamed @damo/ui \u2192 damo-ui, LICENSE added, GH Packages registry retired, public-consumer docs rewritten. Affects core-knowledge chapters 10-library/00-architecture.md, 10-library/30-build-and-publish/README.md, 30-cross-cutting/10-ci-cd.md."
+        }
+      ],
       "runs": [
         {
           "kind": "content-update",
@@ -124,8 +152,8 @@
               ],
               "old_sha": "34dbd0a",
               "new_sha": "6a6c72e",
-              "edits": "Header: bumped Last scan (34dbd0a -> 6a6c72e). presets.ts code block: PRESET_LABELS updated to 'Cyberpunk (violet + cyan)' and 'Forest (green + copper)' to match the rebalanced ramps (gh-95 also fixed these labels in en.json + it.json). 'Per-preset semantic overrides (gh-93)' subsection: rewritten — the override map now contains only the sunset entry; added an explanatory paragraph documenting why the cyberpunk override was retired (deep teal #0f766e contrasts AA with white, no override needed). The 'value derived from the palette' design rule and the SYNC_PRESET fix narrative remain (still load-bearing for sunset and any future override). theme.css block list: removed the line for `:root[data-palette='cyberpunk']:not([data-theme='dark'])` since gh-95 deleted that block. Added a new subsection 'Paper divergence — gh-95 precedent' with a per-preset paper.50/brand.500 table documenting that cyberpunk + forest now ship divergent paper ramps (cool cyan cream and sage cream respectively) and noting the regression guard in presets.test.ts.",
-              "decision_no_chapter_edit": "20-web-app/10-docs-site/README.md was again skipped (mechanical hex updates in the cyberpunk example snippets in apps/web/app/docs/foundations/{theming,colors}/page.tsx — no documented information shifts)."
+              "edits": "Header: bumped Last scan (34dbd0a -> 6a6c72e). presets.ts code block: PRESET_LABELS updated to 'Cyberpunk (violet + cyan)' and 'Forest (green + copper)' to match the rebalanced ramps (gh-95 also fixed these labels in en.json + it.json). 'Per-preset semantic overrides (gh-93)' subsection: rewritten \u2014 the override map now contains only the sunset entry; added an explanatory paragraph documenting why the cyberpunk override was retired (deep teal #0f766e contrasts AA with white, no override needed). The 'value derived from the palette' design rule and the SYNC_PRESET fix narrative remain (still load-bearing for sunset and any future override). theme.css block list: removed the line for `:root[data-palette='cyberpunk']:not([data-theme='dark'])` since gh-95 deleted that block. Added a new subsection 'Paper divergence \u2014 gh-95 precedent' with a per-preset paper.50/brand.500 table documenting that cyberpunk + forest now ship divergent paper ramps (cool cyan cream and sage cream respectively) and noting the regression guard in presets.test.ts.",
+              "decision_no_chapter_edit": "20-web-app/10-docs-site/README.md was again skipped (mechanical hex updates in the cyberpunk example snippets in apps/web/app/docs/foundations/{theming,colors}/page.tsx \u2014 no documented information shifts)."
             }
           },
           "queued_at": "2026-05-09T17:55:00+00:00",
@@ -164,7 +192,7 @@
               ],
               "old_sha": "e53c5be",
               "new_sha": "a9faba7",
-              "edits": "Header: bumped Last scan (e53c5be -> a9faba7); Sources extended with the new `apps/web/app/styles/__tests__/theme-css-dark-block.test.ts` source-contract guard. IdentityTheme section: added a paragraph documenting that DEFAULT_THEME's identity now diverges per-mode since #91 — `DEFAULT_IDENTITY_LIGHT` vs `DEFAULT_IDENTITY_DARK` — with the Plum+Gold dark deltas listed (medals.gold/master.outer = paper.50; charts.{1..5} adapted to ink.300/brand.400/dark-success/dark-destructive/ink.100; appPattern.color1/2/3 adapted; bronze/silver/grandmaster + navOnDark unchanged). presets.ts section: clarified that applyPreset preserves identity per-mode by design and added the post-#91 consequence for the RESET path (a fresh DEFAULT_THEME load picks up the new dark identity; an already-diverged user keeps customisations across preset switches; no in-app affordance for partial dark-only reset). computeSemanticLight/Dark section: replaced the brief 'inverts surfaces and adjusts status' summary with the full enumeration of #91 dark deltas — muted=ink.800 (collapses card+muted in dark, intentional), mutedForeground=paper.50 (full-white-on-muted by user choice, light keeps ink.700), primary=brand.400 (Memphis legibility on dark plum), ring/badgeFeatured following primary, warning=#e8a435 literal (decoupled from primary), memphisBorderColor=#cccccc (visible 2px frame on dark surfaces, while memphisShadowColor stays #000000 to match the per-tier foundation tokens). Cross-reference added to the new theme-css-dark-block source-contract test. exporters.ts delta-encoding section: noted that with the post-#91 identity divergence, the dark block always emits identity-delta lines even when `semanticDark: false` is set (pre-#91 they were a shared reference and produced an empty dark block); cited exporters.test.ts coverage of both branches."
+              "edits": "Header: bumped Last scan (e53c5be -> a9faba7); Sources extended with the new `apps/web/app/styles/__tests__/theme-css-dark-block.test.ts` source-contract guard. IdentityTheme section: added a paragraph documenting that DEFAULT_THEME's identity now diverges per-mode since #91 \u2014 `DEFAULT_IDENTITY_LIGHT` vs `DEFAULT_IDENTITY_DARK` \u2014 with the Plum+Gold dark deltas listed (medals.gold/master.outer = paper.50; charts.{1..5} adapted to ink.300/brand.400/dark-success/dark-destructive/ink.100; appPattern.color1/2/3 adapted; bronze/silver/grandmaster + navOnDark unchanged). presets.ts section: clarified that applyPreset preserves identity per-mode by design and added the post-#91 consequence for the RESET path (a fresh DEFAULT_THEME load picks up the new dark identity; an already-diverged user keeps customisations across preset switches; no in-app affordance for partial dark-only reset). computeSemanticLight/Dark section: replaced the brief 'inverts surfaces and adjusts status' summary with the full enumeration of #91 dark deltas \u2014 muted=ink.800 (collapses card+muted in dark, intentional), mutedForeground=paper.50 (full-white-on-muted by user choice, light keeps ink.700), primary=brand.400 (Memphis legibility on dark plum), ring/badgeFeatured following primary, warning=#e8a435 literal (decoupled from primary), memphisBorderColor=#cccccc (visible 2px frame on dark surfaces, while memphisShadowColor stays #000000 to match the per-tier foundation tokens). Cross-reference added to the new theme-css-dark-block source-contract test. exporters.ts delta-encoding section: noted that with the post-#91 identity divergence, the dark block always emits identity-delta lines even when `semanticDark: false` is set (pre-#91 they were a shared reference and produced an empty dark block); cited exporters.test.ts coverage of both branches."
             }
           },
           "decision_no_chapter_edit": "Originally queued under both `10-library/20-theming/README.md` and `20-web-app/20-theme-generator/README.md`. The theming chapter sources are 100% `packages/ui/...`; #91 only touched `apps/web/...` (docs site + generator). The lib's tokens.css ships neutral grayscale only, the lib's theme.css is unchanged, so the theming chapter has nothing to update. The theme-generator chapter owns `apps/web/app/styles/theme.css` + `apps/web/app/theme-generator/theme-state.ts`, which carry both halves of #91, so it absorbs the entire update.",
@@ -184,7 +212,7 @@
               ],
               "old_sha": "e53c5be",
               "new_sha": "08ede58",
-              "edits": "Header bump (last_scan e53c5be -> 08ede58). Layout tree: added favicon-suite.spec.ts (after issue-fixes) and tinted-memphis-shadow-runtime.spec.ts (after comprehensive-audit). Configuration: rewrote `webServer` paragraph as a CI-aware bullet list — local boots `next dev` with `reuseExistingServer: true`; CI boots `next start` against a freshly-built `.next` (PR #90), `reuseExistingServer: false`. Smoke and docs flows: added `favicon-suite.spec.ts` bullet describing the Next 14 metadata link emission + asset 200/MIME contract (PR #78). Theme-generator runtime audits table: added `tinted-memphis-shadow-runtime.spec.ts` row (regression guard for #66 — per-color @utility tinted Memphis shadows, intent-token override at runtime). Cross-browser stabilization patterns: added helper #6 — `<style>`-tag injection over inline `setProperty(...,'important')` for `@utility`-resolved custom properties (PR #66 / c4aa1ba). Running in CI: rewrote with the four PR #90 optimizations — Playwright browser cache (~/.cache/ms-playwright keyed on pnpm-lock.yaml hash; install step skipped on cache hit; system deps always install), lib build artifact reuse (damo-ui-dist between jobs), prod webserver (next start vs next dev), concurrency cancellation with `head_ref || ref` fallback (load-bearing for push+PR same-SHA dedup). Notes & gotchas #5 added: webkit-only flakes are quarantined via `test.skip(({ browserName }) => ...)` with linked issues, not patched in place (b11ce4c, 4bd889f, c4aa1ba)."
+              "edits": "Header bump (last_scan e53c5be -> 08ede58). Layout tree: added favicon-suite.spec.ts (after issue-fixes) and tinted-memphis-shadow-runtime.spec.ts (after comprehensive-audit). Configuration: rewrote `webServer` paragraph as a CI-aware bullet list \u2014 local boots `next dev` with `reuseExistingServer: true`; CI boots `next start` against a freshly-built `.next` (PR #90), `reuseExistingServer: false`. Smoke and docs flows: added `favicon-suite.spec.ts` bullet describing the Next 14 metadata link emission + asset 200/MIME contract (PR #78). Theme-generator runtime audits table: added `tinted-memphis-shadow-runtime.spec.ts` row (regression guard for #66 \u2014 per-color @utility tinted Memphis shadows, intent-token override at runtime). Cross-browser stabilization patterns: added helper #6 \u2014 `<style>`-tag injection over inline `setProperty(...,'important')` for `@utility`-resolved custom properties (PR #66 / c4aa1ba). Running in CI: rewrote with the four PR #90 optimizations \u2014 Playwright browser cache (~/.cache/ms-playwright keyed on pnpm-lock.yaml hash; install step skipped on cache hit; system deps always install), lib build artifact reuse (damo-ui-dist between jobs), prod webserver (next start vs next dev), concurrency cancellation with `head_ref || ref` fallback (load-bearing for push+PR same-SHA dedup). Notes & gotchas #5 added: webkit-only flakes are quarantined via `test.skip(({ browserName }) => ...)` with linked issues, not patched in place (b11ce4c, 4bd889f, c4aa1ba)."
             }
           },
           "decision_defer_10_ci_cd": "Queue trigger also touched .github/workflows/ci.yml, which would map to chapter 30-cross-cutting/10-ci-cd.md. That chapter is status:pending (never documented). Per Kipi rules, *4 updates documented chapters; first-scan work is a *2 task. Deferred 10-ci-cd.md to a dedicated *2 run that should cover both ci.yml and publish.yml end-to-end rather than starting from a thin patch.",
@@ -213,10 +241,10 @@
               ],
               "old_sha": "27c8471",
               "new_sha": "d0f212a",
-              "edits": "Header bump (last_scan 27c8471 -> d0f212a). Sources extended with `apps/web/public/{icons/source/favicon-source.svg,site.webmanifest,favicon*,apple-touch-icon.png,android-chrome-*.png}` and `apps/web/scripts/generate-icons.ts`. Top-level layout tree: replaced 'static assets (mascot images)' line with full `public/` listing + new `scripts/` block. Root layout section: prepended a `metadata` (icons + manifest + metadataBase) and `viewport` (themeColor) export block ahead of the JSX, with prose noting Next 14's themeColor split. Added new section 'Branding assets — favicon pipeline' between Top-level shared components and Notes & gotchas: documents the source SVG (Memphis 'D' purple/gold/black contract), the deterministic sharp + inline-ICO pipeline (per-target density cap, MSDN-compliant ICONDIRENTRY), the rationale for inlining the encoder vs `to-ico` (CVE chain), and the rationale for committing generated PNGs vs regenerating on every build."
+              "edits": "Header bump (last_scan 27c8471 -> d0f212a). Sources extended with `apps/web/public/{icons/source/favicon-source.svg,site.webmanifest,favicon*,apple-touch-icon.png,android-chrome-*.png}` and `apps/web/scripts/generate-icons.ts`. Top-level layout tree: replaced 'static assets (mascot images)' line with full `public/` listing + new `scripts/` block. Root layout section: prepended a `metadata` (icons + manifest + metadataBase) and `viewport` (themeColor) export block ahead of the JSX, with prose noting Next 14's themeColor split. Added new section 'Branding assets \u2014 favicon pipeline' between Top-level shared components and Notes & gotchas: documents the source SVG (Memphis 'D' purple/gold/black contract), the deterministic sharp + inline-ICO pipeline (per-target density cap, MSDN-compliant ICONDIRENTRY), the rationale for inlining the encoder vs `to-ico` (CVE chain), and the rationale for committing generated PNGs vs regenerating on every build."
             }
           },
-          "decision_no_new_chapter": "Spec floated `20-web-app/40-branding-assets.md` as a possible new chapter. Folded under 00-architecture instead: the favicon pipeline is ~150 LOC and the manifest is 30 lines of JSON — no precedent for branding-only sub-chapters in the existing layout. Adding one would create a tiny chapter that mostly duplicates the Root layout's metadata wiring.",
+          "decision_no_new_chapter": "Spec floated `20-web-app/40-branding-assets.md` as a possible new chapter. Folded under 00-architecture instead: the favicon pipeline is ~150 LOC and the manifest is 30 lines of JSON \u2014 no precedent for branding-only sub-chapters in the existing layout. Adding one would create a tiny chapter that mostly duplicates the Root layout's metadata wiring.",
           "queued_at": "2026-05-09T12:15:00+00:00",
           "completed_at": "2026-05-09T12:40:00+00:00"
         },
@@ -243,7 +271,7 @@
               "paths": ["packages/ui/src/styles/theme.css", "packages/ui/src/lib/cn.ts"],
               "old_sha": "43a7a02",
               "new_sha": "c38c933",
-              "edits": "Header: bumped Last scan and added `cn.ts` to Sources. Token taxonomy: extended the 'Memphis tier' bullet with a note that per-color tinted variants don't read --memphis-shadow-color. Internal architecture (Layer 2 / theme.css): replaced the parked-#66 'broken at runtime' bullet (#4) with a full description of the per-color @utility family — names, declarations (md tier × 5 intents, lg-destructive, primary-hover/active for Button ghost), the substitution-time fix rationale, the roster-asymmetry foot-gun warning, and the theme-generator decoupling. Added new bullet (#5) on cn.ts's `extendTailwindMerge` registration of all 14 Memphis shadow utilities in the `shadow` conflict group, and why this is load-bearing for consumer `shadow-none` overrides. Renumbered the trailing --text and density bullets to 6/7. Invariants & gotchas #2 reworked: removed the 'do not add tinted shadow utilities' warning, replaced with 'must also register in cn.ts' instruction."
+              "edits": "Header: bumped Last scan and added `cn.ts` to Sources. Token taxonomy: extended the 'Memphis tier' bullet with a note that per-color tinted variants don't read --memphis-shadow-color. Internal architecture (Layer 2 / theme.css): replaced the parked-#66 'broken at runtime' bullet (#4) with a full description of the per-color @utility family \u2014 names, declarations (md tier \u00d7 5 intents, lg-destructive, primary-hover/active for Button ghost), the substitution-time fix rationale, the roster-asymmetry foot-gun warning, and the theme-generator decoupling. Added new bullet (#5) on cn.ts's `extendTailwindMerge` registration of all 14 Memphis shadow utilities in the `shadow` conflict group, and why this is load-bearing for consumer `shadow-none` overrides. Renumbered the trailing --text and density bullets to 6/7. Invariants & gotchas #2 reworked: removed the 'do not add tinted shadow utilities' warning, replaced with 'must also register in cn.ts' instruction."
             },
             "10-library/10-components/button.md": {
               "paths": ["packages/ui/src/components/button/button.variants.ts"],
@@ -285,7 +313,7 @@
               "paths": ["packages/ui/src/components/input/input.tsx"],
               "old_sha": "d63afaf",
               "new_sha": "c38c933",
-              "edits": "Header: bumped Last scan. Always-applied classes block: replaced [--memphis-shadow-color:…] + shadow-memphis pairs with shadow-memphis-primary (focus) and shadow-memphis-destructive (aria-invalid). Notes & gotchas #2 reworked: per-state recipe described in terms of the per-color @utility blocks, not custom-property overrides. How-to-consume: noted the per-color @utility requirement and the cn.ts tailwind-merge extension. Open question #1 marked RESOLVED."
+              "edits": "Header: bumped Last scan. Always-applied classes block: replaced [--memphis-shadow-color:\u2026] + shadow-memphis pairs with shadow-memphis-primary (focus) and shadow-memphis-destructive (aria-invalid). Notes & gotchas #2 reworked: per-state recipe described in terms of the per-color @utility blocks, not custom-property overrides. How-to-consume: noted the per-color @utility requirement and the cn.ts tailwind-merge extension. Open question #1 marked RESOLVED."
             },
             "10-library/10-components/textarea.md": {
               "paths": ["packages/ui/src/components/textarea/textarea.tsx"],

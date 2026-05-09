@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Button, MemphisShape } from '@damo/ui'
+import { Button, MemphisShape } from 'damo-ui'
 import { BRAND } from '../lib/brand'
-import { codeTag, monoTag, linkTag } from '../lib/i18n-tags'
+import { monoTag, linkTag } from '../lib/i18n-tags'
 
 const FEATURE_KEYS = ['components', 'tokens', 'themeGenerator'] as const
 
@@ -92,9 +92,8 @@ export default async function HomePage() {
         </div>
         <h2 className="font-display text-3xl mb-4">{t('quickInstall.heading')}</h2>
         <ol className="space-y-2 text-foreground/85 list-decimal pl-5">
-          <li>{t.rich('quickInstall.step1', { code: codeTag, mono: monoTag })}</li>
-          <li>{t.rich('quickInstall.step2', { mono: monoTag })}</li>
-          <li>{t.rich('quickInstall.step3', { link: linkTag('/docs/getting-started') })}</li>
+          <li>{t.rich('quickInstall.step1', { mono: monoTag })}</li>
+          <li>{t.rich('quickInstall.step2', { link: linkTag('/docs/getting-started') })}</li>
         </ol>
       </section>
     </main>

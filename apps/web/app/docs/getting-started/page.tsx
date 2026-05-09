@@ -1,39 +1,34 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Button } from '@damo/ui'
+import { Button } from 'damo-ui'
 import { Code } from '../_components/Code'
 import { Example } from '../_components/Example'
 import { BRAND } from '../../../lib/brand'
 import { codeTag, monoTag, strongTag, linkTag } from '../../../lib/i18n-tags'
 
-const NPMRC_SNIPPET = `# .npmrc — at the consumer repo root
-@damo:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}
-`
-
-const INSTALL_SNIPPET = `pnpm add @damo/ui
+const INSTALL_SNIPPET = `pnpm add damo-ui
 # or
-npm install @damo/ui
+npm install damo-ui
 # or
-yarn add @damo/ui
+yarn add damo-ui
 `
 
 const STYLES_SNIPPET = `// app/layout.tsx
-import '@damo/ui/styles/tokens.css'
-import '@damo/ui/styles/globals.css'
+import 'damo-ui/styles/tokens.css'
+import 'damo-ui/styles/globals.css'
 `
 
 const TAILWIND_SNIPPET = `/* app/globals.css */
-@import '@damo/ui/styles/tokens.css';
-@import '@damo/ui/styles/globals.css';
+@import 'damo-ui/styles/tokens.css';
+@import 'damo-ui/styles/globals.css';
 
 @import 'tailwindcss';
-@import '@damo/ui/styles/theme.css';
+@import 'damo-ui/styles/theme.css';
 
-@source '../../node_modules/@damo/ui/dist/**/*.js';
+@source '../../node_modules/damo-ui/dist/**/*.js';
 `
 
-const FIRST_BUTTON_SNIPPET = `import { Button } from '@damo/ui'
+const FIRST_BUTTON_SNIPPET = `import { Button } from 'damo-ui'
 
 export default function Page() {
   return <Button variant="primary">Save</Button>
@@ -41,7 +36,7 @@ export default function Page() {
 `
 
 const ROOT_LAYOUT_SNIPPET = `// app/layout.tsx
-import { AppTopBar, AttrToggleGroup } from '@damo/ui'
+import { AppTopBar, AttrToggleGroup } from 'damo-ui'
 
 export default function RootLayout({ children }) {
   return (
@@ -120,40 +115,36 @@ export default async function GettingStartedPage() {
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-12">{t('lead')}</p>
 
       <h2 className="font-display text-2xl mb-3">{t('step1.title')}</h2>
-      <p className="text-foreground/80 mb-2">{t.rich('step1.body', { code: codeTag })}</p>
-      <Code code={NPMRC_SNIPPET} lang="bash" title=".npmrc" />
-
-      <h2 className="font-display text-2xl mb-3 mt-12">{t('step2.title')}</h2>
       <Code code={INSTALL_SNIPPET} lang="bash" title="terminal" />
 
-      <h2 className="font-display text-2xl mb-3 mt-12">{t('step3.title')}</h2>
-      <p className="text-foreground/80 mb-2">{t('step3.body')}</p>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('step2.title')}</h2>
+      <p className="text-foreground/80 mb-2">{t('step2.body')}</p>
       <Code code={STYLES_SNIPPET} lang="tsx" title="app/layout.tsx" />
 
       <p className="text-foreground/80 mt-6 mb-2">
-        {t.rich('step3.tailwindHint', { mono: monoTag })}
+        {t.rich('step2.tailwindHint', { mono: monoTag })}
       </p>
       <Code code={TAILWIND_SNIPPET} lang="css" title="app/globals.css" />
 
-      <h2 className="font-display text-2xl mb-3 mt-12">{t('step4.title')}</h2>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('step3.title')}</h2>
       <Example code={FIRST_BUTTON_SNIPPET}>
         <Button variant="primary">Save</Button>
       </Example>
 
-      <h2 className="font-display text-2xl mb-3 mt-12">{t('step5.title')}</h2>
+      <h2 className="font-display text-2xl mb-3 mt-12">{t('step4.title')}</h2>
       <p className="text-foreground/80 mb-2">
-        {t.rich('step5.body', { code: codeTag, mono: monoTag })}
+        {t.rich('step4.body', { code: codeTag, mono: monoTag })}
       </p>
       <Code code={ROOT_LAYOUT_SNIPPET} lang="tsx" title="app/layout.tsx" />
 
       <div className="mt-6 border-2 border-memphis bg-card p-5">
         <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-primary mb-2">
-          {t('step5.validValuesEyebrow')}
+          {t('step4.validValuesEyebrow')}
         </div>
         <ul className="text-foreground/85 text-[14px] space-y-2 leading-relaxed">
-          <li>{t.rich('step5.themeBullet', { mono: monoTag, strong: strongTag })}</li>
-          <li>{t.rich('step5.paletteBullet', { mono: monoTag, strong: strongTag })}</li>
-          <li>{t.rich('step5.densityBullet', { mono: monoTag })}</li>
+          <li>{t.rich('step4.themeBullet', { mono: monoTag, strong: strongTag })}</li>
+          <li>{t.rich('step4.paletteBullet', { mono: monoTag, strong: strongTag })}</li>
+          <li>{t.rich('step4.densityBullet', { mono: monoTag })}</li>
         </ul>
       </div>
 
