@@ -62,8 +62,7 @@ export const emTag = (chunks: ReactNode) => <em>{decodeEntities(chunks)}</em>
 export const kbdTag = (chunks: ReactNode) => <kbd>{decodeEntities(chunks)}</kbd>
 
 export const linkTag =
-  (href: string, options?: { external?: boolean; className?: string }) =>
-  (chunks: ReactNode) => {
+  (href: string, options?: { external?: boolean; className?: string }) => (chunks: ReactNode) => {
     const className = options?.className ?? 'text-primary underline'
     const decoded = decodeEntities(chunks)
     if (options?.external) {

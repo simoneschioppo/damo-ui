@@ -50,9 +50,7 @@ test.describe('i18n switcher', () => {
 
     // Italian nav copy now visible.
     await expect(page.getByRole('link', { name: 'Documentazione', exact: true })).toBeVisible()
-    await expect(
-      page.getByRole('link', { name: 'Generatore di Tema', exact: true }),
-    ).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Generatore di Tema', exact: true })).toBeVisible()
   })
 
   test('switching back to English restores EN chrome', async ({ page }) => {
