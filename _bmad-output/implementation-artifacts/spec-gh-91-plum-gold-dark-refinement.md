@@ -69,34 +69,34 @@ The docs-site `:root[data-theme='dark']` block in `theme.css` redeclares only se
 
 ### Dark semantic tokens
 
-| Token                | Current (computed)         | Proposed (computed)             | Rationale                                                |
-| -------------------- | -------------------------- | ------------------------------- | -------------------------------------------------------- |
-| `--muted`            | `p.ink['700']` `#522357`   | `p.ink['800']` `#3d1a40`        | User's JSON edit; tighter step from background           |
-| `--muted-foreground` | `p.ink['300']` `#c590c9`   | `p.paper['50']` `#fbf7ee`       | User's JSON edit; intentional full-white text on muted   |
-| `--primary`          | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Memphis-shadow legibility on dark plum (Ghost button)    |
-| `--ring`             | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Follow primary                                           |
-| `--badge-featured`   | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Follow primary                                           |
-| `--warning`          | `p.brand['500']` `#c4942a` | literal `#e8a435`               | Decouple from primary; warm amber distinct from gold     |
-| `--warning-foreground` | `p.ink['900']` `#2a0f2d` | `p.ink['900']` `#2a0f2d` (kept) | Dark text still legible on warm amber (verified ≥ 4.5:1) |
+| Token                  | Current (computed)         | Proposed (computed)             | Rationale                                                |
+| ---------------------- | -------------------------- | ------------------------------- | -------------------------------------------------------- |
+| `--muted`              | `p.ink['700']` `#522357`   | `p.ink['800']` `#3d1a40`        | User's JSON edit; tighter step from background           |
+| `--muted-foreground`   | `p.ink['300']` `#c590c9`   | `p.paper['50']` `#fbf7ee`       | User's JSON edit; intentional full-white text on muted   |
+| `--primary`            | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Memphis-shadow legibility on dark plum (Ghost button)    |
+| `--ring`               | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Follow primary                                           |
+| `--badge-featured`     | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Follow primary                                           |
+| `--warning`            | `p.brand['500']` `#c4942a` | literal `#e8a435`               | Decouple from primary; warm amber distinct from gold     |
+| `--warning-foreground` | `p.ink['900']` `#2a0f2d`   | `p.ink['900']` `#2a0f2d` (kept) | Dark text still legible on warm amber (verified ≥ 4.5:1) |
 
 All other dark semantic tokens unchanged.
 
 ### Dark identity tokens (new `DEFAULT_IDENTITY_DARK`)
 
-| Token                       | Current (shared with light) | Proposed (dark)             | Rationale                              |
-| --------------------------- | --------------------------- | --------------------------- | -------------------------------------- |
-| `medals.gold.outer`         | `#2a0f2d` (= ink.900)       | `#fbf7ee` (= paper.50)      | Was invisible (= bg); paper outer pops |
-| `medals.master.outer`       | `#2a0f2d` (= ink.900)       | `#fbf7ee` (= paper.50)      | Was invisible (= bg)                   |
-| `charts.1`                  | `#7a3980` (ink.500)         | `#c590c9` (ink.300)         | High-contrast on dark bg               |
-| `charts.2`                  | `#c4942a` (brand.500)       | `#d5a845` (brand.400)       | Match new primary                      |
-| `charts.3`                  | `#4f8a3c` (light success)   | `#6fa85c` (dark success)    | Match dark success token               |
-| `charts.4`                  | `#a13a2c` (light destr.)    | `#c94a2f` (dark destr.)     | Match dark destructive token           |
-| `charts.5`                  | `#522357` (ink.700)         | `#e0c6e2` (ink.100)         | High-contrast pale plum                |
-| `appPattern.color1`         | `#c4942a` (brand.500)       | `#d5a845` (brand.400)       | Match primary                          |
-| `appPattern.color2`         | `#7a3980` (ink.500)         | `#c590c9` (ink.300)         | High-contrast                          |
-| `appPattern.color3`         | `#522357` (ink.700)         | `#7a3980` (ink.500)         | Mid-plum, still plum-flavoured         |
-| All bronze / silver / grandmaster medals | (unchanged)    | (unchanged)                 | Already work on dark bg                |
-| `navOnDark.*`               | (unchanged)                 | (unchanged)                 | Designed for dark surfaces in any mode |
+| Token                                    | Current (shared with light) | Proposed (dark)          | Rationale                              |
+| ---------------------------------------- | --------------------------- | ------------------------ | -------------------------------------- |
+| `medals.gold.outer`                      | `#2a0f2d` (= ink.900)       | `#fbf7ee` (= paper.50)   | Was invisible (= bg); paper outer pops |
+| `medals.master.outer`                    | `#2a0f2d` (= ink.900)       | `#fbf7ee` (= paper.50)   | Was invisible (= bg)                   |
+| `charts.1`                               | `#7a3980` (ink.500)         | `#c590c9` (ink.300)      | High-contrast on dark bg               |
+| `charts.2`                               | `#c4942a` (brand.500)       | `#d5a845` (brand.400)    | Match new primary                      |
+| `charts.3`                               | `#4f8a3c` (light success)   | `#6fa85c` (dark success) | Match dark success token               |
+| `charts.4`                               | `#a13a2c` (light destr.)    | `#c94a2f` (dark destr.)  | Match dark destructive token           |
+| `charts.5`                               | `#522357` (ink.700)         | `#e0c6e2` (ink.100)      | High-contrast pale plum                |
+| `appPattern.color1`                      | `#c4942a` (brand.500)       | `#d5a845` (brand.400)    | Match primary                          |
+| `appPattern.color2`                      | `#7a3980` (ink.500)         | `#c590c9` (ink.300)      | High-contrast                          |
+| `appPattern.color3`                      | `#522357` (ink.700)         | `#7a3980` (ink.500)      | Mid-plum, still plum-flavoured         |
+| All bronze / silver / grandmaster medals | (unchanged)                 | (unchanged)              | Already work on dark bg                |
+| `navOnDark.*`                            | (unchanged)                 | (unchanged)              | Designed for dark surfaces in any mode |
 
 ## Code map
 
