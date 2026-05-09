@@ -112,10 +112,15 @@
   --card-foreground: var(--paper-50);
   --popover: var(--ink-800);
   --popover-foreground: var(--paper-50);
-  --muted: var(--ink-700);
-  --muted-foreground: var(--ink-300);
 
-  --primary: var(--brand-500);
+  /* gh-91: muted lifts to ink.800 (tighter step from background); muted-fg
+     collapses to paper.50 — full-white text on muted surfaces by design. */
+  --muted: var(--ink-800);
+  --muted-foreground: var(--paper-50);
+
+  /* gh-91: primary lifts to brand.400 for Memphis tinted-shadow legibility
+     on dark plum (Ghost button); ring + badge-featured follow. */
+  --primary: var(--brand-400);
   --primary-foreground: var(--ink-900);
   --secondary: var(--ink-500);
   --secondary-foreground: var(--paper-50);
@@ -124,22 +129,40 @@
 
   --success: #6fa85c;
   --success-foreground: var(--ink-900);
-  --warning: var(--brand-500);
+  /* gh-91: warning decoupled from primary (was brand.500 = primary) to a
+     custom amber distinct from gold + success + destructive. */
+  --warning: #e8a435;
   --warning-foreground: var(--ink-900);
   --info: var(--ink-300);
   --info-foreground: var(--ink-900);
 
   --border: color-mix(in oklab, var(--paper-50) 12%, transparent);
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
-  --ring: var(--brand-500);
+  --ring: var(--brand-400);
 
-  /* Memphis identity stays solid black in dark mode so shadows remain
-     consistent with the theme-generator defaults (foundations ship a
-     `color: '#000000'` for every shadow size). Override per-mode in your
-     own theme if you want the inverse-coloured Memphis style. */
+  /* Memphis identity in dark:
+     - shadow stays solid black (consistent with foundation tokens that
+       ship `color: '#000000'` for every shadow size).
+     - border lifts to a light gray so the 2px Memphis frame stays visible
+       against dark plum surfaces — black borders disappeared into bg/card.
+     Override per-mode in your own theme if you want a different style. */
+  --memphis-border-color: #cccccc;
 
-  --badge-featured: var(--brand-500);
+  --badge-featured: var(--brand-400);
   --badge-featured-foreground: var(--ink-900);
+
+  /* gh-91: chart palette adapted to dark — light values inherited from
+     `:root` had ink.500/ink.700 plums sitting flush on `bg = ink.900`. */
+  --chart-1: var(--ink-300);
+  --chart-2: var(--brand-400);
+  --chart-3: #6fa85c;
+  --chart-4: #c94a2f;
+  --chart-5: var(--ink-100);
+
+  /* gh-91: medals.gold.outer & medals.master.outer in light = ink.900,
+     which equals dark `--background` and renders the outer ring invisible. */
+  --medal-gold-outer: var(--paper-50);
+  --medal-master-outer: var(--paper-50);
 }
 
 /* ── Palette: Neon (magenta + lime) ─────────────────────── */

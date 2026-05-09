@@ -109,6 +109,26 @@
       "runs": [
         {
           "kind": "content-update",
+          "gh_issue": 91,
+          "gh_pr": 92,
+          "chapters": ["20-web-app/20-theme-generator/README.md"],
+          "details": {
+            "20-web-app/20-theme-generator/README.md": {
+              "paths": [
+                "apps/web/app/styles/theme.css",
+                "apps/web/app/theme-generator/theme-state.ts"
+              ],
+              "old_sha": "e53c5be",
+              "new_sha": "a9faba7",
+              "edits": "Header: bumped Last scan (e53c5be -> a9faba7); Sources extended with the new `apps/web/app/styles/__tests__/theme-css-dark-block.test.ts` source-contract guard. IdentityTheme section: added a paragraph documenting that DEFAULT_THEME's identity now diverges per-mode since #91 — `DEFAULT_IDENTITY_LIGHT` vs `DEFAULT_IDENTITY_DARK` — with the Plum+Gold dark deltas listed (medals.gold/master.outer = paper.50; charts.{1..5} adapted to ink.300/brand.400/dark-success/dark-destructive/ink.100; appPattern.color1/2/3 adapted; bronze/silver/grandmaster + navOnDark unchanged). presets.ts section: clarified that applyPreset preserves identity per-mode by design and added the post-#91 consequence for the RESET path (a fresh DEFAULT_THEME load picks up the new dark identity; an already-diverged user keeps customisations across preset switches; no in-app affordance for partial dark-only reset). computeSemanticLight/Dark section: replaced the brief 'inverts surfaces and adjusts status' summary with the full enumeration of #91 dark deltas — muted=ink.800 (collapses card+muted in dark, intentional), mutedForeground=paper.50 (full-white-on-muted by user choice, light keeps ink.700), primary=brand.400 (Memphis legibility on dark plum), ring/badgeFeatured following primary, warning=#e8a435 literal (decoupled from primary), memphisBorderColor=#cccccc (visible 2px frame on dark surfaces, while memphisShadowColor stays #000000 to match the per-tier foundation tokens). Cross-reference added to the new theme-css-dark-block source-contract test. exporters.ts delta-encoding section: noted that with the post-#91 identity divergence, the dark block always emits identity-delta lines even when `semanticDark: false` is set (pre-#91 they were a shared reference and produced an empty dark block); cited exporters.test.ts coverage of both branches."
+            }
+          },
+          "decision_no_chapter_edit": "Originally queued under both `10-library/20-theming/README.md` and `20-web-app/20-theme-generator/README.md`. The theming chapter sources are 100% `packages/ui/...`; #91 only touched `apps/web/...` (docs site + generator). The lib's tokens.css ships neutral grayscale only, the lib's theme.css is unchanged, so the theming chapter has nothing to update. The theme-generator chapter owns `apps/web/app/styles/theme.css` + `apps/web/app/theme-generator/theme-state.ts`, which carry both halves of #91, so it absorbs the entire update.",
+          "queued_at": "2026-05-09T14:35:00+00:00",
+          "completed_at": "2026-05-09T15:30:00+00:00"
+        },
+        {
+          "kind": "content-update",
           "gh_pr": 90,
           "chapters": ["30-cross-cutting/15-e2e.md"],
           "details": {
