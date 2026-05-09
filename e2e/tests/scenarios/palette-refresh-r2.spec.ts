@@ -224,10 +224,9 @@ test.describe('Palette refresh r2 — runtime CSS cascade (#93)', () => {
     // there a beat later than chromium, so poll until the cascade settles on
     // the forest brand instead of probing once.
     await expect
-      .poll(
-        async () => parseRgbTriplet(await probeVarAsColor(page, '--primary'))?.[0],
-        { timeout: 5000 },
-      )
+      .poll(async () => parseRgbTriplet(await probeVarAsColor(page, '--primary'))?.[0], {
+        timeout: 5000,
+      })
       .toBeLessThanOrEqual(170) // forest brand.500 R = 168 (plum default would be 196)
 
     const [primaryColor, primaryFgColor] = await Promise.all([
