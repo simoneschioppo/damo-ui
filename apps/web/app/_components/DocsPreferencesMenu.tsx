@@ -15,7 +15,7 @@ import {
 import { usePersistedLocale } from '../../lib/usePersistedLocale'
 
 const THEME_VALUES = ['light', 'dark'] as const
-const PALETTE_VALUES = ['default', 'neon', 'sunset'] as const
+const PALETTE_VALUES = ['default', 'sunset', 'cyberpunk', 'forest'] as const
 const DENSITY_VALUES = ['compact', 'normal', 'comfortable'] as const
 const LANGUAGE_VALUES: ReadonlyArray<Locale> = ['en', 'it']
 
@@ -89,7 +89,7 @@ export function DocsPreferencesMenu() {
   const initialLocale: Locale = isAppLocale(rawLocale) ? rawLocale : 'en'
 
   const [theme, setTheme] = usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light')
-  const [palette, setPalette] = usePersistedAttr<'default' | 'neon' | 'sunset'>(
+  const [palette, setPalette] = usePersistedAttr<'default' | 'sunset' | 'cyberpunk' | 'forest'>(
     'palette',
     'data-palette',
     'default',

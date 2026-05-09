@@ -52,9 +52,9 @@ Use these Tailwind classes (sourced from semantic CSS variables):
 
 Raw palette variables are NOT exposed as utilities. Use semantic tokens exclusively. The lib ships only neutral grayscale defaults; bring your own palette via CSS overrides.
 
-Palette presets (default / neon / sunset) and theme (light / dark) are orthogonal — set both as data attributes on `<html>`:
+Palette presets (default / sunset / cyberpunk / forest) and theme (light / dark) are orthogonal — set both as data attributes on `<html>`:
 
-`<html data-theme="dark" data-palette="neon">`
+`<html data-theme="dark" data-palette="cyberpunk">`
 
 For the current token surface (post-1.0 audit), see the playground's `/docs/foundations/tokens` page — `tokens.css` itself is the source of truth, with one explainer comment per token group. The architecture spec at `docs/specs/2026-04-24-theme-architecture-refactor-design.md` is a historical 0.1 → 0.2 reference.
 

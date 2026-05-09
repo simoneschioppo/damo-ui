@@ -16,8 +16,9 @@
       "label": "Palette",
       "options": {
         "default": "Prugna+Oro",
-        "neon": "Neon",
-        "sunset": "Tramonto"
+        "sunset": "Tramonto",
+        "cyberpunk": "Cyberpunk",
+        "forest": "Foresta"
       }
     },
     "density": {
@@ -123,7 +124,7 @@
       "body": "Tre data-attribute ortogonali su <code>&lt;html&gt;</code> guidano ogni scelta visiva. Inserisci i componenti switcher della libreria nella top bar e hai finito — leggono e scrivono gli attributi e li persistono in <mono>localStorage</mono>:",
       "validValuesEyebrow": "Valori validi degli attributi",
       "themeBullet": "<mono>data-theme</mono> — la libreria fornisce <strong>solo light</strong>; dichiara i tuoi override CSS <mono>[data-theme='dark']</mono>. Aggancia un <mono>&lt;AttrToggleGroup attribute=\"data-theme\"&gt;</mono> per cambiare valore.",
-      "paletteBullet": "<mono>data-palette</mono> — <strong>nessun built-in</strong>; i default neutri della libreria assumono una palette singola. Definisci <mono>[data-palette='neon']</mono>, <mono>[data-palette='sunset']</mono>, ecc., e passa la stessa lista a <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
+      "paletteBullet": "<mono>data-palette</mono> — <strong>nessun built-in</strong>; i default neutri della libreria assumono una palette singola. Definisci <mono>[data-palette='cyberpunk']</mono>, <mono>[data-palette='sunset']</mono>, ecc., e passa la stessa lista a <mono>&lt;AttrToggleGroup attribute=\"data-palette\"&gt;</mono>.",
       "densityBullet": "<mono>data-density</mono> — built-in: <mono>compact</mono>, <mono>normal</mono>, <mono>comfortable</mono>. Pilota <mono>--density-scale-y</mono> per la spaziatura verticale."
     },
     "themingHint": "Guida completa con setup dark mode, palette custom, switching programmatico e prevenzione FOUC → <link>Theming</link>.",
@@ -168,7 +169,7 @@
       "themeCardLabel": "Light / Dark",
       "themeCardBody": "Cambia surface, foreground e veste Memphis. La libreria fornisce <strong>solo light</strong> — sei <em>tu</em> a dichiarare l'override dark.",
       "paletteCardLabel": "Varianti di brand",
-      "paletteCardBody": "Nessun valore built-in — dichiara la lista che vuoi (<mono>default</mono>, <mono>neon</mono>, <mono>sunset</mono>…) e fai override di <mono>--primary</mono> e affini per ogni palette.",
+      "paletteCardBody": "Nessun valore built-in — dichiara la lista che vuoi (<mono>default</mono>, <mono>sunset</mono>, <mono>cyberpunk</mono>, <mono>forest</mono>…) e fai override di <mono>--primary</mono> e affini per ogni palette.",
       "densityCardLabel": "compact / normal / comfortable",
       "densityCardBody": "Moltiplica la spaziatura verticale via <mono>--density-scale-y</mono>. La libreria fornisce questi tre valori out of the box.",
       "darkTitle": "1. Aggiungere la dark mode",
@@ -425,8 +426,9 @@
     },
     "presets": {
       "default": "Prugna + Oro (default)",
-      "neon": "Neon (magenta + lime)",
-      "sunset": "Tramonto (terracotta + arancio)"
+      "sunset": "Tramonto (terracotta + arancio)",
+      "cyberpunk": "Cyberpunk (viola + ambra)",
+      "forest": "Foresta (verde + ambra)"
     },
     "easing": {
       "memphis": "memphis (default)",

@@ -25,11 +25,12 @@ const css = readFileSync(resolve(__dirname, '..', 'theme.css'), 'utf8')
  * Returns the substring between the opening `{` and its matching `}`.
  *
  * Single-match assumption: `String.match` returns the FIRST opener found.
- * `theme.css` today has exactly one `:root[data-theme='dark']` block.
- * If a future task adds palette-scoped dark overrides
- * (e.g. `:root[data-palette='neon'][data-theme='dark']`), this helper
- * will read only the first and silently miss the others — extend it
- * (e.g. `matchAll`) before that day arrives. See gh-91 review HIGH-2.
+ * `theme.css` today has exactly one `:root[data-theme='dark']` block (gh-93
+ * added a separate `:root[data-theme='dark'][data-palette='sunset']` block,
+ * which the regex above ignores by design — it only matches the unscoped
+ * dark block). If a future task adds more palette-scoped dark overrides
+ * that share the same body shape and we need to read them too, extend this
+ * helper (e.g. `matchAll`). See gh-91 review HIGH-2.
  */
 function extractDarkBlock(source: string): string {
   const match = source.match(/:root\[data-theme=['"]dark['"]\]\s*\{/)
