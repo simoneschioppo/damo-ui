@@ -1,6 +1,6 @@
 # Theme Generator
 
-Status: documented · Last scan: a9faba7 · Sources:
+Status: documented · Last scan: 34dbd0a · Sources:
 `apps/web/app/theme-generator/{page.tsx,theme-state.ts,use-theme-state.ts,presets.ts,exporters.ts,contrast.ts,sample-dialog.tsx,token-preview-chip.tsx,radius-emit.test.tsx,token-preview-chip.test.tsx}`,
 `apps/web/app/styles/theme.css`,
 `apps/web/app/styles/__tests__/{app-pattern-tokens.test.ts,reduced-motion-scoping.test.ts,theme-css-dark-block.test.ts}`.
@@ -10,8 +10,9 @@ Status: documented · Last scan: a9faba7 · Sources:
 Interactive three-layer token editor at `/theme-generator`. Users edit
 a structured `Theme` shape, see live updates in a preview pane, check
 WCAG contrast for every semantic pair, switch between presets
-(default plum+gold / neon / sunset), and export the result as **CSS
-variables**, **Tailwind v4 inline theme**, or **JSON**.
+(default plum+gold / sunset / cyberpunk / forest), and export the
+result as **CSS variables**, **Tailwind v4 inline theme**, or
+**JSON**.
 
 The architecture is laid out as a clean three-layer model documented in
 `docs/specs/2026-04-24-theme-architecture-refactor-design.md`.
@@ -155,24 +156,38 @@ The hook also handles:
 
 ### `presets.ts`
 
-Three preset palettes at the moment:
+Four preset palettes after #93 (Neon was dropped, Cyberpunk + Forest
+replaced it):
 
 ```ts
-export type PresetName = 'default' | 'neon' | 'sunset'
+export type PresetName = 'default' | 'sunset' | 'cyberpunk' | 'forest'
+
+export const PRESET_NAMES = [
+  'default',
+  'sunset',
+  'cyberpunk',
+  'forest',
+] as const satisfies readonly PresetName[]
 
 export const PRESET_LABELS = {
   default: 'Plum + Gold (default)',
-  neon: 'Neon (magenta + lime)',
   sunset: 'Sunset (terracotta + orange)',
+  cyberpunk: 'Cyberpunk (violet + amber)',
+  forest: 'Forest (green + amber)',
 }
 ```
 
+`PRESET_NAMES` is exported so the page-level coercion code (the
+RESET button in `page.tsx` and the navbar MutationObserver in
+`use-theme-state.ts`) can validate a `data-palette` attribute against
+the union without enumerating values inline.
+
 Each preset defines `RawPalette` for both light and dark.
 `applyPreset(theme, preset)` returns a new `Theme` with palette
-swapped and semantic recomputed via `computeSemanticLight` /
-`computeSemanticDark`. Identity is **preserved per-mode** (per
-spec — users may diverge identity from preset, including divergence
-between light and dark).
+swapped and semantic recomputed via `computePresetSemantic` (see
+below). Identity is **preserved per-mode** (per spec — users may
+diverge identity from preset, including divergence between light and
+dark).
 
 Consequence after #91 (identity split into `_LIGHT`/`_DARK`):
 
@@ -185,10 +200,79 @@ Consequence after #91 (identity split into `_LIGHT`/`_DARK`):
   (full `RESET` would also flip light, typography, etc.). Documented
   as a follow-up consideration in spec-gh-91; not blocking.
 
+### Per-preset semantic overrides (gh-93)
+
+The canonical mapping from `computeSemanticLight/Dark` covers most
+palettes, but two presets need a single-token exception. These live
+next to the palette literals so the override is locally readable:
+
+```ts
+const PRESET_SEMANTIC_OVERRIDES: Partial<Record<PresetName, …>> = {
+  // Sunset's terracotta dark surfaces let a black memphis border
+  // breathe; the gh-91 lift to #cccccc was sized for plum/gold.
+  sunset: { dark: { memphisBorderColor: '#000000' } },
+  // Cyberpunk's vivid amber brand.500 = #ffab00 fails WCAG AA
+  // against white text (ratio ≈ 1.97). Override to ink.900 (≈ 12.96).
+  cyberpunk: { light: { primaryForeground: CYBERPUNK_PALETTE.ink['900'] } },
+}
+
+export function computePresetSemantic(
+  preset: PresetName,
+  mode: 'light' | 'dark',
+): SemanticTheme {
+  const palette = PRESET_PALETTES[preset]
+  const base = mode === 'light'
+    ? computeSemanticLight(palette)
+    : computeSemanticDark(palette)
+  const modeOverrides = PRESET_SEMANTIC_OVERRIDES[preset]?.[mode]
+  return modeOverrides ? { ...base, ...modeOverrides } : base
+}
+```
+
+Two design rules:
+
+- The override is the **value derived from the palette** (the
+  cyberpunk entry is `CYBERPUNK_PALETTE.ink['900']`, not the literal
+  `'#170731'`) so a future palette edit stays in sync.
+- `computeSemanticLight/Dark` themselves stay pure derivations of
+  the raw palette. The override merge happens at the
+  `applyPreset`/`computePresetSemantic` boundary, never inside the
+  helpers.
+
+**SYNC_PRESET fix (gh-93 / e2e regression)**: the reducer's
+`SYNC_PRESET` branch (driven by the navbar's MutationObserver on
+`data-palette`) historically called `computeSemanticLight/Dark`
+directly, bypassing the override merge. That meant the cyberpunk and
+sunset overrides applied only when a preset was selected from the
+generator's own sidebar (`SET_PRESET`), not when it was changed via
+the global navbar. Both branches now route through
+`computePresetSemantic`. Regression guards in
+`reducer.test.ts` (`SYNC_PRESET applies … override on a fresh theme`)
+and `e2e/tests/scenarios/palette-refresh-r2.spec.ts`.
+
+Corresponding `theme.css` blocks (live preview, in source-order
+declaration so palette blocks beat the dark block at equal
+specificity ties):
+
+- `:root[data-palette='sunset']` — palette ramp.
+- `:root[data-palette='cyberpunk']` — palette ramp.
+- `:root[data-palette='forest']` — palette ramp.
+- `:root[data-palette='cyberpunk']:not([data-theme='dark'])` —
+  light-only `--primary-foreground: var(--ink-900)` (mirrors the
+  `cyberpunk.light.primaryForeground` override; explicitly scoped to
+  not-dark so a future dark-default change never silently cascades
+  into this override).
+- `:root[data-theme='dark'][data-palette='sunset']` —
+  `--memphis-border-color: #000000` (specificity 0,2,0 reliably
+  beats the gh-91 single-attribute dark block).
+
 ### `computeSemanticLight` / `computeSemanticDark`
 
 Pure functions in `theme-state.ts` that derive semantic tokens
-from a `RawPalette`:
+from a `RawPalette`. After #93 a small per-preset override layer
+may further mutate the result before the consumer sees it (see
+"Per-preset semantic overrides" above) — but the helpers themselves
+stay pure derivations of the raw palette and are unchanged by #93.
 
 ```ts
 function computeSemanticLight(p: RawPalette): SemanticTheme {

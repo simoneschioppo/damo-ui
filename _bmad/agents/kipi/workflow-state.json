@@ -109,6 +109,26 @@
       "runs": [
         {
           "kind": "content-update",
+          "gh_issue": 93,
+          "chapters": ["20-web-app/20-theme-generator/README.md"],
+          "details": {
+            "20-web-app/20-theme-generator/README.md": {
+              "paths": [
+                "apps/web/app/theme-generator/presets.ts",
+                "apps/web/app/theme-generator/use-theme-state.ts",
+                "apps/web/app/styles/theme.css"
+              ],
+              "old_sha": "a9faba7",
+              "new_sha": "34dbd0a",
+              "edits": "Header: bumped Last scan (a9faba7 -> 34dbd0a). Summary: rewrote the preset list from 'default plum+gold / neon / sunset' to 'default plum+gold / sunset / cyberpunk / forest' to match the post-#93 roster. presets.ts section: replaced the 3-preset PresetName + PRESET_LABELS code block with the 4-preset version; added a new sub-section 'Per-preset semantic overrides (gh-93)' describing the PresetSemanticOverrides type, the PRESET_SEMANTIC_OVERRIDES map (sunset.dark.memphisBorderColor=#000000 to keep terracotta dark surfaces with a black memphis frame; cyberpunk.light.primaryForeground=ink.900 because the vivid amber brand.500=#ffab00 fails WCAG AA against white) and the new computePresetSemantic helper exported from presets.ts. Added a paragraph documenting the SYNC_PRESET regression fix: the navbar-driven path was bypassing the override merge by calling computeSemanticLight/Dark directly; both branches now route through computePresetSemantic. Cross-reference to the new e2e regression spec at e2e/tests/scenarios/palette-refresh-r2.spec.ts. computeSemanticLight/Dark section: added an opening note that presets may further override the canonical result via PRESET_SEMANTIC_OVERRIDES before the value reaches the consumer; the helpers themselves remain pure derivations of the raw palette. theme.css cross-reference paragraph: updated to mention the new block stack (sunset / cyberpunk / forest / sunset-dark / cyberpunk-light) and the source-order specificity rule called out in the file's header comment after #93."
+            }
+          },
+          "decision_no_chapter_edit": "20-web-app/10-docs-site/README.md was considered for the docs/i18n/getting-started snippet migrations (neon -> cyberpunk in code examples) but the docs-site chapter currently documents the route layout and patterns, not the content of individual code snippets. The substitutions are mechanical (the chapter would not gain or lose information). Skipped to avoid noise. 10-library/10-components/README.md was also considered for the dropdown-menu/attr-toggle-group stories.tsx changes, but those are storybook-only fixtures that the components chapter already does not document. Skipped.",
+          "queued_at": "2026-05-09T16:15:00+00:00",
+          "completed_at": "2026-05-09T16:20:00+00:00"
+        },
+        {
+          "kind": "content-update",
           "gh_issue": 91,
           "gh_pr": 92,
           "chapters": ["20-web-app/20-theme-generator/README.md"],
