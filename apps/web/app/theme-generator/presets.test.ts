@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyPreset } from './presets'
+import { applyPreset, PRESET_NAMES, PRESET_LABELS } from './presets'
 import { DEFAULT_THEME, computeSemanticLight, computeSemanticDark } from './theme-state'
 
 describe('computeSemanticLight', () => {
@@ -31,7 +31,6 @@ describe('computeSemanticDark', () => {
     const sem = computeSemanticDark(DEFAULT_THEME.palette.dark)
 
     it('background stays at ink.900 — never collides with card/muted in dark', () => {
-      // Anchor the dark surface stack: bg = ink.900 is the floor.
       expect(sem.background).toBe(DEFAULT_THEME.palette.dark.ink['900'])
       expect(sem.card).not.toBe(sem.background)
     })
@@ -41,11 +40,6 @@ describe('computeSemanticDark', () => {
     })
 
     it('muted == card in dark — deliberate flat-stack design (gh-91 review HIGH-1)', () => {
-      // After gh-91 the dark surface stack collapses to two layers:
-      // background (ink.900) and card+muted (both ink.800). This is
-      // intentional — flagged in the spec's Design notes. Components
-      // that paint `bg-muted` inside a `bg-card` container will read
-      // flush. A future palette task can re-introduce a third tier.
       expect(sem.muted).toBe(sem.card)
     })
 
@@ -156,15 +150,13 @@ describe('DEFAULT_THEME.identity — dark deltas (gh-91)', () => {
 })
 
 describe('applyPreset', () => {
-  it('updates both palette modes and semantic when switching to neon', () => {
-    const updated = applyPreset(DEFAULT_THEME, 'neon')
-    // Both palette modes switched
-    expect(updated.palette.light.brand['500']).toBe('#7fd321')
-    expect(updated.palette.dark.brand['500']).toBe('#7fd321')
-    // Semantic re-derived from neon palette
-    // Light primary = brand.500; dark primary = brand.400 (gh-91).
-    expect(updated.semantic.light.primary).toBe('#7fd321')
-    expect(updated.semantic.dark.primary).toBe('#9be04a')
+  it('updates both palette modes and semantic when switching to cyberpunk', () => {
+    const updated = applyPreset(DEFAULT_THEME, 'cyberpunk')
+    expect(updated.palette.light.brand['500']).toBe('#ffab00')
+    expect(updated.palette.dark.brand['500']).toBe('#ffab00')
+    expect(updated.semantic.light.primary).toBe('#ffab00')
+    // dark primary = brand.400 (gh-91 dark mapping)
+    expect(updated.semantic.dark.primary).toBe('#ffc107')
     // Identity preserved (medals, charts, navOnDark, fonts)
     expect(updated.identity).toEqual(DEFAULT_THEME.identity)
     expect(updated.typography).toEqual(DEFAULT_THEME.typography)
@@ -176,5 +168,146 @@ describe('applyPreset', () => {
     const back = applyPreset(sun, 'default')
     expect(back.palette).toEqual(DEFAULT_THEME.palette)
     expect(back.semantic.light.primary).toBe(DEFAULT_THEME.palette.light.brand['500'])
+  })
+})
+
+/**
+ * gh-93: preset roster after Neon → Cyberpunk + Forest swap.
+ * See _bmad-output/implementation-artifacts/spec-gh-93-palette-refresh-r2.md.
+ */
+describe('gh-93 — preset roster', () => {
+  it('PRESET_NAMES enumerates the four built-in presets in canonical order', () => {
+    expect(PRESET_NAMES).toEqual(['default', 'sunset', 'cyberpunk', 'forest'])
+  })
+
+  it('PRESET_LABELS has a label for every preset', () => {
+    PRESET_NAMES.forEach((name) => {
+      expect(PRESET_LABELS[name]).toBeTruthy()
+    })
+  })
+
+  it('Neon is no longer in PRESET_NAMES', () => {
+    expect(PRESET_NAMES as readonly string[]).not.toContain('neon')
+  })
+})
+
+/**
+ * gh-93: Cyberpunk palette + light-mode primaryForeground override.
+ * The vivid amber `brand.500 = #ffab00` fails WCAG AA against white text;
+ * the override forces dark text (`ink.900 = #170731`) for legibility.
+ */
+describe('gh-93 — Cyberpunk palette + override', () => {
+  const cy = applyPreset(DEFAULT_THEME, 'cyberpunk')
+
+  it('ink scale matches the cyberpunk violet ramp', () => {
+    expect(cy.palette.light.ink).toEqual({
+      '100': '#f0d4ff',
+      '300': '#b388ff',
+      '500': '#7c4dff',
+      '700': '#3d1c75',
+      '800': '#2a1052',
+      '900': '#170731',
+    })
+  })
+
+  it('brand scale matches the cyberpunk amber ramp', () => {
+    expect(cy.palette.light.brand).toEqual({
+      '100': '#fff4b3',
+      '200': '#ffe57a',
+      '300': '#ffd740',
+      '400': '#ffc107',
+      '500': '#ffab00',
+    })
+  })
+
+  it('light primaryForeground is overridden to ink.900 (#170731) — vivid amber needs dark text', () => {
+    expect(cy.semantic.light.primaryForeground).toBe('#170731')
+  })
+
+  it('dark primaryForeground stays ink.900 from canonical dark mapping', () => {
+    expect(cy.semantic.dark.primaryForeground).toBe('#170731')
+  })
+
+  it('memphisBorderColor in dark stays the gh-91 default (#cccccc) — only sunset overrides', () => {
+    expect(cy.semantic.dark.memphisBorderColor).toBe('#cccccc')
+  })
+
+  it('palette is mirrored across light and dark modes (preset reset behavior)', () => {
+    expect(cy.palette.dark).toEqual(cy.palette.light)
+  })
+
+  it('semantic.dark equals canonical computeSemanticDark — light override does not bleed to dark', () => {
+    // Regression guard: if someone adds a dark override under cyberpunk by
+    // mistake, this asserts the dark mode stays purely on the canonical path.
+    expect(cy.semantic.dark).toEqual(computeSemanticDark(cy.palette.dark))
+  })
+})
+
+/**
+ * gh-93: Forest palette — no semantic overrides; the canonical mapping
+ * produces a WCAG-AA result with white text on `brand.500 = #a8590e`.
+ */
+describe('gh-93 — Forest palette (no overrides)', () => {
+  const fo = applyPreset(DEFAULT_THEME, 'forest')
+
+  it('ink scale matches the forest green ramp', () => {
+    expect(fo.palette.light.ink).toEqual({
+      '100': '#d6ead2',
+      '300': '#8cbf85',
+      '500': '#2f6b3b',
+      '700': '#1d4226',
+      '800': '#14301c',
+      '900': '#0c1f12',
+    })
+  })
+
+  it('brand scale matches the forest amber ramp', () => {
+    expect(fo.palette.light.brand).toEqual({
+      '100': '#fde6b8',
+      '200': '#f7d28a',
+      '300': '#f0bb55',
+      '400': '#e6a02e',
+      '500': '#a8590e',
+    })
+  })
+
+  it('light primaryForeground is white (canonical mapping; brand.500 #a8590e contrasts AA)', () => {
+    expect(fo.semantic.light.primaryForeground).toBe('#ffffff')
+  })
+
+  it('memphisBorderColor in dark stays the gh-91 default (#cccccc) — no preset override for forest', () => {
+    expect(fo.semantic.dark.memphisBorderColor).toBe('#cccccc')
+  })
+
+  it('semantic.light equals canonical computeSemanticLight — no overrides applied for forest', () => {
+    expect(fo.semantic.light).toEqual(computeSemanticLight(fo.palette.light))
+  })
+
+  it('semantic.dark equals canonical computeSemanticDark — no overrides applied for forest', () => {
+    expect(fo.semantic.dark).toEqual(computeSemanticDark(fo.palette.dark))
+  })
+})
+
+/**
+ * gh-93: Sunset semantic override — keep the black Memphis border in dark.
+ * The gh-91 lift to #cccccc was sized for plum/gold, not terracotta.
+ */
+describe('gh-93 — Sunset semantic override (memphis border)', () => {
+  const sun = applyPreset(DEFAULT_THEME, 'sunset')
+
+  it('dark.memphisBorderColor is overridden to #000000 (was #cccccc post-gh-91)', () => {
+    expect(sun.semantic.dark.memphisBorderColor).toBe('#000000')
+  })
+
+  it('light.memphisBorderColor remains the canonical light default (#000000)', () => {
+    expect(sun.semantic.light.memphisBorderColor).toBe('#000000')
+  })
+
+  it('non-overridden dark tokens follow the canonical mapping (primary = brand.400 of sunset palette)', () => {
+    expect(sun.semantic.dark.primary).toBe('#fda047')
+  })
+
+  it('non-overridden dark tokens follow the canonical mapping (memphisShadowColor stays black)', () => {
+    expect(sun.semantic.dark.memphisShadowColor).toBe('#000000')
   })
 })

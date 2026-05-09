@@ -72,16 +72,20 @@ test.describe('Docs sidebar active state', () => {
 })
 
 test.describe('Docs preferences menu exposes the documented palettes', () => {
-  test('default, neon, sunset are listed and legacy names are not', async ({ page }) => {
+  test('default, sunset, cyberpunk, forest are listed and legacy names are not', async ({
+    page,
+  }) => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Display settings' }).click()
     // Palette options are now NavItem-styled buttons inside the popover.
     const popover = page.getByRole('dialog')
     await expect(popover).toBeVisible()
     await expect(popover.getByRole('button', { name: 'Plum+Gold' })).toBeVisible()
-    await expect(popover.getByRole('button', { name: 'Neon' })).toBeVisible()
     await expect(popover.getByRole('button', { name: 'Sunset' })).toBeVisible()
-    // Legacy names should not appear anywhere in the popover.
+    await expect(popover.getByRole('button', { name: 'Cyberpunk' })).toBeVisible()
+    await expect(popover.getByRole('button', { name: 'Forest' })).toBeVisible()
+    // gh-93: Neon was removed; legacy names from earlier iterations must not appear.
+    await expect(popover.getByText(/^Neon$/i)).toHaveCount(0)
     await expect(popover.getByText(/frost/i)).toHaveCount(0)
     await expect(popover.getByText(/circuit/i)).toHaveCount(0)
   })
