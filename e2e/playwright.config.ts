@@ -21,7 +21,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'pnpm --filter @damo/web dev',
+    command: process.env.CI ? 'pnpm --filter @damo/web start' : 'pnpm --filter @damo/web dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
