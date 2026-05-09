@@ -69,7 +69,7 @@ import {
   type TypographySizeKey,
 } from './theme-state'
 import { contrastLevel, contrastRatio } from './contrast'
-import { type PresetName } from './presets'
+import { type PresetName, PRESET_NAMES } from './presets'
 import {
   buildCssExport,
   buildJsonExport,
@@ -1141,9 +1141,10 @@ export default function ThemeGeneratorPage() {
             variant="ghost"
             onClick={() => {
               const root = typeof document !== 'undefined' ? document.documentElement : null
-              const attr = root?.getAttribute('data-palette')
-              const preset: PresetName =
-                attr === 'neon' ? 'neon' : attr === 'sunset' ? 'sunset' : 'default'
+              const attr = root?.getAttribute('data-palette') ?? ''
+              const preset: PresetName = (PRESET_NAMES as readonly string[]).includes(attr)
+                ? (attr as PresetName)
+                : 'default'
               dispatch({ type: 'RESET', preset })
             }}
           >

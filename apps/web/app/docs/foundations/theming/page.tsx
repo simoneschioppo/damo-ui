@@ -29,30 +29,30 @@ const DARK_OVERRIDE = `/* app/globals.css */
 `
 
 const PALETTE_OVERRIDE = `/* app/globals.css — define a custom palette */
-:root[data-palette='neon'] {
-  --primary: #b6ff3c;
-  --primary-foreground: #0a0a0a;
-  --secondary: #ff2bd6;
+:root[data-palette='cyberpunk'] {
+  --primary: #ffab00;
+  --primary-foreground: #170731;
+  --secondary: #7c4dff;
   --secondary-foreground: #ffffff;
 }
 
 /* Combine palette + dark mode by chaining the selectors */
-:root[data-theme='dark'][data-palette='neon'] {
-  --background: #050505;
-  --foreground: #b6ff3c;
+:root[data-theme='dark'][data-palette='cyberpunk'] {
+  --background: #170731;
+  --foreground: #ffab00;
 }
 `
 
 const PROGRAMMATIC = `// Read & write any of the three attributes from JS:
 const html = document.documentElement
 
-html.dataset.theme = 'dark'        // applies dark vars
-html.dataset.palette = 'neon'      // applies neon palette overrides
-html.dataset.density = 'compact'   // applies density scale
+html.dataset.theme = 'dark'         // applies dark vars
+html.dataset.palette = 'cyberpunk'  // applies cyberpunk palette overrides
+html.dataset.density = 'compact'    // applies density scale
 
 // Persist for next visit:
 localStorage.setItem('theme', 'dark')
-localStorage.setItem('palette', 'neon')
+localStorage.setItem('palette', 'cyberpunk')
 localStorage.setItem('density', 'compact')
 `
 
@@ -78,7 +78,7 @@ export function ThemeBar() {
         attribute="data-palette"
         options={[
           { value: 'default', label: 'Plum + Gold' },
-          { value: 'neon', label: 'Neon' },
+          { value: 'cyberpunk', label: 'Cyberpunk' },
         ]}
         defaultValue="default"
       />
