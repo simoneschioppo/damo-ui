@@ -99,10 +99,12 @@
       "processed": []
     },
     "update": {
-      "queued": [
+      "queued": [],
+      "runs": [
         {
           "kind": "content-update",
           "gh_issue": 61,
+          "gh_pr": 75,
           "chapters": [
             "10-library/10-components/nav-item.md",
             "10-library/10-components/dropdown-menu.md"
@@ -114,20 +116,23 @@
                 "packages/ui/src/components/nav-item/nav-item.tone-on-dark.test.ts",
                 "packages/ui/src/lib/selection-chrome.ts"
               ],
-              "edits": "Update Internal architecture (default + onDark tones now consume selectionChromeClasses helper). Resolve Open question 2 — selection chrome is now a single source of truth at packages/ui/src/lib/selection-chrome.ts. Add a pointer to the new helper from the consume guide."
+              "old_sha": "43a7a02",
+              "new_sha": "3a33508",
+              "edits": "Header bump (last_scan 43a7a02 -> 3a33508). Sources extended with selection-chrome.ts. Summary now points at the shared helper. Tone=default and Tone=onDark sections rewritten to show the selectionChromeClasses() invocation per tone, preserving the resolved visual contract (gradient angle, color-mix percentages, ::before geometry, token derivation). Notes & gotchas #2 reframed: bar-inset is now an explicit barInset argument, not a hidden fork. Open question #2 marked RESOLVED with link to lib/selection-chrome.ts and PR #75."
             },
             "10-library/10-components/dropdown-menu.md": {
               "paths": [
                 "packages/ui/src/components/dropdown-menu/dropdown-menu.tsx",
                 "packages/ui/src/lib/selection-chrome.ts"
               ],
-              "edits": "Update RadioItem 'selected chrome' section to point at selectionChromeClasses helper. Resolve Open question 1 — the recipe lives in lib/selection-chrome.ts and is parametrized by gate, tokens, and bar inset. Bar-inset rationale (left-1 inside overflow-hidden vs. -2px sidebar bleed) preserved."
+              "old_sha": "d63afaf",
+              "new_sha": "3a33508",
+              "edits": "Header bump (last_scan d63afaf -> 3a33508). Sources extended with selection-chrome.ts. Summary callout for the shared helper added (gate=data-[state=checked], barInset='1' rationale preserved). RadioItem section rewritten to show the selectionChromeClasses() invocation; visual contract unchanged. Open question #1 marked RESOLVED with link to lib/selection-chrome.ts and PR #75."
             }
           },
-          "queued_at": "2026-05-08T21:18:00+00:00"
-        }
-      ],
-      "runs": [
+          "queued_at": "2026-05-08T21:18:00+00:00",
+          "completed_at": "2026-05-09T08:30:00+00:00"
+        },
         {
           "kind": "content-update",
           "gh_issue": 60,
@@ -184,83 +189,61 @@
         },
         {
           "chapter": "10-library/10-components/dialog.md",
-          "paths": [
-            "packages/ui/src/components/dialog/"
-          ],
+          "paths": ["packages/ui/src/components/dialog/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/10-components/nav-item.md",
-          "paths": [
-            "packages/ui/src/components/nav-item/"
-          ],
+          "paths": ["packages/ui/src/components/nav-item/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/10-components/medal.md",
-          "paths": [
-            "packages/ui/src/components/medal/"
-          ],
+          "paths": ["packages/ui/src/components/medal/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/10-components/avatar.md",
-          "paths": [
-            "packages/ui/src/components/avatar/"
-          ],
+          "paths": ["packages/ui/src/components/avatar/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/10-components/drawer.md",
-          "paths": [
-            "packages/ui/src/components/drawer/"
-          ],
+          "paths": ["packages/ui/src/components/drawer/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/10-components/scroll-area.md",
-          "paths": [
-            "packages/ui/src/components/scroll-area/"
-          ],
+          "paths": ["packages/ui/src/components/scroll-area/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/10-components/tabs.md",
-          "paths": [
-            "packages/ui/src/components/tabs/"
-          ],
+          "paths": ["packages/ui/src/components/tabs/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/10-components/README.md",
-          "paths": [
-            "packages/ui/src/components/"
-          ],
+          "paths": ["packages/ui/src/components/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/20-theming/README.md",
-          "paths": [
-            "packages/ui/src/styles/theme.css",
-            "packages/ui/src/styles/tokens.css"
-          ],
+          "paths": ["packages/ui/src/styles/theme.css", "packages/ui/src/styles/tokens.css"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
         {
           "chapter": "10-library/40-testing/README.md",
-          "paths": [
-            "packages/ui/vitest.config.ts",
-            "packages/ui/src/styles/__tests__/"
-          ],
+          "paths": ["packages/ui/vitest.config.ts", "packages/ui/src/styles/__tests__/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
@@ -276,9 +259,7 @@
         },
         {
           "chapter": "30-cross-cutting/15-e2e.md",
-          "paths": [
-            "e2e/"
-          ],
+          "paths": ["e2e/"],
           "sha": "43a7a02",
           "completed_at": "2026-05-08T09:51:22.212982+00:00"
         },
@@ -359,10 +340,7 @@
         },
         {
           "kind": "content-update",
-          "chapters": [
-            "10-library/30-build-and-publish/README.md",
-            "30-cross-cutting/15-e2e.md"
-          ],
+          "chapters": ["10-library/30-build-and-publish/README.md", "30-cross-cutting/15-e2e.md"],
           "details": {
             "10-library/30-build-and-publish/README.md": {
               "paths": [
@@ -370,21 +348,12 @@
                 "packages/ui/.ladle/components.tsx",
                 "packages/ui/.ladle/components.test.ts"
               ],
-              "commits": [
-                "493936b",
-                "337698d"
-              ],
+              "commits": ["493936b", "337698d"],
               "edits": "Added tailwindcss-animate to peer deps; replaced broken Ladle imports section with post-fix description + regression guard; removed gotcha #7 + open question #1 about resolved Ladle bug; added new gotcha #8 about the static import test."
             },
             "30-cross-cutting/15-e2e.md": {
-              "paths": [
-                "e2e/tests/scenarios/i18n-switcher.spec.ts"
-              ],
-              "commits": [
-                "9217a1c",
-                "44baf27",
-                "25d7620"
-              ],
+              "paths": ["e2e/tests/scenarios/i18n-switcher.spec.ts"],
+              "commits": ["9217a1c", "44baf27", "25d7620"],
               "edits": "Added i18n-switcher.spec.ts to layout tree and to the smoke/docs flows scenario list with a description of its coverage (story 1.1 \u2014 locale switch, html lang flip, persistence)."
             }
           },
@@ -401,482 +370,359 @@
     },
     "00-overview/01-monorepo-layout.md": {
       "status": "pending",
-      "sources": [
-        "pnpm-workspace.yaml",
-        "package.json",
-        "tsconfig.base.json"
-      ]
+      "sources": ["pnpm-workspace.yaml", "package.json", "tsconfig.base.json"]
     },
     "00-overview/02-publishing-model.md": {
       "status": "pending",
-      "sources": [
-        "packages/ui/package.json",
-        ".npmrc"
-      ]
+      "sources": ["packages/ui/package.json", ".npmrc"]
     },
     "10-library/00-architecture.md": {
       "status": "pending",
-      "sources": [
-        "packages/ui/src/index.ts",
-        "packages/ui/src/"
-      ]
+      "sources": ["packages/ui/src/index.ts", "packages/ui/src/"]
     },
     "10-library/10-components/README.md": {
       "status": "documented",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/"
-      ]
+      "sources": ["packages/ui/src/components/"]
     },
     "10-library/10-components/button.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/button/"
-      ]
+      "sources": ["packages/ui/src/components/button/"]
     },
     "10-library/10-components/icon-button.md": {
       "status": "documented",
       "tier": "THIN",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/icon-button/"
-      ]
+      "sources": ["packages/ui/src/components/icon-button/"]
     },
     "10-library/10-components/badge.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/badge/"
-      ]
+      "sources": ["packages/ui/src/components/badge/"]
     },
     "10-library/10-components/chip.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/chip/"
-      ]
+      "sources": ["packages/ui/src/components/chip/"]
     },
     "10-library/10-components/label.md": {
       "status": "documented",
       "tier": "THIN",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/label/"
-      ]
+      "sources": ["packages/ui/src/components/label/"]
     },
     "10-library/10-components/separator.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/separator/"
-      ]
+      "sources": ["packages/ui/src/components/separator/"]
     },
     "10-library/10-components/spinner.md": {
       "status": "documented",
       "tier": "THIN",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/spinner/"
-      ]
+      "sources": ["packages/ui/src/components/spinner/"]
     },
     "10-library/10-components/skeleton.md": {
       "status": "documented",
       "tier": "THIN",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/skeleton/"
-      ]
+      "sources": ["packages/ui/src/components/skeleton/"]
     },
     "10-library/10-components/input.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/input/"
-      ]
+      "sources": ["packages/ui/src/components/input/"]
     },
     "10-library/10-components/textarea.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/textarea/"
-      ]
+      "sources": ["packages/ui/src/components/textarea/"]
     },
     "10-library/10-components/checkbox.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/checkbox/"
-      ]
+      "sources": ["packages/ui/src/components/checkbox/"]
     },
     "10-library/10-components/radio-group.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/radio-group/"
-      ]
+      "sources": ["packages/ui/src/components/radio-group/"]
     },
     "10-library/10-components/switch.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/switch/"
-      ]
+      "sources": ["packages/ui/src/components/switch/"]
     },
     "10-library/10-components/select.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/select/"
-      ]
+      "sources": ["packages/ui/src/components/select/"]
     },
     "10-library/10-components/combobox.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/combobox/"
-      ]
+      "sources": ["packages/ui/src/components/combobox/"]
     },
     "10-library/10-components/slider.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/slider/"
-      ]
+      "sources": ["packages/ui/src/components/slider/"]
     },
     "10-library/10-components/segmented-control.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/segmented-control/"
-      ]
+      "sources": ["packages/ui/src/components/segmented-control/"]
     },
     "10-library/10-components/attr-toggle-group.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/attr-toggle-group/"
-      ]
+      "sources": ["packages/ui/src/components/attr-toggle-group/"]
     },
     "10-library/10-components/color-picker.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/color-picker/"
-      ]
+      "sources": ["packages/ui/src/components/color-picker/"]
     },
     "10-library/10-components/date-picker.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/date-picker/"
-      ]
+      "sources": ["packages/ui/src/components/date-picker/"]
     },
     "10-library/10-components/form-field.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/form-field/"
-      ]
+      "sources": ["packages/ui/src/components/form-field/"]
     },
     "10-library/10-components/hint.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/hint/"
-      ]
+      "sources": ["packages/ui/src/components/hint/"]
     },
     "10-library/10-components/dialog.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/dialog/"
-      ]
+      "sources": ["packages/ui/src/components/dialog/"]
     },
     "10-library/10-components/drawer.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/drawer/"
-      ]
+      "sources": ["packages/ui/src/components/drawer/"]
     },
     "10-library/10-components/popover.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/popover/"
-      ]
+      "sources": ["packages/ui/src/components/popover/"]
     },
     "10-library/10-components/tooltip.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/tooltip/"
-      ]
+      "sources": ["packages/ui/src/components/tooltip/"]
     },
     "10-library/10-components/dropdown-menu.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "3a33508",
       "sources": [
-        "packages/ui/src/components/dropdown-menu/"
+        "packages/ui/src/components/dropdown-menu/",
+        "packages/ui/src/lib/selection-chrome.ts"
       ]
     },
     "10-library/10-components/context-menu.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/context-menu/"
-      ]
+      "sources": ["packages/ui/src/components/context-menu/"]
     },
     "10-library/10-components/toast.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/toast/"
-      ]
+      "sources": ["packages/ui/src/components/toast/"]
     },
     "10-library/10-components/box.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/box/"
-      ]
+      "sources": ["packages/ui/src/components/box/"]
     },
     "10-library/10-components/container.md": {
       "status": "documented",
       "tier": "THIN",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/container/"
-      ]
+      "sources": ["packages/ui/src/components/container/"]
     },
     "10-library/10-components/aspect-ratio.md": {
       "status": "documented",
       "tier": "THIN",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/aspect-ratio/"
-      ]
+      "sources": ["packages/ui/src/components/aspect-ratio/"]
     },
     "10-library/10-components/scroll-area.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "43a7a02",
-      "sources": [
-        "packages/ui/src/components/scroll-area/"
-      ]
+      "sources": ["packages/ui/src/components/scroll-area/"]
     },
     "10-library/10-components/app-shell.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/app-shell/"
-      ]
+      "sources": ["packages/ui/src/components/app-shell/"]
     },
     "10-library/10-components/app-top-bar.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/app-top-bar/"
-      ]
+      "sources": ["packages/ui/src/components/app-top-bar/"]
     },
     "10-library/10-components/sidebar.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/sidebar/"
-      ]
+      "sources": ["packages/ui/src/components/sidebar/"]
     },
     "10-library/10-components/page-header.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/page-header/"
-      ]
+      "sources": ["packages/ui/src/components/page-header/"]
     },
     "10-library/10-components/tabs.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "43a7a02",
-      "sources": [
-        "packages/ui/src/components/tabs/"
-      ]
+      "sources": ["packages/ui/src/components/tabs/"]
     },
     "10-library/10-components/breadcrumbs.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/breadcrumbs/"
-      ]
+      "sources": ["packages/ui/src/components/breadcrumbs/"]
     },
     "10-library/10-components/pagination.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/pagination/"
-      ]
+      "sources": ["packages/ui/src/components/pagination/"]
     },
     "10-library/10-components/nav-item.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "43a7a02",
-      "sources": [
-        "packages/ui/src/components/nav-item/"
-      ]
+      "last_scan_sha": "3a33508",
+      "sources": ["packages/ui/src/components/nav-item/", "packages/ui/src/lib/selection-chrome.ts"]
     },
     "10-library/10-components/accordion.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/accordion/"
-      ]
+      "sources": ["packages/ui/src/components/accordion/"]
     },
     "10-library/10-components/table.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/table/"
-      ]
+      "sources": ["packages/ui/src/components/table/"]
     },
     "10-library/10-components/card.md": {
       "status": "documented",
       "tier": "FULL",
       "last_scan_sha": "99227a4",
-      "sources": [
-        "packages/ui/src/components/card/"
-      ]
+      "sources": ["packages/ui/src/components/card/"]
     },
     "10-library/10-components/article-card.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "99227a4",
-      "sources": [
-        "packages/ui/src/components/article-card/"
-      ]
+      "sources": ["packages/ui/src/components/article-card/"]
     },
     "10-library/10-components/feature-card.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "99227a4",
-      "sources": [
-        "packages/ui/src/components/feature-card/"
-      ]
+      "sources": ["packages/ui/src/components/feature-card/"]
     },
     "10-library/10-components/user-card.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "99227a4",
-      "sources": [
-        "packages/ui/src/components/user-card/"
-      ]
+      "sources": ["packages/ui/src/components/user-card/"]
     },
     "10-library/10-components/avatar.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "43a7a02",
-      "sources": [
-        "packages/ui/src/components/avatar/"
-      ]
+      "sources": ["packages/ui/src/components/avatar/"]
     },
     "10-library/10-components/stat.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/stat/"
-      ]
+      "sources": ["packages/ui/src/components/stat/"]
     },
     "10-library/10-components/progress.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/progress/"
-      ]
+      "sources": ["packages/ui/src/components/progress/"]
     },
     "10-library/10-components/banner.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "e53c5be",
-      "sources": [
-        "packages/ui/src/components/banner/"
-      ]
+      "sources": ["packages/ui/src/components/banner/"]
     },
     "10-library/10-components/medal.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "43a7a02",
-      "sources": [
-        "packages/ui/src/components/medal/"
-      ]
+      "sources": ["packages/ui/src/components/medal/"]
     },
     "10-library/10-components/memphis-shape.md": {
       "status": "documented",
       "tier": "STANDARD",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/memphis-shape/"
-      ]
+      "sources": ["packages/ui/src/components/memphis-shape/"]
     },
     "10-library/10-components/ornament.md": {
       "status": "documented",
       "tier": "THIN",
       "last_scan_sha": "d63afaf",
-      "sources": [
-        "packages/ui/src/components/ornament/"
-      ]
+      "sources": ["packages/ui/src/components/ornament/"]
     },
     "10-library/15-hooks.md": {
       "status": "pending",
-      "sources": [
-        "packages/ui/src/hooks/"
-      ]
+      "sources": ["packages/ui/src/hooks/"]
     },
     "10-library/17-icons.md": {
       "status": "pending",
-      "sources": [
-        "packages/ui/src/icons/"
-      ]
+      "sources": ["packages/ui/src/icons/"]
     },
     "10-library/18-lib-utils.md": {
       "status": "pending",
-      "sources": [
-        "packages/ui/src/lib/"
-      ]
+      "sources": ["packages/ui/src/lib/"]
     },
     "10-library/20-theming/README.md": {
       "status": "documented",
@@ -953,9 +799,7 @@
     },
     "20-web-app/30-deployment.md": {
       "status": "pending",
-      "sources": [
-        "apps/web/next.config.ts"
-      ]
+      "sources": ["apps/web/next.config.ts"]
     },
     "30-cross-cutting/00-tooling.md": {
       "status": "pending",
@@ -968,29 +812,20 @@
     },
     "30-cross-cutting/10-ci-cd.md": {
       "status": "pending",
-      "sources": [
-        ".github/"
-      ]
+      "sources": [".github/"]
     },
     "30-cross-cutting/15-e2e.md": {
       "status": "documented",
-      "sources": [
-        "e2e/"
-      ],
+      "sources": ["e2e/"],
       "last_scan_sha": "e53c5be"
     },
     "30-cross-cutting/20-conventions.md": {
       "status": "pending",
-      "sources": [
-        "CONTRIBUTING.md"
-      ]
+      "sources": ["CONTRIBUTING.md"]
     },
     "30-cross-cutting/30-publication-readiness.md": {
       "status": "pending",
-      "sources": [
-        "PUBLICATION_READINESS.md",
-        "CHANGELOG.md"
-      ]
+      "sources": ["PUBLICATION_READINESS.md", "CHANGELOG.md"]
     }
   }
 }
