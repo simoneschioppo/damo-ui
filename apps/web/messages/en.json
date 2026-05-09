@@ -427,8 +427,8 @@
     "presets": {
       "default": "Plum + Gold (default)",
       "sunset": "Sunset (terracotta + orange)",
-      "cyberpunk": "Cyberpunk (violet + amber)",
-      "forest": "Forest (green + amber)"
+      "cyberpunk": "Cyberpunk (violet + cyan)",
+      "forest": "Forest (green + copper)"
     },
     "easing": {
       "memphis": "memphis (default)",
