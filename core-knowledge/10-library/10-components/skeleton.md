@@ -13,10 +13,10 @@ by design — Skeletons are visual only.
 
 ## Public API
 
-| Export         | Kind |
-|----------------|------|
-| `Skeleton`     | `forwardRef<HTMLDivElement, SkeletonProps>` |
-| `SkeletonProps`| `HTMLAttributes<HTMLDivElement>` |
+| Export          | Kind                                        |
+| --------------- | ------------------------------------------- |
+| `Skeleton`      | `forwardRef<HTMLDivElement, SkeletonProps>` |
+| `SkeletonProps` | `HTMLAttributes<HTMLDivElement>`            |
 
 No variants. Sizing is up to the consumer via `className`
 (e.g. `<Skeleton className="h-4 w-32" />`).

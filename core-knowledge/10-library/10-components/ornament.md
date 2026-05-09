@@ -12,29 +12,38 @@ in long-form pages or marketing layouts. `role="separator"`,
 
 ## Public API
 
-| Export         | Kind |
-|----------------|------|
-| `Ornament`     | `forwardRef<HTMLDivElement, OrnamentProps>` |
-| `OrnamentProps`| `HTMLAttributes<HTMLDivElement> & { children?: ReactNode }` |
+| Export          | Kind                                                        |
+| --------------- | ----------------------------------------------------------- |
+| `Ornament`      | `forwardRef<HTMLDivElement, OrnamentProps>`                 |
+| `OrnamentProps` | `HTMLAttributes<HTMLDivElement> & { children?: ReactNode }` |
 
-| Prop      | Type        | Notes |
-|-----------|-------------|-------|
-| `children`| `ReactNode` | Replaces the default diamond glyph |
-| `className`| `string`   | Merged onto wrapper |
-| …native   | `HTMLAttributes<HTMLDivElement>` | |
+| Prop        | Type                             | Notes                              |
+| ----------- | -------------------------------- | ---------------------------------- |
+| `children`  | `ReactNode`                      | Replaces the default diamond glyph |
+| `className` | `string`                         | Merged onto wrapper                |
+| …native     | `HTMLAttributes<HTMLDivElement>` |                                    |
 
 ## Internal architecture
 
 ```jsx
-<div role="separator" aria-hidden="true"
-     className="flex items-center gap-3 text-primary">
-  <span style={{ flex: 1, height: 1,
-                 background: 'linear-gradient(90deg, transparent, var(--primary), transparent)' }}/>
+<div role="separator" aria-hidden="true" className="flex items-center gap-3 text-primary">
+  <span
+    style={{
+      flex: 1,
+      height: 1,
+      background: 'linear-gradient(90deg, transparent, var(--primary), transparent)',
+    }}
+  />
   <span style={{ flexShrink: 0, display: 'grid', placeItems: 'center' }}>
     {children ?? defaultGlyph}
   </span>
-  <span style={{ flex: 1, height: 1,
-                 background: 'linear-gradient(90deg, transparent, var(--primary), transparent)' }}/>
+  <span
+    style={{
+      flex: 1,
+      height: 1,
+      background: 'linear-gradient(90deg, transparent, var(--primary), transparent)',
+    }}
+  />
 </div>
 ```
 

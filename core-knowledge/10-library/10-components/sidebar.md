@@ -13,25 +13,25 @@ scrolls; footer sticks to the bottom.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
-| `Sidebar`          | `forwardRef<HTMLElement, SidebarProps>` |
-| `SidebarHeader`    | layout div |
-| `SidebarBrand`     | display-font heading |
-| `SidebarSubtitle`  | mono uppercase eyebrow |
-| `SidebarBody`      | scrollable region |
-| `SidebarFooter`    | bottom-stuck region with top border |
-| `SidebarProps`     | see below |
-| `sidebarVariants`  | (re-exported via index) |
-| `SidebarVariants`  | type |
+| Export            | Kind                                    |
+| ----------------- | --------------------------------------- |
+| `Sidebar`         | `forwardRef<HTMLElement, SidebarProps>` |
+| `SidebarHeader`   | layout div                              |
+| `SidebarBrand`    | display-font heading                    |
+| `SidebarSubtitle` | mono uppercase eyebrow                  |
+| `SidebarBody`     | scrollable region                       |
+| `SidebarFooter`   | bottom-stuck region with top border     |
+| `SidebarProps`    | see below                               |
+| `sidebarVariants` | (re-exported via index)                 |
+| `SidebarVariants` | type                                    |
 
-| `SidebarProps`     | Type                                  | Default     |
-|--------------------|---------------------------------------|-------------|
-| `sticky`           | `boolean`                             | `true`      |
-| `border`           | `'right' \| 'left' \| 'none'`         | `'right'`   |
-| `width`            | `number \| string`                    | —           |
-| `className`        | `string`                              | —           |
-| …native            | `Omit<HTMLAttributes<HTMLElement>, 'children'>` | —  |
+| `SidebarProps` | Type                                            | Default   |
+| -------------- | ----------------------------------------------- | --------- |
+| `sticky`       | `boolean`                                       | `true`    |
+| `border`       | `'right' \| 'left' \| 'none'`                   | `'right'` |
+| `width`        | `number \| string`                              | —         |
+| `className`    | `string`                                        | —         |
+| …native        | `Omit<HTMLAttributes<HTMLElement>, 'children'>` | —         |
 
 ## Internal architecture
 
@@ -66,9 +66,8 @@ Two parts of this are load-bearing:
 ### Width handling
 
 ```ts
-const widthStyle = width !== undefined
-  ? { width: typeof width === 'number' ? `${width}px` : width }
-  : undefined
+const widthStyle =
+  width !== undefined ? { width: typeof width === 'number' ? `${width}px` : width } : undefined
 ```
 
 Number → pixel string. String → passed verbatim (so consumers can
@@ -77,13 +76,13 @@ pass `'16rem'`, `'min(280px, 25vw)'`, etc.). Width is set inline via
 
 ### Compound parts
 
-| Part              | Classes                                                                       |
-|-------------------|-------------------------------------------------------------------------------|
-| `SidebarHeader`   | `flex flex-col gap-1`                                                         |
-| `SidebarBrand`    | `font-display text-lg tracking-[0.12em] text-primary`                         |
-| `SidebarSubtitle` | `font-mono text-[10px] tracking-[0.2em] uppercase text-primary`               |
-| `SidebarBody`     | `flex-1 min-h-0 overflow-y-auto pr-3`                                         |
-| `SidebarFooter`   | `mt-auto pt-5 border-t-2 border-memphis flex flex-col gap-3`                  |
+| Part              | Classes                                                         |
+| ----------------- | --------------------------------------------------------------- |
+| `SidebarHeader`   | `flex flex-col gap-1`                                           |
+| `SidebarBrand`    | `font-display text-lg tracking-[0.12em] text-primary`           |
+| `SidebarSubtitle` | `font-mono text-[10px] tracking-[0.2em] uppercase text-primary` |
+| `SidebarBody`     | `flex-1 min-h-0 overflow-y-auto pr-3`                           |
+| `SidebarFooter`   | `mt-auto pt-5 border-t-2 border-memphis flex flex-col gap-3`    |
 
 `SidebarBody`'s `flex-1 min-h-0 overflow-y-auto` is what makes the
 scroll work: the body grows to fill remaining vertical space, but
@@ -135,7 +134,7 @@ This is the same pattern used in DrawerBody.
    `--nav-on-dark-*`, they need to pass `className` overrides.
 3. **`pr-3` on body** is a thumb-room hack rather than a proper
    scrollbar gutter. Could be replaced with a `scrollbar-gutter:
-   stable` declaration once support is broad.
+stable` declaration once support is broad.
 4. **No "section" sub-component.** Multi-section sidebars (with
    in-body uppercase group titles) compose manually with `<Label>`
    or eyebrow spans.

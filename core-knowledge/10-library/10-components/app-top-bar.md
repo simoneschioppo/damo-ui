@@ -12,19 +12,19 @@ black bottom border on `bg-card`).
 
 ## Public API
 
-| Export          | Kind |
-|-----------------|------|
-| `AppTopBar`     | `forwardRef<HTMLElement, AppTopBarProps>` |
-| `AppTopBarProps`| see below |
+| Export           | Kind                                      |
+| ---------------- | ----------------------------------------- |
+| `AppTopBar`      | `forwardRef<HTMLElement, AppTopBarProps>` |
+| `AppTopBarProps` | see below                                 |
 
-| Prop      | Type                          | Default   | Notes |
-|-----------|-------------------------------|-----------|-------|
-| `logo`    | `ReactNode`                   | (required) | Rendered in display font, `text-xl tracking-wider` |
-| `nav`     | `ReactNode`                   | —         | Wrapped in `<nav className="flex gap-6">` |
-| `actions` | `ReactNode`                   | —         | Wrapped in `<div className="flex gap-4 items-center flex-wrap">` |
-| `sticky`  | `boolean`                     | `true`    | When false, the header is in normal flow |
-| `className`| `string`                     | —         | |
-| …native   | `HTMLAttributes<HTMLElement>` | —         | |
+| Prop        | Type                          | Default    | Notes                                                            |
+| ----------- | ----------------------------- | ---------- | ---------------------------------------------------------------- |
+| `logo`      | `ReactNode`                   | (required) | Rendered in display font, `text-xl tracking-wider`               |
+| `nav`       | `ReactNode`                   | —          | Wrapped in `<nav className="flex gap-6">`                        |
+| `actions`   | `ReactNode`                   | —          | Wrapped in `<div className="flex gap-4 items-center flex-wrap">` |
+| `sticky`    | `boolean`                     | `true`     | When false, the header is in normal flow                         |
+| `className` | `string`                      | —          |                                                                  |
+| …native     | `HTMLAttributes<HTMLElement>` | —          |                                                                  |
 
 ## Internal architecture
 

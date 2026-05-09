@@ -29,6 +29,7 @@ plus foundations: typography, radius, shadow-memphis, shadow-soft, motion
 
 Each layer is **per-mode** (light + dark variants stored independently).
 The user can:
+
 - Change a raw palette step → semantic recomputes (in the default
   derivation flow).
 - Override a semantic value directly → breaks the derivation chain
@@ -40,14 +41,14 @@ The user can:
 
 ```ts
 interface Theme {
-  palette:        { light: RawPalette; dark: RawPalette }
-  semantic:       { light: SemanticTheme; dark: SemanticTheme }
-  identity:       { light: IdentityTheme; dark: IdentityTheme }
-  typography:     { light: TypographyFoundation; dark: TypographyFoundation }
-  radius:         { light: RadiusFoundation; dark: RadiusFoundation }
-  shadowMemphis:  { light: ShadowMemphisFoundation; dark: ShadowMemphisFoundation }
-  shadowSoft:     { light: ShadowSoftFoundation; dark: ShadowSoftFoundation }
-  motion:         { light: MotionFoundation; dark: MotionFoundation }
+  palette: { light: RawPalette; dark: RawPalette }
+  semantic: { light: SemanticTheme; dark: SemanticTheme }
+  identity: { light: IdentityTheme; dark: IdentityTheme }
+  typography: { light: TypographyFoundation; dark: TypographyFoundation }
+  radius: { light: RadiusFoundation; dark: RadiusFoundation }
+  shadowMemphis: { light: ShadowMemphisFoundation; dark: ShadowMemphisFoundation }
+  shadowSoft: { light: ShadowSoftFoundation; dark: ShadowSoftFoundation }
+  motion: { light: MotionFoundation; dark: MotionFoundation }
 }
 ```
 
@@ -72,6 +73,7 @@ paper: '50'  | '100' | '200' | '300'                  (4 steps)
 ### `SemanticTheme` — the public token surface
 
 The semantic layer mirrors what the lib ships (`tokens.css`):
+
 - 8 surface pairs (background, card, popover, muted)
 - 3 intent pairs (primary, secondary, destructive)
 - 3 status pairs (success, warning, info)
@@ -114,6 +116,7 @@ Per-mode editable scales:
 ### `useThemeState` (`use-theme-state.ts`)
 
 A `useReducer`-based controller. Action types include:
+
 - `SET_PRESET` / `SYNC_PRESET`
 - `SET_PALETTE_STEP` (mode, group, step, value)
 - `SET_SEMANTIC` (mode, key, value)
@@ -128,6 +131,7 @@ The reducer is **immutable per the type declarations** — every
 mutation returns a new theme object.
 
 The hook also handles:
+
 - **Persistence** — saves to localStorage on change.
 - **DOM sync** — applies the current `Theme` to `document.documentElement`
   by setting CSS variables, so the lib's components in the preview
@@ -142,8 +146,8 @@ export type PresetName = 'default' | 'neon' | 'sunset'
 
 export const PRESET_LABELS = {
   default: 'Plum + Gold (default)',
-  neon:    'Neon (magenta + lime)',
-  sunset:  'Sunset (terracotta + orange)',
+  neon: 'Neon (magenta + lime)',
+  sunset: 'Sunset (terracotta + orange)',
 }
 ```
 
@@ -172,8 +176,8 @@ function computeSemanticLight(p: RawPalette): SemanticTheme {
     secondary: p.ink['500'],
     secondaryForeground: p.paper['50'],
     // ...
-    border: p.ink['900'] + '1f',  // hex alpha 12%
-    borderStrong: p.ink['900'] + '38',  // hex alpha ~22%
+    border: p.ink['900'] + '1f', // hex alpha 12%
+    borderStrong: p.ink['900'] + '38', // hex alpha ~22%
     ring: p.brand['500'],
     // ...
   }
@@ -190,11 +194,11 @@ follow (or the docs lie).
 
 Three exporters:
 
-| Format    | Output |
-|-----------|--------|
-| **CSS**   | `:root` blocks for light/dark, palette + semantic + identity + foundations |
-| **Tailwind** | v4 `@theme inline { … }` block with semantic vars + foundations |
-| **JSON**  | The full `Theme` object serialised |
+| Format       | Output                                                                     |
+| ------------ | -------------------------------------------------------------------------- |
+| **CSS**      | `:root` blocks for light/dark, palette + semantic + identity + foundations |
+| **Tailwind** | v4 `@theme inline { … }` block with semantic vars + foundations            |
+| **JSON**     | The full `Theme` object serialised                                         |
 
 Includes `IncludeFlags` to let the user opt sections in/out:
 
@@ -313,14 +317,14 @@ generator is itself the most demanding consumer of `@damo/ui`.
    - `full` → `<N>%` (was forced to `50%`)
    - any other key with value `0` → the literal string `'0'`
    - otherwise → `<N>px`
-   Regression guard: `radius-emit.test.tsx` (uses
-   `@testing-library/react`'s `renderHook` to assert
-   `SET_RADIUS` → emit pipeline).
+     Regression guard: `radius-emit.test.tsx` (uses
+     `@testing-library/react`'s `renderHook` to assert
+     `SET_RADIUS` → emit pipeline).
 
 8. **Reduced-motion scoping** (PR #48 / AC-1). The earlier
-   `apps/web/app/styles/theme.css` shipped a *universal*
+   `apps/web/app/styles/theme.css` shipped a _universal_
    `@media (prefers-reduced-motion: reduce) { *, *::before, *::after
-   { transition-duration: 0.01ms !important } }` that overrode every
+{ transition-duration: 0.01ms !important } }` that overrode every
    duration token edited in the generator — making the Motion
    sliders silently inert for any visitor whose OS had reduced
    motion enabled. The rule is now scoped so genuine opt-in still
@@ -336,7 +340,7 @@ generator is itself the most demanding consumer of `@damo/ui`.
 
 10. **Shadow-memphis emitter alias for `md`** — silent-empty trap.
     `emitFoundationsVars` (`use-theme-state.ts:460`) writes the `md`
-    shadow-memphis value to the *bare* `--shadow-memphis` variable,
+    shadow-memphis value to the _bare_ `--shadow-memphis` variable,
     NOT to `--shadow-memphis-md`. Every other key in
     `SHADOW_MEMPHIS_KEYS` (`sm`, `card`, `lg`, `hover`, `active`)
     follows the suffixed `--shadow-memphis-{k}` convention. This is

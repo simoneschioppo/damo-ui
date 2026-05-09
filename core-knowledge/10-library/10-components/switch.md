@@ -13,8 +13,8 @@ track). Thumb travel is **density-aware** via a `--spacing` calc.
 
 ## Public API
 
-| Export   | Kind |
-|----------|------|
+| Export   | Kind                                                                                                         |
+| -------- | ------------------------------------------------------------------------------------------------------------ |
 | `Switch` | `forwardRef<ElementRef<typeof SwitchPrimitive.Root>, ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>>` |
 
 Props are Radix's `Switch.Root`: `checked`, `defaultChecked`,
@@ -77,8 +77,8 @@ data-[state=checked]:translate-x-[calc(var(--spacing)*8.5-4px)]
 
 5. **Comment in source mentions "plum knob"** ("OFF: square plum
    knob on the left (dark), ivory track. ON: ivory square knob on
-   the right, gold track"). The comment describes the *intended brand
-   theming*, not the lib defaults — at the lib level, it's
+   the right, gold track"). The comment describes the _intended brand
+   theming_, not the lib defaults — at the lib level, it's
    `bg-foreground` (neutral dark) → `bg-background` (neutral light)
    on a `bg-card` → `bg-primary` track. The plum/gold are consumer
    palette overrides.

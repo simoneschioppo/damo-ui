@@ -19,24 +19,18 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
  * Also asserts the role/aria contract: every medal SVG must declare
  * `role="img"` + `aria-label` for assistive tech.
  */
-const medalSource = readFileSync(
-  resolve(__dirname, 'medal.tsx'),
-  'utf8',
-)
+const medalSource = readFileSync(resolve(__dirname, 'medal.tsx'), 'utf8')
 
 const RANKS = ['bronze', 'silver', 'gold', 'master', 'grandmaster'] as const
 const SLOTS = ['outer', 'inner', 'text'] as const
 
 describe('J-07 Medal SVG references --medal-* tokens for every rank × slot', () => {
-  it.each(SLOTS)(
-    'reads var(--medal-${rank}-%s) via template literal',
-    (slot) => {
-      // Match the template form used by Medal: backtick interpolation
-      // `var(--medal-${rank}-<slot>)`. We tolerate either spelling style.
-      const pattern = new RegExp(`var\\(--medal-\\$\\{rank\\}-${slot}\\)`)
-      expect(medalSource).toMatch(pattern)
-    },
-  )
+  it.each(SLOTS)('reads var(--medal-${rank}-%s) via template literal', (slot) => {
+    // Match the template form used by Medal: backtick interpolation
+    // `var(--medal-${rank}-<slot>)`. We tolerate either spelling style.
+    const pattern = new RegExp(`var\\(--medal-\\$\\{rank\\}-${slot}\\)`)
+    expect(medalSource).toMatch(pattern)
+  })
 
   it('exposes the canonical 5-rank union', () => {
     // The component's MedalRank type / runtime ranks list is the contract

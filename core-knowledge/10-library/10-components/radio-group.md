@@ -12,12 +12,13 @@ a small filled disc inside the item.
 
 ## Public API
 
-| Export            | Kind |
-|-------------------|------|
-| `RadioGroup`      | `forwardRef<…, RadioGroupPrimitive.Root props>` |
-| `RadioGroupItem`  | `forwardRef<…, RadioGroupPrimitive.Item props>` |
+| Export           | Kind                                            |
+| ---------------- | ----------------------------------------------- |
+| `RadioGroup`     | `forwardRef<…, RadioGroupPrimitive.Root props>` |
+| `RadioGroupItem` | `forwardRef<…, RadioGroupPrimitive.Item props>` |
 
 Props are exactly Radix's. Notably:
+
 - `RadioGroup.Root`: `value`, `defaultValue`, `onValueChange`,
   `disabled`, `name`, `required`, `orientation`, `dir`, `loop`.
 - `RadioGroup.Item`: `value` (required), `disabled`, `id`, plus the

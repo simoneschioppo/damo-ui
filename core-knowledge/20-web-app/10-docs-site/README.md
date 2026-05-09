@@ -14,15 +14,15 @@ chapters cover tokens, theming, colors, typography, and patterns.
 
 ## Public surface (URL paths)
 
-| Path                                  | Renders                                  |
-|---------------------------------------|------------------------------------------|
-| `/docs/getting-started`               | static intro page                        |
-| `/docs/foundations/tokens`            | tokens reference                         |
-| `/docs/foundations/theming`           | theming guide (light/dark/palette)       |
-| `/docs/foundations/colors`            | color visualization                      |
-| `/docs/foundations/typography`        | font + scale showcase                    |
-| `/docs/foundations/patterns`          | Memphis pattern catalog                  |
-| `/docs/components/<slug>` (real)      | per-component documentation page         |
+| Path                                  | Renders                                              |
+| ------------------------------------- | ---------------------------------------------------- |
+| `/docs/getting-started`               | static intro page                                    |
+| `/docs/foundations/tokens`            | tokens reference                                     |
+| `/docs/foundations/theming`           | theming guide (light/dark/palette)                   |
+| `/docs/foundations/colors`            | color visualization                                  |
+| `/docs/foundations/typography`        | font + scale showcase                                |
+| `/docs/foundations/patterns`          | Memphis pattern catalog                              |
+| `/docs/components/<slug>` (real)      | per-component documentation page                     |
 | `/docs/components/[component]` (stub) | dynamic stub for nav entries without a real page yet |
 
 The `[component]` dynamic route uses Next's `generateStaticParams`
@@ -34,12 +34,14 @@ export covers the full inventory.
 ### Layout (`docs/layout.tsx`)
 
 ```jsx
-<div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] min-h-screen
-                bg-background text-foreground">
-  <div className="hidden lg:block"><DocsSidebar /></div>
-  <main className="px-6 sm:px-10 lg:px-12 py-10 lg:py-12 max-w-[920px] w-full">
-    {children}
-  </main>
+<div
+  className="grid grid-cols-1 lg:grid-cols-[260px_1fr] min-h-screen
+                bg-background text-foreground"
+>
+  <div className="hidden lg:block">
+    <DocsSidebar />
+  </div>
+  <main className="px-6 sm:px-10 lg:px-12 py-10 lg:py-12 max-w-[920px] w-full">{children}</main>
 </div>
 ```
 
@@ -96,6 +98,7 @@ Single readonly module exporting the nav structure. Groups:
 - and more…
 
 Each entry can carry `status: 'beta' | 'stub'` — used by:
+
 - `DocsSidebar` to render a small status badge next to the label.
 - The `[component]` dynamic route to know which slugs to
   pre-render as stubs.
@@ -108,17 +111,17 @@ sidebar and the dynamic stub route both read it.
 The docs site has its own private helper layer (the underscore
 prefix is Next's convention for non-routable folders):
 
-| Helper                             | Purpose |
-|------------------------------------|---------|
-| `_components/Code.tsx`             | Server-side syntax-highlighted code block |
-| `_components/CopyButton.tsx`       | Copy-to-clipboard button |
-| `_components/Example.tsx`          | Server component that pairs preview + code |
-| `_components/PropsTable.tsx`       | Tabular props reference |
-| `_components/DocsSidebar.tsx`      | Sidebar nav, reads `DOCS_NAV` and translates group titles + the Introduction entry via `useTranslations('docsSidebar')` |
-| `_components/docs-nav.ts`          | The nav source of truth (above) |
-| `_components/highlight.ts`         | Server-only syntax highlighter |
-| `_lib/active-section.ts`           | "Currently visible heading" tracking for sidebar TOC |
-| `_lib/patterns.tsx`                | Memphis-pattern preview helpers used by foundations/patterns |
+| Helper                        | Purpose                                                                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `_components/Code.tsx`        | Server-side syntax-highlighted code block                                                                               |
+| `_components/CopyButton.tsx`  | Copy-to-clipboard button                                                                                                |
+| `_components/Example.tsx`     | Server component that pairs preview + code                                                                              |
+| `_components/PropsTable.tsx`  | Tabular props reference                                                                                                 |
+| `_components/DocsSidebar.tsx` | Sidebar nav, reads `DOCS_NAV` and translates group titles + the Introduction entry via `useTranslations('docsSidebar')` |
+| `_components/docs-nav.ts`     | The nav source of truth (above)                                                                                         |
+| `_components/highlight.ts`    | Server-only syntax highlighter                                                                                          |
+| `_lib/active-section.ts`      | "Currently visible heading" tracking for sidebar TOC                                                                    |
+| `_lib/patterns.tsx`           | Memphis-pattern preview helpers used by foundations/patterns                                                            |
 
 #### `<Example>` component (server)
 
@@ -173,6 +176,7 @@ export default function ButtonPage() {
 ```
 
 Conventions:
+
 - Code snippets are top-level `const` strings — **not** rendered
   by re-stringifying JSX. The user-facing code may differ slightly
   from the rendered preview's source.
@@ -182,6 +186,7 @@ Conventions:
 ### Foundations pages
 
 Custom layouts per chapter (no shared template). Each combines:
+
 - Showcase primitives from `app/_components/showcase/*` (color
   scales, type specimens, token swatches, pattern swatches).
 - The lib's components used inline as live demos.
@@ -262,8 +267,8 @@ For external docs consumers building on `@damo/ui`:
 
 - The `<Example>` pattern (server-rendered preview + syntax
   highlight) is portable: pull the Code/Example/CopyButton trio
-  + a syntax highlighter (the lib uses `shiki` indirectly via the
-  `_components/highlight.ts` server helper).
+  - a syntax highlighter (the lib uses `shiki` indirectly via the
+    `_components/highlight.ts` server helper).
 - The `DOCS_NAV` single-source pattern works well for consumer-
   authored docs sites — readonly module + dynamic route + sidebar
   reads from it.

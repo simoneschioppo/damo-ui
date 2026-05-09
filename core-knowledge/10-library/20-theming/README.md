@@ -37,20 +37,20 @@ override semantic vars from a parent selector without forking files.
 
 The theming surface is exposed via `package.json` `exports`. Consumers see:
 
-| Subpath                       | Kind          | Purpose                                              |
-|-------------------------------|---------------|------------------------------------------------------|
-| `@damo/ui/styles/tokens.css`  | CSS           | Layer 1 — declares every CSS variable on `:root`     |
-| `@damo/ui/styles/theme.css`   | CSS           | Layer 2 — Tailwind v4 bridge (`@theme inline`)       |
-| `@damo/ui/styles/globals.css` | CSS           | Optional reset + base typography utilities           |
-| `@damo/ui/tailwind.preset`    | TS module     | Legacy v3-style preset (Tailwind v3 compat shim)     |
+| Subpath                       | Kind      | Purpose                                          |
+| ----------------------------- | --------- | ------------------------------------------------ |
+| `@damo/ui/styles/tokens.css`  | CSS       | Layer 1 — declares every CSS variable on `:root` |
+| `@damo/ui/styles/theme.css`   | CSS       | Layer 2 — Tailwind v4 bridge (`@theme inline`)   |
+| `@damo/ui/styles/globals.css` | CSS       | Optional reset + base typography utilities       |
+| `@damo/ui/tailwind.preset`    | TS module | Legacy v3-style preset (Tailwind v3 compat shim) |
 
 Recommended consumer wiring (Tailwind **v4**):
 
 ```css
 /* in the consumer's root stylesheet */
-@import '@damo/ui/styles/tokens.css';   /* values */
-@import '@damo/ui/styles/theme.css';    /* tailwind bridge */
-@import '@damo/ui/styles/globals.css';  /* optional reset */
+@import '@damo/ui/styles/tokens.css'; /* values */
+@import '@damo/ui/styles/theme.css'; /* tailwind bridge */
+@import '@damo/ui/styles/globals.css'; /* optional reset */
 ```
 
 Tailwind v4 picks up the bridged tokens automatically — no preset needed.
@@ -65,12 +65,12 @@ export default { presets: [damo], content: [...] }
 
 The TypeScript module surface for theming is intentionally tiny:
 
-| Export                                   | From                                  |
-|------------------------------------------|---------------------------------------|
-| `default` (preset)                       | `@damo/ui/tailwind.preset`            |
-| `hexToRgb`, `relativeLuminance`,         | `contrast-utils.ts` (internal — not  |
-| `contrastRatio`, `passesAA`              | re-exported from `src/index.ts`)     |
-| `useResolvedCssVars` (hook)              | `@damo/ui` (consumes tokens at runtime; see hooks chapter) |
+| Export                           | From                                                       |
+| -------------------------------- | ---------------------------------------------------------- |
+| `default` (preset)               | `@damo/ui/tailwind.preset`                                 |
+| `hexToRgb`, `relativeLuminance`, | `contrast-utils.ts` (internal — not                        |
+| `contrastRatio`, `passesAA`      | re-exported from `src/index.ts`)                           |
+| `useResolvedCssVars` (hook)      | `@damo/ui` (consumes tokens at runtime; see hooks chapter) |
 
 Contrast utilities are **not** part of the public package export today; they
 are consumed in-tree by tests and by the web app's theme generator (which
@@ -122,7 +122,7 @@ Token groups currently shipped:
   base/sticky tiers were dropped (no consumers).
 - **Chrome geometry:** `--header-height`.
 - **Density:** `--density-scale-y` plus `[data-density='compact'|
-  'normal'|'comfortable']` selectors.
+'normal'|'comfortable']` selectors.
 
 ### Layer 2 — `theme.css` (Tailwind v4 bridge)
 
@@ -148,7 +148,7 @@ Two distinct mechanisms inside this file:
    utilities outside `@theme inline`. **Why this exists:** declaring
    them inside `@theme inline` (as `--shadow-memphis-X: var(--shadow-memphis-X)`)
    caused Tailwind v4 to emit a top-level `:root, :host { --shadow-memphis-X:
-   var(--shadow-memphis-X) }` rule that **clobbers** the value declared
+var(--shadow-memphis-X) }` rule that **clobbers** the value declared
    in `tokens.css` (higher cascade weight than `:root`). The token
    wiped out, the resulting `box-shadow: var(--shadow-memphis-X)`
    resolved to a self-referential cycle and the painted shadow was
@@ -166,7 +166,7 @@ Two distinct mechanisms inside this file:
    the consumer. The override is therefore ignored and the painted
    shadow falls back to the default Memphis color. Closing the gap
    needs per-color `@utility` blocks (`@utility shadow-memphis-primary
-   { box-shadow: 6px 6px 0 var(--primary); }`) — but Tailwind v4
+{ box-shadow: 6px 6px 0 var(--primary); }`) — but Tailwind v4
    silently strips any `@utility` block whose name doesn't match a
    known prefix, so path B was abandoned (see #66 comment for the
    investigation).
@@ -224,6 +224,7 @@ Pure functions, no React, no DOM:
 - `passesAA(fg, bg)` — boolean threshold at 4.5.
 
 Used by:
+
 - The theme generator to flag low-contrast token pairs as the user edits.
 - Internal tests for token-pair sanity (see Sub-chapters).
 
@@ -245,7 +246,7 @@ This chapter has no sub-files yet. Likely future sub-chapters:
 1. **Single source of truth = `tokens.css`.** `theme.css` and
    `tailwind.preset.ts` only reference, never define. Adding a value in
    the preset without a backing variable in `tokens.css` is a smell — the
-   preset is a *bridge*, not a fallback.
+   preset is a _bridge_, not a fallback.
 
 2. **The `@utility duration-*` and `@utility shadow-memphis-*` blocks
    in `theme.css` are mandatory.** Tailwind v4 has no auto-namespace

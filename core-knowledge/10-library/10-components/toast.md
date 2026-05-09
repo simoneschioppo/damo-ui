@@ -6,31 +6,32 @@ Status: documented · Last scan: 27c8471 · Sources:
 ## Summary
 
 Wrapper around `@radix-ui/react-toast` with the Memphis idiom (border
-+ shadow) and 4 status-tinted variants (default / success / warning /
-danger). The variant tinting uses the now-familiar pattern: `color-mix`
-soft background **plus** the **tinted Memphis shadow** (`[--memphis-shadow-color:var(--<token>)]`).
-Also includes a Viewport with responsive positioning (bottom-right on
-mobile, top-right on desktop) and standard Radix swipe-to-dismiss.
+
+- shadow) and 4 status-tinted variants (default / success / warning /
+  danger). The variant tinting uses the now-familiar pattern: `color-mix`
+  soft background **plus** the **tinted Memphis shadow** (`[--memphis-shadow-color:var(--<token>)]`).
+  Also includes a Viewport with responsive positioning (bottom-right on
+  mobile, top-right on desktop) and standard Radix swipe-to-dismiss.
 
 ## Public API
 
 7 exports:
 
-| Export             | Pass-through to                          | Styled? |
-|--------------------|------------------------------------------|---------|
-| `ToastProvider`    | `ToastPrimitive.Provider`                | no      |
-| `ToastViewport`    | `ToastPrimitive.Viewport`                | yes     |
-| `Toast`            | `ToastPrimitive.Root` + variants         | yes     |
-| `ToastTitle`       | `ToastPrimitive.Title`                   | yes     |
-| `ToastDescription` | `ToastPrimitive.Description`             | yes     |
-| `ToastAction`      | `ToastPrimitive.Action`                  | yes — Memphis-styled inline button |
-| `ToastClose`       | `ToastPrimitive.Close`                   | yes — X icon button |
+| Export             | Pass-through to                  | Styled?                            |
+| ------------------ | -------------------------------- | ---------------------------------- |
+| `ToastProvider`    | `ToastPrimitive.Provider`        | no                                 |
+| `ToastViewport`    | `ToastPrimitive.Viewport`        | yes                                |
+| `Toast`            | `ToastPrimitive.Root` + variants | yes                                |
+| `ToastTitle`       | `ToastPrimitive.Title`           | yes                                |
+| `ToastDescription` | `ToastPrimitive.Description`     | yes                                |
+| `ToastAction`      | `ToastPrimitive.Action`          | yes — Memphis-styled inline button |
+| `ToastClose`       | `ToastPrimitive.Close`           | yes — X icon button                |
 
-| Toast prop  | Type                                                          | Default |
-|-------------|---------------------------------------------------------------|---------|
-| `variant`   | `'default' \| 'success' \| 'warning' \| 'danger'`             | `'default'` |
-| `className` | `string`                                                      | —       |
-| …native     | `ComponentPropsWithoutRef<typeof ToastPrimitive.Root>`        | —       |
+| Toast prop  | Type                                                   | Default     |
+| ----------- | ------------------------------------------------------ | ----------- |
+| `variant`   | `'default' \| 'success' \| 'warning' \| 'danger'`      | `'default'` |
+| `className` | `string`                                               | —           |
+| …native     | `ComponentPropsWithoutRef<typeof ToastPrimitive.Root>` | —           |
 
 ## Internal architecture
 
@@ -50,6 +51,7 @@ danger:  bg-[color-mix(in oklab, var(--destructive) 12%, var(--card))]
 ```
 
 Two visual layers tint together:
+
 1. **Background**: 12% of intent token mixed into `--card` — soft
    surface (lighter mix than Chip's 28%, because Toast is a denser
    surface and needs higher legibility).
@@ -93,6 +95,7 @@ z-index = `--z-toast` (600), below tooltips (700) and above modals
 (500) and overlays (400).
 
 The slide animation honors the responsive pivot:
+
 - mobile: `slide-in-from-top-full` (toast appears from above,
   flowing down into the bottom-right column-reverse stack)
 - desktop: `slide-in-from-bottom-full` (toast appears from below,

@@ -1,5 +1,12 @@
 ---
-stepsCompleted: ['step-01-load-context', 'step-02-discover-tests', 'step-03-map-criteria', 'step-04-analyze-gaps', 'step-05-gate-decision']
+stepsCompleted:
+  [
+    'step-01-load-context',
+    'step-02-discover-tests',
+    'step-03-map-criteria',
+    'step-04-analyze-gaps',
+    'step-05-gate-decision',
+  ]
 lastStep: 'step-05-gate-decision'
 lastSaved: '2026-05-07'
 tempCoverageMatrixPath: '/tmp/tea-trace-coverage-matrix-2026-05-07T22-42-07.json'
@@ -26,7 +33,7 @@ defectContext: 'theme-generator motion durations BASE/SLOW edits do not visibly 
 **Defect under investigation:** Editing `theme.motion.<mode>.durations.{base,slow}` in
 `/theme-generator` produces no visible effect on the consumer components in the
 preview pane. Same pattern is suspected for other token groups — request scope is
-*scrupulous audit of every customizable variable*.
+_scrupulous audit of every customizable variable_.
 
 ---
 
@@ -43,34 +50,34 @@ v4 bridge** in `packages/ui/src/styles/theme.css` (the consumer half).
 
 Coverage basis: **synthetic_requirements** (high confidence). Each
 generator-editable token is treated as an implicit acceptance criterion:
-*"editing token X must produce a visible change on every component that uses X"*.
+_"editing token X must produce a visible change on every component that uses X"_.
 
 ### Token inventory (per-mode, light + dark unless stated)
 
-| Group                     | Editable tokens                                                            | Count (per mode) |
-|---------------------------|----------------------------------------------------------------------------|------------------|
-| Raw palette · ink         | 100, 300, 500, 700, 800, 900                                              | 6                |
-| Raw palette · brand       | 100, 200, 300, 400, 500                                                   | 5                |
-| Raw palette · paper       | 50, 100, 200, 300                                                          | 4                |
-| Semantic · surfaces       | background/fg, card/fg, popover/fg, muted/fg                              | 8                |
-| Semantic · intents        | primary/fg, secondary/fg, destructive/fg                                   | 6                |
-| Semantic · status         | success/fg, warning/fg, info/fg                                            | 6                |
-| Semantic · chrome         | border, borderStrong, ring                                                 | 3                |
-| Semantic · memphis        | memphisShadowColor, memphisBorderColor                                     | 2                |
-| Semantic · badge          | badgeFeatured, badgeFeaturedForeground                                     | 2                |
-| Identity · medals         | bronze/silver/gold/master/grandmaster × {outer,inner,text}                 | 15               |
-| Identity · charts         | chart-1 … chart-5                                                          | 5                |
-| Identity · nav-on-dark    | accent, accentStrong, foreground, foregroundStrong                         | 4                |
-| Identity · app pattern    | color1, color2, color3, size                                               | 4                |
-| Foundation · typography   | fontDisplay, fontBody, fontMono                                            | 3                |
-| Foundation · type sizes   | xs, sm, base, lg, xl, 2xl, 3xl                                             | 7                |
-| Foundation · radius       | none, sm, md, selection, pill, full                                        | 6                |
-| Foundation · shadowMemphis| sm, card, md, lg, hover, active × {x, y, color}                            | 18               |
-| Foundation · shadowSoft   | md (single opacity scalar)                                                 | 1                |
-| Foundation · motion dur.  | snap, fast, base, slow                                                     | 4                |
-| Foundation · motion ease  | memphis, out                                                               | 2                |
-| **TOTAL per mode**        |                                                                            | **111**          |
-| **TOTAL across modes**    | (light + dark editable independently)                                      | **222**          |
+| Group                      | Editable tokens                                            | Count (per mode) |
+| -------------------------- | ---------------------------------------------------------- | ---------------- |
+| Raw palette · ink          | 100, 300, 500, 700, 800, 900                               | 6                |
+| Raw palette · brand        | 100, 200, 300, 400, 500                                    | 5                |
+| Raw palette · paper        | 50, 100, 200, 300                                          | 4                |
+| Semantic · surfaces        | background/fg, card/fg, popover/fg, muted/fg               | 8                |
+| Semantic · intents         | primary/fg, secondary/fg, destructive/fg                   | 6                |
+| Semantic · status          | success/fg, warning/fg, info/fg                            | 6                |
+| Semantic · chrome          | border, borderStrong, ring                                 | 3                |
+| Semantic · memphis         | memphisShadowColor, memphisBorderColor                     | 2                |
+| Semantic · badge           | badgeFeatured, badgeFeaturedForeground                     | 2                |
+| Identity · medals          | bronze/silver/gold/master/grandmaster × {outer,inner,text} | 15               |
+| Identity · charts          | chart-1 … chart-5                                          | 5                |
+| Identity · nav-on-dark     | accent, accentStrong, foreground, foregroundStrong         | 4                |
+| Identity · app pattern     | color1, color2, color3, size                               | 4                |
+| Foundation · typography    | fontDisplay, fontBody, fontMono                            | 3                |
+| Foundation · type sizes    | xs, sm, base, lg, xl, 2xl, 3xl                             | 7                |
+| Foundation · radius        | none, sm, md, selection, pill, full                        | 6                |
+| Foundation · shadowMemphis | sm, card, md, lg, hover, active × {x, y, color}            | 18               |
+| Foundation · shadowSoft    | md (single opacity scalar)                                 | 1                |
+| Foundation · motion dur.   | snap, fast, base, slow                                     | 4                |
+| Foundation · motion ease   | memphis, out                                               | 2                |
+| **TOTAL per mode**         |                                                            | **111**          |
+| **TOTAL across modes**     | (light + dark editable independently)                      | **222**          |
 
 ### Provisional journeys (J-01 … J-13)
 
@@ -78,21 +85,21 @@ Grouped by token category for trace-matrix legibility. All P1 (visual integrity,
 no security/data implications, but high reputational impact for a design-system
 deliverable that depends on the theme generator landing right).
 
-| ID    | Journey (every check happens for both light & dark mode)                        | Priority |
-|-------|---------------------------------------------------------------------------------|----------|
-| J-01  | Raw palette → semantic re-derivation (preset switch + per-step edit)            | P1       |
-| J-02  | Semantic surfaces → background/foreground/card/popover/muted utilities          | P1       |
-| J-03  | Semantic intents → primary/secondary/destructive utilities                      | P1       |
-| J-04  | Semantic status → success/warning/info utilities                                | P1       |
-| J-05  | Semantic chrome → border, border-strong, ring                                   | P1       |
-| J-06  | Memphis identity → memphis-border-color + memphis-shadow-color (+ tinted recipes)| P1      |
-| J-07  | Identity medals → Medal component visual                                        | P1       |
-| J-08  | Identity charts + nav-on-dark + app pattern → consumer surfaces                 | P1       |
-| J-09  | Typography fonts → font-display / font-body / font-mono utilities               | P1       |
-| J-10  | Typography sizes → text-xs … text-3xl utilities                                 | P1       |
-| J-11  | Radius → rounded-none/sm/md/selection/pill/full                                 | P1       |
-| J-12  | Shadow Memphis (6 tiers × {x,y,color}) → shadow-memphis* utilities              | P1       |
-| J-13  | Motion durations + easings → duration-* and ease-* utilities **[DEFECT here]**  | P1       |
+| ID   | Journey (every check happens for both light & dark mode)                          | Priority |
+| ---- | --------------------------------------------------------------------------------- | -------- |
+| J-01 | Raw palette → semantic re-derivation (preset switch + per-step edit)              | P1       |
+| J-02 | Semantic surfaces → background/foreground/card/popover/muted utilities            | P1       |
+| J-03 | Semantic intents → primary/secondary/destructive utilities                        | P1       |
+| J-04 | Semantic status → success/warning/info utilities                                  | P1       |
+| J-05 | Semantic chrome → border, border-strong, ring                                     | P1       |
+| J-06 | Memphis identity → memphis-border-color + memphis-shadow-color (+ tinted recipes) | P1       |
+| J-07 | Identity medals → Medal component visual                                          | P1       |
+| J-08 | Identity charts + nav-on-dark + app pattern → consumer surfaces                   | P1       |
+| J-09 | Typography fonts → font-display / font-body / font-mono utilities                 | P1       |
+| J-10 | Typography sizes → text-xs … text-3xl utilities                                   | P1       |
+| J-11 | Radius → rounded-none/sm/md/selection/pill/full                                   | P1       |
+| J-12 | Shadow Memphis (6 tiers × {x,y,color}) → shadow-memphis\* utilities               | P1       |
+| J-13 | Motion durations + easings → duration-_ and ease-_ utilities **[DEFECT here]**    | P1       |
 
 ### Knowledge fragments loaded
 
@@ -104,18 +111,18 @@ deliverable that depends on the theme generator landing right).
 
 ### Sources catalogued
 
-| File                                                 | Role in trace                                                       |
-|------------------------------------------------------|---------------------------------------------------------------------|
-| `apps/web/app/theme-generator/theme-state.ts`        | Token shape + defaults — the type-level oracle                      |
-| `apps/web/app/theme-generator/use-theme-state.ts`    | DOM-sync — `applyThemeToRoot` injects `<style id="theme-generator-overrides">` |
-| `apps/web/app/theme-generator/page.tsx`              | UI surface — confirms which tokens have an editor control           |
-| `apps/web/app/styles/theme.css`                      | Playground theme — declares `--ink-*` / `--brand-*` / `--paper-*` palette tokens the lib's overlays expect |
-| `packages/ui/src/styles/theme.css`                   | Lib bridge — `@theme inline { … }` and `@utility` blocks            |
-| `packages/ui/src/styles/tokens.css`                  | Lib defaults — neutral grayscale baseline                           |
-| `packages/ui/tailwind.preset.ts`                     | Legacy v3 preset shim — should mirror the v4 bridge                 |
-| `core-knowledge/10-library/10-components/*.md`       | Per-component documentation — tells us WHICH classes each component consumes |
-| `packages/ui/src/components/**/*.test.tsx`           | Existing component tests (current source of test coverage)          |
-| `packages/ui/__tests__/package-contract.test.ts`     | New peerDependency contract test                                    |
+| File                                              | Role in trace                                                                                              |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `apps/web/app/theme-generator/theme-state.ts`     | Token shape + defaults — the type-level oracle                                                             |
+| `apps/web/app/theme-generator/use-theme-state.ts` | DOM-sync — `applyThemeToRoot` injects `<style id="theme-generator-overrides">`                             |
+| `apps/web/app/theme-generator/page.tsx`           | UI surface — confirms which tokens have an editor control                                                  |
+| `apps/web/app/styles/theme.css`                   | Playground theme — declares `--ink-*` / `--brand-*` / `--paper-*` palette tokens the lib's overlays expect |
+| `packages/ui/src/styles/theme.css`                | Lib bridge — `@theme inline { … }` and `@utility` blocks                                                   |
+| `packages/ui/src/styles/tokens.css`               | Lib defaults — neutral grayscale baseline                                                                  |
+| `packages/ui/tailwind.preset.ts`                  | Legacy v3 preset shim — should mirror the v4 bridge                                                        |
+| `core-knowledge/10-library/10-components/*.md`    | Per-component documentation — tells us WHICH classes each component consumes                               |
+| `packages/ui/src/components/**/*.test.tsx`        | Existing component tests (current source of test coverage)                                                 |
+| `packages/ui/__tests__/package-contract.test.ts`  | New peerDependency contract test                                                                           |
 
 ### Step 1 verdict
 
@@ -128,16 +135,16 @@ Oracle resolved with high confidence. Knowledge base loaded. Sources catalogued.
 
 ### Tests touching the theme generator surface
 
-| File                                                                | Level     | Coverage scope                                                            |
-|---------------------------------------------------------------------|-----------|---------------------------------------------------------------------------|
-| `apps/web/app/theme-generator/reducer.test.ts`                      | Unit      | Reducer state transitions per `Action`. Pure, no DOM.                     |
-| `apps/web/app/theme-generator/exporters.test.ts`                    | Unit      | CSS / Tailwind / JSON serialization output strings.                       |
-| `apps/web/app/theme-generator/presets.test.ts`                      | Unit      | Preset application + semantic re-derivation.                              |
-| `apps/web/app/theme-generator/contrast.test.ts`                     | Unit      | WCAG ratio + AA threshold helpers.                                        |
-| `apps/web/app/theme-generator/sample-dialog.test.tsx`               | Component | Sample-dialog render only.                                                |
-| `e2e/tests/scenarios/theme-generator-light-dark.spec.ts`            | E2E       | Editor UI: tab switches, light/dark toggle visible, sidebar branding.    |
-| `e2e/tests/scenarios/theme-generator-sample-dialog.spec.ts`         | E2E       | Editor UI: sample dialog opens / cancels / confirms.                      |
-| `e2e/tests/scenarios/density-effect.spec.ts`                        | E2E       | Density attribute changes ripple via `--spacing` calc.                    |
+| File                                                        | Level     | Coverage scope                                                        |
+| ----------------------------------------------------------- | --------- | --------------------------------------------------------------------- |
+| `apps/web/app/theme-generator/reducer.test.ts`              | Unit      | Reducer state transitions per `Action`. Pure, no DOM.                 |
+| `apps/web/app/theme-generator/exporters.test.ts`            | Unit      | CSS / Tailwind / JSON serialization output strings.                   |
+| `apps/web/app/theme-generator/presets.test.ts`              | Unit      | Preset application + semantic re-derivation.                          |
+| `apps/web/app/theme-generator/contrast.test.ts`             | Unit      | WCAG ratio + AA threshold helpers.                                    |
+| `apps/web/app/theme-generator/sample-dialog.test.tsx`       | Component | Sample-dialog render only.                                            |
+| `e2e/tests/scenarios/theme-generator-light-dark.spec.ts`    | E2E       | Editor UI: tab switches, light/dark toggle visible, sidebar branding. |
+| `e2e/tests/scenarios/theme-generator-sample-dialog.spec.ts` | E2E       | Editor UI: sample dialog opens / cancels / confirms.                  |
+| `e2e/tests/scenarios/density-effect.spec.ts`                | E2E       | Density attribute changes ripple via `--spacing` calc.                |
 
 ### Tests touching consumer components (lib)
 
@@ -148,23 +155,23 @@ or `className.split(' ').includes(...)` — i.e. the component renders the
 correct utility class names.** None resolve those utilities to runtime CSS
 values, none mutate `--<token>` and re-read computed style.
 
-| Pattern                                                | Count | Implication                                                |
-|--------------------------------------------------------|-------|------------------------------------------------------------|
-| Class-string assertions                                | 37    | Proves utility is APPLIED. Does NOT prove it RESOLVES.    |
-| Runtime computed-style assertions                      | 0     | **Gap.** No test catches a "muted token" regression.       |
-| End-to-end token-edit → consumer-render                | 0     | **Gap.** This is exactly the user's reported defect class. |
+| Pattern                                 | Count | Implication                                                |
+| --------------------------------------- | ----- | ---------------------------------------------------------- |
+| Class-string assertions                 | 37    | Proves utility is APPLIED. Does NOT prove it RESOLVES.     |
+| Runtime computed-style assertions       | 0     | **Gap.** No test catches a "muted token" regression.       |
+| End-to-end token-edit → consumer-render | 0     | **Gap.** This is exactly the user's reported defect class. |
 
 ### Coverage heuristics inventory
 
-| Heuristic                                              | Coverage                                                |
-|--------------------------------------------------------|---------------------------------------------------------|
-| Token resolution (does `var(--X)` produce X's value?)  | ❌ none — neither lib nor app exercises this            |
-| DOM-sync (`applyThemeToRoot` correctness)              | ❌ none — function is private, never tested directly    |
-| `@utility` block resolution (e.g. `duration-base`)     | ❌ none — the lib's bridge classes have no integration test |
-| Reduced-motion override path                           | ❌ none — `@media (prefers-reduced-motion: reduce)` in app theme.css would override every motion utility, untested |
-| Light↔Dark mode parity                                 | ⚠️ partial — light/dark toggle tested at UI level, not at computed-style level |
-| Preset switch → semantic re-derivation                 | ✅ unit-level (`presets.test.ts`) — but no DOM integration |
-| Editor UI surface (controls visible, modes switch)     | ✅ E2E (`theme-generator-light-dark.spec.ts`)           |
+| Heuristic                                             | Coverage                                                                                                           |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Token resolution (does `var(--X)` produce X's value?) | ❌ none — neither lib nor app exercises this                                                                       |
+| DOM-sync (`applyThemeToRoot` correctness)             | ❌ none — function is private, never tested directly                                                               |
+| `@utility` block resolution (e.g. `duration-base`)    | ❌ none — the lib's bridge classes have no integration test                                                        |
+| Reduced-motion override path                          | ❌ none — `@media (prefers-reduced-motion: reduce)` in app theme.css would override every motion utility, untested |
+| Light↔Dark mode parity                                | ⚠️ partial — light/dark toggle tested at UI level, not at computed-style level                                     |
+| Preset switch → semantic re-derivation                | ✅ unit-level (`presets.test.ts`) — but no DOM integration                                                         |
+| Editor UI surface (controls visible, modes switch)    | ✅ E2E (`theme-generator-light-dark.spec.ts`)                                                                      |
 
 ### Test-level taxonomy
 
@@ -207,14 +214,14 @@ that link, and (d) the gap.
 
 ### Coverage labels
 
-| Label              | Meaning                                                                                       |
-|--------------------|-----------------------------------------------------------------------------------------------|
-| **FULL**           | DOM-sync ✅ + Bridge ✅ + Class applied ✅ + Computed-style asserted ✅                        |
-| **PARTIAL-CLASS**  | DOM-sync ✅ + Bridge ✅ + Class applied ✅ but computed-style NOT asserted                    |
-| **PARTIAL-UNIT**   | Reducer/exporter unit tests cover the data plane only; no DOM/runtime check                   |
-| **NONE**           | No test asserts the link at any layer                                                         |
-| **MUTE-RISK**      | DOM-sync writes a var but the lib bridge does not declare a corresponding `@theme` namespace, so the runtime override may silently fail |
-| **DEFECT**         | Confirmed regression — link does not work at runtime                                           |
+| Label             | Meaning                                                                                                                                 |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **FULL**          | DOM-sync ✅ + Bridge ✅ + Class applied ✅ + Computed-style asserted ✅                                                                 |
+| **PARTIAL-CLASS** | DOM-sync ✅ + Bridge ✅ + Class applied ✅ but computed-style NOT asserted                                                              |
+| **PARTIAL-UNIT**  | Reducer/exporter unit tests cover the data plane only; no DOM/runtime check                                                             |
+| **NONE**          | No test asserts the link at any layer                                                                                                   |
+| **MUTE-RISK**     | DOM-sync writes a var but the lib bridge does not declare a corresponding `@theme` namespace, so the runtime override may silently fail |
+| **DEFECT**        | Confirmed regression — link does not work at runtime                                                                                    |
 
 ### Master matrix — by journey
 
@@ -227,24 +234,24 @@ Layer C: Consumer component applies the right utility class
 Layer D: Runtime computed-style on a rendered component reflects the edited value
 ```
 
-| ID    | Journey                                       | Layer A    | Layer B    | Layer C    | Layer D | Coverage      | Existing tests                                                                          |
-|-------|-----------------------------------------------|------------|------------|------------|---------|---------------|-----------------------------------------------------------------------------------------|
-| J-01  | Raw palette → semantic re-derivation          | ✅          | n/a (consumer-territory) | ✅ (via `var(--ink-*)` direct) | ❌      | PARTIAL-UNIT  | `presets.test.ts`, `reducer.test.ts`                                                    |
-| J-02  | Semantic surfaces                              | ✅          | ✅          | ✅          | ❌      | PARTIAL-CLASS | 37 component tests assert classes; no computed-color test                               |
-| J-03  | Semantic intents                               | ✅          | ✅          | ✅          | ❌      | PARTIAL-CLASS | same                                                                                    |
-| J-04  | Semantic status                                | ✅          | ✅          | ✅          | ❌      | PARTIAL-CLASS | same (Banner/Toast tint variants)                                                       |
-| J-05  | Semantic chrome (border, ring)                 | ✅          | ✅          | ✅          | ❌      | PARTIAL-CLASS | same                                                                                    |
-| J-06  | Memphis identity (border + shadow color)       | ✅          | ✅          | ✅          | ❌      | PARTIAL-CLASS | + per-instance `[--memphis-shadow-color:var(--X)]` recipe untested at runtime           |
-| J-07  | Identity medals                                | ✅          | ✅ (direct `var()` in Medal SVG) | ✅ | ❌      | PARTIAL-CLASS | `medal.test.tsx` (12 tests, render-only)                                                |
-| J-08a | Charts                                         | ✅          | ✅          | ⚠️ rare   | ❌      | NONE          | Charts color used by consumers, no in-lib component                                     |
-| J-08b | Nav-on-dark                                    | ✅          | ❌ (no `@theme` bridge — used via arbitrary value `[var(--nav-on-dark-*)]`) | ⚠️ partial — gradient hard-codes gold/plum literals | ❌ | NONE | NavItem onDark tone partially ignores tokens (documented bug) |
-| J-08c | App pattern (`--app-pattern-*`)                | ✅          | n/a (consumer CSS) | ✅ (apps/web/app/styles/patterns.css) | ❌ | NONE | No coverage of pattern rendering                                                        |
-| J-09  | Typography fonts                               | ✅          | ✅          | ✅          | ❌      | PARTIAL-CLASS | no font-family computed assertion                                                       |
-| J-10  | Typography sizes                               | ✅          | ⚠️ **MUTE-RISK** — lib's theme.css has NO `--text-*` in `@theme inline`. Tailwind v4 default `--text-*` scale wins unless the consumer's stylesheet redeclares them in `@theme`. | ✅ | ❌ | **MUTE-RISK** | none                                                                                    |
-| J-11  | Radius                                         | ✅          | ✅          | ✅          | ❌      | PARTIAL-CLASS |                                                                                         |
-| J-12  | Shadow Memphis (6 tiers × {x,y,color})         | ✅          | ✅          | ✅          | ❌      | PARTIAL-CLASS | exporters.test for output string only                                                   |
-| J-13a | Motion durations (snap/fast/base/slow)         | ✅          | ✅ (4× `@utility`) | ✅          | ❌      | **DEFECT**    | None — and `@media (prefers-reduced-motion: reduce)` in `apps/web/app/styles/theme.css` forces ALL `transition-duration: 0.01ms !important` regardless of generator output |
-| J-13b | Motion easings (memphis/out)                   | ✅          | ✅ (`@theme inline`) | ✅      | ❌      | PARTIAL-CLASS | not affected by reduced-motion (only durations are)                                     |
+| ID    | Journey                                  | Layer A | Layer B                                                                                                                                                                          | Layer C                                             | Layer D | Coverage      | Existing tests                                                                                                                                                             |
+| ----- | ---------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| J-01  | Raw palette → semantic re-derivation     | ✅      | n/a (consumer-territory)                                                                                                                                                         | ✅ (via `var(--ink-*)` direct)                      | ❌      | PARTIAL-UNIT  | `presets.test.ts`, `reducer.test.ts`                                                                                                                                       |
+| J-02  | Semantic surfaces                        | ✅      | ✅                                                                                                                                                                               | ✅                                                  | ❌      | PARTIAL-CLASS | 37 component tests assert classes; no computed-color test                                                                                                                  |
+| J-03  | Semantic intents                         | ✅      | ✅                                                                                                                                                                               | ✅                                                  | ❌      | PARTIAL-CLASS | same                                                                                                                                                                       |
+| J-04  | Semantic status                          | ✅      | ✅                                                                                                                                                                               | ✅                                                  | ❌      | PARTIAL-CLASS | same (Banner/Toast tint variants)                                                                                                                                          |
+| J-05  | Semantic chrome (border, ring)           | ✅      | ✅                                                                                                                                                                               | ✅                                                  | ❌      | PARTIAL-CLASS | same                                                                                                                                                                       |
+| J-06  | Memphis identity (border + shadow color) | ✅      | ✅                                                                                                                                                                               | ✅                                                  | ❌      | PARTIAL-CLASS | + per-instance `[--memphis-shadow-color:var(--X)]` recipe untested at runtime                                                                                              |
+| J-07  | Identity medals                          | ✅      | ✅ (direct `var()` in Medal SVG)                                                                                                                                                 | ✅                                                  | ❌      | PARTIAL-CLASS | `medal.test.tsx` (12 tests, render-only)                                                                                                                                   |
+| J-08a | Charts                                   | ✅      | ✅                                                                                                                                                                               | ⚠️ rare                                             | ❌      | NONE          | Charts color used by consumers, no in-lib component                                                                                                                        |
+| J-08b | Nav-on-dark                              | ✅      | ❌ (no `@theme` bridge — used via arbitrary value `[var(--nav-on-dark-*)]`)                                                                                                      | ⚠️ partial — gradient hard-codes gold/plum literals | ❌      | NONE          | NavItem onDark tone partially ignores tokens (documented bug)                                                                                                              |
+| J-08c | App pattern (`--app-pattern-*`)          | ✅      | n/a (consumer CSS)                                                                                                                                                               | ✅ (apps/web/app/styles/patterns.css)               | ❌      | NONE          | No coverage of pattern rendering                                                                                                                                           |
+| J-09  | Typography fonts                         | ✅      | ✅                                                                                                                                                                               | ✅                                                  | ❌      | PARTIAL-CLASS | no font-family computed assertion                                                                                                                                          |
+| J-10  | Typography sizes                         | ✅      | ⚠️ **MUTE-RISK** — lib's theme.css has NO `--text-*` in `@theme inline`. Tailwind v4 default `--text-*` scale wins unless the consumer's stylesheet redeclares them in `@theme`. | ✅                                                  | ❌      | **MUTE-RISK** | none                                                                                                                                                                       |
+| J-11  | Radius                                   | ✅      | ✅                                                                                                                                                                               | ✅                                                  | ❌      | PARTIAL-CLASS |                                                                                                                                                                            |
+| J-12  | Shadow Memphis (6 tiers × {x,y,color})   | ✅      | ✅                                                                                                                                                                               | ✅                                                  | ❌      | PARTIAL-CLASS | exporters.test for output string only                                                                                                                                      |
+| J-13a | Motion durations (snap/fast/base/slow)   | ✅      | ✅ (4× `@utility`)                                                                                                                                                               | ✅                                                  | ❌      | **DEFECT**    | None — and `@media (prefers-reduced-motion: reduce)` in `apps/web/app/styles/theme.css` forces ALL `transition-duration: 0.01ms !important` regardless of generator output |
+| J-13b | Motion easings (memphis/out)             | ✅      | ✅ (`@theme inline`)                                                                                                                                                             | ✅                                                  | ❌      | PARTIAL-CLASS | not affected by reduced-motion (only durations are)                                                                                                                        |
 
 ### Defect root-cause hypothesis (J-13a, motion durations)
 
@@ -253,7 +260,9 @@ caused by the **reduced-motion override in `apps/web/app/styles/theme.css`**:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -277,11 +286,11 @@ collapsed, no transition is firing — visual change is invisible regardless.
 
 ### Mute-token candidates (no defect confirmed yet, but theoretical break)
 
-| Token group         | Why it might be muted                                                                                                |
-|---------------------|----------------------------------------------------------------------------------------------------------------------|
-| Typography sizes    | `--text-*` not declared in lib `@theme inline`. Tailwind v4's default `--text-*` namespace value wins at build time. |
-| Shadow Memphis      | Lib bridge ✅; but the `--memphis-shadow-color` per-instance override pattern relies on cascade — needs runtime test  |
-| `--header-height`   | Used in CSS via `var(--header-height)` (AppTopBar / Sidebar `top-[var(--header-height)]`) — generator does NOT edit it; not a customizable token, but worth flagging |
+| Token group       | Why it might be muted                                                                                                                                                |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Typography sizes  | `--text-*` not declared in lib `@theme inline`. Tailwind v4's default `--text-*` namespace value wins at build time.                                                 |
+| Shadow Memphis    | Lib bridge ✅; but the `--memphis-shadow-color` per-instance override pattern relies on cascade — needs runtime test                                                 |
+| `--header-height` | Used in CSS via `var(--header-height)` (AppTopBar / Sidebar `top-[var(--header-height)]`) — generator does NOT edit it; not a customizable token, but worth flagging |
 
 ### Step 3 verdict
 
@@ -314,37 +323,41 @@ short of asserting the runtime resolves to the customized value.
 
 ### Heuristic gaps
 
-| Heuristic                                            | Count | Gap                                                                       |
-|------------------------------------------------------|-------|---------------------------------------------------------------------------|
-| UI journeys without E2E (token→component)            | 4     | J-13a motion (Accordion + Progress), J-08b nav-on-dark, J-10 typography  |
-| UI states missing coverage                            | 1     | J-13a reduced-motion override path — what's the contract?                |
-| Endpoint coverage / auth / error path                 | 0     | Not applicable (UI-only audit)                                           |
+| Heuristic                                 | Count | Gap                                                                     |
+| ----------------------------------------- | ----- | ----------------------------------------------------------------------- |
+| UI journeys without E2E (token→component) | 4     | J-13a motion (Accordion + Progress), J-08b nav-on-dark, J-10 typography |
+| UI states missing coverage                | 1     | J-13a reduced-motion override path — what's the contract?               |
+| Endpoint coverage / auth / error path     | 0     | Not applicable (UI-only audit)                                          |
 
 ### Recommendations (ordered by impact)
 
-| Severity   | Action                                                                                                                                   | Items                                |
-|------------|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| **URGENT** | **Fix J-13a motion DEFECT.** Decide policy on `prefers-reduced-motion`: scope the rule (don't apply to *all* via `*` selector) so generator edits are visible during preview. Alternative: gate it behind a user-controllable toggle. | J-13a                                |
-| **HIGH**   | Run `/bmad:tea:atdd` (`AT`) for the 4 NONE-coverage journeys — generate failing acceptance tests + implementation checklist.            | J-08a, J-08b, J-08c, J-13a           |
-| **HIGH**   | Verify J-10 with a runtime test: mutate `--text-base`, render component using `text-base`, assert computed `font-size`. If muted, add `--text-*` to lib `@theme inline`. | J-10                                 |
-| **HIGH**   | Run `/bmad:tea:automate` (`TA`) to expand 11 PARTIAL journeys with computed-style assertions. Standard pattern: render → mutate `:root --X` → re-read `getComputedStyle(node).Y`. | J-02..J-07, J-09, J-11, J-12, J-13b  |
-| **MEDIUM** | Promote these 16 inferred journeys to formal acceptance criteria. Theme generator's "every editable token affects its consumer" is the de-facto product contract. | All                                  |
-| **LOW**    | Run `/bmad:tea:test-review` (`RV`) on the 37-file lib component test suite. Class-string is necessary but not sufficient.               | —                                    |
+| Severity   | Action                                                                                                                                                                                                                                | Items                               |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| **URGENT** | **Fix J-13a motion DEFECT.** Decide policy on `prefers-reduced-motion`: scope the rule (don't apply to _all_ via `*` selector) so generator edits are visible during preview. Alternative: gate it behind a user-controllable toggle. | J-13a                               |
+| **HIGH**   | Run `/bmad:tea:atdd` (`AT`) for the 4 NONE-coverage journeys — generate failing acceptance tests + implementation checklist.                                                                                                          | J-08a, J-08b, J-08c, J-13a          |
+| **HIGH**   | Verify J-10 with a runtime test: mutate `--text-base`, render component using `text-base`, assert computed `font-size`. If muted, add `--text-*` to lib `@theme inline`.                                                              | J-10                                |
+| **HIGH**   | Run `/bmad:tea:automate` (`TA`) to expand 11 PARTIAL journeys with computed-style assertions. Standard pattern: render → mutate `:root --X` → re-read `getComputedStyle(node).Y`.                                                     | J-02..J-07, J-09, J-11, J-12, J-13b |
+| **MEDIUM** | Promote these 16 inferred journeys to formal acceptance criteria. Theme generator's "every editable token affects its consumer" is the de-facto product contract.                                                                     | All                                 |
+| **LOW**    | Run `/bmad:tea:test-review` (`RV`) on the 37-file lib component test suite. Class-string is necessary but not sufficient.                                                                                                             | —                                   |
 
 ### Defect deep-dive — J-13a (motion durations)
 
 Most-likely root cause hierarchy (descending probability):
 
 1. **`@media (prefers-reduced-motion: reduce)` global override.** Located at the bottom of `apps/web/app/styles/theme.css`:
+
    ```css
    @media (prefers-reduced-motion: reduce) {
-     *, *::before, *::after {
+     *,
+     *::before,
+     *::after {
        animation-duration: 0.01ms !important;
        transition-duration: 0.01ms !important;
        transform: none !important;
      }
    }
    ```
+
    The `!important` + universal `*` selector beats every `@utility duration-*` block from the lib, regardless of the runtime variable value. If the user's OS / browser has reduced motion enabled (DevTools "Emulate CSS prefers-reduced-motion" included), motion edits are silently overridden.
 
 2. **Preview-pane scene without an actively-animating consumer.** The components-preview scene includes `<Accordion>` and `<Progress>`, but if Accordion is collapsed and Progress is at a static value, no transition fires — visual change is invisible regardless of the duration.
@@ -435,12 +448,12 @@ and 1 MUTE-RISK (J-10 typography sizes, no `@theme` bridge in lib).
 
 ### Artifacts produced
 
-| File                                                                                       | Purpose                              |
-|--------------------------------------------------------------------------------------------|--------------------------------------|
-| `_bmad-output/test-artifacts/traceability/traceability-matrix.md`                          | Human-readable trace + gate report   |
-| `_bmad-output/test-artifacts/traceability/e2e-trace-summary.json`                          | Machine-readable summary (CI/dashboards) |
-| `_bmad-output/test-artifacts/traceability/gate-decision.json`                              | Gate-only signal (slim)              |
-| `/tmp/tea-trace-coverage-matrix-2026-05-07T22-42-07.json`                                  | Phase 1 coverage matrix (Phase 2 input) |
+| File                                                              | Purpose                                  |
+| ----------------------------------------------------------------- | ---------------------------------------- |
+| `_bmad-output/test-artifacts/traceability/traceability-matrix.md` | Human-readable trace + gate report       |
+| `_bmad-output/test-artifacts/traceability/e2e-trace-summary.json` | Machine-readable summary (CI/dashboards) |
+| `_bmad-output/test-artifacts/traceability/gate-decision.json`     | Gate-only signal (slim)                  |
+| `/tmp/tea-trace-coverage-matrix-2026-05-07T22-42-07.json`         | Phase 1 coverage matrix (Phase 2 input)  |
 
 ### Workflow complete
 

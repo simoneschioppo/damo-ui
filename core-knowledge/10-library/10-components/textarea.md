@@ -11,18 +11,18 @@ focus/invalid shadow behavior; adds default `rows=4` and `resize-y`
 
 ## Public API
 
-| Export        | Kind |
-|---------------|------|
-| `Textarea`    | `forwardRef<HTMLTextAreaElement, TextareaProps>` |
+| Export          | Kind                                                                  |
+| --------------- | --------------------------------------------------------------------- |
+| `Textarea`      | `forwardRef<HTMLTextAreaElement, TextareaProps>`                      |
 | `TextareaProps` | `TextareaHTMLAttributes<HTMLTextAreaElement> & { invalid?: boolean }` |
 
-| Prop      | Type      | Default | Notes |
-|-----------|-----------|---------|-------|
-| `invalid` | `boolean` | —       | Same semantics as Input: triggers `aria-invalid` and destructive shadow |
-| `rows`    | `number`  | `4`     | Native attribute; defaulted by the wrapper |
-| `disabled`| `boolean` | —       | Native; muted + non-interactive |
-| `className`| `string` | —       | Merged via `cn` |
-| …native   | `TextareaHTMLAttributes<HTMLTextAreaElement>` | — | Including `value`, `onChange`, `placeholder`, etc. |
+| Prop        | Type                                          | Default | Notes                                                                   |
+| ----------- | --------------------------------------------- | ------- | ----------------------------------------------------------------------- |
+| `invalid`   | `boolean`                                     | —       | Same semantics as Input: triggers `aria-invalid` and destructive shadow |
+| `rows`      | `number`                                      | `4`     | Native attribute; defaulted by the wrapper                              |
+| `disabled`  | `boolean`                                     | —       | Native; muted + non-interactive                                         |
+| `className` | `string`                                      | —       | Merged via `cn`                                                         |
+| …native     | `TextareaHTMLAttributes<HTMLTextAreaElement>` | —       | Including `value`, `onChange`, `placeholder`, etc.                      |
 
 ### Always-applied classes
 

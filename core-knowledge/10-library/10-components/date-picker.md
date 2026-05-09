@@ -13,22 +13,22 @@ configurable display format. Auto-closes the popover on date selection.
 
 ## Public API
 
-| Export           | Kind |
-|------------------|------|
-| `DatePicker`     | `forwardRef<HTMLButtonElement, DatePickerProps>` |
-| `DatePickerProps`| `Omit<DayPickerProps, 'mode'> & { value?, onValueChange?, placeholder?, formatStr?, disabled?, id?, className?, triggerClassName? }` |
+| Export            | Kind                                                                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `DatePicker`      | `forwardRef<HTMLButtonElement, DatePickerProps>`                                                                                     |
+| `DatePickerProps` | `Omit<DayPickerProps, 'mode'> & { value?, onValueChange?, placeholder?, formatStr?, disabled?, id?, className?, triggerClassName? }` |
 
-| Prop              | Type                              | Default                 |
-|-------------------|-----------------------------------|-------------------------|
-| `value`           | `Date`                            | uncontrolled if absent  |
-| `onValueChange`   | `(date: Date \| undefined) => void` | —                     |
-| `placeholder`     | `ReactNode`                       | `'Seleziona una data'`  |
-| `formatStr`       | `string` (date-fns format token)  | `'PPP'`                 |
-| `disabled`        | `boolean`                         | —                       |
-| `id`              | `string`                          | —                       |
-| `className`       | `string`                          | applied to outer wrapper |
-| `triggerClassName`| `string`                          | applied to trigger button |
-| …rest             | `Omit<DayPickerProps, 'mode'>`    | passed through to DayPicker |
+| Prop               | Type                                | Default                     |
+| ------------------ | ----------------------------------- | --------------------------- |
+| `value`            | `Date`                              | uncontrolled if absent      |
+| `onValueChange`    | `(date: Date \| undefined) => void` | —                           |
+| `placeholder`      | `ReactNode`                         | `'Seleziona una data'`      |
+| `formatStr`        | `string` (date-fns format token)    | `'PPP'`                     |
+| `disabled`         | `boolean`                           | —                           |
+| `id`               | `string`                            | —                           |
+| `className`        | `string`                            | applied to outer wrapper    |
+| `triggerClassName` | `string`                            | applied to trigger button   |
+| …rest              | `Omit<DayPickerProps, 'mode'>`      | passed through to DayPicker |
 
 `mode` is locked to `'single'` (omitted from the surface). For range
 or multi-date pickers, consumers compose with `react-day-picker`
@@ -97,6 +97,7 @@ disabled:opacity-50 disabled:pointer-events-none
 align="start">` — popover sized to the calendar's natural width.
 
 Three lib-specific tweaks:
+
 - `mode="single"` — locked.
 - `locale={i18n.datePicker.dateFnsLocale}` — month/weekday names.
   EN trees use date-fns `enUS`; IT trees use date-fns `it`. The
@@ -117,7 +118,7 @@ unconditionally — see Open questions.
    bundle) and the trigger `placeholder` resolve from
    `useI18n().datePicker.{dateFnsLocale,placeholder}`. EN trees show
    `'Pick a date'` + `enUS` formatting; IT trees show `'Seleziona una
-   data'` + `it` formatting. Bare trees fall back to EN. See
+data'` + `it` formatting. Bare trees fall back to EN. See
    [16-i18n.md](../16-i18n.md). The `formatStr` prop still wins for
    custom token strings.
 

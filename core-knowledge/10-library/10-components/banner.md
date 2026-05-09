@@ -13,30 +13,30 @@ hidden state on dismiss).
 
 ## Public API
 
-| Export        | Kind |
-|---------------|------|
+| Export        | Kind                                      |
+| ------------- | ----------------------------------------- |
 | `Banner`      | `forwardRef<HTMLDivElement, BannerProps>` |
-| `BannerProps` | see below |
+| `BannerProps` | see below                                 |
 
-| Prop          | Type                                              | Default     |
-|---------------|---------------------------------------------------|-------------|
-| `variant`     | `'info' \| 'success' \| 'warning' \| 'danger'`    | `'info'`    |
-| `title`       | `ReactNode`                                       | —           |
-| `icon`        | `ReactNode \| false`                              | per-variant default |
-| `dismissible` | `boolean`                                         | —           |
-| `onDismiss`   | `() => void`                                      | —           |
-| `dismissLabel`| `string`                                          | _resolved from `useI18n().banner.dismissLabel`_ |
-| `className`   | `string`                                          | —           |
-| …native       | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>`   | —           |
+| Prop           | Type                                            | Default                                         |
+| -------------- | ----------------------------------------------- | ----------------------------------------------- |
+| `variant`      | `'info' \| 'success' \| 'warning' \| 'danger'`  | `'info'`                                        |
+| `title`        | `ReactNode`                                     | —                                               |
+| `icon`         | `ReactNode \| false`                            | per-variant default                             |
+| `dismissible`  | `boolean`                                       | —                                               |
+| `onDismiss`    | `() => void`                                    | —                                               |
+| `dismissLabel` | `string`                                        | _resolved from `useI18n().banner.dismissLabel`_ |
+| `className`    | `string`                                        | —                                               |
+| …native        | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>` | —                                               |
 
 ### Variants
 
-| Variant   | Background                                                  | Shadow              | Default icon     |
-|-----------|-------------------------------------------------------------|---------------------|------------------|
-| `info`    | `bg-card`                                                   | tinted `--info`     | `<InfoIcon/>`    |
-| `success` | `color-mix(in oklab, var(--success) 12%, var(--card))`      | tinted `--success`  | `<CheckIcon/>`   |
-| `warning` | `color-mix(in oklab, var(--warning) 12%, var(--card))`      | tinted `--warning`  | `<BoltIcon/>`    |
-| `danger`  | `color-mix(in oklab, var(--destructive) 12%, var(--card))`  | tinted `--destructive` | `<TargetIcon/>` |
+| Variant   | Background                                                 | Shadow                 | Default icon    |
+| --------- | ---------------------------------------------------------- | ---------------------- | --------------- |
+| `info`    | `bg-card`                                                  | tinted `--info`        | `<InfoIcon/>`   |
+| `success` | `color-mix(in oklab, var(--success) 12%, var(--card))`     | tinted `--success`     | `<CheckIcon/>`  |
+| `warning` | `color-mix(in oklab, var(--warning) 12%, var(--card))`     | tinted `--warning`     | `<BoltIcon/>`   |
+| `danger`  | `color-mix(in oklab, var(--destructive) 12%, var(--card))` | tinted `--destructive` | `<TargetIcon/>` |
 
 Same double-layer tinted recipe as Toast (background + shadow share
 the intent hue). **Note**: `info` does **not** tint its background
@@ -74,6 +74,7 @@ const DEFAULT_ICONS = {
 ```
 
 Override via the `icon` prop:
+
 - `icon={<MyIcon />}` → custom node.
 - `icon={false}` → no icon at all.
 - `icon` omitted or undefined → variant default.

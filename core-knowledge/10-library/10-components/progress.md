@@ -12,17 +12,17 @@ where X = `100 - value`.
 
 ## Public API
 
-| Export          | Kind |
-|-----------------|------|
-| `Progress`      | `forwardRef<…, ProgressProps>` |
+| Export          | Kind                                                                                        |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| `Progress`      | `forwardRef<…, ProgressProps>`                                                              |
 | `ProgressProps` | `ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & { indicatorClassName?: string }` |
 
-| Prop                 | Type                          | Notes |
-|----------------------|-------------------------------|-------|
-| `value`              | `number`                      | 0–100; null/undefined → indeterminate (Radix default) |
-| `indicatorClassName` | `string`                      | className for the moving fill |
-| `className`          | `string`                      | className for the track |
-| …Radix               | `Progress.Root` props         | Including `max` (default 100) |
+| Prop                 | Type                  | Notes                                                 |
+| -------------------- | --------------------- | ----------------------------------------------------- |
+| `value`              | `number`              | 0–100; null/undefined → indeterminate (Radix default) |
+| `indicatorClassName` | `string`              | className for the moving fill                         |
+| `className`          | `string`              | className for the track                               |
+| …Radix               | `Progress.Root` props | Including `max` (default 100)                         |
 
 ## Internal architecture
 

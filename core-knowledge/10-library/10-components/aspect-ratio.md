@@ -12,12 +12,13 @@ images, video embeds).
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
-| `AspectRatio`      | `forwardRef<HTMLDivElement, AspectRatioProps>` |
+| Export             | Kind                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| `AspectRatio`      | `forwardRef<HTMLDivElement, AspectRatioProps>`               |
 | `AspectRatioProps` | `ComponentPropsWithoutRef<typeof AspectRatioPrimitive.Root>` |
 
 Props are exactly Radix's:
+
 - `ratio`: `number` (e.g. `16 / 9`, `1`, `4 / 3`). Default 1 (square).
 
 ## Notes
@@ -37,6 +38,6 @@ Or skip the wrapper entirely and import Radix directly.
 ## Open questions
 
 1. **Is the wrapper needed?** Adds zero value over `import * as
-   AspectRatio from '@radix-ui/react-aspect-ratio'`. For
+AspectRatio from '@radix-ui/react-aspect-ratio'`. For
    shadcn-style distribution, dropping the wrapper saves a file
    without losing functionality.

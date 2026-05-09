@@ -19,30 +19,33 @@ context:
 ## Boundaries & Constraints
 
 **Always:**
+
 - Chips read from live CSS variables (`var(--radius-{k})`, `var(--shadow-memphis-{k})`) — never from raw reducer state. This is what couples them to the existing emit pipeline.
 - Apply chips consistently across the entire `RADIUS_KEYS` loop and the entire `SHADOW_MEMPHIS_KEYS` loop. Mixing chip-bearing and chip-less controls inside one loop is forbidden.
 - Each chip MUST have an `aria-label` and `data-testid` so tests and screen readers can locate it.
 - Reuse existing layout primitives and tokens. No new design tokens, no Tailwind utility additions.
 
 **Ask First:**
+
 - Extending chips beyond the radius/shadow loops (e.g. to typography sizes, motion durations).
 - Replacing the existing `DivergenceWrapper` `≠` indicator placement.
 - Changing the `pairBlockStyle` / accordion structure of the IdentityEditor.
 
 **Never:**
+
 - Touching `_bmad/`, `core-knowledge/`, `user-data/`, or runtime token emitters (`use-theme-state.ts`, `theme-state.ts`, `exporters.ts`).
 - Auto-switching scenes (pattern A) or adding a diagnostic scene (pattern B).
 - Adding chips for tokens that already have a sidebar consumer (e.g. colors → `ColorPicker` already shows a swatch).
 
 ## I/O & Edge-Case Matrix
 
-| Scenario | Input / State | Expected Output / Behavior | Error Handling |
-|----------|--------------|---------------------------|----------------|
-| Radius slider edit | User drags `radius-sm` from 4→12 | Chip next to that control re-renders with new `border-radius` | N/A |
-| Shadow color edit | User picks new color for `shadow-memphis-card` | Chip re-renders with new `box-shadow` color | N/A |
-| Default state | Page loads with default theme | All radius chips and all shadow chips render with default tokens applied | N/A |
-| Zero radius | User sets `radius-sm` to 0 | Chip renders sharp-cornered square (no error, no hidden chip) | N/A |
-| Light/dark mode switch | User toggles edit mode | Chips reflect the currently rendered mode (driven by `:root` CSS vars) | N/A |
+| Scenario               | Input / State                                  | Expected Output / Behavior                                               | Error Handling |
+| ---------------------- | ---------------------------------------------- | ------------------------------------------------------------------------ | -------------- |
+| Radius slider edit     | User drags `radius-sm` from 4→12               | Chip next to that control re-renders with new `border-radius`            | N/A            |
+| Shadow color edit      | User picks new color for `shadow-memphis-card` | Chip re-renders with new `box-shadow` color                              | N/A            |
+| Default state          | Page loads with default theme                  | All radius chips and all shadow chips render with default tokens applied | N/A            |
+| Zero radius            | User sets `radius-sm` to 0                     | Chip renders sharp-cornered square (no error, no hidden chip)            | N/A            |
+| Light/dark mode switch | User toggles edit mode                         | Chips reflect the currently rendered mode (driven by `:root` CSS vars)   | N/A            |
 
 </frozen-after-approval>
 
@@ -57,11 +60,13 @@ context:
 ## Tasks & Acceptance
 
 **Execution:**
+
 - [x] `apps/web/app/theme-generator/token-preview-chip.test.tsx` -- TDD red-first vitest+jsdom tests covering: (a) radius variant emits inline `borderRadius: var(--radius-{k})`, (b) shadow variant emits inline `boxShadow: var(--shadow-memphis-{k})`, (c) data-testid is correct for each key, (d) aria-label present
 - [x] `apps/web/app/theme-generator/token-preview-chip.tsx` -- create `TokenPreviewChip` component with two variants (`radius` and `shadow-memphis`) keyed by token id; renders a 28×28 box with `var(--radius-{k})` or `var(--shadow-memphis-{k})` applied; emits `aria-label` and `data-testid="token-preview-chip-{variant}-{k}"` -- minimal impl to turn tests green
 - [x] `apps/web/app/theme-generator/page.tsx` -- import `TokenPreviewChip`; inside the radius loop (line 750) place a chip in the `<Label>` row alongside `{k} · {value}px`; inside the shadow-memphis loop (line 789) place a chip in the existing `<Label>` row at the top of `pairBlockStyle` -- minimal surgical edit, zero changes outside the two loops
 
 **Acceptance Criteria:**
+
 - Given the `/theme-generator` page is loaded with default theme, when the IdentityEditor "radius" accordion is open, then six chips render — one per `RADIUS_KEYS` entry — each with `data-testid="token-preview-chip-radius-{k}"` and inline `borderRadius` containing `var(--radius-{k})`.
 - Given the IdentityEditor "shadow" accordion is open, when default state, then six chips render — one per `SHADOW_MEMPHIS_KEYS` entry — each with `data-testid="token-preview-chip-shadow-memphis-{k}"` and inline `boxShadow` containing `var(--shadow-memphis-{k})`.
 - Given any chip is rendered, when inspected, then it has a non-empty `aria-label` describing the token.
@@ -72,11 +77,13 @@ context:
 ## Verification
 
 **Commands:**
+
 - `pnpm --filter @damo/web test` -- expected: all vitest suites green, including the new `token-preview-chip.test.tsx`
 - `pnpm --filter @damo/web typecheck` -- expected: no TS errors
 - `pnpm --filter @damo/web lint` -- expected: no new lint errors
 
 **Manual checks (if no CLI):**
+
 - Open `/theme-generator`. Identity tab → Radius accordion: each radius slider has a small live-updating chip showing the corner shape. Drag `sm`, `selection`: chip shape changes in real time.
 - Identity tab → Shadow accordion: each shadow block has a chip showing the live shadow. Edit `card` x/y/color: chip updates.
 - Toggle light/dark mode: chips reflect the active mode (CSS variables driven).

@@ -35,23 +35,23 @@ detectedStack: 'frontend'
 
 ## Acceptance criteria (from trace)
 
-| AC   | Journey  | Coverage today | Goal                                                                                    | Test stack          |
-|------|----------|----------------|-----------------------------------------------------------------------------------------|---------------------|
-| AC-1 | J-13a    | NONE — DEFECT  | `--duration-*` runtime override propagates to component transition-duration            | Vitest + jsdom      |
-| AC-2 | J-10     | PARTIAL — MUTE-RISK | `--text-*` runtime override propagates to component computed font-size            | Vitest + jsdom      |
-| AC-3 | J-08b    | NONE           | `--nav-on-dark-accent*` propagate to NavItem onDark gradient (no hard-coded literals)  | Vitest + jsdom      |
-| AC-4 | J-08a    | NONE           | `--chart-1..5` propagate to elements using `bg-chart-*` / `text-chart-*` utilities      | Vitest + jsdom      |
-| AC-5 | J-08c    | NONE           | `--app-pattern-*` propagate to consumer-side pattern surfaces                          | Playwright (E2E)    |
+| AC   | Journey | Coverage today      | Goal                                                                                  | Test stack       |
+| ---- | ------- | ------------------- | ------------------------------------------------------------------------------------- | ---------------- |
+| AC-1 | J-13a   | NONE — DEFECT       | `--duration-*` runtime override propagates to component transition-duration           | Vitest + jsdom   |
+| AC-2 | J-10    | PARTIAL — MUTE-RISK | `--text-*` runtime override propagates to component computed font-size                | Vitest + jsdom   |
+| AC-3 | J-08b   | NONE                | `--nav-on-dark-accent*` propagate to NavItem onDark gradient (no hard-coded literals) | Vitest + jsdom   |
+| AC-4 | J-08a   | NONE                | `--chart-1..5` propagate to elements using `bg-chart-*` / `text-chart-*` utilities    | Vitest + jsdom   |
+| AC-5 | J-08c   | NONE                | `--app-pattern-*` propagate to consumer-side pattern surfaces                         | Playwright (E2E) |
 
 ## Test placement
 
-| AC   | File path (new or appended)                                                                       |
-|------|---------------------------------------------------------------------------------------------------|
+| AC   | File path (new or appended)                                                                                                           |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | AC-1 | `packages/ui/src/components/accordion/accordion.duration.integration.test.tsx` (new, integration suffix to flag computed-style scope) |
-| AC-2 | `packages/ui/src/styles/__tests__/typography-tokens.integration.test.tsx` (new) |
-| AC-3 | `packages/ui/src/components/nav-item/nav-item.tone-on-dark.integration.test.tsx` (new) |
-| AC-4 | `packages/ui/src/styles/__tests__/chart-tokens.integration.test.tsx` (new) |
-| AC-5 | `e2e/tests/scenarios/theme-generator-app-pattern.spec.ts` (new) |
+| AC-2 | `packages/ui/src/styles/__tests__/typography-tokens.integration.test.tsx` (new)                                                       |
+| AC-3 | `packages/ui/src/components/nav-item/nav-item.tone-on-dark.integration.test.tsx` (new)                                                |
+| AC-4 | `packages/ui/src/styles/__tests__/chart-tokens.integration.test.tsx` (new)                                                            |
+| AC-5 | `e2e/tests/scenarios/theme-generator-app-pattern.spec.ts` (new)                                                                       |
 
 ## Implementation checklist (drive each test to GREEN)
 
@@ -80,6 +80,7 @@ yields `getComputedStyle(el).fontSize === "<new-value>"`.
 **Smallest fix candidates:**
 
 1. **Add `--text-*` to lib's `@theme inline`** in `packages/ui/src/styles/theme.css`:
+
    ```css
    @theme inline {
      ...
@@ -92,9 +93,10 @@ yields `getComputedStyle(el).fontSize === "<new-value>"`.
      --text-3xl:  var(--text-3xl);
    }
    ```
+
    This re-declares the Tailwind v4 typography namespace so runtime overrides on `:root --text-base` flow through to the `text-base` utility.
 
-2. Verify lib's `tokens.css` ships sane defaults if no override is provided (currently the lib only ships size *tokens* via the consumer — the lib defaults probably need explicit declarations).
+2. Verify lib's `tokens.css` ships sane defaults if no override is provided (currently the lib only ships size _tokens_ via the consumer — the lib defaults probably need explicit declarations).
 
 Expected outcome: test goes from RED to GREEN with fix #1 alone.
 
@@ -121,7 +123,7 @@ declaration string).
 **Failing test asserts:** mutating `--chart-1` on `:root` and rendering an
 element with `class="bg-chart-1"` yields the matching computed background-color.
 
-**Source state today:** the lib *already* bridges `--color-chart-1..5: var(--chart-1..5)`
+**Source state today:** the lib _already_ bridges `--color-chart-1..5: var(--chart-1..5)`
 in `packages/ui/src/styles/theme.css`. This AC is therefore likely a
 **regression-guard add-only**, not a real fix. The test should pass on first
 run; if it fails, the fix is to add the missing `@theme inline` entry.
@@ -147,7 +149,7 @@ preview pane has the new computed size (via DOM attribute or computed style).
 ## Definition of Done (per AC)
 
 - [ ] Failing test added in the path above.
-- [ ] Test fails for the *right reason* (assert before fix, capture failure message in PR description).
+- [ ] Test fails for the _right reason_ (assert before fix, capture failure message in PR description).
 - [ ] Implementation fix applied per checklist; test goes GREEN.
 - [ ] Full lib suite (`pnpm --filter @damo/ui test`) stays green.
 - [ ] Code review (`code-reviewer` agent) APPROVE.
@@ -157,7 +159,7 @@ preview pane has the new computed size (via DOM attribute or computed style).
 ## Notes / risks
 
 - **AC-1 reduced-motion fix is policy-sensitive.** The current rule is correct
-  a11y behavior for production consumer apps. The right fix is to *scope* it,
+  a11y behavior for production consumer apps. The right fix is to _scope_ it,
   not remove it. Document the chosen scope in the PR.
 - **AC-3 has cross-component impact.** DropdownMenuRadioItem mirrors NavItem's
   selection chrome (per `core-knowledge/`). After AC-3 fix, also verify

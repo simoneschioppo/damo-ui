@@ -13,18 +13,18 @@ actions-right on desktop.
 
 ## Public API
 
-| Export           | Kind |
-|------------------|------|
-| `PageHeader`     | `forwardRef<HTMLDivElement, PageHeaderProps>` |
-| `PageHeaderProps`| see below |
+| Export            | Kind                                          |
+| ----------------- | --------------------------------------------- |
+| `PageHeader`      | `forwardRef<HTMLDivElement, PageHeaderProps>` |
+| `PageHeaderProps` | see below                                     |
 
-| Prop          | Type        | Notes |
-|---------------|-------------|-------|
-| `title`       | `ReactNode` | required — renders as `<h1>` |
-| `eyebrow`     | `ReactNode` | optional — uses `.eyebrow` typography |
-| `description` | `ReactNode` | optional — small muted paragraph |
-| `actions`     | `ReactNode` | optional — right-aligned slot |
-| `className`   | `string`    | merged onto `<header>` |
+| Prop          | Type                                            | Notes                                                             |
+| ------------- | ----------------------------------------------- | ----------------------------------------------------------------- |
+| `title`       | `ReactNode`                                     | required — renders as `<h1>`                                      |
+| `eyebrow`     | `ReactNode`                                     | optional — uses `.eyebrow` typography                             |
+| `description` | `ReactNode`                                     | optional — small muted paragraph                                  |
+| `actions`     | `ReactNode`                                     | optional — right-aligned slot                                     |
+| `className`   | `string`                                        | merged onto `<header>`                                            |
 | …native       | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>` | `title` omitted because the prop conflicts with the DOM attribute |
 
 ## Internal architecture

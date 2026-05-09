@@ -154,6 +154,7 @@ so that **(a) external consumers can adopt the lib without inheriting hardcoded 
 ### Source tree — files to TOUCH
 
 **packages/ui/src/** (lib, NEW + UPDATE)
+
 - NEW: `lib/i18n/{types.ts, provider.tsx, dictionaries/en.ts, dictionaries/it.ts, index.ts}`
 - NEW: `lib/i18n/__tests__/provider.test.tsx`
 - UPDATE: `index.ts` (barrel exports for I18nProvider, useI18n, Locale, Dictionary)
@@ -168,6 +169,7 @@ so that **(a) external consumers can adopt the lib without inheriting hardcoded 
 - UPDATE: each affected component's existing `*.test.tsx` (add EN/IT/no-provider cases)
 
 **apps/web/** (docs site, NEW + UPDATE)
+
 - NEW: `messages/en.json`, `messages/it.json`
 - NEW: `i18n/request.ts` (next-intl config)
 - NEW: `app/_components/DocsProviders.tsx` (client wrapper colocating
@@ -186,6 +188,7 @@ so that **(a) external consumers can adopt the lib without inheriting hardcoded 
 - UPDATE: `app/theme-generator/page.tsx`
 
 **Source tree — files to LEAVE ALONE**
+
 - All `mocks/` and Ladle stories (they exercise components without a provider
   → they'll render EN copy automatically per AC3, which is what we want).
 - `apps/web/lib/brand.ts` — brand strings are not user copy in the i18n
@@ -239,6 +242,7 @@ claude-opus-4-7 (1M context)
 ### File List
 
 **New**
+
 - `packages/ui/src/lib/i18n/types.ts`
 - `packages/ui/src/lib/i18n/provider.tsx`
 - `packages/ui/src/lib/i18n/dictionaries/en.ts`
@@ -258,6 +262,7 @@ claude-opus-4-7 (1M context)
 - `e2e/tests/scenarios/i18n-switcher.spec.ts`
 
 **Modified**
+
 - `packages/ui/src/index.ts` (i18n re-exports)
 - `packages/ui/src/components/spinner/spinner.tsx`
 - `packages/ui/src/components/combobox/combobox.tsx`

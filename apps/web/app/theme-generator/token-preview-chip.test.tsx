@@ -42,9 +42,7 @@ describe('TokenPreviewChip — issue #64', () => {
   })
 
   it('shadow-memphis variant applies var(--shadow-memphis-{k}) inline', () => {
-    const { getByTestId } = render(
-      <TokenPreviewChip variant="shadow-memphis" tokenKey="card" />,
-    )
+    const { getByTestId } = render(<TokenPreviewChip variant="shadow-memphis" tokenKey="card" />)
     const el = getByTestId('token-preview-chip-shadow-memphis-card')
     expect(el.style.boxShadow).toBe('var(--shadow-memphis-card)')
   })
@@ -60,9 +58,7 @@ describe('TokenPreviewChip — issue #64', () => {
 
   it('renders a chip per RadiusKey with stable test ids', () => {
     ALL_RADIUS_KEYS.forEach((k) => {
-      const { getByTestId, unmount } = render(
-        <TokenPreviewChip variant="radius" tokenKey={k} />,
-      )
+      const { getByTestId, unmount } = render(<TokenPreviewChip variant="radius" tokenKey={k} />)
       expect(getByTestId(`token-preview-chip-radius-${k}`)).toBeTruthy()
       unmount()
     })
@@ -79,9 +75,7 @@ describe('TokenPreviewChip — issue #64', () => {
   })
 
   it('exposes a non-empty aria-label naming the token', () => {
-    const { getByTestId } = render(
-      <TokenPreviewChip variant="radius" tokenKey="selection" />,
-    )
+    const { getByTestId } = render(<TokenPreviewChip variant="radius" tokenKey="selection" />)
     const el = getByTestId('token-preview-chip-radius-selection')
     const label = el.getAttribute('aria-label') ?? ''
     expect(label.length).toBeGreaterThan(0)
@@ -90,12 +84,40 @@ describe('TokenPreviewChip — issue #64', () => {
   })
 
   it('shadow chip aria-label names the shadow token', () => {
-    const { getByTestId } = render(
-      <TokenPreviewChip variant="shadow-memphis" tokenKey="card" />,
-    )
+    const { getByTestId } = render(<TokenPreviewChip variant="shadow-memphis" tokenKey="card" />)
     const el = getByTestId('token-preview-chip-shadow-memphis-card')
     const label = el.getAttribute('aria-label') ?? ''
     expect(label).toMatch(/shadow/i)
     expect(label).toMatch(/card/i)
+  })
+
+  // Spacing regression — the chip's offset shadow (up to 9px on the lg
+  // tier) used to bleed into the X/Y input row below it. Both variants
+  // now reserve enough breathing room from neighbouring controls.
+  describe('breathing-room margins', () => {
+    it('shadow chip reserves room for the largest tier offset (12×12)', () => {
+      const { getByTestId } = render(<TokenPreviewChip variant="shadow-memphis" tokenKey="lg" />)
+      const el = getByTestId('token-preview-chip-shadow-memphis-lg')
+      expect(el.style.marginRight).toBe('12px')
+      expect(el.style.marginBottom).toBe('12px')
+    })
+
+    it('radius chip has horizontal breathing room from the slider/input', () => {
+      const { getByTestId } = render(<TokenPreviewChip variant="radius" tokenKey="sm" />)
+      const el = getByTestId('token-preview-chip-radius-sm')
+      expect(el.style.marginRight).toBe('16px')
+    })
+
+    it('radius chip aligns to the top of its header row (not the centre)', () => {
+      const { getByTestId } = render(<TokenPreviewChip variant="radius" tokenKey="sm" />)
+      const el = getByTestId('token-preview-chip-radius-sm')
+      expect(el.style.alignSelf).toBe('flex-start')
+    })
+
+    it('radius chip has bottom margin so it does not weld to the slider below', () => {
+      const { getByTestId } = render(<TokenPreviewChip variant="radius" tokenKey="sm" />)
+      const el = getByTestId('token-preview-chip-radius-sm')
+      expect(el.style.marginBottom).toBe('8px')
+    })
   })
 })

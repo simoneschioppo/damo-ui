@@ -14,17 +14,17 @@ Combobox trigger.
 
 ## Public API
 
-| Export      | Kind |
-|-------------|------|
-| `Input`     | `forwardRef<HTMLInputElement, InputProps>` |
-| `InputProps`| `InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean }` |
+| Export       | Kind                                                            |
+| ------------ | --------------------------------------------------------------- |
+| `Input`      | `forwardRef<HTMLInputElement, InputProps>`                      |
+| `InputProps` | `InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean }` |
 
-| Prop      | Type      | Default | Notes |
-|-----------|-----------|---------|-------|
-| `invalid` | `boolean` | —       | When `true`, renders `aria-invalid="true"` and triggers the destructive-tinted shadow |
-| `disabled`| `boolean` | —       | Native; styled as muted + non-interactive |
-| `className`| `string` | —       | Merged via `cn` |
-| …native   | `InputHTMLAttributes<HTMLInputElement>` | — | Including `type`, `value`, `onChange`, `placeholder`, etc. |
+| Prop        | Type                                    | Default | Notes                                                                                 |
+| ----------- | --------------------------------------- | ------- | ------------------------------------------------------------------------------------- |
+| `invalid`   | `boolean`                               | —       | When `true`, renders `aria-invalid="true"` and triggers the destructive-tinted shadow |
+| `disabled`  | `boolean`                               | —       | Native; styled as muted + non-interactive                                             |
+| `className` | `string`                                | —       | Merged via `cn`                                                                       |
+| …native     | `InputHTMLAttributes<HTMLInputElement>` | —       | Including `type`, `value`, `onChange`, `placeholder`, etc.                            |
 
 ### Always-applied classes
 
@@ -60,8 +60,8 @@ aria-invalid:border-destructive
 
 3. **`focus-visible:outline-none`** is intentional. The Memphis shadow
    replaces the native focus ring as the focus indicator. This is the
-   only place in the lib where the focus ring is *replaced* rather
-   than *added*; everywhere else uses
+   only place in the lib where the focus ring is _replaced_ rather
+   than _added_; everywhere else uses
    `focus-visible:outline-2 outline-offset-2 outline-ring`.
 
 4. **`invalid` prop drives `aria-invalid`.** Setting `invalid={false}`

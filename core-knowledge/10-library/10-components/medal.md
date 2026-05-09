@@ -12,20 +12,20 @@ inside (digits or letters), optional caption below.
 
 ## Public API
 
-| Export       | Kind |
-|--------------|------|
-| `Medal`      | `forwardRef<HTMLDivElement, MedalProps>` |
+| Export       | Kind                                                          |
+| ------------ | ------------------------------------------------------------- |
+| `Medal`      | `forwardRef<HTMLDivElement, MedalProps>`                      |
 | `MedalRank`  | `'bronze' \| 'silver' \| 'gold' \| 'master' \| 'grandmaster'` |
-| `MedalProps` | see below |
+| `MedalProps` | see below                                                     |
 
-| Prop      | Type                  | Default | Notes |
-|-----------|-----------------------|---------|-------|
-| `rank`    | `MedalRank`           | (req)   | Drives the color trio |
-| `label`   | `string`              | —       | Caption below the SVG |
-| `value`   | `ReactNode`           | —       | Rendered inside the medal (e.g. `1`, `"M"`, `"GM"`) |
-| `size`    | `number`              | `96`    | px (width + height of the SVG) |
-| `className`| `string`             | —       | Applied to outer wrapper |
-| …native   | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | — | |
+| Prop        | Type                                               | Default | Notes                                               |
+| ----------- | -------------------------------------------------- | ------- | --------------------------------------------------- |
+| `rank`      | `MedalRank`                                        | (req)   | Drives the color trio                               |
+| `label`     | `string`                                           | —       | Caption below the SVG                               |
+| `value`     | `ReactNode`                                        | —       | Rendered inside the medal (e.g. `1`, `"M"`, `"GM"`) |
+| `size`      | `number`                                           | `96`    | px (width + height of the SVG)                      |
+| `className` | `string`                                           | —       | Applied to outer wrapper                            |
+| …native     | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | —       |                                                     |
 
 ## Internal architecture
 
@@ -38,7 +38,13 @@ const CENTER = 32
 const INNER_SCALE = 0.85
 
 const OUTER_COORDS = [
-  [32,4], [54,14], [58,38], [42,58], [22,58], [6,38], [10,14],
+  [32, 4],
+  [54, 14],
+  [58, 38],
+  [42, 58],
+  [22, 58],
+  [6, 38],
+  [10, 14],
 ]
 
 const OUTER_POINTS = toPoints(OUTER_COORDS)
@@ -46,7 +52,7 @@ const INNER_POINTS = toPoints(
   OUTER_COORDS.map(([x, y]) => [
     CENTER + (x - CENTER) * INNER_SCALE,
     CENTER + (y - CENTER) * INNER_SCALE,
-  ])
+  ]),
 )
 ```
 
@@ -60,7 +66,7 @@ Source comment documents this.
 ```ts
 const outerFill = `var(--medal-${rank}-outer)`
 const innerFill = `var(--medal-${rank}-inner)`
-const textFill  = `var(--medal-${rank}-text)`
+const textFill = `var(--medal-${rank}-text)`
 ```
 
 5 ranks × 3 colors = 15 tokens, all defined in `tokens.css` (see
@@ -68,32 +74,48 @@ theming chapter, "Medal ranks" section).
 
 Defaults from `tokens.css`:
 
-| Rank        | Outer (border)       | Inner (fill)         | Text |
-|-------------|----------------------|----------------------|------|
-| bronze      | `#5a3f20`            | `#8a6236`            | white |
-| silver      | `#4a4a55`            | `#8a8a9a`            | white |
-| gold        | `#18181b`            | `#d4af37`            | dark |
-| master      | `#18181b`            | `#5b21b6`            | white |
-| grandmaster | `#000000`            | `#d4af37`            | dark |
+| Rank        | Outer (border) | Inner (fill) | Text  |
+| ----------- | -------------- | ------------ | ----- |
+| bronze      | `#5a3f20`      | `#8a6236`    | white |
+| silver      | `#4a4a55`      | `#8a8a9a`    | white |
+| gold        | `#18181b`      | `#d4af37`    | dark  |
+| master      | `#18181b`      | `#5b21b6`    | white |
+| grandmaster | `#000000`      | `#d4af37`    | dark  |
 
 ### Render
 
 ```jsx
 <div className="inline-flex flex-col items-center gap-1">
   <svg viewBox="0 0 64 64" aria-label={label ?? `${rank} medal`} role="img">
-    <polygon points={OUTER_POINTS} fill={outerFill}
-             stroke="var(--memphis-border-color)" strokeWidth="0.5"/>
-    <polygon points={INNER_POINTS} fill={innerFill}/>
+    <polygon
+      points={OUTER_POINTS}
+      fill={outerFill}
+      stroke="var(--memphis-border-color)"
+      strokeWidth="0.5"
+    />
+    <polygon points={INNER_POINTS} fill={innerFill} />
     {value && (
-      <text x="32" y="40" textAnchor="middle"
-            fontFamily="var(--font-display)" fontSize="22" fontWeight="700"
-            fill={textFill}>
+      <text
+        x="32"
+        y="40"
+        textAnchor="middle"
+        fontFamily="var(--font-display)"
+        fontSize="22"
+        fontWeight="700"
+        fill={textFill}
+      >
         {value}
       </text>
     )}
   </svg>
-  {label && <span className="font-mono text-[10px] font-bold uppercase
-                              tracking-wider text-muted-foreground">{label}</span>}
+  {label && (
+    <span
+      className="font-mono text-[10px] font-bold uppercase
+                              tracking-wider text-muted-foreground"
+    >
+      {label}
+    </span>
+  )}
 </div>
 ```
 
@@ -114,7 +136,7 @@ contour regardless of the outer fill.
 
 3. **`role="img"` and `aria-label`** make the SVG announce its rank
    to assistive tech. Default label: `"${rank} medal"` (e.g. `"gold
-   medal"`). Override via the `label` prop.
+medal"`). Override via the `label` prop.
 
 4. **`label` displayed below** uses the lib's small mono uppercase
    typography. Same as Stat, TableHead, etc.
@@ -134,7 +156,7 @@ contour regardless of the outer fill.
 
 1. Copy `medal.tsx` and `index.ts`.
 2. Tokens: 15 medal tokens (`--medal-{bronze,silver,gold,master,
-   grandmaster}-{outer,inner,text}`), `--memphis-border-color`,
+grandmaster}-{outer,inner,text}`), `--memphis-border-color`,
    `--font-display`, `--muted-foreground`. See theming chapter for
    the default values.
 

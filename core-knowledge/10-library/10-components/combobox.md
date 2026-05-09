@@ -13,24 +13,24 @@ indicators on the selected item.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
-| `Combobox`         | function component (not `forwardRef` — see Notes) |
-| `ComboboxOption`   | `{ value: string; label: string; disabled?: boolean }` |
-| `ComboboxProps`    | see below |
+| Export           | Kind                                                   |
+| ---------------- | ------------------------------------------------------ |
+| `Combobox`       | function component (not `forwardRef` — see Notes)      |
+| `ComboboxOption` | `{ value: string; label: string; disabled?: boolean }` |
+| `ComboboxProps`  | see below                                              |
 
-| Prop                | Type                                  | Default              |
-|---------------------|---------------------------------------|----------------------|
-| `options`           | `ComboboxOption[]`                    | (required)           |
-| `value`             | `string`                              | uncontrolled if absent |
-| `defaultValue`      | `string`                              | —                    |
-| `onValueChange`     | `(value: string) => void`             | —                    |
-| `placeholder`       | `ReactNode`                           | `'Scegli…'`          |
-| `searchPlaceholder` | `string`                              | `'Cerca…'`           |
-| `emptyMessage`      | `ReactNode`                           | `'Nessun risultato'` |
-| `disabled`          | `boolean`                             | —                    |
-| `id`                | `string`                              | —                    |
-| `className`         | `string`                              | —                    |
+| Prop                | Type                      | Default                |
+| ------------------- | ------------------------- | ---------------------- |
+| `options`           | `ComboboxOption[]`        | (required)             |
+| `value`             | `string`                  | uncontrolled if absent |
+| `defaultValue`      | `string`                  | —                      |
+| `onValueChange`     | `(value: string) => void` | —                      |
+| `placeholder`       | `ReactNode`               | `'Scegli…'`            |
+| `searchPlaceholder` | `string`                  | `'Cerca…'`             |
+| `emptyMessage`      | `ReactNode`               | `'Nessun risultato'`   |
+| `disabled`          | `boolean`                 | —                      |
+| `id`                | `string`                  | —                      |
+| `className`         | `string`                  | —                      |
 
 The component supports both **controlled** (`value` provided) and
 **uncontrolled** (`defaultValue` provided) modes. In uncontrolled
@@ -56,10 +56,10 @@ Popover (Damo wrapper around Radix Popover)
 
 ```ts
 const [internal, setInternal] = useState<string | undefined>(defaultValue)
-const selected = value ?? internal     // controlled wins
+const selected = value ?? internal // controlled wins
 
 function handleSelect(next) {
-  if (value === undefined) setInternal(next)   // only mutate internal in uncontrolled
+  if (value === undefined) setInternal(next) // only mutate internal in uncontrolled
   onValueChange?.(next)
   setOpen(false)
 }
@@ -111,8 +111,8 @@ o.value`) marks the chosen value. Don't confuse cmdk's `selected` with
    ref, they cannot get it through Combobox today.
 
 3. **Search matches `value`, not `label`.** A user typing "blu" finds
-   options where the *value* is "blu", not where the label is
-   "Blue". For typical UX this should match the *label*. Either swap
+   options where the _value_ is "blu", not where the label is
+   "Blue". For typical UX this should match the _label_. Either swap
    `value={o.value}` to `value={o.label}` (and adjust `onSelect`), or
    pass cmdk a custom `filter` function. Worth confirming intent —
    see Open questions.

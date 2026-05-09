@@ -6,12 +6,12 @@ Status: documented · Last scan: 27c8471 · Sources:
 
 ## Hook inventory
 
-| Hook                  | Source                              | Notes                                                |
-|-----------------------|-------------------------------------|------------------------------------------------------|
-| `useResolvedCssVars`  | `hooks/use-resolved-css-vars.ts`    | Reads computed CSS variable values at runtime        |
-| `usePersistedAttr`    | `hooks/use-persisted-attr.ts`       | Two-way bind a `data-*` attr on `<html>` ↔ localStorage |
-| `useI18n`             | `lib/i18n/provider.tsx`             | Returns the active dictionary; falls back to EN     |
-| `useLocale`           | `lib/i18n/provider.tsx`             | Returns the active locale (`'en' \| 'it'`)          |
+| Hook                 | Source                           | Notes                                                   |
+| -------------------- | -------------------------------- | ------------------------------------------------------- |
+| `useResolvedCssVars` | `hooks/use-resolved-css-vars.ts` | Reads computed CSS variable values at runtime           |
+| `usePersistedAttr`   | `hooks/use-persisted-attr.ts`    | Two-way bind a `data-*` attr on `<html>` ↔ localStorage |
+| `useI18n`            | `lib/i18n/provider.tsx`          | Returns the active dictionary; falls back to EN         |
+| `useLocale`          | `lib/i18n/provider.tsx`          | Returns the active locale (`'en' \| 'it'`)              |
 
 All hooks run on the client only — they read from `window` /
 `document` directly (or via `useState`/`useContext`) and are safe to

@@ -12,8 +12,8 @@ Radix indicator on `data-[state=checked]`.
 
 ## Public API
 
-| Export     | Kind |
-|------------|------|
+| Export     | Kind                                                                                                             |
+| ---------- | ---------------------------------------------------------------------------------------------------------------- |
 | `Checkbox` | `forwardRef<ElementRef<typeof CheckboxPrimitive.Root>, ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>>` |
 
 The component re-exports nothing else — the indicator is internal.

@@ -14,21 +14,21 @@ requiring them to know about FormField.
 
 ## Public API
 
-| Export       | Kind |
-|--------------|------|
-| `FormField`  | `forwardRef<HTMLDivElement, FormFieldProps>` |
-| `FormFieldProps` | see below |
+| Export           | Kind                                         |
+| ---------------- | -------------------------------------------- |
+| `FormField`      | `forwardRef<HTMLDivElement, FormFieldProps>` |
+| `FormFieldProps` | see below                                    |
 
-| Prop             | Type                              | Default                    |
-|------------------|-----------------------------------|----------------------------|
-| `label`          | `ReactNode`                       | (required)                 |
-| `description`    | `ReactNode`                       | —                          |
-| `error`          | `ReactNode`                       | —                          |
-| `id`             | `string`                          | `fld-${useId()}`           |
-| `children`       | `ReactElement` (exactly one)      | (required)                 |
-| `labelClassName` | `string`                          | —                          |
-| `className`      | `string`                          | applied to outer `<div>`   |
-| …native          | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | —     |
+| Prop             | Type                                               | Default                  |
+| ---------------- | -------------------------------------------------- | ------------------------ |
+| `label`          | `ReactNode`                                        | (required)               |
+| `description`    | `ReactNode`                                        | —                        |
+| `error`          | `ReactNode`                                        | —                        |
+| `id`             | `string`                                           | `fld-${useId()}`         |
+| `children`       | `ReactElement` (exactly one)                       | (required)               |
+| `labelClassName` | `string`                                           | —                        |
+| `className`      | `string`                                           | applied to outer `<div>` |
+| …native          | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | —                        |
 
 ## Internal architecture
 
@@ -86,7 +86,7 @@ duplication — see Open questions.
    with country code), wrap them in a single composite element.
 
 2. **Consumer's `id` wins** over the auto-generated id. The
-   `htmlFor={fieldId}` on the label uses the *FormField-computed*
+   `htmlFor={fieldId}` on the label uses the _FormField-computed_
    fieldId, but the cloned child's id stays the consumer's. **This
    means** if the consumer passes a child with its own `id`, the
    label's `htmlFor` won't match. Either don't pass id on the child,
@@ -123,4 +123,4 @@ FormField input-agnostic.
    "two inputs in one field" needs the consumer to wrap manually.
 4. **`id` collision risk** when the consumer sets the child's id but
    not FormField's id. Could be hardened by reading the child's id
-   *before* picking `fieldId`.
+   _before_ picking `fieldId`.

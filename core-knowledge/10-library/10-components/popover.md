@@ -13,22 +13,22 @@ inline overlay).
 
 ## Public API
 
-| Export             | Pass-through to                |
-|--------------------|--------------------------------|
-| `Popover`          | `PopoverPrimitive.Root`        |
-| `PopoverTrigger`   | `PopoverPrimitive.Trigger`     |
-| `PopoverAnchor`    | `PopoverPrimitive.Anchor`      |
-| `PopoverClose`     | `PopoverPrimitive.Close`       |
-| `PopoverContent`   | styled — Portal + Memphis chrome |
+| Export           | Pass-through to                  |
+| ---------------- | -------------------------------- |
+| `Popover`        | `PopoverPrimitive.Root`          |
+| `PopoverTrigger` | `PopoverPrimitive.Trigger`       |
+| `PopoverAnchor`  | `PopoverPrimitive.Anchor`        |
+| `PopoverClose`   | `PopoverPrimitive.Close`         |
+| `PopoverContent` | styled — Portal + Memphis chrome |
 
 `PopoverContent` props are Radix's `Content` (`align`, `side`,
 `sideOffset`, `forceMount`, `onOpenAutoFocus`, etc.) with two lib
 defaults:
 
-| Prop          | Default    |
-|---------------|------------|
-| `align`       | `'center'` |
-| `sideOffset`  | `6`        |
+| Prop         | Default    |
+| ------------ | ---------- |
+| `align`      | `'center'` |
+| `sideOffset` | `6`        |
 
 ## Internal architecture
 

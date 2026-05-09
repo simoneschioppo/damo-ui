@@ -12,18 +12,18 @@ non-interactive `<span aria-current="page">` when `current` is true.
 
 ## Public API
 
-| Export                | Kind |
-|-----------------------|------|
-| `Breadcrumbs`         | `forwardRef<HTMLElement, BreadcrumbsProps>` |
-| `BreadcrumbItem`      | `forwardRef<HTMLSpanElement, BreadcrumbItemProps>` |
-| `BreadcrumbsProps`    | `HTMLAttributes<HTMLElement> & { separator?: ReactNode }` |
+| Export                | Kind                                                                     |
+| --------------------- | ------------------------------------------------------------------------ |
+| `Breadcrumbs`         | `forwardRef<HTMLElement, BreadcrumbsProps>`                              |
+| `BreadcrumbItem`      | `forwardRef<HTMLSpanElement, BreadcrumbItemProps>`                       |
+| `BreadcrumbsProps`    | `HTMLAttributes<HTMLElement> & { separator?: ReactNode }`                |
 | `BreadcrumbItemProps` | `HTMLAttributes<HTMLSpanElement> & { current?: boolean; href?: string }` |
 
-| `BreadcrumbItemProps` | Type        | Default | Notes |
-|-----------------------|-------------|---------|-------|
-| `current`             | `boolean`   | —       | When true, renders `<span aria-current="page">` |
-| `href`                | `string`    | —       | Used on the `<a>` when not current |
-| `className`           | `string`    | —       | |
+| `BreadcrumbItemProps` | Type      | Default | Notes                                           |
+| --------------------- | --------- | ------- | ----------------------------------------------- |
+| `current`             | `boolean` | —       | When true, renders `<span aria-current="page">` |
+| `href`                | `string`  | —       | Used on the `<a>` when not current              |
+| `className`           | `string`  | —       |                                                 |
 
 ## Internal architecture
 
@@ -32,12 +32,18 @@ non-interactive `<span aria-current="page">` when `current` is true.
 ```jsx
 <nav aria-label="Breadcrumb">
   <ol className="flex flex-wrap items-center gap-1.5 text-sm">
-    {Children.toArray(children).filter(isValidElement).map((child, idx, arr) => (
-      <Fragment key={idx}>
-        <li>{child}</li>
-        {idx < arr.length - 1 && <li role="presentation" aria-hidden>{sep}</li>}
-      </Fragment>
-    ))}
+    {Children.toArray(children)
+      .filter(isValidElement)
+      .map((child, idx, arr) => (
+        <Fragment key={idx}>
+          <li>{child}</li>
+          {idx < arr.length - 1 && (
+            <li role="presentation" aria-hidden>
+              {sep}
+            </li>
+          )}
+        </Fragment>
+      ))}
   </ol>
 </nav>
 ```
@@ -53,8 +59,18 @@ non-interactive `<span aria-current="page">` when `current` is true.
 Branches on `current`:
 
 ```jsx
-if (current) return <span aria-current="page" className="text-foreground font-semibold">{children}</span>
-else         return <a href={href} className="text-muted-foreground hover:text-foreground hover:underline …">{children}</a>
+if (current)
+  return (
+    <span aria-current="page" className="text-foreground font-semibold">
+      {children}
+    </span>
+  )
+else
+  return (
+    <a href={href} className="text-muted-foreground hover:text-foreground hover:underline …">
+      {children}
+    </a>
+  )
 ```
 
 - Current item: bold, foreground-colored, no underline, with

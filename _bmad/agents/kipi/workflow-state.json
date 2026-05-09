@@ -99,7 +99,42 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "kind": "content-update",
+          "gh_issue": 66,
+          "chapters": [
+            "10-library/20-theming/README.md",
+            "10-library/10-components/button.md",
+            "10-library/10-components/card.md",
+            "10-library/10-components/feature-card.md",
+            "10-library/10-components/input.md",
+            "10-library/10-components/textarea.md",
+            "10-library/10-components/select.md",
+            "10-library/10-components/combobox.md",
+            "10-library/10-components/date-picker.md",
+            "10-library/10-components/toast.md",
+            "10-library/10-components/banner.md",
+            "10-library/10-components/dialog.md"
+          ],
+          "paths": [
+            "packages/ui/src/styles/theme.css",
+            "packages/ui/src/lib/cn.ts",
+            "packages/ui/src/components/button/button.variants.ts",
+            "packages/ui/src/components/card/card.variants.ts",
+            "packages/ui/src/components/input/input.tsx",
+            "packages/ui/src/components/textarea/textarea.tsx",
+            "packages/ui/src/components/select/select.tsx",
+            "packages/ui/src/components/combobox/combobox.tsx",
+            "packages/ui/src/components/date-picker/date-picker.tsx",
+            "packages/ui/src/components/toast/toast.tsx",
+            "packages/ui/src/components/banner/banner.variants.ts",
+            "packages/ui/src/components/dialog/dialog.tsx"
+          ],
+          "summary": "Per-instance Memphis tinted-shadow recipe restored via per-color @utility blocks. Replaced the broken `[--memphis-shadow-color:var(--X)] shadow-memphis` recipe (substituted at :root, ignored by per-instance overrides) with `shadow-memphis-{primary|success|warning|destructive|info}` (md tier), `shadow-memphis-lg-destructive` (lg tier for Dialog danger), plus `shadow-memphis-primary-{hover,active}` for Button ghost interactive states. cn.ts now registers all Memphis shadow utilities with `extendTailwindMerge` so consumer-supplied `shadow-none` / cross-tier overrides collapse correctly.",
+          "queued_at": "2026-05-09T08:00:00+00:00"
+        }
+      ],
       "runs": [
         {
           "kind": "content-update",

@@ -32,14 +32,14 @@ component preview and storybook-like browsing.
 
 The `package.json` `exports` map is the contract:
 
-| Subpath                       | Resolves to                                  | Kind         |
-|-------------------------------|----------------------------------------------|--------------|
-| `.` (default)                 | `dist/index.{d.ts,js}`                       | TS + ESM     |
-| `./mocks`                     | `dist/mocks/index.{d.ts,js}`                 | TS + ESM     |
-| `./styles/tokens.css`         | `dist/styles/tokens.css`                     | CSS          |
-| `./styles/theme.css`          | `dist/styles/theme.css`                      | CSS          |
-| `./styles/globals.css`        | `dist/styles/globals.css`                    | CSS          |
-| `./tailwind.preset`           | `dist/tailwind.preset.{d.ts,js}`             | TS + ESM     |
+| Subpath                | Resolves to                      | Kind     |
+| ---------------------- | -------------------------------- | -------- |
+| `.` (default)          | `dist/index.{d.ts,js}`           | TS + ESM |
+| `./mocks`              | `dist/mocks/index.{d.ts,js}`     | TS + ESM |
+| `./styles/tokens.css`  | `dist/styles/tokens.css`         | CSS      |
+| `./styles/theme.css`   | `dist/styles/theme.css`          | CSS      |
+| `./styles/globals.css` | `dist/styles/globals.css`        | CSS      |
+| `./tailwind.preset`    | `dist/tailwind.preset.{d.ts,js}` | TS + ESM |
 
 Pinning facts:
 
@@ -175,15 +175,15 @@ the lib's vitest suite, so a future broken-import edit fails CI.
 
 The current state of the publish wiring:
 
-| Field                              | Value                                                |
-|------------------------------------|------------------------------------------------------|
-| `package.json#name`                | `@damo/ui`                                           |
-| `package.json#version`             | `0.3.0`                                              |
-| `package.json#private`             | `true` (publish currently disabled)                  |
-| `package.json#publishConfig.registry` | `https://npm.pkg.github.com`                       |
-| `package.json#publishConfig.access`   | `restricted`                                       |
-| `repository.url`                   | `https://github.com/simoneschioppo/damo-ui.git`     |
-| Root `.npmrc`                      | `auto-install-peers=true`, `prefer-workspace-packages=true`, `strict-peer-dependencies=false` |
+| Field                                 | Value                                                                                         |
+| ------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `package.json#name`                   | `@damo/ui`                                                                                    |
+| `package.json#version`                | `0.3.0`                                                                                       |
+| `package.json#private`                | `true` (publish currently disabled)                                                           |
+| `package.json#publishConfig.registry` | `https://npm.pkg.github.com`                                                                  |
+| `package.json#publishConfig.access`   | `restricted`                                                                                  |
+| `repository.url`                      | `https://github.com/simoneschioppo/damo-ui.git`                                               |
+| Root `.npmrc`                         | `auto-install-peers=true`, `prefer-workspace-packages=true`, `strict-peer-dependencies=false` |
 
 Reading the wiring as documentation:
 
@@ -220,7 +220,7 @@ This direction shapes near-term work the lib should not violate:
 - Components must remain self-contained (no implicit cross-component
   imports beyond a few canonical helpers like `cn`).
 - Hooks must remain liftable as single files.
-- The runtime dep list in `package.json` must stay *honest*: any new
+- The runtime dep list in `package.json` must stay _honest_: any new
   Radix primitive or third-party dep added here should also be
   declarable per-component once the registry is built.
 - Don't introduce build-time codegen that is hard to reproduce in a

@@ -78,7 +78,14 @@ export const AttrToggleGroup = forwardRef<HTMLDivElement, AttrToggleGroupProps>(
           <div
             role="group"
             aria-labelledby={label ? labelId : undefined}
-            className="inline-flex border-2 border-memphis rounded-none"
+            // `overflow-hidden` clips the inner segmented buttons to the
+            // container's rounded outline. Without it, theme-generator
+            // edits to `--radius-none` (or any other override that gives
+            // the container a non-zero radius) leave the rectangular
+            // button backgrounds protruding past the rounded border —
+            // the buttons inherit `rounded-none` from the design tokens,
+            // so the cleanest robust fix is to clip at the parent level.
+            className="inline-flex overflow-hidden border-2 border-memphis rounded-none"
           >
             {options.map((opt) => {
               const isActive = current === opt.value

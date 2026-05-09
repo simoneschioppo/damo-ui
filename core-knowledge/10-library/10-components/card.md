@@ -16,37 +16,37 @@ base for ad-hoc surfaces.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
-| `Card`             | `forwardRef<HTMLDivElement, CardProps>` |
-| `CardHeader`       | layout div with bottom border |
-| `CardTitle`        | `<h3>` display-font heading |
-| `CardDescription`  | `<p>` muted small text |
-| `CardBody`         | layout div (`py-3`) |
-| `CardFooter`       | layout div with top border, right-aligned actions |
-| `cardVariants`     | cva instance |
+| Export            | Kind                                              |
+| ----------------- | ------------------------------------------------- |
+| `Card`            | `forwardRef<HTMLDivElement, CardProps>`           |
+| `CardHeader`      | layout div with bottom border                     |
+| `CardTitle`       | `<h3>` display-font heading                       |
+| `CardDescription` | `<p>` muted small text                            |
+| `CardBody`        | layout div (`py-3`)                               |
+| `CardFooter`      | layout div with top border, right-aligned actions |
+| `cardVariants`    | cva instance                                      |
 
-| Card prop  | Type                                                                | Default     |
-|------------|---------------------------------------------------------------------|-------------|
-| `variant`  | `'default' \| 'elevated' \| 'featured' \| 'interactive' \| 'inverse'` | `'default'` |
-| `padding`  | `'none' \| 'sm' \| 'md' \| 'lg'`                                    | `'md'`      |
-| `className`| `string`                                                            | —           |
-| …native    | `HTMLAttributes<HTMLDivElement>`                                    | —           |
+| Card prop   | Type                                                                  | Default     |
+| ----------- | --------------------------------------------------------------------- | ----------- |
+| `variant`   | `'default' \| 'elevated' \| 'featured' \| 'interactive' \| 'inverse'` | `'default'` |
+| `padding`   | `'none' \| 'sm' \| 'md' \| 'lg'`                                      | `'md'`      |
+| `className` | `string`                                                              | —           |
+| …native     | `HTMLAttributes<HTMLDivElement>`                                      | —           |
 
 ### Variants
 
-| Variant       | Surface             | Border / shadow                                |
-|---------------|---------------------|------------------------------------------------|
-| `default`     | `bg-card`           | `border-2 border-memphis shadow-memphis` (6px) |
-| `elevated`    | `bg-card`           | `border-2 border-memphis shadow-memphis-lg` (9px) |
-| `featured`    | `bg-card`           | `[--memphis-shadow-color:var(--primary)]` + standard memphis shadow |
-| `interactive` | `bg-card`           | standard memphis + Button-style press affordance |
-| `inverse`     | `bg-foreground text-background` | 1px tinted border + soft `shadow-md` + `rounded-md` |
+| Variant       | Surface                         | Border / shadow                                                     |
+| ------------- | ------------------------------- | ------------------------------------------------------------------- |
+| `default`     | `bg-card`                       | `border-2 border-memphis shadow-memphis` (6px)                      |
+| `elevated`    | `bg-card`                       | `border-2 border-memphis shadow-memphis-lg` (9px)                   |
+| `featured`    | `bg-card`                       | `[--memphis-shadow-color:var(--primary)]` + standard memphis shadow |
+| `interactive` | `bg-card`                       | standard memphis + Button-style press affordance                    |
+| `inverse`     | `bg-foreground text-background` | 1px tinted border + soft `shadow-md` + `rounded-md`                 |
 
 ### Sizes
 
 | Padding | Class |
-|---------|-------|
+| ------- | ----- |
 | `none`  | `p-0` |
 | `sm`    | `p-3` |
 | `md`    | `p-5` |
@@ -54,13 +54,13 @@ base for ad-hoc surfaces.
 
 ### Sub-parts
 
-| Sub-part           | Classes |
-|--------------------|---------|
-| `CardHeader`       | `flex flex-col gap-1.5 pb-3 border-b border-border` |
-| `CardTitle`        | `font-display text-xl leading-tight tracking-wide` (`<h3>`) |
-| `CardDescription`  | `text-sm text-muted-foreground` (`<p>`) |
-| `CardBody`         | `py-3` |
-| `CardFooter`       | `flex items-center justify-end gap-2 pt-3 border-t border-border` |
+| Sub-part          | Classes                                                           |
+| ----------------- | ----------------------------------------------------------------- |
+| `CardHeader`      | `flex flex-col gap-1.5 pb-3 border-b border-border`               |
+| `CardTitle`       | `font-display text-xl leading-tight tracking-wide` (`<h3>`)       |
+| `CardDescription` | `text-sm text-muted-foreground` (`<p>`)                           |
+| `CardBody`        | `py-3`                                                            |
+| `CardFooter`      | `flex items-center justify-end gap-2 pt-3 border-t border-border` |
 
 The sub-parts assume vertical stacking inside Card with `padding="md"`
 or larger. Header/Footer borders use `--border` (1px soft); main Card
@@ -108,6 +108,7 @@ shadow-md rounded-md
 ```
 
 The only Card variant that **drops** the Memphis idiom entirely:
+
 - 1px border, not 2px
 - Tinted-transparent border color (12% background mixed with
   transparent — subtle on the dark surface)

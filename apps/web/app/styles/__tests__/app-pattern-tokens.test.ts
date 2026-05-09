@@ -20,18 +20,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
  * edits.
  */
 describe('AC-5 — App pattern stylesheet stays token-driven', () => {
-  const css = readFileSync(
-    resolve(__dirname, '..', 'patterns.css'),
-    'utf8',
-  )
+  const css = readFileSync(resolve(__dirname, '..', 'patterns.css'), 'utf8')
 
-  it.each(['1', '2', '3'])(
-    'references var(--app-pattern-color-%s) in the gradient stack',
-    (n) => {
-      const pattern = new RegExp(`var\\(--app-pattern-color-${n}\\)`)
-      expect(css).toMatch(pattern)
-    },
-  )
+  it.each(['1', '2', '3'])('references var(--app-pattern-color-%s) in the gradient stack', (n) => {
+    const pattern = new RegExp(`var\\(--app-pattern-color-${n}\\)`)
+    expect(css).toMatch(pattern)
+  })
 
   it('drives the pattern repeat with var(--app-pattern-size)', () => {
     expect(css).toMatch(/background-size\s*:[^;]*var\(--app-pattern-size\)/)

@@ -11,24 +11,24 @@ typography. Pure presentational primitive. No state, no interactions.
 
 ## Public API
 
-| Export           | Kind |
-|------------------|------|
-| `Badge`          | `forwardRef<HTMLSpanElement, BadgeProps>` |
-| `BadgeProps`     | `HTMLAttributes<HTMLSpanElement> & BadgeVariants` |
-| `badgeVariants`  | `cva` instance (re-exported for ad-hoc use) |
-| `BadgeVariants`  | `VariantProps<typeof badgeVariants>` |
+| Export          | Kind                                              |
+| --------------- | ------------------------------------------------- |
+| `Badge`         | `forwardRef<HTMLSpanElement, BadgeProps>`         |
+| `BadgeProps`    | `HTMLAttributes<HTMLSpanElement> & BadgeVariants` |
+| `badgeVariants` | `cva` instance (re-exported for ad-hoc use)       |
+| `BadgeVariants` | `VariantProps<typeof badgeVariants>`              |
 
 ### Variants
 
-| Variant       | Surface                                    |
-|---------------|--------------------------------------------|
-| `default`     | `bg-muted text-muted-foreground` |
+| Variant       | Surface                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------- |
+| `default`     | `bg-muted text-muted-foreground`                                                                              |
 | `featured`    | `bg-badge-featured text-badge-featured-foreground` (the only badge-specific token pair — see theming chapter) |
-| `success`     | `bg-success text-success-foreground` |
-| `warning`     | `bg-warning text-warning-foreground` |
-| `info`        | `bg-info text-info-foreground` |
-| `destructive` | `bg-destructive text-destructive-foreground` |
-| `outline`     | `bg-transparent text-foreground` |
+| `success`     | `bg-success text-success-foreground`                                                                          |
+| `warning`     | `bg-warning text-warning-foreground`                                                                          |
+| `info`        | `bg-info text-info-foreground`                                                                                |
+| `destructive` | `bg-destructive text-destructive-foreground`                                                                  |
+| `outline`     | `bg-transparent text-foreground`                                                                              |
 
 Default: `'default'`.
 

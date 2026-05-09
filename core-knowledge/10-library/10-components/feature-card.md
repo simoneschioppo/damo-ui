@@ -14,7 +14,7 @@ out of the box — theming the primary token re-tints this card
 automatically.
 
 > **As of gh-60**, FeatureCard composes `<Card variant="featured"
-> padding="md" className="w-[280px]">` internally. Public API is
+padding="md" className="w-[280px]">` internally. Public API is
 > unchanged. The primary-tinted shadow recipe is now provided by
 > Card's `featured` variant rather than an inline style override on
 > this component, but the visual is identical (modulo the +2px shadow
@@ -23,37 +23,32 @@ automatically.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
+| Export             | Kind                                           |
+| ------------------ | ---------------------------------------------- |
 | `FeatureCard`      | `forwardRef<HTMLDivElement, FeatureCardProps>` |
-| `FeatureCardProps` | see below |
+| `FeatureCardProps` | see below                                      |
 
-| Prop      | Type                 | Notes |
-|-----------|----------------------|-------|
-| `title`   | `string`             | required — renders as `<h4>` (display font, uppercase) |
-| `desc`    | `string`             | required — renders as `<p>` (muted) |
-| `meta`    | `string`             | optional — bottom-row mono caption (e.g. "15+10") |
-| `icon`    | `ReactNode`          | optional — bottom-row right-aligned icon |
-| `className`| `string`            | merged onto the underlying `<Card>` |
-| …native   | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>` | `title` omitted |
+| Prop        | Type                                            | Notes                                                  |
+| ----------- | ----------------------------------------------- | ------------------------------------------------------ |
+| `title`     | `string`                                        | required — renders as `<h4>` (display font, uppercase) |
+| `desc`      | `string`                                        | required — renders as `<p>` (muted)                    |
+| `meta`      | `string`                                        | optional — bottom-row mono caption (e.g. "15+10")      |
+| `icon`      | `ReactNode`                                     | optional — bottom-row right-aligned icon               |
+| `className` | `string`                                        | merged onto the underlying `<Card>`                    |
+| …native     | `Omit<HTMLAttributes<HTMLDivElement>, 'title'>` | `title` omitted                                        |
 
 ## Internal architecture
 
 ```jsx
-<Card
-  variant="featured"
-  padding="md"
-  className={cn('w-[280px]', className)}
-  ref={ref}
-  {...rest}
->
-  <h4 data-slot="title"
-      className="font-display uppercase text-foreground text-2xl m-0 mb-2"
-      style={{ letterSpacing: '0.02em' }}>
+<Card variant="featured" padding="md" className={cn('w-[280px]', className)} ref={ref} {...rest}>
+  <h4
+    data-slot="title"
+    className="font-display uppercase text-foreground text-2xl m-0 mb-2"
+    style={{ letterSpacing: '0.02em' }}
+  >
     {title}
   </h4>
-  <p data-slot="desc"
-     className="text-muted-foreground text-sm m-0 mb-6 leading-snug">
+  <p data-slot="desc" className="text-muted-foreground text-sm m-0 mb-6 leading-snug">
     {desc}
   </p>
   {(meta || icon) && (
@@ -107,7 +102,7 @@ here, unlike ArticleCard (`p-6`) and UserCard (`p-4`).
 1. **Fixed 280px width** — narrower than ArticleCard. Suited for
    "feature grid" layouts (3–4 across on desktop).
 
-2. **FeatureCard *is* `<Card variant="featured">` plus a fixed width.**
+2. **FeatureCard _is_ `<Card variant="featured">` plus a fixed width.**
    The decision was: FeatureCard exists as a named export so consumers
    don't have to remember `<Card variant="featured" className="w-[280px]">`
    plus the title/desc/meta/icon slot conventions. If you want the
@@ -147,13 +142,17 @@ For a single-file copy, replace `<Card variant="featured" padding="md">`
 with a `<div>` carrying the recipe inline:
 
 ```jsx
-<div className={cn(
-  '[--memphis-shadow-color:var(--primary)]',
-  'border-2 border-memphis shadow-memphis rounded-none',
-  'bg-card text-card-foreground p-5',
-  'w-[280px]',
-  className,
-)}>…</div>
+<div
+  className={cn(
+    '[--memphis-shadow-color:var(--primary)]',
+    'border-2 border-memphis shadow-memphis rounded-none',
+    'bg-card text-card-foreground p-5',
+    'w-[280px]',
+    className,
+  )}
+>
+  …
+</div>
 ```
 
 ## Open questions

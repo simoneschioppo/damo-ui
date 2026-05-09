@@ -11,7 +11,7 @@ name + optional meta caption, and an optional right-aligned
 entries, etc.
 
 > **As of gh-60**, UserCard composes `<Card variant="default"
-> padding="none" className="flex items-center gap-[14px] w-full p-4">`
+padding="none" className="flex items-center gap-[14px] w-full p-4">`
 > internally. Public API is unchanged. The Memphis shadow is now the
 > 6px canonical `--shadow-memphis` (inherited from Card's default
 > variant), aligning with sibling cards. Was previously the 4px
@@ -19,19 +19,19 @@ entries, etc.
 
 ## Public API
 
-| Export          | Kind |
-|-----------------|------|
+| Export          | Kind                                        |
+| --------------- | ------------------------------------------- |
 | `UserCard`      | `forwardRef<HTMLDivElement, UserCardProps>` |
-| `UserCardProps` | see below |
+| `UserCardProps` | see below                                   |
 
-| Prop      | Type        | Notes |
-|-----------|-------------|-------|
-| `name`    | `string`    | required — displayed as the row's primary label |
-| `avatar`  | `ReactNode` | optional — replaces the default initial circle |
-| `meta`    | `ReactNode` | optional — mono caption below name |
-| `trailing`| `ReactNode` | optional — right-aligned slot (chip, action, etc.) |
-| `className`| `string`   | merged onto the underlying `<Card>` |
-| …native   | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | `children` omitted |
+| Prop        | Type                                               | Notes                                              |
+| ----------- | -------------------------------------------------- | -------------------------------------------------- |
+| `name`      | `string`                                           | required — displayed as the row's primary label    |
+| `avatar`    | `ReactNode`                                        | optional — replaces the default initial circle     |
+| `meta`      | `ReactNode`                                        | optional — mono caption below name                 |
+| `trailing`  | `ReactNode`                                        | optional — right-aligned slot (chip, action, etc.) |
+| `className` | `string`                                           | merged onto the underlying `<Card>`                |
+| …native     | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | `children` omitted                                 |
 
 ## Internal architecture
 
@@ -55,6 +55,7 @@ entries, etc.
 ### Avatar / initial fallback
 
 If `avatar` is provided:
+
 ```
 <div className="shrink-0 inline-flex items-center justify-center
                 w-12 h-12 rounded-full border-2 border-memphis
@@ -65,6 +66,7 @@ If `avatar` is provided:
 
 If not, the wrapper takes `name`'s first character (uppercased, falls
 back to `'?'` if empty/whitespace) and renders it in display font:
+
 ```
 <div className="… grid place-items-center …
                 font-display font-bold text-xl">
@@ -109,7 +111,7 @@ in `tokens.css` for any external consumer that still wants it.
 ## Notes & gotchas
 
 1. **Initial fallback** uses `name.trim().charAt(0).toUpperCase() ||
-   '?'`. Multi-character emoji or extended grapheme clusters (e.g.
+'?'`. Multi-character emoji or extended grapheme clusters (e.g.
    `🇮🇹`, `👨‍👩‍👧`) produce a single (often unexpected) character via
    `charAt`. Use a custom `avatar` prop for non-Latin or emoji
    names if precision matters.
@@ -146,11 +148,15 @@ For a single-file copy, replace `<Card variant="default" padding="none">`
 with a `<div>` carrying the recipe inline:
 
 ```jsx
-<div className={cn(
-  'flex items-center gap-[14px] w-full p-4',
-  'border-2 border-memphis shadow-memphis rounded-none bg-card',
-  className,
-)}>…</div>
+<div
+  className={cn(
+    'flex items-center gap-[14px] w-full p-4',
+    'border-2 border-memphis shadow-memphis rounded-none bg-card',
+    className,
+  )}
+>
+  …
+</div>
 ```
 
 ## Open questions

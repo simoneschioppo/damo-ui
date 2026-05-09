@@ -13,10 +13,10 @@ directly.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
-| `IconButton`       | `forwardRef<HTMLButtonElement, IconButtonProps>` |
-| `IconButtonProps`  | `Omit<ButtonProps, 'size' \| 'children' \| 'asChild'> & { 'aria-label': string; children: ReactNode }` |
+| Export            | Kind                                                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------------------------ |
+| `IconButton`      | `forwardRef<HTMLButtonElement, IconButtonProps>`                                                       |
+| `IconButtonProps` | `Omit<ButtonProps, 'size' \| 'children' \| 'asChild'> & { 'aria-label': string; children: ReactNode }` |
 
 `aria-label` is **required by the type system** — there's no visible
 text, so an a11y label is mandatory. `size` and `asChild` are removed
@@ -49,4 +49,4 @@ direct dependencies of its own.
 1. Should IconButton also accept `asChild`? The current omission is
    intentional but not documented in the type comment. If a consumer
    needs an icon-only `<Link>`, they fall back to `<Button asChild
-   size="icon" />` — fine, but duplicates the IconButton ergonomics.
+size="icon" />` — fine, but duplicates the IconButton ergonomics.

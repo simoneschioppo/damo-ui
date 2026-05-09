@@ -19,26 +19,26 @@ inside the panel rather than the page.
 with Dialog (overlay, header conventions, X button, animation
 classes, missing `tailwindcss-animate`), see the Dialog chapter.
 
-| Export                | Pass-through to                          |
-|-----------------------|------------------------------------------|
-| `Drawer`              | `DialogPrimitive.Root`                   |
-| `DrawerTrigger`       | `DialogPrimitive.Trigger`                |
-| `DrawerPortal`        | `DialogPrimitive.Portal`                 |
-| `DrawerClose`         | `DialogPrimitive.Close`                  |
-| `DrawerOverlay`       | styled — same as DialogOverlay (`bg-foreground/40`) |
-| `DrawerContent`       | styled — edge-anchored panel             |
-| `DrawerHeader`        | layout div — `pr-8 border-b border-border pb-3` |
-| `DrawerBody`          | layout div — `flex-1 overflow-auto py-3` |
-| `DrawerFooter`        | layout div — `border-t border-border pt-3 …` |
-| `DrawerTitle`         | styled — display font, large             |
-| `DrawerDescription`   | styled — small muted text                |
+| Export              | Pass-through to                                     |
+| ------------------- | --------------------------------------------------- |
+| `Drawer`            | `DialogPrimitive.Root`                              |
+| `DrawerTrigger`     | `DialogPrimitive.Trigger`                           |
+| `DrawerPortal`      | `DialogPrimitive.Portal`                            |
+| `DrawerClose`       | `DialogPrimitive.Close`                             |
+| `DrawerOverlay`     | styled — same as DialogOverlay (`bg-foreground/40`) |
+| `DrawerContent`     | styled — edge-anchored panel                        |
+| `DrawerHeader`      | layout div — `pr-8 border-b border-border pb-3`     |
+| `DrawerBody`        | layout div — `flex-1 overflow-auto py-3`            |
+| `DrawerFooter`      | layout div — `border-t border-border pt-3 …`        |
+| `DrawerTitle`       | styled — display font, large                        |
+| `DrawerDescription` | styled — small muted text                           |
 
 ### `DrawerContentProps`
 
-| Prop        | Type                                          | Default   |
-|-------------|-----------------------------------------------|-----------|
-| `side`      | `'right' \| 'left' \| 'top' \| 'bottom'`      | `'right'` |
-| `hideClose` | `boolean`                                     | —         |
+| Prop        | Type                                     | Default   |
+| ----------- | ---------------------------------------- | --------- |
+| `side`      | `'right' \| 'left' \| 'top' \| 'bottom'` | `'right'` |
+| `hideClose` | `boolean`                                | —         |
 
 ## Internal architecture
 
@@ -49,15 +49,15 @@ variant sets:
 
 1. **Anchor and dimensions:**
    - `right`: `right-0 top-0 h-full w-full max-w-md`
-   - `left`:  `left-0 top-0 h-full w-full max-w-md`
-   - `top`:   `top-0 left-0 w-full max-h-[75vh]`
+   - `left`: `left-0 top-0 h-full w-full max-w-md`
+   - `top`: `top-0 left-0 w-full max-h-[75vh]`
    - `bottom`: `bottom-0 left-0 w-full max-h-[75vh]`
 
 2. **Border edge:** Memphis border applies only on the side facing
    into the page:
    - right → `border-l-2 border-y-0 border-r-0`
-   - left  → `border-r-2 border-y-0 border-l-0`
-   - top   → `border-b-2 border-x-0 border-t-0`
+   - left → `border-r-2 border-y-0 border-l-0`
+   - top → `border-b-2 border-x-0 border-t-0`
    - bottom → `border-t-2 border-x-0 border-b-0`
 
 3. **Slide animation:**

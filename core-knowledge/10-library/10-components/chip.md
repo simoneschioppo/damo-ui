@@ -13,19 +13,19 @@ categories, multi-select facets.
 
 ## Public API
 
-| Export          | Kind |
-|-----------------|------|
-| `Chip`          | `forwardRef<HTMLSpanElement, ChipProps>` |
-| `ChipProps`     | `HTMLAttributes<HTMLSpanElement> & ChipVariants & { dotColor?: string; active?: boolean }` |
-| `chipVariants`  | `cva` instance |
-| `ChipVariants`  | `VariantProps<typeof chipVariants>` |
+| Export         | Kind                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| `Chip`         | `forwardRef<HTMLSpanElement, ChipProps>`                                                   |
+| `ChipProps`    | `HTMLAttributes<HTMLSpanElement> & ChipVariants & { dotColor?: string; active?: boolean }` |
+| `chipVariants` | `cva` instance                                                                             |
+| `ChipVariants` | `VariantProps<typeof chipVariants>`                                                        |
 
-| Prop       | Type                                                                                  | Default     |
-|------------|---------------------------------------------------------------------------------------|-------------|
-| `variant`  | `'default' \| 'accent' \| 'brand' \| 'success' \| 'danger' \| 'warning'`              | `'default'` |
-| `size`     | `'sm' \| 'md' \| 'lg'`                                                                | `'md'`      |
-| `dotColor` | `string` (any CSS color)                                                              | —           |
-| `active`   | `boolean`                                                                             | `false`     |
+| Prop       | Type                                                                     | Default     |
+| ---------- | ------------------------------------------------------------------------ | ----------- |
+| `variant`  | `'default' \| 'accent' \| 'brand' \| 'success' \| 'danger' \| 'warning'` | `'default'` |
+| `size`     | `'sm' \| 'md' \| 'lg'`                                                   | `'md'`      |
+| `dotColor` | `string` (any CSS color)                                                 | —           |
+| `active`   | `boolean`                                                                | `false`     |
 
 ### Variants — soft tint via `color-mix`
 
@@ -41,22 +41,22 @@ This is fundamentally different from Badge: Badge uses **saturated**
 intent tokens; Chip uses **mixed** ones. The result is "tag in a
 filter chip rail" instead of "status pill".
 
-| Variant   | Token mixed with `--card`/`--foreground` |
-|-----------|------------------------------------------|
+| Variant   | Token mixed with `--card`/`--foreground`              |
+| --------- | ----------------------------------------------------- |
 | `default` | none — solid `bg-[var(--card)]` with `border-memphis` |
-| `accent`  | `--primary` |
-| `brand`   | `--secondary` |
-| `success` | `--success` |
-| `danger`  | `--destructive` (named `danger`, not `destructive`) |
-| `warning` | `--warning` |
+| `accent`  | `--primary`                                           |
+| `brand`   | `--secondary`                                         |
+| `success` | `--success`                                           |
+| `danger`  | `--destructive` (named `danger`, not `destructive`)   |
+| `warning` | `--warning`                                           |
 
 ### Sizes
 
-| Size | Padding / text |
-|------|----------------|
+| Size | Padding / text            |
+| ---- | ------------------------- |
 | `sm` | `px-2 py-0.5 text-[10px]` |
-| `md` | `px-3 py-1.5 text-xs` |
-| `lg` | `px-3.5 py-2 text-sm` |
+| `md` | `px-3 py-1.5 text-xs`     |
+| `lg` | `px-3.5 py-2 text-sm`     |
 
 ### Base classes
 
@@ -78,6 +78,7 @@ state in filter chip rails.
 
 When `dotColor` is set, a leading `<span>` (8×8, 1.5px border, round)
 is rendered before children. The dot's border color is:
+
 - `var(--memphis-border-color)` (black) by default
 - `white` when `active` is true (so the dot stays visible against the
   primary fill)

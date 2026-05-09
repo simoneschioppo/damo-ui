@@ -26,10 +26,16 @@ export const ToastViewport = forwardRef<
   )
 })
 
+// `shadow-memphis(-{intent})` lives in each variant rather than the base
+// because each variant paints a differently-tinted shadow via its own
+// per-color @utility (see `packages/ui/src/styles/theme.css` and #66).
+// Stacking a base `shadow-memphis` and a per-color override would emit
+// two box-shadow utilities on the same element with brittle source-order
+// resolution that `tailwind-merge` cannot disambiguate for custom utilities.
 const toastVariants = cva(
   [
     'group pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden',
-    'p-4 border-2 border-memphis shadow-memphis rounded-none',
+    'p-4 border-2 border-memphis rounded-none',
     'data-[state=open]:animate-in data-[state=open]:slide-in-from-top-full sm:data-[state=open]:slide-in-from-bottom-full',
     'data-[state=closed]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full',
     'data-[swipe=move]:transition-none data-[swipe=cancel]:translate-x-0',
@@ -38,13 +44,13 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-card text-foreground',
+        default: 'bg-card text-foreground shadow-memphis',
         success:
-          'bg-[color-mix(in_oklab,var(--success)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--success)]',
+          'bg-[color-mix(in_oklab,var(--success)_12%,var(--card))] text-foreground shadow-memphis-success',
         warning:
-          'bg-[color-mix(in_oklab,var(--warning)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--warning)]',
+          'bg-[color-mix(in_oklab,var(--warning)_12%,var(--card))] text-foreground shadow-memphis-warning',
         danger:
-          'bg-[color-mix(in_oklab,var(--destructive)_12%,var(--card))] text-foreground [--memphis-shadow-color:var(--destructive)]',
+          'bg-[color-mix(in_oklab,var(--destructive)_12%,var(--card))] text-foreground shadow-memphis-destructive',
       },
     },
     defaultVariants: { variant: 'default' },

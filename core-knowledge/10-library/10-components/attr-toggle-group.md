@@ -13,30 +13,31 @@ longer in the current `options` set, it resets to a known-good fallback
 (invariant against stale localStorage values across deploys).
 
 Two visual variants:
+
 - `segmented` (default) — Memphis-bordered button row with active
   segment in `bg-secondary`.
 - `select` — uses the design-system Select dropdown.
 
 ## Public API
 
-| Export                  | Kind |
-|-------------------------|------|
-| `AttrToggleGroup`       | `forwardRef<HTMLDivElement, AttrToggleGroupProps>` |
-| `AttrToggleOption`      | `{ value: string; label: string }` |
-| `AttrToggleGroupVariant`| `'segmented' \| 'select'` |
-| `AttrToggleGroupProps`  | see below |
+| Export                   | Kind                                               |
+| ------------------------ | -------------------------------------------------- |
+| `AttrToggleGroup`        | `forwardRef<HTMLDivElement, AttrToggleGroupProps>` |
+| `AttrToggleOption`       | `{ value: string; label: string }`                 |
+| `AttrToggleGroupVariant` | `'segmented' \| 'select'`                          |
+| `AttrToggleGroupProps`   | see below                                          |
 
-| Prop          | Type                              | Default            | Notes |
-|---------------|-----------------------------------|--------------------|-------|
-| `options`     | `ReadonlyArray<AttrToggleOption>` | (required)         | No implicit defaults |
-| `storageKey`  | `string`                          | (required)         | localStorage key |
-| `attribute`   | `string`                          | (required)         | `data-*` attribute on `<html>` |
-| `defaultValue`| `string`                          | `options[0].value` | Used when nothing persisted |
-| `label`       | `string`                          | —                  | Optional eyebrow label |
-| `variant`     | `AttrToggleGroupVariant`          | `'segmented'`      | |
-| `labelId`     | `string`                          | auto via `useId`   | For `aria-labelledby` linkage |
-| `className`   | `string`                          | —                  | |
-| …native       | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | — | |
+| Prop           | Type                                               | Default            | Notes                          |
+| -------------- | -------------------------------------------------- | ------------------ | ------------------------------ |
+| `options`      | `ReadonlyArray<AttrToggleOption>`                  | (required)         | No implicit defaults           |
+| `storageKey`   | `string`                                           | (required)         | localStorage key               |
+| `attribute`    | `string`                                           | (required)         | `data-*` attribute on `<html>` |
+| `defaultValue` | `string`                                           | `options[0].value` | Used when nothing persisted    |
+| `label`        | `string`                                           | —                  | Optional eyebrow label         |
+| `variant`      | `AttrToggleGroupVariant`                           | `'segmented'`      |                                |
+| `labelId`      | `string`                                           | auto via `useId`   | For `aria-labelledby` linkage  |
+| `className`    | `string`                                           | —                  |                                |
+| …native        | `Omit<HTMLAttributes<HTMLDivElement>, 'children'>` | —                  |                                |
 
 ## Internal architecture
 
@@ -76,6 +77,7 @@ would persist a `data-theme="miami"` attribute that no CSS targets,
 silently breaking the theme.
 
 `usePersistedAttr` itself (in the hooks chapter) handles three writes:
+
 - React state
 - `localStorage[storageKey]`
 - `document.documentElement.setAttribute(attribute, value)`
@@ -104,6 +106,7 @@ unifying — see Open questions.
 ### Select variant
 
 Wraps `<Select>` from the lib. Trigger overrides:
+
 - `h-auto w-auto min-w-[9rem]` — shrink-fit instead of full-width
 - `py-1.5 text-[13px] font-semibold` — denser typography matching the
   segmented variant
