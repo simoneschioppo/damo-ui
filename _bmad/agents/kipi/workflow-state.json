@@ -102,6 +102,26 @@
       "queued": [
         {
           "kind": "content-update",
+          "gh_issue": 78,
+          "chapters": ["20-web-app/00-architecture.md"],
+          "paths": [
+            "apps/web/app/layout.tsx",
+            "apps/web/public/icons/source/favicon-source.svg",
+            "apps/web/public/site.webmanifest",
+            "apps/web/public/favicon.ico",
+            "apps/web/public/favicon-16x16.png",
+            "apps/web/public/favicon-32x32.png",
+            "apps/web/public/apple-touch-icon.png",
+            "apps/web/public/android-chrome-192x192.png",
+            "apps/web/public/android-chrome-512x512.png",
+            "apps/web/scripts/generate-icons.ts",
+            "apps/web/package.json"
+          ],
+          "summary": "Phase-1 publication: complete favicon + icon set + web manifest for the docs site. Memphis-style 'D' source SVG (purple body + tilted gold square accent + 2px black frame) drives a deterministic sharp+inline-ICO-encoder pipeline emitting favicon.ico (16/32/48 multi-res), favicon-{16,32}x{16,32}.png, apple-touch-icon.png (180), and android-chrome-{192,512}.png. site.webmanifest carries name/short_name/icons/theme_color #7a3980/background #ffffff/display standalone/start_url /. Wired via Next 15 metadata.icons + metadata.manifest + new viewport.themeColor export (NO manual <link> tags). Inline ICO encoder (~30 LOC) replaces to-ico to drop CVE-laden transitive dep chain (minimist/form-data/jpeg-js/url-regex). May warrant a new chapter '20-web-app/40-branding-assets.md' covering the source SVG, generation pipeline, and manifest contract — Kipi to decide.",
+          "queued_at": "2026-05-09T12:15:00+00:00"
+        },
+        {
+          "kind": "content-update",
           "gh_issue": 66,
           "chapters": [
             "10-library/20-theming/README.md",
