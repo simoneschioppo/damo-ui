@@ -26,11 +26,7 @@ export interface I18nProviderProps {
  * locale (advanced use; v1 keeps the prop for forward-compat but most
  * consumers only need `locale`).
  */
-export function I18nProvider({
-  locale = DEFAULT_LOCALE,
-  dictionary,
-  children,
-}: I18nProviderProps) {
+export function I18nProvider({ locale = DEFAULT_LOCALE, dictionary, children }: I18nProviderProps) {
   const value = useMemo<I18nContextValue>(
     () => ({ locale, dict: dictionary ?? dictionaries[locale] }),
     [locale, dictionary],

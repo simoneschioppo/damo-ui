@@ -32,6 +32,15 @@ function radiusStyle(k: RadiusKey): CSSProperties {
     // 8px first pass still felt like the two read as a single control;
     // 16px gives the chip a clear "preview pane" silhouette of its own.
     marginRight: 16,
+    // Pull the chip up to align with the row's title text instead of
+    // the row's vertical centre.
+    alignSelf: 'flex-start',
+    // Vertical gap between the chip's bottom and the slider row that
+    // follows. The chip is taller (28px) than the title text, so the
+    // header row is sized to the chip — without margin, the chip's
+    // bottom edge sits flush with the slider's top, reading as a
+    // single welded control again. 8px recovers visual separation.
+    marginBottom: 8,
   }
 }
 

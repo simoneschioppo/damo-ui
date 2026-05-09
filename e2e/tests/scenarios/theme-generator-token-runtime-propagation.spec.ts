@@ -44,9 +44,7 @@ import { test, expect } from '@playwright/test'
 
 const parseRgb = (color: string | null): [number, number, number] | null => {
   if (!color) return null
-  const match = color.match(
-    /(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)/,
-  )
+  const match = color.match(/(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)/)
   if (!match) return null
   return [Number(match[1]), Number(match[2]), Number(match[3])]
 }
@@ -60,12 +58,11 @@ const parseRgb = (color: string | null): [number, number, number] | null => {
  * Returns the last non-transparent rgb triplet found in the string,
  * skipping `rgba(…, 0)` entries.
  */
-const parseLastNonTransparentRgb = (
-  shadow: string | null,
-): [number, number, number] | null => {
+const parseLastNonTransparentRgb = (shadow: string | null): [number, number, number] | null => {
   if (!shadow) return null
   const triplets: Array<{ r: number; g: number; b: number; alpha: number | null }> = []
-  const re = /rgba?\(\s*(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)(?:\s*[,/]\s*(\d+(?:\.\d+)?))?\s*\)/gi
+  const re =
+    /rgba?\(\s*(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)(?:\s*[,/]\s*(\d+(?:\.\d+)?))?\s*\)/gi
   let match: RegExpExecArray | null
   while ((match = re.exec(shadow)) !== null) {
     triplets.push({
@@ -91,12 +88,22 @@ const expectChannelsClose = (
   expect(actual, 'expected an rgb triplet, got null').not.toBeNull()
   const [ar, ag, ab] = actual!
   const [er, eg, eb] = expected
-  expect(Math.abs(ar - er), `R: got ${ar}, expected ${er}±${tolerance}`).toBeLessThanOrEqual(tolerance)
-  expect(Math.abs(ag - eg), `G: got ${ag}, expected ${eg}±${tolerance}`).toBeLessThanOrEqual(tolerance)
-  expect(Math.abs(ab - eb), `B: got ${ab}, expected ${eb}±${tolerance}`).toBeLessThanOrEqual(tolerance)
+  expect(Math.abs(ar - er), `R: got ${ar}, expected ${er}±${tolerance}`).toBeLessThanOrEqual(
+    tolerance,
+  )
+  expect(Math.abs(ag - eg), `G: got ${ag}, expected ${eg}±${tolerance}`).toBeLessThanOrEqual(
+    tolerance,
+  )
+  expect(Math.abs(ab - eb), `B: got ${ab}, expected ${eb}±${tolerance}`).toBeLessThanOrEqual(
+    tolerance,
+  )
 }
 
-async function setRootTokenAndSettle(page: import('@playwright/test').Page, token: string, value: string) {
+async function setRootTokenAndSettle(
+  page: import('@playwright/test').Page,
+  token: string,
+  value: string,
+) {
   await page.evaluate(
     ({ t, v }) => {
       document.documentElement.style.setProperty(t, v, 'important')
@@ -121,9 +128,7 @@ test.describe('TA — token edits propagate (in /theme-generator)', () => {
     expectChannelsClose(parseRgb(bodyBg), [255, 0, 128])
   })
 
-  test('J-03 intents — overriding --primary paints any bg-primary consumer', async ({
-    page,
-  }) => {
+  test('J-03 intents — overriding --primary paints any bg-primary consumer', async ({ page }) => {
     await setRootTokenAndSettle(page, '--primary', 'rgb(0, 200, 100)')
     const btnBg = await page.evaluate(() => {
       const btn = document.querySelector<HTMLButtonElement>('button.bg-primary')
@@ -147,7 +152,9 @@ test.describe('TA — token edits propagate (in /theme-generator)', () => {
     expectChannelsClose(parseLastNonTransparentRgb(computedShadow), [255, 0, 0])
     // Offset numbers — Chromium can render `12.0897px` due to sub-pixel
     // calc rounding; tolerate ±0.5px.
-    const offsets = computedShadow!.match(/(\d+(?:\.\d+)?)px\s+(\d+(?:\.\d+)?)px(?=\s+0px\s+0px[^,]*$)/)
+    const offsets = computedShadow!.match(
+      /(\d+(?:\.\d+)?)px\s+(\d+(?:\.\d+)?)px(?=\s+0px\s+0px[^,]*$)/,
+    )
     expect(offsets, `couldn't parse offsets from ${computedShadow}`).not.toBeNull()
     if (offsets) {
       expect(Math.abs(Number(offsets[1]) - 12)).toBeLessThanOrEqual(0.5)
@@ -211,10 +218,7 @@ test.describe('TA — Memphis identity on lib-default routes (no override styles
       if (!el) return null
       return getComputedStyle(el).getPropertyValue('--shadow-memphis').trim()
     })
-    expect(
-      resolved,
-      'a `shadow-memphis` consumer must exist on the home route',
-    ).not.toBeNull()
+    expect(resolved, 'a `shadow-memphis` consumer must exist on the home route').not.toBeNull()
     // The tokens.css declaration is `--shadow-memphis: 6px 6px 0 var(--memphis-shadow-color);`.
     // After the cascade settles, the resolved value must contain the
     // `6px 6px 0` offset/blur and a color string. If the @theme inline
