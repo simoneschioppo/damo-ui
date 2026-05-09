@@ -1,6 +1,6 @@
 # Button
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/button/{button.tsx,button.variants.ts,index.ts,button.test.tsx,button.stories.tsx}`.
 
 > **Canonical primitive.** Button establishes the patterns the rest of the
@@ -44,14 +44,14 @@ Exported from `@damo/ui` as:
 
 ### Variants
 
-| Variant       | Surface                                 | Shadow / border                                                     | Press affordance                 |
-| ------------- | --------------------------------------- | ------------------------------------------------------------------- | -------------------------------- |
-| `primary`     | `bg-primary`                            | `border-2 border-memphis shadow-memphis`                            | yes (active + data-[state=open]) |
-| `secondary`   | `bg-secondary`                          | `border-2 border-memphis shadow-memphis`                            | yes (active + data-[state=open]) |
-| `ghost`       | `bg-card`                               | `border-2 border-memphis`, shadow uses `--primary` as memphis color | yes                              |
-| `destructive` | `bg-destructive`                        | `border-2 border-memphis shadow-memphis`                            | yes                              |
-| `outline`     | `bg-card`                               | `border-2 border-memphis`, no shadow                                | **no press** (intentionally)     |
-| `link`        | `bg-transparent text-primary underline` | no border, no shadow                                                | **no press** (intentionally)     |
+| Variant       | Surface                                 | Shadow / border                                                                                                                                                        | Press affordance                 |
+| ------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `primary`     | `bg-primary`                            | `border-2 border-memphis shadow-memphis`                                                                                                                               | yes (active + data-[state=open]) |
+| `secondary`   | `bg-secondary`                          | `border-2 border-memphis shadow-memphis`                                                                                                                               | yes (active + data-[state=open]) |
+| `ghost`       | `bg-card`                               | `border-2 border-memphis`, primary-tinted shadow via `shadow-memphis-primary` (rest), `shadow-memphis-primary-hover` (hover), `shadow-memphis-primary-active` (active) | yes                              |
+| `destructive` | `bg-destructive`                        | `border-2 border-memphis shadow-memphis`                                                                                                                               | yes                              |
+| `outline`     | `bg-card`                               | `border-2 border-memphis`, no shadow                                                                                                                                   | **no press** (intentionally)     |
+| `link`        | `bg-transparent text-primary underline` | no border, no shadow                                                                                                                                                   | **no press** (intentionally)     |
 
 ### Sizes
 
@@ -134,11 +134,19 @@ consumer override last.**
    `outline` and `link` deliberately have **no** press, so they don't
    need this mirror — tests assert their absence.
 
-2. **`ghost` reuses the Memphis shadow stack with a recolored
-   shadow.** `[--memphis-shadow-color:var(--primary)]` is a per-instance
-   variable override; the `shadow-memphis` utility then resolves to a
-   primary-tinted shadow instead of black. This is a pattern other
-   "tinted-shadow" components can copy.
+2. **`ghost` paints a primary-tinted Memphis shadow via per-color
+   `@utility` blocks.** Rest uses `shadow-memphis-primary` (md tier,
+   `box-shadow: 6 6 0 var(--primary)`); hover uses
+   `shadow-memphis-primary-hover` (7 7 0 var(--primary)); active +
+   `data-[state=open]` uses `shadow-memphis-primary-active`
+   (2 2 0 var(--primary)). This replaces the previous broken recipe
+   `[--memphis-shadow-color:var(--primary)] shadow-memphis` which
+   inherited the var at the declaring element (`:root`) instead of the
+   consumer and therefore painted black regardless of override
+   (#58 / #66, fixed in PR #76). `ghost` is the only Button variant
+   that needs hover/active siblings because it's the only one whose
+   shadow color tracks an intent token instead of the default black.
+   See theming chapter Architecture #4.
 
 3. **`type` defaulting to `"button"`.** Without this default, a Button
    inside a `<form>` triggers submit on Enter. Always-explicit
@@ -189,10 +197,13 @@ Per-component runtime deps (for the future shadcn-CLI registry):
 
 ## Open questions
 
-1. The `ghost` variant tints the Memphis shadow via
-   `[--memphis-shadow-color:var(--primary)]`. Should this be promoted
-   to a documented "tinted shadow" recipe so other components can
-   adopt it consistently (e.g. for an info-tinted card hover)?
+1. **RESOLVED** (PR #76 / #66): the `ghost` variant's tinted Memphis
+   shadow now uses the per-color utility family
+   (`shadow-memphis-{intent}` plus the primary-only `-hover/-active`
+   siblings) defined in `theme.css`. The old recipe
+   `[--memphis-shadow-color:var(--primary)] shadow-memphis` was broken
+   at runtime (var-substitution at declaring element, not consumer).
+   Theming chapter Architecture #4 now documents the canonical recipe.
 2. `outline` and `link` skip the `data-[state=open]` mirror by design,
    but this means using them as a Radix Popper trigger gives no visual
    "open" affordance at all. Should `outline` get a subtle press, or

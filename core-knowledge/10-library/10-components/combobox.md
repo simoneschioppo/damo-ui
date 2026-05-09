@@ -1,6 +1,6 @@
 # Combobox
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/combobox/{combobox.tsx,index.ts}`.
 
 ## Summary
@@ -80,8 +80,13 @@ questions).
 ### Trigger styling
 
 Identical to Select trigger — same Memphis idiom, same focus shadow
-recipe (primary-tinted Memphis shadow). When no option is selected,
-`text-muted-foreground` mutes the placeholder text.
+recipe: `focus-visible:shadow-memphis-primary` (the per-color
+`@utility` block from `theme.css`, `box-shadow: 6 6 0 var(--primary)`).
+Replaces the previous broken `[--memphis-shadow-color:var(--primary)]
+shadow-memphis` recipe (#58 / #66, fixed in PR #76). See
+[Input](./input.md) chapter and theming chapter Architecture #4. When
+no option is selected, `text-muted-foreground` mutes the placeholder
+text.
 
 ### Item styling
 

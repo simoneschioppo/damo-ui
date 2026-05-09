@@ -1,6 +1,6 @@
 # DatePicker
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/date-picker/{date-picker.tsx,index.ts}`.
 
 ## Summary
@@ -85,11 +85,17 @@ bg-card border-2 border-memphis rounded-none
 transition-colors duration-fast cursor-pointer
 hover:bg-muted
 focus-visible:outline-none focus-visible:border-primary
-  focus-visible:[--memphis-shadow-color:var(--primary)]
-  focus-visible:shadow-memphis
+  focus-visible:shadow-memphis-primary
 disabled:opacity-50 disabled:pointer-events-none
 {!selected && 'text-muted-foreground'}
 ```
+
+`shadow-memphis-primary` is a per-color `@utility` block in
+`theme.css`. Replaces the previous broken
+`[--memphis-shadow-color:var(--primary)] shadow-memphis` recipe
+(#58 / #66, fixed in PR #76). Same recipe as Input, Textarea,
+Select, Combobox — see [Input](./input.md) and theming chapter
+Architecture #4.
 
 ### Calendar
 

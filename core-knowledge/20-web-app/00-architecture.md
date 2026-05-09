@@ -1,12 +1,14 @@
 # Web App Architecture
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: d0f212a · Sources:
 `apps/web/app/{layout.tsx,page.tsx,not-found.tsx,globals.css,styles/}`,
 `apps/web/{next.config.ts,tailwind.config.ts,package.json,components/,lib/}`,
 `apps/web/app/_components/`,
 `apps/web/i18n/{locales.ts,request.ts}`,
 `apps/web/messages/{en,it}.json`,
-`apps/web/lib/{i18n-tags.tsx,usePersistedLocale.ts}`.
+`apps/web/lib/{i18n-tags.tsx,usePersistedLocale.ts}`,
+`apps/web/public/{icons/source/favicon-source.svg,site.webmanifest,favicon*,apple-touch-icon.png,android-chrome-*.png}`,
+`apps/web/scripts/generate-icons.ts`.
 
 ## Summary
 
@@ -64,7 +66,19 @@ apps/web/
 │   ├── brand.ts              ← brand strings (lib name, tagline, mascot dimensions, repo URL)
 │   ├── i18n-tags.tsx         ← reusable t.rich() formatter tags (codeTag, monoTag, linkTag, …) + entity decoder
 │   └── usePersistedLocale.ts ← client hook: locale ↔ localStorage + cookie + <html lang> + data-locale
-├── public/                    ← static assets (mascot images)
+├── public/
+│   ├── mascot.png             ← header brand mark
+│   ├── mascot-hero.png        ← landing-page hero
+│   ├── favicon.ico            ← multi-res ICO (16/32/48 PNG-embedded)
+│   ├── favicon-{16x16,32x32}.png
+│   ├── apple-touch-icon.png   ← 180×180, white-flattened
+│   ├── android-chrome-{192x192,512x512}.png
+│   ├── site.webmanifest       ← hand-authored PWA manifest
+│   └── icons/source/favicon-source.svg ← single editable artefact
+├── scripts/
+│   ├── generate-icons.ts      ← sharp pipeline → PNG set + inline ICO encoder
+│   ├── to-ico.d.ts (removed; obsolete after inline-encoder switch)
+│   └── __tests__/icons-output.test.ts
 ├── test-utils/                ← Vitest helpers
 ├── next.config.ts             ← path aliases for @damo/ui resolution
 ├── tailwind.config.ts         ← v3-compat preset for legacy paths
@@ -307,6 +321,38 @@ final CSS.
 
 ## Root layout (`app/layout.tsx`)
 
+The layout exports two metadata objects consumed by Next 15's metadata
+API in addition to the JSX tree:
+
+```ts
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: `${BRAND.libName} — Memphis-inspired component library`,
+  description: BRAND.tagline,
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
+  manifest: '/site.webmanifest',
+}
+
+export const viewport: Viewport = {
+  themeColor: '#7a3980',
+}
+```
+
+Next 14 split `themeColor` out of `metadata` into a separate `viewport`
+export so the address-bar tint can change per route. The layout
+emits no manual `<link rel="icon">` / `<link rel="manifest">` or
+`<meta name="theme-color">` tags — Next renders them from these two
+exports.
+
 ```jsx
 export default async function RootLayout({ children }) {
   const locale = (await getLocale()) as Locale
@@ -395,6 +441,70 @@ Small set of presentational primitives used across the docs site:
 `sub-panel`, `token-swatch`, `tooltip-card`, `type-specimen`. Not
 re-exported from the lib; they exist purely for the docs/landing
 visual.
+
+## Branding assets — favicon pipeline
+
+Source-of-truth artefact: **`public/icons/source/favicon-source.svg`**.
+A 32×32 viewBox Memphis "D" — purple body
+(`#7a3980` = `--ink-500` = the docs palette's secondary brand color)
+on a white background, with a tilted gold square accent
+(`#c4942a` = `--brand-500`) and a 2 px black Memphis frame. Hand-authored;
+the only file a designer edits.
+
+A deterministic local pipeline at **`scripts/generate-icons.ts`** reads
+the SVG via `sharp` and emits the full set into `public/`:
+
+| Output                       | Use                                           | Method                                                            |
+| ---------------------------- | --------------------------------------------- | ----------------------------------------------------------------- |
+| `favicon-16x16.png`          | `<link rel="icon" sizes="16x16">`             | `sharp(svg, { density }).resize(16,16).png()`                     |
+| `favicon-32x32.png`          | `<link rel="icon" sizes="32x32">`             | same, 32 px                                                       |
+| `apple-touch-icon.png`       | `<link rel="apple-touch-icon">`               | 180 px, white-flattened (iOS rejects transparent backgrounds)     |
+| `android-chrome-192x192.png` | `site.webmanifest` icons[]                    | 192 px                                                            |
+| `android-chrome-512x512.png` | `site.webmanifest` icons[]                    | 512 px                                                            |
+| `favicon.ico`                | `<link rel="shortcut icon">` + `/favicon.ico` | inline ICO encoder embedding 16/32/48 PNG buffers (Vista+ format) |
+
+`density` is per-target capped at 1440 dpi (`Math.min(1440, Math.max(384, size * 5))`)
+to give sharp comfortable downsampling margin without blowing up
+intermediate raster size for the 512-px target.
+
+The ICO encoder is **inline** (~30 LOC) rather than via the `to-ico`
+package. Originally the spec used `to-ico`, but its transitive
+chain (`resize-img → jimp@0.2 → minimist/form-data/jpeg-js/url-regex`)
+carried four CRITICAL/HIGH CVEs that `pnpm audit --audit-level=high`
+flagged. Inlining the encoder eliminates the chain entirely; sharp
+itself doesn't write ICO so the alternative was either accept the
+CVEs (dev-time-only blast radius) or hand-roll. The hand-rolled
+encoder follows MSDN's PNG-in-ICO ICONDIRENTRY rules
+(`wPlanes` = 0, `wBitCount` = 0 for PNG entries; only width/height bytes
+and the 4-byte size + 4-byte offset are non-zero).
+
+The script is invoked manually via `pnpm --filter @damo/web run icons:generate`
+when the source SVG changes — generated assets are **committed**, not
+regenerated on every `next build`. Rationale:
+
+- Sharp ships native binaries; cold-start install on Vercel is
+  occasionally flappy on minor toolchain drift. Committing the bytes
+  keeps the deploy path independent of `sharp` install.
+- Sharp's resampling is not bit-stable across versions, so a strict
+  CI re-generate-and-diff guard would flap on dependency bumps.
+  Treating the SVG as input and the PNGs as committed output mirrors
+  how the lib treats fonts and the mascot art.
+
+`public/site.webmanifest` is hand-authored (not generated): a 30-line
+JSON file with `name`, `short_name`, two-icon `icons` array
+(192 + 512, both `purpose: "any"`), `theme_color: "#7a3980"`,
+`background_color: "#ffffff"`, `display: "standalone"`, `start_url: "/"`,
+`id: "/"`. The `id` field is required for stable Chrome PWA
+identity — without it, changing `start_url` would re-prompt users to
+reinstall.
+
+Wiring is via Next 15's `metadata.icons` + `metadata.manifest` +
+`metadataBase` + the separate `viewport.themeColor` export (see Root
+layout above). No manual `<link>` or `<meta>` tags anywhere in the
+app. The mascot art (`mascot.png` / `mascot-hero.png`) is unrelated to
+the favicon pipeline — the in-page brand mark is the mascot, the
+favicon is the simpler "D" letterform that resolves at 16×16 where
+the mascot's silhouette would muddle.
 
 ## Notes & gotchas
 

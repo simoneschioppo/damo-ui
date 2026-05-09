@@ -1,6 +1,6 @@
 # FeatureCard
 
-Status: documented · Last scan: 99227a4 · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/feature-card/{feature-card.tsx,index.ts,feature-card.test.tsx}`.
 
 ## Summary
@@ -9,9 +9,9 @@ Specialized highlight card — fixed `width: 280px` (now via `w-[280px]`
 className, smaller than ArticleCard's 420px). Title + description +
 optional bottom row with "meta" string and "icon". Memphis frame
 inherited from `<Card variant="featured">`, which provides the
-**primary-tinted shadow** (`--memphis-shadow-color: var(--primary)`)
-out of the box — theming the primary token re-tints this card
-automatically.
+**primary-tinted shadow** via the `shadow-memphis-primary` per-color
+`@utility` block (`box-shadow: 6 6 0 var(--primary)`) — theming the
+primary token re-tints this card automatically.
 
 > **As of gh-60**, FeatureCard composes `<Card variant="featured"
 padding="md" className="w-[280px]">` internally. Public API is
@@ -65,20 +65,22 @@ padding="md" className="w-[280px]">` internally. Public API is
 Card's `featured` variant emits:
 
 ```
-[--memphis-shadow-color:var(--primary)]
-border-2 border-memphis shadow-memphis rounded-none
+border-2 border-memphis shadow-memphis-primary rounded-none
 ```
 
-The `[--memphis-shadow-color:var(--primary)]` arbitrary utility sets
-the CSS custom property on the element; the `shadow-memphis` utility
-reads it via `var(--memphis-shadow-color)` baked into
-`--shadow-memphis`. Same per-instance variable override pattern used
-by Button's `ghost` and Dialog's `tone="danger"` — the only difference
-here is that FeatureCard has no neutral mode, the tint is permanent.
+`shadow-memphis-primary` is a per-color `@utility` block declared in
+`theme.css`: `box-shadow: 6 6 0 var(--primary)`. Same recipe family
+used by Button's `ghost` rest state and (with different tier/intent)
+by Dialog's `tone="danger"`, Toast variants, Banner variants.
 
-This recipe was previously inlined on FeatureCard's own `<div>`
-(`style={{ '--memphis-shadow-color': 'var(--primary)', boxShadow: 'var(--shadow-memphis-card)' }}`).
-Post-gh-60, Card owns it and FeatureCard inherits.
+This replaces two earlier broken iterations: an inline-style
+boxShadow override on FeatureCard's own `<div>`, and (post-gh-60 but
+pre-#66) a `[--memphis-shadow-color:var(--primary)] shadow-memphis`
+recipe on Card's `featured` variant which substituted the var at the
+declaring element (`:root`) instead of the consumer and rendered black
+regardless of override (#58 / #66, fixed in PR #76). FeatureCard
+itself doesn't carry any of this — it just composes `<Card
+variant="featured">` and inherits the corrected recipe.
 
 ### Footer row (meta + icon)
 
@@ -139,13 +141,14 @@ Tokens: `--card`, `--card-foreground`, `--memphis-border-color`,
 `--font-display`. No external runtime deps.
 
 For a single-file copy, replace `<Card variant="featured" padding="md">`
-with a `<div>` carrying the recipe inline:
+with a `<div>` carrying the recipe inline (relies on the per-color
+`@utility shadow-memphis-primary` block being declared in the
+consumer's `theme.css`):
 
 ```jsx
 <div
   className={cn(
-    '[--memphis-shadow-color:var(--primary)]',
-    'border-2 border-memphis shadow-memphis rounded-none',
+    'border-2 border-memphis shadow-memphis-primary rounded-none',
     'bg-card text-card-foreground p-5',
     'w-[280px]',
     className,

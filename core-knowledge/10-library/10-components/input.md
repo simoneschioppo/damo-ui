@@ -1,6 +1,6 @@
 # Input
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/input/{input.tsx,index.ts}`.
 
 ## Summary
@@ -35,12 +35,10 @@ border-2 border-memphis rounded-none
 transition-colors duration-fast
 hover:bg-muted
 focus-visible:outline-none focus-visible:border-primary
-  focus-visible:[--memphis-shadow-color:var(--primary)]
-  focus-visible:shadow-memphis
+  focus-visible:shadow-memphis-primary
 disabled:bg-muted disabled:text-muted-foreground disabled:pointer-events-none
 aria-invalid:border-destructive
-  aria-invalid:[--memphis-shadow-color:var(--destructive)]
-  aria-invalid:shadow-memphis
+  aria-invalid:shadow-memphis-destructive
 ```
 
 ## Notes & gotchas
@@ -50,13 +48,18 @@ aria-invalid:border-destructive
    used as a "this is the active field" affordance, not as a
    permanent depth effect.
 
-2. **Per-state shadow tinting.** The shadow color flips by overriding
-   `--memphis-shadow-color` per-state:
-   - focus → `var(--primary)`
-   - aria-invalid → `var(--destructive)`
-
-   This is the same pattern Button's `ghost` variant uses (see Button
-   chapter). Reusable as the lib's "tinted Memphis shadow" recipe.
+2. **Per-state shadow tinting via per-color `@utility` blocks.** Focus
+   paints `shadow-memphis-primary` (6 6 0 var(--primary));
+   `aria-invalid` paints `shadow-memphis-destructive` (6 6 0
+   var(--destructive)). Each utility lives in `theme.css` and bakes
+   the intent token directly into the `box-shadow` declaration. This
+   replaces the previous broken recipe
+   `[--memphis-shadow-color:var(--X)] shadow-memphis`, which
+   substituted the var at the declaring element (`:root`) instead of
+   the consumer and rendered black regardless of override
+   (#58 / #66, fixed in PR #76). Same pattern Button's `ghost`,
+   Toast / Banner variants, Card featured, Dialog danger use. See
+   theming chapter Architecture #4.
 
 3. **`focus-visible:outline-none`** is intentional. The Memphis shadow
    replaces the native focus ring as the focus indicator. This is the
@@ -76,14 +79,20 @@ aria-invalid:border-destructive
 
 ## How to consume (shadcn-style copy)
 
-Single file copy. No Radix dep. Tokens: standard set + the focus
-shadow recipe (handled inline via `[--memphis-shadow-color:…]`).
+Single file copy. No Radix dep. Tokens: standard set + the per-color
+`@utility shadow-memphis-{primary,destructive}` blocks must exist in
+the consumer's `theme.css` (see theming chapter Architecture #4 for
+the full taxonomy and the `cn.ts` `tailwind-merge` extension required
+to make consumer `shadow-none` overrides work).
 
 ## Open questions
 
-1. The "tinted Memphis shadow on focus/invalid" recipe is now used by
-   Input, Textarea, Select trigger, Combobox trigger — worth promoting
-   to a documented recipe in the theming chapter, or even a
-   `cn`-friendly helper (`memphisFocusShadow('primary')`).
+1. **RESOLVED** (PR #76 / #66): the focus/invalid tinted-shadow recipe
+   used by Input, Textarea, Select trigger, Combobox trigger,
+   DatePicker trigger now uses the per-color `@utility shadow-memphis-{intent}`
+   family from `theme.css`. The previous per-instance
+   `[--memphis-shadow-color:var(--X)]` recipe was broken at runtime
+   (var-substitution at declaring element, not consumer). Theming
+   chapter Architecture #4 is the canonical reference.
 2. No size variant. Most inputs end up needing `sm` for inline forms.
    Worth considering once usage patterns surface.

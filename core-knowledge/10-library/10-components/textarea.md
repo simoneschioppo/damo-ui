@@ -1,6 +1,6 @@
 # Textarea
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/textarea/{textarea.tsx,index.ts}`.
 
 ## Summary
@@ -35,13 +35,17 @@ border-2 border-memphis rounded-none
 transition-colors duration-fast
 hover:bg-muted
 focus-visible:outline-none focus-visible:border-primary
-  focus-visible:[--memphis-shadow-color:var(--primary)]
-  focus-visible:shadow-memphis
+  focus-visible:shadow-memphis-primary
 disabled:bg-muted disabled:text-muted-foreground disabled:pointer-events-none
 aria-invalid:border-destructive
-  aria-invalid:[--memphis-shadow-color:var(--destructive)]
-  aria-invalid:shadow-memphis
+  aria-invalid:shadow-memphis-destructive
 ```
+
+The `shadow-memphis-{primary,destructive}` utilities are per-color
+`@utility` blocks in `theme.css`. They replace the previous broken
+`[--memphis-shadow-color:var(--X)] shadow-memphis` recipe (#58 / #66,
+fixed in PR #76). See [Input](./input.md) for the full rationale and
+theming chapter Architecture #4 for the per-color taxonomy.
 
 ## Notes
 
@@ -60,6 +64,9 @@ Single file. Same considerations as Input.
 
 ## Open questions
 
-1. The duplicated focus-shadow recipe with Input/Select/Combobox is a
-   strong candidate for extraction (see Input Open question 1).
+1. **RESOLVED** (PR #76 / #66): the focus/invalid shadow recipe shared
+   with Input / Select / Combobox / DatePicker now uses the per-color
+   `@utility shadow-memphis-{intent}` family from `theme.css`. See
+   [Input](./input.md#open-questions) and theming chapter
+   Architecture #4.
 2. No max-height / min-height conventions — consumers handle.

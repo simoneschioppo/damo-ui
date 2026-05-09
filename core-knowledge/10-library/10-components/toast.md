@@ -1,6 +1,6 @@
 # Toast
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/toast/{toast.tsx,index.ts}`.
 
 ## Summary
@@ -8,8 +8,9 @@ Status: documented · Last scan: 27c8471 · Sources:
 Wrapper around `@radix-ui/react-toast` with the Memphis idiom (border
 
 - shadow) and 4 status-tinted variants (default / success / warning /
-  danger). The variant tinting uses the now-familiar pattern: `color-mix`
-  soft background **plus** the **tinted Memphis shadow** (`[--memphis-shadow-color:var(--<token>)]`).
+  danger). The variant tinting pairs a `color-mix` soft background
+  with the per-color `@utility shadow-memphis-{success,warning,destructive}`
+  tinted shadow (or the bare black `shadow-memphis` for `default`).
   Also includes a Viewport with responsive positioning (bottom-right on
   mobile, top-right on desktop) and standard Radix swipe-to-dismiss.
 
@@ -38,16 +39,13 @@ Wrapper around `@radix-ui/react-toast` with the Memphis idiom (border
 ### Variants — tinted background + tinted Memphis shadow
 
 ```
-default: bg-card text-foreground
+default: bg-card text-foreground shadow-memphis
 success: bg-[color-mix(in oklab, var(--success) 12%, var(--card))]
-         text-foreground
-         [--memphis-shadow-color:var(--success)]
+         text-foreground shadow-memphis-success
 warning: bg-[color-mix(in oklab, var(--warning) 12%, var(--card))]
-         text-foreground
-         [--memphis-shadow-color:var(--warning)]
+         text-foreground shadow-memphis-warning
 danger:  bg-[color-mix(in oklab, var(--destructive) 12%, var(--card))]
-         text-foreground
-         [--memphis-shadow-color:var(--destructive)]
+         text-foreground shadow-memphis-destructive
 ```
 
 Two visual layers tint together:
@@ -55,11 +53,25 @@ Two visual layers tint together:
 1. **Background**: 12% of intent token mixed into `--card` — soft
    surface (lighter mix than Chip's 28%, because Toast is a denser
    surface and needs higher legibility).
-2. **Memphis shadow**: per-variant override of `--memphis-shadow-color`
-   — same recipe as Button's ghost variant, Input's focus shadow,
-   Dialog's danger tone.
+2. **Memphis shadow**: per-variant tinted utility (`shadow-memphis-{intent}`)
+   from `theme.css`, `box-shadow: 6 6 0 var(--<intent>)`. Same recipe
+   family used by Button's `ghost`, Banner variants, Card featured,
+   Dialog danger (lg tier).
 
-This is the lib's most elaborate tinted-Memphis-shadow application:
+The shadow class lives **on the variant**, not on the cva base, so
+each variant emits exactly one `shadow-memphis*` utility — no
+stacking of black `shadow-memphis` + tinted `shadow-memphis-{intent}`
+on the same element (which would let CSS source order or
+`tailwind-merge` decide, neither robust for custom utilities). See
+theming chapter Architecture #4 for the per-color taxonomy.
+
+This replaces the previous broken recipe (base `shadow-memphis` +
+per-variant `[--memphis-shadow-color:var(--<intent>)]` override),
+which substituted the var at the declaring element (`:root`) instead
+of the consumer and rendered black regardless of override
+(#58 / #66, fixed in PR #76).
+
+This is still the lib's most elaborate tinted-Memphis application:
 both inside (background) and outside (shadow color) of the card
 share the intent hue.
 
@@ -67,7 +79,7 @@ share the intent hue.
 
 ```
 group pointer-events-auto relative flex w-full items-start gap-3 overflow-hidden
-p-4 border-2 border-memphis shadow-memphis rounded-none
+p-4 border-2 border-memphis rounded-none
 data-[state=open]:animate-in data-[state=open]:slide-in-from-top-full
   sm:data-[state=open]:slide-in-from-bottom-full
 data-[state=closed]:animate-out data-[state=closed]:fade-out-80
@@ -75,6 +87,10 @@ data-[state=closed]:animate-out data-[state=closed]:fade-out-80
 data-[swipe=move]:transition-none data-[swipe=cancel]:translate-x-0
 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)]
 ```
+
+Note: `shadow-memphis*` is **not** in the base — each variant adds
+its own (default = `shadow-memphis`, others =
+`shadow-memphis-{intent}`). See Variants above.
 
 Swipe gestures use Radix's `--radix-toast-swipe-end-x` CSS variable
 to translate the toast as it dismisses.

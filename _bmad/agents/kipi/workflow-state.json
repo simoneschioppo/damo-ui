@@ -99,10 +99,41 @@
       "processed": []
     },
     "update": {
-      "queued": [
+      "queued": [],
+      "runs": [
+        {
+          "kind": "content-update",
+          "gh_issue": 78,
+          "gh_pr": 89,
+          "chapters": ["20-web-app/00-architecture.md"],
+          "details": {
+            "20-web-app/00-architecture.md": {
+              "paths": [
+                "apps/web/app/layout.tsx",
+                "apps/web/public/icons/source/favicon-source.svg",
+                "apps/web/public/site.webmanifest",
+                "apps/web/public/favicon.ico",
+                "apps/web/public/favicon-16x16.png",
+                "apps/web/public/favicon-32x32.png",
+                "apps/web/public/apple-touch-icon.png",
+                "apps/web/public/android-chrome-192x192.png",
+                "apps/web/public/android-chrome-512x512.png",
+                "apps/web/scripts/generate-icons.ts",
+                "apps/web/package.json"
+              ],
+              "old_sha": "27c8471",
+              "new_sha": "d0f212a",
+              "edits": "Header bump (last_scan 27c8471 -> d0f212a). Sources extended with `apps/web/public/{icons/source/favicon-source.svg,site.webmanifest,favicon*,apple-touch-icon.png,android-chrome-*.png}` and `apps/web/scripts/generate-icons.ts`. Top-level layout tree: replaced 'static assets (mascot images)' line with full `public/` listing + new `scripts/` block. Root layout section: prepended a `metadata` (icons + manifest + metadataBase) and `viewport` (themeColor) export block ahead of the JSX, with prose noting Next 14's themeColor split. Added new section 'Branding assets — favicon pipeline' between Top-level shared components and Notes & gotchas: documents the source SVG (Memphis 'D' purple/gold/black contract), the deterministic sharp + inline-ICO pipeline (per-target density cap, MSDN-compliant ICONDIRENTRY), the rationale for inlining the encoder vs `to-ico` (CVE chain), and the rationale for committing generated PNGs vs regenerating on every build."
+            }
+          },
+          "decision_no_new_chapter": "Spec floated `20-web-app/40-branding-assets.md` as a possible new chapter. Folded under 00-architecture instead: the favicon pipeline is ~150 LOC and the manifest is 30 lines of JSON — no precedent for branding-only sub-chapters in the existing layout. Adding one would create a tiny chapter that mostly duplicates the Root layout's metadata wiring.",
+          "queued_at": "2026-05-09T12:15:00+00:00",
+          "completed_at": "2026-05-09T12:40:00+00:00"
+        },
         {
           "kind": "content-update",
           "gh_issue": 66,
+          "gh_pr": 76,
           "chapters": [
             "10-library/20-theming/README.md",
             "10-library/10-components/button.md",
@@ -117,25 +148,83 @@
             "10-library/10-components/banner.md",
             "10-library/10-components/dialog.md"
           ],
-          "paths": [
-            "packages/ui/src/styles/theme.css",
-            "packages/ui/src/lib/cn.ts",
-            "packages/ui/src/components/button/button.variants.ts",
-            "packages/ui/src/components/card/card.variants.ts",
-            "packages/ui/src/components/input/input.tsx",
-            "packages/ui/src/components/textarea/textarea.tsx",
-            "packages/ui/src/components/select/select.tsx",
-            "packages/ui/src/components/combobox/combobox.tsx",
-            "packages/ui/src/components/date-picker/date-picker.tsx",
-            "packages/ui/src/components/toast/toast.tsx",
-            "packages/ui/src/components/banner/banner.variants.ts",
-            "packages/ui/src/components/dialog/dialog.tsx"
-          ],
-          "summary": "Per-instance Memphis tinted-shadow recipe restored via per-color @utility blocks. Replaced the broken `[--memphis-shadow-color:var(--X)] shadow-memphis` recipe (substituted at :root, ignored by per-instance overrides) with `shadow-memphis-{primary|success|warning|destructive|info}` (md tier), `shadow-memphis-lg-destructive` (lg tier for Dialog danger), plus `shadow-memphis-primary-{hover,active}` for Button ghost interactive states. cn.ts now registers all Memphis shadow utilities with `extendTailwindMerge` so consumer-supplied `shadow-none` / cross-tier overrides collapse correctly.",
-          "queued_at": "2026-05-09T08:00:00+00:00"
-        }
-      ],
-      "runs": [
+          "details": {
+            "10-library/20-theming/README.md": {
+              "paths": ["packages/ui/src/styles/theme.css", "packages/ui/src/lib/cn.ts"],
+              "old_sha": "43a7a02",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan and added `cn.ts` to Sources. Token taxonomy: extended the 'Memphis tier' bullet with a note that per-color tinted variants don't read --memphis-shadow-color. Internal architecture (Layer 2 / theme.css): replaced the parked-#66 'broken at runtime' bullet (#4) with a full description of the per-color @utility family — names, declarations (md tier × 5 intents, lg-destructive, primary-hover/active for Button ghost), the substitution-time fix rationale, the roster-asymmetry foot-gun warning, and the theme-generator decoupling. Added new bullet (#5) on cn.ts's `extendTailwindMerge` registration of all 14 Memphis shadow utilities in the `shadow` conflict group, and why this is load-bearing for consumer `shadow-none` overrides. Renumbered the trailing --text and density bullets to 6/7. Invariants & gotchas #2 reworked: removed the 'do not add tinted shadow utilities' warning, replaced with 'must also register in cn.ts' instruction."
+            },
+            "10-library/10-components/button.md": {
+              "paths": ["packages/ui/src/components/button/button.variants.ts"],
+              "old_sha": "d63afaf",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Variants table (Ghost row): replaced 'shadow uses --primary as memphis color' with the explicit per-color utility chain: shadow-memphis-primary (rest), shadow-memphis-primary-hover (hover), shadow-memphis-primary-active (active). Invariants #2 rewritten: now describes the per-color @utility recipe, references theming chapter Architecture #4, and notes Ghost is the only variant with hover/active siblings. Open question #1 marked RESOLVED."
+            },
+            "10-library/10-components/card.md": {
+              "paths": ["packages/ui/src/components/card/card.variants.ts"],
+              "old_sha": "99227a4",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Variants table (featured row): swapped `[--memphis-shadow-color:var(--primary)]` for `shadow-memphis-primary`. Internal architecture (`featured` variant): replaced the broken recipe + per-instance var override prose with the per-color @utility description + explicit cross-link to the FeatureCard inheritance. How-to-consume tokens: extended note that `@utility shadow-memphis-primary` must exist in consumer's theme.css."
+            },
+            "10-library/10-components/feature-card.md": {
+              "paths": ["packages/ui/src/components/feature-card/feature-card.tsx"],
+              "old_sha": "99227a4",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Summary: replaced var-based primary-tinted-shadow description with the per-color utility (shadow-memphis-primary, 6 6 0 var(--primary)). Internal architecture / Primary-tinted shadow recipe: rewritten to describe both prior broken iterations (inline-style, then [--memphis-shadow-color] arbitrary utility) and the post-#66 fix path (Card's featured variant inherits shadow-memphis-primary). Single-file fallback in How-to-consume: removed `[--memphis-shadow-color:var(--primary)]` from the cn() snippet, replaced with `shadow-memphis-primary`."
+            },
+            "10-library/10-components/dialog.md": {
+              "paths": ["packages/ui/src/components/dialog/dialog.tsx"],
+              "old_sha": "27c8471",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Tone='danger' section: replaced single-class `[--memphis-shadow-color:var(--destructive)]` recipe with the conditional class swap shadow-memphis-lg-destructive vs shadow-memphis-lg. Removed the 'Recipe caveat (open issue #58)' callout. Content positioning code block: removed `shadow-memphis-lg` from the literal class list and replaced with a placeholder noting the conditional swap on tone."
+            },
+            "10-library/10-components/toast.md": {
+              "paths": ["packages/ui/src/components/toast/toast.tsx"],
+              "old_sha": "27c8471",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Summary: replaced `[--memphis-shadow-color:var(--<token>)]` mention with the per-color @utility shadow-memphis-{success,warning,destructive} description. Variants block: rewrote each variant's class fragment (default = shadow-memphis on the variant itself; the others = shadow-memphis-{intent}) and added prose explaining why the base no longer carries shadow-memphis (mutual-exclusion via cva variant rather than per-instance override). Base Toast classes: removed shadow-memphis from the cva base; added inline note pointing back to Variants. Cross-links to theming chapter Architecture #4."
+            },
+            "10-library/10-components/banner.md": {
+              "paths": ["packages/ui/src/components/banner/banner.variants.ts"],
+              "old_sha": "27c8471",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Variants table: 'Shadow' column renamed 'Shadow utility'; values changed from prose ('tinted --info') to actual class names (shadow-memphis-info, shadow-memphis-success, shadow-memphis-warning, shadow-memphis-destructive). Added prose paragraph below the table describing the per-color @utility family, the variant-not-base placement, the cross-component recipe family, and the #58/#66 fix history. Layout block: removed shadow-memphis from cva base, added clarifying note. How-to-consume tokens line extended with the @utility requirement."
+            },
+            "10-library/10-components/input.md": {
+              "paths": ["packages/ui/src/components/input/input.tsx"],
+              "old_sha": "d63afaf",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Always-applied classes block: replaced [--memphis-shadow-color:…] + shadow-memphis pairs with shadow-memphis-primary (focus) and shadow-memphis-destructive (aria-invalid). Notes & gotchas #2 reworked: per-state recipe described in terms of the per-color @utility blocks, not custom-property overrides. How-to-consume: noted the per-color @utility requirement and the cn.ts tailwind-merge extension. Open question #1 marked RESOLVED."
+            },
+            "10-library/10-components/textarea.md": {
+              "paths": ["packages/ui/src/components/textarea/textarea.tsx"],
+              "old_sha": "d63afaf",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Always-applied classes: same per-color utility swap as Input. Added explanatory paragraph below the code block referencing #58/#66 and theming chapter Architecture #4. Open question #1 marked RESOLVED."
+            },
+            "10-library/10-components/select.md": {
+              "paths": ["packages/ui/src/components/select/select.tsx"],
+              "old_sha": "d63afaf",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Trigger classes: focus-visible state swap to shadow-memphis-primary. Below code block: added prose paragraph referencing #58/#66 and the recipe family."
+            },
+            "10-library/10-components/combobox.md": {
+              "paths": ["packages/ui/src/components/combobox/combobox.tsx"],
+              "old_sha": "27c8471",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Trigger styling: prose updated to name the per-color @utility (shadow-memphis-primary) explicitly and reference #58/#66 + theming chapter Architecture #4."
+            },
+            "10-library/10-components/date-picker.md": {
+              "paths": ["packages/ui/src/components/date-picker/date-picker.tsx"],
+              "old_sha": "27c8471",
+              "new_sha": "c38c933",
+              "edits": "Header: bumped Last scan. Trigger classes: focus-visible swap to shadow-memphis-primary. Added explanatory paragraph below the code block referencing the recipe family."
+            }
+          },
+          "queued_at": "2026-05-09T08:00:00+00:00",
+          "completed_at": "2026-05-09T12:40:00+00:00"
+        },
         {
           "kind": "content-update",
           "gh_issue": 61,
@@ -423,7 +512,7 @@
     "10-library/10-components/button.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/button/"]
     },
     "10-library/10-components/icon-button.md": {
@@ -471,13 +560,13 @@
     "10-library/10-components/input.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/input/"]
     },
     "10-library/10-components/textarea.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/textarea/"]
     },
     "10-library/10-components/checkbox.md": {
@@ -501,13 +590,13 @@
     "10-library/10-components/select.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "d63afaf",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/select/"]
     },
     "10-library/10-components/combobox.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "e53c5be",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/combobox/"]
     },
     "10-library/10-components/slider.md": {
@@ -537,7 +626,7 @@
     "10-library/10-components/date-picker.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "e53c5be",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/date-picker/"]
     },
     "10-library/10-components/form-field.md": {
@@ -555,7 +644,7 @@
     "10-library/10-components/dialog.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "e53c5be",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/dialog/"]
     },
     "10-library/10-components/drawer.md": {
@@ -594,7 +683,7 @@
     "10-library/10-components/toast.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "e53c5be",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/toast/"]
     },
     "10-library/10-components/box.md": {
@@ -684,7 +773,7 @@
     "10-library/10-components/card.md": {
       "status": "documented",
       "tier": "FULL",
-      "last_scan_sha": "99227a4",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/card/"]
     },
     "10-library/10-components/article-card.md": {
@@ -696,7 +785,7 @@
     "10-library/10-components/feature-card.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "99227a4",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/feature-card/"]
     },
     "10-library/10-components/user-card.md": {
@@ -726,7 +815,7 @@
     "10-library/10-components/banner.md": {
       "status": "documented",
       "tier": "STANDARD",
-      "last_scan_sha": "e53c5be",
+      "last_scan_sha": "c38c933",
       "sources": ["packages/ui/src/components/banner/"]
     },
     "10-library/10-components/medal.md": {
@@ -761,13 +850,14 @@
     },
     "10-library/20-theming/README.md": {
       "status": "documented",
-      "last_scan_sha": "43a7a02",
+      "last_scan_sha": "c38c933",
       "sources": [
         "packages/ui/tailwind.preset.ts",
         "packages/ui/src/styles/tokens.css",
         "packages/ui/src/styles/theme.css",
         "packages/ui/src/styles/globals.css",
-        "packages/ui/src/styles/contrast-utils.ts"
+        "packages/ui/src/styles/contrast-utils.ts",
+        "packages/ui/src/lib/cn.ts"
       ]
     },
     "10-library/30-build-and-publish/README.md": {
@@ -793,7 +883,7 @@
     },
     "20-web-app/00-architecture.md": {
       "status": "documented",
-      "last_scan_sha": "e53c5be",
+      "last_scan_sha": "d0f212a",
       "sources": [
         "apps/web/app/layout.tsx",
         "apps/web/app/page.tsx",
@@ -803,7 +893,10 @@
         "apps/web/tailwind.config.ts",
         "apps/web/components/",
         "apps/web/lib/",
-        "apps/web/app/_components/"
+        "apps/web/app/_components/",
+        "apps/web/public/icons/source/favicon-source.svg",
+        "apps/web/public/site.webmanifest",
+        "apps/web/scripts/generate-icons.ts"
       ]
     },
     "20-web-app/10-docs-site/README.md": {

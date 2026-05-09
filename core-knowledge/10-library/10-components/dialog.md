@@ -1,6 +1,6 @@
 # Dialog
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/dialog/{dialog.tsx,index.ts,dialog.test.tsx}`.
 
 > **Note.** A separate `alert-dialog/` component existed historically
@@ -67,37 +67,35 @@ The X button is also hidden in alert mode (`!hideClose && !isAlert`)
 
 ### Tone = 'danger'
 
-A single class:
+Conditional class swap on the lg shadow:
 
 ```
-[--memphis-shadow-color:var(--destructive)]
+tone === 'danger' ? 'shadow-memphis-lg-destructive' : 'shadow-memphis-lg'
 ```
 
-This recolors the Memphis offset shadow to destructive red. Same
-"tinted Memphis shadow" recipe used by Button's `ghost` variant and
-Input's invalid state. Tone is **orthogonal** to severity — an
-alert dialog can be danger-toned (irreversible delete) or
-default-toned (confirmation), and a default-severity dialog can be
-danger-toned (error report).
+`shadow-memphis-lg-destructive` is a per-color `@utility` block
+declared in `theme.css`: `box-shadow: 9 9 0 var(--destructive)`. Same
+recipe family used by Button's `ghost` (md tier × primary) and
+Toast / Banner / Card featured (md tier × intent). Tone is
+**orthogonal** to severity — an alert dialog can be danger-toned
+(irreversible delete) or default-toned (confirmation), and a
+default-severity dialog can be danger-toned (error report).
 
-> **Recipe caveat (open issue #58).** The per-instance
-> `[--memphis-shadow-color:var(--X)]` override sets the CSS custom
-> property on the consuming element, but `var()` references inside
-> `--shadow-memphis-lg` (declared in `tokens.css` as `<x y z var(--memphis-shadow-color)>`)
-> are substituted **at the declaring element**, not the consuming
-> one. Browsers therefore resolve the inner `var(--memphis-shadow-color)`
-> against `:root`, ignoring the local override. Visually the danger
-> tone falls back to the default Memphis shadow color. Closing the
-> gap requires per-color `@utility` blocks or inline shadow
-> construction, tracked in #58 and #66 (parked — Tailwind v4 strips
-> custom rules outside known namespaces).
+This replaces the previous broken recipe
+`[--memphis-shadow-color:var(--destructive)]` (a per-instance custom
+property override on top of the inherited `--shadow-memphis-lg`),
+which substituted the var at the declaring element (`:root`) instead
+of the consumer and rendered black regardless of override
+(#58 / #66, fixed in PR #76). See theming chapter Architecture #4
+for the full taxonomy of per-color utilities.
 
 ### Content positioning
 
 ```
 fixed left-1/2 top-1/2 z-modal -translate-x-1/2 -translate-y-1/2
 w-full max-w-lg bg-card text-foreground
-border-2 border-memphis shadow-memphis-lg rounded-none
+border-2 border-memphis rounded-none
+[shadow-memphis-lg-destructive when tone='danger', else shadow-memphis-lg]
 p-6 flex flex-col gap-4
 focus:outline-none
 ```
