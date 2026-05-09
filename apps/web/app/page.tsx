@@ -14,7 +14,9 @@ const STYLES_SNIPPET = `@import 'tailwindcss';
 
 const RENDER_SNIPPET = `import { Button } from 'damo-ui'
 
-export const Page = () => <Button>Save</Button>`
+export function Page() {
+  return <Button>Save</Button>
+}`
 
 export default async function HomePage() {
   const t = await getTranslations('home')
