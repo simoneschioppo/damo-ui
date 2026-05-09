@@ -8,7 +8,7 @@ const TONE_OPTIONS = [
 
 const PALETTE_OPTIONS = [
   { value: 'plum', label: 'Plum' },
-  { value: 'neon', label: 'Neon' },
+  { value: 'cyberpunk', label: 'Cyberpunk' },
   { value: 'sunset', label: 'Sunset' },
 ]
 

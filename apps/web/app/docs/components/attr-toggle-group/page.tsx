@@ -27,7 +27,7 @@ const SELECT_SNIPPET = `<AttrToggleGroup
   variant="select"
   options={[
     { value: 'plum', label: 'Plum' },
-    { value: 'neon', label: 'Neon' },
+    { value: 'cyberpunk', label: 'Cyberpunk' },
     { value: 'sunset', label: 'Sunset' },
   ]}
   storageKey="docs-palette"
@@ -138,7 +138,7 @@ export default async function AttrToggleGroupDocsPage() {
           variant="select"
           options={[
             { value: 'plum', label: 'Plum' },
-            { value: 'neon', label: 'Neon' },
+            { value: 'cyberpunk', label: 'Cyberpunk' },
             { value: 'sunset', label: 'Sunset' },
           ]}
           storageKey="docs-palette"

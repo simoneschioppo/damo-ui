@@ -6,10 +6,17 @@
  * layer that re-skins the lib in the Memphis "ink + brand" identity.
  *
  * Structure:
- *   :root, :root[data-theme='light']  → light values (default)
- *   :root[data-theme='dark']          → dark values (full re-declaration)
- *   :root[data-palette='neon']        → raw palette overrides (orthogonal to theme)
- *   :root[data-palette='sunset']      → raw palette overrides
+ *   :root, :root[data-theme='light']                 → light values (default)
+ *   :root[data-theme='dark']                         → dark values (full re-declaration)
+ *   :root[data-palette='sunset']                     → raw palette overrides (orthogonal to theme)
+ *   :root[data-palette='cyberpunk']                  → raw palette overrides
+ *   :root[data-palette='forest']                     → raw palette overrides
+ *   :root[data-palette='cyberpunk']:not([data-theme='dark']) → light-only override (gh-93)
+ *   :root[data-theme='dark'][data-palette='sunset']  → mode+palette override (gh-93)
+ *
+ * Palette and palette+theme blocks must be declared AFTER the dark block —
+ * specificity ties (0,1,0 / 0,2,0 vs. 0,1,0 of the dark block) but later
+ * source order wins, which is what we want.
  *
  * Consumers of the lib who want this theme can copy this file into
  * their own app. The /theme-generator page can also produce custom
@@ -165,23 +172,6 @@
   --medal-master-outer: var(--paper-50);
 }
 
-/* ── Palette: Neon (magenta + lime) ─────────────────────── */
-
-:root[data-palette='neon'] {
-  --ink-100: #f8c8e7;
-  --ink-300: #e26dbb;
-  --ink-500: #b01680;
-  --ink-700: #491a40;
-  --ink-800: #321029;
-  --ink-900: #1f0819;
-
-  --brand-100: #e3facb;
-  --brand-200: #ccf2a6;
-  --brand-300: #b4ea7e;
-  --brand-400: #9be04a;
-  --brand-500: #7fd321;
-}
-
 /* ── Palette: Sunset (terracotta + warm orange) ─────────── */
 
 :root[data-palette='sunset'] {
@@ -197,6 +187,67 @@
   --brand-300: #ffbb75;
   --brand-400: #fda047;
   --brand-500: #f58a1e;
+}
+
+/* ── Palette: Cyberpunk (electric violet + neon amber) ─── */
+
+/*
+ * gh-93: replaces the old "Neon" preset.
+ */
+:root[data-palette='cyberpunk'] {
+  --ink-100: #f0d4ff;
+  --ink-300: #b388ff;
+  --ink-500: #7c4dff;
+  --ink-700: #3d1c75;
+  --ink-800: #2a1052;
+  --ink-900: #170731;
+
+  --brand-100: #fff4b3;
+  --brand-200: #ffe57a;
+  --brand-300: #ffd740;
+  --brand-400: #ffc107;
+  --brand-500: #ffab00;
+}
+
+/*
+ * Light-only semantic override (gh-93 review HIGH-2).
+ * The vivid amber `--brand-500: #ffab00` fails WCAG AA against white text
+ * (~1.97 ratio). Override `--primary-foreground` to ink.900 (~12.96 ratio).
+ * Scoped to NOT match dark — the dark block already sets the same value
+ * via the canonical mapping, but keeping this override light-only prevents
+ * a future dark-default change from being silently negated here.
+ */
+:root[data-palette='cyberpunk']:not([data-theme='dark']) {
+  --primary-foreground: var(--ink-900);
+}
+
+/* ── Palette: Forest (deep green + warm amber) ──────────── */
+
+:root[data-palette='forest'] {
+  --ink-100: #d6ead2;
+  --ink-300: #8cbf85;
+  --ink-500: #2f6b3b;
+  --ink-700: #1d4226;
+  --ink-800: #14301c;
+  --ink-900: #0c1f12;
+
+  --brand-100: #fde6b8;
+  --brand-200: #f7d28a;
+  --brand-300: #f0bb55;
+  --brand-400: #e6a02e;
+  --brand-500: #a8590e;
+}
+
+/* ── Palette × theme: Sunset dark border (gh-93) ────────── */
+
+/*
+ * Sunset's terracotta dark surfaces let a black memphis frame breathe.
+ * The gh-91 dark default lifted `--memphis-border-color` to `#cccccc`
+ * for plum/gold contrast — Sunset opts back to black. Specificity (0,2,0)
+ * reliably wins over both the dark block and the palette block.
+ */
+:root[data-theme='dark'][data-palette='sunset'] {
+  --memphis-border-color: #000000;
 }
 
 /* ── Reduced motion ──────────────────────────────────────── */
