@@ -10,6 +10,12 @@
     "scan": {
       "processed": [
         {
+          "path": ".github/workflows/ + .npmrc",
+          "sha": "e089383",
+          "chapter": "30-cross-cutting/10-ci-cd.md",
+          "completed_at": "2026-05-09T12:50:00+00:00"
+        },
+        {
           "path": "packages/ui/src/styles/ + packages/ui/tailwind.preset.ts",
           "sha": "d63afaf",
           "chapter": "10-library/20-theming/README.md",
@@ -959,8 +965,9 @@
       ]
     },
     "30-cross-cutting/10-ci-cd.md": {
-      "status": "pending",
-      "sources": [".github/"]
+      "status": "documented",
+      "last_scan_sha": "e089383",
+      "sources": [".github/workflows/ci.yml", ".github/workflows/publish.yml", ".npmrc"]
     },
     "30-cross-cutting/15-e2e.md": {
       "status": "documented",

@@ -36,8 +36,8 @@ Status legend: 🟢 documented · 🟡 pending · 🔴 outdated
 ## 30 — Cross-cutting
 
 - 🟡 [Tooling](30-cross-cutting/00-tooling.md)
-- 🟡 [CI / CD](30-cross-cutting/10-ci-cd.md)
-- 🟡 [End-to-end tests](30-cross-cutting/15-e2e.md)
+- 🟢 [CI / CD](30-cross-cutting/10-ci-cd.md)
+- 🟢 [End-to-end tests](30-cross-cutting/15-e2e.md)
 - 🟡 [Conventions](30-cross-cutting/20-conventions.md)
 - 🟡 [Publication readiness](30-cross-cutting/30-publication-readiness.md)
 
