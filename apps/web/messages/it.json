@@ -65,8 +65,8 @@
   },
   "home": {
     "eyebrow": "DOCUMENTAZIONE",
-    "headlineLine1": "Componenti, token,",
-    "headlineLine2": "pattern Memphis.",
+    "headlineLine1": "Memphis kit",
+    "headlineLine2": "per React.",
     "leadSuffix": "Componi UI React + Next.js senza rinunciare all'identità visiva.",
     "browseDocs": "Vai alla docs",
     "openThemeGenerator": "Apri Theme Generator",
