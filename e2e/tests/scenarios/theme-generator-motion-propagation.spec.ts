@@ -141,10 +141,7 @@ test.describe('AC-1 — Theme generator motion durations propagate to consumers'
       // a11y collapse. The home / landing page is the simplest target.
       await page.goto('/')
 
-      await expect(page.locator('html')).not.toHaveAttribute(
-        'data-motion-preview',
-        /.*/,
-      )
+      await expect(page.locator('html')).not.toHaveAttribute('data-motion-preview', /.*/)
 
       // Pick any element with a transition utility on this page (Button has
       // `transition-[…] duration-snap`). Mutate the var; verify the a11y

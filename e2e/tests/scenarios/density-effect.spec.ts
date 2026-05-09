@@ -31,7 +31,8 @@ test.describe('Density picker affects rendered spacing', () => {
     await page.getByRole('button', { name: 'Display settings' }).click()
     // Density AttrToggleGroup uses segmented buttons inside the popover.
     await page.getByRole('button', { name }).click()
-    const expected = name === 'Compact' ? 'compact' : name === 'Comfortable' ? 'comfortable' : 'normal'
+    const expected =
+      name === 'Compact' ? 'compact' : name === 'Comfortable' ? 'comfortable' : 'normal'
     await expect(page.locator('html')).toHaveAttribute('data-density', expected)
     // Close the popover so it doesn't overlap the measurement target.
     await page.keyboard.press('Escape')

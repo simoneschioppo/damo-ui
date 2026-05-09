@@ -107,5 +107,17 @@ describe('TokenPreviewChip — issue #64', () => {
       const el = getByTestId('token-preview-chip-radius-sm')
       expect(el.style.marginRight).toBe('16px')
     })
+
+    it('radius chip aligns to the top of its header row (not the centre)', () => {
+      const { getByTestId } = render(<TokenPreviewChip variant="radius" tokenKey="sm" />)
+      const el = getByTestId('token-preview-chip-radius-sm')
+      expect(el.style.alignSelf).toBe('flex-start')
+    })
+
+    it('radius chip has bottom margin so it does not weld to the slider below', () => {
+      const { getByTestId } = render(<TokenPreviewChip variant="radius" tokenKey="sm" />)
+      const el = getByTestId('token-preview-chip-radius-sm')
+      expect(el.style.marginBottom).toBe('8px')
+    })
   })
 })

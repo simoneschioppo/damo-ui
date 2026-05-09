@@ -132,9 +132,7 @@ export default async function TokensFoundationPage() {
       <Code code={RAW_SNIPPET} lang="css" title="raw" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('section2.title')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('section2.body', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('section2.body', { mono: monoTag })}</p>
       <Code code={SEMANTIC_SNIPPET} lang="css" title="semantic" />
 
       <h3 className="font-display text-lg mb-3 mt-8">{t('section2.consumingTitle')}</h3>
@@ -144,25 +142,19 @@ export default async function TokensFoundationPage() {
       <Code code={SEMANTIC_INLINE} lang="tsx" title="JSX · inline style" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('section3.title')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('section3.body', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('section3.body', { mono: monoTag })}</p>
       <Code code={IDENTITY_SNIPPET} lang="css" title="identity" />
 
       <h3 className="font-display text-lg mb-3 mt-8">{t('section3.addingCustomTitle')}</h3>
       <Code code={NEW_IDENTITY_TOKEN} lang="css" title="define + theme + consume" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('overrideTitle')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('overrideBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('overrideBody', { mono: monoTag })}</p>
       <Code code={OVERRIDE_ROOT} lang="css" title="root override" />
       <Code code={OVERRIDE_SCOPED} lang="css" title="scoped override" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('densityTitle')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('densityBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('densityBody', { mono: monoTag })}</p>
       <Code code={DENSITY_USAGE} lang="css" title="density-scale-y in product CSS" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('switchingTitle')}</h2>

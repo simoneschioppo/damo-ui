@@ -31,9 +31,7 @@ export const DOCS_NAV: ReadonlyArray<DocsNavGroup> = [
   {
     key: 'gettingStarted',
     title: 'Getting Started',
-    entries: [
-      { slug: '/docs/getting-started', label: 'Introduction', labelKey: 'introduction' },
-    ],
+    entries: [{ slug: '/docs/getting-started', label: 'Introduction', labelKey: 'introduction' }],
   },
   {
     key: 'foundations',

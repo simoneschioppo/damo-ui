@@ -85,9 +85,7 @@ export default async function PatternsFoundationPage() {
       <p className="text-lg text-muted-foreground max-w-[60ch] mb-10">{t('lead')}</p>
 
       <h2 className="font-display text-2xl mb-3">{t('tilesTitle')}</h2>
-      <p className="text-foreground/80 mb-4">
-        {t.rich('tilesBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-4">{t.rich('tilesBody', { mono: monoTag })}</p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
         {PATTERNS.map((p) => (
           <PatternSwatch
@@ -103,15 +101,11 @@ export default async function PatternsFoundationPage() {
       </div>
 
       <h3 className="font-display text-lg mb-3 mt-8">{t('tilesCssTitle')}</h3>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('tilesCssBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('tilesCssBody', { mono: monoTag })}</p>
       <Code code={RAW_CSS_PATTERN} lang="css" title="raw CSS application" />
 
       <h2 className="font-display text-2xl mb-3 mt-12">{t('shapesTitle')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('shapesBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('shapesBody', { mono: monoTag })}</p>
 
       <Example code={SHAPE_BASIC} previewClassName="px-6 py-10 flex gap-4 flex-wrap items-center">
         <MemphisShape variant="diamond" size={64} color="var(--primary)" />
@@ -173,9 +167,7 @@ export default async function PatternsFoundationPage() {
       </div>
 
       <h3 className="font-display text-lg mb-3 mt-8">{t('decorationTitle')}</h3>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('decorationBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('decorationBody', { mono: monoTag })}</p>
       <Code code={SHAPE_AS_DECORATION} lang="tsx" title="JSX · decorative blob" />
 
       <h2 className="font-display text-2xl mb-3 mt-12">{t('oneAtATimeTitle')}</h2>

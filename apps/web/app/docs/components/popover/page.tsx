@@ -148,7 +148,11 @@ export default async function PopoverDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">Popover vs DropdownMenu vs Dialog</h2>
       <ul className="list-disc pl-6 space-y-2 text-foreground/85">
         <li>
-          {t.rich('componentDocs.popover.vsList.0', { code: codeTag, strong: strongTag, em: emTag })}
+          {t.rich('componentDocs.popover.vsList.0', {
+            code: codeTag,
+            strong: strongTag,
+            em: emTag,
+          })}
         </li>
         <li>
           {t.rich('componentDocs.popover.vsList.1', {
