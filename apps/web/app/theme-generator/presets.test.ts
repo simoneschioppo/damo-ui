@@ -76,6 +76,11 @@ describe('computeSemanticDark', () => {
     it('warning !== success (intent distinction)', () => {
       expect(sem.warning).not.toBe(sem.success)
     })
+
+    it('memphisShadowColor stays black; memphisBorderColor lifts to #cccccc (frame visibility on dark plum)', () => {
+      expect(sem.memphisShadowColor).toBe('#000000')
+      expect(sem.memphisBorderColor).toBe('#cccccc')
+    })
   })
 
   /**

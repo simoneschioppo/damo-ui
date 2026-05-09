@@ -140,10 +140,13 @@
   --border-strong: color-mix(in oklab, var(--paper-50) 22%, transparent);
   --ring: var(--brand-400);
 
-  /* Memphis identity stays solid black in dark mode so shadows remain
-     consistent with the theme-generator defaults (foundations ship a
-     `color: '#000000'` for every shadow size). Override per-mode in your
-     own theme if you want the inverse-coloured Memphis style. */
+  /* Memphis identity in dark:
+     - shadow stays solid black (consistent with foundation tokens that
+       ship `color: '#000000'` for every shadow size).
+     - border lifts to a light gray so the 2px Memphis frame stays visible
+       against dark plum surfaces — black borders disappeared into bg/card.
+     Override per-mode in your own theme if you want a different style. */
+  --memphis-border-color: #cccccc;
 
   --badge-featured: var(--brand-400);
   --badge-featured-foreground: var(--ink-900);
