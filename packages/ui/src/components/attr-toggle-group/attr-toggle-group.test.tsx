@@ -48,6 +48,26 @@ describe('AttrToggleGroup — segmented variant', () => {
     expect(frame.className).toContain('rounded-none')
   })
 
+  // Regression: a theme-generator edit on `--radius-none` (or any other
+  // override that gives the container a non-zero radius) used to leave
+  // the rectangular segmented buttons protruding past the rounded outline
+  // because nothing clipped them. `overflow-hidden` on the frame is the
+  // robust fix — buttons inherit the container's clip path regardless of
+  // the active radius value.
+  it('clips inner buttons to the rounded outline via overflow-hidden', () => {
+    const { container } = render(
+      <AttrToggleGroup
+        options={OPTIONS}
+        storageKey="attr-test"
+        attribute="data-attr-test"
+        defaultValue="alpha"
+      />,
+    )
+    const frame = container.querySelector('[role="group"]') as HTMLElement
+    expect(frame).not.toBeNull()
+    expect(frame.className).toContain('overflow-hidden')
+  })
+
   it('clicking a button mirrors the value onto the configured attribute', () => {
     render(
       <AttrToggleGroup
