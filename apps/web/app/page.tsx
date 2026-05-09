@@ -18,7 +18,7 @@ export default async function HomePage() {
             {t('eyebrow')}
           </div>
           <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-6">
-            {BRAND.libName} —
+            {BRAND.libName}
             <br />
             {t('headlineLine1')}
             <br />
@@ -51,8 +51,8 @@ export default async function HomePage() {
           <img
             src={BRAND.mascotHeroSrc}
             alt={brandT('mascotHeroAlt')}
-            width={320}
-            height={Math.round(320 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
+            width={440}
+            height={Math.round(440 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
             className="relative"
             style={{
               transform: 'rotate(-4deg)',
