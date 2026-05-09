@@ -1,5 +1,11 @@
 import { defineConfig, devices } from '@playwright/test'
 
+// Allow parallel git-worktree sessions to run their own dev server on a
+// distinct port without colliding with the main checkout's :3000 instance.
+// Override via `PW_PORT=3001` (or any free port). Defaults preserve CI behaviour.
+const PORT = process.env.PW_PORT ?? '3000'
+const BASE_URL = `http://localhost:${PORT}`
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -9,7 +15,7 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
 
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: BASE_URL,
     trace: 'on-first-retry',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
@@ -21,8 +27,16 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: process.env.CI ? 'pnpm --filter @damo/web start' : 'pnpm --filter @damo/web dev',
-    url: 'http://localhost:3000',
+    // CI uses the built `next start` artifact (PR #90 perf optimisation).
+    // Local dev uses `next dev` for HMR; when PW_PORT overrides the default,
+    // we bypass the web app's `dev` script (which hardcodes `--port 3000`)
+    // and call `next dev --port <PW_PORT>` directly.
+    command: process.env.CI
+      ? 'pnpm --filter @damo/web start'
+      : PORT === '3000'
+        ? 'pnpm --filter @damo/web dev'
+        : `pnpm --filter @damo/web exec next dev --port ${PORT}`,
+    url: BASE_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
