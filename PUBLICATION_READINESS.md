@@ -1,22 +1,27 @@
-# @damo/ui — Publication Readiness Checklist
+# damo-ui — Publication Readiness Checklist
 
-Updated 2026-05-05 after the cycle-9 unification + the **token-audit run** (cycles 10-19, PRs #26-34). The library does **not** publish itself; this document is the snapshot you read before pressing the Release button.
+Updated 2026-05-09 after the **Phase 2 pre-publication audit (gh-79)**. The library does **not** publish itself; this document is the snapshot you read before pressing the Release button.
 
 ## Snapshot
 
-| Metric                                 | Value                                                                |
-| -------------------------------------- | -------------------------------------------------------------------- |
-| Library version                        | 0.3.0 (see `packages/ui/package.json`) — bump to `1.0.0` to publish  |
-| Public components                      | 54                                                                   |
-| Documented components                  | 54 (100%) — IconButton co-documented under `/docs/components/button` |
-| Library unit tests                     | 345 / 345 ✓ (33 files)                                               |
-| Web unit tests (theme generator etc.)  | 82 / 82 ✓ (10 files)                                                 |
-| ESLint (root)                          | 0 errors, 0 warnings                                                 |
-| `node scripts/check-docs-sync.mjs`     | ✓ 54/54 in sync (ALLOWLIST host-page check active)                   |
-| `pnpm --filter @damo/ui build`         | ✓ ESM + DTS + CSS + Tailwind v3 preset                               |
-| `pnpm --filter web build`              | ✓ static export, 54 routes, 1 SSG dynamic catch-all                  |
-| Playwright e2e (chromium, --workers=1) | 71 / 71 ✓                                                            |
-| AgentShield security scan              | A (100/100) — 0 findings                                             |
+| Metric                                         | Value                                                                                                    |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Package name                                   | `damo-ui` (unscoped, MIT, public npm — Phase 5 / #82)                                                    |
+| Library version                                | 0.3.0 (see `packages/ui/package.json`) — bump to `0.4.0` for soft-launch (#82); `1.0.0` at cutover (#88) |
+| Reserved scope                                 | `@damo-ui/*` (cli / registry / mcp post-1.0)                                                             |
+| Public components                              | 54                                                                                                       |
+| Documented components                          | 54 (100%) — IconButton co-documented under `/docs/components/button`                                     |
+| Library unit tests                             | 523 / 523 ✓ (50 files)                                                                                   |
+| Web unit tests (theme generator etc.)          | 194 / 194 ✓ (17 files)                                                                                   |
+| ESLint (root)                                  | 0 errors (warnings only — `_*` unused-vars in showcase docs)                                             |
+| `node scripts/check-docs-sync.mjs`             | ✓ 54/54 in sync (ALLOWLIST host-page check active)                                                       |
+| `pnpm --filter damo-ui build`                  | ✓ ESM + DTS + CSS + Tailwind v3 preset                                                                   |
+| `pnpm --filter @damo/web build`                | ✓ static export, 54 routes, 1 SSG dynamic catch-all                                                      |
+| `tsc --noEmit` (lib + web)                     | ✓ green                                                                                                  |
+| `pnpm format:check`                            | ✓ green                                                                                                  |
+| Playwright e2e (chromium, --workers=1)         | 174 / 174 ✓ (post-rename run on PW_PORT=3100)                                                            |
+| `pnpm audit`                                   | 0 high / 0 critical (3 moderate, all in build-time devDeps via next)                                     |
+| AgentShield security scan (last run on `main`) | A (100/100) — 0 findings                                                                                 |
 
 ## Token surface — guarantee
 
@@ -83,11 +88,11 @@ The user explicitly asked for a per-variable audit of the theme generator: every
 
 - Card typography (UserCard, FeatureCard, ArticleCard) — 9 inline `fontSize: N` props swapped to `text-{xs|sm|base|xl|2xl}` so `--text-*` tokens flow (PR #32).
 - Card spacing (ArticleCard, FeatureCard) — 4 inline `marginBottom: N` props swapped to `mb-2/3/6` so the density rebind reaches them (PR #33).
-- DatePicker emoji 📅 → real `CalendarIcon` SVG, exported from `@damo/ui` (PR #28).
+- DatePicker emoji 📅 → real `CalendarIcon` SVG, exported from `damo-ui` (PR #28).
 
 ### ComponentsPreview kitchen-sink
 
-- New `ComponentsPreview` mock (`@damo/ui/mocks`) exposes every public component grouped by category in one scrollable surface — Buttons, Cards, Banners, Overlays, Form inputs, Feedback, Navigation, Data display, Layout primitives. Default scene in the theme generator.
+- New `ComponentsPreview` mock (`damo-ui/mocks`) exposes every public component grouped by category in one scrollable surface — Buttons, Cards, Banners, Overlays, Form inputs, Feedback, Navigation, Data display, Layout primitives. Default scene in the theme generator.
 - Charts subgroup (5 bars on `bg-chart-1..5`), App pattern swatch (driven by `--app-pattern-color-1/2/3` + `--app-pattern-size`), Toast trigger, ContextMenu trigger area, DatePicker + Combobox demos all included so every theme dimension reflects somewhere.
 
 ### Stale-ref sweep
@@ -105,11 +110,44 @@ The user explicitly asked for a per-variable audit of the theme generator: every
 1. **devDeps audit**: `pnpm audit` still flags moderate CVEs in `esbuild`, `vite`, `postcss` reaching the project transitively through `next@15.5.15`. None are bundled into `packages/ui/dist` — build-time only.
 2. **home-hero cold-compile flake**: under unrestricted-worker contention the home page CTA-routing tests can flake on the very first compile of `/docs` and `/theme-generator`. Deterministic on retry. Pinning to `--workers=1` is the workaround.
 
+## Phase 2 audit (gh-79) — blocking checklist status
+
+This is the live status after the Phase 2 pre-publication audit (PR for #79). Each item maps 1:1 to the acceptance criteria in `_bmad-output/implementation-artifacts/spec-gh-79-pre-publication-audit.md`.
+
+| AC    | Item                                                                                    | Status                                                                       |
+| ----- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| AC-1  | `LICENSE` (MIT) at repo root                                                            | ✅ done                                                                      |
+| AC-2  | `pnpm audit` no high/critical                                                           | ✅ 0 high, 0 critical (3 moderate devDep advisories — see "Open advisories") |
+| AC-3  | `pnpm test` lib + web green                                                             | ✅ 523 + 194                                                                 |
+| AC-4  | `pnpm build` lib + web green, exports map intact                                        | ✅ ESM + DTS + CSS + Tailwind preset; 54 routes                              |
+| AC-5  | `tsc --noEmit` green at workspace level                                                 | ✅ both packages                                                             |
+| AC-6  | `pnpm lint` + `pnpm format:check` green                                                 | ✅ docs-sync 54/54; prettier clean                                           |
+| AC-7  | README rewritten for public consumers, includes "0.x preview" disclaimer                | ✅                                                                           |
+| AC-8  | `PUBLICATION_READINESS.md` refreshed                                                    | ✅ this file                                                                 |
+| AC-9  | `grep -r "@damo/ui" apps packages e2e scripts` returns 0 hits                           | ✅                                                                           |
+| AC-10 | `packages/ui/package.json` declares `name: "damo-ui"`, `access: public`, no GH registry | ✅                                                                           |
+
+## Post-rename audit notes (gh-79)
+
+- `packages/ui/package.json` renamed `@damo/ui` → `damo-ui`. `publishConfig.registry` (GitHub Packages) removed; `publishConfig.access` flipped to `public`. `license: "MIT"`, `author: "Simone Schioppo"` declared. **`private: true` removed** so the package is publishable from Phase 5 (#82) onward.
+- All 86 code-side `import … from '@damo/ui'` (including subpath imports `@damo/ui/mocks`, `@damo/ui/styles/...`) flipped to `damo-ui` / `damo-ui/...` across `apps/web/`, `e2e/`, `packages/ui/src/`, `packages/ui/__tests__/`, `scripts/`.
+- `pnpm-lock.yaml` refreshed via `pnpm install`. Workspace protocol (`workspace:*`) unchanged.
+- `apps/web` (`@damo/web`) and `e2e` (`@damo/e2e`) workspaces untouched — they are private and never published.
+- **Docs site cleanup** (caught by code-review, not just static grep): `apps/web/app/docs/getting-started/page.tsx` no longer instructs consumers to wire a GitHub Packages `.npmrc`. The "Configure your registry" step (and its rendered `${GITHUB_TOKEN}`-bearing snippet) has been deleted; the remaining four steps are renumbered. Locale strings in `apps/web/messages/{en,it}.json` updated to match (including the home-page `quickInstall` card, now two steps).
+- **CI publish workflow** (`.github/workflows/publish.yml`) updated to target `registry.npmjs.org` with `pnpm --filter damo-ui publish --access public`, triggered by `damo-ui@*` tags; still gated by `if: false` until Phase 5. NPM_TOKEN secret needs to be provisioned before re-enabling.
+- Historical artefacts intentionally left with `@damo/ui` references: `_bmad-output/**` specs, `docs/specs/`, `docs/plans/`, prior `CHANGELOG.md` entries. `core-knowledge/` will be synced via the Kipi `*4 Update Knowledge` handshake.
+
+## Open advisories — not blocking
+
+1. **devDeps audit**: `pnpm audit` still flags moderate CVEs reaching the project transitively through `next`. None are bundled into `packages/ui/dist` — build-time only.
+2. **home-hero cold-compile flake**: under unrestricted-worker contention the home page CTA-routing tests can flake on the very first compile of `/docs` and `/theme-generator`. Deterministic on retry. Pinning to `--workers=1` is the workaround.
+
 ## Pre-publish checklist (manual — you do this)
 
-Before `pnpm --filter @damo/ui publish`:
+Before `pnpm --filter damo-ui publish` (Phase 5 / #82):
 
-- [ ] Bump `packages/ui/package.json` version. **MAJOR (1.0.0)** — the audit run dropped tokens, Banner / Badge variants, AlertDialog and SettingsMenu, and the four theme-preset switchers. Migration callouts:
+- [ ] Bump `packages/ui/package.json` version to `0.4.0` for the public soft-launch (Phase 5 / #82). The `1.0.0` cutover lives in Phase 7 / #88.
+- [ ] At cutover (1.0.0), confirm the migration paths from cycle-9 + the audit run are fully documented in `CHANGELOG.md`:
   - `<AlertDialog ...>` → `<DialogContent severity="alert" tone="danger">`
   - `<SettingsMenu ...>` → Popover + AttrToggleGroup composition (see DocsPreferencesMenu in apps/web for an example)
   - `<ThemeSwitcher>`/`<PaletteSwitcher>`/`<DensitySwitcher>`/`<DisplaySettingsMenu>` → `<AttrToggleGroup>` directly
@@ -124,24 +162,27 @@ Before `pnpm --filter @damo/ui publish`:
   - `var(--space-N)` → density-aware Tailwind spacing utilities (`p-1`, `gap-3`, etc.)
   - `ease-in-out` → `ease-out` or arbitrary `ease-[cubic-bezier(...)]`
   - `z-base` / `z-sticky` → literal `z-0` / `z-10`
-- [ ] Update `CHANGELOG.md` with the migration paths above.
+  - `import … from '@damo/ui'` → `import … from 'damo-ui'` (Phase 2 / #79)
 - [ ] Verify `packages/ui/package.json#files` includes only `dist`, `README.md`.
-- [ ] Run `pnpm --filter @damo/ui build` once more and inspect `dist/`.
-- [ ] Tag the commit: `git tag @damo/ui@<version>`.
-- [ ] Publish: `pnpm --filter @damo/ui publish` (uses GitHub Packages per the `.npmrc` workspace config).
+- [ ] Run `pnpm --filter damo-ui build` once more and inspect `dist/`.
+- [ ] Tag the commit: `git tag damo-ui@<version>`.
+- [ ] Publish: `pnpm --filter damo-ui publish` (defaults to npmjs.org with `access: public`).
 - [ ] Push tags: `git push --tags`.
 
 ## Re-running the readiness checks
 
 ```bash
 pnpm install
-pnpm --filter @damo/ui test       # 345 lib unit tests
-pnpm --filter @damo/web test      # 82 web tests
-pnpm lint                         # eslint + docs-sync guardrail
-pnpm format:check                 # prettier
-pnpm --filter @damo/ui build
-pnpm --filter web build
+pnpm --filter damo-ui test                                       # 523 lib unit tests
+pnpm --filter @damo/web test                                     # 194 web tests
+pnpm lint                                                        # eslint + docs-sync guardrail
+pnpm format:check                                                # prettier
+pnpm --filter damo-ui exec tsc --noEmit                          # lib typecheck
+pnpm --filter @damo/web exec tsc --noEmit                        # web typecheck
+pnpm --filter damo-ui build
+pnpm --filter @damo/web build
 pnpm --filter @damo/e2e test -- --project=chromium --workers=1   # 71 e2e
+pnpm audit
 node scripts/check-docs-sync.mjs
 ```
 

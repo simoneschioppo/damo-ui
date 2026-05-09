@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss'
-import damo from '@damo/ui/tailwind.preset'
+import damo from 'damo-ui/tailwind.preset'
 
 const config: Config = {
   presets: [damo as Config],

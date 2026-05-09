@@ -1,31 +1,34 @@
 # Build and Publish
 
-Status: documented · Last scan: e53c5be · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `packages/ui/tsup.config.ts`,
 `packages/ui/package.json`,
 `packages/ui/.ladle/config.mjs`,
 `packages/ui/.ladle/components.tsx`,
 `packages/ui/.ladle/components.test.ts`,
 `packages/ui/dist/` (current build output shape),
-`.npmrc` (root).
+`.npmrc` (root),
+`LICENSE` (root, MIT).
 
 ## Summary
 
-`@damo/ui` is built by **tsup** into a single ESM bundle plus a copied
+`damo-ui` is built by **tsup** into a single ESM bundle plus a copied
 CSS folder and a separately-bundled Tailwind v3 preset. The library is
 intended for **two distribution modes**:
 
-- **Today (transitional):** consumable as a versioned package via a
-  GitHub Packages registry. The package is currently marked
-  `"private": true`, so `npm publish` is blocked by default — the
-  `publishConfig` block is **preparatory wiring**, not an active
-  release pipeline. No published versions exist on the registry yet.
-- **Target:** **shadcn/ui-style copy-paste distribution on the public
-  npm registry.** Components, hooks, and the theming layer are authored
-  with this future in mind: each unit should be liftable into a
-  consumer's repo without pulling the whole package.
+- **Today (publish-ready, soft-launch pending):** the package is named
+  `damo-ui`, MIT-licensed, and wired for **public npm** (`registry.npmjs.org`,
+  `publishConfig.access: public`). `private: true` has been removed (gh-79).
+  The actual `npm publish` runs in Phase 5 (#82) as `damo-ui@0.4.0`. Until
+  then the lib is consumed inside the monorepo via pnpm workspace resolution.
+- **Target (1.0 cutover, #88):** **shadcn/ui-style copy-paste distribution.**
+  Components, hooks, and the theming layer are authored with this future in
+  mind: each unit should be liftable into a consumer's repo without pulling
+  the whole package. The `@damo-ui/*` npm scope is reserved for ecosystem
+  packages — `@damo-ui/cli` (#84), `@damo-ui/registry` (#85),
+  `@damo-ui/mcp` (#87).
 
-Local development uses **Ladle** (`pnpm --filter @damo/ui dev`) for
+Local development uses **Ladle** (`pnpm --filter damo-ui dev`) for
 component preview and storybook-like browsing.
 
 ## Public API (what ships in `dist/`)
@@ -61,7 +64,7 @@ Pinning facts:
   Tooltip, DropdownMenu, ContextMenu, Toast, Accordion.
 - **Runtime dependencies:** Radix primitives (20+), `class-variance-authority`,
   `clsx`, `cmdk`, `date-fns`, `react-day-picker`, `tailwind-merge`.
-  These are real runtime deps, not peer — every consumer of `@damo/ui`
+  These are real runtime deps, not peer — every consumer of `damo-ui`
   installs them transitively today. This is **the** key thing to revisit
   for shadcn-style distribution: copy-paste consumers should opt in to
   these deps per-component, not blanket-inherit.
@@ -162,7 +165,7 @@ imported `../src/styles/themes.css` (typo for `theme.css`) and
 `../src/styles/patterns.css` (a file that lives in `apps/web`, not the
 lib — Memphis pattern decoration is intentionally consumer territory,
 see `10-library/20-theming/README.md`). Both broke `pnpm --filter
-@damo/ui dev` on cold start. The fix renamed the typo and dropped the
+damo-ui dev` on cold start. The fix renamed the typo and dropped the
 patterns import outright.
 
 **Regression guard:** `.ladle/components.test.ts` is a static smoke
@@ -171,32 +174,37 @@ CSS import via regex, and asserts each one resolves to a real file on
 disk. It also asserts neither dropped filename ever returns. Runs in
 the lib's vitest suite, so a future broken-import edit fails CI.
 
-## Publish status — today
+## Publish status — today (post gh-79)
 
 The current state of the publish wiring:
 
 | Field                                 | Value                                                                                         |
 | ------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `package.json#name`                   | `@damo/ui`                                                                                    |
-| `package.json#version`                | `0.3.0`                                                                                       |
-| `package.json#private`                | `true` (publish currently disabled)                                                           |
-| `package.json#publishConfig.registry` | `https://npm.pkg.github.com`                                                                  |
-| `package.json#publishConfig.access`   | `restricted`                                                                                  |
+| `package.json#name`                   | `damo-ui` (unscoped — gh-79)                                                                  |
+| `package.json#version`                | `0.3.0` (next: `0.4.0` for the soft-launch in #82)                                            |
+| `package.json#license`                | `MIT` (gh-79)                                                                                 |
+| `package.json#author`                 | `Simone Schioppo`                                                                             |
+| `package.json#private`                | _absent_ (removed in gh-79 — was the silent publish blocker)                                  |
+| `package.json#publishConfig.registry` | _absent_ (defaults to `https://registry.npmjs.org`)                                           |
+| `package.json#publishConfig.access`   | `public`                                                                                      |
 | `repository.url`                      | `https://github.com/simoneschioppo/damo-ui.git`                                               |
+| Root `LICENSE`                        | MIT, © 2026 Simone Schioppo (gh-79)                                                           |
 | Root `.npmrc`                         | `auto-install-peers=true`, `prefer-workspace-packages=true`, `strict-peer-dependencies=false` |
+| Reserved scope                        | `@damo-ui/*` (cli/registry/mcp post-1.0)                                                      |
 
 Reading the wiring as documentation:
 
-- `private: true` is the active source-of-truth — **no released
-  versions exist on GitHub Packages today**. The version is bumped
-  in-tree, but not published.
-- `publishConfig` is **preparatory**: when the team flips `private` to
-  `false` (or runs a release flow that strips it), the package will
-  publish to `npm.pkg.github.com` under restricted access.
+- `damo-ui` is **publish-ready** — every prerequisite is in place. The actual
+  `pnpm publish` runs in Phase 5 (#82) once the repo flips public (#81) and
+  the version is bumped to `0.4.0`.
+- The CI publish workflow at `.github/workflows/publish.yml` is wired for
+  `registry.npmjs.org` with `pnpm --filter damo-ui publish --access public`,
+  triggered by `damo-ui@*` tags, but still gated by `if: false` until #82.
+  Provision `NPM_TOKEN` repo secret before flipping the gate.
 - The root `.npmrc` is workspace-friendly (peer auto-install, workspace
   preference) and matters at consume time, not publish time.
-- No CI workflow has been audited yet for a release pipeline — see
-  cross-cutting CI/CD chapter (currently `pending`) and Open questions.
+- See cross-cutting CI/CD chapter (`30-cross-cutting/10-ci-cd.md`) for the
+  full workflow definition and the Phase 3-7 roadmap (#80–#88).
 
 ## Publish target — tomorrow (shadcn-style on public npm)
 
@@ -268,13 +276,27 @@ This direction shapes near-term work the lib should not violate:
 
 ### Today (development / linked workspace)
 
-Inside this monorepo, `apps/web` consumes `@damo/ui` via pnpm
+Inside this monorepo, `apps/web` consumes `damo-ui` via pnpm
 workspace resolution (`prefer-workspace-packages=true` in the root
 `.npmrc`). No registry round-trip needed.
 
-External consumers cannot install `@damo/ui` today — the package is
-not published. The most plausible interim path is to vendor the
-`packages/ui/` source into the consumer's repo manually.
+External consumers cannot install `damo-ui` today — Phase 5 (#82) ships
+the soft-launch on public npm as `damo-ui@0.4.0`. Until then, the
+plausible interim path is to vendor the `packages/ui/` source into the
+consumer's repo manually.
+
+### Tomorrow (npm-classic, post Phase 5)
+
+Once `0.4.0` ships:
+
+```sh
+pnpm add damo-ui          # or npm install damo-ui / yarn add damo-ui
+```
+
+Peer deps the consumer must install themselves: `react`, `react-dom`,
+`tailwindcss` (≥4 recommended; v3 supported via the preset shim),
+`tailwindcss-animate`. See root `README.md` for the Tailwind v4 wiring
+snippet.
 
 ### Future (shadcn-style)
 
@@ -292,30 +314,28 @@ Concrete CLI / registry shape to be defined — see Open questions.
 
 ## Open questions
 
-1. **CI release workflow.** No release pipeline has been documented
-   yet — `private: true` blocks the standard `npm publish`. If a
-   workflow is added later (e.g. one that strips `private`, runs a
-   changeset, and publishes to GitHub Packages), it must be
-   documented in `30-cross-cutting/10-ci-cd.md` and cross-referenced
-   here.
-
-2. **`sideEffects` declaration.** Once the CSS import surface is
+1. **`sideEffects` declaration.** Once the CSS import surface is
    stable, declare `sideEffects: ["**/*.css"]` so consumer bundlers
    can tree-shake aggressively.
 
-3. **Per-component dependency manifest.** For shadcn-style migration,
+2. **Per-component dependency manifest.** For shadcn-style migration,
    each component needs a declaration of its runtime npm deps. This
    could live alongside the source (`<component>.deps.json`) or in a
    central registry. Decision pending.
 
-4. **Migration target on npm.** Package name on public npm? `@damo/ui`,
-   `damo-ui`, or a new scope? Affects CLI, registry URL, install
-   strings, and brand.
-
-5. **Copy-paste contract for hooks and `lib/cn`.** Single-file
+3. **Copy-paste contract for hooks and `lib/cn`.** Single-file
    components are easy; cross-cutting helpers (the `cn` utility, the
    two hooks) need a documented "copied alongside" rule so consumers
    don't end up with stale duplicates.
+
+## Resolved (formerly open)
+
+- **CI release workflow** → defined as `.github/workflows/publish.yml`
+  in gh-79; targets `registry.npmjs.org`, gated by `if: false` until
+  Phase 5 (#82). Documented in `30-cross-cutting/10-ci-cd.md`.
+- **Migration target on npm** → answered in gh-79: the canonical
+  unscoped name is `damo-ui`. The `@damo-ui/*` scope is reserved for
+  ecosystem packages.
 
 6. **Distinction between dependencies and shadcn-time installs.**
    Today every Radix primitive is a runtime `dependency` of the lib.

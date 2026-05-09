@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
-import { Input, Label } from '@damo/ui'
+import { Input, Label } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Input, Label } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Input, Label } from 'damo-ui'`
 
 const BASIC_SNIPPET = `<Label htmlFor="email">Email</Label>
 <Input id="email" type="email" placeholder="hello@example.com" />`

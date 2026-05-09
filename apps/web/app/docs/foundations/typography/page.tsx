@@ -94,11 +94,11 @@ const TAILWIND_FONTS = `// In JSX: use the lib's Tailwind utilities
   Body copy uses the body family by default — explicit class for clarity.
 </p>
 <code className="font-mono text-sm">
-  npm install @damo/ui
+  npm install damo-ui
 </code>
 `
 
-const HELPER_CLASSES = `// Three CSS helpers ship in @damo/ui/styles/globals.css
+const HELPER_CLASSES = `// Three CSS helpers ship in damo-ui/styles/globals.css
 <h2 className="display">Display heading</h2>
 <code className="mono">read-only mono span</code>
 <span className="eyebrow">SECTION LABEL</span>
@@ -208,7 +208,7 @@ export default async function TypographyFoundationPage() {
         <h3 className="font-display text-4xl leading-[0.95]">Damo UI</h3>
         <p className="font-body text-base text-foreground/80">{t('tailwindPreviewBody')}</p>
         <code className="font-mono text-sm bg-muted px-2 py-1 border border-memphis/40">
-          npm install @damo/ui
+          npm install damo-ui
         </code>
       </Example>
 

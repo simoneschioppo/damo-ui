@@ -1,6 +1,6 @@
 # CI / CD
 
-Status: documented · Last scan: e089383 · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `.github/workflows/ci.yml`, `.github/workflows/publish.yml`, `.npmrc`.
 
 ## Summary
@@ -10,13 +10,15 @@ Two GitHub Actions workflows govern the repo:
 1. **CI** (`ci.yml`) — every push or PR to `main`. Runs format check,
    lint, build, typecheck, unit tests, then E2E. Two jobs in series:
    `lint-and-test` → `e2e`.
-2. **Publish** (`publish.yml`) — tag-driven (`v*`), builds the lib and
-   publishes to GitHub Packages under the `@damo` scope. **Currently
-   disabled** (`if: false`) — the `@damo` org doesn't yet exist.
+2. **Publish** (`publish.yml`) — tag-driven (`damo-ui@*`), builds the lib
+   and publishes the unscoped `damo-ui` package to **public npm**
+   (`registry.npmjs.org`) with `access: public`. **Currently disabled**
+   (`if: false`) until Phase 5 (#82) of the publication roadmap (#77).
+   Retargeted from GitHub Packages in gh-79.
 
 Both runners are `ubuntu-latest` with pnpm + Node 20. The repo is
-private; no security scans, no dependency audit, no automated deploy
-yet.
+private (until Phase 4, #81); no security scans, no dependency audit,
+no automated deploy yet.
 
 ## Layout
 
@@ -78,10 +80,10 @@ entirely (artifact never consumed → see Notes #4).
 | Install                 | `pnpm install --frozen-lockfile`                                  |
 | Format check            | `pnpm format:check` (prettier)                                    |
 | Lint                    | `pnpm lint` — runs all package linters + `check-docs-sync.mjs`    |
-| Build lib               | `pnpm build` (builds `@damo/ui` only; web is built in `e2e`)      |
+| Build lib               | `pnpm build` (builds `damo-ui` only; web is built in `e2e`)       |
 | **Upload lib build**    | `actions/upload-artifact@v4` → `damo-ui-dist` (1 day, error-fail) |
-| Typecheck               | `tsc --noEmit` for both `@damo/ui` and `@damo/web`                |
-| Unit tests              | `pnpm test` (vitest under `@damo/ui`)                             |
+| Typecheck               | `tsc --noEmit` for both `damo-ui` and `@damo/web`                 |
+| Unit tests              | `pnpm test` (vitest under `damo-ui`)                              |
 
 **Ordering note:** `Upload lib build` runs **before** typecheck and
 unit tests. Safe in practice because the downstream `e2e` job needs
@@ -147,62 +149,70 @@ intra-run consumption only; not a release artifact.
 on:
   push:
     tags:
-      - 'v*'
+      - 'damo-ui@*'
 ```
+
+Retargeted from `v*` to `damo-ui@*` in gh-79 so future ecosystem
+packages (`@damo-ui/cli`, `@damo-ui/registry`, `@damo-ui/mcp`) can
+sit on parallel tag namespaces (`damo-ui-cli@*`, etc.) without
+colliding.
 
 ### Status: DISABLED
 
 ```yaml
 jobs:
   publish:
-    if: false   # flip to true after creating @damo org + Team plan
+    if: false   # flip to true at Phase 5 (#82); provision NPM_TOKEN first
     ...
 ```
 
-Tag pushes (e.g. `v0.1.0`) do **not** publish today. Re-enabling
-requires:
+Tag pushes (e.g. `damo-ui@0.4.0`) do **not** publish today. Re-enabling
+requires (in order):
 
-1. Create `@damo` GitHub organization.
-2. Upgrade to a Team plan (private packages on GitHub Packages need
-   a Team or Enterprise plan; free for public packages).
-3. Flip `if: false` → `if: true`.
+1. Phase 3 (#80) — git history cleaned via `filter-repo`.
+2. Phase 4 (#81) — repo flipped to public visibility.
+3. Provision `NPM_TOKEN` repo secret (npm automation token,
+   "Publish" scope).
+4. Phase 5 (#82) — flip `if: false` → `if: true`, bump version to
+   `0.4.0`, push the `damo-ui@0.4.0` tag.
 
 ### Permissions
 
 ```yaml
 permissions:
   contents: read
-  packages: write
+  id-token: write
 ```
 
-The default `GITHUB_TOKEN` is sufficient — no PAT or external secret
-needed. `packages: write` is the elevation required to publish to
-GitHub Packages.
+`id-token: write` enables npm provenance attestation (npm 9.5+).
+The default `GITHUB_TOKEN` is otherwise sufficient — no PAT
+needed for the read-only checkout. `NPM_TOKEN` (provisioned as a
+repo secret) carries the publish credential.
 
-### Auth + scope
+### Auth + registry
 
 ```yaml
 - uses: actions/setup-node@v4
   with:
     node-version: 20
     cache: 'pnpm'
-    registry-url: 'https://npm.pkg.github.com'
-    scope: '@damo'
+    registry-url: 'https://registry.npmjs.org'
 ```
 
 `setup-node` writes `~/.npmrc` on the runner with the right registry
-URL + auth-token mapping for `@damo`-scoped packages. The job's
-`pnpm publish` step then sees the right credentials via
-`NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}`.
+URL + auth-token mapping. The job's `pnpm publish` step then sees the
+publish credential via `NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}`.
+No `scope` is set — `damo-ui` is unscoped.
 
 ### Publish command
 
 ```yaml
-- run: pnpm --filter @damo/ui publish --access restricted --no-git-checks
+- run: pnpm --filter damo-ui publish --access public --no-git-checks
 ```
 
-- `--access restricted` — private package, in line with the Team-plan
-  expectation.
+- `--access public` — required because npm-classic interprets the
+  default `restricted` as "private (paid)"; `damo-ui` is the
+  free-tier public package.
 - `--no-git-checks` — pnpm normally refuses to publish from a
   non-clean working tree or a tag-mismatched branch; the runner's
   working tree is clean (fresh checkout) so this is safe and shorter
@@ -215,7 +225,7 @@ URL + auth-token mapping for `@damo`-scoped packages. The job's
 | Prettier formatting            | `ci` lint-and-test      | Format check                          |
 | ESLint + `check-docs-sync.mjs` | `ci` lint-and-test      | Lint                                  |
 | Lib build                      | `ci` lint-and-test      | Build lib                             |
-| Typecheck (`@damo/ui`)         | `ci` lint-and-test      | Typecheck                             |
+| Typecheck (`damo-ui`)          | `ci` lint-and-test      | Typecheck                             |
 | Typecheck (`@damo/web`)        | `ci` lint-and-test      | Typecheck                             |
 | Unit tests (vitest)            | `ci` lint-and-test      | Unit tests                            |
 | E2E (chromium + webkit)        | `ci` e2e                | Run e2e                               |
@@ -296,8 +306,10 @@ behavior. Notable:
   inside the relevant job, gated on `if: failure()` to avoid
   uploading on green runs.
 - **Enable publish** — flip `if: false` → `if: true` in
-  `publish.yml` after the `@damo` org exists; verify by pushing a
-  pre-release tag (e.g. `v0.0.0-test`) and checking GitHub Packages.
+  `publish.yml` after Phase 5 (#82) prereqs are met (history clean,
+  repo public, `NPM_TOKEN` provisioned). Verify by pushing a
+  pre-release tag (e.g. `damo-ui@0.4.0-test`) and checking the npm
+  registry.
 - **Add a deploy workflow** — currently none. The intended target
   (Vercel? GH Pages? Cloud Run?) is unsettled (Open Q #5).
 

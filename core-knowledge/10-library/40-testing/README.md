@@ -1,6 +1,6 @@
 # Testing (Library)
 
-Status: documented · Last scan: 43a7a02 · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `packages/ui/vitest.config.ts`, `packages/ui/vitest.setup.ts`,
 `packages/ui/src/mocks/`, `packages/ui/src/styles/__tests__/`,
 `packages/ui/src/components/**/*.test.{ts,tsx}`.
@@ -127,13 +127,13 @@ the canonical Tier-2 reference.
 
 ```bash
 # Lib tests only
-pnpm --filter @damo/ui test
+pnpm --filter damo-ui test
 
 # With coverage
-pnpm --filter @damo/ui test --coverage
+pnpm --filter damo-ui test --coverage
 
 # Watch mode
-pnpm --filter @damo/ui test --watch
+pnpm --filter damo-ui test --watch
 ```
 
 CI runs the full lib suite on every push (see

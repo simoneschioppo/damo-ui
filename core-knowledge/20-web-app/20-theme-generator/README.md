@@ -1,6 +1,6 @@
 # Theme Generator
 
-Status: documented · Last scan: 6a6c72e · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `apps/web/app/theme-generator/{page.tsx,theme-state.ts,use-theme-state.ts,presets.ts,exporters.ts,contrast.ts,sample-dialog.tsx,token-preview-chip.tsx,radius-emit.test.tsx,token-preview-chip.test.tsx}`,
 `apps/web/app/styles/theme.css`,
 `apps/web/app/styles/__tests__/{app-pattern-tokens.test.ts,reduced-motion-scoping.test.ts,theme-css-dark-block.test.ts}`.
@@ -453,7 +453,7 @@ The 1218-line UI. Two main columns:
 
 Imports a long list of lib components (Accordion, Button, Checkbox,
 ColorPicker, Input, Label, Select, Sidebar, Slider, Tabs, …) — the
-generator is itself the most demanding consumer of `@damo/ui`.
+generator is itself the most demanding consumer of `damo-ui`.
 
 ## Notes & gotchas
 
@@ -548,7 +548,7 @@ The CSS export is the canonical artifact. A consumer's recipe:
 5. Remove or keep the foundation sections per `IncludeFlags`.
 
 The Tailwind export targets the v4 `@theme inline` directive and
-goes alongside `@damo/ui/styles/theme.css`.
+goes alongside `damo-ui/styles/theme.css`.
 
 The JSON export is for programmatic re-import (the page accepts
 JSON paste-back to re-load a saved theme).

@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
-import { Avatar, AvatarFallback, AvatarGroup } from '@damo/ui'
+import { Avatar, AvatarFallback, AvatarGroup } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Avatar, AvatarImage, AvatarFallback, AvatarGroup } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Avatar, AvatarImage, AvatarFallback, AvatarGroup } from 'damo-ui'`
 
 const BASIC_SNIPPET = `<Avatar>
   <AvatarImage src="/users/dm.jpg" alt="Damo" />

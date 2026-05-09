@@ -1,11 +1,11 @@
 # Library Architecture
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: 9a573e8 · Sources:
 `packages/ui/src/{index.ts,components/,hooks/,icons/,lib/,styles/,mocks/}`.
 
 ## Summary
 
-`@damo/ui` is a TypeScript React component library distributed
+`damo-ui` is a TypeScript React component library distributed
 through GitHub Packages today, targeting an eventual shadcn-style
 copy-paste npm distribution. The source tree groups files by
 responsibility: components are organized one folder per component
@@ -57,7 +57,7 @@ layout, hooks). The barrel re-exports:
 - **`__version`** constant.
 
 The `mocks/` directory ships as a separate sub-export
-(`@damo/ui/mocks`) for the theme generator's scene previews.
+(`damo-ui/mocks`) for the theme generator's scene previews.
 
 ## Internal vs. public modules
 

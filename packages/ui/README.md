@@ -1,18 +1,14 @@
-# @damo/ui
+# damo-ui
 
 Memphis-inspired React and Next.js component library.
+
+> ⚠️ **0.x preview.** Public API is stabilising. Expect breaking changes between minor versions until `1.0.0`.
 
 ## Install
 
 ```bash
-pnpm add @damo/ui
-```
-
-Requires `@damo` scope in `.npmrc`:
-
-```
-@damo:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+pnpm add damo-ui
+# or: npm install damo-ui  /  yarn add damo-ui
 ```
 
 ## Peer dependencies
@@ -20,6 +16,7 @@ Requires `@damo` scope in `.npmrc`:
 - react >=18
 - react-dom >=18
 - tailwindcss >=4
+- tailwindcss-animate >=1.0.7
 
 ## Setup
 
@@ -28,7 +25,7 @@ Import styles in your root layout and wire Tailwind v4 (see repo README for full
 ## Usage
 
 ```tsx
-import { Button, Card, Dialog } from '@damo/ui'
+import { Button, Card, Dialog } from 'damo-ui'
 ;<Button variant="primary">Click me</Button>
 ```
 
@@ -60,4 +57,4 @@ For the current token surface (post-1.0 audit), see the playground's `/docs/foun
 
 ## License
 
-Private — see repo.
+[MIT](https://github.com/simoneschioppo/damo-ui/blob/main/LICENSE) © 2026 Simone Schioppo.

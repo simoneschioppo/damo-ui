@@ -8,7 +8,7 @@ import {
   SidebarSubtitle,
   SidebarBody,
   SidebarFooter,
-} from '@damo/ui'
+} from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
@@ -21,7 +21,7 @@ const IMPORT_SNIPPET = `import {
   SidebarSubtitle,
   SidebarBody,
   SidebarFooter,
-} from '@damo/ui'`
+} from 'damo-ui'`
 
 const BASIC_SNIPPET = `<Sidebar aria-label="Main navigation">
   <SidebarHeader>

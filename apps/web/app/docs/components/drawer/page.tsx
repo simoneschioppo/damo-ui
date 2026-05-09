@@ -12,7 +12,7 @@ import {
   DrawerDescription,
   DrawerClose,
   Button,
-} from '@damo/ui'
+} from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
@@ -27,7 +27,7 @@ const IMPORT_SNIPPET = `import {
   DrawerTitle,
   DrawerDescription,
   DrawerClose,
-} from '@damo/ui'`
+} from 'damo-ui'`
 
 const BASIC_SNIPPET = `<Drawer>
   <DrawerTrigger asChild>
