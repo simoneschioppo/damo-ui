@@ -13,7 +13,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuShortcut,
   Button,
-} from '@damo/ui'
+} from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
@@ -30,7 +30,7 @@ const IMPORT_SNIPPET = `import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuShortcut,
-} from '@damo/ui'`
+} from 'damo-ui'`
 
 const BASIC_SNIPPET = `<DropdownMenu>
   <DropdownMenuTrigger asChild>

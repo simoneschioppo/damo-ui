@@ -9,7 +9,7 @@ import {
   SelectLabel,
   SelectItem,
   SelectSeparator,
-} from '@damo/ui'
+} from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
@@ -25,7 +25,7 @@ const IMPORT_SNIPPET = `import {
   SelectGroup,
   SelectLabel,
   SelectSeparator,
-} from '@damo/ui'`
+} from 'damo-ui'`
 
 const BASIC_SNIPPET = `<Select defaultValue="medium">
   <SelectTrigger className="w-[180px]">

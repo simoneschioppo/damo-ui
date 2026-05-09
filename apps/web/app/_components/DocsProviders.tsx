@@ -2,7 +2,7 @@
 
 import { type ReactNode } from 'react'
 import { NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl'
-import { I18nProvider, type Locale } from '@damo/ui'
+import { I18nProvider, type Locale } from 'damo-ui'
 
 interface DocsProvidersProps {
   readonly locale: Locale

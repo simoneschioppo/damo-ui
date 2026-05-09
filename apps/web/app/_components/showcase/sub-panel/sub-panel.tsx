@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
-import { cn } from '@damo/ui'
+import { cn } from 'damo-ui'
 
 export interface SubPanelProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Monospace eyebrow label rendered at the top of the panel. */

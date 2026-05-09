@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
-import { AspectRatio } from '@damo/ui'
+import { AspectRatio } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { AspectRatio } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { AspectRatio } from 'damo-ui'`
 
 const BASIC_SNIPPET = `<AspectRatio ratio={16 / 9}>
   <img src="/cover.jpg" alt="" className="h-full w-full object-cover" />

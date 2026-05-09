@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
-import { Medal } from '@damo/ui'
+import { Medal } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Medal } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Medal } from 'damo-ui'`
 
 const RANKS_SNIPPET = `<Medal rank="bronze" value={3} label="Bronze" />
 <Medal rank="silver" value={2} label="Silver" />
