@@ -11,7 +11,6 @@
  *   :root[data-palette='sunset']                     → raw palette overrides (orthogonal to theme)
  *   :root[data-palette='cyberpunk']                  → raw palette overrides
  *   :root[data-palette='forest']                     → raw palette overrides
- *   :root[data-palette='cyberpunk']:not([data-theme='dark']) → light-only override (gh-93)
  *   :root[data-theme='dark'][data-palette='sunset']  → mode+palette override (gh-93)
  *
  * Palette and palette+theme blocks must be declared AFTER the dark block —
@@ -189,10 +188,16 @@
   --brand-500: #f58a1e;
 }
 
-/* ── Palette: Cyberpunk (electric violet + neon amber) ─── */
+/* ── Palette: Cyberpunk (electric violet + cyan/teal) ───── */
 
 /*
- * gh-93: replaces the old "Neon" preset.
+ * gh-95: brand moved from amber to cyan/teal so the light identity stops
+ * collapsing into the cream + amber stack shared by default and sunset.
+ * Paper also shifts to a cool cyan cream so the difference reads at a
+ * glance — not just at the primary accent.
+ *
+ * The deep teal `--brand-500: #0f766e` contrasts AA with white text, so
+ * the gh-93 light-only `--primary-foreground` override block was removed.
  */
 :root[data-palette='cyberpunk'] {
   --ink-100: #f0d4ff;
@@ -202,27 +207,25 @@
   --ink-800: #2a1052;
   --ink-900: #170731;
 
-  --brand-100: #fff4b3;
-  --brand-200: #ffe57a;
-  --brand-300: #ffd740;
-  --brand-400: #ffc107;
-  --brand-500: #ffab00;
+  --brand-100: #c0fffa;
+  --brand-200: #80f5ec;
+  --brand-300: #40e3d4;
+  --brand-400: #14b8a6;
+  --brand-500: #0f766e;
+
+  --paper-50: #f3fbfa;
+  --paper-100: #e7f5f3;
+  --paper-200: #d3ebe7;
+  --paper-300: #b8d6d1;
 }
+
+/* ── Palette: Forest (deep green + copper rust) ─────────── */
 
 /*
- * Light-only semantic override (gh-93 review HIGH-2).
- * The vivid amber `--brand-500: #ffab00` fails WCAG AA against white text
- * (~1.97 ratio). Override `--primary-foreground` to ink.900 (~12.96 ratio).
- * Scoped to NOT match dark — the dark block already sets the same value
- * via the canonical mapping, but keeping this override light-only prevents
- * a future dark-default change from being silently negated here.
+ * gh-95: brand moved from warm amber to copper/rust + paper shifted to a
+ * sage-tinted cream so the autumn-forest identity reads in light mode
+ * without colliding with the default plum+gold or sunset terracotta.
  */
-:root[data-palette='cyberpunk']:not([data-theme='dark']) {
-  --primary-foreground: var(--ink-900);
-}
-
-/* ── Palette: Forest (deep green + warm amber) ──────────── */
-
 :root[data-palette='forest'] {
   --ink-100: #d6ead2;
   --ink-300: #8cbf85;
@@ -231,11 +234,16 @@
   --ink-800: #14301c;
   --ink-900: #0c1f12;
 
-  --brand-100: #fde6b8;
-  --brand-200: #f7d28a;
-  --brand-300: #f0bb55;
-  --brand-400: #e6a02e;
-  --brand-500: #a8590e;
+  --brand-100: #fde4d3;
+  --brand-200: #f7c19f;
+  --brand-300: #ed996c;
+  --brand-400: #c87444;
+  --brand-500: #8e4318;
+
+  --paper-50: #f6f7eb;
+  --paper-100: #ecede0;
+  --paper-200: #ddddc8;
+  --paper-300: #c1c1a8;
 }
 
 /* ── Palette × theme: Sunset dark border (gh-93) ────────── */
