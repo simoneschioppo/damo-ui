@@ -78,6 +78,25 @@ async function setTokenAndSettle(page: Page, token: string, value: string) {
     },
     { t: token, v: value },
   )
+  // CI webkit needs a longer paint window than the local engine — 250ms
+  // was enough on chromium but flaked consistently on the GitHub Actions
+  // webkit runner. Poll until the inline-style override is observable
+  // via getPropertyValue, falling back to a fixed wait if the property
+  // resolves through a runtime layer (e.g. shadow tokens that compose
+  // intermediate vars).
+  await page
+    .waitForFunction(
+      ({ t, v }) => {
+        const got = getComputedStyle(document.documentElement).getPropertyValue(t).trim()
+        // Loose match — the spec normalises whitespace and rgb form.
+        return got.length > 0 && got.replace(/\s+/g, '') === v.replace(/\s+/g, '')
+      },
+      { t: token, v: value },
+      { timeout: 1500 },
+    )
+    .catch(() => {
+      /* tolerate runtime-derived tokens that don't echo back literally */
+    })
   await page.waitForTimeout(250)
 }
 
