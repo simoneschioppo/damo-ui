@@ -47,19 +47,32 @@ Refresh the landing hero on `/` (apps/web) with two surgical changes:
 
 ## Image processing approach
 
-The new image's background is a uniform cream (`#f3e4d6`) on top + side
-edges; the desk extends to the bottom edge in a saturated brown. So:
+The new image's background is a uniform cream (`#f3e4d6`). First pass
+used PIL flood-fill (threshold 32) — fast, but left a visible dark
+halo around the figure on the dark Memphis chrome bg of the page. The
+halo was the line-art outline anti-aliased against cream: those mid-
+tone pixels had distance > 32 from cream so they survived the fill.
 
-1. Load image with PIL, convert RGBA.
-2. Flood-fill from the four corners that read cream (TL, TR, plus left
-   and right midpoints) with tolerance ≈ 25 → set those pixels to
-   `(0,0,0,0)`. The desk doesn't connect to the cream, so it survives.
-3. Auto-crop to the bounding box of opaque pixels with ~16 px padding.
-4. Save back over `apps/web/public/mascot-hero.png`.
+Second pass (this one) uses `rembg` with the `isnet-general-use` ONNX
+model + alpha matting:
 
-`rembg` was considered but unnecessary here — the bg is solid and the
-subject contrast is high. Keeping a Python venv just for one asset is
-overhead; PIL is already on the system.
+1. Spin a Python venv at `/tmp/rembg-env`, install
+   `rembg[cpu]` + `pymatting` + `onnxruntime`.
+2. Run `rembg.remove` with `alpha_matting=True`,
+   `alpha_matting_foreground_threshold=240`,
+   `alpha_matting_background_threshold=15`,
+   `alpha_matting_erode_size=11` — produces a soft alpha matte that
+   correctly handles the line-art edge transitions.
+3. Hard-threshold the alpha channel: `< 12 → 0`, `> 250 → 255` to kill
+   speckles and firm up the interior; ~1 % of pixels keep partial
+   alpha (the actual edge feather).
+4. Auto-crop to bbox of opaque pixels with 16 px padding.
+5. Save back over `apps/web/public/mascot-hero.png` (1469 × 892 RGBA,
+   ~1 MB).
+
+Verification: composite the result on a dark-purple background (the
+page's Memphis chrome color) — no halo visible. Save to
+`/tmp/mascot-on-dark.png` for spot check.
 
 ## Headline rewrite
 
@@ -102,7 +115,7 @@ The em-dash literal in `page.tsx` is removed; lines feed via `<br />`.
 - AC-1: `apps/web/public/mascot-hero.png` is RGBA with no cream-pixel
   background; opaque axolotl + desk; alpha at corners.
 - AC-2: `BRAND.mascotHeroWidth` / `mascotHeroHeight` reflect the cropped
-  PNG's actual `Image.size` (1469 × 893); `BRAND.mascotHeroAlt` describes
+  PNG's actual `Image.size` (1469 × 892); `BRAND.mascotHeroAlt` describes
   the new pose (laptop / desk), in EN.
 - AC-3: `apps/web/app/page.tsx` no longer renders the literal ` —`.
 - AC-4: Both EN and IT catalogs carry the rewritten lines; no `—`,
