@@ -1,9 +1,9 @@
 # Theme Generator
 
-Status: documented · Last scan: e53c5be · Sources:
+Status: documented · Last scan: a9faba7 · Sources:
 `apps/web/app/theme-generator/{page.tsx,theme-state.ts,use-theme-state.ts,presets.ts,exporters.ts,contrast.ts,sample-dialog.tsx,token-preview-chip.tsx,radius-emit.test.tsx,token-preview-chip.test.tsx}`,
 `apps/web/app/styles/theme.css`,
-`apps/web/app/styles/__tests__/{app-pattern-tokens.test.ts,reduced-motion-scoping.test.ts}`.
+`apps/web/app/styles/__tests__/{app-pattern-tokens.test.ts,reduced-motion-scoping.test.ts,theme-css-dark-block.test.ts}`.
 
 ## Summary
 
@@ -100,6 +100,22 @@ straight semantic tokens but characterise the brand. Users can
 diverge identity per-mode (gold medals can be different in light
 vs dark).
 
+The shipped `DEFAULT_THEME` itself diverges since #91 — the
+`DEFAULT_IDENTITY` constant was split into `DEFAULT_IDENTITY_LIGHT`
+and `DEFAULT_IDENTITY_DARK`. Plum+Gold's dark identity carries:
+
+- `medals.gold.outer` / `medals.master.outer` = `paper.50` (light
+  values were `ink.900`, which equals dark `--background` and
+  rendered the outer ring invisible).
+- `charts.{1..5}` = `ink.300` / `brand.400` / `#6fa85c` (dark
+  success) / `#c94a2f` (dark destructive) / `ink.100` — the light
+  values were dark plums (`ink.500`/`ink.700`) sitting flush on
+  `bg = ink.900`.
+- `appPattern.color1/2/3` = `brand.400` / `ink.300` / `ink.500`,
+  same rationale as charts.
+- `bronze`, `silver`, `grandmaster` medals + `navOnDark` are
+  unchanged — they already work on dark surfaces.
+
 ### Foundations
 
 Per-mode editable scales:
@@ -154,8 +170,20 @@ export const PRESET_LABELS = {
 Each preset defines `RawPalette` for both light and dark.
 `applyPreset(theme, preset)` returns a new `Theme` with palette
 swapped and semantic recomputed via `computeSemanticLight` /
-`computeSemanticDark`. Identity is preserved (per spec — users may
-diverge identity from preset).
+`computeSemanticDark`. Identity is **preserved per-mode** (per
+spec — users may diverge identity from preset, including divergence
+between light and dark).
+
+Consequence after #91 (identity split into `_LIGHT`/`_DARK`):
+
+- A fresh load from `DEFAULT_THEME` (or `RESET → applyPreset(DEFAULT_THEME, …)`)
+  picks up the corrected dark identity (gold/master medals
+  visible, charts/app-pattern adapted).
+- A user who has already diverged `identity.dark` keeps their
+  customisations across preset switches — there is no in-app
+  affordance for "reset only the dark identity to the new defaults"
+  (full `RESET` would also flip light, typography, etc.). Documented
+  as a follow-up consideration in spec-gh-91; not blocking.
 
 ### `computeSemanticLight` / `computeSemanticDark`
 
@@ -185,10 +213,39 @@ function computeSemanticLight(p: RawPalette): SemanticTheme {
 ```
 
 The dark variant inverts surfaces (`background = ink-900`,
-`foreground = paper-50`) and adjusts status colors. **These two
-functions are the contract** between the palette and the semantic
-layer — when the lib's `tokens.css` defaults change, these need to
-follow (or the docs lie).
+`foreground = paper-50`) and re-tunes intent / status / muted
+hierarchy for dark plum. The Plum+Gold dark deltas (post-#91) are:
+
+- `muted = ink.800` (was `ink.700`) — tighter step from background.
+  Note: this collapses `card` and `muted` to the same colour in
+  dark; intentional flat-stack design (see spec-gh-91 Design notes).
+- `mutedForeground = paper.50` (was `ink.300`) — full-white text
+  on muted surfaces, by user choice. The standard "muted-fg is a
+  softer foreground" hierarchy is collapsed in dark only; light
+  preserves `ink.700` as muted-fg.
+- `primary = brand.400` (was `brand.500`) — Memphis tinted-shadow
+  legibility on dark plum. Ghost button shadow paints brand.400
+  (#d5a845, lighter gold) instead of brand.500 (#c4942a, dark gold
+  on dark plum = muddy).
+- `ring = brand.400` and `badgeFeatured = brand.400` — follow primary.
+- `warning = '#e8a435'` literal (was `brand.500`) — decoupled from
+  primary so Toast warning + Button primary read as distinct
+  intents. The custom amber stays distinct from gold and from red
+  destructive.
+- `memphisBorderColor = '#cccccc'` (was `'#000000'` shared with light) —
+  black 2px Memphis frames disappeared into the dark plum bg/card
+  surfaces. Light gray keeps the signature frame visible.
+  `memphisShadowColor` stays `'#000000'` to match the foundations'
+  per-tier shadow tokens (every `--shadow-memphis-*` ships
+  `color: '#000000'`).
+
+**These two functions are the contract** between the palette and
+the semantic layer — when the lib's `tokens.css` defaults change,
+or when the docs site's `apps/web/app/styles/theme.css` dark block
+changes, these need to follow (or the docs lie). The
+`apps/web/app/styles/__tests__/theme-css-dark-block.test.ts` source
+contract guards the docs CSS half; `presets.test.ts` guards the
+generator function half.
 
 ### `exporters.ts`
 
@@ -216,6 +273,16 @@ The CSS export is **delta-encoded** for the dark mode: full semantic
 re-declaration (because semantic layers are expected to fully
 override per theme) but **only the differing palette + identity tokens**
 are emitted in the dark block.
+
+After #91 the shipped `DEFAULT_IDENTITY_DARK` differs from
+`DEFAULT_IDENTITY_LIGHT`, so the dark block always emits identity-delta
+lines (e.g. `--medal-gold-outer`, `--chart-1`) **even when
+`semanticDark: false` is set**. Pre-#91 the two were a shared reference,
+so opting out of semantic dark + leaving identity on produced no dark
+block at all. The current behaviour is the correct one — exporting
+identity now means exporting its per-mode divergence. The
+`exporters.test.ts` suite covers both the no-dark-block path
+(identity off) and the identity-only delta path (identity on).
 
 ### `contrast.ts`
 
