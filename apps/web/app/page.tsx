@@ -12,7 +12,7 @@ export default async function HomePage() {
 
   return (
     <main className="px-6 sm:px-10 lg:px-16 py-16 max-w-[1200px] mx-auto">
-      <section className="grid grid-cols-1 lg:grid-cols-[1fr_600px] gap-12 items-center mb-20">
+      <section className="grid grid-cols-1 lg:grid-cols-[1fr_540px] gap-12 items-center mb-20">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-4">
             {t('eyebrow')}
@@ -51,8 +51,8 @@ export default async function HomePage() {
           <img
             src={BRAND.mascotHeroSrc}
             alt={brandT('mascotHeroAlt')}
-            width={580}
-            height={Math.round(580 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
+            width={500}
+            height={Math.round(500 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
             className="relative"
             style={{
               transform: 'rotate(-4deg)',
