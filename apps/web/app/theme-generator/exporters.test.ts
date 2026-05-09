@@ -164,7 +164,25 @@ describe('exporters', () => {
       expect(css).not.toMatch(/--brand-\d+:/)
     })
 
-    it('omits dark semantic block when flag is false (and palette/identity match)', () => {
+    it('omits dark block entirely when only opt-ins match between modes', () => {
+      // Precondition: with identity=false the only delta emitters left
+      // (palette + foundations) match between modes in DEFAULT_THEME, so
+      // the dark block has nothing to emit.
+      const css = buildCssExport(DEFAULT_THEME, {
+        rawPalette: true,
+        semanticLight: true,
+        semanticDark: false,
+        identity: false,
+        foundations: true,
+      })
+      expect(css).not.toContain(":root[data-theme='dark']")
+    })
+
+    it('emits dark block with identity-only delta when semantic is off but identity diverges (gh-91)', () => {
+      // Post-#91 DEFAULT_IDENTITY_DARK diverges from light (medals.gold.outer
+      // moves from ink.900 to paper.50, charts get high-contrast variants,
+      // etc.). Even with semanticDark=false the dark block must appear to
+      // carry the identity delta — but it must NOT contain semantic tokens.
       const css = buildCssExport(DEFAULT_THEME, {
         rawPalette: true,
         semanticLight: true,
@@ -172,7 +190,15 @@ describe('exporters', () => {
         identity: true,
         foundations: true,
       })
-      expect(css).not.toContain(":root[data-theme='dark']")
+      const darkMatch = css.match(/:root\[data-theme='dark'\]\s*\{([\s\S]*?)\n\}/)
+      expect(darkMatch, 'dark block missing').not.toBeNull()
+      const darkBody = darkMatch![1]
+      expect(darkBody).toContain('--medal-gold-outer:')
+      expect(darkBody).toContain('--chart-1:')
+      // No semantic tokens should leak through when semanticDark is false.
+      expect(darkBody).not.toMatch(/^\s*--background\s*:/m)
+      expect(darkBody).not.toMatch(/^\s*--primary\s*:/m)
+      expect(darkBody).not.toMatch(/^\s*--warning\s*:/m)
     })
 
     it('emits foundations when flag is true', () => {
