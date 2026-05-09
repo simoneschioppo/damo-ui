@@ -1,12 +1,12 @@
 {
-  "name": "@damo/ui",
+  "name": "damo-ui",
   "version": "0.3.0",
-  "private": true,
   "type": "module",
   "description": "Damo UI — a React component library heavily inspired by Memphis Design",
+  "license": "MIT",
+  "author": "Simone Schioppo",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "restricted"
+    "access": "public"
   },
   "repository": {
     "type": "git",

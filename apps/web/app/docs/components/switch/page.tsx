@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Switch, Label } from '@damo/ui'
+import { Switch, Label } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Switch, Label } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Switch, Label } from 'damo-ui'`
 
 const BASIC_SNIPPET = `<div className="flex items-center gap-3">
   <Switch id="notify" />

@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Spinner } from '@damo/ui'
+import { Spinner } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Spinner } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Spinner } from 'damo-ui'`
 
 const SIZES_SNIPPET = `<Spinner size={16} />
 <Spinner size={20} />
