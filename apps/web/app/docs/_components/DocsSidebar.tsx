@@ -47,25 +47,25 @@ export function DocsSidebar() {
               <div className={groupTitleClass}>{groupTitle}</div>
               <nav aria-label={groupTitle} className="flex flex-col gap-px">
                 {group.entries.map((entry) => {
-                const isActive = pathname === entry.slug
-                const label = entry.labelKey ? t(`entries.${entry.labelKey}`) : entry.label
-                return (
-                  <NavItem
-                    key={entry.slug}
-                    as={Link}
-                    href={entry.slug}
-                    active={isActive}
-                    className={docsNavItemClass}
-                    endAdornment={
-                      entry.status === 'stub' ? (
-                        <span className={stubBadgeClass}>SOON</span>
-                      ) : undefined
-                    }
-                  >
-                    {label}
-                  </NavItem>
-                )
-              })}
+                  const isActive = pathname === entry.slug
+                  const label = entry.labelKey ? t(`entries.${entry.labelKey}`) : entry.label
+                  return (
+                    <NavItem
+                      key={entry.slug}
+                      as={Link}
+                      href={entry.slug}
+                      active={isActive}
+                      className={docsNavItemClass}
+                      endAdornment={
+                        entry.status === 'stub' ? (
+                          <span className={stubBadgeClass}>SOON</span>
+                        ) : undefined
+                      }
+                    >
+                      {label}
+                    </NavItem>
+                  )
+                })}
               </nav>
             </div>
           )

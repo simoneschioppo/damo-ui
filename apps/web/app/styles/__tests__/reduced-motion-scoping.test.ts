@@ -38,10 +38,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
  * full runtime regression guard.
  */
 describe('AC-1 — reduced-motion override is scoped (source contract)', () => {
-  const themeCss = readFileSync(
-    resolve(__dirname, '..', 'theme.css'),
-    'utf8',
-  )
+  const themeCss = readFileSync(resolve(__dirname, '..', 'theme.css'), 'utf8')
 
   it('still ships a prefers-reduced-motion rule (a11y baseline preserved)', () => {
     expect(themeCss).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/)
@@ -54,7 +51,8 @@ describe('AC-1 — reduced-motion override is scoped (source contract)', () => {
     // Look for `*, *::before, *::after {` immediately preceded by either the
     // media's opening brace or an a11y-only selector with no scope. If found,
     // the override is global and overrides every motion utility.
-    const unscopedUniversal = /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*\*\s*,\s*\*::before\s*,\s*\*::after\s*\{/
+    const unscopedUniversal =
+      /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{\s*\*\s*,\s*\*::before\s*,\s*\*::after\s*\{/
     expect(compact).not.toMatch(unscopedUniversal)
   })
 
@@ -72,9 +70,12 @@ describe('AC-1 — reduced-motion override is scoped (source contract)', () => {
 
     // Forbidden: a top-level `*` selector unsupported by any scope.
     // Permitted: `html[data-X] *`, `html:not([data-X]) *`, `.scope *`, etc.
-    const lines = block.split('\n').map((l) => l.trim()).filter(Boolean)
-    const hasUnscopedStar = lines.some((line) =>
-      /^\*\s*[,{]/.test(line) || /^\*::before\s*[,{]/.test(line),
+    const lines = block
+      .split('\n')
+      .map((l) => l.trim())
+      .filter(Boolean)
+    const hasUnscopedStar = lines.some(
+      (line) => /^\*\s*[,{]/.test(line) || /^\*::before\s*[,{]/.test(line),
     )
     expect(
       hasUnscopedStar,

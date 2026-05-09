@@ -161,10 +161,99 @@
  * tracked separately in #58's PR description.
  *
  * See: https://github.com/simoneschioppo/damo-ui/issues/58 */
-@utility shadow-memphis-sm     { box-shadow: var(--shadow-memphis-sm); }
-@utility shadow-memphis-card   { box-shadow: var(--shadow-memphis-card); }
-@utility shadow-memphis        { box-shadow: var(--shadow-memphis); }
-@utility shadow-memphis-lg     { box-shadow: var(--shadow-memphis-lg); }
-@utility shadow-memphis-hover  { box-shadow: var(--shadow-memphis-hover); }
-@utility shadow-memphis-active { box-shadow: var(--shadow-memphis-active); }
-@utility shadow-md             { box-shadow: var(--shadow-md); }
+@utility shadow-memphis-sm {
+  box-shadow: var(--shadow-memphis-sm);
+}
+@utility shadow-memphis-card {
+  box-shadow: var(--shadow-memphis-card);
+}
+@utility shadow-memphis {
+  box-shadow: var(--shadow-memphis);
+}
+@utility shadow-memphis-lg {
+  box-shadow: var(--shadow-memphis-lg);
+}
+@utility shadow-memphis-hover {
+  box-shadow: var(--shadow-memphis-hover);
+}
+@utility shadow-memphis-active {
+  box-shadow: var(--shadow-memphis-active);
+}
+@utility shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+/* Per-color tinted Memphis shadows (issue #66).
+ *
+ * These replace the legacy `[--memphis-shadow-color:var(--X)] shadow-memphis`
+ * recipe used by Button ghost / focused inputs / Toast / Banner / Dialog
+ * danger / Card featured. The legacy recipe was broken at runtime because
+ * browsers substitute `var()` references inside an *inherited* custom
+ * property at the declaring element (`:root`), not the consumer — so an
+ * `--shadow-memphis: 6px 6px 0 var(--memphis-shadow-color)` declaration
+ * resolved its inner `var()` to the literal `#000000` at `:root` and
+ * inherited as that literal. Per-instance overrides of
+ * `--memphis-shadow-color` on a child could not retroactively re-tint it
+ * (verified across Chromium and WebKit, see PR #65 caveat).
+ *
+ * Each block below bakes the intent token directly into the box-shadow
+ * value. Substitution then happens at the consumer's computed-value time
+ * for the box-shadow property, against the cascade visible at that
+ * element — so the painted shadow follows live edits to `--primary`,
+ * `--success`, etc.
+ *
+ * Offsets are hardcoded (md = 6px 6px 0, lg = 9px 9px 0) to match the
+ * tier baseline in tokens.css. There is no `--shadow-memphis-offset`
+ * token, so the theme generator's `--shadow-memphis-{tier}` overrides do
+ * NOT propagate to the per-color variants — tinted shadows follow the
+ * intent color, not the tier offset. Adding offset overrides is a
+ * separate architectural change and is deferred until at least one
+ * consumer needs it.
+ *
+ * The roster covers exactly the intents/tier combinations consumed by
+ * the lib's components. `secondary` is omitted because no consumer uses
+ * a tinted-secondary shadow; sm/card/hover/active × intent are omitted
+ * for the same reason.
+ *
+ * See: https://github.com/simoneschioppo/damo-ui/issues/66 */
+@utility shadow-memphis-primary {
+  box-shadow: 6px 6px 0 var(--primary);
+}
+@utility shadow-memphis-success {
+  box-shadow: 6px 6px 0 var(--success);
+}
+@utility shadow-memphis-warning {
+  box-shadow: 6px 6px 0 var(--warning);
+}
+@utility shadow-memphis-destructive {
+  box-shadow: 6px 6px 0 var(--destructive);
+}
+@utility shadow-memphis-info {
+  box-shadow: 6px 6px 0 var(--info);
+}
+@utility shadow-memphis-lg-destructive {
+  box-shadow: 9px 9px 0 var(--destructive);
+}
+
+/* Per-color hover/active variants for Button ghost (and any future
+ * consumer that pairs a tinted rest shadow with state-driven offset
+ * changes). The non-tinted `shadow-memphis-hover` / `-active` utilities
+ * read `--memphis-shadow-color` (default black), which would produce a
+ * primary→black color jolt on every hover/active interaction once the
+ * rest shadow is tinted. Each utility below mirrors the matching
+ * non-tinted offset (hover = 7px 7px 0, active = 2px 2px 0).
+ *
+ * ROSTER ASYMMETRY — only `primary` has hover/active variants because
+ * Button ghost is the only lib consumer today that composes a tinted
+ * rest shadow with hover/active offset utilities. If you add a new
+ * variant that pairs e.g. `shadow-memphis-destructive` with
+ * `hover:shadow-memphis-hover`, the hover state will silently jolt to
+ * default black — add the matching `shadow-memphis-{intent}-hover` /
+ * `-active` utility here first (and register it in `cn.ts`'s
+ * `extendTailwindMerge` shadow group). */
+@utility shadow-memphis-primary-hover {
+  box-shadow: 7px 7px 0 var(--primary);
+}
+@utility shadow-memphis-primary-active {
+  box-shadow: 2px 2px 0 var(--primary);
+}

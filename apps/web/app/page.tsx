@@ -80,9 +80,7 @@ export default async function HomePage() {
             key={key}
             className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-2"
           >
-            <div className="font-display text-xl tracking-wide">
-              {t(`features.${key}.title`)}
-            </div>
+            <div className="font-display text-xl tracking-wide">{t(`features.${key}.title`)}</div>
             <p className="text-sm text-muted-foreground">{t(`features.${key}.desc`)}</p>
           </div>
         ))}
@@ -96,9 +94,7 @@ export default async function HomePage() {
         <ol className="space-y-2 text-foreground/85 list-decimal pl-5">
           <li>{t.rich('quickInstall.step1', { code: codeTag, mono: monoTag })}</li>
           <li>{t.rich('quickInstall.step2', { mono: monoTag })}</li>
-          <li>
-            {t.rich('quickInstall.step3', { link: linkTag('/docs/getting-started') })}
-          </li>
+          <li>{t.rich('quickInstall.step3', { link: linkTag('/docs/getting-started') })}</li>
         </ol>
       </section>
     </main>
