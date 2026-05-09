@@ -100,9 +100,7 @@ export default async function HomePage() {
               </h3>
             </div>
             <p className="text-sm text-muted-foreground">{t('quickInstall.step1.desc')}</p>
-            <div className="mt-auto pt-2">
-              <Code code={INSTALL_SNIPPET} lang="bash" title="terminal" embedded />
-            </div>
+            <Code code={INSTALL_SNIPPET} lang="bash" title="terminal" embedded fillHeight />
           </div>
 
           <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">
@@ -113,9 +111,7 @@ export default async function HomePage() {
               </h3>
             </div>
             <p className="text-sm text-muted-foreground">{t('quickInstall.step2.desc')}</p>
-            <div className="mt-auto pt-2">
-              <Code code={STYLES_SNIPPET} lang="css" title="app/globals.css" embedded />
-            </div>
+            <Code code={STYLES_SNIPPET} lang="css" title="app/globals.css" embedded fillHeight />
           </div>
 
           <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">
@@ -128,9 +124,7 @@ export default async function HomePage() {
             <p className="text-sm text-muted-foreground">
               {t.rich('quickInstall.step3.desc', { link: linkTag('/docs/getting-started') })}
             </p>
-            <div className="mt-auto pt-2">
-              <Code code={RENDER_SNIPPET} lang="tsx" title="app/page.tsx" embedded />
-            </div>
+            <Code code={RENDER_SNIPPET} lang="tsx" title="app/page.tsx" embedded fillHeight />
           </div>
         </div>
       </section>

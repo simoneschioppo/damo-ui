@@ -13,6 +13,12 @@ export interface CodeProps {
    * embedded inside another framed surface (e.g. `<Example>`).
    */
   readonly embedded?: boolean
+  /**
+   * When true, the block stretches vertically to fill its parent flex
+   * container (used by the home QUICK INSTALL cards so all 3 terminals
+   * align at the same height regardless of snippet line count).
+   */
+  readonly fillHeight?: boolean
 }
 
 const LANG_LABEL: Record<CodeLang, string> = {
@@ -33,14 +39,16 @@ export async function Code({
   title,
   hideCopy = false,
   embedded = false,
+  fillHeight = false,
 }: CodeProps) {
   const html = await highlightCode(code, lang)
-  const wrapperClass = embedded
+  const wrapperBase = embedded
     ? 'bg-[#0d1117] overflow-hidden'
     : 'my-4 border-2 border-memphis bg-[#0d1117] shadow-memphis overflow-hidden'
+  const wrapperClass = fillHeight ? `${wrapperBase} flex-1 flex flex-col` : wrapperBase
   return (
     <div className={wrapperClass}>
-      <div className="flex items-center justify-between gap-3 px-3 py-2 bg-[#161b22] border-b border-[#30363d]">
+      <div className="flex items-center justify-between gap-3 px-3 py-2 bg-[#161b22] border-b border-[#30363d] shrink-0">
         <div className="flex items-center gap-3 min-w-0">
           <div className="flex items-center gap-1.5 shrink-0" aria-hidden>
             <span className={`${dotClass} bg-[#ff5f57]`} />
@@ -73,7 +81,7 @@ export async function Code({
         becomes an XSS sink.
       */}
       <div
-        className="overflow-x-auto px-4 py-4 text-[13px] leading-relaxed [&_pre]:!bg-transparent [&_pre]:!m-0 [&_pre]:!p-0 [&_code]:font-mono [scrollbar-width:thin] [scrollbar-color:#30363d_transparent] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#30363d] [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#484f58]"
+        className={`overflow-x-auto px-4 py-4 text-[13px] leading-relaxed [&_pre]:!bg-transparent [&_pre]:!m-0 [&_pre]:!p-0 [&_code]:font-mono [scrollbar-width:thin] [scrollbar-color:#30363d_transparent] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#30363d] [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#484f58]${fillHeight ? ' flex-1' : ''}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>
