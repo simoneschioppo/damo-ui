@@ -49,9 +49,18 @@ const expectChannelsClose = (
   expect(actual, `${label}: expected an rgb triplet, got null`).not.toBeNull()
   const [ar, ag, ab] = actual!
   const [er, eg, eb] = expected
-  expect(Math.abs(ar - er), `${label} R: got ${ar}, expected ${er}±${tolerance}`).toBeLessThanOrEqual(tolerance)
-  expect(Math.abs(ag - eg), `${label} G: got ${ag}, expected ${eg}±${tolerance}`).toBeLessThanOrEqual(tolerance)
-  expect(Math.abs(ab - eb), `${label} B: got ${ab}, expected ${eb}±${tolerance}`).toBeLessThanOrEqual(tolerance)
+  expect(
+    Math.abs(ar - er),
+    `${label} R: got ${ar}, expected ${er}±${tolerance}`,
+  ).toBeLessThanOrEqual(tolerance)
+  expect(
+    Math.abs(ag - eg),
+    `${label} G: got ${ag}, expected ${eg}±${tolerance}`,
+  ).toBeLessThanOrEqual(tolerance)
+  expect(
+    Math.abs(ab - eb),
+    `${label} B: got ${ab}, expected ${eb}±${tolerance}`,
+  ).toBeLessThanOrEqual(tolerance)
 }
 
 async function enableDarkTheme(page: Page) {
@@ -95,7 +104,9 @@ test.describe('Plum+Gold dark mode tokens (#91)', () => {
     expectChannelsClose(parseRgbTriplet(color), [213, 168, 69], '--primary')
   })
 
-  test('--warning resolves to custom amber #e8a435 (decoupled from --primary)', async ({ page }) => {
+  test('--warning resolves to custom amber #e8a435 (decoupled from --primary)', async ({
+    page,
+  }) => {
     const probe = await page.evaluate(() => {
       const a = document.createElement('div')
       a.style.color = 'var(--warning)'
@@ -161,7 +172,9 @@ test.describe('Plum+Gold dark mode tokens (#91)', () => {
     expectChannelsClose(parseRgbTriplet(c), [197, 144, 201], '--chart-1')
   })
 
-  test('--chart-5 resolves to ink.100 (#e0c6e2) in dark — high-contrast pale plum', async ({ page }) => {
+  test('--chart-5 resolves to ink.100 (#e0c6e2) in dark — high-contrast pale plum', async ({
+    page,
+  }) => {
     const c = await page.evaluate(() => {
       const p = document.createElement('div')
       p.style.color = 'var(--chart-5)'
@@ -173,7 +186,9 @@ test.describe('Plum+Gold dark mode tokens (#91)', () => {
     expectChannelsClose(parseRgbTriplet(c), [224, 198, 226], '--chart-5')
   })
 
-  test('Ghost button paints box-shadow with brand.400 (Memphis legibility on dark plum)', async ({ page }) => {
+  test('Ghost button paints box-shadow with brand.400 (Memphis legibility on dark plum)', async ({
+    page,
+  }) => {
     // The home page renders `<Button asChild variant="ghost"><Link href="/theme-generator">…</Link></Button>`.
     // `asChild` flattens Button's className onto the anchor, so we target the
     // anchor that actually carries the Memphis ghost class — there may be

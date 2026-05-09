@@ -33,7 +33,7 @@ const css = readFileSync(resolve(__dirname, '..', 'theme.css'), 'utf8')
  */
 function extractDarkBlock(source: string): string {
   const match = source.match(/:root\[data-theme=['"]dark['"]\]\s*\{/)
-  if (!match) throw new Error("dark block opening not found in theme.css")
+  if (!match) throw new Error('dark block opening not found in theme.css')
   const start = match.index! + match[0].length
   let depth = 1
   for (let i = start; i < source.length; i++) {
@@ -43,7 +43,7 @@ function extractDarkBlock(source: string): string {
       if (depth === 0) return source.slice(start, i)
     }
   }
-  throw new Error("dark block closing brace not found in theme.css")
+  throw new Error('dark block closing brace not found in theme.css')
 }
 
 describe('theme.css — dark block (gh-91)', () => {
