@@ -28,9 +28,10 @@ function radiusStyle(k: RadiusKey): CSSProperties {
     ...baseStyle,
     background: 'var(--foreground)',
     borderRadius: `var(--radius-${k})`,
-    // Breathing room from the neighbouring slider/input — the chip used
-    // to sit flush against the row's right edge and felt cramped.
-    marginRight: 8,
+    // Breathing room from the slider track to the chip's right — the
+    // 8px first pass still felt like the two read as a single control;
+    // 16px gives the chip a clear "preview pane" silhouette of its own.
+    marginRight: 16,
   }
 }
 
