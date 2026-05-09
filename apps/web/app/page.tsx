@@ -12,12 +12,12 @@ export default async function HomePage() {
 
   return (
     <main className="px-6 sm:px-10 lg:px-16 py-16 max-w-[1200px] mx-auto">
-      <section className="grid grid-cols-1 lg:grid-cols-[1fr_540px] gap-12 items-center mb-20">
+      <section className="grid grid-cols-1 lg:grid-cols-[1fr_500px] gap-12 items-center mb-20">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-4">
             {t('eyebrow')}
           </div>
-          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-6">
+          <h1 className="font-display text-5xl sm:text-6xl leading-[0.95] mb-6">
             {BRAND.libName}
             <br />
             {t('headlineLine1')}
@@ -51,8 +51,8 @@ export default async function HomePage() {
           <img
             src={BRAND.mascotHeroSrc}
             alt={brandT('mascotHeroAlt')}
-            width={500}
-            height={Math.round(500 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
+            width={480}
+            height={Math.round(480 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
             className="relative"
             style={{
               transform: 'rotate(-4deg)',
@@ -74,7 +74,7 @@ export default async function HomePage() {
         ))}
       </section>
 
-      <section className="mt-20 border-t-2 border-memphis pt-10">
+      <section className="mt-20">
         <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
           {t('quickInstall.eyebrow')}
         </div>
