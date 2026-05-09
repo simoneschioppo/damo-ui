@@ -72,37 +72,54 @@ const channelsClose = (
 }
 
 async function setTokenAndSettle(page: Page, token: string, value: string) {
+  // Inject the override via a `<style>` tag rather than inline element
+  // style. Webkit on the GHA runner intermittently dropped the
+  // `!important` priority when it was set via
+  // `documentElement.style.setProperty(..., 'important')` against the
+  // playground's `:root[data-theme='light']` rules, leaving consumers'
+  // computed `backgroundColor` / `color` on the original token value.
+  // A stylesheet rule with the same `:root, :root[data-theme=…]`
+  // selector list and `!important` carries over both browsers reliably.
   await page.evaluate(
     ({ t, v }) => {
-      document.documentElement.style.setProperty(t, v, 'important')
+      const STYLE_ID = '__e2e_token_overrides__'
+      let styleEl = document.getElementById(STYLE_ID) as HTMLStyleElement | null
+      if (!styleEl) {
+        styleEl = document.createElement('style')
+        styleEl.id = STYLE_ID
+        document.head.appendChild(styleEl)
+      }
+      const overrides =
+        (styleEl as HTMLStyleElement & { __overrides?: Record<string, string> }).__overrides ?? {}
+      overrides[t] = v
+      ;(styleEl as HTMLStyleElement & { __overrides?: Record<string, string> }).__overrides =
+        overrides
+      const decls = Object.entries(overrides)
+        .map(([k, val]) => `${k}: ${val} !important;`)
+        .join(' ')
+      styleEl.textContent = `:root, :root[data-theme='light'], :root[data-theme='dark'] { ${decls} }`
     },
     { t: token, v: value },
   )
-  // CI webkit needs a longer paint window than the local engine — 250ms
-  // was enough on chromium but flaked consistently on the GitHub Actions
-  // webkit runner. Poll until the inline-style override is observable
-  // via getPropertyValue, falling back to a fixed wait if the property
-  // resolves through a runtime layer (e.g. shadow tokens that compose
-  // intermediate vars).
-  await page
-    .waitForFunction(
-      ({ t, v }) => {
-        const got = getComputedStyle(document.documentElement).getPropertyValue(t).trim()
-        // Loose match — the spec normalises whitespace and rgb form.
-        return got.length > 0 && got.replace(/\s+/g, '') === v.replace(/\s+/g, '')
-      },
-      { t: token, v: value },
-      { timeout: 1500 },
-    )
-    .catch(() => {
-      /* tolerate runtime-derived tokens that don't echo back literally */
-    })
   await page.waitForTimeout(250)
 }
 
 async function clearToken(page: Page, token: string) {
   await page.evaluate((t) => {
-    document.documentElement.style.removeProperty(t)
+    const STYLE_ID = '__e2e_token_overrides__'
+    const styleEl = document.getElementById(STYLE_ID) as
+      | (HTMLStyleElement & { __overrides?: Record<string, string> })
+      | null
+    if (!styleEl) return
+    const overrides = styleEl.__overrides ?? {}
+    delete overrides[t]
+    styleEl.__overrides = overrides
+    const decls = Object.entries(overrides)
+      .map(([k, val]) => `${k}: ${val} !important;`)
+      .join(' ')
+    styleEl.textContent = decls
+      ? `:root, :root[data-theme='light'], :root[data-theme='dark'] { ${decls} }`
+      : ''
   }, token)
   await page.waitForTimeout(100)
 }
