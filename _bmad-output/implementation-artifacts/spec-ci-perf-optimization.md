@@ -2,7 +2,7 @@
 title: 'CI performance optimization (Playwright cache + concurrency + artifact reuse + prod webserver)'
 type: 'chore'
 created: '2026-05-09'
-status: 'in-progress'
+status: 'in-review'
 baseline_commit: '5addbb8fc7a336c9010064c453d6e801c831956e'
 context:
   - '{project-root}/.github/workflows/ci.yml'
@@ -75,6 +75,20 @@ context:
 - Given Playwright's `webServer` boot in CI, when the job runs, then the command is `pnpm --filter @damo/web start` (production server) and HTTP 200 is returned within 10s.
 - Given a developer running `pnpm test:e2e` locally without `CI=1`, when Playwright boots `webServer`, then the command remains `pnpm --filter @damo/web dev` (HMR preserved).
 - Given a fresh repo with empty caches (cold-start), when CI runs, then both jobs succeed end-to-end without manual intervention.
+
+## Spec Change Log
+
+### 2026-05-09 — Post-review fixes (everything-claude-code:code-review verdict REQUEST-CHANGES)
+
+**Finding 1 (MUST-FIX):** `concurrency.group` used `github.ref`. On a feature branch with an open PR, GitHub fires both `push` (`refs/heads/feat-x`) and `pull_request` (`refs/pull/N/merge`) events for the same SHA. These resolve to different group keys, so neither cancels the other → 2 parallel CI runs per push, defeating the concurrency optimization.
+
+**Amendment:** Changed `${{ github.ref }}` → `${{ github.head_ref || github.ref }}` in the concurrency group. `github.head_ref` is populated only on `pull_request` events (source branch name); falls back to `github.ref` on `push` events. Both triggers for the same source branch now share one group.
+
+**Finding 2 (SHOULD-FIX):** `restore-keys: playwright-${{ runner.os }}-` fallback restored partial caches on cache miss. Playwright validates browser binary versions against its client manifest at startup; a partial restore from an older `@playwright/test` version causes a startup error. The fallback added zero speed benefit (browsers are write-once binaries, not incremental like npm modules) while introducing a real failure mode.
+
+**Amendment:** Removed the `restore-keys` block entirely. On cache miss the install step runs from scratch (~20s on GH-hosted runners, validated in cold-start), which is the same behavior as pre-PR. Worst case is identical to the no-cache baseline.
+
+**KEEP:** All other architectural choices validated by the review — artifact pattern (vs cache) for the lib build, `if-no-files-found: error` defensive guard, `process.env.CI` gate in playwright.config.ts (CI=true is de-facto standard).
 
 ## Verification
 
