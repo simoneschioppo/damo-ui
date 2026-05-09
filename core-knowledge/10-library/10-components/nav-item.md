@@ -1,7 +1,8 @@
 # NavItem
 
-Status: documented · Last scan: 43a7a02 · Sources:
-`packages/ui/src/components/nav-item/{nav-item.tsx,nav-item.variants.ts,index.ts,nav-item.test.tsx}`.
+Status: documented · Last scan: 3a33508 · Sources:
+`packages/ui/src/components/nav-item/{nav-item.tsx,nav-item.variants.ts,index.ts,nav-item.test.tsx,nav-item.tone-on-dark.test.ts}`,
+`packages/ui/src/lib/selection-chrome.ts`.
 
 ## Summary
 
@@ -12,37 +13,43 @@ gradient + 1px inset outline + 3px left bar bleeding into the
 sidebar's gutter. Two tones — `default` (light) and `onDark` (dark
 sidebar) — that read from different token sets.
 
-> **The selection chrome here is the canonical reference**;
-> DropdownMenuRadioItem mirrors it intentionally for cross-component
-> consistency (see DropdownMenu chapter).
+> Since gh-61 the selection-chrome class recipe is **factored into a
+> single helper** at `packages/ui/src/lib/selection-chrome.ts`
+> (`selectionChromeClasses(opts)`) shared with `DropdownMenuRadioItem`.
+> NavItem invokes it twice (once per tone) with token-specific options.
+> The helper is parametrized by attribute gate, gradient/outline tokens,
+> mix percentages, bar inset, and bar color — see the DropdownMenu
+> chapter for the radio-item invocation. The visual contract below is
+> unchanged; only the source-of-truth has moved.
 
 ## Public API
 
-| Export             | Kind |
-|--------------------|------|
-| `NavItem`          | `forwardRef<HTMLAnchorElement, NavItemProps>` |
-| `NavItemProps`     | see below |
-| `navItemVariants`  | (re-exported via index) |
-| `NavItemVariants`  | type |
+| Export            | Kind                                          |
+| ----------------- | --------------------------------------------- |
+| `NavItem`         | `forwardRef<HTMLAnchorElement, NavItemProps>` |
+| `NavItemProps`    | see below                                     |
+| `navItemVariants` | (re-exported via index)                       |
+| `NavItemVariants` | type                                          |
 
-| Prop           | Type                          | Default     | Notes |
-|----------------|-------------------------------|-------------|-------|
-| `as`           | `ElementType`                 | `'a'`       | For Next `<Link>` etc. |
-| `active`       | `boolean`                     | —           | Sets `aria-current="page"` (drives the chrome) |
-| `tone`         | `'default' \| 'onDark'`       | `'default'` | |
-| `icon`         | `ReactNode`                   | —           | 20×20 slot, opacity 80 |
-| `endAdornment` | `ReactNode`                   | —           | right-aligned slot |
-| `className`    | `string`                      | —           | |
-| …native        | `AnchorHTMLAttributes<HTMLAnchorElement>` | — | Including `href` |
+| Prop           | Type                                      | Default     | Notes                                          |
+| -------------- | ----------------------------------------- | ----------- | ---------------------------------------------- |
+| `as`           | `ElementType`                             | `'a'`       | For Next `<Link>` etc.                         |
+| `active`       | `boolean`                                 | —           | Sets `aria-current="page"` (drives the chrome) |
+| `tone`         | `'default' \| 'onDark'`                   | `'default'` |                                                |
+| `icon`         | `ReactNode`                               | —           | 20×20 slot, opacity 80                         |
+| `endAdornment` | `ReactNode`                               | —           | right-aligned slot                             |
+| `className`    | `string`                                  | —           |                                                |
+| …native        | `AnchorHTMLAttributes<HTMLAnchorElement>` | —           | Including `href`                               |
 
 ## Internal architecture
 
 ### Render layout
 
 ```jsx
-<Component aria-current={active ? 'page' : undefined}
-           className={navItemVariants({ tone })}>
-  {icon && <span className="inline-flex h-5 w-5 items-center justify-center opacity-80">{icon}</span>}
+<Component aria-current={active ? 'page' : undefined} className={navItemVariants({ tone })}>
+  {icon && (
+    <span className="inline-flex h-5 w-5 items-center justify-center opacity-80">{icon}</span>
+  )}
   <span className="flex-1 truncate">{children}</span>
   {endAdornment && <span className="ml-auto shrink-0">{endAdornment}</span>}
 </Component>
@@ -65,9 +72,30 @@ disabled:opacity-50 disabled:pointer-events-none
 
 ### Tone = `default` (selection chrome)
 
-When `aria-current="page"`:
+When `aria-current="page"` the variant emits the chrome classes via
+`selectionChromeClasses(opts)` plus a `text-foreground` override.
+Helper invocation:
 
-1. **Text** → `text-foreground`
+```ts
+selectionChromeClasses({
+  gate: 'aria-[current=page]',
+  radiusToken: 'rounded-selection',
+  gradientFrom: 'var(--primary)',
+  gradientFromMix: 18,
+  gradientTo: 'var(--secondary)',
+  gradientToMix: 10,
+  outlineToken: 'var(--primary)',
+  outlineMix: 30,
+  barColor: 'bg-primary',
+  barInset: '-2px',
+  barTop: '2',
+  barBottom: '2',
+})
+```
+
+Resolved visual contract:
+
+1. **Text** → `text-foreground` (kept at the call-site, not part of the helper)
 2. **Radius** → `rounded-selection` (10px from tokens)
 3. **Background** → 135° gradient mixing 18% primary + 10% secondary
    into transparent (subtle wash)
@@ -75,8 +103,8 @@ When `aria-current="page"`:
 5. **3px left bar** (`::before`):
    - `position: absolute`, `top-2 bottom-2`, `w-[3px]`,
      `rounded-[2px]`, `bg-primary`
-   - **`left-[-2px]`** — bleeds 2px outside the rounded outline,
-     into the sidebar's left rail/padding gutter
+   - **`left-[-2px]`** (passed as `barInset`) — bleeds 2px outside the
+     rounded outline, into the sidebar's left rail/padding gutter.
 
 Hover (when not active): `hover:text-foreground hover:bg-muted
 hover:translate-x-0.5` — small 0.5px nudge to the right on hover for
@@ -84,22 +112,41 @@ tactile feel.
 
 ### Tone = `onDark`
 
-The same shape, but every token is swapped to the `--nav-on-dark-*`
-set. The source comment is explicit:
+Same helper, every token swapped to the `--nav-on-dark-*` set so the
+theme generator's "Nav on dark" controls reach the gradient/outline/bar
+layers (regression guard: `nav-item.tone-on-dark.test.ts`). The source
+comment is explicit:
 
 > Idle + hover colours read from the nav-on-dark identity tokens so
 > the theme generator's "Nav on dark" controls actually theme the
 > navbar — previously these were hardcoded to the default rgba/white
 > and ignored token overrides.
 
-- Text → `var(--nav-on-dark-foreground)` (idle), `var(--nav-on-dark-foreground-strong)` (hover/active)
+Helper invocation (only the changed args vs. `default`):
+
+```ts
+selectionChromeClasses({
+  ...
+  gradientFrom: 'var(--nav-on-dark-accent-strong)',
+  gradientFromMix: 22,
+  gradientTo: 'var(--nav-on-dark-accent)',
+  gradientToMix: 12,
+  outlineToken: 'var(--nav-on-dark-accent-strong)',
+  outlineMix: 30,
+  barColor: 'bg-[var(--nav-on-dark-accent-strong)]',
+  // gate, radiusToken, barInset/Top/Bottom unchanged from default tone
+})
+```
+
+- Text → `var(--nav-on-dark-foreground)` (idle), `var(--nav-on-dark-foreground-strong)` (hover); active text override → `var(--nav-on-dark-accent)` (kept at the call-site)
 - Hover bg → `bg-white/5` (5% white tint — fixed, not tokenized)
 - Active gradient → `linear-gradient(135deg, color-mix(in oklab, var(--nav-on-dark-accent-strong) 22%, transparent), color-mix(in oklab, var(--nav-on-dark-accent) 12%, transparent))`
   — fully tokenized via the same color-mix oklab recipe used by Chip /
   Toast / Banner / Hint. Theme-generator edits to either accent reach
-  the gradient layer. Source-contract regression guard:
-  `nav-item.tone-on-dark.test.ts` (4 assertions, including absence of
-  the legacy gold/plum rgba literals).
+  the gradient layer. The `color-mix(in oklab, ...)` literal lives in
+  the helper, not the variants file — the regression test reads both
+  files (variants + helper) so neither can silently embed the legacy
+  gold/plum rgba literals.
 - Active inset outline → `--nav-on-dark-accent-strong` mixed 30% with transparent
 - Active bar → `bg-[var(--nav-on-dark-accent-strong)]`
 
@@ -115,7 +162,9 @@ set. The source comment is explicit:
    NavItem sits inside a sidebar with a left padding gutter into
    which the bar bleeds; DropdownMenuRadioItem sits inside an
    `overflow-hidden` Content panel where a bleeding bar would be
-   clipped.
+   clipped. **Since gh-61** this is an explicit `barInset` argument
+   to `selectionChromeClasses` — no longer a hidden fork between two
+   copy-pasted blocks.
 
 3. **`aria-current="page"` drives the chrome** via the
    `aria-[current=page]:` Tailwind variants. There is no `data-active`
@@ -141,9 +190,15 @@ set. The source comment is explicit:
 
 1. **`disabled` opacity-only** — consider `aria-disabled` auto-set
    (and pointer-events-none).
-2. **Active chrome shared with DropdownMenuRadioItem** — the recipe
-   should live in one place. A `selectionChrome()` cn-helper or a
-   shared CSS class would prevent drift. Tracked as story #61.
+2. ~~**Active chrome shared with DropdownMenuRadioItem**~~ —
+   **RESOLVED in gh-61 / PR #75.** The recipe now lives in
+   `packages/ui/src/lib/selection-chrome.ts` as
+   `selectionChromeClasses(opts)`, exported from `@damo/ui`. Both
+   NavItem (default + onDark) and `DropdownMenuRadioItem` consume it.
+   The bar-inset divergence is an explicit parameter, the
+   `color-mix(in oklab, …)` literal lives only in the helper, and a
+   source-contract regression test pins the literal out of both
+   call-sites.
 3. **`hover:translate-x-0.5` is decorative motion** — fine on a
    sidebar, may feel jarring elsewhere. The component doesn't gate
    it; consumers wanting static items override.

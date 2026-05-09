@@ -1,7 +1,8 @@
 # DropdownMenu
 
-Status: documented · Last scan: d63afaf · Sources:
-`packages/ui/src/components/dropdown-menu/{dropdown-menu.tsx,index.ts,dropdown-menu.test.tsx}`.
+Status: documented · Last scan: 3a33508 · Sources:
+`packages/ui/src/components/dropdown-menu/{dropdown-menu.tsx,index.ts,dropdown-menu.test.tsx}`,
+`packages/ui/src/lib/selection-chrome.ts`.
 
 ## Summary
 
@@ -14,27 +15,35 @@ solid slab the lib previously used. RadioItem has a distinctive
 "selected chrome" — gradient + 1px inset outline + 3px left bar — that
 mirrors the NavItem selection chrome for cross-component consistency.
 
+> Since gh-61 the RadioItem chrome is **factored into a single helper**
+> at `packages/ui/src/lib/selection-chrome.ts`
+> (`selectionChromeClasses(opts)`) shared with `NavItem`. The
+> RadioItem invokes it with `gate: 'data-[state=checked]'` and a
+> `barInset: '1'` (instead of NavItem's `-2px`) because the menu
+> Content has `overflow-hidden` and a bleeding bar would be clipped.
+> The visual contract is unchanged; only the source-of-truth has moved.
+
 ## Public API
 
 11 exports:
 
-| Export                      | Pass-through to                               | Styled? |
-|-----------------------------|-----------------------------------------------|---------|
-| `DropdownMenu`              | `DropdownMenuPrimitive.Root`                  | no |
-| `DropdownMenuTrigger`       | `DropdownMenuPrimitive.Trigger`               | no |
-| `DropdownMenuGroup`         | `DropdownMenuPrimitive.Group`                 | no |
-| `DropdownMenuPortal`        | `DropdownMenuPrimitive.Portal`                | no |
-| `DropdownMenuSub`           | `DropdownMenuPrimitive.Sub`                   | no |
-| `DropdownMenuRadioGroup`    | `DropdownMenuPrimitive.RadioGroup`            | no |
-| `DropdownMenuContent`       | `…Content`                                    | yes — Memphis panel |
-| `DropdownMenuItem`          | `…Item`                                       | yes — base item |
-| `DropdownMenuCheckboxItem`  | `…CheckboxItem`                               | yes — left-padded check |
-| `DropdownMenuRadioItem`     | `…RadioItem`                                  | yes — selected chrome (see below) |
-| `DropdownMenuLabel`         | `…Label`                                      | yes — uppercase mono primary |
-| `DropdownMenuSeparator`     | `…Separator`                                  | yes — `bg-memphis` (black) |
-| `DropdownMenuShortcut`      | plain `<span>`                                | yes — right-aligned mono |
-| `DropdownMenuSubTrigger`    | `…SubTrigger`                                 | yes — adds chevron |
-| `DropdownMenuSubContent`    | `…SubContent`                                 | yes — Memphis panel |
+| Export                     | Pass-through to                    | Styled?                           |
+| -------------------------- | ---------------------------------- | --------------------------------- |
+| `DropdownMenu`             | `DropdownMenuPrimitive.Root`       | no                                |
+| `DropdownMenuTrigger`      | `DropdownMenuPrimitive.Trigger`    | no                                |
+| `DropdownMenuGroup`        | `DropdownMenuPrimitive.Group`      | no                                |
+| `DropdownMenuPortal`       | `DropdownMenuPrimitive.Portal`     | no                                |
+| `DropdownMenuSub`          | `DropdownMenuPrimitive.Sub`        | no                                |
+| `DropdownMenuRadioGroup`   | `DropdownMenuPrimitive.RadioGroup` | no                                |
+| `DropdownMenuContent`      | `…Content`                         | yes — Memphis panel               |
+| `DropdownMenuItem`         | `…Item`                            | yes — base item                   |
+| `DropdownMenuCheckboxItem` | `…CheckboxItem`                    | yes — left-padded check           |
+| `DropdownMenuRadioItem`    | `…RadioItem`                       | yes — selected chrome (see below) |
+| `DropdownMenuLabel`        | `…Label`                           | yes — uppercase mono primary      |
+| `DropdownMenuSeparator`    | `…Separator`                       | yes — `bg-memphis` (black)        |
+| `DropdownMenuShortcut`     | plain `<span>`                     | yes — right-aligned mono          |
+| `DropdownMenuSubTrigger`   | `…SubTrigger`                      | yes — adds chevron                |
+| `DropdownMenuSubContent`   | `…SubContent`                      | yes — Memphis panel               |
 
 Items, CheckboxItems, RadioItems, and SubTriggers accept an optional
 `inset?: boolean` prop that adds `pl-8` to align with siblings that
@@ -79,7 +88,32 @@ inside `ItemIndicator` (which only renders when `data-state=checked`).
 
 ### RadioItem — "selected chrome"
 
-The lib's most decorative item state. When `data-[state=checked]`:
+The lib's most decorative item state. The chrome class list is emitted
+by the shared `selectionChromeClasses(opts)` helper (since gh-61) and
+spread into the RadioItem's `cn(...)` call alongside
+`itemBaseClass`, `pl-8 pr-2`, and the `data-[state=checked]:text-foreground`
+override.
+
+Helper invocation:
+
+```ts
+selectionChromeClasses({
+  gate: 'data-[state=checked]',
+  radiusToken: 'rounded-selection',
+  gradientFrom: 'var(--primary)',
+  gradientFromMix: 18,
+  gradientTo: 'var(--secondary)',
+  gradientToMix: 10,
+  outlineToken: 'var(--primary)',
+  outlineMix: 30,
+  barColor: 'bg-primary',
+  barInset: '1',
+  barTop: '1.5',
+  barBottom: '1.5',
+})
+```
+
+Resolved visual contract when `data-[state=checked]`:
 
 - Text → `text-foreground`
 - Radius → `rounded-selection` (the 10px radius from tokens)
@@ -97,8 +131,9 @@ consistently across the library".
 
 The bar uses `left-1` (inset) instead of `left-0` (flush) because the
 menu Content has `overflow-hidden` — a flush bar would be clipped.
-NavItem uses a different inset because it's not inside an
-overflow-clipped container.
+NavItem uses `barInset: '-2px'` because it's not inside an
+overflow-clipped container; both call-sites pass the value as an
+explicit parameter rather than copy-pasting a class block.
 
 ### Label
 
@@ -119,6 +154,7 @@ or ContextMenu's separators (which use `bg-border`).
 ### SubTrigger
 
 Reuses `itemBaseClass` plus a `data-[state=open]` solid fill:
+
 ```
 data-[state=open]:bg-secondary data-[state=open]:text-secondary-foreground
 ```
@@ -170,10 +206,15 @@ typography.
 
 ## Open questions
 
-1. **NavItem and DropdownMenuRadioItem share a "selection chrome"
-   recipe** — gradient + 1px inset outline + 3px left bar. Worth
-   extracting as a documented pattern (`selectionChrome()` helper or
-   styled wrapper) so the two stay in sync if the design evolves.
+1. ~~**NavItem and DropdownMenuRadioItem share a "selection chrome"
+   recipe**~~ — **RESOLVED in gh-61 / PR #75.** Extracted as
+   `selectionChromeClasses(opts)` at
+   `packages/ui/src/lib/selection-chrome.ts`, exported from
+   `@damo/ui`. Both call-sites consume it with their own option
+   payload (gate, tokens, bar inset). Drift protection: a
+   source-contract regression test asserts the literal
+   `linear-gradient(135deg` no longer appears in either
+   `nav-item.variants.ts` or `dropdown-menu.tsx`.
 2. **Label color (`text-primary`) is unusual for a label.** Some
    themes (low-contrast palettes) may have legibility issues.
 3. **Separator's `bg-memphis`** divergence from Select / ContextMenu —
