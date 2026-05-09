@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { getLocale, getMessages, getTranslations } from 'next-intl/server'
@@ -9,9 +9,29 @@ import { DocsProviders } from './_components/DocsProviders'
 import { DocsPreferencesMenu } from './_components/DocsPreferencesMenu'
 import './globals.css'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: `${BRAND.libName} — Memphis-inspired component library`,
   description: BRAND.tagline,
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
+  manifest: '/site.webmanifest',
+}
+
+// Next 15 split themeColor out of `metadata` into the `viewport` export so
+// the address-bar tint can change per-route. We keep it static (brand purple)
+// so Android Chrome / Safari iOS render the docs site with the brand color
+// in the chrome strip instead of the OS default.
+export const viewport: Viewport = {
+  themeColor: '#7a3980',
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
