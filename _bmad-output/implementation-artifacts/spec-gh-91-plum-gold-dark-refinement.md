@@ -2,7 +2,7 @@
 
 **Issue:** [#91](https://github.com/simoneschioppo/damo-ui/issues/91)
 **Branch:** `feat/gh-91-plum-gold-dark-refinement`
-**Status:** DRAFT — awaiting approval, then FROZEN-AFTER-APPROVAL
+**Status:** FROZEN-AFTER-APPROVAL — no body edits during implementation
 **Closes:** #91
 **Series:** Task 1 of N (default-theme review)
 
@@ -34,7 +34,7 @@ The docs-site `:root[data-theme='dark']` block in `theme.css` redeclares only se
 
 - **Dark semantic tokens** (in `apps/web/app/styles/theme.css` `:root[data-theme='dark']` block + mirrored in `theme-state.ts` `computeSemanticDark`):
   - `--muted: ink.700 → ink.800` (matches user's JSON edit; tightens muted/card differentiation)
-  - `--muted-foreground: ink.300` (kept — user's JSON proposed `paper.50` which collides with `--foreground`; we explicitly reject that delta and document it)
+  - `--muted-foreground: ink.300 → paper.50` (matches user's JSON edit — intentional full-white text on muted surfaces; the muted-fg/foreground equality is design-by-choice, not a bug — confirmed in approval)
   - `--primary: brand.500 → brand.400 #d5a845` (Ghost-shadow legibility fix)
   - `--ring: brand.500 → brand.400` (follow primary)
   - `--badge-featured: brand.500 → brand.400` (follow primary)
@@ -72,7 +72,7 @@ The docs-site `:root[data-theme='dark']` block in `theme.css` redeclares only se
 | Token                | Current (computed)         | Proposed (computed)             | Rationale                                                |
 | -------------------- | -------------------------- | ------------------------------- | -------------------------------------------------------- |
 | `--muted`            | `p.ink['700']` `#522357`   | `p.ink['800']` `#3d1a40`        | User's JSON edit; tighter step from background           |
-| `--muted-foreground` | `p.ink['300']` `#c590c9`   | `p.ink['300']` `#c590c9` (kept) | Reject user's `paper.50` — collides with `--foreground`  |
+| `--muted-foreground` | `p.ink['300']` `#c590c9`   | `p.paper['50']` `#fbf7ee`       | User's JSON edit; intentional full-white text on muted   |
 | `--primary`          | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Memphis-shadow legibility on dark plum (Ghost button)    |
 | `--ring`             | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Follow primary                                           |
 | `--badge-featured`   | `p.brand['500']` `#c4942a` | `p.brand['400']` `#d5a845`      | Follow primary                                           |
@@ -120,7 +120,8 @@ All other dark semantic tokens unchanged.
   - `computeSemanticDark(DEFAULT_PALETTE).primary === '#d5a845'`
   - `computeSemanticDark(DEFAULT_PALETTE).warning === '#e8a435'`
   - `computeSemanticDark(DEFAULT_PALETTE).warning !== computeSemanticDark(DEFAULT_PALETTE).primary` (no-collision invariant)
-  - `computeSemanticDark(DEFAULT_PALETTE).mutedForeground !== computeSemanticDark(DEFAULT_PALETTE).foreground` (muted-hierarchy invariant)
+  - `computeSemanticDark(DEFAULT_PALETTE).mutedForeground === '#fbf7ee'` (paper.50, full-white-on-muted by design — see Design notes)
+  - `computeSemanticLight(DEFAULT_PALETTE).mutedForeground !== computeSemanticLight(DEFAULT_PALETTE).foreground` (light-mode muted hierarchy preserved as ink.700 ≠ ink.900)
 - `apps/web/app/theme-generator/presets.test.ts` — extend if needed to cover the dark identity branch.
 - `apps/web/__tests__/theme-css-dark-block.test.ts` (new) — read `app/styles/theme.css`, assert the dark block contains the new declarations (regex source-contract). Mirrors the `theme-bridge-coverage.test.ts` pattern from packages/ui.
 
@@ -155,7 +156,7 @@ All other dark semantic tokens unchanged.
 ## Acceptance criteria
 
 - **AC-1 (formula contract)**: `computeSemanticDark(DEFAULT_PALETTE)` returns the new tokens (`primary === '#d5a845'`, `warning === '#e8a435'`, `muted === '#3d1a40'`, etc.). Asserted by Vitest.
-- **AC-2 (no-collision invariants)**: in dark mode, `primary !== warning`, `mutedForeground !== foreground`, `medals.gold.outer !== background`, `medals.master.outer !== background`. Asserted by Vitest.
+- **AC-2 (no-collision invariants)**: in dark mode, `primary !== warning`, `medals.gold.outer !== background`, `medals.master.outer !== background`. In light mode, `mutedForeground !== foreground`. (Dark `mutedForeground === foreground` is deliberate — see Design notes.) Asserted by Vitest.
 - **AC-3 (CSS source contract)**: `apps/web/app/styles/theme.css` `:root[data-theme='dark']` block declares the new values. Regex tests pass.
 - **AC-4 (runtime — Ghost button)**: under `data-theme='dark'`, Button ghost paints `box-shadow` with `rgb(213, 168, 69)`. Playwright asserts.
 - **AC-5 (runtime — chart visibility)**: under `data-theme='dark'`, `--chart-1` and `--chart-5` resolve to ink.300 / ink.100 respectively. Playwright asserts.
@@ -172,9 +173,11 @@ Two alternatives considered: (a) `brand.500 #c4942a` outer with `brand.300 #e5bc
 
 `brand.300 #e5bc6d` was the obvious "lighter than primary" choice but reads as light gold — too close to primary visually. `brand.200 #f0d49a` is even paler. A custom amber `#e8a435` (slightly redder hue than the brand) gives `warning` a recognisable warm character that's distinct from both primary (gold) and destructive (red-orange).
 
-### Why `mutedForeground` does not adopt user's `paper.50` value
+### Why `mutedForeground === foreground` in dark is deliberate
 
-User's JSON had `dark.semantic.mutedForeground = #fbf7ee` which equals `--foreground`. Two interpretations: (a) the user wants muted-bg surfaces to render text identically to non-muted surfaces (legitimate design choice, but breaks the muted-text-color affordance); (b) the value was an unintended consequence of theme-generator interaction. We adopt the conservative read (b) and keep `mutedForeground = ink.300`. If the user intended (a), we revisit in a follow-up.
+User's JSON had `dark.semantic.mutedForeground = #fbf7ee` which equals `--foreground`. The user confirmed in approval that this is design-by-choice: muted-bg surfaces in dark mode use the same paper-50 text as the rest of the app — the muted distinction lives entirely in the surface (`muted = ink.800` is a darker plum, distinct from `card = ink.800`… wait, equal — see next paragraph), not in the text color. Light mode preserves the standard hierarchy (`mutedForeground = ink.700`, distinct from `foreground = ink.900`).
+
+Note: with `--muted = --card = ink.800` in dark, the muted surface is no longer visually distinct from a default card surface. Components that paint a `bg-muted` rectangle inside a `bg-card` parent will read flush. This is a known consequence of the user's `muted = ink.800` choice and is in scope of this PR's "user-approved deltas". A follow-up could differentiate by introducing a small color-mix offset, but it's not blocking.
 
 ### Identity per-mode — why split now
 
