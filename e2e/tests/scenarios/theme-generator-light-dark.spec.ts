@@ -170,14 +170,21 @@ test.describe('Theme generator — light/dark editing across Palette, Theme, Ide
 
     // Switch to Dark, change radius md via keyboard arrow on slider
     await sb.getByRole('button', { name: 'Dark', exact: true }).click()
-    // Find the md slider — labelled "md · Npx"
+    // Find the md slider — labelled "md · Npx". Issue #64 added a
+    // TokenPreviewChip as a sibling of the label inside the header div,
+    // so the previous `label/following-sibling::*[1]` walk landed on
+    // the chip (no [role=slider] inside) instead of the slider wrapper.
+    // Walk up to the label's parent (header div), then to its next
+    // sibling (DivergenceWrapper), where the slider actually lives.
     const mdLabel = sb.locator('label:has-text("md ·")').first()
     await mdLabel.scrollIntoViewIfNeeded()
-    // Click the slider thumb and arrow up to increase the value
-    const slider = mdLabel.locator('xpath=following-sibling::*[1]').locator('[role="slider"]')
-    await slider.first().click()
-    await slider.first().press('ArrowRight')
-    await slider.first().press('ArrowRight')
+    const slider = mdLabel
+      .locator('xpath=ancestor::div[1]/following-sibling::*[1]')
+      .locator('[role="slider"]')
+      .first()
+    await slider.click()
+    await slider.press('ArrowRight')
+    await slider.press('ArrowRight')
     await page.waitForTimeout(150)
 
     // Open Export pane, CSS, ensure dark block has --radius-md override
