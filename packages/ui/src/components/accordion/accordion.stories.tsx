@@ -6,7 +6,7 @@ export const Single = () => (
       <AccordionItem value="install">
         <AccordionTrigger>Installazione</AccordionTrigger>
         <AccordionContent>
-          Installa la libreria con <code>pnpm add @damo/ui</code> e importa i fogli di stile nella
+          Installa la libreria con <code>pnpm add damo-ui</code> e importa i fogli di stile nella
           root del tuo layout Next.js.
         </AccordionContent>
       </AccordionItem>

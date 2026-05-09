@@ -8,20 +8,20 @@ const uiSrc = path.resolve(__dirname, '../../packages/ui/src')
 
 const config: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@damo/ui'],
+  transpilePackages: ['damo-ui'],
   webpack: (config) => {
     config.resolve = config.resolve ?? {}
     config.resolve.alias = {
       ...(config.resolve.alias as Record<string, string> | undefined),
-      '@damo/ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
-      '@damo/ui': path.join(uiSrc, 'index.ts'),
+      'damo-ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
+      'damo-ui': path.join(uiSrc, 'index.ts'),
     }
     return config
   },
   turbopack: {
     resolveAlias: {
-      '@damo/ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
-      '@damo/ui': path.join(uiSrc, 'index.ts'),
+      'damo-ui/mocks': path.join(uiSrc, 'mocks/index.ts'),
+      'damo-ui': path.join(uiSrc, 'index.ts'),
     },
   },
 }

@@ -2,7 +2,7 @@
 /**
  * scripts/check-docs-sync.mjs
  *
- * Guardrail that fails CI when the public surface of @damo/ui drifts away from
+ * Guardrail that fails CI when the public surface of damo-ui drifts away from
  * the docs site. Two checks:
  *
  *   1. Every component folder under packages/ui/src/components/<name>/ that is

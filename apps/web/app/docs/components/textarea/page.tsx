@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Textarea, FormField } from '@damo/ui'
+import { Textarea, FormField } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Textarea } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Textarea } from 'damo-ui'`
 
 const BASIC_SNIPPET = `<Textarea placeholder="Tell us more…" rows={4} />`
 const INVALID_SNIPPET = `<Textarea invalid defaultValue="Too short" />`

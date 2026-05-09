@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
-import { ArticleCard } from '@damo/ui'
+import { ArticleCard } from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { ArticleCard } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { ArticleCard } from 'damo-ui'`
 
 const BASIC_SNIPPET = `<ArticleCard label="REGOLA" title="Use semantic tokens, not raw scales">
   <p>Always reach for <code>bg-card</code> rather than <code>bg-paper-100</code> in product code.</p>

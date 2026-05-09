@@ -1,7 +1,7 @@
 /**
  * Single source of truth for site brand strings.
  *
- * The library this site documents is `@damo/ui`. The showcase used to be
+ * The library this site documents is `damo-ui`. The showcase used to be
  * branded separately as "Axolab"; that secondary identity has been retired
  * — the mascot now stands in for the brand visually and the library name
  * carries it textually wherever a label is required.

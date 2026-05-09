@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, type CSSProperties, type HTMLAttributes, type ReactNode } from 'react'
-import { cn } from '@damo/ui'
+import { cn } from 'damo-ui'
 
 export interface PatternSwatchProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   name: string

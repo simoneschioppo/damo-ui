@@ -11,7 +11,7 @@ import {
   PaginationLocalisedExample,
 } from './_examples'
 
-const IMPORT_SNIPPET = `import { Pagination } from '@damo/ui'`
+const IMPORT_SNIPPET = `import { Pagination } from 'damo-ui'`
 
 const BASIC_SNIPPET = `function Example() {
   const [page, setPage] = useState(1)

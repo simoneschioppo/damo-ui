@@ -28,7 +28,7 @@ describe('package.json — peer dependencies', () => {
   // Regression: the lib's overlays and menus use animate-in / fade-in-0 /
   // zoom-in-95 / slide-in-from-* classes that ship from the
   // tailwindcss-animate plugin. Without declaring it as a peer, consumers
-  // pulling @damo/ui would see Dialog/Drawer/Popover/Tooltip/DropdownMenu/
+  // pulling damo-ui would see Dialog/Drawer/Popover/Tooltip/DropdownMenu/
   // ContextMenu/Toast/Accordion mount with no entrance animations (the
   // classes silently emit nothing in their Tailwind build).
   it('declares tailwindcss-animate as a peer dependency', () => {

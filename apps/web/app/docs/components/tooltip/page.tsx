@@ -8,7 +8,7 @@ import {
   Button,
   IconButton,
   CogIcon,
-} from '@damo/ui'
+} from 'damo-ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
@@ -20,7 +20,7 @@ const IMPORT_SNIPPET = `import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@damo/ui'`
+} from 'damo-ui'`
 
 const PROVIDER_SNIPPET = `// In your root layout:
 <TooltipProvider delayDuration={150}>
