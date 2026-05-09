@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
@@ -31,6 +35,14 @@ jobs:
       - name: Build lib
         run: pnpm build
 
+      - name: Upload lib build
+        uses: actions/upload-artifact@v4
+        with:
+          name: damo-ui-dist
+          path: packages/ui/dist
+          retention-days: 1
+          if-no-files-found: error
+
       - name: Typecheck
         run: pnpm --filter @damo/ui typecheck && pnpm --filter @damo/web typecheck
 
@@ -53,11 +65,30 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Build lib
-        run: pnpm build
+      - name: Download lib build
+        uses: actions/download-artifact@v4
+        with:
+          name: damo-ui-dist
+          path: packages/ui/dist
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
 
       - name: Install Playwright browsers
-        run: pnpm --filter @damo/e2e exec playwright install --with-deps chromium webkit
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm --filter @damo/e2e exec playwright install chromium webkit
+
+      - name: Install Playwright system deps
+        run: pnpm --filter @damo/e2e exec playwright install-deps chromium webkit
+
+      - name: Build web (production)
+        run: pnpm --filter @damo/web build
 
       - name: Run e2e
         run: pnpm test:e2e
