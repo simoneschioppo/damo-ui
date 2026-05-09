@@ -27,10 +27,13 @@ export default defineConfig({
   ],
 
   webServer: {
-    // The web app's `dev` script hardcodes `--port 3000`, so we bypass it
-    // and call `next dev --port <PW_PORT>` directly when overriding.
-    command:
-      PORT === '3000'
+    // CI uses the built `next start` artifact (PR #90 perf optimisation).
+    // Local dev uses `next dev` for HMR; when PW_PORT overrides the default,
+    // we bypass the web app's `dev` script (which hardcodes `--port 3000`)
+    // and call `next dev --port <PW_PORT>` directly.
+    command: process.env.CI
+      ? 'pnpm --filter @damo/web start'
+      : PORT === '3000'
         ? 'pnpm --filter @damo/web dev'
         : `pnpm --filter @damo/web exec next dev --port ${PORT}`,
     url: BASE_URL,
