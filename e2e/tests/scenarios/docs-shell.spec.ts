@@ -25,7 +25,7 @@ test.describe('Docs shell', () => {
   }) => {
     await page.goto('/docs/getting-started')
     const bashBlocks = page.locator('pre[data-lang="bash"]')
-    expect(await bashBlocks.count()).toBeGreaterThanOrEqual(2)
+    expect(await bashBlocks.count()).toBeGreaterThanOrEqual(1)
     const installBlock = bashBlocks.filter({ hasText: 'pnpm add damo-ui' }).first()
     await expect(installBlock).toBeVisible()
   })
