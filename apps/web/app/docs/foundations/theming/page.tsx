@@ -30,8 +30,8 @@ const DARK_OVERRIDE = `/* app/globals.css */
 
 const PALETTE_OVERRIDE = `/* app/globals.css — define a custom palette */
 :root[data-palette='cyberpunk'] {
-  --primary: #ffab00;
-  --primary-foreground: #170731;
+  --primary: #0f766e;
+  --primary-foreground: #ffffff;
   --secondary: #7c4dff;
   --secondary-foreground: #ffffff;
 }
@@ -39,7 +39,7 @@ const PALETTE_OVERRIDE = `/* app/globals.css — define a custom palette */
 /* Combine palette + dark mode by chaining the selectors */
 :root[data-theme='dark'][data-palette='cyberpunk'] {
   --background: #170731;
-  --foreground: #ffab00;
+  --foreground: #14b8a6;
 }
 `
 

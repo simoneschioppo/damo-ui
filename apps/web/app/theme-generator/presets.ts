@@ -32,8 +32,8 @@ export const PRESET_NAMES = [
 export const PRESET_LABELS: Record<PresetName, string> = {
   default: 'Plum + Gold (default)',
   sunset: 'Sunset (terracotta + orange)',
-  cyberpunk: 'Cyberpunk (violet + amber)',
-  forest: 'Forest (green + amber)',
+  cyberpunk: 'Cyberpunk (violet + cyan)',
+  forest: 'Forest (green + copper)',
 }
 
 const SUNSET_PALETTE: RawPalette = {
@@ -64,14 +64,24 @@ const CYBERPUNK_PALETTE: RawPalette = {
     '800': '#2a1052',
     '900': '#170731',
   },
+  // gh-95: cyan/teal ramp — replaces the previous amber. The deep teal
+  // brand.500 contrasts AA with white text, so no `primaryForeground`
+  // override is needed.
   brand: {
-    '100': '#fff4b3',
-    '200': '#ffe57a',
-    '300': '#ffd740',
-    '400': '#ffc107',
-    '500': '#ffab00',
+    '100': '#c0fffa',
+    '200': '#80f5ec',
+    '300': '#40e3d4',
+    '400': '#14b8a6',
+    '500': '#0f766e',
   },
-  paper: DEFAULT_THEME.palette.light.paper,
+  // gh-95: cool cyan-tinted cream — diverges from the shared default cream
+  // so cyberpunk has a distinct light-mode background identity.
+  paper: {
+    '50': '#f3fbfa',
+    '100': '#e7f5f3',
+    '200': '#d3ebe7',
+    '300': '#b8d6d1',
+  },
 }
 
 const FOREST_PALETTE: RawPalette = {
@@ -83,14 +93,23 @@ const FOREST_PALETTE: RawPalette = {
     '800': '#14301c',
     '900': '#0c1f12',
   },
+  // gh-95: copper/rust ramp — replaces the previous amber. brand.500 = #8e4318
+  // contrasts AAA with white text.
   brand: {
-    '100': '#fde6b8',
-    '200': '#f7d28a',
-    '300': '#f0bb55',
-    '400': '#e6a02e',
-    '500': '#a8590e',
+    '100': '#fde4d3',
+    '200': '#f7c19f',
+    '300': '#ed996c',
+    '400': '#c87444',
+    '500': '#8e4318',
   },
-  paper: DEFAULT_THEME.palette.light.paper,
+  // gh-95: sage-tinted cream — diverges from the shared default cream so
+  // forest has a distinct light-mode background identity.
+  paper: {
+    '50': '#f6f7eb',
+    '100': '#ecede0',
+    '200': '#ddddc8',
+    '300': '#c1c1a8',
+  },
 }
 
 export const PRESET_PALETTES: Record<PresetName, RawPalette> = {
@@ -115,10 +134,10 @@ const PRESET_SEMANTIC_OVERRIDES: Partial<Record<PresetName, PresetSemanticOverri
   // Sunset's terracotta dark surfaces let a black memphis border breathe;
   // the gh-91 lift to #cccccc was sized for the plum/gold defaults.
   sunset: { dark: { memphisBorderColor: '#000000' } },
-  // Cyberpunk's vivid amber `brand.500 = #ffab00` fails WCAG AA against
-  // white text (~1.97). Override to ink.900 for ~12.96 contrast.
-  // Tied to CYBERPUNK_PALETTE.ink['900'] so a future palette edit stays in sync.
-  cyberpunk: { light: { primaryForeground: CYBERPUNK_PALETTE.ink['900'] } },
+  // gh-95 dropped the cyberpunk light primaryForeground override: brand.500
+  // moved from amber #ffab00 (failed WCAG AA against white) to deep teal
+  // #0f766e (~5.7 contrast against white), so the override is no longer
+  // needed and keeping it would be dead code.
 }
 
 /**

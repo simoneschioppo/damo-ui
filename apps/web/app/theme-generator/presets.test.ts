@@ -152,11 +152,11 @@ describe('DEFAULT_THEME.identity — dark deltas (gh-91)', () => {
 describe('applyPreset', () => {
   it('updates both palette modes and semantic when switching to cyberpunk', () => {
     const updated = applyPreset(DEFAULT_THEME, 'cyberpunk')
-    expect(updated.palette.light.brand['500']).toBe('#ffab00')
-    expect(updated.palette.dark.brand['500']).toBe('#ffab00')
-    expect(updated.semantic.light.primary).toBe('#ffab00')
+    expect(updated.palette.light.brand['500']).toBe('#0f766e')
+    expect(updated.palette.dark.brand['500']).toBe('#0f766e')
+    expect(updated.semantic.light.primary).toBe('#0f766e')
     // dark primary = brand.400 (gh-91 dark mapping)
-    expect(updated.semantic.dark.primary).toBe('#ffc107')
+    expect(updated.semantic.dark.primary).toBe('#14b8a6')
     // Identity preserved (medals, charts, navOnDark, fonts)
     expect(updated.identity).toEqual(DEFAULT_THEME.identity)
     expect(updated.typography).toEqual(DEFAULT_THEME.typography)
@@ -192,14 +192,42 @@ describe('gh-93 — preset roster', () => {
 })
 
 /**
- * gh-93: Cyberpunk palette + light-mode primaryForeground override.
- * The vivid amber `brand.500 = #ffab00` fails WCAG AA against white text;
- * the override forces dark text (`ink.900 = #170731`) for legibility.
+ * gh-95: structural guards for paper-ramp divergence between presets.
+ * Before gh-95 every preset shared `DEFAULT_THEME.palette.light.paper`; gh-95
+ * established the precedent that a preset can carry its own paper ramp. Catch
+ * a future refactor that silently collapses cyberpunk/forest paper back to
+ * the default cream (the per-preset hex assertions cover values, not the
+ * "is divergent at all" property).
  */
-describe('gh-93 — Cyberpunk palette + override', () => {
+describe('gh-95 — preset paper ramps may diverge from the default cream', () => {
+  const defaultPaper50 = DEFAULT_THEME.palette.light.paper['50']
+
+  it('cyberpunk paper.50 is NOT the default cream', () => {
+    const cy = applyPreset(DEFAULT_THEME, 'cyberpunk')
+    expect(cy.palette.light.paper['50']).not.toBe(defaultPaper50)
+  })
+
+  it('forest paper.50 is NOT the default cream', () => {
+    const fo = applyPreset(DEFAULT_THEME, 'forest')
+    expect(fo.palette.light.paper['50']).not.toBe(defaultPaper50)
+  })
+
+  it('sunset paper.50 still tracks the default cream (sunset shares paper)', () => {
+    const sun = applyPreset(DEFAULT_THEME, 'sunset')
+    expect(sun.palette.light.paper['50']).toBe(defaultPaper50)
+  })
+})
+
+/**
+ * gh-95: Cyberpunk palette rebalanced — brand moved from vivid amber to deep
+ * teal/cyan, paper from cream to cool cyan cream, and the gh-93 light
+ * primaryForeground override removed (deep teal contrasts AA with white).
+ * See _bmad-output/implementation-artifacts/spec-gh-95-palette-r2-light-rebalance.md.
+ */
+describe('gh-95 — Cyberpunk palette (cyan/teal, no overrides)', () => {
   const cy = applyPreset(DEFAULT_THEME, 'cyberpunk')
 
-  it('ink scale matches the cyberpunk violet ramp', () => {
+  it('ink scale matches the cyberpunk violet ramp (unchanged from gh-93)', () => {
     expect(cy.palette.light.ink).toEqual({
       '100': '#f0d4ff',
       '300': '#b388ff',
@@ -210,18 +238,27 @@ describe('gh-93 — Cyberpunk palette + override', () => {
     })
   })
 
-  it('brand scale matches the cyberpunk amber ramp', () => {
+  it('brand scale matches the cyberpunk cyan ramp', () => {
     expect(cy.palette.light.brand).toEqual({
-      '100': '#fff4b3',
-      '200': '#ffe57a',
-      '300': '#ffd740',
-      '400': '#ffc107',
-      '500': '#ffab00',
+      '100': '#c0fffa',
+      '200': '#80f5ec',
+      '300': '#40e3d4',
+      '400': '#14b8a6',
+      '500': '#0f766e',
     })
   })
 
-  it('light primaryForeground is overridden to ink.900 (#170731) — vivid amber needs dark text', () => {
-    expect(cy.semantic.light.primaryForeground).toBe('#170731')
+  it('paper scale shifts to a cool cyan cream', () => {
+    expect(cy.palette.light.paper).toEqual({
+      '50': '#f3fbfa',
+      '100': '#e7f5f3',
+      '200': '#d3ebe7',
+      '300': '#b8d6d1',
+    })
+  })
+
+  it('light primaryForeground stays canonical white — deep teal #0f766e contrasts AA with white', () => {
+    expect(cy.semantic.light.primaryForeground).toBe('#ffffff')
   })
 
   it('dark primaryForeground stays ink.900 from canonical dark mapping', () => {
@@ -236,21 +273,24 @@ describe('gh-93 — Cyberpunk palette + override', () => {
     expect(cy.palette.dark).toEqual(cy.palette.light)
   })
 
-  it('semantic.dark equals canonical computeSemanticDark — light override does not bleed to dark', () => {
-    // Regression guard: if someone adds a dark override under cyberpunk by
-    // mistake, this asserts the dark mode stays purely on the canonical path.
+  it('semantic.light equals canonical computeSemanticLight — no overrides applied', () => {
+    expect(cy.semantic.light).toEqual(computeSemanticLight(cy.palette.light))
+  })
+
+  it('semantic.dark equals canonical computeSemanticDark — no overrides applied', () => {
     expect(cy.semantic.dark).toEqual(computeSemanticDark(cy.palette.dark))
   })
 })
 
 /**
- * gh-93: Forest palette — no semantic overrides; the canonical mapping
- * produces a WCAG-AA result with white text on `brand.500 = #a8590e`.
+ * gh-95: Forest palette rebalanced — brand moved from amber to copper/rust,
+ * paper from cream to sage cream. No semantic overrides; canonical mapping
+ * produces a WCAG-AAA result with white text on `brand.500 = #8e4318`.
  */
-describe('gh-93 — Forest palette (no overrides)', () => {
+describe('gh-95 — Forest palette (copper rust + sage paper, no overrides)', () => {
   const fo = applyPreset(DEFAULT_THEME, 'forest')
 
-  it('ink scale matches the forest green ramp', () => {
+  it('ink scale matches the forest green ramp (unchanged from gh-93)', () => {
     expect(fo.palette.light.ink).toEqual({
       '100': '#d6ead2',
       '300': '#8cbf85',
@@ -261,17 +301,26 @@ describe('gh-93 — Forest palette (no overrides)', () => {
     })
   })
 
-  it('brand scale matches the forest amber ramp', () => {
+  it('brand scale matches the forest copper-rust ramp', () => {
     expect(fo.palette.light.brand).toEqual({
-      '100': '#fde6b8',
-      '200': '#f7d28a',
-      '300': '#f0bb55',
-      '400': '#e6a02e',
-      '500': '#a8590e',
+      '100': '#fde4d3',
+      '200': '#f7c19f',
+      '300': '#ed996c',
+      '400': '#c87444',
+      '500': '#8e4318',
     })
   })
 
-  it('light primaryForeground is white (canonical mapping; brand.500 #a8590e contrasts AA)', () => {
+  it('paper scale shifts to a sage cream', () => {
+    expect(fo.palette.light.paper).toEqual({
+      '50': '#f6f7eb',
+      '100': '#ecede0',
+      '200': '#ddddc8',
+      '300': '#c1c1a8',
+    })
+  })
+
+  it('light primaryForeground is white (canonical mapping; copper #8e4318 contrasts AAA)', () => {
     expect(fo.semantic.light.primaryForeground).toBe('#ffffff')
   })
 
