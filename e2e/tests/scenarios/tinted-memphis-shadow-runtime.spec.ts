@@ -67,24 +67,31 @@ const expectChannelsClose = (
 }
 
 async function setRootTokenAndSettle(page: Page, token: string, value: string) {
+  // Inject the override via a `<style>` tag rather than inline element
+  // style — webkit on CI dropped `!important` priority of
+  // `setProperty('important')` against `:root[data-theme=…]` rules.
+  // A stylesheet rule with the same selector list works on both browsers.
   await page.evaluate(
     ({ t, v }) => {
-      document.documentElement.style.setProperty(t, v, 'important')
+      const STYLE_ID = '__e2e_token_overrides__'
+      let styleEl = document.getElementById(STYLE_ID) as HTMLStyleElement | null
+      if (!styleEl) {
+        styleEl = document.createElement('style')
+        styleEl.id = STYLE_ID
+        document.head.appendChild(styleEl)
+      }
+      const overrides =
+        (styleEl as HTMLStyleElement & { __overrides?: Record<string, string> }).__overrides ?? {}
+      overrides[t] = v
+      ;(styleEl as HTMLStyleElement & { __overrides?: Record<string, string> }).__overrides =
+        overrides
+      const decls = Object.entries(overrides)
+        .map(([k, val]) => `${k}: ${val} !important;`)
+        .join(' ')
+      styleEl.textContent = `:root, :root[data-theme='light'], :root[data-theme='dark'] { ${decls} }`
     },
     { t: token, v: value },
   )
-  // Poll until the inline-style override is observable at the
-  // documentElement — CI webkit needs a longer paint window than chromium.
-  await page
-    .waitForFunction(
-      ({ t, v }) => {
-        const got = getComputedStyle(document.documentElement).getPropertyValue(t).trim()
-        return got.length > 0 && got.replace(/\s+/g, '') === v.replace(/\s+/g, '')
-      },
-      { t: token, v: value },
-      { timeout: 1500 },
-    )
-    .catch(() => {})
   // Memphis transitions are 80ms; allow ~3 paint frames of headroom.
   await page.waitForTimeout(250)
 }
