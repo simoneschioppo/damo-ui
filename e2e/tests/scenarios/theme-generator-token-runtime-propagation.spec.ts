@@ -110,9 +110,22 @@ async function setRootTokenAndSettle(
     },
     { t: token, v: value },
   )
-  // Wait long enough for any in-flight CSS transition to settle. Button's
-  // `transition-colors duration-snap ease-memphis` is 80ms; allow generous
-  // headroom plus ~1 paint frame.
+  // Poll until the inline-style override is observable at the
+  // documentElement — CI webkit was flaking with the previous fixed
+  // 250ms wait because its paint window was longer than the runner
+  // allowed. Tolerate runtime-derived tokens whose getPropertyValue
+  // may not echo back literally.
+  await page
+    .waitForFunction(
+      ({ t, v }) => {
+        const got = getComputedStyle(document.documentElement).getPropertyValue(t).trim()
+        return got.length > 0 && got.replace(/\s+/g, '') === v.replace(/\s+/g, '')
+      },
+      { t: token, v: value },
+      { timeout: 1500 },
+    )
+    .catch(() => {})
+  // Memphis transitions are 80ms; allow ~3 paint frames of headroom.
   await page.waitForTimeout(250)
 }
 

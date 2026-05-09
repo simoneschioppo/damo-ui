@@ -73,7 +73,19 @@ async function setRootTokenAndSettle(page: Page, token: string, value: string) {
     },
     { t: token, v: value },
   )
-  // Memphis transitions are 80ms; allow ~3 frames of headroom.
+  // Poll until the inline-style override is observable at the
+  // documentElement — CI webkit needs a longer paint window than chromium.
+  await page
+    .waitForFunction(
+      ({ t, v }) => {
+        const got = getComputedStyle(document.documentElement).getPropertyValue(t).trim()
+        return got.length > 0 && got.replace(/\s+/g, '') === v.replace(/\s+/g, '')
+      },
+      { t: token, v: value },
+      { timeout: 1500 },
+    )
+    .catch(() => {})
+  // Memphis transitions are 80ms; allow ~3 paint frames of headroom.
   await page.waitForTimeout(250)
 }
 
