@@ -105,7 +105,21 @@
       "processed": []
     },
     "update": {
-      "queued": [],
+      "queued": [
+        {
+          "queued_at": "2026-05-09T19:46:06+00:00",
+          "trigger": "post-code-change",
+          "paths": [
+            "apps/web/app/page.tsx",
+            "apps/web/lib/brand.ts",
+            "apps/web/messages/en.json",
+            "apps/web/messages/it.json",
+            "apps/web/public/mascot-hero.png"
+          ],
+          "source_agent": "claude (landing-hero-refresh)",
+          "note": "Hero mascot art swapped to axolotl-at-desk; H1 tightened (em-dash dropped, 'Components, tokens, / Memphis patterns.'); BRAND.mascotHero{Width,Height,Alt} updated; <img width> bumped 320\u2192440. May affect 20-web-app/00-architecture.md narrative around the landing hero / mascot asset."
+        }
+      ],
       "runs": [
         {
           "kind": "content-update",
