@@ -82,13 +82,13 @@ The deep-teal `brand.500 = #0f766e` contrasts AA with white text (~5.7), so the 
 
 ## 4. WCAG verification
 
-| Pair                                                                       | Ratio | Verdict  |
-| -------------------------------------------------------------------------- | ----- | -------- |
-| white text on `brand.500 = #0f766e` (cyberpunk light primary)              | ≈ 5.7 | PASS AA  |
-| `ink.900 = #170731` text on `brand.400 = #14b8a6` (cyberpunk dark primary) | ≈ 6.0 | PASS AA  |
-| white text on `brand.500 = #8e4318` (forest light primary)                 | ≈ 7.3 | PASS AAA |
-| `ink.900 = #0c1f12` text on `brand.400 = #c87444` (forest dark primary)    | ≈ 5.1 | PASS AA  |
-| `ink.900` text on `paper.50` (cyberpunk + forest light bg)                 | > 18  | PASS AAA |
+| Pair                                                                       | Ratio  | Verdict  |
+| -------------------------------------------------------------------------- | ------ | -------- |
+| white text on `brand.500 = #0f766e` (cyberpunk light primary)              | ≈ 5.47 | PASS AA  |
+| `ink.900 = #170731` text on `brand.400 = #14b8a6` (cyberpunk dark primary) | ≈ 7.59 | PASS AAA |
+| white text on `brand.500 = #8e4318` (forest light primary)                 | ≈ 7.08 | PASS AAA |
+| `ink.900 = #0c1f12` text on `brand.400 = #c87444` (forest dark primary)    | ≈ 4.95 | PASS AA  |
+| `ink.900` text on `paper.50` (cyberpunk + forest light bg)                 | > 18   | PASS AAA |
 
 ## 5. Code map
 

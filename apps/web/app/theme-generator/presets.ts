@@ -32,8 +32,8 @@ export const PRESET_NAMES = [
 export const PRESET_LABELS: Record<PresetName, string> = {
   default: 'Plum + Gold (default)',
   sunset: 'Sunset (terracotta + orange)',
-  cyberpunk: 'Cyberpunk (violet + amber)',
-  forest: 'Forest (green + amber)',
+  cyberpunk: 'Cyberpunk (violet + cyan)',
+  forest: 'Forest (green + copper)',
 }
 
 const SUNSET_PALETTE: RawPalette = {
