@@ -28,6 +28,9 @@ function radiusStyle(k: RadiusKey): CSSProperties {
     ...baseStyle,
     background: 'var(--foreground)',
     borderRadius: `var(--radius-${k})`,
+    // Breathing room from the neighbouring slider/input — the chip used
+    // to sit flush against the row's right edge and felt cramped.
+    marginRight: 8,
   }
 }
 
@@ -40,6 +43,12 @@ function shadowStyle(k: ShadowMemphisKey): CSSProperties {
     background: 'var(--card)',
     border: '1px solid var(--border)',
     boxShadow: `var(${cssVar})`,
+    // The chip is 28×28 but its offset shadow extends up to 9px (lg
+    // tier) down-right, beyond the flex bounding box. Reserve room so
+    // the shadow doesn't bleed into the X/Y input row below or the
+    // sidebar's right edge.
+    marginRight: 12,
+    marginBottom: 12,
   }
 }
 
