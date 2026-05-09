@@ -1,6 +1,6 @@
 # Theme Generator
 
-Status: documented · Last scan: 34dbd0a · Sources:
+Status: documented · Last scan: 6a6c72e · Sources:
 `apps/web/app/theme-generator/{page.tsx,theme-state.ts,use-theme-state.ts,presets.ts,exporters.ts,contrast.ts,sample-dialog.tsx,token-preview-chip.tsx,radius-emit.test.tsx,token-preview-chip.test.tsx}`,
 `apps/web/app/styles/theme.css`,
 `apps/web/app/styles/__tests__/{app-pattern-tokens.test.ts,reduced-motion-scoping.test.ts,theme-css-dark-block.test.ts}`.
@@ -172,8 +172,8 @@ export const PRESET_NAMES = [
 export const PRESET_LABELS = {
   default: 'Plum + Gold (default)',
   sunset: 'Sunset (terracotta + orange)',
-  cyberpunk: 'Cyberpunk (violet + amber)',
-  forest: 'Forest (green + amber)',
+  cyberpunk: 'Cyberpunk (violet + cyan)',
+  forest: 'Forest (green + copper)',
 }
 ```
 
@@ -203,17 +203,19 @@ Consequence after #91 (identity split into `_LIGHT`/`_DARK`):
 ### Per-preset semantic overrides (gh-93)
 
 The canonical mapping from `computeSemanticLight/Dark` covers most
-palettes, but two presets need a single-token exception. These live
-next to the palette literals so the override is locally readable:
+palettes, but a preset can declare a single-token exception. The
+override map lives next to the palette literals so it stays locally
+readable. After **gh-95** only one entry remains:
 
 ```ts
 const PRESET_SEMANTIC_OVERRIDES: Partial<Record<PresetName, …>> = {
   // Sunset's terracotta dark surfaces let a black memphis border
   // breathe; the gh-91 lift to #cccccc was sized for plum/gold.
   sunset: { dark: { memphisBorderColor: '#000000' } },
-  // Cyberpunk's vivid amber brand.500 = #ffab00 fails WCAG AA
-  // against white text (ratio ≈ 1.97). Override to ink.900 (≈ 12.96).
-  cyberpunk: { light: { primaryForeground: CYBERPUNK_PALETTE.ink['900'] } },
+  // gh-95 dropped the cyberpunk light primaryForeground override:
+  // brand.500 moved from amber #ffab00 (failed WCAG AA against white)
+  // to deep teal #0f766e (~5.5 contrast against white), so the
+  // override is no longer needed.
 }
 
 export function computePresetSemantic(
@@ -229,11 +231,12 @@ export function computePresetSemantic(
 }
 ```
 
-Two design rules:
+Two design rules (still load-bearing post-gh-95):
 
-- The override is the **value derived from the palette** (the
-  cyberpunk entry is `CYBERPUNK_PALETTE.ink['900']`, not the literal
-  `'#170731'`) so a future palette edit stays in sync.
+- When an override IS needed, prefer the **value derived from the
+  palette** (e.g. `CYBERPUNK_PALETTE.ink['900']`) over a hex literal
+  so a future palette edit stays in sync. (The pre-gh-95 cyberpunk
+  entry followed this rule.)
 - `computeSemanticLight/Dark` themselves stay pure derivations of
   the raw palette. The override merge happens at the
   `applyPreset`/`computePresetSemantic` boundary, never inside the
@@ -242,13 +245,15 @@ Two design rules:
 **SYNC_PRESET fix (gh-93 / e2e regression)**: the reducer's
 `SYNC_PRESET` branch (driven by the navbar's MutationObserver on
 `data-palette`) historically called `computeSemanticLight/Dark`
-directly, bypassing the override merge. That meant the cyberpunk and
-sunset overrides applied only when a preset was selected from the
-generator's own sidebar (`SET_PRESET`), not when it was changed via
-the global navbar. Both branches now route through
-`computePresetSemantic`. Regression guards in
-`reducer.test.ts` (`SYNC_PRESET applies … override on a fresh theme`)
-and `e2e/tests/scenarios/palette-refresh-r2.spec.ts`.
+directly, bypassing the override merge. That meant the override
+applied only when a preset was selected from the generator's own
+sidebar (`SET_PRESET`), not when it was changed via the global
+navbar. Both branches now route through `computePresetSemantic`.
+Regression guard in `reducer.test.ts`
+(`SYNC_PRESET applies sunset dark memphisBorderColor override on a
+fresh theme`) and `e2e/tests/scenarios/palette-refresh-r2.spec.ts`.
+The cyberpunk regression test was retired together with the override
+in gh-95.
 
 Corresponding `theme.css` blocks (live preview, in source-order
 declaration so palette blocks beat the dark block at equal
@@ -257,14 +262,31 @@ specificity ties):
 - `:root[data-palette='sunset']` — palette ramp.
 - `:root[data-palette='cyberpunk']` — palette ramp.
 - `:root[data-palette='forest']` — palette ramp.
-- `:root[data-palette='cyberpunk']:not([data-theme='dark'])` —
-  light-only `--primary-foreground: var(--ink-900)` (mirrors the
-  `cyberpunk.light.primaryForeground` override; explicitly scoped to
-  not-dark so a future dark-default change never silently cascades
-  into this override).
 - `:root[data-theme='dark'][data-palette='sunset']` —
   `--memphis-border-color: #000000` (specificity 0,2,0 reliably
   beats the gh-91 single-attribute dark block).
+
+### Paper divergence — gh-95 precedent
+
+Before gh-95 every preset shared `DEFAULT_THEME.palette.light.paper`
+(the cream stack `#fbf7ee … #ddd0ae`). gh-95 introduced the first
+per-preset paper ramps so the new Cyberpunk and Forest identities
+read at a glance in light mode rather than collapsing into the
+shared cream:
+
+| Preset    | Paper.50 (light bg)       | Brand.500 (light primary) |
+| --------- | ------------------------- | ------------------------- |
+| default   | `#fbf7ee` cream           | `#c4942a` gold            |
+| sunset    | `#fbf7ee` cream           | `#f58a1e` orange          |
+| cyberpunk | `#f3fbfa` cool cyan cream | `#0f766e` deep teal       |
+| forest    | `#f6f7eb` sage cream      | `#8e4318` copper rust     |
+
+The `applyPreset` reducer path emits the full per-preset paper ramp
+into the live `<style id="theme-generator-overrides">` tag; the
+exporters' delta-encoding emits the dark block only when light/dark
+diverge (each preset still mirrors light = dark, so the dark export
+omits redundant paper lines). Regression guard in `presets.test.ts`
+(`gh-95 — preset paper ramps may diverge from the default cream`).
 
 ### `computeSemanticLight` / `computeSemanticDark`
 

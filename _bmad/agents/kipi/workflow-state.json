@@ -109,6 +109,30 @@
       "runs": [
         {
           "kind": "content-update",
+          "gh_issue": 95,
+          "chapters": ["20-web-app/20-theme-generator/README.md"],
+          "details": {
+            "20-web-app/20-theme-generator/README.md": {
+              "paths": [
+                "apps/web/app/theme-generator/presets.ts",
+                "apps/web/app/theme-generator/presets.test.ts",
+                "apps/web/app/theme-generator/reducer.test.ts",
+                "apps/web/app/styles/theme.css",
+                "apps/web/messages/en.json",
+                "apps/web/messages/it.json",
+                "e2e/tests/scenarios/palette-refresh-r2.spec.ts"
+              ],
+              "old_sha": "34dbd0a",
+              "new_sha": "6a6c72e",
+              "edits": "Header: bumped Last scan (34dbd0a -> 6a6c72e). presets.ts code block: PRESET_LABELS updated to 'Cyberpunk (violet + cyan)' and 'Forest (green + copper)' to match the rebalanced ramps (gh-95 also fixed these labels in en.json + it.json). 'Per-preset semantic overrides (gh-93)' subsection: rewritten — the override map now contains only the sunset entry; added an explanatory paragraph documenting why the cyberpunk override was retired (deep teal #0f766e contrasts AA with white, no override needed). The 'value derived from the palette' design rule and the SYNC_PRESET fix narrative remain (still load-bearing for sunset and any future override). theme.css block list: removed the line for `:root[data-palette='cyberpunk']:not([data-theme='dark'])` since gh-95 deleted that block. Added a new subsection 'Paper divergence — gh-95 precedent' with a per-preset paper.50/brand.500 table documenting that cyberpunk + forest now ship divergent paper ramps (cool cyan cream and sage cream respectively) and noting the regression guard in presets.test.ts.",
+              "decision_no_chapter_edit": "20-web-app/10-docs-site/README.md was again skipped (mechanical hex updates in the cyberpunk example snippets in apps/web/app/docs/foundations/{theming,colors}/page.tsx — no documented information shifts)."
+            }
+          },
+          "queued_at": "2026-05-09T17:55:00+00:00",
+          "completed_at": "2026-05-09T18:00:00+00:00"
+        },
+        {
+          "kind": "content-update",
           "gh_issue": 93,
           "chapters": ["20-web-app/20-theme-generator/README.md"],
           "details": {
