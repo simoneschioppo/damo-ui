@@ -10,6 +10,12 @@
     "scan": {
       "processed": [
         {
+          "path": ".github/workflows/ + .npmrc",
+          "sha": "e089383",
+          "chapter": "30-cross-cutting/10-ci-cd.md",
+          "completed_at": "2026-05-09T12:50:00+00:00"
+        },
+        {
           "path": "packages/ui/src/styles/ + packages/ui/tailwind.preset.ts",
           "sha": "d63afaf",
           "chapter": "10-library/20-theming/README.md",
@@ -101,6 +107,26 @@
     "update": {
       "queued": [],
       "runs": [
+        {
+          "kind": "content-update",
+          "gh_pr": 90,
+          "chapters": ["30-cross-cutting/15-e2e.md"],
+          "details": {
+            "30-cross-cutting/15-e2e.md": {
+              "paths": [
+                "e2e/playwright.config.ts",
+                "e2e/tests/scenarios/favicon-suite.spec.ts",
+                "e2e/tests/scenarios/tinted-memphis-shadow-runtime.spec.ts"
+              ],
+              "old_sha": "e53c5be",
+              "new_sha": "08ede58",
+              "edits": "Header bump (last_scan e53c5be -> 08ede58). Layout tree: added favicon-suite.spec.ts (after issue-fixes) and tinted-memphis-shadow-runtime.spec.ts (after comprehensive-audit). Configuration: rewrote `webServer` paragraph as a CI-aware bullet list — local boots `next dev` with `reuseExistingServer: true`; CI boots `next start` against a freshly-built `.next` (PR #90), `reuseExistingServer: false`. Smoke and docs flows: added `favicon-suite.spec.ts` bullet describing the Next 14 metadata link emission + asset 200/MIME contract (PR #78). Theme-generator runtime audits table: added `tinted-memphis-shadow-runtime.spec.ts` row (regression guard for #66 — per-color @utility tinted Memphis shadows, intent-token override at runtime). Cross-browser stabilization patterns: added helper #6 — `<style>`-tag injection over inline `setProperty(...,'important')` for `@utility`-resolved custom properties (PR #66 / c4aa1ba). Running in CI: rewrote with the four PR #90 optimizations — Playwright browser cache (~/.cache/ms-playwright keyed on pnpm-lock.yaml hash; install step skipped on cache hit; system deps always install), lib build artifact reuse (damo-ui-dist between jobs), prod webserver (next start vs next dev), concurrency cancellation with `head_ref || ref` fallback (load-bearing for push+PR same-SHA dedup). Notes & gotchas #5 added: webkit-only flakes are quarantined via `test.skip(({ browserName }) => ...)` with linked issues, not patched in place (b11ce4c, 4bd889f, c4aa1ba)."
+            }
+          },
+          "decision_defer_10_ci_cd": "Queue trigger also touched .github/workflows/ci.yml, which would map to chapter 30-cross-cutting/10-ci-cd.md. That chapter is status:pending (never documented). Per Kipi rules, *4 updates documented chapters; first-scan work is a *2 task. Deferred 10-ci-cd.md to a dedicated *2 run that should cover both ci.yml and publish.yml end-to-end rather than starting from a thin patch.",
+          "queued_at": "2026-05-09T12:30:08+00:00",
+          "completed_at": "2026-05-09T12:35:00+00:00"
+        },
         {
           "kind": "content-update",
           "gh_issue": 78,
@@ -939,13 +965,14 @@
       ]
     },
     "30-cross-cutting/10-ci-cd.md": {
-      "status": "pending",
-      "sources": [".github/"]
+      "status": "documented",
+      "last_scan_sha": "e089383",
+      "sources": [".github/workflows/ci.yml", ".github/workflows/publish.yml", ".npmrc"]
     },
     "30-cross-cutting/15-e2e.md": {
       "status": "documented",
       "sources": ["e2e/"],
-      "last_scan_sha": "e53c5be"
+      "last_scan_sha": "08ede58"
     },
     "30-cross-cutting/20-conventions.md": {
       "status": "pending",
