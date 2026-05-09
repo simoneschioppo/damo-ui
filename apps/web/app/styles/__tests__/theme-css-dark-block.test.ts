@@ -77,6 +77,10 @@ describe('theme.css — dark block (gh-91)', () => {
     it('does NOT redeclare --warning as var(--brand-500)', () => {
       expect(darkBody).not.toMatch(/--warning\s*:\s*var\(--brand-500\)/)
     })
+
+    it('--memphis-border-color is light gray #cccccc (visible frame on dark plum)', () => {
+      expect(darkBody).toMatch(/--memphis-border-color\s*:\s*#cccccc/i)
+    })
   })
 
   describe('chart overrides (was inheriting light values)', () => {
