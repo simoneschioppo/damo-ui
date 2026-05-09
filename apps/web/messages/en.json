@@ -65,8 +65,8 @@
   },
   "home": {
     "eyebrow": "DOCUMENTATION",
-    "headlineLine1": "Components, tokens,",
-    "headlineLine2": "Memphis patterns.",
+    "headlineLine1": "Memphis kit",
+    "headlineLine2": "for React.",
     "leadSuffix": "Compose React + Next.js UIs without giving up the visual identity.",
     "browseDocs": "Browse docs",
     "openThemeGenerator": "Open theme generator",
