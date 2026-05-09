@@ -248,10 +248,14 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
     cardForeground: p.paper['50'],
     popover: p.ink['800'],
     popoverForeground: p.paper['50'],
-    muted: p.ink['700'],
-    mutedForeground: p.ink['300'],
+    // gh-91: muted lifts to ink.800 (tighter step from background); muted-foreground
+    // collapses to paper.50 by design — full-white text on muted surfaces.
+    muted: p.ink['800'],
+    mutedForeground: p.paper['50'],
 
-    primary: p.brand['500'],
+    // gh-91: primary lifts to brand.400 for Memphis tinted-shadow legibility on
+    // dark plum (Ghost button); ring + badgeFeatured follow.
+    primary: p.brand['400'],
     primaryForeground: p.ink['900'],
     secondary: p.ink['500'],
     secondaryForeground: p.paper['50'],
@@ -260,19 +264,21 @@ export function computeSemanticDark(p: RawPalette): SemanticTheme {
 
     success: '#6fa85c',
     successForeground: p.ink['900'],
-    warning: p.brand['500'],
+    // gh-91: warning decoupled from primary (was brand.500 = primary) to a custom
+    // amber that stays distinct from gold + success + destructive.
+    warning: '#e8a435',
     warningForeground: p.ink['900'],
     info: p.ink['300'],
     infoForeground: p.ink['900'],
 
     border: p.paper['50'] + '1f',
     borderStrong: p.paper['50'] + '38',
-    ring: p.brand['500'],
+    ring: p.brand['400'],
 
     memphisShadowColor: '#000000',
     memphisBorderColor: '#000000',
 
-    badgeFeatured: p.brand['500'],
+    badgeFeatured: p.brand['400'],
     badgeFeaturedForeground: p.ink['900'],
   }
 }
@@ -303,7 +309,7 @@ const DEFAULT_PALETTE: RawPalette = {
   },
 }
 
-const DEFAULT_IDENTITY: IdentityTheme = {
+const DEFAULT_IDENTITY_LIGHT: IdentityTheme = {
   medals: {
     bronze: { outer: '#5a3f20', inner: '#8a6236', text: '#ffffff' },
     silver: { outer: '#4a4a55', inner: '#8a8a9a', text: '#ffffff' },
@@ -319,6 +325,31 @@ const DEFAULT_IDENTITY: IdentityTheme = {
     foregroundStrong: '#ffffff',
   },
   appPattern: { color1: '#c4942a', color2: '#7a3980', color3: '#522357', size: 140 },
+}
+
+/**
+ * gh-91: dark-mode identity diverges from light because several light values
+ * collide with `--background = ink.900` (medals.gold.outer, medals.master.outer)
+ * or sit too low-contrast against it (charts.1/5, appPattern.color2/3).
+ * Bronze, silver, grandmaster medals + navOnDark already work on dark surfaces
+ * and stay aligned with the light identity.
+ */
+const DEFAULT_IDENTITY_DARK: IdentityTheme = {
+  medals: {
+    bronze: { outer: '#5a3f20', inner: '#8a6236', text: '#ffffff' },
+    silver: { outer: '#4a4a55', inner: '#8a8a9a', text: '#ffffff' },
+    gold: { outer: '#fbf7ee', inner: '#c4942a', text: '#2a0f2d' },
+    master: { outer: '#fbf7ee', inner: '#7a3980', text: '#fbf7ee' },
+    grandmaster: { outer: '#000000', inner: '#c4942a', text: '#2a0f2d' },
+  },
+  charts: { '1': '#c590c9', '2': '#d5a845', '3': '#6fa85c', '4': '#c94a2f', '5': '#e0c6e2' },
+  navOnDark: {
+    accent: '#f0d49a',
+    accentStrong: '#d5a845',
+    foreground: 'rgba(255, 255, 255, 0.72)',
+    foregroundStrong: '#ffffff',
+  },
+  appPattern: { color1: '#d5a845', color2: '#c590c9', color3: '#7a3980', size: 140 },
 }
 
 const DEFAULT_TYPOGRAPHY: TypographyFoundation = {
@@ -364,7 +395,7 @@ export const DEFAULT_THEME: Theme = {
     light: computeSemanticLight(DEFAULT_PALETTE),
     dark: computeSemanticDark(DEFAULT_PALETTE),
   },
-  identity: { light: DEFAULT_IDENTITY, dark: DEFAULT_IDENTITY },
+  identity: { light: DEFAULT_IDENTITY_LIGHT, dark: DEFAULT_IDENTITY_DARK },
   typography: { light: DEFAULT_TYPOGRAPHY, dark: DEFAULT_TYPOGRAPHY },
   radius: { light: DEFAULT_RADIUS, dark: DEFAULT_RADIUS },
   shadowMemphis: { light: DEFAULT_SHADOW_MEMPHIS, dark: DEFAULT_SHADOW_MEMPHIS },
