@@ -86,9 +86,19 @@
     },
     "quickInstall": {
       "eyebrow": "QUICK INSTALL",
-      "heading": "Two steps and you're rendering.",
-      "step1": "<mono>pnpm add damo-ui</mono>.",
-      "step2": "<link>Wire styles and ship</link>."
+      "heading": "Install. Wire. Render.",
+      "step1": {
+        "title": "Install",
+        "desc": "Add the package — works with pnpm, npm, yarn, or bun."
+      },
+      "step2": {
+        "title": "Wire styles",
+        "desc": "One CSS file. Tailwind v4 ready out of the box."
+      },
+      "step3": {
+        "title": "Render",
+        "desc": "<link>See the full guide</link> for theming and layout setup."
+      }
     }
   },
   "notFound": {

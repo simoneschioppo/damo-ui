@@ -2,9 +2,19 @@ import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Button } from 'damo-ui'
 import { BRAND } from '../lib/brand'
-import { monoTag, linkTag } from '../lib/i18n-tags'
+import { linkTag } from '../lib/i18n-tags'
+import { Code } from './docs/_components/Code'
 
 const FEATURE_KEYS = ['components', 'tokens', 'themeGenerator'] as const
+
+const INSTALL_SNIPPET = `pnpm add damo-ui`
+
+const STYLES_SNIPPET = `@import 'tailwindcss';
+@import 'damo-ui/styles/theme.css';`
+
+const RENDER_SNIPPET = `import { Button } from 'damo-ui'
+
+export const Page = () => <Button>Save</Button>`
 
 export default async function HomePage() {
   const t = await getTranslations('home')
@@ -78,11 +88,49 @@ export default async function HomePage() {
         <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
           {t('quickInstall.eyebrow')}
         </div>
-        <h2 className="font-display text-3xl mb-4">{t('quickInstall.heading')}</h2>
-        <ol className="space-y-2 text-foreground/85 list-decimal pl-5">
-          <li>{t.rich('quickInstall.step1', { mono: monoTag })}</li>
-          <li>{t.rich('quickInstall.step2', { link: linkTag('/docs/getting-started') })}</li>
-        </ol>
+        <h2 className="font-display text-3xl mb-8">{t('quickInstall.heading')}</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-2xl text-primary leading-none">1</span>
+              <h3 className="font-display text-xl tracking-wide">
+                {t('quickInstall.step1.title')}
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground">{t('quickInstall.step1.desc')}</p>
+            <div className="mt-auto pt-2">
+              <Code code={INSTALL_SNIPPET} lang="bash" title="terminal" embedded />
+            </div>
+          </div>
+
+          <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-2xl text-primary leading-none">2</span>
+              <h3 className="font-display text-xl tracking-wide">
+                {t('quickInstall.step2.title')}
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground">{t('quickInstall.step2.desc')}</p>
+            <div className="mt-auto pt-2">
+              <Code code={STYLES_SNIPPET} lang="css" title="app/globals.css" embedded />
+            </div>
+          </div>
+
+          <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-2xl text-primary leading-none">3</span>
+              <h3 className="font-display text-xl tracking-wide">
+                {t('quickInstall.step3.title')}
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {t.rich('quickInstall.step3.desc', { link: linkTag('/docs/getting-started') })}
+            </p>
+            <div className="mt-auto pt-2">
+              <Code code={RENDER_SNIPPET} lang="tsx" title="app/page.tsx" embedded />
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   )
