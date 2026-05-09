@@ -112,7 +112,7 @@ describe('reducer — preset application preserves diverged identity', () => {
       index: '1',
       value: '#bbbbbb',
     })
-    const next = reducer(divergedBoth, { type: 'SET_PRESET', preset: 'neon' })
+    const next = reducer(divergedBoth, { type: 'SET_PRESET', preset: 'cyberpunk' })
     expect(next.identity.light.medals.gold.inner).toBe('#aaaaaa')
     expect(next.identity.dark.charts['1']).toBe('#bbbbbb')
   })
@@ -213,7 +213,7 @@ describe('reducer — SYNC_PRESET (navbar-driven) preserves palette divergence',
       value: '#abcdef',
     })
     // Now navbar tries to sync to a new preset — divergence must survive
-    const next = reducer(diverged, { type: 'SYNC_PRESET', preset: 'neon' })
+    const next = reducer(diverged, { type: 'SYNC_PRESET', preset: 'cyberpunk' })
     expect(next.palette.light.brand['500']).toBe('#abcdef')
   })
 
@@ -225,9 +225,9 @@ describe('reducer — SYNC_PRESET (navbar-driven) preserves palette divergence',
       step: '500',
       value: '#abcdef',
     })
-    const next = reducer(diverged, { type: 'SYNC_PRESET', preset: 'neon' })
+    const next = reducer(diverged, { type: 'SYNC_PRESET', preset: 'cyberpunk' })
     // Dark was not edited → it follows the new preset
-    expect(next.palette.dark.brand['500']).toBe('#7fd321') // neon brand-500
+    expect(next.palette.dark.brand['500']).toBe('#ffab00') // cyberpunk brand-500
   })
 
   it('SYNC_PRESET on a fresh theme behaves like SET_PRESET', () => {
