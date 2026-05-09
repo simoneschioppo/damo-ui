@@ -235,6 +235,12 @@ describe('gh-93 — Cyberpunk palette + override', () => {
   it('palette is mirrored across light and dark modes (preset reset behavior)', () => {
     expect(cy.palette.dark).toEqual(cy.palette.light)
   })
+
+  it('semantic.dark equals canonical computeSemanticDark — light override does not bleed to dark', () => {
+    // Regression guard: if someone adds a dark override under cyberpunk by
+    // mistake, this asserts the dark mode stays purely on the canonical path.
+    expect(cy.semantic.dark).toEqual(computeSemanticDark(cy.palette.dark))
+  })
 })
 
 /**
@@ -271,6 +277,14 @@ describe('gh-93 — Forest palette (no overrides)', () => {
 
   it('memphisBorderColor in dark stays the gh-91 default (#cccccc) — no preset override for forest', () => {
     expect(fo.semantic.dark.memphisBorderColor).toBe('#cccccc')
+  })
+
+  it('semantic.light equals canonical computeSemanticLight — no overrides applied for forest', () => {
+    expect(fo.semantic.light).toEqual(computeSemanticLight(fo.palette.light))
+  })
+
+  it('semantic.dark equals canonical computeSemanticDark — no overrides applied for forest', () => {
+    expect(fo.semantic.dark).toEqual(computeSemanticDark(fo.palette.dark))
   })
 })
 
