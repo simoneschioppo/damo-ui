@@ -38,10 +38,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
  * covered in `typography-bridge.test.ts` (PR #49).
  */
 
-const themeCss = readFileSync(
-  resolve(__dirname, '..', 'theme.css'),
-  'utf8',
-).replace(/\s+/g, ' ')
+const themeCss = readFileSync(resolve(__dirname, '..', 'theme.css'), 'utf8').replace(/\s+/g, ' ')
 
 /**
  * Build a regex that matches `--<colorVar>: var(--<sourceVar>)` inside
@@ -98,14 +95,14 @@ describe('bridgesTo helper — sanity', () => {
 
 describe('J-02 Semantic surfaces are bridged', () => {
   const SURFACES: ReadonlyArray<readonly [string, string]> = [
-    ['--color-background',         '--background'],
-    ['--color-foreground',         '--foreground'],
-    ['--color-card',               '--card'],
-    ['--color-card-foreground',    '--card-foreground'],
-    ['--color-popover',            '--popover'],
+    ['--color-background', '--background'],
+    ['--color-foreground', '--foreground'],
+    ['--color-card', '--card'],
+    ['--color-card-foreground', '--card-foreground'],
+    ['--color-popover', '--popover'],
     ['--color-popover-foreground', '--popover-foreground'],
-    ['--color-muted',              '--muted'],
-    ['--color-muted-foreground',   '--muted-foreground'],
+    ['--color-muted', '--muted'],
+    ['--color-muted-foreground', '--muted-foreground'],
   ]
   it.each(SURFACES)('bridges %s → %s', (colorVar, sourceVar) => {
     expect(themeCss).toMatch(bridgesTo(colorVar, sourceVar))
@@ -114,11 +111,11 @@ describe('J-02 Semantic surfaces are bridged', () => {
 
 describe('J-03 Semantic intents are bridged', () => {
   const INTENTS: ReadonlyArray<readonly [string, string]> = [
-    ['--color-primary',              '--primary'],
-    ['--color-primary-foreground',   '--primary-foreground'],
-    ['--color-secondary',            '--secondary'],
+    ['--color-primary', '--primary'],
+    ['--color-primary-foreground', '--primary-foreground'],
+    ['--color-secondary', '--secondary'],
     ['--color-secondary-foreground', '--secondary-foreground'],
-    ['--color-destructive',          '--destructive'],
+    ['--color-destructive', '--destructive'],
     ['--color-destructive-foreground', '--destructive-foreground'],
   ]
   it.each(INTENTS)('bridges %s → %s', (colorVar, sourceVar) => {
@@ -128,12 +125,12 @@ describe('J-03 Semantic intents are bridged', () => {
 
 describe('J-04 Semantic status are bridged', () => {
   const STATUS: ReadonlyArray<readonly [string, string]> = [
-    ['--color-success',            '--success'],
+    ['--color-success', '--success'],
     ['--color-success-foreground', '--success-foreground'],
-    ['--color-warning',            '--warning'],
+    ['--color-warning', '--warning'],
     ['--color-warning-foreground', '--warning-foreground'],
-    ['--color-info',               '--info'],
-    ['--color-info-foreground',    '--info-foreground'],
+    ['--color-info', '--info'],
+    ['--color-info-foreground', '--info-foreground'],
   ]
   it.each(STATUS)('bridges %s → %s', (colorVar, sourceVar) => {
     expect(themeCss).toMatch(bridgesTo(colorVar, sourceVar))
@@ -142,9 +139,9 @@ describe('J-04 Semantic status are bridged', () => {
 
 describe('J-05 Semantic chrome are bridged', () => {
   const CHROME: ReadonlyArray<readonly [string, string]> = [
-    ['--color-border',        '--border'],
+    ['--color-border', '--border'],
     ['--color-border-strong', '--border-strong'],
-    ['--color-ring',          '--ring'],
+    ['--color-ring', '--ring'],
   ]
   it.each(CHROME)('bridges %s → %s', (colorVar, sourceVar) => {
     expect(themeCss).toMatch(bridgesTo(colorVar, sourceVar))
@@ -160,28 +157,127 @@ describe('J-06 Memphis identity is bridged', () => {
   })
 
   // The per-instance "tinted Memphis shadow" recipe is the lib's most
-  // load-bearing pattern: a component overrides --memphis-shadow-color
-  // inline (e.g. `[--memphis-shadow-color:var(--primary)]`) so the same
-  // shadow utility paints in different colors per call site. If the
-  // recipe ever stops working, multiple components (Button ghost, Input
-  // focus, Dialog danger, Toast variants) silently lose their per-state
-  // tint.
-  describe('per-instance --memphis-shadow-color override recipe', () => {
-    const COMPONENTS: ReadonlyArray<readonly [string, string, string]> = [
-      ['Button ghost variant',  '../../components/button/button.variants.ts',         '[--memphis-shadow-color:var(--primary)]'],
-      ['Input focus shadow',    '../../components/input/input.tsx',                   '[--memphis-shadow-color:var(--primary)]'],
-      ['Input invalid shadow',  '../../components/input/input.tsx',                   '[--memphis-shadow-color:var(--destructive)]'],
-      ['Textarea focus shadow', '../../components/textarea/textarea.tsx',             '[--memphis-shadow-color:var(--primary)]'],
-      ['Textarea invalid',      '../../components/textarea/textarea.tsx',             '[--memphis-shadow-color:var(--destructive)]'],
-      ['Toast success variant', '../../components/toast/toast.tsx',                   '[--memphis-shadow-color:var(--success)]'],
-      ['Toast warning variant', '../../components/toast/toast.tsx',                   '[--memphis-shadow-color:var(--warning)]'],
-      ['Toast danger variant',  '../../components/toast/toast.tsx',                   '[--memphis-shadow-color:var(--destructive)]'],
-      ['Banner variants',       '../../components/banner/banner.variants.ts',         '[--memphis-shadow-color:var(--success)]'],
-      ['FeatureCard tint',      '../../components/feature-card/feature-card.tsx',     '--memphis-shadow-color'],
+  // load-bearing pattern: components paint the Memphis offset shadow in
+  // an intent color (primary on Button ghost / Card featured / focused
+  // inputs, destructive on invalid inputs / Toast danger / Dialog danger,
+  // success/warning/info on Banner + Toast variants).
+  //
+  // The legacy mechanism `[--memphis-shadow-color:var(--X)] shadow-memphis`
+  // was broken at runtime: browsers substitute var() inside an inherited
+  // custom property at the *declaring* element (`:root`), so per-instance
+  // overrides of `--memphis-shadow-color` could not retroactively re-tint
+  // an already-resolved `--shadow-memphis` (PR #65 caveat).
+  //
+  // Issue #66 replaced the recipe with per-color @utility blocks
+  // (`shadow-memphis-{primary|success|warning|destructive|info}` and
+  // `shadow-memphis-lg-destructive`), which bake the intent token into
+  // the box-shadow value so substitution happens at the consumer.
+  describe('per-color tinted shadow recipe (post-#66)', () => {
+    const COMPONENTS: ReadonlyArray<readonly [string, string, ReadonlyArray<string>]> = [
+      [
+        'Button ghost variant',
+        '../../components/button/button.variants.ts',
+        [
+          'shadow-memphis-primary',
+          'hover:shadow-memphis-primary-hover',
+          'active:shadow-memphis-primary-active',
+        ],
+      ],
+      [
+        'Card featured variant',
+        '../../components/card/card.variants.ts',
+        ['shadow-memphis-primary'],
+      ],
+      [
+        'Input focus shadow',
+        '../../components/input/input.tsx',
+        ['focus-visible:shadow-memphis-primary'],
+      ],
+      [
+        'Input invalid shadow',
+        '../../components/input/input.tsx',
+        ['aria-invalid:shadow-memphis-destructive'],
+      ],
+      [
+        'Textarea focus shadow',
+        '../../components/textarea/textarea.tsx',
+        ['focus-visible:shadow-memphis-primary'],
+      ],
+      [
+        'Textarea invalid shadow',
+        '../../components/textarea/textarea.tsx',
+        ['aria-invalid:shadow-memphis-destructive'],
+      ],
+      [
+        'Select trigger focus',
+        '../../components/select/select.tsx',
+        ['focus-visible:shadow-memphis-primary'],
+      ],
+      [
+        'Combobox trigger focus',
+        '../../components/combobox/combobox.tsx',
+        ['focus-visible:shadow-memphis-primary'],
+      ],
+      [
+        'DatePicker trigger focus',
+        '../../components/date-picker/date-picker.tsx',
+        ['focus-visible:shadow-memphis-primary'],
+      ],
+      ['Toast success variant', '../../components/toast/toast.tsx', ['shadow-memphis-success']],
+      ['Toast warning variant', '../../components/toast/toast.tsx', ['shadow-memphis-warning']],
+      ['Toast danger variant', '../../components/toast/toast.tsx', ['shadow-memphis-destructive']],
+      [
+        'Banner info variant',
+        '../../components/banner/banner.variants.ts',
+        ['shadow-memphis-info'],
+      ],
+      [
+        'Banner success variant',
+        '../../components/banner/banner.variants.ts',
+        ['shadow-memphis-success'],
+      ],
+      [
+        'Banner warning variant',
+        '../../components/banner/banner.variants.ts',
+        ['shadow-memphis-warning'],
+      ],
+      [
+        'Banner danger variant',
+        '../../components/banner/banner.variants.ts',
+        ['shadow-memphis-destructive'],
+      ],
+      [
+        'Dialog danger tone',
+        '../../components/dialog/dialog.tsx',
+        ['shadow-memphis-lg-destructive'],
+      ],
     ]
-    it.each(COMPONENTS)('%s preserves the recipe', (_label, path, fragment) => {
+    it.each(COMPONENTS)('%s uses the new tinted utility', (_label, path, fragments) => {
       const source = readFileSync(resolve(__dirname, path), 'utf8')
-      expect(source).toContain(fragment)
+      for (const fragment of fragments) {
+        expect(source).toContain(fragment)
+      }
+    })
+
+    // Anti-regression: the legacy per-instance bracket recipe must not
+    // creep back into any migrated consumer. The recipe is broken at the
+    // CSS-substitution layer; restoring it would silently revert the
+    // tinted shadow to default black on these components.
+    const MIGRATED_FILES: ReadonlyArray<readonly [string, string]> = [
+      ['Button', '../../components/button/button.variants.ts'],
+      ['Card', '../../components/card/card.variants.ts'],
+      ['Input', '../../components/input/input.tsx'],
+      ['Textarea', '../../components/textarea/textarea.tsx'],
+      ['Select', '../../components/select/select.tsx'],
+      ['Combobox', '../../components/combobox/combobox.tsx'],
+      ['DatePicker', '../../components/date-picker/date-picker.tsx'],
+      ['Toast', '../../components/toast/toast.tsx'],
+      ['Banner', '../../components/banner/banner.variants.ts'],
+      ['Dialog', '../../components/dialog/dialog.tsx'],
+    ]
+    it.each(MIGRATED_FILES)('%s no longer embeds [--memphis-shadow-color:…]', (_label, path) => {
+      const source = readFileSync(resolve(__dirname, path), 'utf8')
+      expect(source).not.toMatch(/\[--memphis-shadow-color:/)
     })
   })
 })
@@ -189,8 +285,8 @@ describe('J-06 Memphis identity is bridged', () => {
 describe('J-09 Typography fonts are bridged', () => {
   const FONTS: ReadonlyArray<readonly [string, string]> = [
     ['--font-display', '--font-display'],
-    ['--font-body',    '--font-body'],
-    ['--font-mono',    '--font-mono'],
+    ['--font-body', '--font-body'],
+    ['--font-mono', '--font-mono'],
   ]
   it.each(FONTS)('bridges %s → %s', (colorVar, sourceVar) => {
     expect(themeCss).toMatch(bridgesTo(colorVar, sourceVar))
@@ -199,12 +295,12 @@ describe('J-09 Typography fonts are bridged', () => {
 
 describe('J-11 Radius are bridged', () => {
   const RADII: ReadonlyArray<readonly [string, string]> = [
-    ['--radius-none',      '--radius-none'],
-    ['--radius-sm',        '--radius-sm'],
-    ['--radius-md',        '--radius-md'],
+    ['--radius-none', '--radius-none'],
+    ['--radius-sm', '--radius-sm'],
+    ['--radius-md', '--radius-md'],
     ['--radius-selection', '--radius-selection'],
-    ['--radius-pill',      '--radius-pill'],
-    ['--radius-full',      '--radius-full'],
+    ['--radius-pill', '--radius-pill'],
+    ['--radius-full', '--radius-full'],
   ]
   it.each(RADII)('bridges %s → %s', (colorVar, sourceVar) => {
     expect(themeCss).toMatch(bridgesTo(colorVar, sourceVar))
@@ -227,27 +323,24 @@ describe('J-12 Shadow Memphis are exposed via @utility (not @theme inline)', () 
    * blocks at the bottom of theme.css for the same reason.
    */
   const SHADOW_UTILITIES: ReadonlyArray<readonly [string, string]> = [
-    ['shadow-memphis-sm',     '--shadow-memphis-sm'],
-    ['shadow-memphis-card',   '--shadow-memphis-card'],
-    ['shadow-memphis',        '--shadow-memphis'],     // the 'md' tier — no suffix
-    ['shadow-memphis-lg',     '--shadow-memphis-lg'],
-    ['shadow-memphis-hover',  '--shadow-memphis-hover'],
+    ['shadow-memphis-sm', '--shadow-memphis-sm'],
+    ['shadow-memphis-card', '--shadow-memphis-card'],
+    ['shadow-memphis', '--shadow-memphis'], // the 'md' tier — no suffix
+    ['shadow-memphis-lg', '--shadow-memphis-lg'],
+    ['shadow-memphis-hover', '--shadow-memphis-hover'],
     ['shadow-memphis-active', '--shadow-memphis-active'],
-    ['shadow-md',             '--shadow-md'],          // soft tier
+    ['shadow-md', '--shadow-md'], // soft tier
   ]
-  it.each(SHADOW_UTILITIES)(
-    '@utility %s reads var(%s)',
-    (utilityName, sourceVar) => {
-      // Match: `@utility <name> { box-shadow: var(<sourceVar>); }`
-      // (with arbitrary whitespace; .replace above already collapsed it).
-      const escapedName = utilityName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
-      const escapedSrc = sourceVar.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
-      const rx = new RegExp(
-        `@utility\\s+${escapedName}\\s*\\{\\s*box-shadow\\s*:\\s*var\\(\\s*${escapedSrc}\\s*[,)]`,
-      )
-      expect(themeCss).toMatch(rx)
-    },
-  )
+  it.each(SHADOW_UTILITIES)('@utility %s reads var(%s)', (utilityName, sourceVar) => {
+    // Match: `@utility <name> { box-shadow: var(<sourceVar>); }`
+    // (with arbitrary whitespace; .replace above already collapsed it).
+    const escapedName = utilityName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+    const escapedSrc = sourceVar.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+    const rx = new RegExp(
+      `@utility\\s+${escapedName}\\s*\\{\\s*box-shadow\\s*:\\s*var\\(\\s*${escapedSrc}\\s*[,)]`,
+    )
+    expect(themeCss).toMatch(rx)
+  })
 
   it('does NOT redeclare --shadow-memphis-* inside @theme inline (would shadow tokens.css)', () => {
     // Anti-regression: if the self-referential bridge sneaks back into
@@ -261,10 +354,53 @@ describe('J-12 Shadow Memphis are exposed via @utility (not @theme inline)', () 
   })
 })
 
+describe('J-12b Per-color tinted Memphis shadow @utility blocks (#66)', () => {
+  /**
+   * Per-color tinted shadows replace the broken
+   * `[--memphis-shadow-color:var(--X)] shadow-memphis` recipe. Each
+   * @utility bakes the intent token directly into the box-shadow value,
+   * which sidesteps the inherited-custom-property substitution trap from
+   * PR #65 (browsers substitute the inner var() at the declaring element,
+   * not the consumer).
+   *
+   * Each entry asserts:
+   *   `@utility <name> { box-shadow: <Npx Npx 0> var(<intent>); }`
+   * with the offset matching the corresponding tier (md = 6px 6px 0,
+   * lg = 9px 9px 0). The offset is hardcoded inside the @utility because
+   * there is no separate `--shadow-memphis-offset` token; if the theme
+   * generator ever needs to override per-color offsets, that's a follow-up.
+   */
+  const TINTED_UTILITIES: ReadonlyArray<readonly [string, string, string]> = [
+    ['shadow-memphis-primary', '6px 6px 0', '--primary'],
+    ['shadow-memphis-success', '6px 6px 0', '--success'],
+    ['shadow-memphis-warning', '6px 6px 0', '--warning'],
+    ['shadow-memphis-destructive', '6px 6px 0', '--destructive'],
+    ['shadow-memphis-info', '6px 6px 0', '--info'],
+    ['shadow-memphis-lg-destructive', '9px 9px 0', '--destructive'],
+    // Hover/active offsets matching the lib's non-tinted hover/active
+    // tiers (7px 7px 0 / 2px 2px 0 from tokens.css), tinted with --primary.
+    // Without these, Button ghost would jolt to default-black on hover/active.
+    ['shadow-memphis-primary-hover', '7px 7px 0', '--primary'],
+    ['shadow-memphis-primary-active', '2px 2px 0', '--primary'],
+  ]
+  it.each(TINTED_UTILITIES)(
+    '@utility %s emits box-shadow %s var(%s)',
+    (utilityName, offset, intentVar) => {
+      const escapedName = utilityName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+      const escapedOffset = offset.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&').replace(/\s+/g, '\\s+')
+      const escapedIntent = intentVar.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+      const rx = new RegExp(
+        `@utility\\s+${escapedName}\\s*\\{\\s*box-shadow\\s*:\\s*${escapedOffset}\\s+var\\(\\s*${escapedIntent}\\s*[,)]`,
+      )
+      expect(themeCss).toMatch(rx)
+    },
+  )
+})
+
 describe('J-13b Motion easings are bridged', () => {
   const EASINGS: ReadonlyArray<readonly [string, string]> = [
     ['--ease-memphis', '--ease-memphis'],
-    ['--ease-out',     '--ease-out'],
+    ['--ease-out', '--ease-out'],
   ]
   it.each(EASINGS)('bridges %s → %s', (colorVar, sourceVar) => {
     expect(themeCss).toMatch(bridgesTo(colorVar, sourceVar))

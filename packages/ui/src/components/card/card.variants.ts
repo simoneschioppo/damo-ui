@@ -6,8 +6,9 @@ export const cardVariants = cva(['bg-card text-card-foreground'], {
       default: ['border-2 border-memphis shadow-memphis rounded-none'],
       elevated: ['border-2 border-memphis shadow-memphis-lg rounded-none'],
       featured: [
-        '[--memphis-shadow-color:var(--primary)]',
-        'border-2 border-memphis shadow-memphis rounded-none',
+        // Primary-tinted Memphis shadow (see #66 for the per-color
+        // utilities that replaced the broken inherited-var recipe).
+        'border-2 border-memphis shadow-memphis-primary rounded-none',
       ],
       interactive: [
         'border-2 border-memphis shadow-memphis rounded-none',
