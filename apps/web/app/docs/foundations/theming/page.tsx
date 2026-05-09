@@ -217,9 +217,7 @@ export default async function ThemingFoundationPage() {
       <Code code={VALID_DENSITY} lang="css" title="density tokens (lib defaults)" />
 
       <h2 className="font-display text-2xl mb-3 mt-12">{t('dropInTitle')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('dropInBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('dropInBody', { mono: monoTag })}</p>
       <Code code={SWITCHERS_USAGE} lang="tsx" title="components/ThemeBar.tsx" />
       <p className="text-foreground/70 mt-4 text-[14px]">
         {t.rich('dropInPropsLink', { link: linkTag('/docs/components/attr-toggle-group') })}
@@ -230,9 +228,7 @@ export default async function ThemingFoundationPage() {
       <Code code={PROGRAMMATIC} lang="ts" title="any client component" />
 
       <h2 className="font-display text-2xl mb-3 mt-12">{t('fouTitle')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('fouBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('fouBody', { mono: monoTag })}</p>
       <Code code={FOUC_FIX} lang="tsx" title="app/layout.tsx" />
 
       <h2 className="font-display text-2xl mb-3 mt-12">{t('scopedTitle')}</h2>

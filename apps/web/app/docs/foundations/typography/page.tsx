@@ -199,29 +199,21 @@ export default async function TypographyFoundationPage() {
       </p>
       <Code code={FONTS_LOAD} lang="tsx" title="option A · Google Fonts <link>" />
       <Code code={FONTS_TOKEN_OVERRIDE} lang="css" title="option A · bind to tokens" />
-      <p className="text-foreground/80 mt-6 mb-3">
-        {t.rich('loadingNextHint', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mt-6 mb-3">{t.rich('loadingNextHint', { mono: monoTag })}</p>
       <Code code={NEXT_LOCAL_FONTS} lang="tsx" title="option B · next/font/google" />
 
       <h2 className="font-display text-2xl mb-3 mt-10">{t('tailwindTitle')}</h2>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('tailwindBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('tailwindBody', { mono: monoTag })}</p>
       <Example code={TAILWIND_FONTS} previewClassName="px-6 py-8 flex flex-col gap-3 items-start">
         <h3 className="font-display text-4xl leading-[0.95]">Damo UI</h3>
-        <p className="font-body text-base text-foreground/80">
-          {t('tailwindPreviewBody')}
-        </p>
+        <p className="font-body text-base text-foreground/80">{t('tailwindPreviewBody')}</p>
         <code className="font-mono text-sm bg-muted px-2 py-1 border border-memphis/40">
           npm install @damo/ui
         </code>
       </Example>
 
       <h3 className="font-display text-lg mb-3 mt-8">{t('helperTitle')}</h3>
-      <p className="text-foreground/80 mb-3">
-        {t.rich('helperBody', { mono: monoTag })}
-      </p>
+      <p className="text-foreground/80 mb-3">{t.rich('helperBody', { mono: monoTag })}</p>
       <Example code={HELPER_CLASSES} previewClassName="px-6 py-8 flex flex-col gap-3 items-start">
         <h2 className="display text-4xl">{t('helperPreviewDisplay')}</h2>
         <code className="mono text-sm">{t('helperPreviewMono')}</code>

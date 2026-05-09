@@ -447,11 +447,7 @@ function emitFoundationsVars(theme: Theme, mode: ThemeMode, lines: string[]): vo
     // value with the canonical unit per key. Previously these forced the
     // literal constants `999px` / `50%`, silently ignoring user input
     // (issue #63).
-    const css =
-      k === 'pill' ? `${v}px` :
-      k === 'full' ? `${v}%` :
-      v === 0 ? '0' :
-      `${v}px`
+    const css = k === 'pill' ? `${v}px` : k === 'full' ? `${v}%` : v === 0 ? '0' : `${v}px`
     lines.push(`  --radius-${k}: ${css};`)
   })
   const sm = theme.shadowMemphis[mode]
