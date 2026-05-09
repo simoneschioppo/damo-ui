@@ -73,8 +73,8 @@ export default function RootLayout({ children }) {
                 storageKey="palette"
                 attribute="data-palette"
                 options={[
-                  { value: 'default', label: 'Default' },
-                  { value: 'neon',    label: 'Neon' },
+                  { value: 'default',   label: 'Default' },
+                  { value: 'cyberpunk', label: 'Cyberpunk' },
                 ]}
                 defaultValue="default"
               />
