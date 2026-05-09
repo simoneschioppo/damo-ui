@@ -59,14 +59,13 @@ describe('FeatureCard', () => {
     expect(root.className).toContain('w-[280px]')
   })
 
-  it('uses Card variant="featured" so --memphis-shadow-color is wired to var(--primary)', () => {
+  it('uses Card variant="featured" so the Memphis shadow paints in var(--primary)', () => {
     const { container } = render(<FeatureCard title="CLASSICO" desc="Esempio descrizione" />)
     const root = container.firstChild as HTMLElement
-    // The featured Card variant adds the arbitrary `[--memphis-shadow-color:var(--primary)]`
-    // utility, which Tailwind compiles into a class that sets the CSS custom property.
-    expect(root.className).toContain('[--memphis-shadow-color:var(--primary)]')
-    // Shadow utility is the standard Memphis shadow, recoloured by the override above.
-    expect(root.className).toContain('shadow-memphis')
+    // Post-#66: the featured Card variant uses the per-color
+    // `shadow-memphis-primary` utility (replaces the broken inherited-var
+    // recipe that asked the consumer to override --memphis-shadow-color).
+    expect(root.className).toContain('shadow-memphis-primary')
     // Guard against the previous inline-style approach regressing back.
     expect(root.style.boxShadow).toBe('')
   })
