@@ -41,7 +41,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from '@damo/ui'
+} from 'damo-ui'
 import { BRAND } from '../../lib/brand'
 import {
   AuthPreview,
@@ -50,7 +50,7 @@ import {
   FeedPreview,
   GalleryPreview,
   ProfilePreview,
-} from '@damo/ui/mocks'
+} from 'damo-ui/mocks'
 
 import { useThemeState } from './use-theme-state'
 import { SampleDialog } from './sample-dialog'

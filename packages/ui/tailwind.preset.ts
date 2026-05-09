@@ -4,13 +4,13 @@ import type { Config } from 'tailwindcss'
  * Damo UI — legacy v3-style Tailwind preset.
  *
  * Tailwind v4 consumers should @import the lib's CSS instead (see
- * `@damo/ui/styles/theme.css`); v4 picks up tokens via `@theme inline { … }`
+ * `damo-ui/styles/theme.css`); v4 picks up tokens via `@theme inline { … }`
  * automatically and doesn't need this preset.
  *
  * This file remains as a compatibility shim for consumers still on
  * Tailwind v3, who can do:
  *
- *   import damo from '@damo/ui/tailwind.preset'
+ *   import damo from 'damo-ui/tailwind.preset'
  *   export default { presets: [damo], … }
  *
  * The token surface here mirrors the v1 audit — every entry corresponds

@@ -7,11 +7,11 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev:lib": "pnpm --filter @damo/ui dev",
+    "dev:lib": "pnpm --filter damo-ui dev",
     "dev:web": "pnpm --filter @damo/web dev",
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
-    "build": "pnpm --filter @damo/ui build",
-    "test": "pnpm --filter @damo/ui test",
+    "build": "pnpm --filter damo-ui build",
+    "test": "pnpm --filter damo-ui test",
     "test:e2e": "pnpm --filter @damo/e2e test",
     "lint": "pnpm -r lint && node scripts/check-docs-sync.mjs",
     "check:docs-sync": "node scripts/check-docs-sync.mjs",
