@@ -62,14 +62,18 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
               'bg-card border-2 border-memphis rounded-none',
               'transition-colors duration-fast cursor-pointer',
               'hover:bg-muted',
-              'focus-visible:outline-none focus-visible:border-primary focus-visible:[--memphis-shadow-color:var(--primary)] focus-visible:shadow-memphis',
+              // Primary-tinted Memphis shadow on focus (see #66 for the per-color
+              // utilities that replaced the broken inherited-var recipe).
+              'focus-visible:outline-none focus-visible:border-primary focus-visible:shadow-memphis-primary',
               'disabled:opacity-50 disabled:pointer-events-none',
               !selected && 'text-muted-foreground',
               triggerClassName,
             )}
           >
             <span>
-              {selected ? format(selected, formatStr, { locale: dateFnsLocale }) : resolvedPlaceholder}
+              {selected
+                ? format(selected, formatStr, { locale: dateFnsLocale })
+                : resolvedPlaceholder}
             </span>
             <CalendarIcon size={16} className="shrink-0 text-muted-foreground" />
           </button>

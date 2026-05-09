@@ -22,9 +22,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         'border-2 border-memphis rounded-none',
         'transition-colors duration-fast',
         'hover:bg-muted',
-        'focus-visible:outline-none focus-visible:border-primary focus-visible:[--memphis-shadow-color:var(--primary)] focus-visible:shadow-memphis',
+        // Tinted Memphis shadow on focus/invalid (see #66 for the per-color
+        // utilities that replaced the broken inherited-var recipe).
+        'focus-visible:outline-none focus-visible:border-primary focus-visible:shadow-memphis-primary',
         'disabled:bg-muted disabled:text-muted-foreground disabled:pointer-events-none',
-        'aria-invalid:border-destructive aria-invalid:[--memphis-shadow-color:var(--destructive)] aria-invalid:shadow-memphis',
+        'aria-invalid:border-destructive aria-invalid:shadow-memphis-destructive',
         className,
       )}
       {...rest}
