@@ -1,12 +1,13 @@
 # Theming
 
-Status: documented · Last scan: 43a7a02 · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/tailwind.preset.ts`,
 `packages/ui/src/styles/tokens.css`,
 `packages/ui/src/styles/theme.css`,
 `packages/ui/src/styles/globals.css`,
 `packages/ui/src/styles/contrast-utils.ts`,
 `packages/ui/src/styles/__tests__/contrast-utils.test.ts`,
+`packages/ui/src/lib/cn.ts` (`tailwind-merge` extension for custom shadow utilities — see Architecture #4),
 `packages/ui/package.json` (exports surface).
 
 ## Summary
@@ -115,7 +116,10 @@ Token groups currently shipped:
   `--shadow-memphis-card`, `--shadow-memphis`, `--shadow-memphis-lg`,
   `--shadow-memphis-hover`, `--shadow-memphis-active`. Each is a hard
   offset shadow `Npx Npx 0 var(--memphis-shadow-color)` — the lib's
-  visual signature.
+  visual signature. Default `--memphis-shadow-color` is black; the
+  per-color tinted variants (`shadow-memphis-{intent}`, see Architecture
+  #4) bake the intent token into the `box-shadow` declaration directly
+  and don't read this token.
 - **Motion:** `--duration-{snap,fast,base,slow}`, `--ease-memphis`,
   `--ease-out`. `--ease-in-out` was dropped.
 - **Z-index:** `--z-{header,dropdown,overlay,modal,toast,tooltip}`. The
@@ -156,29 +160,83 @@ var(--shadow-memphis-X) }` rule that **clobbers** the value declared
    `@theme inline` emission path entirely so the token from
    `tokens.css` flows through. See #58 for the full forensic trace.
 
-4. **Per-instance Memphis tinted-shadow recipe is broken at runtime
-   (open issue #58 / #66 parked).** The recipe
-   `[--memphis-shadow-color:var(--X)] shadow-memphis` (used by Button
-   ghost, Input invalid, Toast variants, Dialog danger, …) sets the
-   custom property on the consuming element, but `var()` references
-   inside `--shadow-memphis-X` are substituted **at the declaring
-   element** (`:root`) per the CSS Custom Properties spec — not at
-   the consumer. The override is therefore ignored and the painted
-   shadow falls back to the default Memphis color. Closing the gap
-   needs per-color `@utility` blocks (`@utility shadow-memphis-primary
-{ box-shadow: 6px 6px 0 var(--primary); }`) — but Tailwind v4
-   silently strips any `@utility` block whose name doesn't match a
-   known prefix, so path B was abandoned (see #66 comment for the
-   investigation).
+4. **`@utility shadow-memphis-{primary,success,warning,destructive,info}`
+   (md tier), `@utility shadow-memphis-lg-destructive` (lg tier for
+   Dialog danger), and `@utility shadow-memphis-primary-{hover,active}`
+   (Button ghost interactive states)** are the per-color tinted
+   counterparts. Each bakes the intent token directly into the
+   `box-shadow` declaration:
 
-5. **`--text-{xs..3xl}` re-bridged in `@theme inline`.** Without this,
+   ```css
+   @utility shadow-memphis-primary {
+     box-shadow: 6px 6px 0 var(--primary);
+   }
+   @utility shadow-memphis-lg-destructive {
+     box-shadow: 9px 9px 0 var(--destructive);
+   }
+   @utility shadow-memphis-primary-hover {
+     box-shadow: 7px 7px 0 var(--primary);
+   }
+   ```
+
+   **Why this exists:** the previous per-instance recipe
+   `[--memphis-shadow-color:var(--X)] shadow-memphis` was broken at
+   runtime — `var()` references inside an inherited custom property
+   (`--shadow-memphis: 6px 6px 0 var(--memphis-shadow-color)`) are
+   substituted at the **declaring** element (`:root`), not at the
+   consumer. The override therefore had no effect and every "tinted"
+   Memphis shadow rendered black regardless of the per-instance
+   override. Path B (per-color `@utility` blocks) was initially thought
+   to be silently stripped by Tailwind v4, but empirical reproduction
+   in PR #76 showed that's incorrect — Tailwind generates these blocks
+   exactly as authored. Each utility's `box-shadow` is itself the
+   `var(--<intent>)` consumer, so substitution happens at the painted
+   element's computed-value time against the cascade visible there.
+   See #66 / PR #76 for the forensic trace.
+
+   **Roster asymmetry — latent foot-gun.** Only `primary` has md +
+   hover + active siblings. `success`, `warning`, `destructive`, `info`
+   ship the md tier only. Composing `shadow-memphis-destructive` with
+   `hover:shadow-memphis-hover` would silently jolt to default black
+   on hover (the bare `shadow-memphis-hover` reads
+   `var(--memphis-shadow-color)` = black). The new utilities block in
+   `theme.css` carries an inline warning so future contributors notice;
+   add the missing pairs (`shadow-memphis-{success,warning,…}-hover/-active`)
+   on demand, not pre-emptively, per the project's "don't design for
+   hypothetical future requirements" rule.
+
+   **Theme-generator decoupling.** The theme generator's
+   `--shadow-memphis-{tier}` literal-value overrides flow into the
+   bare `shadow-memphis-{tier}` utilities (which read
+   `var(--shadow-memphis-{tier})`). The per-color utilities embed the
+   offset (`6 6 0` / `9 9 0`) and the intent token directly, so the
+   theme generator's `--shadow-memphis-{tier}` overrides do **not**
+   affect the tinted variants — the tinted color follows `--primary` /
+   `--destructive` / etc. instead. Offset edits on the tinted variants
+   would require a separate `--shadow-memphis-offset` token; deferred
+   until at least one consumer asks.
+
+5. **`tailwind-merge` registration in `packages/ui/src/lib/cn.ts`** is
+   load-bearing for the custom Memphis shadow utilities. Default
+   `tailwind-merge` doesn't know about them, so without an extension
+   `cn('shadow-memphis-primary', 'shadow-none')` would keep both
+   classes (consumer's opt-out gets ignored) and cross-tier collisions
+   (`shadow-memphis` + `shadow-memphis-lg-destructive`) would resolve
+   by source order — brittle. `cn.ts` registers all 14 Memphis shadow
+   utilities (legacy `shadow-memphis(-{sm,card,lg,hover,active})` plus
+   the per-color set) in the `shadow` conflict group via
+   `extendTailwindMerge({ extend: { classGroups: { shadow: [...] } } })`.
+   Adding a new `shadow-memphis-*` utility means adding the class name
+   here too, otherwise consumers can't override it with `shadow-none`.
+
+6. **`--text-{xs..3xl}` re-bridged in `@theme inline`.** Without this,
    the typography editor in `/theme-generator` was muted because
    Tailwind v4's built-in `--text-*` namespace resolves at build time
    and ignores runtime `:root --text-*` overrides. Fallbacks match
    Tailwind's stock scale so external consumers without an override
    still get the default sizes.
 
-6. **Density** is bridged by re-binding Tailwind's foundational spacing
+7. **Density** is bridged by re-binding Tailwind's foundational spacing
    unit: `--spacing: calc(0.25rem * var(--density-scale-y))`. Because
    Tailwind v4 derives **every** `p-*`, `m-*`, `gap-*` etc. from
    `--spacing`, flipping `[data-density]` re-scales the whole spacing
@@ -254,10 +312,12 @@ This chapter has no sub-files yet. Likely future sub-chapters:
    safely host the Memphis tiers from inside `@theme inline` (see
    Architecture #3). Removing or renaming either family silently
    breaks the theme generator's motion sliders or paints every
-   Memphis component without its signature offset shadow. **Do not**
-   add new tinted shadow utilities (`shadow-memphis-primary`, etc.)
-   here — Tailwind v4 strips custom rules outside known namespaces,
-   tracked as parked work in #66.
+   Memphis component without its signature offset shadow. Adding new
+   tinted-shadow utilities (`shadow-memphis-{intent}` for unused
+   intents, hover/active siblings for non-primary intents) **must**
+   also register the new class name in `cn.ts`'s
+   `extendTailwindMerge` config (Architecture #5), otherwise consumer
+   `shadow-none` overrides silently leak into the painted shadow.
 
 3. **Density works because `--spacing` is rebound.** Do **not** introduce
    alternative spacing tokens (e.g. `--spacing-compact`) — flipping

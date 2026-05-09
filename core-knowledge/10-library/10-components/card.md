@@ -1,6 +1,6 @@
 # Card
 
-Status: documented · Last scan: 99227a4 · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/card/{card.tsx,card.variants.ts,index.ts,card.test.tsx}`.
 
 ## Summary
@@ -35,13 +35,13 @@ base for ad-hoc surfaces.
 
 ### Variants
 
-| Variant       | Surface                         | Border / shadow                                                     |
-| ------------- | ------------------------------- | ------------------------------------------------------------------- |
-| `default`     | `bg-card`                       | `border-2 border-memphis shadow-memphis` (6px)                      |
-| `elevated`    | `bg-card`                       | `border-2 border-memphis shadow-memphis-lg` (9px)                   |
-| `featured`    | `bg-card`                       | `[--memphis-shadow-color:var(--primary)]` + standard memphis shadow |
-| `interactive` | `bg-card`                       | standard memphis + Button-style press affordance                    |
-| `inverse`     | `bg-foreground text-background` | 1px tinted border + soft `shadow-md` + `rounded-md`                 |
+| Variant       | Surface                         | Border / shadow                                                        |
+| ------------- | ------------------------------- | ---------------------------------------------------------------------- |
+| `default`     | `bg-card`                       | `border-2 border-memphis shadow-memphis` (6px)                         |
+| `elevated`    | `bg-card`                       | `border-2 border-memphis shadow-memphis-lg` (9px)                      |
+| `featured`    | `bg-card`                       | `border-2 border-memphis shadow-memphis-primary` (primary-tinted, 6px) |
+| `interactive` | `bg-card`                       | standard memphis + Button-style press affordance                       |
+| `inverse`     | `bg-foreground text-background` | 1px tinted border + soft `shadow-md` + `rounded-md`                    |
 
 ### Sizes
 
@@ -91,13 +91,18 @@ interactivity.
 ### `featured` variant — primary-tinted shadow
 
 ```
-[--memphis-shadow-color:var(--primary)]
-border-2 border-memphis shadow-memphis rounded-none
+border-2 border-memphis shadow-memphis-primary rounded-none
 ```
 
-Same recipe as Button's `ghost` variant: per-instance
-`--memphis-shadow-color` override turns the black Memphis shadow
-primary-tinted. Marks the card as the page's "hero" card.
+Uses the per-color `@utility shadow-memphis-primary` block from
+`theme.css` (`box-shadow: 6 6 0 var(--primary)`). This replaces the
+previous broken recipe `[--memphis-shadow-color:var(--primary)]
+shadow-memphis`, which substituted the var at the declaring element
+(`:root`) instead of the consumer and therefore painted black
+regardless of override (#58 / #66, fixed in PR #76). Marks the card
+as the page's "hero" card. FeatureCard composes
+`<Card variant="featured">`, so the recipe propagates without any
+local Memphis classes there.
 
 ### `inverse` variant — anomalous
 
@@ -144,11 +149,14 @@ content-heavy regions on dark themes.
 
 1. Copy `card.tsx`, `card.variants.ts`, `index.ts`.
 2. No external deps.
-3. Tokens: `--card`, `--card-foreground`, `--foreground`,
+3. Tokens / utilities: `--card`, `--card-foreground`, `--foreground`,
    `--background`, `--memphis-border-color`, `--shadow-memphis`,
    `--shadow-memphis-lg`, `--shadow-memphis-hover`,
-   `--shadow-memphis-active`, `--shadow-md`, `--primary` (featured),
-   `--border`, `--ring`.
+   `--shadow-memphis-active`, `--shadow-md`, `--border`, `--ring`,
+   plus the `@utility shadow-memphis-primary` block (and
+   `--primary` token it reads) from `theme.css` for the `featured`
+   variant. See theming chapter Architecture #4 for the per-color
+   tinted-shadow utility family.
 
 ## Open questions
 

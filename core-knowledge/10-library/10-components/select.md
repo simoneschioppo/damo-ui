@@ -1,6 +1,6 @@
 # Select
 
-Status: documented · Last scan: d63afaf · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/select/{select.tsx,index.ts,select.test.tsx}`.
 
 ## Summary
@@ -56,12 +56,16 @@ transition-colors duration-fast cursor-pointer
 hover:bg-muted
 data-[placeholder]:text-muted-foreground
 focus-visible:outline-none focus-visible:border-primary
-  focus-visible:[--memphis-shadow-color:var(--primary)]
-  focus-visible:shadow-memphis
+  focus-visible:shadow-memphis-primary
 disabled:opacity-50 disabled:pointer-events-none
 ```
 
-Same focus shadow recipe as Input (see Input chapter). The trigger is
+`shadow-memphis-primary` is a per-color `@utility` block in
+`theme.css` (`box-shadow: 6 6 0 var(--primary)`). Replaces the
+previous broken `[--memphis-shadow-color:var(--primary)] shadow-memphis`
+recipe (#58 / #66, fixed in PR #76). Same recipe as Input,
+Textarea, Combobox, DatePicker — see [Input](./input.md) chapter and
+theming chapter Architecture #4. The trigger is
 visually a "form field that opens a popover". Built-in chevron is the
 lib's `ChevronDownIcon size={16}` rendered via `SelectPrimitive.Icon
 asChild`.

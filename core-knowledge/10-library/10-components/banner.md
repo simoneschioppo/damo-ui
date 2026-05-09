@@ -1,6 +1,6 @@
 # Banner
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: c38c933 · Sources:
 `packages/ui/src/components/banner/{banner.tsx,banner.variants.ts,index.ts}`.
 
 ## Summary
@@ -31,12 +31,26 @@ hidden state on dismiss).
 
 ### Variants
 
-| Variant   | Background                                                 | Shadow                 | Default icon    |
-| --------- | ---------------------------------------------------------- | ---------------------- | --------------- |
-| `info`    | `bg-card`                                                  | tinted `--info`        | `<InfoIcon/>`   |
-| `success` | `color-mix(in oklab, var(--success) 12%, var(--card))`     | tinted `--success`     | `<CheckIcon/>`  |
-| `warning` | `color-mix(in oklab, var(--warning) 12%, var(--card))`     | tinted `--warning`     | `<BoltIcon/>`   |
-| `danger`  | `color-mix(in oklab, var(--destructive) 12%, var(--card))` | tinted `--destructive` | `<TargetIcon/>` |
+| Variant   | Background                                                 | Shadow utility               | Default icon    |
+| --------- | ---------------------------------------------------------- | ---------------------------- | --------------- |
+| `info`    | `bg-card`                                                  | `shadow-memphis-info`        | `<InfoIcon/>`   |
+| `success` | `color-mix(in oklab, var(--success) 12%, var(--card))`     | `shadow-memphis-success`     | `<CheckIcon/>`  |
+| `warning` | `color-mix(in oklab, var(--warning) 12%, var(--card))`     | `shadow-memphis-warning`     | `<BoltIcon/>`   |
+| `danger`  | `color-mix(in oklab, var(--destructive) 12%, var(--card))` | `shadow-memphis-destructive` | `<TargetIcon/>` |
+
+Each `shadow-memphis-{intent}` utility is a per-color `@utility` block
+declared in `theme.css`: `box-shadow: 6 6 0 var(--<intent>)`. Same
+recipe family as Toast variants, Card featured, Button ghost. The
+shadow class lives **on the variant**, not on the cva base, so each
+variant emits exactly one `shadow-memphis*` utility and there is no
+cross-stacking with a default `shadow-memphis` (see
+[Toast](./toast.md) for the same constraint).
+
+This replaces the previous broken recipe (base `shadow-memphis` +
+per-variant `[--memphis-shadow-color:var(--<intent>)]` override),
+which substituted the var at the declaring element (`:root`) instead
+of the consumer and rendered black regardless of override
+(#58 / #66, fixed in PR #76). See theming chapter Architecture #4.
 
 Same double-layer tinted recipe as Toast (background + shadow share
 the intent hue). **Note**: `info` does **not** tint its background
@@ -93,8 +107,11 @@ considering the a11y impact.
 
 ```
 relative flex items-start gap-3 p-4
-border-2 border-memphis shadow-memphis rounded-none
+border-2 border-memphis rounded-none
 ```
+
+`shadow-memphis*` is **not** in the cva base — each variant adds its
+own per-color tinted utility (see Variants above).
 
 - `items-start` — icon, title/body block, and dismiss button align
   to the top (so multi-line titles don't push the icon down).
@@ -127,9 +144,11 @@ border-2 border-memphis shadow-memphis rounded-none
 
 1. Copy `banner.tsx`, `banner.variants.ts`, `index.ts`.
 2. Replace icon imports.
-3. Tokens: `--card`, `--info`, `--success`, `--warning`,
+3. Tokens / utilities: `--card`, `--info`, `--success`, `--warning`,
    `--destructive`, `--memphis-border-color`, `--shadow-memphis`,
-   `--muted`, `--foreground`, `--muted-foreground`, `--ring`.
+   `--muted`, `--foreground`, `--muted-foreground`, `--ring`, plus the
+   per-color `@utility shadow-memphis-{info,success,warning,destructive}`
+   blocks from `theme.css`. See theming chapter Architecture #4.
 
 ## Open questions
 
