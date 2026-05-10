@@ -1,6 +1,6 @@
 # Web App Architecture
 
-Status: documented · Last scan: 1637629 · Sources:
+Status: documented · Last scan: f9d7d14 · Sources:
 `apps/web/app/{layout.tsx,page.tsx,not-found.tsx,globals.css,styles/}`,
 `apps/web/{next.config.ts,tailwind.config.ts,package.json,components/,lib/}`,
 `apps/web/app/_components/`,
@@ -354,6 +354,18 @@ emits no manual `<link rel="icon">` / `<link rel="manifest">` or
 exports.
 
 ```jsx
+const PREFERENCES_INIT_SCRIPT = `(function(){try{
+  var d = document.documentElement
+  var t = localStorage.getItem('theme')
+  if (t==='light'||t==='dark') d.setAttribute('data-theme', t)
+  var p = localStorage.getItem('palette')
+  if (p==='default'||p==='sunset'||p==='cyberpunk'||p==='forest')
+    d.setAttribute('data-palette', p)
+  var n = localStorage.getItem('density')
+  if (n==='compact'||n==='normal'||n==='comfortable')
+    d.setAttribute('data-density', n)
+}catch(e){}})();`
+
 export default async function RootLayout({ children }) {
   const locale = (await getLocale()) as Locale
   const messages = await getMessages()
@@ -366,6 +378,8 @@ export default async function RootLayout({ children }) {
           data-density="normal"
           suppressHydrationWarning>
       <head>
+        {/* FOUC prevention — synchronous, before any stylesheet link. */}
+        <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
         <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@300;400;500;600;700;800&display=swap"
@@ -386,7 +400,7 @@ export default async function RootLayout({ children }) {
 }
 ```
 
-Four things load-bearing:
+Five things load-bearing:
 
 1. **`data-theme` / `data-palette` / `data-density`** on `<html>`
    are the three attributes the lib's `AttrToggleGroup` (and its
@@ -394,17 +408,44 @@ Four things load-bearing:
    The defaults set here are what the lib renders before any user
    interaction.
 
-2. **`suppressHydrationWarning`** on both `<html>` and `<body>`
-   prevents Next's hydration mismatch warnings when the
-   `usePersistedAttr` hook reads localStorage on first paint and
-   may flip the attribute (see AttrToggleGroup chapter).
+2. **The inline `PREFERENCES_INIT_SCRIPT` is FOUC prevention.**
+   Server can't read localStorage, so the SSR'd HTML always carries
+   the safe defaults above. Without this script, a user who persisted
+   dark mode would see a one-frame light flash on every cold reload —
+   most painfully on locale switch, which calls `window.location.reload()`
+   to refresh RSC chrome. The script runs synchronously before
+   `<body>` parses, validates each value against the same allow-lists
+   used by `DocsPreferencesMenu` (theme ∈ light/dark; palette ∈
+   default/sunset/cyberpunk/forest; density ∈ compact/normal/comfortable),
+   and writes the matching `data-*` attribute on `document.documentElement`
+   so the very first paint has the user's preferences applied. Hard
+   constraints: must be synchronous (no `defer`/`async`/`type="module"`),
+   must precede the stylesheet links, and the body must be a hard-coded
+   string literal (no interpolation of any user-controlled value) so
+   `dangerouslySetInnerHTML` carries no XSS risk. Allow-list values
+   are duplicated between this script and `DocsPreferencesMenu` —
+   adding a new palette requires updating both. CSP note: the inline
+   script requires `'unsafe-inline'` in `script-src` or a matching
+   `sha256-…` hash; no CSP is configured today.
 
-3. **Google Fonts preconnects + the `Audiowide` + `Exo 2` link** —
+3. **`suppressHydrationWarning`** on both `<html>` and `<body>` is
+   required because the FOUC script writes `data-*` attributes that
+   diverge from the SSR defaults — those mutations on the
+   `documentElement` happen before React hydration and are otherwise
+   reported as a mismatch. The lib's `usePersistedAttr` hook
+   (see [`../10-library/15-hooks.md`](../10-library/15-hooks.md))
+   complements the script via lazy-init `useState`: its first commit
+   value reads localStorage synchronously, so the post-paint DOM-write
+   effect agrees with what the script already wrote and never undoes it.
+   Together: script ensures the first paint is correct; lazy-init
+   ensures React doesn't clobber it post-hydration.
+
+4. **Google Fonts preconnects + the `Audiowide` + `Exo 2` link** —
    the playground theme's typography (`--font-display: 'Audiowide'`,
    `--font-body: 'Exo 2'`). External consumers swapping the theme
    need to load their own fonts.
 
-4. **`<html lang>` and `<html data-locale>` are server-resolved**
+5. **`<html lang>` and `<html data-locale>` are server-resolved**
    from the `NEXT_LOCALE` cookie via `next-intl/server`'s
    `getLocale()`. The `<DocsProviders>` wrapper colocates
    `<NextIntlClientProvider>` with the lib's `<I18nProvider>` so

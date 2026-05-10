@@ -12,10 +12,17 @@ const SAFE_DATA_ATTR = /^data-[a-z][a-z0-9-]*$/
 // `__proto__` / `constructor` that some runtimes treat as prototype probes.
 const SAFE_STORAGE_KEY = /^[a-zA-Z0-9_:.-]{1,128}$/
 
-// Always initialize to `defaultValue` so server + client first render agree.
-// After mount, read localStorage and promote to the persisted value if any.
-// This avoids the hydration mismatch that would happen if the factory read
-// localStorage synchronously — the server has no DOM storage and would diverge.
+// Server: always returns `defaultValue` — no DOM storage available, and
+// returning anything else would diverge from SSR markup.
+// Client: lazy-init reads localStorage synchronously so the first commit's
+// state matches whatever a host-side FOUC script (e.g. apps/web/app/layout.tsx)
+// already wrote to the data-attribute. Without lazy init, the post-paint
+// useEffect below would run with `value = defaultValue` and clobber the
+// script's attribute write — producing a one-frame flash before storage is
+// re-read and re-applied. Hydration mismatch on the React tree is not a
+// concern: consumers either render the value inside lazily-mounted UI
+// (e.g. Popover content) or compose data-attributes on <html>/<body> which
+// are already covered by `suppressHydrationWarning`.
 export function usePersistedAttr<T extends string>(
   storageKey: string,
   htmlAttr: string,
@@ -32,18 +39,17 @@ export function usePersistedAttr<T extends string>(
     )
   }
 
-  const [value, setValueState] = useState<T>(defaultValue)
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    const stored = localStorage.getItem(storageKey)
-    if (stored !== null && stored !== value) {
-      setValueState(stored as T)
+  const [value, setValueState] = useState<T>(() => {
+    if (typeof window === 'undefined') return defaultValue
+    try {
+      const stored = window.localStorage.getItem(storageKey)
+      if (stored !== null) return stored as T
+    } catch {
+      // Storage unavailable (Safari private mode, blocked cookies,
+      // quota exceeded). Fall through to defaultValue.
     }
-    // Intentionally run once at mount — we want to hydrate from storage, not
-    // whenever the value changes (that's the setValue path).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageKey])
+    return defaultValue
+  })
 
   useEffect(() => {
     if (typeof window === 'undefined') return

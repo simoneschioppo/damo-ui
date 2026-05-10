@@ -1,6 +1,6 @@
 # Hooks
 
-Status: documented · Last scan: 27c8471 · Sources:
+Status: documented · Last scan: f9d7d14 · Sources:
 `packages/ui/src/hooks/{use-resolved-css-vars.ts,use-persisted-attr.ts}` +
 `packages/ui/src/lib/i18n/provider.tsx` (re-exports `useI18n`, `useLocale`).
 
@@ -48,8 +48,35 @@ function usePersistedAttr<T extends string>(
 ```
 
 Side effects: writes `localStorage`, mutates
-`document.documentElement[attribute]`. Sanitises stale storage
-values back to `defaultValue` on mount.
+`document.documentElement[attribute]`.
+
+**Lazy init (no-flash invariant).** `useState` is initialised with a
+factory that synchronously reads `localStorage[storageKey]` on the
+client and returns it as the initial value (falling back to
+`defaultValue` if the key is empty or storage throws — Safari
+private mode, blocked storage). On the server (`typeof window ===
+'undefined'`) the factory returns `defaultValue` so SSR markup is
+unchanged. Without lazy init, the first commit would render with
+`defaultValue`, and the post-paint DOM-write effect would clobber any
+attribute previously written by a host-side FOUC script — producing
+a one-frame flash before the storage value caught up. Hard rule for
+maintainers: don't replace the lazy initializer with `useState(defaultValue)`
+without also rethinking the FOUC story end-to-end.
+
+Argument validation: `attribute` must match `/^data-[a-z][a-z0-9-]*$/`
+and `storageKey` must match `/^[a-zA-Z0-9_:.-]{1,128}$/`. Both throw
+synchronously if violated — defensive against accidentally turning
+an attribute write into an event-handler binding or colliding with
+prototype-probe storage keys (`__proto__`, `constructor`).
+
+This hook is not value-validating: it returns whatever string was
+persisted. Per-axis allow-list sanitisation lives in the consumer
+(see `apps/web/app/_components/DocsPreferencesMenu.tsx`'s post-mount
+effects, which reset to a known good default if the persisted value
+is no longer in the option set — e.g. after a palette rename). Pair
+that with a host-side FOUC script (see
+[`20-web-app/00-architecture.md`](../20-web-app/00-architecture.md))
+when the host needs zero-flash UX on cold reload.
 
 ### `useI18n` and `useLocale`
 
