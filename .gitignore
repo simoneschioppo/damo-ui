@@ -36,3 +36,12 @@ yarn-debug.log*
 
 # Claude Code harness state (scheduled wakeups, etc.) — local only
 .claude/
+
+# Internal workshop tooling — not part of the public library
+# (Tracked locally for ongoing BMad / Kipi workflows; excised from
+# git history in #80 and never re-added to the published surface.)
+_bmad/
+_bmad-output/
+core-knowledge/
+user-data/
+apps/playground/
