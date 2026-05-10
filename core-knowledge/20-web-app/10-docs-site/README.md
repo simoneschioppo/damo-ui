@@ -1,6 +1,6 @@
 # Docs Site
 
-Status: documented · Last scan: 1637629 · Sources:
+Status: documented · Last scan: f9d7d14 · Sources:
 `apps/web/app/docs/{layout.tsx,page.tsx,getting-started/,foundations/,components/,_components/,_lib/}`.
 
 ## Summary

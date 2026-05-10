@@ -109,6 +109,39 @@
       "runs": [
         {
           "kind": "content-update",
+          "pr": 99,
+          "branch": "fix/locale-switch-theme-flash",
+          "chapters": [
+            "10-library/15-hooks.md",
+            "20-web-app/00-architecture.md",
+            "20-web-app/10-docs-site/README.md"
+          ],
+          "details": {
+            "10-library/15-hooks.md": {
+              "paths": ["packages/ui/src/hooks/use-persisted-attr.ts"],
+              "old_sha": "27c8471",
+              "new_sha": "f9d7d14",
+              "edits": "Header: bumped Last scan (27c8471 -> f9d7d14). usePersistedAttr section: removed inaccurate 'Sanitises stale storage values back to defaultValue on mount' line (the hook never validated values; sanitisation lives in DocsPreferencesMenu post-mount effects). Added new 'Lazy init (no-flash invariant)' subsection documenting the useState factory that reads localStorage synchronously on client mount, the SSR fallback to defaultValue, the rationale (without lazy init the post-paint DOM-write effect would clobber a host-side FOUC script), and a hard rule against reverting to useState(defaultValue). Added explicit note about argument validation regexes (SAFE_DATA_ATTR / SAFE_STORAGE_KEY) and where per-axis allow-list sanitisation lives (DocsPreferencesMenu). Cross-referenced 20-web-app/00-architecture.md for the FOUC pattern."
+            },
+            "20-web-app/00-architecture.md": {
+              "paths": ["apps/web/app/layout.tsx"],
+              "old_sha": "1637629",
+              "new_sha": "f9d7d14",
+              "edits": "Header: bumped Last scan (1637629 -> f9d7d14). Root layout JSX block updated: added the PREFERENCES_INIT_SCRIPT module-scope const and the inline <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT_SCRIPT }}> render before the font preconnects in <head>. 'Four things load-bearing' renamed to 'Five things load-bearing': inserted item 2 documenting the FOUC script (purpose, allow-list duplication with DocsPreferencesMenu, hard constraints — synchronous, before stylesheets, hard-coded literal — and CSP note about needing 'unsafe-inline' or sha256 hash). Item 3 (formerly 2, suppressHydrationWarning) rewritten to explain the script + lazy-init usePersistedAttr combo (cross-referenced to 10-library/15-hooks.md). Items 4 (fonts) and 5 (locale) renumbered, content unchanged."
+            },
+            "20-web-app/10-docs-site/README.md": {
+              "paths": ["apps/web/app/docs/foundations/theming/page.tsx"],
+              "old_sha": "1637629",
+              "new_sha": "f9d7d14",
+              "edits": "Header sha bump only (1637629 -> f9d7d14). No narrative changes.",
+              "decision_no_chapter_edit": "PR #99 rewrote the FOUC_FIX inline-string snippet inside foundations/theming/page.tsx (App Router pattern + allow-list validation, replacing a deprecated next/script beforeInteractive variant). The docs-site chapter documents page structure / Code helper props / nav contract — it does not enumerate inline snippet bodies. Treating this as the same precedent as the gh-95 'mechanical hex updates in cyberpunk example snippets' decision: SHA bump only, no chapter edit. The actual FOUC script narrative lives in 20-web-app/00-architecture.md where it belongs (it's a layout concern, not a docs-site concern)."
+            }
+          },
+          "queued_at": "2026-05-10T11:50:00+00:00",
+          "completed_at": "2026-05-10T12:00:00+00:00"
+        },
+        {
+          "kind": "content-update",
           "gh_issue": 95,
           "chapters": ["20-web-app/20-theme-generator/README.md"],
           "details": {
@@ -1357,7 +1390,8 @@
       "sources": ["packages/ui/src/components/ornament/"]
     },
     "10-library/15-hooks.md": {
-      "status": "pending",
+      "status": "documented",
+      "last_scan_sha": "f9d7d14",
       "sources": ["packages/ui/src/hooks/"]
     },
     "10-library/17-icons.md": {
@@ -1403,7 +1437,7 @@
     },
     "20-web-app/00-architecture.md": {
       "status": "documented",
-      "last_scan_sha": "1637629",
+      "last_scan_sha": "f9d7d14",
       "sources": [
         "apps/web/app/layout.tsx",
         "apps/web/app/page.tsx",
@@ -1421,7 +1455,7 @@
     },
     "20-web-app/10-docs-site/README.md": {
       "status": "documented",
-      "last_scan_sha": "1637629",
+      "last_scan_sha": "f9d7d14",
       "sources": [
         "apps/web/app/docs/layout.tsx",
         "apps/web/app/docs/_components/",
