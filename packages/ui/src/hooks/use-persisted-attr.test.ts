@@ -6,7 +6,8 @@ describe('usePersistedAttr', () => {
   afterEach(() => {
     localStorage.clear()
     document.documentElement.removeAttribute('data-theme')
-    document.documentElement.removeAttribute('theme')
+    document.documentElement.removeAttribute('data-palette')
+    document.documentElement.removeAttribute('data-density')
   })
 
   it('returns the default when localStorage is empty', () => {
@@ -50,23 +51,27 @@ describe('usePersistedAttr', () => {
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark')
   })
 
-  it('lazy-inits state from localStorage on the first render (no flash)', () => {
-    // Regression for the locale-switch theme flash: with `useState(defaultValue)`
-    // the first render returned the default and a post-paint effect would later
-    // write the wrong attribute, then re-render with the storage value. Lazy
-    // init makes the first render value match storage so the DOM-write effect
-    // is a no-op instead of an undo. Asserting `result.current[0]` is observed
-    // SYNCHRONOUSLY after `renderHook` would still be `'light'` under the old
-    // double-pass behaviour — we capture state during the render itself via a
-    // ref to prove the initializer (not an effect) populated it.
+  it('lazy-inits: writes storage value once, never the default first', () => {
+    // Regression for the locale-switch theme flash. Under the previous
+    // `useState(defaultValue)` + post-paint useEffect implementation, the
+    // DOM-write effect fired with `value = defaultValue` first, calling
+    // setAttribute('data-theme', 'light') — visible flash — before the
+    // storage-read effect updated state and the DOM-write effect re-fired
+    // with 'dark'. Spying on setAttribute proves the new behaviour: exactly
+    // one write, with the storage value.
     localStorage.setItem('theme', 'dark')
-    let firstRenderValue: string | undefined
-    renderHook(() => {
-      const [value] = usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light')
-      if (firstRenderValue === undefined) firstRenderValue = value
-      return value
-    })
-    expect(firstRenderValue).toBe('dark')
+    const writes: string[] = []
+    const original = document.documentElement.setAttribute.bind(document.documentElement)
+    document.documentElement.setAttribute = (name: string, value: string) => {
+      if (name === 'data-theme') writes.push(value)
+      original(name, value)
+    }
+    try {
+      renderHook(() => usePersistedAttr<'light' | 'dark'>('theme', 'data-theme', 'light'))
+      expect(writes).toEqual(['dark'])
+    } finally {
+      document.documentElement.setAttribute = original
+    }
   })
 
   it('falls back to defaultValue when localStorage.getItem throws', () => {
