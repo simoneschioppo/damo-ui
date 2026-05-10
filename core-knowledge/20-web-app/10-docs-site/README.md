@@ -1,6 +1,6 @@
 # Docs Site
 
-Status: documented · Last scan: f9d7d14 · Sources:
+Status: documented · Last scan: 578605c · Sources:
 `apps/web/app/docs/{layout.tsx,page.tsx,getting-started/,foundations/,components/,_components/,_lib/}`.
 
 ## Summary
@@ -111,17 +111,17 @@ sidebar and the dynamic stub route both read it.
 The docs site has its own private helper layer (the underscore
 prefix is Next's convention for non-routable folders):
 
-| Helper                        | Purpose                                                                                                                                                                 |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `_components/Code.tsx`        | Server-side syntax-highlighted code block (props: `lang`, `title`, `hideCopy`, `embedded` for nesting in `<Example>`, `fillHeight` for stretching to fill flex parents) |
-| `_components/CopyButton.tsx`  | Copy-to-clipboard button                                                                                                                                                |
-| `_components/Example.tsx`     | Server component that pairs preview + code                                                                                                                              |
-| `_components/PropsTable.tsx`  | Tabular props reference                                                                                                                                                 |
-| `_components/DocsSidebar.tsx` | Sidebar nav, reads `DOCS_NAV` and translates group titles + the Introduction entry via `useTranslations('docsSidebar')`                                                 |
-| `_components/docs-nav.ts`     | The nav source of truth (above)                                                                                                                                         |
-| `_components/highlight.ts`    | Server-only syntax highlighter                                                                                                                                          |
-| `_lib/active-section.ts`      | "Currently visible heading" tracking for sidebar TOC                                                                                                                    |
-| `_lib/patterns.tsx`           | Memphis-pattern preview helpers used by foundations/patterns                                                                                                            |
+| Helper                        | Purpose                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_components/Code.tsx`        | Server-side syntax-highlighted code block (props: `lang`, `title`, `hideCopy`, `embedded` for nesting in `<Example>`, `fillHeight` for stretching to fill flex parents, `withLineNumbers` to override the auto multi-line heuristic)                                                                                                                                                   |
+| `_components/CopyButton.tsx`  | Copy-to-clipboard button. Carries `data-state="copied"` after a successful write so the chrome stylesheet can paint the success state without a JS class toggle.                                                                                                                                                                                                                       |
+| `_components/Example.tsx`     | Server component that pairs preview + code                                                                                                                                                                                                                                                                                                                                             |
+| `_components/PropsTable.tsx`  | Tabular props reference                                                                                                                                                                                                                                                                                                                                                                |
+| `_components/DocsSidebar.tsx` | Sidebar nav, reads `DOCS_NAV` and translates group titles + the Introduction entry via `useTranslations('docsSidebar')`                                                                                                                                                                                                                                                                |
+| `_components/docs-nav.ts`     | The nav source of truth (above)                                                                                                                                                                                                                                                                                                                                                        |
+| `_components/highlight.ts`    | Server-only syntax highlighter. Uses Shiki dual-theme (`vitesse-light` + `vitesse-dark`) with `defaultColor: false` so token colors flow as `--shiki-light` / `--shiki-dark` CSS vars and the chrome stylesheet flips them by `data-theme`. Wires `@shikijs/transformers` (`transformerNotationDiff`, `transformerNotationHighlight`) plus a custom userland line-numbers transformer. |
+| `_lib/active-section.ts`      | "Currently visible heading" tracking for sidebar TOC                                                                                                                                                                                                                                                                                                                                   |
+| `_lib/patterns.tsx`           | Memphis-pattern preview helpers used by foundations/patterns                                                                                                                                                                                                                                                                                                                           |
 
 #### `<Example>` component (server)
 
@@ -261,24 +261,49 @@ contract.
    missing-key console.warn in dev (per `request.ts`'s
    non-production `onError`).
 
-9. **`<Code>` two opt-in modes for non-default placements.** `embedded`
+9. **`<Code>` opt-in modes for non-default placements.** `embedded`
    drops the outer Memphis frame so the block sits inside another
    bordered surface (`<Example>` is the canonical caller; the home
    page's QUICK INSTALL cards use it too). `fillHeight` adds
-   `flex-1 flex flex-col` to the wrapper, `shrink-0` to the dark
-   header bar, and `flex-1` to the scrollable content div — the
-   block then stretches to fill its parent flex container. Used by
-   the home QUICK INSTALL card grid so all 3 terminals align at the
-   same height regardless of snippet line count.
+   `flex-1 flex flex-col` to the wrapper plus `flex-1` to the
+   scrollable viewport so the block stretches to fill its parent
+   flex container — used by the home QUICK INSTALL card grid so all
+   3 terminals align at the same height regardless of snippet line
+   count. `withLineNumbers` is the explicit override for the
+   auto-detect `isMultiLine(code)` heuristic, needed for snippets
+   that open with a leading newline (e.g. a template literal that
+   starts on the line of the backtick — the heuristic treats the
+   blank first line as content).
 
-10. **Scrollbar styling on `<Code>`'s overflow div is opinionated.**
-    Tailwind arbitrary variants on the scrollable content div
-    target both the WebKit pseudo-elements (`::-webkit-scrollbar`,
-    `::-webkit-scrollbar-track`, `::-webkit-scrollbar-thumb`) and
-    Firefox's `scrollbar-width` / `scrollbar-color`, producing a
-    slim 6 px GitHub-style scrollbar (`#30363d` thumb on transparent
-    track, lighter on hover). Applies to every Code block in the
-    docs site, not only the home page.
+10. **Code-block chrome lives in `apps/web/app/styles/code-blocks.css`**
+    (gh-100, PR #101). All Memphis-frame, header tab, language
+    badge, copy-button, line-numbers gutter, and Shiki light/dark
+    switch rules live in that one stylesheet, imported once from
+    `globals.css`. Every color flows from semantic CSS vars
+    (`--card`, `--muted`, `--foreground`, `--border`,
+    `--muted-foreground`, `--primary`, `--success`, `--destructive`)
+    so palette swaps (default / sunset / cyberpunk / forest)
+    inherit automatically. The light/dark switch keys off
+    `[data-theme='dark']`: token rules use `var(--shiki-light)` by
+    default and `var(--shiki-dark)` under the dark selector. `color:`
+    on tokens is **not** `!important` — Shiki with `defaultColor:
+false` does not emit an inline `color:` declaration, so the
+    class rule wins on specificity and consumers retain
+    override-ability. `background-color:` on tokens is `!important`
+    because Shiki always emits a block-level inline
+    `style="background-color:…"` on `<pre>`. Hard rule for
+    maintainers: don't reintroduce hardcoded GitHub-dark hexes
+    (`#0d1117` / `#161b22` / `#30363d`) anywhere in `Code.tsx` or
+    `CopyButton.tsx` — the dual-theme + CSS-var contract is what
+    makes the docs site match the page theme. Scrollbar styling on
+    the viewport (slim 6 px, `--border` thumb on transparent track,
+    lighter on hover via `--muted-foreground`) lives in the same
+    stylesheet via `::-webkit-scrollbar*` + `scrollbar-width` /
+    `scrollbar-color` — applies to every Code block in the docs
+    site, not only the home page. The notation transformer styles
+    (`.line.highlighted`, `.line.diff.add`, `.line.diff.remove`)
+    are wired even though no docs page uses them yet, so future
+    diff/highlight snippets just work.
 
 ## How to consume (lessons / patterns to lift)
 

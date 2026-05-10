@@ -1,7 +1,9 @@
 # Web App Architecture
 
-Status: documented · Last scan: f9d7d14 · Sources:
-`apps/web/app/{layout.tsx,page.tsx,not-found.tsx,globals.css,styles/}`,
+Status: documented · Last scan: 578605c · Sources:
+`apps/web/app/{layout.tsx,page.tsx,not-found.tsx,globals.css,styles/}`
+(includes `styles/theme.css`, `styles/patterns.css`,
+`styles/code-blocks.css`),
 `apps/web/{next.config.ts,tailwind.config.ts,package.json,components/,lib/}`,
 `apps/web/app/_components/`,
 `apps/web/i18n/{locales.ts,request.ts}`,
@@ -106,6 +108,7 @@ theme override:
 /* 4. Playground's own theme — overrides lib's neutral defaults */
 @import './styles/theme.css';
 @import './styles/patterns.css';
+@import './styles/code-blocks.css';
 
 /* 5. Tailwind sources — both lib output and source */
 @source '../../../packages/ui/dist/**/*.js';
@@ -123,7 +126,16 @@ Cascade order is critical:
    the lib's default.
 4. **Patterns** (`apps/web/app/styles/patterns.css`) — decorative
    Memphis backgrounds for showcase tiles.
-5. **`@source` directives** tell Tailwind v4 to scan both the lib's
+5. **`code-blocks.css`** (gh-100, PR #101) owns the docs-site code
+   block chrome: the editor-style header (filename tab, language
+   badge, copy button), the line-numbers gutter, the Shiki dual-theme
+   light/dark switch (`var(--shiki-light)` vs `var(--shiki-dark)`
+   under `[data-theme='dark']`), and the wired-but-unused notation
+   transformer styles (diff add/remove, highlighted line). Every
+   color is a semantic CSS var so palette swaps inherit
+   automatically. See [`10-docs-site/README.md`](10-docs-site/README.md)
+   note 10 for the contract.
+6. **`@source` directives** tell Tailwind v4 to scan both the lib's
    compiled `dist/` and the lib's `src/` for utility classes —
    ensures classes added to lib components are emitted in the app's
    bundle.
