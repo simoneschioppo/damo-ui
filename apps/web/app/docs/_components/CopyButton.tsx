@@ -39,7 +39,8 @@ export function CopyButton({ text, label }: CopyButtonProps) {
       type="button"
       onClick={copy}
       aria-label={resolvedLabel}
-      className="px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.15em] border border-[#30363d] bg-transparent text-[#c9d1d9] hover:bg-[#21262d] hover:border-[#8b949e] transition-colors"
+      data-state={copied ? 'copied' : 'idle'}
+      className="damo-code__copy"
     >
       {copied ? t('copied') : t('default')}
     </button>
