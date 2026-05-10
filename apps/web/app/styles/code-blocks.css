@@ -1,27 +1,22 @@
 /* Damo UI docs — editor-style code blocks (gh-100)
  *
- * Fixed-dark editor surface, by design. The docs site swaps page theme
- * light/dark, but the code pane stays a calm vitesse-dark editor — the
- * way most code-heavy docs sites (shadcn, PrimeNG, VS Code marketplace)
- * present snippets. To re-skin, change the `--code-*` vars below.
+ * The editor pane follows the page theme: paper-light editor on light
+ * pages, calm-charcoal editor on dark pages. The chrome (`--code-*` vars)
+ * and the syntax theme (`--shiki-light` / `--shiki-dark` from Shiki dual-
+ * theme output) switch in lockstep under `[data-theme='dark']`.
  *
- * Shiki is invoked with single theme `vitesse-dark` (see
- * `apps/web/app/docs/_components/highlight.ts`); token colors are emitted
- * inline by Shiki itself, no CSS-var switching needed.
+ * The light editor leans paper, not bright white — so it sits comfortably
+ * against the prose without competing for attention.
  */
 
-/* ── Dark editor palette ──────────────────────────────────────────────
- * Calm charcoal — not pure black. The aim is "approachable IDE pane",
- * closer to VS Code Dark+ (`#1e1e1e`) and One Dark (`#282c34`) than to
- * the deep `#121212` vitesse-dark default. To re-skin, change these
- * 6 vars; the rest of the file is purely structural. */
+/* ── Editor palette — light defaults ─────────────────────────────────── */
 
 .damo-code {
-  --code-bg: #1d1f24;
-  --code-surface: #262932;
-  --code-border: #353841;
-  --code-fg: #e8e6df;
-  --code-muted: #8a8c93;
+  --code-bg: #fafaf7;
+  --code-surface: #efeee8;
+  --code-border: #d6d4cc;
+  --code-fg: #1f1f1f;
+  --code-muted: #8a8780;
   --code-accent: var(--primary);
 
   background: var(--code-bg);
@@ -30,6 +25,16 @@
   font-feature-settings:
     'liga' 1,
     'calt' 1;
+}
+
+/* ── Editor palette — dark override ─────────────────────────────────── */
+
+[data-theme='dark'] .damo-code {
+  --code-bg: #1d1f24;
+  --code-surface: #262932;
+  --code-border: #353841;
+  --code-fg: #e8e6df;
+  --code-muted: #8a8c93;
 }
 
 /* ── Header (filename tab + lang badge + copy) ──────────────────────── */
@@ -125,9 +130,9 @@
 
 .damo-code__viewport {
   overflow-x: auto;
-  padding: 0.5rem 0;
-  font-size: 13px;
-  line-height: 1.35;
+  padding: 0.625rem 0;
+  font-size: 14.5px;
+  line-height: 1.5;
   scrollbar-width: thin;
   scrollbar-color: var(--code-border) transparent;
 }
@@ -152,8 +157,15 @@
   background: transparent !important;
 }
 
+/* `display: grid` on `<code>` is the canonical Shiki pattern for tight
+ * line stacking. Without it, the literal `\n` text nodes that Shiki
+ * emits between consecutive `<span class="line">` siblings get rendered
+ * as anonymous block boxes inside `<pre>` (which preserves whitespace),
+ * adding ~1 line-height of dead space per row. With `grid`, the whitespace
+ * text nodes become empty grid items and collapse to zero height — lines
+ * stack flush at the row's natural line-height. */
 .damo-code__viewport code {
-  display: block;
+  display: grid;
   font-family: var(--font-mono);
 }
 
@@ -162,7 +174,29 @@
   padding: 0 1rem;
 }
 
-/* Shiki paints `<pre>` with its own background — defer to .damo-code. */
+/* ── Light/dark token-color switch ──────────────────────────────────── */
+
+/* Default (light page) — pick the `--shiki-light` var that Shiki emits
+ * inline on every token via `defaultColor: false`. `color:` is not
+ * `!important` because Shiki does not write a plain `color:` declaration
+ * inline (only the CSS vars), so a class rule wins on specificity and
+ * consumers can override per-block if needed. `background-color:` is
+ * `!important` because Shiki always writes a block-level
+ * `style="background-color:…"` on `<pre>` that we want to suppress in
+ * favour of the chrome wrapper's `--code-bg`. */
+.damo-code .shiki,
+.damo-code .shiki span {
+  color: var(--shiki-light);
+}
+
+/* Dark theme — flip every token to its `--shiki-dark` value. */
+[data-theme='dark'] .damo-code .shiki,
+[data-theme='dark'] .damo-code .shiki span {
+  color: var(--shiki-dark);
+}
+
+/* Suppress Shiki's own block-level background — the `.damo-code` wrapper
+ * paints the editor surface from `--code-bg`. */
 .damo-code__viewport .shiki {
   background: transparent !important;
 }
@@ -179,7 +213,7 @@
    * gutter cell pushes the surrounding line-box taller (baseline-aligned
    * inline-blocks add a phantom descender), producing visibly-wide gaps
    * between consecutive lines. With `top`, the gutter cell sits flush at
-   * the line-box top and lines stay tight at line-height: 1.35. */
+   * the line-box top and lines stay tight at line-height: 1.5. */
   vertical-align: top;
   width: 2.5rem;
   padding-right: 0.875rem;
