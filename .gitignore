@@ -54,4 +54,8 @@ PUBLICATION_READINESS.md
 # Historical design specs and implementation plans
 # (Tracked locally for context; excised from git history during the
 # pre-publication audit and never re-added to the public surface.)
-docs/
+# IMPORTANT: leading slash anchors the rule to the repo root. Without it,
+# Tailwind v4's auto-scanner (which respects .gitignore) would also skip
+# `apps/web/app/docs/` and drop every `lg:*` / `md:*` utility used in the
+# docs site layout (silently breaks the sidebar + responsive grid).
+/docs/
