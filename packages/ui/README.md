@@ -66,7 +66,7 @@ Palette presets (default / sunset / cyberpunk / forest) and theme (light / dark)
 
 `<html data-theme="dark" data-palette="cyberpunk">`
 
-For the current token surface (post-1.0 audit), see the playground's `/docs/foundations/tokens` page — `tokens.css` itself is the source of truth, with one explainer comment per token group. The architecture spec at `docs/specs/2026-04-24-theme-architecture-refactor-design.md` is a historical 0.1 → 0.2 reference.
+For the current token surface, see the docs site `/docs/foundations/tokens` page — `tokens.css` itself is the source of truth, with one explainer comment per token group.
 
 ## License
 
