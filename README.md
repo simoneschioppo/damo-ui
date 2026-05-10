@@ -138,8 +138,6 @@ Until those ship, only the unscoped `damo-ui` package is published.
 - `packages/ui` — the library (`damo-ui`)
 - `apps/web` — Next 15 docs + showcase site (private; not published)
 - `e2e` — Playwright end-to-end tests (private)
-- `docs/specs/` — historical design specs
-- `docs/plans/` — historical implementation plans
 
 ## Local dev
 
@@ -168,21 +166,11 @@ The design system uses a three-layer architecture:
 2. **Semantic tokens** — public, paired bg+fg utilities (`bg-background` / `text-foreground`, `bg-primary` / `text-primary-foreground`, etc.). These are the correct layer to use in product code.
 3. **Identity tokens** — component-specific overrides (`--nav-on-dark-*`, `--badge-*`, `--chart-*`).
 
-For the **current** token surface, see `apps/web/app/docs/foundations/tokens` (rendered at `/docs/foundations/tokens` on the playground site) — that's the live, post-audit reference. The historical spec at `docs/specs/2026-04-24-theme-architecture-refactor-design.md` documents the 0.1 → 0.2 migration; the audit run (1.0.0 candidate) further trimmed and rewired the surface — see `CHANGELOG.md` for the diff.
+For the **current** token surface, see the docs site at `apps/web/app/docs/foundations/tokens` — that's the live, post-audit reference. See [`CHANGELOG.md`](./CHANGELOG.md) for the migration history (0.1 → 0.2 theme refactor and the 1.0.0-candidate audit).
 
 ## Contributing
 
 See [`CONTRIBUTING.md`](./CONTRIBUTING.md). Short version: every public component must have a `/docs/components/<name>/page.tsx` page, and the docs site mounts the **real** library — no hand-rolled JSX.
-
-## Design Spec (historical record)
-
-These specs are point-in-time decisions and intentionally don't reflect later changes. For the current state, prefer `apps/web/app/docs/foundations/*` and `CHANGELOG.md`.
-
-- `docs/specs/2026-04-18-damo-ui-design.md` — original design spec (0.1 baseline)
-- `docs/specs/2026-04-21-damo-ui-redesign.md` — early redesign sketches
-- `docs/specs/2026-04-24-theme-architecture-refactor-design.md` — three-layer theme architecture (0.1 → 0.2 migration)
-- `docs/specs/2026-05-03-button-as-child.md` — polymorphic Button as-child support
-- `docs/specs/2026-05-03-display-settings-menu.md` — cycle-9 cog popover spec
 
 ## License
 
