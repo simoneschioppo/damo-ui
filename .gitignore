@@ -45,3 +45,8 @@ _bmad-output/
 core-knowledge/
 user-data/
 apps/playground/
+
+# AI agent project instructions + personal pre-publication checklist
+# (Operational state useful locally; excised from git history in #105.)
+CLAUDE.md
+PUBLICATION_READINESS.md
