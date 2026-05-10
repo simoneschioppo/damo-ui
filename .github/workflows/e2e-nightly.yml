@@ -1,0 +1,68 @@
+name: E2E Nightly (cross-browser)
+
+# Full chromium + webkit matrix that the PR pipeline skips for speed/flake.
+# Catches webkit regressions within 24h of a main merge. Triggered manually
+# via workflow_dispatch when investigating a suspected webkit-only issue.
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # 03:00 UTC daily (off-peak)
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-nightly-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-cross-browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build lib
+        run: pnpm build
+
+      - name: Cache Playwright browsers (chromium + webkit)
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-cross-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright browsers (chromium + webkit)
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm --filter @damo/e2e exec playwright install chromium webkit
+
+      - name: Install Playwright system deps (chromium + webkit)
+        run: pnpm --filter @damo/e2e exec playwright install-deps chromium webkit
+
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: apps/web/.next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('apps/web/**/*.[jt]s', 'apps/web/**/*.[jt]sx', 'apps/web/**/*.css', 'pnpm-lock.yaml') }}
+          restore-keys: nextjs-${{ runner.os }}-
+
+      - name: Build web (production)
+        run: pnpm --filter @damo/web build
+
+      - name: Run full e2e (chromium + webkit, prewarm via global-setup)
+        run: pnpm --filter @damo/e2e test
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-nightly
+          path: e2e/playwright-report/
+          retention-days: 14

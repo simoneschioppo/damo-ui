@@ -10,7 +10,33 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
+  # Detect whether the PR touches code that needs e2e validation.
+  # Docs-only changes (markdown, .gitignore) skip the e2e job entirely.
+  # Push events to main ALWAYS run e2e regardless (full regression coverage).
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            code:
+              - 'packages/**'
+              - 'apps/**'
+              - 'e2e/**'
+              - 'pnpm-lock.yaml'
+              - 'package.json'
+              - 'pnpm-workspace.yaml'
+              - '.github/workflows/ci.yml'
+
   lint-and-test:
     runs-on: ubuntu-latest
     steps:
@@ -49,9 +75,13 @@ jobs:
       - name: Unit tests
         run: pnpm test
 
+  # PR runs use chromium only — webkit on shared GHA runners is documented-flaky
+  # (see the 9 `test.skip(browserName === 'webkit', ...)` sites in e2e/tests/).
+  # Cross-browser coverage runs nightly via .github/workflows/e2e-nightly.yml.
   e2e:
     runs-on: ubuntu-latest
-    needs: lint-and-test
+    needs: [lint-and-test, changes]
+    if: github.event_name == 'push' || needs.changes.outputs.code == 'true'
     steps:
       - uses: actions/checkout@v4
 
@@ -71,25 +101,32 @@ jobs:
           name: damo-ui-dist
           path: packages/ui/dist
 
-      - name: Cache Playwright browsers
+      - name: Cache Playwright browsers (chromium only)
         id: playwright-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          key: playwright-chromium-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - name: Install Playwright browsers
+      - name: Install Playwright browser (chromium only on PR)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm --filter @damo/e2e exec playwright install chromium webkit
+        run: pnpm --filter @damo/e2e exec playwright install chromium
 
-      - name: Install Playwright system deps
-        run: pnpm --filter @damo/e2e exec playwright install-deps chromium webkit
+      - name: Install Playwright system deps (chromium only)
+        run: pnpm --filter @damo/e2e exec playwright install-deps chromium
+
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: apps/web/.next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('apps/web/**/*.[jt]s', 'apps/web/**/*.[jt]sx', 'apps/web/**/*.css', 'pnpm-lock.yaml') }}
+          restore-keys: nextjs-${{ runner.os }}-
 
       - name: Build web (production)
         run: pnpm --filter @damo/web build
 
-      - name: Run e2e
-        run: pnpm test:e2e
+      - name: Run e2e (chromium, prewarm via global-setup)
+        run: pnpm --filter @damo/e2e test:chromium
 
       - name: Upload Playwright artifacts
         if: failure()

@@ -13,6 +13,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
+  globalSetup: './global-setup.ts',
 
   use: {
     baseURL: BASE_URL,

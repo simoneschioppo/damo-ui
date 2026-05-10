@@ -46,8 +46,15 @@ pnpm install
 pnpm dev               # Ladle (61000) + Next docs site (3000) in parallel
 
 # Before opening a PR:
-pnpm test              # damo-ui unit tests must pass (currently 523)
+pnpm test              # damo-ui unit tests must pass (currently 525)
 pnpm lint              # eslint + docs-sync guardrail
 pnpm --filter @damo/web build
 pnpm --filter damo-ui build
 ```
+
+## CI strategy
+
+- **PR runs** execute lint + unit tests + chromium-only e2e (~4–5 min). Docs-only PRs (markdown / `.gitignore`) skip the e2e job entirely.
+- **Push to `main`** always runs the full PR pipeline (no skip).
+- **Cross-browser coverage** (chromium + webkit) runs nightly via `.github/workflows/e2e-nightly.yml` at 03:00 UTC. Webkit-only regressions surface within 24h. Trigger manually via the Actions tab when investigating a suspected webkit issue.
+- The first request to a docs page initializes a server-side Shiki singleton; `e2e/global-setup.ts` prewarms the heavy routes (`/docs/getting-started`, `/docs/foundations/patterns`, `/docs/foundations/tokens`) before tests run to avoid cold-start races on CI runners.
