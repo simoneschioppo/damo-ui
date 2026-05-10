@@ -19,6 +19,14 @@ export interface CodeProps {
    * align at the same height regardless of snippet line count).
    */
   readonly fillHeight?: boolean
+  /**
+   * Explicit override for the line-numbers gutter. When omitted, the heuristic
+   * `isMultiLine(code)` decides — works for the common cases but mis-fires on
+   * snippets that open with a leading newline (e.g. a template literal that
+   * starts on the line of the backtick). Set explicitly when the heuristic
+   * gets it wrong.
+   */
+  readonly withLineNumbers?: boolean
 }
 
 const LANG_LABEL: Record<CodeLang, string> = {
@@ -44,9 +52,10 @@ export async function Code({
   hideCopy = false,
   embedded = false,
   fillHeight = false,
+  withLineNumbers,
 }: CodeProps) {
-  const multiLine = isMultiLine(code)
-  const html = await highlightCode(code, lang, { withLineNumbers: multiLine })
+  const showLineNumbers = withLineNumbers ?? isMultiLine(code)
+  const html = await highlightCode(code, lang, { withLineNumbers: showLineNumbers })
   const wrapperBase = embedded
     ? 'damo-code damo-code--embedded'
     : 'damo-code damo-code--framed my-4 border-2 border-memphis shadow-memphis'

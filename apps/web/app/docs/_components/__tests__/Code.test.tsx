@@ -87,6 +87,19 @@ describe('<Code> editor chrome (gh-100)', () => {
     expect(container.querySelectorAll('.line-number').length).toBe(0)
   })
 
+  it('honors explicit withLineNumbers=false even on multi-line code', async () => {
+    const code = `const a = 1\nconst b = 2`
+    const node = await awaitCode({ code, lang: 'ts', withLineNumbers: false })
+    const { container } = renderCode(node)
+    expect(container.querySelectorAll('.line-number').length).toBe(0)
+  })
+
+  it('honors explicit withLineNumbers=true even on single-line code', async () => {
+    const node = await awaitCode({ code: `pnpm add damo-ui`, lang: 'bash', withLineNumbers: true })
+    const { container } = renderCode(node)
+    expect(container.querySelectorAll('.line-number').length).toBe(1)
+  })
+
   it('drops the outer Memphis frame when embedded is true', async () => {
     const node = await awaitCode({ code: `const x = 1`, lang: 'ts', embedded: true })
     const { container } = renderCode(node)
