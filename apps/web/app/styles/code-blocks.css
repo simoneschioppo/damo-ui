@@ -1,25 +1,40 @@
 /* Damo UI docs — editor-style code blocks (gh-100)
  *
- * Replaces the old MacOS-window chrome with a calmer editor surface.
- * All colors flow from the project's semantic CSS vars so every palette
- * (default / sunset / cyberpunk / forest) × (light / dark) inherits
- * automatically.
+ * The editor pane follows the page theme: paper-light editor on light
+ * pages, calm-charcoal editor on dark pages. The chrome (`--code-*` vars)
+ * and the syntax theme (`--shiki-light` / `--shiki-dark` from Shiki dual-
+ * theme output) switch in lockstep under `[data-theme='dark']`.
  *
- * Shiki is invoked via `highlightCode(..., { themes: { light, dark },
- * defaultColor: false })`, which emits inline `--shiki` and `--shiki-dark`
- * vars on every token. The block-level rules below pick which one wins
- * based on `<html data-theme>`.
+ * The light editor leans paper, not bright white — so it sits comfortably
+ * against the prose without competing for attention.
  */
 
-/* ── Wrapper ────────────────────────────────────────────────────────── */
+/* ── Editor palette — light defaults ─────────────────────────────────── */
 
 .damo-code {
-  background: var(--card);
-  color: var(--card-foreground);
+  --code-bg: #fafaf7;
+  --code-surface: #efeee8;
+  --code-border: #d6d4cc;
+  --code-fg: #1f1f1f;
+  --code-muted: #8a8780;
+  --code-accent: var(--primary);
+
+  background: var(--code-bg);
+  color: var(--code-fg);
   overflow: hidden;
   font-feature-settings:
     'liga' 1,
     'calt' 1;
+}
+
+/* ── Editor palette — dark override ─────────────────────────────────── */
+
+[data-theme='dark'] .damo-code {
+  --code-bg: #1d1f24;
+  --code-surface: #262932;
+  --code-border: #353841;
+  --code-fg: #e8e6df;
+  --code-muted: #8a8c93;
 }
 
 /* ── Header (filename tab + lang badge + copy) ──────────────────────── */
@@ -30,8 +45,8 @@
   justify-content: space-between;
   gap: 0.75rem;
   padding: 0;
-  background: var(--muted);
-  border-bottom: 1px solid var(--border);
+  background: var(--code-surface);
+  border-bottom: 1px solid var(--code-border);
   flex-shrink: 0;
   min-height: 32px;
 }
@@ -49,9 +64,9 @@
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.04em;
-  color: var(--card-foreground);
-  background: var(--card);
-  border-right: 1px solid var(--border);
+  color: var(--code-fg);
+  background: var(--code-bg);
+  border-right: 1px solid var(--code-border);
   position: relative;
   max-width: 320px;
   overflow: hidden;
@@ -65,7 +80,7 @@
   position: absolute;
   inset: auto 0 0 0;
   height: 2px;
-  background: var(--primary);
+  background: var(--code-accent);
 }
 
 .damo-code__actions {
@@ -80,7 +95,7 @@
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.15em;
-  color: var(--muted-foreground);
+  color: var(--code-muted);
   text-transform: uppercase;
 }
 
@@ -90,9 +105,9 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 0.125rem 0.5rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--code-border);
   background: transparent;
-  color: var(--muted-foreground);
+  color: var(--code-muted);
   transition:
     color 120ms,
     border-color 120ms,
@@ -101,25 +116,25 @@
 }
 
 .damo-code__copy:hover {
-  color: var(--card-foreground);
-  border-color: var(--border-strong, var(--muted-foreground));
-  background: color-mix(in srgb, var(--muted) 70%, transparent);
+  color: var(--code-fg);
+  border-color: var(--code-muted);
+  background: color-mix(in srgb, var(--code-surface) 70%, transparent);
 }
 
 .damo-code__copy[data-state='copied'] {
-  color: var(--success, var(--card-foreground));
-  border-color: var(--success, var(--border-strong));
+  color: var(--success, var(--code-fg));
+  border-color: var(--success, var(--code-muted));
 }
 
 /* ── Code viewport ──────────────────────────────────────────────────── */
 
 .damo-code__viewport {
   overflow-x: auto;
-  padding: 0.875rem 0;
-  font-size: 13px;
-  line-height: 1.55;
+  padding: 0.625rem 0;
+  font-size: 14.5px;
+  line-height: 1.5;
   scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-color: var(--code-border) transparent;
 }
 
 .damo-code__viewport::-webkit-scrollbar {
@@ -129,11 +144,11 @@
   background: transparent;
 }
 .damo-code__viewport::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--code-border);
   border-radius: 999px;
 }
 .damo-code__viewport::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-foreground);
+  background: var(--code-muted);
 }
 
 .damo-code__viewport pre {
@@ -142,42 +157,46 @@
   background: transparent !important;
 }
 
+/* `display: grid` on `<code>` is the canonical Shiki pattern for tight
+ * line stacking. Without it, the literal `\n` text nodes that Shiki
+ * emits between consecutive `<span class="line">` siblings get rendered
+ * as anonymous block boxes inside `<pre>` (which preserves whitespace),
+ * adding ~1 line-height of dead space per row. With `grid`, the whitespace
+ * text nodes become empty grid items and collapse to zero height — lines
+ * stack flush at the row's natural line-height. */
 .damo-code__viewport code {
-  display: block;
+  display: grid;
   font-family: var(--font-mono);
 }
 
 .damo-code__viewport .line {
   display: block;
   padding: 0 1rem;
-  min-height: 1.55em;
 }
 
-/* ── Light/dark variant switch ──────────────────────────────────────── */
+/* ── Light/dark token-color switch ──────────────────────────────────── */
 
-/* Default (no [data-theme] = light) — pick the `--shiki-light` var.
- * Shiki's dual-theme output with `defaultColor: false` emits `--shiki-light`
- * / `--shiki-dark` (plus the matching `*-bg` pair) on every token via the
- * inline `style="…"` attribute, but does NOT emit a `color:` declaration —
- * so a plain class rule wins on token color without `!important`. The `!important`
- * stays on `background-color` because Shiki always emits a block-level
- * `style="background-color:…"` on `<pre>` even with `defaultColor: false`,
- * and the inline attribute beats class rules on specificity. */
+/* Default (light page) — pick the `--shiki-light` var that Shiki emits
+ * inline on every token via `defaultColor: false`. `color:` is not
+ * `!important` because Shiki does not write a plain `color:` declaration
+ * inline (only the CSS vars), so a class rule wins on specificity and
+ * consumers can override per-block if needed. `background-color:` is
+ * `!important` because Shiki always writes a block-level
+ * `style="background-color:…"` on `<pre>` that we want to suppress in
+ * favour of the chrome wrapper's `--code-bg`. */
 .damo-code .shiki,
 .damo-code .shiki span {
   color: var(--shiki-light);
-  background-color: var(--shiki-light-bg) !important;
 }
 
-/* Dark theme — switch every token to its `--shiki-dark` value. */
+/* Dark theme — flip every token to its `--shiki-dark` value. */
 [data-theme='dark'] .damo-code .shiki,
 [data-theme='dark'] .damo-code .shiki span {
   color: var(--shiki-dark);
-  background-color: var(--shiki-dark-bg) !important;
 }
 
-/* The shiki wrappers paint their own backgrounds via CSS vars; let the
- * .damo-code wrapper take over so chrome and code agree. */
+/* Suppress Shiki's own block-level background — the `.damo-code` wrapper
+ * paints the editor surface from `--code-bg`. */
 .damo-code__viewport .shiki {
   background: transparent !important;
 }
@@ -190,31 +209,32 @@
 
 .damo-code__viewport .has-line-numbers .line .line-number {
   display: inline-block;
+  /* `vertical-align: top` is load-bearing — without it the inline-block
+   * gutter cell pushes the surrounding line-box taller (baseline-aligned
+   * inline-blocks add a phantom descender), producing visibly-wide gaps
+   * between consecutive lines. With `top`, the gutter cell sits flush at
+   * the line-box top and lines stay tight at line-height: 1.5. */
+  vertical-align: top;
   width: 2.5rem;
   padding-right: 0.875rem;
   margin-right: 0.875rem;
   text-align: right;
-  color: var(--muted-foreground);
-  opacity: 0.55;
+  color: var(--code-muted);
   user-select: none;
-  border-right: 1px solid var(--border);
+  border-right: 1px solid var(--code-border);
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Notation transformers (diff / highlight) ─────────────────────────
- * `var()` with a fallback inside `color-mix()` is not uniformly resolved
- * across older browsers within the Next 15 baseline (Safari 16.x notably).
- * Materialise the fallback into a local custom property first so the
- * `color-mix()` call always sees a concrete color. */
+/* ── Notation transformers (diff / highlight) ───────────────────────── */
 
 .damo-code__viewport .line.highlighted {
-  background: color-mix(in srgb, var(--primary) 8%, transparent);
-  box-shadow: inset 2px 0 0 var(--primary);
+  background: color-mix(in srgb, var(--code-accent) 15%, transparent);
+  box-shadow: inset 2px 0 0 var(--code-accent);
 }
 
 .damo-code__viewport .line.diff.add {
   --_diff-add: var(--success, #16a34a);
-  background: color-mix(in srgb, var(--_diff-add) 12%, transparent);
+  background: color-mix(in srgb, var(--_diff-add) 18%, transparent);
 }
 .damo-code__viewport .line.diff.add::before {
   content: '+';
@@ -224,7 +244,7 @@
 
 .damo-code__viewport .line.diff.remove {
   --_diff-remove: var(--destructive);
-  background: color-mix(in srgb, var(--_diff-remove) 12%, transparent);
+  background: color-mix(in srgb, var(--_diff-remove) 18%, transparent);
   opacity: 0.65;
 }
 .damo-code__viewport .line.diff.remove::before {

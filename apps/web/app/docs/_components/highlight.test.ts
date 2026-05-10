@@ -51,12 +51,18 @@ describe('highlightCode', () => {
     expect(html).toMatch(/--shiki-dark:/)
   })
 
-  it('does not inline a single hardcoded color attribute (defaultColor: false)', async () => {
+  it('does not inline a hardcoded color attribute (defaultColor: false)', async () => {
     // With `defaultColor: false`, Shiki should NOT add a plain `color: #xxx`
     // outside of CSS-var declarations — the chrome stylesheet picks one var
     // or the other based on `data-theme`.
     const html = await highlightCode(`const x = 1`, 'ts')
     expect(html).not.toMatch(/style="color:#[0-9a-f]{3,8}"/i)
+  })
+
+  it('uses both vitesse theme classes on the <pre>', async () => {
+    const html = await highlightCode(`const x = 1`, 'ts')
+    expect(html).toMatch(/class="[^"]*vitesse-light[^"]*"/)
+    expect(html).toMatch(/class="[^"]*vitesse-dark[^"]*"/)
   })
 
   it('adds the has-line-numbers class when withLineNumbers is true', async () => {
