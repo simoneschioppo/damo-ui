@@ -5,19 +5,21 @@ import { transformerNotationDiff, transformerNotationHighlight } from '@shikijs/
 const SUPPORTED_LANGS = ['tsx', 'ts', 'jsx', 'bash', 'css', 'json', 'html'] as const
 type SupportedLang = (typeof SUPPORTED_LANGS)[number]
 
-// Single dark theme — by design. Code blocks read as a fixed editor surface
-// regardless of page theme (the docs site swaps light/dark for the prose
-// chrome, but the editor pane stays a calm vitesse-dark). The chrome
-// stylesheet (`apps/web/app/styles/code-blocks.css`) carries fixed `--code-*`
-// dark vars to match.
-const CODE_THEME = 'vitesse-dark'
+// Dual themes — Shiki emits BOTH variants as inline CSS vars
+// (`--shiki-light`, `--shiki-dark`). The chrome stylesheet
+// (`apps/web/app/styles/code-blocks.css`) flips between them based on
+// `<html data-theme>`, alongside a matching switch of the surrounding
+// `--code-*` chrome palette so the editor pane reads as a coherent
+// IDE surface against either prose theme.
+const CODE_THEME_LIGHT = 'vitesse-light'
+const CODE_THEME_DARK = 'vitesse-dark'
 
 let highlighterPromise: Promise<Highlighter> | null = null
 
 function getHighlighter(): Promise<Highlighter> {
   if (highlighterPromise === null) {
     highlighterPromise = createHighlighter({
-      themes: [CODE_THEME],
+      themes: [CODE_THEME_LIGHT, CODE_THEME_DARK],
       langs: [...SUPPORTED_LANGS],
     })
   }
@@ -68,7 +70,8 @@ export async function highlightCode(
   if (options.withLineNumbers === true) transformers.push(transformerLineNumbers())
   const html = highlighter.codeToHtml(code, {
     lang: resolved,
-    theme: CODE_THEME,
+    themes: { light: CODE_THEME_LIGHT, dark: CODE_THEME_DARK },
+    defaultColor: false,
     transformers,
   })
   const safeLang = lang.replace(/[^a-z0-9-]/gi, '')
