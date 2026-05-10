@@ -1,6 +1,6 @@
 # Web App Architecture
 
-Status: documented · Last scan: 9a573e8 · Sources:
+Status: documented · Last scan: 1637629 · Sources:
 `apps/web/app/{layout.tsx,page.tsx,not-found.tsx,globals.css,styles/}`,
 `apps/web/{next.config.ts,tailwind.config.ts,package.json,components/,lib/}`,
 `apps/web/app/_components/`,

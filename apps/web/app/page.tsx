@@ -1,10 +1,22 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Button, MemphisShape } from 'damo-ui'
+import { Button } from 'damo-ui'
 import { BRAND } from '../lib/brand'
-import { monoTag, linkTag } from '../lib/i18n-tags'
+import { linkTag } from '../lib/i18n-tags'
+import { Code } from './docs/_components/Code'
 
 const FEATURE_KEYS = ['components', 'tokens', 'themeGenerator'] as const
+
+const INSTALL_SNIPPET = `pnpm add damo-ui`
+
+const STYLES_SNIPPET = `@import 'tailwindcss';
+@import 'damo-ui/styles/theme.css';`
+
+const RENDER_SNIPPET = `import { Button } from 'damo-ui'
+
+export function Page() {
+  return <Button>Save</Button>
+}`
 
 export default async function HomePage() {
   const t = await getTranslations('home')
@@ -12,13 +24,13 @@ export default async function HomePage() {
 
   return (
     <main className="px-6 sm:px-10 lg:px-16 py-16 max-w-[1200px] mx-auto">
-      <section className="grid grid-cols-1 lg:grid-cols-[1fr_460px] gap-12 items-center mb-20">
+      <section className="grid grid-cols-1 lg:grid-cols-[1fr_500px] gap-12 items-center mb-20">
         <div>
           <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-4">
             {t('eyebrow')}
           </div>
-          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-6">
-            {BRAND.libName} —
+          <h1 className="font-display text-5xl sm:text-6xl leading-[0.95] mb-6">
+            {BRAND.libName}
             <br />
             {t('headlineLine1')}
             <br />
@@ -51,25 +63,13 @@ export default async function HomePage() {
           <img
             src={BRAND.mascotHeroSrc}
             alt={brandT('mascotHeroAlt')}
-            width={320}
-            height={Math.round(320 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
+            width={480}
+            height={Math.round(480 * (BRAND.mascotHeroHeight / BRAND.mascotHeroWidth))}
             className="relative"
             style={{
               transform: 'rotate(-4deg)',
               filter: 'drop-shadow(var(--shadow-memphis))',
             }}
-          />
-          <MemphisShape
-            variant="diamond"
-            size={72}
-            color="var(--secondary)"
-            className="absolute -top-4 -left-4"
-          />
-          <MemphisShape
-            variant="star"
-            size={52}
-            color="var(--primary)"
-            className="absolute -bottom-6 -right-6"
           />
         </div>
       </section>
@@ -86,15 +86,47 @@ export default async function HomePage() {
         ))}
       </section>
 
-      <section className="mt-20 border-t-2 border-memphis pt-10">
+      <section className="mt-20">
         <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-primary mb-3">
           {t('quickInstall.eyebrow')}
         </div>
-        <h2 className="font-display text-3xl mb-4">{t('quickInstall.heading')}</h2>
-        <ol className="space-y-2 text-foreground/85 list-decimal pl-5">
-          <li>{t.rich('quickInstall.step1', { mono: monoTag })}</li>
-          <li>{t.rich('quickInstall.step2', { link: linkTag('/docs/getting-started') })}</li>
-        </ol>
+        <h2 className="font-display text-3xl mb-8">{t('quickInstall.heading')}</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-2xl text-primary leading-none">1</span>
+              <h3 className="font-display text-xl tracking-wide">
+                {t('quickInstall.step1.title')}
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground">{t('quickInstall.step1.desc')}</p>
+            <Code code={INSTALL_SNIPPET} lang="bash" title="terminal" embedded fillHeight />
+          </div>
+
+          <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-2xl text-primary leading-none">2</span>
+              <h3 className="font-display text-xl tracking-wide">
+                {t('quickInstall.step2.title')}
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground">{t('quickInstall.step2.desc')}</p>
+            <Code code={STYLES_SNIPPET} lang="css" title="app/globals.css" embedded fillHeight />
+          </div>
+
+          <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-2xl text-primary leading-none">3</span>
+              <h3 className="font-display text-xl tracking-wide">
+                {t('quickInstall.step3.title')}
+              </h3>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {t.rich('quickInstall.step3.desc', { link: linkTag('/docs/getting-started') })}
+            </p>
+            <Code code={RENDER_SNIPPET} lang="tsx" title="app/page.tsx" embedded fillHeight />
+          </div>
+        </div>
       </section>
     </main>
   )

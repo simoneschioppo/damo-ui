@@ -1,6 +1,6 @@
 # Docs Site
 
-Status: documented · Last scan: 9a573e8 · Sources:
+Status: documented · Last scan: 1637629 · Sources:
 `apps/web/app/docs/{layout.tsx,page.tsx,getting-started/,foundations/,components/,_components/,_lib/}`.
 
 ## Summary
@@ -111,17 +111,17 @@ sidebar and the dynamic stub route both read it.
 The docs site has its own private helper layer (the underscore
 prefix is Next's convention for non-routable folders):
 
-| Helper                        | Purpose                                                                                                                 |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `_components/Code.tsx`        | Server-side syntax-highlighted code block                                                                               |
-| `_components/CopyButton.tsx`  | Copy-to-clipboard button                                                                                                |
-| `_components/Example.tsx`     | Server component that pairs preview + code                                                                              |
-| `_components/PropsTable.tsx`  | Tabular props reference                                                                                                 |
-| `_components/DocsSidebar.tsx` | Sidebar nav, reads `DOCS_NAV` and translates group titles + the Introduction entry via `useTranslations('docsSidebar')` |
-| `_components/docs-nav.ts`     | The nav source of truth (above)                                                                                         |
-| `_components/highlight.ts`    | Server-only syntax highlighter                                                                                          |
-| `_lib/active-section.ts`      | "Currently visible heading" tracking for sidebar TOC                                                                    |
-| `_lib/patterns.tsx`           | Memphis-pattern preview helpers used by foundations/patterns                                                            |
+| Helper                        | Purpose                                                                                                                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_components/Code.tsx`        | Server-side syntax-highlighted code block (props: `lang`, `title`, `hideCopy`, `embedded` for nesting in `<Example>`, `fillHeight` for stretching to fill flex parents) |
+| `_components/CopyButton.tsx`  | Copy-to-clipboard button                                                                                                                                                |
+| `_components/Example.tsx`     | Server component that pairs preview + code                                                                                                                              |
+| `_components/PropsTable.tsx`  | Tabular props reference                                                                                                                                                 |
+| `_components/DocsSidebar.tsx` | Sidebar nav, reads `DOCS_NAV` and translates group titles + the Introduction entry via `useTranslations('docsSidebar')`                                                 |
+| `_components/docs-nav.ts`     | The nav source of truth (above)                                                                                                                                         |
+| `_components/highlight.ts`    | Server-only syntax highlighter                                                                                                                                          |
+| `_lib/active-section.ts`      | "Currently visible heading" tracking for sidebar TOC                                                                                                                    |
+| `_lib/patterns.tsx`           | Memphis-pattern preview helpers used by foundations/patterns                                                                                                            |
 
 #### `<Example>` component (server)
 
@@ -260,6 +260,25 @@ contract.
    no schema check in CI yet — drift would surface as a
    missing-key console.warn in dev (per `request.ts`'s
    non-production `onError`).
+
+9. **`<Code>` two opt-in modes for non-default placements.** `embedded`
+   drops the outer Memphis frame so the block sits inside another
+   bordered surface (`<Example>` is the canonical caller; the home
+   page's QUICK INSTALL cards use it too). `fillHeight` adds
+   `flex-1 flex flex-col` to the wrapper, `shrink-0` to the dark
+   header bar, and `flex-1` to the scrollable content div — the
+   block then stretches to fill its parent flex container. Used by
+   the home QUICK INSTALL card grid so all 3 terminals align at the
+   same height regardless of snippet line count.
+
+10. **Scrollbar styling on `<Code>`'s overflow div is opinionated.**
+    Tailwind arbitrary variants on the scrollable content div
+    target both the WebKit pseudo-elements (`::-webkit-scrollbar`,
+    `::-webkit-scrollbar-track`, `::-webkit-scrollbar-thumb`) and
+    Firefox's `scrollbar-width` / `scrollbar-color`, producing a
+    slim 6 px GitHub-style scrollbar (`#30363d` thumb on transparent
+    track, lighter on hover). Applies to every Code block in the
+    docs site, not only the home page.
 
 ## How to consume (lessons / patterns to lift)
 

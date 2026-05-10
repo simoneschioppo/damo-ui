@@ -979,6 +979,30 @@
           "trigger": "post-code-change",
           "source_agent": "bmad-create-story (gh-79)",
           "note": "rewrite from stub: full chapter with criteria, roadmap, decision log, link map"
+        },
+        {
+          "chapter": "20-web-app/00-architecture.md",
+          "paths": [
+            "apps/web/app/page.tsx",
+            "apps/web/lib/brand.ts",
+            "apps/web/messages/en.json",
+            "apps/web/messages/it.json",
+            "apps/web/public/mascot-hero.png"
+          ],
+          "sha": "1637629",
+          "completed_at": "2026-05-10T08:27:38+00:00",
+          "trigger": "post-code-change",
+          "source_agent": "kipi *4 (manual sync)",
+          "note": "sha bump only \u2014 chapter is high-level wiring/i18n/tailwind, doesn't deep-document landing page sections. The hero swap, headline rewrite, MemphisShape removal, image col rebalance, QUICK INSTALL restructure, and i18n catalog reshape are all reflected in the underlying code without needing chapter prose changes."
+        },
+        {
+          "chapter": "20-web-app/10-docs-site/README.md",
+          "paths": ["apps/web/app/docs/_components/Code.tsx", "apps/web/app/page.tsx"],
+          "sha": "1637629",
+          "completed_at": "2026-05-10T08:27:38+00:00",
+          "trigger": "post-code-change",
+          "source_agent": "kipi *4 (manual sync)",
+          "note": "Documented new Code component opt-in modes: fillHeight (flex-1 flex flex-col on wrapper, shrink-0 on header, flex-1 on content) for stretching inside flex parents \u2014 used by the home QUICK INSTALL card grid. Also documented the slim GitHub-style scrollbar styling (Tailwind arbitrary variants for ::-webkit-scrollbar + scrollbar-width: thin) applied to every Code block."
         }
       ]
     }
@@ -1379,7 +1403,7 @@
     },
     "20-web-app/00-architecture.md": {
       "status": "documented",
-      "last_scan_sha": "d0f212a",
+      "last_scan_sha": "1637629",
       "sources": [
         "apps/web/app/layout.tsx",
         "apps/web/app/page.tsx",
@@ -1397,7 +1421,7 @@
     },
     "20-web-app/10-docs-site/README.md": {
       "status": "documented",
-      "last_scan_sha": "e53c5be",
+      "last_scan_sha": "1637629",
       "sources": [
         "apps/web/app/docs/layout.tsx",
         "apps/web/app/docs/_components/",
