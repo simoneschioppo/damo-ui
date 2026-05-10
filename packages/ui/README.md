@@ -1,6 +1,19 @@
-# damo-ui
+<p align="center">
+  <img src="https://raw.githubusercontent.com/simoneschioppo/damo-ui/main/.github/assets/damo-ui-banner.jpg" alt="damo-ui banner — purple axolotl mascot at a desk with laptop, books and plant" width="100%" style="max-width: 100%; height: auto;" />
+</p>
 
-Memphis-inspired React and Next.js component library.
+<h1 align="center">damo-ui</h1>
+
+<p align="center">
+  Memphis-inspired React and Next.js component library.
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/damo-ui"><img alt="npm" src="https://img.shields.io/npm/v/damo-ui?color=plum&label=damo-ui" /></a>
+  <a href="https://github.com/simoneschioppo/damo-ui/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
+  <img alt="React 18+" src="https://img.shields.io/badge/React-%E2%89%A518-61dafb?logo=react&logoColor=white" />
+  <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white" />
+</p>
 
 > ⚠️ **0.x preview.** Public API is stabilising. Expect breaking changes between minor versions until `1.0.0`.
 
