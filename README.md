@@ -1,10 +1,29 @@
-# damo-ui
+<p align="center">
+  <img src="./.github/assets/damo-ui-banner.jpg" alt="damo-ui banner — purple axolotl mascot at a desk with laptop, books and plant" width="100%" style="max-width: 100%; height: auto;" />
+</p>
 
-Memphis-inspired React component library for Next.js — tokens, components, and patterns ready to use.
+<h1 align="center">damo-ui</h1>
+
+<p align="center">
+  Memphis-inspired React component library for Next.js — tokens, components, and patterns ready to use.
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/damo-ui"><img alt="npm" src="https://img.shields.io/npm/v/damo-ui?color=plum&label=damo-ui" /></a>
+  <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
+  <img alt="React 18+" src="https://img.shields.io/badge/React-%E2%89%A518-61dafb?logo=react&logoColor=white" />
+  <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white" />
+</p>
 
 > ⚠️ **0.x preview.** The public API is stabilising. Expect breaking changes between minor versions until `1.0.0`. The migration paths are documented in [`CHANGELOG.md`](./CHANGELOG.md).
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+## Why damo-ui?
+
+- **Memphis-design primitives, palette-agnostic** — geometric shape decorations, chunky offset shadows, and four ready-to-opt-in palettes (`default`, `sunset`, `cyberpunk`, `forest`). Ships neutral grayscale by default.
+- **Accessible by default** — Dialog, Dropdown, Tooltip, Popover, Select, Tabs, and other interactive components inherit keyboard navigation, focus management, and ARIA semantics from Radix UI primitives.
+- **Theme × palette × density, orthogonal** — flip light/dark, swap palette, and pick density (`compact`, `normal`, `comfortable`) live, all driven from `<html>` data attributes.
+- **Tailwind v4-first, v3 preset shipped** — CSS-first configuration on the latest Tailwind, with a legacy preset preserved for migration.
+- **54 components, one entry point** — Foundations, Forms, Feedback, Navigation, Data, Cards, and Layout. Single-import library today; `@damo-ui/cli` and registry post-1.0 (see Reserved scope below).
 
 ## Install
 
