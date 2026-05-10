@@ -145,7 +145,6 @@
 .damo-code__viewport code {
   display: block;
   font-family: var(--font-mono);
-  counter-reset: line;
 }
 
 .damo-code__viewport .line {
@@ -157,20 +156,23 @@
 /* ── Light/dark variant switch ──────────────────────────────────────── */
 
 /* Default (no [data-theme] = light) — pick the `--shiki-light` var.
- * Shiki's dual-theme output emits `--shiki-light` / `--shiki-dark` (and the
- * matching `*-bg` pair) on every token. The block-level rule below picks
- * the right var; without `!important` Shiki's own `style="…"` attribute
- * (which sets the var values) would lose to a class declaration. */
+ * Shiki's dual-theme output with `defaultColor: false` emits `--shiki-light`
+ * / `--shiki-dark` (plus the matching `*-bg` pair) on every token via the
+ * inline `style="…"` attribute, but does NOT emit a `color:` declaration —
+ * so a plain class rule wins on token color without `!important`. The `!important`
+ * stays on `background-color` because Shiki always emits a block-level
+ * `style="background-color:…"` on `<pre>` even with `defaultColor: false`,
+ * and the inline attribute beats class rules on specificity. */
 .damo-code .shiki,
 .damo-code .shiki span {
-  color: var(--shiki-light) !important;
+  color: var(--shiki-light);
   background-color: var(--shiki-light-bg) !important;
 }
 
 /* Dark theme — switch every token to its `--shiki-dark` value. */
 [data-theme='dark'] .damo-code .shiki,
 [data-theme='dark'] .damo-code .shiki span {
-  color: var(--shiki-dark) !important;
+  color: var(--shiki-dark);
   background-color: var(--shiki-dark-bg) !important;
 }
 
@@ -199,7 +201,11 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Notation transformers (diff / highlight) ───────────────────────── */
+/* ── Notation transformers (diff / highlight) ─────────────────────────
+ * `var()` with a fallback inside `color-mix()` is not uniformly resolved
+ * across older browsers within the Next 15 baseline (Safari 16.x notably).
+ * Materialise the fallback into a local custom property first so the
+ * `color-mix()` call always sees a concrete color. */
 
 .damo-code__viewport .line.highlighted {
   background: color-mix(in srgb, var(--primary) 8%, transparent);
@@ -207,20 +213,30 @@
 }
 
 .damo-code__viewport .line.diff.add {
-  background: color-mix(in srgb, var(--success, #16a34a) 12%, transparent);
+  --_diff-add: var(--success, #16a34a);
+  background: color-mix(in srgb, var(--_diff-add) 12%, transparent);
 }
 .damo-code__viewport .line.diff.add::before {
   content: '+';
-  color: var(--success, #16a34a);
+  color: var(--_diff-add, #16a34a);
   margin-right: 0.5rem;
 }
 
 .damo-code__viewport .line.diff.remove {
-  background: color-mix(in srgb, var(--destructive) 12%, transparent);
+  --_diff-remove: var(--destructive);
+  background: color-mix(in srgb, var(--_diff-remove) 12%, transparent);
   opacity: 0.65;
 }
 .damo-code__viewport .line.diff.remove::before {
   content: '-';
-  color: var(--destructive);
+  color: var(--_diff-remove);
   margin-right: 0.5rem;
+}
+
+/* When line numbers are present, the gutter already provides the per-line
+ * affordance. Suppress the `+` / `-` glyphs so they don't float in the
+ * gutter — the row background + opacity carry the diff signal. */
+.damo-code__viewport .has-line-numbers .line.diff.add::before,
+.damo-code__viewport .has-line-numbers .line.diff.remove::before {
+  display: none;
 }

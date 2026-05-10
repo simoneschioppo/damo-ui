@@ -30,10 +30,10 @@ function resolveLang(lang: string): SupportedLang {
 }
 
 // Custom transformer — `@shikijs/transformers` ships notation/diff/focus/highlight
-// but not line numbers, so userland owns this. Output is a sibling `<span class=
-// "line-number" aria-hidden>N</span>` injected as the first child of every
-// `<span class="line">`. CSS lays it out in a fixed-width gutter and hides it via
-// `.shiki:not(.has-line-numbers) .line-number` for single-line snippets.
+// but not line numbers, so userland owns this. Output is a `<span class="line-number"
+// aria-hidden>N</span>` injected as the first child of every `<span class="line">`.
+// CSS lays it out in a fixed-width gutter; the `has-line-numbers` class on `<pre>`
+// is what the gutter rule keys off, so single-line callers can opt out.
 function transformerLineNumbers(): ShikiTransformer {
   return {
     name: 'damo:line-numbers',
@@ -44,7 +44,7 @@ function transformerLineNumbers(): ShikiTransformer {
       node.children.unshift({
         type: 'element',
         tagName: 'span',
-        properties: { class: 'line-number', 'aria-hidden': 'true' },
+        properties: { class: 'line-number', 'aria-hidden': true },
         children: [{ type: 'text', value: String(line) }],
       })
     },
