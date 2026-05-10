@@ -31,7 +31,11 @@ const LANG_LABEL: Record<CodeLang, string> = {
   html: 'HTML',
 }
 
-const dotClass = 'inline-block w-2.5 h-2.5 rounded-full'
+// Single-line snippets (e.g. `pnpm add damo-ui`) skip the line-numbers gutter
+// — a "1." next to a one-liner reads as visual noise.
+function isMultiLine(code: string): boolean {
+  return code.trimEnd().includes('\n')
+}
 
 export async function Code({
   code,
@@ -41,28 +45,26 @@ export async function Code({
   embedded = false,
   fillHeight = false,
 }: CodeProps) {
-  const html = await highlightCode(code, lang)
+  const multiLine = isMultiLine(code)
+  const html = await highlightCode(code, lang, { withLineNumbers: multiLine })
   const wrapperBase = embedded
-    ? 'bg-[#0d1117] overflow-hidden'
-    : 'my-4 border-2 border-memphis bg-[#0d1117] shadow-memphis overflow-hidden'
-  const wrapperClass = fillHeight ? `${wrapperBase} flex-1 flex flex-col` : wrapperBase
+    ? 'damo-code damo-code--embedded'
+    : 'damo-code damo-code--framed my-4 border-2 border-memphis shadow-memphis'
+  const wrapperClass = fillHeight
+    ? `${wrapperBase} damo-code--fill flex-1 flex flex-col`
+    : wrapperBase
   return (
-    <div className={wrapperClass}>
-      <div className="flex items-center justify-between gap-3 px-3 py-2 bg-[#161b22] border-b border-[#30363d] shrink-0">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="flex items-center gap-1.5 shrink-0" aria-hidden>
-            <span className={`${dotClass} bg-[#ff5f57]`} />
-            <span className={`${dotClass} bg-[#febc2e]`} />
-            <span className={`${dotClass} bg-[#28c840]`} />
-          </div>
+    <div className={wrapperClass} data-lang={lang}>
+      <div className="damo-code__header">
+        <div className="damo-code__tab-wrap">
           {title !== undefined && (
-            <span className="font-mono text-[11px] tracking-[0.12em] text-[#c9d1d9] truncate">
+            <span className="damo-code__tab" title={title}>
               {title}
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="font-mono text-[10px] tracking-[0.15em] text-[#7d8590] uppercase">
+        <div className="damo-code__actions">
+          <span className="damo-code__lang" aria-hidden>
             {LANG_LABEL[lang]}
           </span>
           {!hideCopy && <CopyButton text={code} />}
@@ -81,7 +83,7 @@ export async function Code({
         becomes an XSS sink.
       */}
       <div
-        className={`overflow-x-auto px-4 py-4 text-[13px] leading-relaxed [&_pre]:!bg-transparent [&_pre]:!m-0 [&_pre]:!p-0 [&_code]:font-mono [scrollbar-width:thin] [scrollbar-color:#30363d_transparent] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#30363d] [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#484f58]${fillHeight ? ' flex-1' : ''}`}
+        className={`damo-code__viewport${fillHeight ? ' flex-1' : ''}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>
