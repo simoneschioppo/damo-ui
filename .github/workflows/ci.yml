@@ -10,6 +10,10 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   # Detect whether the PR touches code that needs e2e validation.
   # Docs-only changes (markdown, .gitignore) skip the e2e job entirely.
