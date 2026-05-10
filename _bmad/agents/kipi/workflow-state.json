@@ -109,6 +109,46 @@
       "runs": [
         {
           "kind": "content-update",
+          "pr": 101,
+          "branch": "refactor/gh-100-editor-style-code-blocks",
+          "chapters": [
+            "20-web-app/10-docs-site/README.md",
+            "20-web-app/00-architecture.md",
+            "30-cross-cutting/15-e2e.md"
+          ],
+          "details": {
+            "20-web-app/10-docs-site/README.md": {
+              "paths": [
+                "apps/web/app/docs/_components/Code.tsx",
+                "apps/web/app/docs/_components/CopyButton.tsx",
+                "apps/web/app/docs/_components/highlight.ts",
+                "apps/web/app/docs/_components/highlight.test.ts",
+                "apps/web/app/docs/_components/__tests__/Code.test.tsx"
+              ],
+              "old_sha": "f9d7d14",
+              "new_sha": "578605c",
+              "edits": "Header: bumped Last scan (f9d7d14 -> 578605c). Internal helpers table: appended `withLineNumbers` to the Code.tsx prop list (explicit override for the multi-line auto-detect heuristic). CopyButton.tsx description expanded to mention the `data-state=\"copied\"` hook for chrome styling. highlight.ts description rewritten to document the gh-100 dual-theme contract (vitesse-light + vitesse-dark, defaultColor:false, --shiki-light / --shiki-dark CSS vars), the @shikijs/transformers wiring (notation diff + highlight), and the custom userland line-numbers transformer. Notes & gotchas item 9 rewritten: removed the obsolete \"shrink-0 to the dark header bar\" passage (the dark header bar no longer exists \u2014 chrome is theme-aware via CSS vars), kept the embedded/fillHeight semantics, and added the new `withLineNumbers` override + leading-newline edge case. Notes & gotchas item 10 fully rewritten as the canonical chrome-contract narrative: now points at apps/web/app/styles/code-blocks.css (gh-100, PR #101) as the single source of truth, documents the CSS-var dependency surface, the [data-theme='dark'] light/dark switch, the !important asymmetry (color: not !important so consumers can override; background-color: !important because Shiki always emits an inline declaration on <pre>), the hard rule against reintroducing the legacy GitHub-dark hexes, and the wired-but-unused notation transformer styles. Scrollbar styling note retained but moved into the same item."
+            },
+            "20-web-app/00-architecture.md": {
+              "paths": ["apps/web/app/styles/code-blocks.css", "apps/web/app/globals.css"],
+              "old_sha": "f9d7d14",
+              "new_sha": "578605c",
+              "edits": "Header: bumped Last scan (f9d7d14 -> 578605c). Sources line expanded to call out the three stylesheets under apps/web/app/styles/ (theme.css, patterns.css, code-blocks.css) \u2014 code-blocks.css is the new artefact gh-100 introduces. Stylesheet pipeline code block: appended `@import './styles/code-blocks.css';` on the playground theme layer. Cascade-order list: inserted a new item 5 explaining what code-blocks.css owns (editor chrome, line-numbers gutter, Shiki dual-theme switch, wired-but-unused notation transformer styles), the CSS-var dependency, and a cross-reference to docs-site README note 10. Renumbered the @source item from 5 to 6.",
+              "sources_added": ["apps/web/app/styles/code-blocks.css"]
+            },
+            "30-cross-cutting/15-e2e.md": {
+              "paths": ["e2e/tests/scenarios/code-blocks-editor-style.spec.ts"],
+              "old_sha": "08ede58",
+              "new_sha": "578605c",
+              "edits": "Header sha bump only (08ede58 -> 578605c). No narrative change.",
+              "decision_no_chapter_edit": "PR #101 added e2e/tests/scenarios/code-blocks-editor-style.spec.ts (8 scenarios, 16 across chromium + webkit). The chapter does not enumerate every spec inside the Layout tree (gh-99 added locale-switch-theme-flash.spec.ts without an inventory edit either \u2014 same precedent). The new spec uses no new helpers, no new config, and no new cross-browser stabilisation pattern that would warrant a chapter narrative change. SHA bump only, mirroring gh-99 and gh-95 precedents."
+            }
+          },
+          "queued_at": "2026-05-10T10:48:35.174385+00:00",
+          "completed_at": "2026-05-10T11:08:59.375171+00:00"
+        },
+        {
+          "kind": "content-update",
           "pr": 99,
           "branch": "fix/locale-switch-theme-flash",
           "chapters": [
@@ -127,14 +167,14 @@
               "paths": ["apps/web/app/layout.tsx"],
               "old_sha": "1637629",
               "new_sha": "f9d7d14",
-              "edits": "Header: bumped Last scan (1637629 -> f9d7d14). Root layout JSX block updated: added the PREFERENCES_INIT_SCRIPT module-scope const and the inline <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT_SCRIPT }}> render before the font preconnects in <head>. 'Four things load-bearing' renamed to 'Five things load-bearing': inserted item 2 documenting the FOUC script (purpose, allow-list duplication with DocsPreferencesMenu, hard constraints — synchronous, before stylesheets, hard-coded literal — and CSP note about needing 'unsafe-inline' or sha256 hash). Item 3 (formerly 2, suppressHydrationWarning) rewritten to explain the script + lazy-init usePersistedAttr combo (cross-referenced to 10-library/15-hooks.md). Items 4 (fonts) and 5 (locale) renumbered, content unchanged."
+              "edits": "Header: bumped Last scan (1637629 -> f9d7d14). Root layout JSX block updated: added the PREFERENCES_INIT_SCRIPT module-scope const and the inline <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT_SCRIPT }}> render before the font preconnects in <head>. 'Four things load-bearing' renamed to 'Five things load-bearing': inserted item 2 documenting the FOUC script (purpose, allow-list duplication with DocsPreferencesMenu, hard constraints \u2014 synchronous, before stylesheets, hard-coded literal \u2014 and CSP note about needing 'unsafe-inline' or sha256 hash). Item 3 (formerly 2, suppressHydrationWarning) rewritten to explain the script + lazy-init usePersistedAttr combo (cross-referenced to 10-library/15-hooks.md). Items 4 (fonts) and 5 (locale) renumbered, content unchanged."
             },
             "20-web-app/10-docs-site/README.md": {
               "paths": ["apps/web/app/docs/foundations/theming/page.tsx"],
               "old_sha": "1637629",
               "new_sha": "f9d7d14",
               "edits": "Header sha bump only (1637629 -> f9d7d14). No narrative changes.",
-              "decision_no_chapter_edit": "PR #99 rewrote the FOUC_FIX inline-string snippet inside foundations/theming/page.tsx (App Router pattern + allow-list validation, replacing a deprecated next/script beforeInteractive variant). The docs-site chapter documents page structure / Code helper props / nav contract — it does not enumerate inline snippet bodies. Treating this as the same precedent as the gh-95 'mechanical hex updates in cyberpunk example snippets' decision: SHA bump only, no chapter edit. The actual FOUC script narrative lives in 20-web-app/00-architecture.md where it belongs (it's a layout concern, not a docs-site concern)."
+              "decision_no_chapter_edit": "PR #99 rewrote the FOUC_FIX inline-string snippet inside foundations/theming/page.tsx (App Router pattern + allow-list validation, replacing a deprecated next/script beforeInteractive variant). The docs-site chapter documents page structure / Code helper props / nav contract \u2014 it does not enumerate inline snippet bodies. Treating this as the same precedent as the gh-95 'mechanical hex updates in cyberpunk example snippets' decision: SHA bump only, no chapter edit. The actual FOUC script narrative lives in 20-web-app/00-architecture.md where it belongs (it's a layout concern, not a docs-site concern)."
             }
           },
           "queued_at": "2026-05-10T11:50:00+00:00",
@@ -1437,12 +1477,13 @@
     },
     "20-web-app/00-architecture.md": {
       "status": "documented",
-      "last_scan_sha": "f9d7d14",
+      "last_scan_sha": "578605c",
       "sources": [
         "apps/web/app/layout.tsx",
         "apps/web/app/page.tsx",
         "apps/web/app/globals.css",
         "apps/web/app/styles/theme.css",
+        "apps/web/app/styles/code-blocks.css",
         "apps/web/next.config.ts",
         "apps/web/tailwind.config.ts",
         "apps/web/components/",
@@ -1455,7 +1496,7 @@
     },
     "20-web-app/10-docs-site/README.md": {
       "status": "documented",
-      "last_scan_sha": "f9d7d14",
+      "last_scan_sha": "578605c",
       "sources": [
         "apps/web/app/docs/layout.tsx",
         "apps/web/app/docs/_components/",
@@ -1500,7 +1541,7 @@
     "30-cross-cutting/15-e2e.md": {
       "status": "documented",
       "sources": ["e2e/"],
-      "last_scan_sha": "08ede58"
+      "last_scan_sha": "578605c"
     },
     "30-cross-cutting/20-conventions.md": {
       "status": "pending",
