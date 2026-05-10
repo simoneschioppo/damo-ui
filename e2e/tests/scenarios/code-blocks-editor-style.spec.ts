@@ -5,11 +5,13 @@ import { test, expect, type Page } from '@playwright/test'
  *
  * The docs code-block component was refactored to:
  *   - Drop MacOS traffic-light chrome and hardcoded GitHub-dark hexes.
- *   - Render a `.damo-code` editor surface whose syntax theme follows
- *     `<html data-theme>` (vitesse-light on light, vitesse-dark on dark)
- *     via Shiki dual-theme output (`--shiki-light` / `--shiki-dark` CSS vars).
+ *   - Render a `.damo-code` editor surface that follows the page theme:
+ *     paper-light editor on light pages (vitesse-light), calm-charcoal
+ *     editor on dark pages (vitesse-dark). The chrome (--code-* vars)
+ *     and the syntax theme switch in lockstep under [data-theme='dark'].
  *   - Add a `.line-number` gutter for multi-line snippets only.
- *   - Drive every chrome color from semantic CSS vars (no hard hex literals).
+ *   - Stack lines tightly via `display: grid` on `.shiki code` so Shiki's
+ *     inter-line `\n` text nodes collapse to zero height.
  *
  * Test page: `/docs/components/button` — has many <Code> and <Example>
  * instances covering both multi-line and the Import snippet (single-line).
@@ -131,108 +133,162 @@ test.describe('gh-100 — editor-style code blocks', () => {
     }
   })
 
-  // ── Test 2 — Light theme ⇒ light syntax theme ──────────────────────────
-  // With data-theme="light" (default after clear), a .shiki span's computed
-  // color should be dark-on-light (luminance < 0.5) — characteristic of
-  // vitesse-light's token colors on a white/near-white background.
-  test('light theme produces dark-on-light token colors in .shiki spans', async ({ page }) => {
-    // Default after localStorage.clear() + reload is 'light'.
+  // ── Test 2 — Light page produces light editor surface ─────────────────
+  // With data-theme="light" (default after clear), the .damo-code wrapper
+  // background should be paper-light (luminance > 0.85) and tokens should
+  // be dark-on-light (vitesse-light token colors against the paper bg).
+  test('light page produces light editor surface + dark tokens', async ({ page }) => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
 
     const result = await page.evaluate(() => {
-      // Find the first .shiki element inside a .damo-code.
+      const wrapper = document.querySelector('.damo-code')
       const shiki = document.querySelector('.damo-code .shiki')
-      if (!shiki) return null
-
-      // Pick a non-whitespace span whose color we can read.
-      const spans = Array.from(shiki.querySelectorAll('span'))
-      const span = spans.find((s) => s.textContent && s.textContent.trim().length > 0)
+      if (!wrapper || !shiki) return null
+      const span = Array.from(shiki.querySelectorAll('span')).find(
+        (s) => s.textContent && s.textContent.trim().length > 0,
+      )
       if (!span) return null
-
-      const style = window.getComputedStyle(span)
       return {
-        color: style.color,
-        bgColor: window.getComputedStyle(document.documentElement).backgroundColor,
+        wrapperBg: window.getComputedStyle(wrapper).backgroundColor,
+        tokenColor: window.getComputedStyle(span).color,
       }
     })
 
-    expect(result, 'Expected .shiki spans to be present on the page').not.toBeNull()
-    const spanRgb = parseRgb(result!.color)
-    expect(spanRgb, `Could not parse span color: ${result!.color}`).not.toBeNull()
+    expect(result, 'Expected .damo-code + .shiki spans on the page').not.toBeNull()
+    const wrapperRgb = parseRgb(result!.wrapperBg)
+    const tokenRgb = parseRgb(result!.tokenColor)
+    expect(wrapperRgb, `Wrapper bg unparseable: ${result!.wrapperBg}`).not.toBeNull()
+    expect(tokenRgb, `Token color unparseable: ${result!.tokenColor}`).not.toBeNull()
 
-    const lum = relativeLuminance(...spanRgb!)
-    // vitesse-light default token color is around #393A34 (lum ~0.05) on a
-    // near-white background. Dark-on-light: span luminance < 0.5.
-    expect(lum, `Expected dark token color in light theme, got lum=${lum}`).toBeLessThan(0.5)
+    const wrapperLum = relativeLuminance(...wrapperRgb!)
+    const tokenLum = relativeLuminance(...tokenRgb!)
+    expect(
+      wrapperLum,
+      `Editor pane should be light, got wrapper lum=${wrapperLum}`,
+    ).toBeGreaterThan(0.85)
+    expect(tokenLum, `Tokens should be dark-on-light, got token lum=${tokenLum}`).toBeLessThan(0.5)
   })
 
-  // ── Test 3 — Dark theme ⇒ dark syntax theme ────────────────────────────
-  // With data-theme="dark", a .shiki span's computed color should be
-  // light-on-dark (luminance > 0.5) — vitesse-dark's tokens on a dark surface.
-  test('dark theme produces light-on-dark token colors in .shiki spans', async ({ page }) => {
+  // ── Test 3 — Dark page produces dark editor surface ────────────────────
+  // With data-theme="dark", the .damo-code wrapper background should be
+  // dark (luminance < 0.2) and tokens should be light-on-dark.
+  test('dark page produces dark editor surface + light tokens', async ({ page }) => {
     await setThemeViaStorage(page, 'dark')
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
 
     const result = await page.evaluate(() => {
+      const wrapper = document.querySelector('.damo-code')
       const shiki = document.querySelector('.damo-code .shiki')
-      if (!shiki) return null
-
-      const spans = Array.from(shiki.querySelectorAll('span'))
-      const span = spans.find((s) => s.textContent && s.textContent.trim().length > 0)
-      if (!span) return null
-
-      return window.getComputedStyle(span).color
-    })
-
-    expect(result, 'Expected .shiki spans to be present on the page in dark theme').not.toBeNull()
-    const spanRgb = parseRgb(result!)
-    expect(spanRgb, `Could not parse span color: ${result}`).not.toBeNull()
-
-    const lum = relativeLuminance(...spanRgb!)
-    // vitesse-dark tokens are light (e.g. #dbd7ca, lum ~0.7) on a dark background.
-    // Light-on-dark: span luminance > 0.5.
-    expect(lum, `Expected light token color in dark theme, got lum=${lum}`).toBeGreaterThan(0.5)
-  })
-
-  // ── Test 4 — Theme toggle live-updates code block colors ───────────────
-  // Load in light, capture a token color, toggle to dark via the menu,
-  // confirm the color changes. This is the primary regression for gh-99 where
-  // code blocks stayed permanently dark regardless of page theme.
-  test('theme toggle updates .shiki span color without reload', async ({ page }) => {
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
-
-    // Capture a token color in light mode.
-    const lightColor = await page.evaluate(() => {
-      const shiki = document.querySelector('.damo-code .shiki')
-      if (!shiki) return null
+      if (!wrapper || !shiki) return null
       const span = Array.from(shiki.querySelectorAll('span')).find(
         (s) => s.textContent && s.textContent.trim().length > 0,
       )
-      return span ? window.getComputedStyle(span).color : null
+      if (!span) return null
+      return {
+        wrapperBg: window.getComputedStyle(wrapper).backgroundColor,
+        tokenColor: window.getComputedStyle(span).color,
+      }
     })
-    expect(lightColor, 'Could not find a .shiki span in light mode').not.toBeNull()
 
-    // Toggle to dark theme via the preferences menu.
+    expect(result, 'Expected .damo-code + .shiki on the page in dark theme').not.toBeNull()
+    const wrapperRgb = parseRgb(result!.wrapperBg)
+    const tokenRgb = parseRgb(result!.tokenColor)
+    expect(wrapperRgb, `Wrapper bg unparseable: ${result!.wrapperBg}`).not.toBeNull()
+    expect(tokenRgb, `Token color unparseable: ${result!.tokenColor}`).not.toBeNull()
+
+    const wrapperLum = relativeLuminance(...wrapperRgb!)
+    const tokenLum = relativeLuminance(...tokenRgb!)
+    expect(wrapperLum, `Editor pane should be dark, got wrapper lum=${wrapperLum}`).toBeLessThan(
+      0.2,
+    )
+    expect(tokenLum, `Tokens should be light-on-dark, got token lum=${tokenLum}`).toBeGreaterThan(
+      0.4,
+    )
+  })
+
+  // ── Test 4 — Theme toggle live-updates editor surface + token colors ───
+  // Load in light, capture the wrapper bg + a token color. Toggle to dark
+  // via the menu. Both must change — code follows page theme.
+  test('theme toggle live-updates editor surface and token colors', async ({ page }) => {
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+
+    const lightSnap = await page.evaluate(() => {
+      const wrapper = document.querySelector('.damo-code')
+      const span = wrapper
+        ? Array.from(wrapper.querySelectorAll('.shiki span')).find(
+            (s) => s.textContent && s.textContent.trim().length > 0,
+          )
+        : null
+      return wrapper && span
+        ? {
+            bg: window.getComputedStyle(wrapper).backgroundColor,
+            color: window.getComputedStyle(span).color,
+          }
+        : null
+    })
+    expect(lightSnap, 'Could not snapshot the editor in light mode').not.toBeNull()
+
     await toggleThemeViaMenu(page, 'Dark')
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
 
-    // Re-capture the same type of token after the CSS cascade re-applies.
-    const darkColor = await page.evaluate(() => {
-      const shiki = document.querySelector('.damo-code .shiki')
-      if (!shiki) return null
-      const span = Array.from(shiki.querySelectorAll('span')).find(
-        (s) => s.textContent && s.textContent.trim().length > 0,
-      )
-      return span ? window.getComputedStyle(span).color : null
+    const darkSnap = await page.evaluate(() => {
+      const wrapper = document.querySelector('.damo-code')
+      const span = wrapper
+        ? Array.from(wrapper.querySelectorAll('.shiki span')).find(
+            (s) => s.textContent && s.textContent.trim().length > 0,
+          )
+        : null
+      return wrapper && span
+        ? {
+            bg: window.getComputedStyle(wrapper).backgroundColor,
+            color: window.getComputedStyle(span).color,
+          }
+        : null
     })
-    expect(darkColor, 'Could not find a .shiki span after toggling to dark').not.toBeNull()
+    expect(darkSnap, 'Could not snapshot the editor after toggling dark').not.toBeNull()
 
-    // The token color MUST change after the theme toggle.
     expect(
-      darkColor,
-      `Token color did not change after toggling theme (still "${lightColor}"). ` +
-        `This indicates code blocks are ignoring data-theme — the gh-99 regression.`,
-    ).not.toBe(lightColor)
+      darkSnap!.bg,
+      `Editor bg did not change across theme toggle (still "${lightSnap!.bg}").`,
+    ).not.toBe(lightSnap!.bg)
+    expect(
+      darkSnap!.color,
+      `Token color did not change across theme toggle (still "${lightSnap!.color}").`,
+    ).not.toBe(lightSnap!.color)
+  })
+
+  // ── Test 4b — Lines stack tight (no inter-line gap) ────────────────────
+  // Regression for the visible spacing issue where Shiki's `\n` text nodes
+  // between consecutive `<span class="line">` were rendering as anonymous
+  // block boxes inside `<pre>` (which preserves whitespace), adding ~1
+  // line-height of dead space per row. Fix: `display: grid` on `.shiki code`
+  // collapses the whitespace text nodes to zero height. This test reads the
+  // bounding rects of two consecutive `.line` elements and asserts the
+  // vertical distance equals one line-height (within a 4 px tolerance).
+  test('consecutive .line rows stack tight (no anonymous newline gap)', async ({ page }) => {
+    const measurement = await page.evaluate(() => {
+      const blocks = Array.from(document.querySelectorAll('.damo-code'))
+      for (const block of blocks) {
+        const lines = block.querySelectorAll<HTMLElement>('.line')
+        if (lines.length >= 2) {
+          const r1 = lines[0]!.getBoundingClientRect()
+          const r2 = lines[1]!.getBoundingClientRect()
+          const viewport = block.querySelector('.damo-code__viewport') as HTMLElement | null
+          const lh = viewport ? parseFloat(window.getComputedStyle(viewport).lineHeight) : NaN
+          return { distance: r2.top - r1.top, lineHeight: lh }
+        }
+      }
+      return null
+    })
+
+    expect(measurement, 'Expected to find a multi-line .damo-code block').not.toBeNull()
+    const { distance, lineHeight } = measurement!
+    expect(
+      Math.abs(distance - lineHeight),
+      `Expected consecutive .line rows ~${lineHeight}px apart, got ${distance}px. ` +
+        `Anonymous newline text nodes are inflating the row height — check ` +
+        `\`display: grid\` on \`.shiki code\`.`,
+    ).toBeLessThan(4)
   })
 
   // ── Test 5 — Multi-line snippet has line numbers ────────────────────────
