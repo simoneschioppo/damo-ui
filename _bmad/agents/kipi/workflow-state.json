@@ -105,33 +105,7 @@
       "processed": []
     },
     "update": {
-      "queued": [
-        {
-          "queued_at": "2026-05-09T19:46:06+00:00",
-          "trigger": "post-code-change",
-          "paths": [
-            "apps/web/app/page.tsx",
-            "apps/web/lib/brand.ts",
-            "apps/web/messages/en.json",
-            "apps/web/messages/it.json",
-            "apps/web/public/mascot-hero.png"
-          ],
-          "source_agent": "claude (landing-hero-refresh)",
-          "note": "Hero mascot art swapped to axolotl-at-desk; H1 tightened (em-dash dropped, 'Components, tokens, / Memphis patterns.'); BRAND.mascotHero{Width,Height,Alt} updated; <img width> bumped 320\u2192440. May affect 20-web-app/00-architecture.md narrative around the landing hero / mascot asset."
-        },
-        {
-          "queued_at": "2026-05-09T22:52:14+00:00",
-          "trigger": "post-code-change",
-          "paths": [
-            "apps/web/app/page.tsx",
-            "apps/web/app/docs/_components/Code.tsx",
-            "apps/web/messages/en.json",
-            "apps/web/messages/it.json"
-          ],
-          "source_agent": "claude (landing-hero-refresh continuation)",
-          "note": "Continuation of feat/landing-hero-refresh: QUICK INSTALL section restructured from <ol> list to 3 Memphis cards with embedded Code blocks; new fillHeight prop on Code component; scrollbar styling on overflow div; H1 capped at text-6xl; image col 460\u2192500/img 440\u2192480; MemphisShape decorations dropped; border-t-2 above quick-install dropped. Affects 20-web-app/00-architecture.md (hero/quick-install narrative) and 20-web-app/10-docs-site/README.md (Code component fillHeight + scrollbar styling \u2014 docs-site reuses this component)."
-        }
-      ],
+      "queued": [],
       "runs": [
         {
           "kind": "content-update",
@@ -1005,6 +979,30 @@
           "trigger": "post-code-change",
           "source_agent": "bmad-create-story (gh-79)",
           "note": "rewrite from stub: full chapter with criteria, roadmap, decision log, link map"
+        },
+        {
+          "chapter": "20-web-app/00-architecture.md",
+          "paths": [
+            "apps/web/app/page.tsx",
+            "apps/web/lib/brand.ts",
+            "apps/web/messages/en.json",
+            "apps/web/messages/it.json",
+            "apps/web/public/mascot-hero.png"
+          ],
+          "sha": "1637629",
+          "completed_at": "2026-05-10T08:27:38+00:00",
+          "trigger": "post-code-change",
+          "source_agent": "kipi *4 (manual sync)",
+          "note": "sha bump only \u2014 chapter is high-level wiring/i18n/tailwind, doesn't deep-document landing page sections. The hero swap, headline rewrite, MemphisShape removal, image col rebalance, QUICK INSTALL restructure, and i18n catalog reshape are all reflected in the underlying code without needing chapter prose changes."
+        },
+        {
+          "chapter": "20-web-app/10-docs-site/README.md",
+          "paths": ["apps/web/app/docs/_components/Code.tsx", "apps/web/app/page.tsx"],
+          "sha": "1637629",
+          "completed_at": "2026-05-10T08:27:38+00:00",
+          "trigger": "post-code-change",
+          "source_agent": "kipi *4 (manual sync)",
+          "note": "Documented new Code component opt-in modes: fillHeight (flex-1 flex flex-col on wrapper, shrink-0 on header, flex-1 on content) for stretching inside flex parents \u2014 used by the home QUICK INSTALL card grid. Also documented the slim GitHub-style scrollbar styling (Tailwind arbitrary variants for ::-webkit-scrollbar + scrollbar-width: thin) applied to every Code block."
         }
       ]
     }
@@ -1405,7 +1403,7 @@
     },
     "20-web-app/00-architecture.md": {
       "status": "documented",
-      "last_scan_sha": "d0f212a",
+      "last_scan_sha": "1637629",
       "sources": [
         "apps/web/app/layout.tsx",
         "apps/web/app/page.tsx",
@@ -1423,7 +1421,7 @@
     },
     "20-web-app/10-docs-site/README.md": {
       "status": "documented",
-      "last_scan_sha": "e53c5be",
+      "last_scan_sha": "1637629",
       "sources": [
         "apps/web/app/docs/layout.tsx",
         "apps/web/app/docs/_components/",
