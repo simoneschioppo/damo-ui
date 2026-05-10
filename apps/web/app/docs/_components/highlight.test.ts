@@ -43,20 +43,23 @@ describe('highlightCode', () => {
     expect(langValue).not.toMatch(/[\s"'<>=]/)
   })
 
-  // ── gh-100 dual-theme + line-numbers regression ───────────────────────
+  // ── gh-100 dark-only + line-numbers regression ───────────────────────
 
-  it('emits dual-theme CSS variables (--shiki-light and --shiki-dark) on tokens', async () => {
+  it('emits inline color styles using the single dark theme', async () => {
+    // Single-theme output (vitesse-dark) inlines `style="color:#xxx"` on each
+    // token — the chrome stylesheet keeps the wrapper background fixed-dark
+    // so token colors render correctly without any data-theme switch.
     const html = await highlightCode(`const x = 1`, 'ts')
-    expect(html).toMatch(/--shiki-light:/)
-    expect(html).toMatch(/--shiki-dark:/)
+    expect(html).toMatch(/style="color:#[0-9a-f]{3,8}"/i)
+    // No dual-theme CSS vars — that machinery was removed when the editor
+    // was locked to a fixed dark surface.
+    expect(html).not.toMatch(/--shiki-light:/)
+    expect(html).not.toMatch(/--shiki-dark:/)
   })
 
-  it('does not inline a single hardcoded color attribute (defaultColor: false)', async () => {
-    // With `defaultColor: false`, Shiki should NOT add a plain `color: #xxx`
-    // outside of CSS-var declarations — the chrome stylesheet picks one var
-    // or the other based on `data-theme`.
+  it('uses the vitesse-dark theme class on the <pre>', async () => {
     const html = await highlightCode(`const x = 1`, 'ts')
-    expect(html).not.toMatch(/style="color:#[0-9a-f]{3,8}"/i)
+    expect(html).toMatch(/class="[^"]*vitesse-dark[^"]*"/)
   })
 
   it('adds the has-line-numbers class when withLineNumbers is true', async () => {
