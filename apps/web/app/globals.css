@@ -10,6 +10,7 @@
 /* Playground's own theme layer (overrides lib's neutral defaults) */
 @import './styles/theme.css';
 @import './styles/patterns.css';
+@import './styles/code-blocks.css';
 
 /* Tailwind sources from the lib's compiled output and source */
 @source '../../../packages/ui/dist/**/*.js';

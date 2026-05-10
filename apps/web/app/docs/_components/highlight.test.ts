@@ -27,7 +27,11 @@ describe('highlightCode', () => {
 
   it('falls back to tsx tokenisation for unknown languages so the block still renders', async () => {
     const html = await highlightCode('plain text', 'unknown-lang-xyz')
-    expect(html).toContain('plain text')
+    // Vitesse tokenises across the space, so the literal substring isn't
+    // contiguous in the output. We still expect every source character to
+    // survive the round-trip.
+    expect(html).toContain('plain')
+    expect(html).toContain('text')
     expect(html).toContain('<pre')
   })
 
@@ -37,5 +41,35 @@ describe('highlightCode', () => {
     expect(langMatch).not.toBeNull()
     const langValue = langMatch![1] ?? ''
     expect(langValue).not.toMatch(/[\s"'<>=]/)
+  })
+
+  // ── gh-100 dual-theme + line-numbers regression ───────────────────────
+
+  it('emits dual-theme CSS variables (--shiki-light and --shiki-dark) on tokens', async () => {
+    const html = await highlightCode(`const x = 1`, 'ts')
+    expect(html).toMatch(/--shiki-light:/)
+    expect(html).toMatch(/--shiki-dark:/)
+  })
+
+  it('does not inline a single hardcoded color attribute (defaultColor: false)', async () => {
+    // With `defaultColor: false`, Shiki should NOT add a plain `color: #xxx`
+    // outside of CSS-var declarations — the chrome stylesheet picks one var
+    // or the other based on `data-theme`.
+    const html = await highlightCode(`const x = 1`, 'ts')
+    expect(html).not.toMatch(/style="color:#[0-9a-f]{3,8}"/i)
+  })
+
+  it('adds the has-line-numbers class when withLineNumbers is true', async () => {
+    const code = `const a = 1\nconst b = 2\nconst c = 3`
+    const html = await highlightCode(code, 'ts', { withLineNumbers: true })
+    expect(html).toContain('has-line-numbers')
+    const matches = html.match(/class="line-number"/g) ?? []
+    expect(matches.length).toBe(3)
+  })
+
+  it('omits line numbers when withLineNumbers is false (default)', async () => {
+    const html = await highlightCode(`const x = 1`, 'ts')
+    expect(html).not.toContain('has-line-numbers')
+    expect(html).not.toContain('class="line-number"')
   })
 })

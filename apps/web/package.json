@@ -13,6 +13,7 @@
     "icons:generate": "tsx scripts/generate-icons.ts"
   },
   "dependencies": {
+    "@shikijs/transformers": "^4.0.2",
     "damo-ui": "workspace:*",
     "next": "^15.0.0",
     "next-intl": "^4.11.1",
