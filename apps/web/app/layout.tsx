@@ -34,6 +34,19 @@ export const viewport: Viewport = {
   themeColor: '#7a3980',
 }
 
+// FOUC prevention. The server renders <html data-theme="light" data-palette="default"
+// data-density="normal"> (the only safe defaults; localStorage is unreachable on
+// the server). Without this script, a user who persisted dark mode would see a
+// light flash on every cold reload — most painfully on the locale switch which
+// triggers a full page reload to refresh RSC chrome. The script reads localStorage
+// synchronously before <body> parses, validates against the same allow-lists used
+// by DocsPreferencesMenu, and writes the matching data-attributes on
+// document.documentElement so the very first paint has the user's preferences
+// applied. The lib's `usePersistedAttr` lazy-inits its useState from localStorage
+// for the same reason — together they ensure React's post-paint effects don't
+// undo what the script set.
+const PREFERENCES_INIT_SCRIPT = `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);var p=localStorage.getItem('palette');if(p==='default'||p==='sunset'||p==='cyberpunk'||p==='forest')d.setAttribute('data-palette',p);var n=localStorage.getItem('density');if(n==='compact'||n==='normal'||n==='comfortable')d.setAttribute('data-density',n)}catch(e){}})();`
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const locale = (await getLocale()) as Locale
   const messages = await getMessages()
@@ -49,6 +62,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       suppressHydrationWarning
     >
       <head>
+        {/*
+          MUST be the first script in <head> and MUST be synchronous (no
+          defer/async). The string body is a hard-coded literal — there is no
+          interpolation of user input — so dangerouslySetInnerHTML is safe here.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
