@@ -1,6 +1,6 @@
 # Docs Site
 
-Status: documented · Last scan: 578605c · Sources:
+Status: documented · Last scan: f49fab2 · Sources:
 `apps/web/app/docs/{layout.tsx,page.tsx,getting-started/,foundations/,components/,_components/,_lib/}`.
 
 ## Summary
@@ -276,34 +276,49 @@ contract.
    blank first line as content).
 
 10. **Code-block chrome lives in `apps/web/app/styles/code-blocks.css`**
-    (gh-100, PR #101). All Memphis-frame, header tab, language
-    badge, copy-button, line-numbers gutter, and Shiki light/dark
-    switch rules live in that one stylesheet, imported once from
-    `globals.css`. Every color flows from semantic CSS vars
-    (`--card`, `--muted`, `--foreground`, `--border`,
-    `--muted-foreground`, `--primary`, `--success`, `--destructive`)
-    so palette swaps (default / sunset / cyberpunk / forest)
-    inherit automatically. The light/dark switch keys off
-    `[data-theme='dark']`: token rules use `var(--shiki-light)` by
-    default and `var(--shiki-dark)` under the dark selector. `color:`
-    on tokens is **not** `!important` — Shiki with `defaultColor:
-false` does not emit an inline `color:` declaration, so the
-    class rule wins on specificity and consumers retain
-    override-ability. `background-color:` on tokens is `!important`
-    because Shiki always emits a block-level inline
-    `style="background-color:…"` on `<pre>`. Hard rule for
-    maintainers: don't reintroduce hardcoded GitHub-dark hexes
+    (gh-100, PR #101 + #103 follow-up). All Memphis-frame, header
+    tab, language badge, copy-button, line-numbers gutter, syntax
+    light/dark switch, and notation transformer rules live in that
+    one stylesheet, imported once from `globals.css`. The editor
+    pane carries its own intentional `--code-*` palette (light
+    defaults + dark override under `[data-theme='dark']`):
+    `--code-bg`, `--code-surface`, `--code-border`, `--code-fg`,
+    `--code-muted`, `--code-accent`. This is by design — the editor
+    is meant to read as a coherent IDE surface (paper editor on
+    light pages, calm-charcoal on dark) rather than echoing the
+    palette swap for the surrounding chrome. To re-skin the editor,
+    edit those 6 vars per palette. Token colors flow from Shiki's
+    dual-theme `--shiki-light` / `--shiki-dark` inline CSS vars; the
+    chrome stylesheet picks one or the other under the same
+    `[data-theme='dark']` selector. `color:` on tokens is **not**
+    `!important` — Shiki with `defaultColor: false` does not write
+    an inline `color:` declaration, so the class rule wins on
+    specificity and per-block consumer overrides remain possible.
+    Shiki's own block-level `style="background-color:…"` on `<pre>`
+    is suppressed via `.damo-code__viewport .shiki { background:
+transparent !important }`, letting `--code-bg` paint the
+    surface. **`display: grid` on `.shiki code`** is load-bearing for
+    line-stacking — Shiki emits literal `\n` text nodes between
+    consecutive `<span class="line">`, which inside `<pre>`
+    (`white-space: pre`) would render as anonymous block boxes
+    adding ~1 line-height of dead space per row; grid layout
+    collapses whitespace-only text nodes to zero height. Paired
+    with `vertical-align: top` on the inline-block `.line-number`
+    (which would otherwise inflate the line-box via baseline
+    descender), lines stack flush at `line-height: 1.5`. Hard rule
+    for maintainers: don't reintroduce hardcoded GitHub-dark hexes
     (`#0d1117` / `#161b22` / `#30363d`) anywhere in `Code.tsx` or
-    `CopyButton.tsx` — the dual-theme + CSS-var contract is what
-    makes the docs site match the page theme. Scrollbar styling on
-    the viewport (slim 6 px, `--border` thumb on transparent track,
-    lighter on hover via `--muted-foreground`) lives in the same
-    stylesheet via `::-webkit-scrollbar*` + `scrollbar-width` /
-    `scrollbar-color` — applies to every Code block in the docs
-    site, not only the home page. The notation transformer styles
-    (`.line.highlighted`, `.line.diff.add`, `.line.diff.remove`)
-    are wired even though no docs page uses them yet, so future
-    diff/highlight snippets just work.
+    `CopyButton.tsx`. Scrollbar styling on the viewport (slim 6 px,
+    `--code-border` thumb on transparent track, lighter on hover
+    via `--code-muted`) lives in the same stylesheet via
+    `::-webkit-scrollbar*` + `scrollbar-width` / `scrollbar-color`
+    — applies to every Code block in the docs site, not only the
+    home page. Notation transformer styles (`.line.highlighted`,
+    `.line.diff.add`, `.line.diff.remove`) are wired even though no
+    docs page uses them yet, so future diff/highlight snippets just
+    work; in the diff variants, `+` / `-` glyphs are suppressed
+    when `.has-line-numbers` is present so they don't float in the
+    gutter.
 
 ## How to consume (lessons / patterns to lift)
 

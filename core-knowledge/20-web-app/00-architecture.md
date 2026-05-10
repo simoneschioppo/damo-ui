@@ -1,6 +1,6 @@
 # Web App Architecture
 
-Status: documented · Last scan: 578605c · Sources:
+Status: documented · Last scan: f49fab2 · Sources:
 `apps/web/app/{layout.tsx,page.tsx,not-found.tsx,globals.css,styles/}`
 (includes `styles/theme.css`, `styles/patterns.css`,
 `styles/code-blocks.css`),
@@ -126,15 +126,20 @@ Cascade order is critical:
    the lib's default.
 4. **Patterns** (`apps/web/app/styles/patterns.css`) — decorative
    Memphis backgrounds for showcase tiles.
-5. **`code-blocks.css`** (gh-100, PR #101) owns the docs-site code
-   block chrome: the editor-style header (filename tab, language
-   badge, copy button), the line-numbers gutter, the Shiki dual-theme
-   light/dark switch (`var(--shiki-light)` vs `var(--shiki-dark)`
-   under `[data-theme='dark']`), and the wired-but-unused notation
-   transformer styles (diff add/remove, highlighted line). Every
-   color is a semantic CSS var so palette swaps inherit
-   automatically. See [`10-docs-site/README.md`](10-docs-site/README.md)
-   note 10 for the contract.
+5. **`code-blocks.css`** (gh-100, PR #101 + #103 follow-up) owns
+   the docs-site code-block chrome: the editor-style header
+   (filename tab, language badge, copy button), the line-numbers
+   gutter, the Shiki dual-theme light/dark switch
+   (`var(--shiki-light)` vs `var(--shiki-dark)` under
+   `[data-theme='dark']`), and the wired-but-unused notation
+   transformer styles (diff add/remove, highlighted line). Carries
+   its own intentional `--code-*` palette (light defaults + dark
+   override) — by design distinct from the page palette so the
+   editor reads as a coherent IDE surface rather than echoing
+   palette swaps. `display: grid` on `.shiki code` is load-bearing
+   for tight line stacking. See
+   [`10-docs-site/README.md`](10-docs-site/README.md) note 10 for
+   the full contract.
 6. **`@source` directives** tell Tailwind v4 to scan both the lib's
    compiled `dist/` and the lib's `src/` for utility classes —
    ensures classes added to lib components are emitted in the app's
