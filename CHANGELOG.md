@@ -113,7 +113,7 @@ The v3-style preset was scrubbed to mirror the v4 surface exactly. v3 consumers 
 
 ### Breaking
 
-- **Theme architecture rewrite.** Raw palette classes (`bg-plum-*`, `text-gold-*`, `bg-paper-*`) are no longer exposed as Tailwind utilities — consumers must use semantic tokens (`bg-primary`, `text-foreground`, etc.). See `docs/specs/2026-04-24-theme-architecture-refactor-design.md` for full mapping.
+- **Theme architecture rewrite.** Raw palette classes (`bg-plum-*`, `text-gold-*`, `bg-paper-*`) are no longer exposed as Tailwind utilities — consumers must use semantic tokens (`bg-primary`, `text-foreground`, etc.). The full rename mapping is in the next bullet.
 - Semantic tokens renamed: `bg-bg → bg-background`, `bg-surface → bg-card`, `bg-surface-2 → bg-muted`, `text-ink → text-foreground` (or `text-card-foreground` when on a card surface), `text-ink-muted → text-muted-foreground`, `bg-accent → bg-primary` (the old "accent" was the gold primary CTA color), `bg-danger → bg-destructive`, `border-border-memphis → border-memphis`.
 - `Button.variant="accent"` renamed to `variant="secondary"`. `Button.variant="danger"` renamed to `variant="destructive"`.
 - `Card.variant="dark"` renamed to `variant="inverse"`.

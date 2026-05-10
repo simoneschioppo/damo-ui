@@ -50,3 +50,8 @@ apps/playground/
 # (Operational state useful locally; excised from git history in #105.)
 CLAUDE.md
 PUBLICATION_READINESS.md
+
+# Historical design specs and implementation plans
+# (Tracked locally for context; excised from git history during the
+# pre-publication audit and never re-added to the public surface.)
+docs/

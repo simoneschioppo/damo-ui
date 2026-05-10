@@ -51,6 +51,3 @@ pnpm lint              # eslint + docs-sync guardrail
 pnpm --filter @damo/web build
 pnpm --filter damo-ui build
 ```
-
-For the full implementation workflow (planning, TDD, code review) see the
-`docs/specs/` directory.
