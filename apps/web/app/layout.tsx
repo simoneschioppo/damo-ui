@@ -45,6 +45,17 @@ export const viewport: Viewport = {
 // applied. The lib's `usePersistedAttr` lazy-inits its useState from localStorage
 // for the same reason — together they ensure React's post-paint effects don't
 // undo what the script set.
+//
+// `var` (not `let`/`const`) is used intentionally for maximum compatibility with
+// any user-agent that runs scripts before evaluating any module/strict-mode
+// hints; this is the same convention used by the major no-flash libraries
+// (next-themes, theme-ui, etc.).
+//
+// CSP note: this inline script requires `'unsafe-inline'` in `script-src` or a
+// matching `sha256-…` hash. The site has no CSP today; if one is added, hash
+// the exact bytes of PREFERENCES_INIT_SCRIPT below with:
+//   echo -n "<contents>" | openssl dgst -sha256 -binary | base64
+// and add `'sha256-<hash>'` to script-src.
 const PREFERENCES_INIT_SCRIPT = `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);var p=localStorage.getItem('palette');if(p==='default'||p==='sunset'||p==='cyberpunk'||p==='forest')d.setAttribute('data-palette',p);var n=localStorage.getItem('density');if(n==='compact'||n==='normal'||n==='comfortable')d.setAttribute('data-density',n)}catch(e){}})();`
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
@@ -63,9 +74,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     >
       <head>
         {/*
-          MUST be the first script in <head> and MUST be synchronous (no
-          defer/async). The string body is a hard-coded literal — there is no
-          interpolation of user input — so dangerouslySetInnerHTML is safe here.
+          MUST appear before the stylesheet links below and MUST be synchronous
+          (no defer/async). Next.js may inject framework meta tags (charset,
+          viewport, generator) before this script — that's fine: those tags do
+          not affect document.documentElement attributes. The string body is a
+          hard-coded literal with no interpolation of user input, so
+          dangerouslySetInnerHTML carries no XSS risk here.
         */}
         <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -99,19 +99,19 @@ export function ThemeBar() {
 `
 
 const FOUC_FIX = `// app/layout.tsx — prevent flash of incorrect theme
-import Script from 'next/script'
+// App Router note: render a synchronous inline <script> directly in <head>
+// (NOT next/script with beforeInteractive — that strategy is not supported in
+// App Router). The script body must be a hard-coded string literal so React's
+// dangerouslySetInnerHTML never sees user-controlled content.
 
-const restore = \`(() => {
-  try {
-    const html = document.documentElement
-    const t = localStorage.getItem('theme')
-    const p = localStorage.getItem('palette')
-    const d = localStorage.getItem('density')
-    if (t) html.setAttribute('data-theme', t)
-    if (p) html.setAttribute('data-palette', p)
-    if (d) html.setAttribute('data-density', d)
-  } catch {}
-})()\`
+const PREFERENCES_INIT = \`(function(){try{var d=document.documentElement;\
+var t=localStorage.getItem('theme');\
+if(t==='light'||t==='dark')d.setAttribute('data-theme',t);\
+var p=localStorage.getItem('palette');\
+if(p==='default'||p==='sunset'||p==='cyberpunk'||p==='forest')d.setAttribute('data-palette',p);\
+var n=localStorage.getItem('density');\
+if(n==='compact'||n==='normal'||n==='comfortable')d.setAttribute('data-density',n)\
+}catch(e){}})();\`
 
 export default function RootLayout({ children }) {
   return (
@@ -123,15 +123,18 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
-        {/* Run BEFORE React hydrates — strategy="beforeInteractive" */}
-        <Script id="theme-restore" strategy="beforeInteractive">
-          {restore}
-        </Script>
+        {/* Synchronous, allow-list validated. Must come before any stylesheet
+            link so first paint sees the persisted preferences. */}
+        <script dangerouslySetInnerHTML={{ __html: PREFERENCES_INIT }} />
       </head>
       <body suppressHydrationWarning>{children}</body>
     </html>
   )
 }
+
+// Pair this with usePersistedAttr from damo-ui — its lazy-init useState makes
+// React's first commit value match the script's DOM write, so the post-paint
+// effect is a no-op instead of an undo.
 `
 
 const SCOPED_OVERRIDE = `// Scope a theme to a section instead of the whole page
