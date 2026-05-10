@@ -109,6 +109,42 @@
       "runs": [
         {
           "kind": "content-update",
+          "pr": 103,
+          "branch": "fix/gh-100-dark-editor-tight-spacing",
+          "chapters": [
+            "20-web-app/10-docs-site/README.md",
+            "20-web-app/00-architecture.md",
+            "30-cross-cutting/15-e2e.md"
+          ],
+          "details": {
+            "20-web-app/10-docs-site/README.md": {
+              "paths": [
+                "apps/web/app/styles/code-blocks.css",
+                "apps/web/app/docs/_components/highlight.ts"
+              ],
+              "old_sha": "578605c",
+              "new_sha": "f49fab2",
+              "edits": "Header: bumped Last scan (578605c -> f49fab2). Note 10 fully rewritten to reflect the PR #103 follow-up redesign: (a) editor pane now carries its own intentional --code-* palette (light defaults + dark override under [data-theme='dark']) \u2014 explicitly NOT the page semantic CSS vars (--card / --muted / --foreground / --border / --muted-foreground), to keep the editor coherent as an IDE surface rather than echoing palette swaps; (b) added load-bearing 'display: grid on .shiki code' explanation \u2014 Shiki emits literal \\n text nodes between consecutive .line spans, which inside <pre> (white-space: pre) would render as anonymous block boxes adding ~1 line-height of dead space per row; grid layout collapses whitespace-only text nodes to zero height; (c) paired with vertical-align: top on inline-block .line-number (would otherwise inflate the line-box via baseline descender), lines stack flush at line-height: 1.5; (d) updated scrollbar styling note to reference --code-border / --code-muted instead of the previous --border / --muted-foreground; (e) added note about diff variants suppressing +/- glyphs when .has-line-numbers is present so they don't float in the gutter."
+            },
+            "20-web-app/00-architecture.md": {
+              "paths": ["apps/web/app/styles/code-blocks.css"],
+              "old_sha": "578605c",
+              "new_sha": "f49fab2",
+              "edits": "Header: bumped Last scan (578605c -> f49fab2). Cascade item 5 (code-blocks.css) tightened: removed the wrong claim 'every color is a semantic CSS var so palette swaps inherit automatically' \u2014 that's no longer true after PR #103, where the editor was given its own --code-* palette that does NOT echo the page palette swaps (intentional design choice). Added explicit mention of the dual --code-* palette (light defaults + dark override) and the load-bearing 'display: grid on .shiki code' for tight line stacking. Cross-reference to docs-site README note 10 retained."
+            },
+            "30-cross-cutting/15-e2e.md": {
+              "paths": ["e2e/tests/scenarios/code-blocks-editor-style.spec.ts"],
+              "old_sha": "578605c",
+              "new_sha": "f49fab2",
+              "edits": "Header sha bump only (578605c -> f49fab2). No narrative change.",
+              "decision_no_chapter_edit": "PR #103 added 2 new scenarios to code-blocks-editor-style.spec.ts: (a) split the previous 'theme toggle' scenario into 'light page produces light editor + dark tokens' + 'dark page produces dark editor + light tokens' + 'theme toggle live-updates editor surface and token colors' \u2014 same intent, sharper assertions; (b) brand-new 'consecutive .line rows stack tight (no anonymous newline gap)' that measures the bounding-rect distance between two consecutive .line elements and asserts it equals computed line-height (within 4 px). These add coverage but introduce no new helpers / config / cross-browser stabilization pattern that would warrant a chapter narrative change. SHA bump only, mirroring gh-95 / gh-99 / gh-100 (PR #102) precedents."
+            }
+          },
+          "queued_at": "2026-05-10T12:32:36.076898+00:00",
+          "completed_at": "2026-05-10T12:32:36.076898+00:00"
+        },
+        {
+          "kind": "content-update",
           "pr": 101,
           "branch": "refactor/gh-100-editor-style-code-blocks",
           "chapters": [
@@ -1477,7 +1513,7 @@
     },
     "20-web-app/00-architecture.md": {
       "status": "documented",
-      "last_scan_sha": "578605c",
+      "last_scan_sha": "f49fab2",
       "sources": [
         "apps/web/app/layout.tsx",
         "apps/web/app/page.tsx",
@@ -1496,7 +1532,7 @@
     },
     "20-web-app/10-docs-site/README.md": {
       "status": "documented",
-      "last_scan_sha": "578605c",
+      "last_scan_sha": "f49fab2",
       "sources": [
         "apps/web/app/docs/layout.tsx",
         "apps/web/app/docs/_components/",
@@ -1541,7 +1577,7 @@
     "30-cross-cutting/15-e2e.md": {
       "status": "documented",
       "sources": ["e2e/"],
-      "last_scan_sha": "578605c"
+      "last_scan_sha": "f49fab2"
     },
     "30-cross-cutting/20-conventions.md": {
       "status": "pending",
