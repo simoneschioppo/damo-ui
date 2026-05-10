@@ -29,8 +29,8 @@ export const BRAND: BrandConfig = {
   mascotWidth: 720,
   mascotHeight: 514,
   mascotHeroSrc: '/mascot-hero.png',
-  mascotHeroAlt: 'Damo UI mascot — a purple axolotl coding on a stack of books',
-  mascotHeroWidth: 923,
-  mascotHeroHeight: 1298,
+  mascotHeroAlt: 'Damo UI mascot — a purple axolotl coding on a laptop at a desk',
+  mascotHeroWidth: 1469,
+  mascotHeroHeight: 892,
   repoUrl: 'https://github.com/simoneschioppo/damo-ui',
 }
