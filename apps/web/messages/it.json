@@ -65,8 +65,8 @@
   },
   "home": {
     "eyebrow": "DOCUMENTAZIONE",
-    "headlineLine1": "token, componenti,",
-    "headlineLine2": "pattern Memphis.",
+    "headlineLine1": "Memphis kit",
+    "headlineLine2": "per React.",
     "leadSuffix": "Componi UI React + Next.js senza rinunciare all'identità visiva.",
     "browseDocs": "Vai alla docs",
     "openThemeGenerator": "Apri Theme Generator",
@@ -86,9 +86,19 @@
     },
     "quickInstall": {
       "eyebrow": "INSTALLAZIONE RAPIDA",
-      "heading": "Due passaggi e stai renderizzando.",
-      "step1": "<mono>pnpm add damo-ui</mono>.",
-      "step2": "<link>Configura gli stili e parti</link>."
+      "heading": "Installa. Configura. Renderizza.",
+      "step1": {
+        "title": "Installa",
+        "desc": "Aggiungi il pacchetto — funziona con pnpm, npm, yarn o bun."
+      },
+      "step2": {
+        "title": "Configura gli stili",
+        "desc": "Un file CSS. Pronto per Tailwind v4."
+      },
+      "step3": {
+        "title": "Renderizza",
+        "desc": "<link>Vedi la guida completa</link> per tema e setup del layout."
+      }
     }
   },
   "notFound": {
