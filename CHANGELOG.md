@@ -51,7 +51,7 @@ Every token below had **zero component consumers** and was emitting either dead 
 - `--z-base` / `--z-sticky` → use literal `z-0` / `z-10`
 - `--ease-out-memphis` alias → use `--ease-out`
 
-### Breaking — Tailwind v3 preset (`@damo/ui/tailwind.preset`)
+### Breaking — Tailwind v3 preset (`damo-ui/tailwind.preset`)
 
 The v3-style preset was scrubbed to mirror the v4 surface exactly. v3 consumers no longer get utility classes that resolve to undefined CSS variables. Removed: `accent`, `input`, `rage` color extensions; `radius-lg`; the entire `borderWidth` extension; the `spacing.1..20` mapping; `shadow.sm`, `shadow.lg`; `transitionTimingFunction['in-out']`; `zIndex.base`, `zIndex.sticky`; the `m-*` legacy shadow aliases. Added missing colour extensions present in the v4 bridge: `success-foreground`, `warning-foreground`, `info-foreground`, `badge-featured-foreground`, `chart-1..5`.
 
@@ -63,22 +63,23 @@ The v3-style preset was scrubbed to mirror the v4 surface exactly. v3 consumers 
 - **`--nav-on-dark-foreground` / `-strong` now wire NavItem onDark idle + hover.** Was hardcoded `text-[rgba(255,255,255,0.72)]` / `hover:text-white`.
 - **Card typography snaps to `text-*` tokens.** UserCard, FeatureCard, ArticleCard had nine inline `fontSize: N` values bypassing the lib's `--text-{xs|sm|base|xl|2xl}` bridge. Editing typography sizes in the theme generator had no effect on these cards before; it does now.
 - **Card spacing snaps to `mb-*` tokens.** ArticleCard + FeatureCard had inline `marginBottom: 8/12/24` values that bypassed the v4 `--spacing` density rebind. Density edits now propagate.
-- **DatePicker trigger icon swapped from 📅 emoji → real `CalendarIcon` SVG** (also exported from `@damo/ui` for consumer reuse).
+- **DatePicker trigger icon swapped from 📅 emoji → real `CalendarIcon` SVG** (also exported from `damo-ui` for consumer reuse).
 
 ### New
 
-- **`ComponentsPreview`** mock (`@damo/ui/mocks`) — kitchen-sink scene that renders every public component grouped by category (Buttons, Cards, Banners, Overlays, Form inputs, Feedback, Navigation, Data display, Layout primitives). Default scene in the theme generator preview pane. Includes a Charts mini-bar visualization wired to `--chart-1..5`, an App pattern swatch driven by `--app-pattern-color-1/2/3` + `--app-pattern-size`, a Toast trigger, a ContextMenu trigger area, and DatePicker + Combobox demos so every theme dimension reflects somewhere in the preview.
+- **`ComponentsPreview`** mock (`damo-ui/mocks`) — kitchen-sink scene that renders every public component grouped by category (Buttons, Cards, Banners, Overlays, Form inputs, Feedback, Navigation, Data display, Layout primitives). Default scene in the theme generator preview pane. Includes a Charts mini-bar visualization wired to `--chart-1..5`, an App pattern swatch driven by `--app-pattern-color-1/2/3` + `--app-pattern-size`, a Toast trigger, a ContextMenu trigger area, and DatePicker + Combobox demos so every theme dimension reflects somewhere in the preview.
 - **`CalendarIcon`** added to the icon set.
 
 ### Infrastructure
 
-- 345 lib unit tests + 82 web unit tests (cycle 9 + audit run added ~22 cases)
-- 71 e2e chromium passing; webkit `display-settings-menu` palette-sanitize test now uses `expect.poll()` to ride out an html-attr / localStorage microtask race
+- Unit + e2e test counts move quickly during pre-publication; see `CONTRIBUTING.md` for the current numbers
 - AgentShield security scan: A (100/100), 0 findings
 - `apps/web/app/styles/theme.css` (consumer override) cleaned of zombie var declarations
 - `tokens.css` reduced from ~150 lines to ~125, with explainer comments on every removed-token slot for migration
 
-## 0.3.0 — 2026-04-26
+## 0.2.5 — 2026-04-26 (theme reset)
+
+> Originally tagged `0.3.0` during a brief window before the pre-publication audit. Renumbered to `0.2.5` so the live `0.3.0` (above) is the single source of truth for the public-npm soft-launch. All breaking changes from this section landed BEFORE the audit and are included in the live `0.3.0`.
 
 ### Breaking
 
