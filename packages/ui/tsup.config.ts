@@ -1,6 +1,5 @@
 import { defineConfig } from 'tsup'
-import { readFileSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { execFileSync } from 'node:child_process'
 
 export default defineConfig({
   entry: ['src/index.ts', 'src/mocks/index.ts'],
@@ -13,12 +12,12 @@ export default defineConfig({
   splitting: false,
   minify: false,
   async onSuccess() {
-    for (const relative of ['dist/index.js', 'dist/mocks/index.js']) {
-      const absolute = resolve(relative)
-      const current = readFileSync(absolute, 'utf8')
-      if (!current.startsWith('"use client"')) {
-        writeFileSync(absolute, `"use client";\n${current}`)
-      }
-    }
+    // Post-build: dedup `//# sourceMappingURL=` lines + prepend "use client"
+    // on the consumer entry points. Logic lives in scripts/post-build.mjs so
+    // the tailwind.preset.js build (separate tsup invocation) can call the
+    // same script — see packages/ui/package.json `build:preset`.
+    execFileSync('node', ['scripts/post-build.mjs', 'dist/index.js', 'dist/mocks/index.js'], {
+      stdio: 'inherit',
+    })
   },
 })
