@@ -1,6 +1,8 @@
 // Utilities
 export { cn } from './lib/cn'
-export { selectionChromeClasses, type SelectionChromeOptions } from './lib/selection-chrome'
+// `selectionChromeClasses` / `SelectionChromeOptions` are intentionally NOT
+// exported. They are internal CSS utilities consumed by NavItem and
+// DropdownMenu and should stay implementation details.
 
 // i18n
 export {
@@ -89,10 +91,15 @@ export { Banner, type BannerProps, bannerVariants, type BannerVariants } from '.
 export { Input, type InputProps } from './components/input'
 export { Textarea, type TextareaProps } from './components/textarea'
 export { Label, type LabelProps } from './components/label'
-export { Checkbox } from './components/checkbox'
-export { RadioGroup, RadioGroupItem } from './components/radio-group'
-export { Switch } from './components/switch'
-export { Slider } from './components/slider'
+export { Checkbox, type CheckboxProps } from './components/checkbox'
+export {
+  RadioGroup,
+  RadioGroupItem,
+  type RadioGroupProps,
+  type RadioGroupItemProps,
+} from './components/radio-group'
+export { Switch, type SwitchProps } from './components/switch'
+export { Slider, type SliderProps } from './components/slider'
 export {
   SegmentedControl,
   SegmentedControlItem,

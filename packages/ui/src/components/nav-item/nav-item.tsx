@@ -1,20 +1,51 @@
 'use client'
 
-import { forwardRef, type AnchorHTMLAttributes, type ElementType, type ReactNode } from 'react'
+import {
+  forwardRef,
+  type AnchorHTMLAttributes,
+  type ComponentPropsWithRef,
+  type ElementType,
+  type ReactElement,
+  type ReactNode,
+  type Ref,
+} from 'react'
 import { cn } from '../../lib/cn'
 import { sanitizeHref } from '../../lib/safe-href'
 import { navItemVariants, type NavItemVariants } from './nav-item.variants'
 
-export interface NavItemProps extends AnchorHTMLAttributes<HTMLAnchorElement>, NavItemVariants {
-  as?: ElementType
+type NavItemOwnProps = NavItemVariants & {
   active?: boolean
   icon?: ReactNode
   endAdornment?: ReactNode
+  className?: string
+  children?: ReactNode
 }
 
-export const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(function NavItem(
-  { as, active, icon, endAdornment, className, tone, children, href, ...rest },
-  ref,
+/**
+ * Polymorphic prop set for `NavItem`. Defaulting `E = 'a'` keeps the existing
+ * `AnchorHTMLAttributes` ergonomics for the common case, while
+ * `<NavItem as="button" ref={btnRef}>` correctly types `btnRef` as
+ * `HTMLButtonElement`. The inner `forwardRef` is loose because React 18's
+ * signature cannot express polymorphism; the outer `as` cast publishes the
+ * real shape.
+ */
+export type NavItemProps<E extends ElementType = 'a'> = NavItemOwnProps & {
+  as?: E
+} & Omit<ComponentPropsWithRef<E>, keyof NavItemOwnProps | 'as'>
+
+export const NavItem = forwardRef(function NavItem<E extends ElementType = 'a'>(
+  {
+    as,
+    active,
+    icon,
+    endAdornment,
+    className,
+    tone,
+    children,
+    href,
+    ...rest
+  }: NavItemProps<E> & AnchorHTMLAttributes<HTMLAnchorElement>,
+  ref: Ref<Element>,
 ) {
   const Component = (as ?? 'a') as ElementType
   const safeHref = sanitizeHref(href)
@@ -33,4 +64,7 @@ export const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(function NavI
       {endAdornment && <span className="ml-auto shrink-0">{endAdornment}</span>}
     </Component>
   )
-})
+}) as <E extends ElementType = 'a'>(
+  props: NavItemProps<E> & { ref?: ComponentPropsWithRef<E>['ref'] },
+) => ReactElement | null
+;(NavItem as { displayName?: string }).displayName = 'NavItem'
