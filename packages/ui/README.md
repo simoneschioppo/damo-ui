@@ -31,9 +31,37 @@ pnpm add damo-ui
 - tailwindcss >=4
 - tailwindcss-animate >=1.0.7
 
-## Setup
+## Setup (Next.js + Tailwind v4)
 
-Import styles in your root layout and wire Tailwind v4 (see repo README for full example).
+Wire Tailwind v4 in your global stylesheet:
+
+```css
+/* app/globals.css */
+@import 'damo-ui/styles/tokens.css';
+@import 'damo-ui/styles/globals.css';
+
+@import 'tailwindcss';
+@import 'damo-ui/styles/theme.css';
+
+/* Tailwind v4 needs to scan the lib's compiled JS for class names.
+ * The path is relative to THIS CSS file. For a stock `create-next-app`
+ * (globals.css at `app/globals.css`), node_modules sits one level up: */
+@source '../node_modules/damo-ui/dist/**/*.js';
+```
+
+(Optional) Drive theme / palette / density from `<html>`:
+
+```html
+<html data-theme="light" data-palette="default" data-density="normal"></html>
+```
+
+| Attribute      | Values                                           |
+| -------------- | ------------------------------------------------ |
+| `data-theme`   | `light` \| `dark`                                |
+| `data-palette` | `default` \| `sunset` \| `cyberpunk` \| `forest` |
+| `data-density` | `compact` \| `normal` \| `comfortable`           |
+
+For the **Tailwind v3** preset, see the repo README.
 
 ## Usage
 
