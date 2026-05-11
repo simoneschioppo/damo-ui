@@ -21,6 +21,7 @@ Pre-publication housekeeping ahead of the public-npm soft-launch (#82). No runti
 
 - `apps/web` and `e2e` workspaces (`@damo/web`, `@damo/e2e`) are unchanged — they remain private monorepo workspaces and are never published.
 - `PUBLICATION_READINESS.md` refreshed with the post-rename audit snapshot and re-run checklist using the new filter names.
+- `packages/ui/src/mocks/components-preview/components-preview.tsx` split into focused sub-files (audit H-19). The `Data display` and `Layout primitives` sections moved into `sections-data-layout.tsx`; the shared `Section` / `Subgroup` / `TABLE_ROWS` helpers moved into `_helpers.tsx`. The orchestrator file drops from 931 → 644 lines (under the 800-line coding-style cap). No public-API surface change — `components-preview` is mocks-only and not exported.
 
 ## [0.3.0] — 1.0.0 candidate (theme architecture refactor)
 
