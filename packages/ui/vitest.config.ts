@@ -18,6 +18,16 @@ export default defineConfig({
       reporter: ['text', 'html', 'lcov'],
       include: ['src/**/*.{ts,tsx}'],
       exclude: ['src/**/*.stories.tsx', 'src/**/*.test.{ts,tsx}', 'src/index.ts'],
+      // Thresholds lock in the current cleanliness floor. Current baseline
+      // (verified locally pre-PR-G): lines 90.72%, branches 87.9%, statements
+      // 90.72%, functions 71.49%. We set the gates ~10% below baseline so
+      // small refactors don't churn CI red, but a sloppy net regression does.
+      thresholds: {
+        lines: 80,
+        branches: 75,
+        functions: 65,
+        statements: 80,
+      },
     },
   },
   resolve: {
