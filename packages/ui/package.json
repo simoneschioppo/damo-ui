@@ -60,7 +60,8 @@
   },
   "scripts": {
     "dev": "ladle serve",
-    "build": "tsup && pnpm run build:css && pnpm run build:preset",
+    "build": "tsup && pnpm run build:types && pnpm run build:css && pnpm run build:preset",
+    "build:types": "tsc -p tsconfig.dts.json",
     "build:css": "mkdir -p dist/styles && cp src/styles/*.css dist/styles/",
     "build:preset": "tsup tailwind.preset.ts --format esm --dts --out-dir dist --no-clean && node scripts/post-build.mjs dist/tailwind.preset.js",
     "test": "vitest run",
