@@ -49,12 +49,18 @@ export interface BreadcrumbItemProps extends HTMLAttributes<HTMLSpanElement> {
   href?: string
 }
 
-export const BreadcrumbItem = forwardRef<HTMLSpanElement, BreadcrumbItemProps>(
+/**
+ * BreadcrumbItem renders either a `<span>` (when `current`) or an `<a>`
+ * (the navigable past steps). The ref type therefore widens to the union
+ * of both element types — consumers receive the actual DOM node and can
+ * use `instanceof` to discriminate when imperative access is needed.
+ */
+export const BreadcrumbItem = forwardRef<HTMLSpanElement | HTMLAnchorElement, BreadcrumbItemProps>(
   function BreadcrumbItem({ current, href, className, children, ...rest }, ref) {
     if (current) {
       return (
         <span
-          ref={ref}
+          ref={ref as React.Ref<HTMLSpanElement>}
           aria-current="page"
           className={cn('text-foreground font-semibold', className)}
           {...rest}
@@ -65,7 +71,7 @@ export const BreadcrumbItem = forwardRef<HTMLSpanElement, BreadcrumbItemProps>(
     }
     return (
       <a
-        ref={ref as unknown as React.Ref<HTMLAnchorElement>}
+        ref={ref as React.Ref<HTMLAnchorElement>}
         href={sanitizeHref(href)}
         className={cn(
           'text-muted-foreground hover:text-foreground hover:underline underline-offset-2',
