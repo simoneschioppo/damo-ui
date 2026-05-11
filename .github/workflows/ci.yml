@@ -114,8 +114,11 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Confirm React 18 resolved
+        # Run inside the lib's workspace where `react` is a real (devDep)
+        # install — at the monorepo root, pnpm doesn't hoist react and the
+        # node CWD resolution fails.
         run: |
-          node -e "
+          pnpm --filter damo-ui exec node -e "
             const v = require('react/package.json').version;
             console.log('React:', v);
             if (!v.startsWith('18.')) {
