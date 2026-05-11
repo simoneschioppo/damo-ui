@@ -7,6 +7,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from '../../icons'
 import { computePageWindow, type PageItem } from './pagination-math'
 
 export interface PaginationLabels {
+  /** `aria-label` on the wrapping `<nav>`. */
+  label: string
   previous: string
   next: string
   page: string
@@ -35,7 +37,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
   return (
     <nav
       ref={ref}
-      aria-label="Pagination"
+      aria-label={L.label}
       className={cn('flex items-center gap-1', className)}
       {...rest}
     >

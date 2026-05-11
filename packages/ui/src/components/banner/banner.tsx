@@ -47,10 +47,16 @@ export const Banner = forwardRef<HTMLDivElement, BannerProps>(function Banner(
     onDismiss?.()
   }
 
+  // `role="status"` and `role="alert"` are most reliable when paired with an
+  // explicit `aria-live`. Some assistive tech doesn't infer the live region
+  // from `role` alone (especially when the role is set via React after the
+  // initial DOM mount). `assertive` for danger surfaces (interrupt the user),
+  // `polite` for the rest. Consumers can override via spread.
   return (
     <div
       ref={ref}
       role={variant === 'danger' ? 'alert' : 'status'}
+      aria-live={variant === 'danger' ? 'assertive' : 'polite'}
       className={cn(bannerVariants({ variant }), className)}
       {...rest}
     >

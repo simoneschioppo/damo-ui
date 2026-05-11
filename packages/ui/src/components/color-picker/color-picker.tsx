@@ -79,6 +79,7 @@ export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(function
           onChange={(e) => onChange(e.target.value)}
           style={swatchStyle}
           aria-label={`Color picker for ${label}`}
+          className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         />
         {showInput && (
           <Input

@@ -18,10 +18,16 @@ export interface Dictionary {
     dateFnsLocale: DateFnsLocale
   }
   pagination: {
+    /** `aria-label` on the wrapping `<nav>`. */
+    label: string
     previous: string
     next: string
     page: string
     pageOf: (page: number, total: number) => string
+  }
+  breadcrumbs: {
+    /** `aria-label` on the wrapping `<nav>`. */
+    label: string
   }
   banner: {
     dismissLabel: string
