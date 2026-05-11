@@ -9,6 +9,7 @@ import {
   isValidElement,
 } from 'react'
 import { cn } from '../../lib/cn'
+import { sanitizeHref } from '../../lib/safe-href'
 import { ChevronRightIcon } from '../../icons'
 
 export interface BreadcrumbsProps extends HTMLAttributes<HTMLElement> {
@@ -65,7 +66,7 @@ export const BreadcrumbItem = forwardRef<HTMLSpanElement, BreadcrumbItemProps>(
     return (
       <a
         ref={ref as unknown as React.Ref<HTMLAnchorElement>}
-        href={href}
+        href={sanitizeHref(href)}
         className={cn(
           'text-muted-foreground hover:text-foreground hover:underline underline-offset-2',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
