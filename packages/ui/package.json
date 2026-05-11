@@ -5,6 +5,25 @@
   "description": "Damo UI — a React component library heavily inspired by Memphis Design",
   "license": "MIT",
   "author": "Simone Schioppo",
+  "homepage": "https://github.com/simoneschioppo/damo-ui#readme",
+  "bugs": {
+    "url": "https://github.com/simoneschioppo/damo-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "nextjs",
+    "ui",
+    "components",
+    "component-library",
+    "design-system",
+    "memphis",
+    "memphis-design",
+    "tailwindcss",
+    "tailwind-v4",
+    "radix",
+    "radix-ui",
+    "typescript"
+  ],
   "publishConfig": {
     "access": "public"
   },
