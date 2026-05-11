@@ -1,10 +1,15 @@
 'use client'
 
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
-import { Card } from '../card'
+import { forwardRef, type ReactNode } from 'react'
+import { Card, type CardProps } from '../card'
 import { cn } from '../../lib/cn'
 
-export interface ArticleCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+/**
+ * ArticleCard wraps `<Card variant="default" padding="none">` with bespoke
+ * inner padding (`p-6`) and max-width. Both Card axes are wrapper-controlled
+ * — `Omit` makes that explicit at the public API level.
+ */
+export interface ArticleCardProps extends Omit<CardProps, 'title' | 'variant' | 'padding'> {
   /** Optional eyebrow label shown above the title (e.g. 'REGOLA'). */
   label?: string
   title: string
