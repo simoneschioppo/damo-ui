@@ -16,12 +16,14 @@ Pre-publication housekeeping ahead of the public-npm soft-launch (#82). No runti
 
 - **`LICENSE`** at repo root (MIT, © 2026 Simone Schioppo). Library is now MIT-licensed; `packages/ui/package.json` declares `license: "MIT"`.
 - README rewritten for public consumers: install snippet (`pnpm add damo-ui`), Tailwind v4 setup, basic usage example, "0.x preview, breaking changes possible at 1.0" disclaimer.
+- **DatePicker `disabledDays` prop** — exposes the underlying react-day-picker `disabled` Matcher (`Date | Date[] | DateRange | ((d: Date) => boolean) | …`) so consumers can disable specific calendar days. Separated from the existing trigger-level `disabled?: boolean` so the two intents are unambiguous (trigger-button vs calendar-day).
 
 ### Internal
 
 - `apps/web` and `e2e` workspaces (`@damo/web`, `@damo/e2e`) are unchanged — they remain private monorepo workspaces and are never published.
 - `PUBLICATION_READINESS.md` refreshed with the post-rename audit snapshot and re-run checklist using the new filter names.
 - `packages/ui/src/mocks/components-preview/components-preview.tsx` split into focused sub-files (audit H-19). The `Data display` and `Layout primitives` sections moved into `sections-data-layout.tsx`; the shared `Section` / `Subgroup` / `TABLE_ROWS` helpers moved into `_helpers.tsx`. The orchestrator file drops from 931 → 644 lines (under the 800-line coding-style cap). No public-API surface change — `components-preview` is mocks-only and not exported.
+- **Deep behavior-test coverage for the 8 components that previously had render-only smoke tests** (audit H-2 + M-17): popover, context-menu, select, tabs, slider, dropdown-menu, combobox, banner. New tests assert open/close lifecycle, keyboard navigation, controlled vs uncontrolled state, onSelect / onValueChange / onDismiss / onOpenChange wiring, and disabled-item handling. The date-picker test file gained selection-flow, controlled-mode, disabled-trigger, and `disabledDays` Matcher coverage (Date array + functional matchers). Unit-test count: 559 → 621 (+62 new tests).
 
 ## [0.3.0] — 1.0.0 candidate (theme architecture refactor)
 

@@ -1,6 +1,7 @@
-import { createRef } from 'react'
-import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/react'
+import { createRef, useState } from 'react'
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Slider } from './slider'
 
 describe('Slider', () => {
@@ -96,5 +97,57 @@ describe('Slider', () => {
       // correct contract.
       expect(thumb.hasAttribute('data-disabled')).toBe(true)
     }
+  })
+})
+
+describe('Slider — keyboard behavior', () => {
+  it('invokes onValueChange when the user presses ArrowRight on a focused thumb', async () => {
+    const onValueChange = vi.fn()
+    const user = userEvent.setup()
+    render(<Slider defaultValue={[40]} max={100} step={5} onValueChange={onValueChange} />)
+    const thumb = screen.getByRole('slider')
+    thumb.focus()
+    await user.keyboard('{ArrowRight}')
+    expect(onValueChange).toHaveBeenCalled()
+    const next = (onValueChange.mock.calls[0]?.[0] ?? []) as number[]
+    expect(next[0]).toBeGreaterThan(40)
+  })
+
+  it('invokes onValueChange when the user presses ArrowLeft on a focused thumb', async () => {
+    const onValueChange = vi.fn()
+    const user = userEvent.setup()
+    render(<Slider defaultValue={[40]} max={100} step={5} onValueChange={onValueChange} />)
+    const thumb = screen.getByRole('slider')
+    thumb.focus()
+    await user.keyboard('{ArrowLeft}')
+    expect(onValueChange).toHaveBeenCalled()
+    const next = (onValueChange.mock.calls[0]?.[0] ?? []) as number[]
+    expect(next[0]).toBeLessThan(40)
+  })
+
+  it('does not change value when the slider is disabled and a keyboard event fires', async () => {
+    const onValueChange = vi.fn()
+    const user = userEvent.setup()
+    render(<Slider defaultValue={[40]} max={100} step={5} onValueChange={onValueChange} disabled />)
+    const thumb = screen.getByRole('slider')
+    thumb.focus()
+    await user.keyboard('{ArrowRight}')
+    expect(onValueChange).not.toHaveBeenCalled()
+  })
+})
+
+describe('Slider — controlled mode', () => {
+  it('reflects the parent-owned `value`; parent commits onValueChange to advance the thumb', async () => {
+    function Controlled() {
+      const [value, setValue] = useState<number[]>([30])
+      return <Slider value={value} max={100} step={10} onValueChange={setValue} />
+    }
+    const user = userEvent.setup()
+    render(<Controlled />)
+    const thumb = screen.getByRole('slider')
+    expect(thumb.getAttribute('aria-valuenow')).toBe('30')
+    thumb.focus()
+    await user.keyboard('{ArrowRight}')
+    expect(thumb.getAttribute('aria-valuenow')).toBe('40')
   })
 })

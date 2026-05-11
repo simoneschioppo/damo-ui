@@ -1,5 +1,6 @@
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -278,5 +279,65 @@ describe('DropdownMenuShortcut', () => {
     expect(shortcut.tagName.toLowerCase()).toBe('span')
     expect(shortcut.className).toContain('font-mono')
     expect(shortcut.className).toContain('ml-auto')
+  })
+})
+
+describe('DropdownMenu — open/close behavior', () => {
+  it('is closed on initial render — menu is not in the DOM', () => {
+    render(
+      <DropdownMenu>
+        <DropdownMenuTrigger>open</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Action</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    )
+    expect(screen.queryByRole('menu')).toBeNull()
+  })
+
+  it('opens on trigger click', async () => {
+    const user = userEvent.setup()
+    render(
+      <DropdownMenu>
+        <DropdownMenuTrigger>open</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Action</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    )
+    await user.click(screen.getByRole('button', { name: 'open' }))
+    expect(screen.getByRole('menu')).toBeInTheDocument()
+    expect(screen.getByRole('menuitem', { name: 'Action' })).toBeInTheDocument()
+  })
+
+  it('closes on Escape', async () => {
+    const user = userEvent.setup()
+    render(
+      <DropdownMenu defaultOpen>
+        <DropdownMenuTrigger>open</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Action</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    )
+    expect(screen.getByRole('menu')).toBeInTheDocument()
+    await user.keyboard('{Escape}')
+    expect(screen.queryByRole('menu')).toBeNull()
+  })
+
+  it('invokes the item onSelect when clicked, and closes the menu', async () => {
+    const onSelect = vi.fn()
+    const user = userEvent.setup()
+    render(
+      <DropdownMenu defaultOpen>
+        <DropdownMenuTrigger>open</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={onSelect}>Action</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    )
+    await user.click(screen.getByRole('menuitem', { name: 'Action' }))
+    expect(onSelect).toHaveBeenCalledTimes(1)
+    expect(screen.queryByRole('menu')).toBeNull()
   })
 })
