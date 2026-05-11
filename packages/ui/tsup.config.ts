@@ -4,7 +4,12 @@ import { execFileSync } from 'node:child_process'
 export default defineConfig({
   entry: ['src/index.ts', 'src/mocks/index.ts'],
   format: ['esm'],
-  dts: true,
+  // DTS emission is delegated to `tsc -p tsconfig.dts.json` (see
+  // `build:types` in package.json). tsup's bundled DTS doesn't emit
+  // declaration maps — consumers using "Go to Definition" land on the
+  // .d.ts instead of the source. The per-file tsc output, with maps,
+  // restores IDE source navigation.
+  dts: false,
   sourcemap: true,
   clean: true,
   external: ['react', 'react-dom'],
