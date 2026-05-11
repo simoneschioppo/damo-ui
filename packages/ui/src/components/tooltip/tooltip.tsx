@@ -19,7 +19,8 @@ export const TooltipContent = forwardRef<
         sideOffset={sideOffset}
         className={cn(
           'z-tooltip bg-foreground text-background',
-          'border border-border-strong rounded-md shadow-md',
+          // Memphis chrome — matches DropdownMenu/Popover/Select/Dialog
+          'border-2 border-memphis rounded-none shadow-memphis',
           'px-2 py-1 text-xs font-semibold',
           'data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0',
           'data-[state=closed]:animate-out data-[state=closed]:fade-out-0',

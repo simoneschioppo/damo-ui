@@ -14,7 +14,9 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(function Skele
       ref={ref}
       aria-hidden="true"
       className={cn(
-        'relative overflow-hidden bg-muted rounded-md',
+        // Memphis design grammar uses sharp corners — `rounded-none` matches
+        // the rest of the system (cards, inputs, badges all `rounded-none`).
+        'relative overflow-hidden bg-muted rounded-none',
         'before:absolute before:inset-0 before:-translate-x-full',
         'before:bg-gradient-to-r before:from-transparent before:via-[color-mix(in_oklab,var(--foreground)_6%,transparent)] before:to-transparent',
         'before:animate-[shimmer_1.5s_infinite]',
