@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, type HTMLAttributes } from 'react'
+import { forwardRef, type HTMLAttributes, type KeyboardEvent } from 'react'
 import { cn } from '../../lib/cn'
 import { cardVariants, type CardVariants } from './card.variants'
 
@@ -9,6 +9,12 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement>, CardVariants 
 /**
  * Card — surface container with 5 variants (default, elevated, featured, interactive, inverse).
  * Compose with CardHeader, CardTitle, CardDescription, CardBody, CardFooter.
+ *
+ * When `variant="interactive"`, the card auto-receives `role="button"`,
+ * `tabIndex={0}`, and keyboard activation (Enter / Space) so screen-reader
+ * and keyboard-only users can reach and trigger it. Consumers can still
+ * override `role` and `tabIndex` explicitly. The card MUST have an
+ * accessible name — pass `aria-label` or include readable inner content.
  *
  * @example
  * ```tsx
@@ -19,10 +25,28 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement>, CardVariants 
  * ```
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { variant, padding, className, ...rest },
+  { variant, padding, className, role, tabIndex, onKeyDown, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cn(cardVariants({ variant, padding }), className)} {...rest} />
+  const isInteractive = variant === 'interactive'
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (isInteractive && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault()
+      ;(event.currentTarget as HTMLDivElement).click()
+    }
+    onKeyDown?.(event)
+  }
+
+  return (
+    <div
+      ref={ref}
+      role={role ?? (isInteractive ? 'button' : undefined)}
+      tabIndex={isInteractive ? (tabIndex ?? 0) : tabIndex}
+      onKeyDown={isInteractive || onKeyDown ? handleKeyDown : undefined}
+      className={cn(cardVariants({ variant, padding }), className)}
+      {...rest}
+    />
+  )
 })
 
 // Convenience subparts for composition
