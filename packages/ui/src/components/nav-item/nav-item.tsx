@@ -2,6 +2,7 @@
 
 import { forwardRef, type AnchorHTMLAttributes, type ElementType, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
+import { sanitizeHref } from '../../lib/safe-href'
 import { navItemVariants, type NavItemVariants } from './nav-item.variants'
 
 export interface NavItemProps extends AnchorHTMLAttributes<HTMLAnchorElement>, NavItemVariants {
@@ -12,15 +13,17 @@ export interface NavItemProps extends AnchorHTMLAttributes<HTMLAnchorElement>, N
 }
 
 export const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(function NavItem(
-  { as, active, icon, endAdornment, className, tone, children, ...rest },
+  { as, active, icon, endAdornment, className, tone, children, href, ...rest },
   ref,
 ) {
   const Component = (as ?? 'a') as ElementType
+  const safeHref = sanitizeHref(href)
   return (
     <Component
       ref={ref}
       aria-current={active ? 'page' : undefined}
       className={cn(navItemVariants({ tone }), className)}
+      {...(safeHref !== undefined ? { href: safeHref } : {})}
       {...rest}
     >
       {icon && (

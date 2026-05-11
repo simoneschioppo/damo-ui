@@ -13,6 +13,12 @@ concurrency:
   group: e2e-nightly-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Least-privilege token: nightly only reads source + uploads artifacts.
+# Mirrors ci.yml's posture so the e2e workflows align under public-repo
+# default token permissions.
+permissions:
+  contents: read
+
 jobs:
   e2e-cross-browser:
     runs-on: ubuntu-latest
