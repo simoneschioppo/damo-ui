@@ -15,7 +15,10 @@ import { BRAND } from '../../../lib/brand'
 import { DOCS_NAV } from './docs-nav'
 
 export type { DocsNavEntry, DocsNavGroup } from './docs-nav'
-export { DOCS_NAV } from './docs-nav'
+// `DOCS_NAV` is imported directly from `./docs-nav` by the consumers that
+// need it (e.g. the dynamic `[component]/page.tsx` route). Re-exporting it
+// from this sidebar component was a second public path with no consumer
+// and got flagged by knip during the pre-publication audit.
 
 const groupTitleClass =
   'font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground px-3 mt-4 mb-2'
