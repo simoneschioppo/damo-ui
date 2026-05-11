@@ -9,21 +9,30 @@ import {
   isValidElement,
 } from 'react'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
 import { sanitizeHref } from '../../lib/safe-href'
 import { ChevronRightIcon } from '../../icons'
 
 export interface BreadcrumbsProps extends HTMLAttributes<HTMLElement> {
   separator?: ReactNode
+  /** Override the `aria-label` on the `<nav>`. Defaults to the i18n string. */
+  'aria-label'?: string
 }
 
 export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(function Breadcrumbs(
-  { separator, className, children, ...rest },
+  { separator, className, children, 'aria-label': ariaLabel, ...rest },
   ref,
 ) {
+  const i18n = useI18n()
   const sep = separator ?? <ChevronRightIcon size={14} />
   const items = Children.toArray(children).filter(isValidElement)
   return (
-    <nav ref={ref} aria-label="Breadcrumb" className={cn('w-full', className)} {...rest}>
+    <nav
+      ref={ref}
+      aria-label={ariaLabel ?? i18n.breadcrumbs.label}
+      className={cn('w-full', className)}
+      {...rest}
+    >
       <ol className="flex flex-wrap items-center gap-1.5 text-sm">
         {items.map((child, idx) => (
           <Fragment key={idx}>

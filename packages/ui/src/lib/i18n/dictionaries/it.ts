@@ -15,10 +15,14 @@ export const it: Dictionary = {
     dateFnsLocale: itLocale,
   },
   pagination: {
+    label: 'Paginazione',
     previous: 'Precedente',
     next: 'Successivo',
     page: 'Pagina',
     pageOf: (page, total) => `Pagina ${page} di ${total}`,
+  },
+  breadcrumbs: {
+    label: 'Percorso',
   },
   banner: {
     dismissLabel: 'Chiudi',
