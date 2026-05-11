@@ -77,6 +77,59 @@ jobs:
       - name: Unit tests
         run: pnpm test
 
+  # React 18 smoke test — peer dependency says `react >=18` but local dev runs
+  # React 19. This job re-installs the workspace with React 18 pinned through
+  # pnpm overrides and re-runs the lib's typecheck + unit tests. Catches any
+  # React-19-only API that accidentally leaks into the published surface.
+  # Audit M-2.
+  react-18-smoke:
+    runs-on: ubuntu-latest
+    needs: [lint-and-test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Force React 18 via pnpm overrides
+        run: |
+          node -e "
+            const fs = require('fs');
+            const p = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            p.pnpm = p.pnpm || {};
+            p.pnpm.overrides = {
+              'react': '^18.3.0',
+              'react-dom': '^18.3.0',
+              '@types/react': '^18.3.0',
+              '@types/react-dom': '^18.3.0',
+            };
+            fs.writeFileSync('package.json', JSON.stringify(p, null, 2));
+          "
+
+      - name: Install with React 18
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Confirm React 18 resolved
+        run: |
+          node -e "
+            const v = require('react/package.json').version;
+            console.log('React:', v);
+            if (!v.startsWith('18.')) {
+              console.error('Expected React 18.x, got ' + v);
+              process.exit(1);
+            }
+          "
+
+      - name: Lib typecheck (React 18)
+        run: pnpm --filter damo-ui typecheck
+
+      - name: Lib unit tests (React 18)
+        run: pnpm --filter damo-ui test
+
   # PR runs use chromium only — webkit on shared GHA runners is documented-flaky
   # (see the 9 `test.skip(browserName === 'webkit', ...)` sites in e2e/tests/).
   # Cross-browser coverage runs nightly via .github/workflows/e2e-nightly.yml.
