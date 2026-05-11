@@ -551,6 +551,10 @@
     },
     "article-card": {
       "lead": "Card di contenuto neutra con larghezza massima di 420px. Frame Memphis, eyebrow opzionale, titolo nel display font e corpo con leading rilassato.",
+      "a11y": {
+        "0": "Renderizza come <code>&lt;div&gt;</code>; avvolgi con <code>&lt;article&gt;</code> o imposta <code>role=\"article\"</code> quando viene usato come unità di lettura indipendente. Tutti gli <code>aria-*</code> standard vengono inoltrati.",
+        "1": "L'eyebrow è decorativa. Se aggiunge contesto semantico (es. \"BREAKING\"), promuovila a heading o imposta <code>aria-label</code> sull'articolo."
+      },
       "props": {
         "label": "Eyebrow opzionale mono uppercase.",
         "title": "Titolo nel display font.",
@@ -722,6 +726,10 @@
         "elevatedIntro": "Drop shadow morbida invece della shadow Memphis dura. Adatta per contenuti che devono stare dietro alle superfici primarie.",
         "inverseIntro": "Inverte <code>bg</code>/<code>fg</code> — usala su una pagina chiara quando una sezione deve sembrare un'isola scura."
       },
+      "a11y": {
+        "0": "<code>&lt;div&gt;</code> presentazionale di default — inoltra <code>role</code> / <code>aria-label</code> / <code>aria-labelledby</code> per i landmark (<code>role=\"region\"</code>, <code>role=\"article\"</code>, ecc.).",
+        "1": "<code>variant=\"interactive\"</code> aggiunge automaticamente <code>role=\"button\"</code>, <code>tabIndex={0}</code> e attivazione da tastiera (<kbd>Enter</kbd> / <kbd>Space</kbd>). Abbina sempre la card interattiva a un nome accessibile via <code>aria-label</code> o contenuto interno leggibile."
+      },
       "props": {
         "variant": "Trattamento visivo. Featured usa l'accent oro; inverse inverte fg/bg per superfici scure.",
         "padding": "Spaziatura interna applicata al body e alle righe della chrome.",
@@ -762,6 +770,10 @@
       "lead": "Swatch <code>&lt;input type=\"color\"&gt;</code> nativo accoppiato all'Input del design system per una stringa hex. Entrambi i controlli condividono un singolo value / onChange — è il parent a decidere se validare l'hex.",
       "body": {
         "hideVisibleLabel": "<code>aria-label</code> viene preservato su entrambi i controlli, così il componente resta accessibile anche quando l'etichetta visibile è nascosta."
+      },
+      "a11y": {
+        "0": "Sia lo swatch nativo sia l'<code>Input</code> hex ricevono un <code>aria-label</code> derivato dalla prop <code>label</code>, così gli screen reader annunciano lo scopo del controllo anche quando l'etichetta visibile è nascosta.",
+        "1": "Lo swatch ha il <code>focus-visible</code> ring standard usato in tutta la lib; gli utenti da tastiera vedono un indicatore di focus chiaro prima di aprire il color picker del sistema."
       },
       "props": {
         "label": "Etichetta visibile mostrata sopra i controlli. Usata anche come <code>aria-label</code> sullo swatch e sull'input hex.",
@@ -808,6 +820,10 @@
       "body": {
         "sizeVariants": "Sei step di dimensione rispecchiano i breakpoint <code>screen-*</code> di Tailwind, più un'opzione <code>full</code> per le sezioni full-bleed.",
         "unpadded": "Disabilita il padding quando i children gestiscono già i propri margini interni oppure per hero banner full-bleed."
+      },
+      "a11y": {
+        "0": "Primitive di layout — renderizza come <code>&lt;div&gt;</code> semplice. Inoltra <code>role</code> (es. <code>role=\"main\"</code>, <code>role=\"region\"</code>) e <code>aria-label</code> quando il container segna un landmark semantico.",
+        "1": "Nessun comportamento interattivo built-in; tutta la gestione di tastiera e focus è responsabilità dei figli."
       },
       "props": {
         "size": "Breakpoint di larghezza massima. <code>full</code> rimuove del tutto il max-width (utile per banner full-bleed che vogliono comunque padding centrato).",
@@ -939,6 +955,10 @@
     },
     "feature-card": {
       "lead": "Card feature/highlight compatta da 280px con shadow Memphis tinta primary. Usala per mettere in evidenza le feature del prodotto su landing page o in griglie di feature.",
+      "a11y": {
+        "0": "Compone <code>&lt;Card variant=\"featured\"&gt;</code> — stesso contratto a11y di <link1>Card</link1>: un <code>&lt;div&gt;</code> presentazionale che inoltra <code>role</code> / <code>aria-*</code> per i landmark. Il titolo viene renderizzato come <code>&lt;h4&gt;</code>.",
+        "1": "Quando l'intera card è cliccabile, avvolgila in un vero <code>&lt;button&gt;</code> o <code>&lt;a&gt;</code> invece di attaccare <code>onClick</code> al wrapper — né il <code>&lt;div&gt;</code> né l'<code>&lt;h4&gt;</code> interno sono target di focus."
+      },
       "props": {
         "title": "Titolo in font display.",
         "desc": "Descrizione del corpo.",
@@ -993,6 +1013,10 @@
       "lead": "<code>&lt;label&gt;</code> nativo con la tipografia da form-label già integrata (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Usalo standalone quando non ti serve il wiring strutturato di <link1>FormField</link1>.",
       "body": {
         "whenFormField": "Per la maggior parte dei form di prodotto, <link1>FormField</link1> è preferibile: collega in automatico <code>htmlFor</code>, <code>aria-describedby</code> e <code>aria-invalid</code> in base alle prop description / error. Usa la Label standalone solo quando hai un layout una tantum che richiede un posizionamento custom."
+      },
+      "a11y": {
+        "0": "Renderizza come un vero <code>&lt;label&gt;</code>. Abbinalo a un controllo form via <code>htmlFor=\"controlId\"</code> uguale all'<code>id</code> del controllo — cliccando la label porta il focus sul controllo.",
+        "1": "In alternativa avvolgi il controllo direttamente dentro la label (associazione implicita). Entrambi i pattern vengono annunciati correttamente dagli screen reader."
       },
       "props": {
         "htmlFor": "Associazione standard <code>&lt;label&gt;</code> — se impostato, il click sulla label porta il focus sul campo con l'id corrispondente.",
@@ -1271,6 +1295,10 @@
     },
     "stat": {
       "lead": "Blocco KPI: label uppercase mono, valore grande in display font, riga delta opzionale. Usalo per mettere in evidenza metriche chiave su dashboard e pagine di overview.",
+      "a11y": {
+        "0": "Blocco presentazionale — label e value sono nodi di testo indipendenti senza pairing ARIA implicito. Avvolgi con <code>role=\"status\"</code> + <code>aria-live=\"polite\"</code> quando il valore si aggiorna dinamicamente e l'utente deve essere notificato.",
+        "1": "Se la label è puramente decorativa (es. un'abbreviazione), aggiungi <code>aria-label</code> sull'elemento esterno con il nome esteso così gli screen reader annunciano la metrica in modo chiaro."
+      },
       "props": {
         "label": "Label mono uppercase renderizzata sopra il valore.",
         "value": "Numero principale renderizzato con il display font.",
@@ -1387,6 +1415,10 @@
     },
     "user-card": {
       "lead": "Riga utente orizzontale con avatar + nome + meta opzionale e slot trailing. Frame Memphis con shadow da 4px.",
+      "a11y": {
+        "0": "Compone <code>&lt;Card variant=\"default\"&gt;</code> — stesso contratto a11y di <link1>Card</link1>: una riga presentazionale che inoltra <code>role</code> / <code>aria-*</code>.",
+        "1": "Il fallback dell'avatar (prima lettera di <code>name</code>) è decorativo; quando l'avatar è l'unico identificatore, aggiungi <code>aria-label</code> sulla card. Se l'intera riga è cliccabile, avvolgila in un <code>&lt;button&gt;</code> o <code>&lt;a&gt;</code> — il layout della riga non è di per sé un target di focus."
+      },
       "props": {
         "name": "Nome visualizzato. Usato per derivare l’iniziale dell’avatar di default.",
         "avatar": "Nodo avatar personalizzato. Quando omesso, UserCard renderizza un tile circolare ink con la prima lettera di <code>name</code>.",

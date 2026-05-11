@@ -5,7 +5,7 @@ import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
-import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
+import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
 const IMPORT_SNIPPET = `import {
   Card,
@@ -167,6 +167,12 @@ export default async function CardDocsPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('api')}</h2>
       <PropsTable props={PROPS} caption="Card props" />
+
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
+      <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.card.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.card.a11y.1', { code: codeTag, kbd: kbdTag })}</li>
+      </ul>
 
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <Link href="/docs/components/button" className="text-primary underline">
