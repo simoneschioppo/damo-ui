@@ -351,7 +351,11 @@ interface RadiusCase {
 
 const RADIUS_CASES: RadiusCase[] = [
   { token: '--radius-sm', utilityClass: 'rounded-sm', newPx: 17, skipIfMissing: true },
-  { token: '--radius-md', utilityClass: 'rounded-md', newPx: 19 },
+  // `--radius-md` is exposed for consumer customization but no library
+  // component consumes `rounded-md` after the Memphis chrome alignment
+  // (PR-D in the pre-publication audit). Skip when the docs scene has no
+  // consumer; the token-propagation contract is preserved either way.
+  { token: '--radius-md', utilityClass: 'rounded-md', newPx: 19, skipIfMissing: true },
   {
     token: '--radius-selection',
     utilityClass: 'rounded-selection',
