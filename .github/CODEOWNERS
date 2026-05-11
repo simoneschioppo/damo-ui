@@ -1,0 +1,18 @@
+# Code owners for damo-ui
+#
+# Branch protection on `main` requires at least one approval from a code
+# owner before any PR can merge. This is enforced only on PRs whose base
+# is `main` — work on feature branches is unrestricted.
+#
+# How GitHub uses this file:
+#   - `* @user` means @user is the default owner of every file in the repo.
+#   - More specific patterns below this one override the default.
+#   - Order matters: the LAST matching pattern wins.
+#   - The file lives at `.github/CODEOWNERS`, `CODEOWNERS`, or
+#     `docs/CODEOWNERS` — we use `.github/` to keep repo root clean.
+#
+# Owners can never approve their own pull request, so for the sole-maintainer
+# phase the owner self-merges via the admin-merge path (branch protection
+# does not include administrators).
+
+* @simoneschioppo

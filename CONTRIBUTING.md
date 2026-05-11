@@ -58,3 +58,11 @@ pnpm --filter damo-ui build
 - **Push to `main`** always runs the full PR pipeline (no skip).
 - **Cross-browser coverage** (chromium + webkit) runs nightly via `.github/workflows/e2e-nightly.yml` at 03:00 UTC. Webkit-only regressions surface within 24h. Trigger manually via the Actions tab when investigating a suspected webkit issue.
 - The first request to a docs page initializes a server-side Shiki singleton; `e2e/global-setup.ts` prewarms the heavy routes (`/docs/getting-started`, `/docs/foundations/patterns`, `/docs/foundations/tokens`) before tests run to avoid cold-start races on CI runners.
+
+## Review policy
+
+Pull requests targeting `main` require approval from a code owner before merging. The current code owner for the entire repository is `@simoneschioppo` — see [`.github/CODEOWNERS`](./.github/CODEOWNERS) for the source of truth.
+
+The rule applies **only** to PRs whose base is `main`. Work freely on feature branches (push, force-push, rebase, squash — your branch, your rules) and only request review when ready to publish.
+
+CI must also be green: `lint-and-test` always; `e2e` only when the change touches code paths (`packages/**`, `apps/**`, `e2e/**`, or workflow files) — see the `changes` job in `.github/workflows/ci.yml` for the exact filter.
