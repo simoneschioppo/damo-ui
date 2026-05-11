@@ -1,10 +1,16 @@
 'use client'
 
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
-import { Card } from '../card'
+import { forwardRef, type ReactNode } from 'react'
+import { Card, type CardProps } from '../card'
 import { cn } from '../../lib/cn'
 
-export interface FeatureCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+/**
+ * FeatureCard wraps `<Card variant="featured">` and is opinionated about
+ * that variant + a fixed `padding="md"`. Consumers therefore cannot
+ * override `variant` or `padding` — the type `Omit` enforces this at
+ * compile time and the underlying `<Card>` call hardcodes the values.
+ */
+export interface FeatureCardProps extends Omit<CardProps, 'title' | 'variant' | 'padding'> {
   title: string
   desc: string
   /** Secondary meta line (mono), e.g. '15+10'. */

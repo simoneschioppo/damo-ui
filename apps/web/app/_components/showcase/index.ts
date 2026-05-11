@@ -4,10 +4,10 @@
 // documentation surfaces, so they were moved here in cycle 8 to keep the
 // public lib API focused on general-purpose web components. They live with
 // the docs site that actually consumes them.
+//
+// `ShowcaseCard`, `SubPanel`, `SectionHeader`, `TooltipCard` were removed
+// during the pre-publication audit (M-24) — none had page-level consumers.
 
-export { ShowcaseCard, type ShowcaseCardProps } from './showcase-card/showcase-card'
-export { SubPanel, type SubPanelProps } from './sub-panel/sub-panel'
-export { SectionHeader, type SectionHeaderProps } from './section-header/section-header'
 export {
   TypeSpecimen,
   type TypeSpecimenProps,
@@ -16,4 +16,3 @@ export {
 export { ColorScale, type ColorScaleProps, type ColorStop } from './color-scale/color-scale'
 export { TokenSwatch, type TokenSwatchProps } from './token-swatch/token-swatch'
 export { PatternSwatch, type PatternSwatchProps } from './pattern-swatch/pattern-swatch'
-export { TooltipCard, type TooltipCardProps } from './tooltip-card/tooltip-card'

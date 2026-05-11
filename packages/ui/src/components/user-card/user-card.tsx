@@ -1,10 +1,16 @@
 'use client'
 
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
-import { Card } from '../card'
+import { forwardRef, type ReactNode } from 'react'
+import { Card, type CardProps } from '../card'
 import { cn } from '../../lib/cn'
 
-export interface UserCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+/**
+ * UserCard wraps `<Card variant="default" padding="none">` with a fixed
+ * row layout; both Card axes are wrapper-controlled. Consumers cannot
+ * override `variant` or `padding` (enforced via `Omit` and the
+ * hardcoded values on the underlying `<Card>` call).
+ */
+export interface UserCardProps extends Omit<CardProps, 'children' | 'variant' | 'padding'> {
   name: string
   /** Custom avatar node. Defaults to the first letter of `name` in a circle. */
   avatar?: ReactNode
