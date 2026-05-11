@@ -8,6 +8,13 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
+    // `noUnusedLocals` and `noUnusedParameters` are enforced by ESLint
+    // (via `@typescript-eslint/no-unused-vars` with the `^_` exemption
+    // for intentional unused values). Enabling them as TS flags would
+    // double-report and not honor the underscore convention, so we
+    // keep them out of compilerOptions and let ESLint own the rule.
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

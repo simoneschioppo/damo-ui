@@ -37,6 +37,10 @@
     "LICENSE",
     "README.md"
   ],
+  "sideEffects": [
+    "**/*.css",
+    "./dist/styles/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -58,7 +62,7 @@
     "dev": "ladle serve",
     "build": "tsup && pnpm run build:css && pnpm run build:preset",
     "build:css": "mkdir -p dist/styles && cp src/styles/*.css dist/styles/",
-    "build:preset": "tsup tailwind.preset.ts --format esm --dts --out-dir dist --no-clean",
+    "build:preset": "tsup tailwind.preset.ts --format esm --dts --out-dir dist --no-clean && node scripts/post-build.mjs dist/tailwind.preset.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint src",
