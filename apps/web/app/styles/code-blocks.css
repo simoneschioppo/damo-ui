@@ -137,6 +137,17 @@
   scrollbar-color: var(--code-border) transparent;
 }
 
+/* Landing-page QUICK INSTALL cards (`fillHeight`) use short, hand-curated
+ * snippets that always fit horizontally. The viewport's `flex-1` stretch
+ * + grid display on `<code>` can compute a 1-pixel phantom overflow that
+ * triggers a thin horizontal scrollbar even when content fits — visible
+ * noise on a marketing surface. Suppress the bar in fill mode; docs-page
+ * blocks (`damo-code--framed`) keep `overflow-x: auto` so genuinely long
+ * lines can still be scrolled. */
+.damo-code--fill .damo-code__viewport {
+  overflow-x: hidden;
+}
+
 .damo-code__viewport::-webkit-scrollbar {
   height: 6px;
 }

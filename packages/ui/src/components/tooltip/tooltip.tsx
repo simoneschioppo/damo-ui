@@ -19,8 +19,12 @@ export const TooltipContent = forwardRef<
         sideOffset={sideOffset}
         className={cn(
           'z-tooltip bg-foreground text-background',
-          // Memphis chrome — matches DropdownMenu/Popover/Select/Dialog
-          'border-2 border-memphis rounded-none shadow-memphis',
+          // Tooltips are transient floating chrome — the Memphis offset
+          // shadow that anchors persistent surfaces (Dialog, Popover,
+          // DropdownMenu, Card) reads as visual noise on a transient
+          // hover/focus chip. Keep the 2px Memphis border so it still
+          // belongs to the family, but drop the shadow.
+          'border-2 border-memphis rounded-none',
           'px-2 py-1 text-xs font-semibold',
           'data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0',
           'data-[state=closed]:animate-out data-[state=closed]:fade-out-0',
