@@ -55,7 +55,10 @@ Supported versions: React **≥ 18**, Tailwind **≥ 4**.
 @import 'tailwindcss';
 @import 'damo-ui/styles/theme.css';
 
-@source '../../node_modules/damo-ui/dist/**/*.js';
+/* Tailwind v4 needs to scan the lib's compiled JS for class names.
+ * The path is relative to THIS CSS file. For a stock `create-next-app`
+ * (globals.css at `app/globals.css`), node_modules sits one level up: */
+@source '../node_modules/damo-ui/dist/**/*.js';
 ```
 
 2. Use components:
