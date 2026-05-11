@@ -1,7 +1,7 @@
 'use client'
 
 import { Command as CommandPrimitive } from 'cmdk'
-import { useState, type ReactNode } from 'react'
+import { forwardRef, useState, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 import { useI18n } from '../../lib/i18n'
 import { Popover, PopoverTrigger, PopoverContent } from '../popover/popover'
@@ -26,18 +26,21 @@ export interface ComboboxProps {
   className?: string
 }
 
-export function Combobox({
-  options,
-  value,
-  defaultValue,
-  onValueChange,
-  placeholder,
-  searchPlaceholder,
-  emptyMessage,
-  disabled,
-  id,
-  className,
-}: ComboboxProps) {
+export const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(function Combobox(
+  {
+    options,
+    value,
+    defaultValue,
+    onValueChange,
+    placeholder,
+    searchPlaceholder,
+    emptyMessage,
+    disabled,
+    id,
+    className,
+  },
+  ref,
+) {
   const i18n = useI18n()
   const resolvedPlaceholder = placeholder ?? i18n.combobox.placeholder
   const resolvedSearchPlaceholder = searchPlaceholder ?? i18n.combobox.searchPlaceholder
@@ -58,6 +61,7 @@ export function Combobox({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
+          ref={ref}
           id={id}
           type="button"
           disabled={disabled}
@@ -121,6 +125,4 @@ export function Combobox({
       </PopoverContent>
     </Popover>
   )
-}
-
-Combobox.displayName = 'Combobox'
+})
