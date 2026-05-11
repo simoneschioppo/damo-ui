@@ -16,7 +16,9 @@ export const Progress = forwardRef<ElementRef<typeof ProgressPrimitive.Root>, Pr
         value={value}
         className={cn(
           'relative h-3 w-full overflow-hidden bg-muted',
-          'border border-memphis rounded-md',
+          // Memphis chrome — `border-2 ... rounded-none` matches Slider, Input,
+          // Card, etc. (the previous `border + rounded-md` was a cycle-9 leftover).
+          'border-2 border-memphis rounded-none',
           className,
         )}
         {...rest}

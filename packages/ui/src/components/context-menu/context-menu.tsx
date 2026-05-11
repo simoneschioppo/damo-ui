@@ -27,7 +27,8 @@ export const ContextMenuContent = forwardRef<
         ref={ref}
         className={cn(
           'z-dropdown min-w-[10rem] overflow-hidden bg-popover text-popover-foreground',
-          'border border-border rounded-md shadow-md p-1',
+          // Memphis chrome — matches DropdownMenu/Popover/Select/Dialog
+          'border-2 border-memphis rounded-none shadow-memphis p-2',
           className,
         )}
         {...rest}
@@ -36,6 +37,14 @@ export const ContextMenuContent = forwardRef<
   )
 })
 
+const itemBaseClass = cn(
+  'relative flex select-none items-center gap-2',
+  'px-2.5 py-1.5 text-[13px] font-body font-medium rounded-none outline-none cursor-pointer',
+  'transition-colors duration-snap ease-memphis',
+  'focus:bg-foreground/5 focus:text-foreground',
+  'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+)
+
 export const ContextMenuItem = forwardRef<
   ElementRef<typeof ContextMenuPrimitive.Item>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & { inset?: boolean }
@@ -43,14 +52,7 @@ export const ContextMenuItem = forwardRef<
   return (
     <ContextMenuPrimitive.Item
       ref={ref}
-      className={cn(
-        'relative flex cursor-pointer select-none items-center gap-2',
-        'px-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-muted focus:text-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-        inset && 'pl-8',
-        className,
-      )}
+      className={cn(itemBaseClass, inset && 'pl-8', className)}
       {...rest}
     />
   )
@@ -64,13 +66,7 @@ export const ContextMenuCheckboxItem = forwardRef<
     <ContextMenuPrimitive.CheckboxItem
       ref={ref}
       checked={checked}
-      className={cn(
-        'relative flex cursor-pointer select-none items-center',
-        'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-muted focus:text-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-        className,
-      )}
+      className={cn(itemBaseClass, 'pl-8 pr-2', className)}
       {...rest}
     >
       <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
@@ -90,13 +86,7 @@ export const ContextMenuRadioItem = forwardRef<
   return (
     <ContextMenuPrimitive.RadioItem
       ref={ref}
-      className={cn(
-        'relative flex cursor-pointer select-none items-center',
-        'pl-8 pr-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-muted focus:text-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-        className,
-      )}
+      className={cn(itemBaseClass, 'pl-8 pr-2', className)}
       {...rest}
     >
       <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
@@ -156,9 +146,8 @@ export const ContextMenuSubTrigger = forwardRef<
     <ContextMenuPrimitive.SubTrigger
       ref={ref}
       className={cn(
-        'relative flex cursor-pointer select-none items-center gap-2',
-        'px-2 py-1.5 text-sm rounded-sm outline-none',
-        'focus:bg-muted focus:text-foreground data-[state=open]:bg-muted',
+        itemBaseClass,
+        'data-[state=open]:bg-foreground/5 data-[state=open]:text-foreground',
         inset && 'pl-8',
         className,
       )}
@@ -179,7 +168,8 @@ export const ContextMenuSubContent = forwardRef<
       ref={ref}
       className={cn(
         'z-dropdown min-w-[8rem] overflow-hidden bg-popover text-popover-foreground',
-        'border border-border rounded-md shadow-md p-1',
+        // Memphis chrome — matches Content above + DropdownMenu SubContent
+        'border-2 border-memphis rounded-none shadow-memphis p-2',
         className,
       )}
       {...rest}
