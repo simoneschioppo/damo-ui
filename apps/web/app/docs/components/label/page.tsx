@@ -64,6 +64,12 @@ export default async function LabelDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="Label props" />
 
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
+      <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.label.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.label.a11y.1', { code: codeTag })}</li>
+      </ul>
+
       <h2 className="font-display text-2xl mb-3 mt-10">When to reach for FormField</h2>
       <p className="text-foreground/85">
         {t.rich('componentDocs.label.body.whenFormField', {

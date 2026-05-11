@@ -111,6 +111,12 @@ export default async function ColorPickerDocsPage() {
       <h2 className="font-display text-2xl mb-3 mt-10">{tSec('props')}</h2>
       <PropsTable props={PROPS} caption="ColorPicker props" />
 
+      <h2 className="font-display text-2xl mb-3 mt-10">{tSec('accessibility')}</h2>
+      <ul className="list-disc pl-6 space-y-2 text-foreground/85">
+        <li>{t.rich('componentDocs.color-picker.a11y.0', { code: codeTag })}</li>
+        <li>{t.rich('componentDocs.color-picker.a11y.1', { code: codeTag })}</li>
+      </ul>
+
       <div className="mt-16 pt-8 border-t-2 border-memphis flex flex-wrap gap-4 items-center justify-between">
         <Link href="/docs/components/sidebar" className="text-primary underline">
           ← Sidebar

@@ -551,6 +551,10 @@
     },
     "article-card": {
       "lead": "Neutral content card capped at 420px wide. Memphis frame, optional eyebrow label, display-font title, and a relaxed-leading body.",
+      "a11y": {
+        "0": "Renders as a <code>&lt;div&gt;</code>; wrap with <code>&lt;article&gt;</code> or set <code>role=\"article\"</code> when used as a standalone reading unit. All standard <code>aria-*</code> props pass through.",
+        "1": "The eyebrow label is decorative. If it adds semantic context (e.g. \"BREAKING\"), promote it to a heading or set <code>aria-label</code> on the article."
+      },
       "props": {
         "label": "Optional mono uppercase eyebrow.",
         "title": "Display-font headline.",
@@ -722,6 +726,10 @@
         "elevatedIntro": "Soft drop shadow rather than the hard Memphis shadow. Good for content that should sit behind primary surfaces.",
         "inverseIntro": "Flipped <code>bg</code>/<code>fg</code> — use on a light page when you need a section to feel like a dark island."
       },
+      "a11y": {
+        "0": "Presentational <code>&lt;div&gt;</code> by default — forward <code>role</code> / <code>aria-label</code> / <code>aria-labelledby</code> for landmarks (<code>role=\"region\"</code>, <code>role=\"article\"</code>, etc.).",
+        "1": "<code>variant=\"interactive\"</code> auto-adds <code>role=\"button\"</code>, <code>tabIndex={0}</code>, and keyboard activation (<kbd>Enter</kbd> / <kbd>Space</kbd>). Always pair an interactive card with an accessible name via <code>aria-label</code> or readable inner content."
+      },
       "props": {
         "variant": "Visual treatment. Featured uses the gold accent; inverse flips fg/bg for dark surfaces.",
         "padding": "Inner spacing applied to the body and chrome rows.",
@@ -762,6 +770,10 @@
       "lead": "Native <code>&lt;input type=\"color\"&gt;</code> swatch paired with the design-system Input for a hex string. Both controls share a single value / onChange — the parent decides whether to validate the hex.",
       "body": {
         "hideVisibleLabel": "<code>aria-label</code> is preserved on both controls, so the component remains accessible even when the visible label is hidden."
+      },
+      "a11y": {
+        "0": "Both the native swatch and the paired hex <code>Input</code> receive an <code>aria-label</code> derived from the <code>label</code> prop, so screen readers announce the control's purpose even when the visible label is hidden.",
+        "1": "The swatch gets the standard <code>focus-visible</code> ring used across the lib; keyboard users tabbing into the field see a clear focus indicator before opening the OS color picker."
       },
       "props": {
         "label": "Visible label rendered above the controls. Also used as the <code>aria-label</code> on the swatch + hex input.",
@@ -808,6 +820,10 @@
       "body": {
         "sizeVariants": "Six size steps mirror Tailwind's <code>screen-*</code> breakpoints, plus a <code>full</code> option for full-bleed sections.",
         "unpadded": "Disable padding when the children already manage their own gutters or for full-bleed hero banners."
+      },
+      "a11y": {
+        "0": "Layout primitive — renders as a plain <code>&lt;div&gt;</code>. Forward <code>role</code> (e.g. <code>role=\"main\"</code>, <code>role=\"region\"</code>) and <code>aria-label</code> when the container marks a semantic landmark.",
+        "1": "No built-in interactive behaviour; all keyboard and focus management is the responsibility of the children."
       },
       "props": {
         "size": "Maximum width breakpoint. <code>full</code> removes the max-width entirely (useful for full-bleed banners that still want centred padding).",
@@ -939,6 +955,10 @@
     },
     "feature-card": {
       "lead": "Compact 280px feature/highlight card with a primary-tinted Memphis shadow. Use to surface product features on landing pages or in feature grids.",
+      "a11y": {
+        "0": "Composes <code>&lt;Card variant=\"featured\"&gt;</code> — same a11y contract as <link1>Card</link1>: a presentational <code>&lt;div&gt;</code> that forwards <code>role</code> / <code>aria-*</code> for landmarks. The title renders as <code>&lt;h4&gt;</code>.",
+        "1": "When the whole card is clickable, wrap it in a real <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code> rather than attaching <code>onClick</code> to the wrapper — neither the <code>&lt;div&gt;</code> nor the inner <code>&lt;h4&gt;</code> is a focus target."
+      },
       "props": {
         "title": "Display-font title.",
         "desc": "Body description.",
@@ -993,6 +1013,10 @@
       "lead": "Native <code>&lt;label&gt;</code> with the form-label typography baked in (<code>text-xs font-semibold uppercase tracking-wider text-muted-foreground</code>). Use it standalone when you don't need the structured wiring of <link1>FormField</link1>.",
       "body": {
         "whenFormField": "For most product forms, <link1>FormField</link1> is preferable: it auto-wires <code>htmlFor</code>, <code>aria-describedby</code>, and <code>aria-invalid</code> based on description / error props. Reach for the standalone Label only when you have a one-off layout that needs custom positioning."
+      },
+      "a11y": {
+        "0": "Renders as a real <code>&lt;label&gt;</code>. Pair with a form control via <code>htmlFor=\"controlId\"</code> matching the control's <code>id</code> — clicking the label then focuses the control.",
+        "1": "Alternatively wrap the control directly inside the label (implicit association). Either pattern is announced correctly by screen readers."
       },
       "props": {
         "htmlFor": "Standard <code>&lt;label&gt;</code> association — when set, clicking the label focuses the field with the matching id.",
@@ -1271,6 +1295,10 @@
     },
     "stat": {
       "lead": "KPI block: mono uppercase label, big display-font value, optional delta line. Use to surface key metrics in dashboards and overview pages.",
+      "a11y": {
+        "0": "Presentational block — label and value are independent text nodes with no implicit ARIA pairing. Wrap with <code>role=\"status\"</code> + <code>aria-live=\"polite\"</code> when the value updates dynamically and the user should be notified.",
+        "1": "If the label is purely decorative (e.g. an abbreviation), add <code>aria-label</code> on the outer element with the long-form name so screen readers announce the metric clearly."
+      },
       "props": {
         "label": "Mono uppercase label rendered above the value.",
         "value": "Headline number rendered in the display font.",
@@ -1387,6 +1415,10 @@
     },
     "user-card": {
       "lead": "Horizontal user row with avatar + name + optional meta and trailing slots. Memphis frame with a 4px shadow.",
+      "a11y": {
+        "0": "Composes <code>&lt;Card variant=\"default\"&gt;</code> — same a11y contract as <link1>Card</link1>: a presentational row that forwards <code>role</code> / <code>aria-*</code>.",
+        "1": "The avatar fallback (first letter of <code>name</code>) is decorative; when the avatar is the only identifier, add <code>aria-label</code> on the card. If the whole row is clickable, wrap it in a <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code> — the row layout is not a focus target on its own."
+      },
       "props": {
         "name": "Display name. Used to derive the default avatar initial.",
         "avatar": "Custom avatar node. When omitted UserCard renders a circular ink tile with the first letter of <code>name</code>.",
