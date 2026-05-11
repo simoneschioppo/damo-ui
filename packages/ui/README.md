@@ -5,7 +5,7 @@
 <h1 align="center">damo-ui</h1>
 
 <p align="center">
-  Memphis-inspired React and Next.js component library.
+  Memphis-inspired React component library for Next.js — tokens, components, and patterns ready to use.
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
   <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white" />
 </p>
 
-> ⚠️ **0.x preview.** Public API is stabilising. Expect breaking changes between minor versions until `1.0.0`.
+> ⚠️ **0.x preview.** Public API is stabilising. Expect breaking changes between minor versions until `1.0.0`. Migration history: [CHANGELOG.md](https://github.com/simoneschioppo/damo-ui/blob/main/CHANGELOG.md).
 
 ## Install
 
@@ -61,7 +61,7 @@ Wire Tailwind v4 in your global stylesheet:
 | `data-palette` | `default` \| `sunset` \| `cyberpunk` \| `forest` |
 | `data-density` | `compact` \| `normal` \| `comfortable`           |
 
-For the **Tailwind v3** preset, see the repo README.
+For the **Tailwind v3** preset, see [the repo README → Tailwind v3 section](https://github.com/simoneschioppo/damo-ui#tailwind-v3-legacy-preset).
 
 ## Usage
 

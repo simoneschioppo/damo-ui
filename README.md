@@ -107,14 +107,27 @@ The v3 preset mirrors the v4 surface exactly — same colours, radii, shadows, s
 
 ## Component inventory (54)
 
-- **Foundations:** Icon (+30 atomic), Box, Container, AspectRatio, ScrollArea, Separator, Ornament, FormField
-- **Tier 1 signature:** Button, IconButton, Card (3 variants), Dialog (`severity` + `tone`), Drawer, Banner
+- **Foundations:** Icon (+31 atomic), Box, Container, AspectRatio, ScrollArea, Separator, Ornament, MemphisShape (8 shape variants), FormField
+- **Core actions & surfaces:** Button, IconButton, Card (5 variants: `default | elevated | featured | interactive | inverse`), Dialog (`severity` + `tone`), Drawer, Banner
 - **Forms:** Input, Textarea, Label, Checkbox, RadioGroup, Switch, Slider, SegmentedControl, Select, DatePicker, Combobox, Popover, ColorPicker, AttrToggleGroup
 - **Feedback:** Tooltip, Toast, Progress, Spinner, Skeleton, Badge (7 variants), Chip, Hint
 - **Navigation:** Tabs, DropdownMenu, ContextMenu, NavItem (default + onDark tones), Breadcrumbs, Pagination
 - **Data:** Avatar, AvatarGroup, Accordion, Table, Stat, Medal (5 ranks)
-- **Cards:** UserCard, FeatureCard, ArticleCard, MemphisShape
-- **Layout:** AppShell, AppTopBar, PageHeader, Sidebar
+- **Cards:** UserCard, FeatureCard, ArticleCard
+- **Layout:** AppShell, AppTopBar, PageHeader, Sidebar — compose to scaffold a full app shell:
+
+```tsx
+import { AppShell, AppTopBar, Sidebar, PageHeader } from 'damo-ui'
+
+export default function DashboardLayout({ children }) {
+  return (
+    <AppShell topBar={<AppTopBar>…</AppTopBar>} sidebar={<Sidebar>…</Sidebar>}>
+      <PageHeader title="Dashboard" />
+      {children}
+    </AppShell>
+  )
+}
+```
 
 The full live reference is the docs site at `apps/web` — see "Local dev" below to run it.
 
