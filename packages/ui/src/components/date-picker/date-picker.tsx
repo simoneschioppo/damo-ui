@@ -9,12 +9,19 @@ import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon } from '../../icons'
 import { cn } from '../../lib/cn'
 import { useI18n } from '../../lib/i18n'
 
-export interface DatePickerProps extends Omit<DayPickerProps, 'mode'> {
+export interface DatePickerProps extends Omit<DayPickerProps, 'mode' | 'disabled'> {
   value?: Date
   onValueChange?: (date: Date | undefined) => void
   placeholder?: ReactNode
   formatStr?: string
+  /** Disables the trigger button (HTMLButtonElement). Distinct from `disabledDays`. */
   disabled?: boolean
+  /**
+   * react-day-picker `disabled` Matcher — disables individual days inside the
+   * open calendar. Separated from the trigger `disabled` so the two intents
+   * are unambiguous: trigger=button-attr, days=Matcher.
+   */
+  disabledDays?: DayPickerProps['disabled']
   id?: string
   className?: string
   triggerClassName?: string
@@ -27,6 +34,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
     placeholder,
     formatStr = 'PPP',
     disabled,
+    disabledDays,
     id,
     className,
     triggerClassName,
@@ -85,6 +93,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(functio
             onSelect={handleSelect}
             locale={dateFnsLocale}
             showOutsideDays
+            disabled={disabledDays}
             components={{
               Chevron: ({ orientation }) =>
                 orientation === 'left' ? (
