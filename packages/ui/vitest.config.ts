@@ -8,6 +8,11 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
+    // Reset mock state between tests so a leak in one suite cannot poison
+    // another. Cheap to enable and protects future contributors from a class
+    // of flake that's hard to root-cause once it appears.
+    clearMocks: true,
+    restoreMocks: true,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],

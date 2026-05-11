@@ -24,7 +24,9 @@ jobs:
       code: ${{ steps.filter.outputs.code }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      # Third-party action — pinned to the v3 tag's commit SHA for supply-chain
+      # safety. To update: `gh api repos/dorny/paths-filter/git/ref/tags/v3 | jq .object.sha`.
+      - uses: dorny/paths-filter@6852f92c20ea7fd3b0c25de3b5112db3a98da050 # v3
         id: filter
         with:
           filters: |
