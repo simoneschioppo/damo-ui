@@ -7,12 +7,6 @@ on:
 
 jobs:
   publish:
-    # Disabled until first launch — soft-launch on public npm as damo-ui@0.3.0
-    # (current version in packages/ui/package.json).
-    # To enable: (1) flip `if: false` → `if: true`, (2) provision an NPM_TOKEN
-    # repo secret with publish scope, (3) flip the GitHub repo to public so the
-    # absolute README banner URL on npmjs.com resolves.
-    if: false
     runs-on: ubuntu-latest
     permissions:
       contents: read
