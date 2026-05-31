@@ -6,15 +6,15 @@ export const metadata = {
   description: `Add ${BRAND.libName} components to your project shadcn-style with the damo-ui CLI.`,
 }
 
-const INIT_SNIPPET = `npx @damo-ui/cli init`
+const INIT_SNIPPET = `npx @axologic/cli init`
 
 const ADD_SNIPPET = `# add components (pulls cn / icons / i18n + installs npm deps)
-npx @damo-ui/cli add button dialog
+npx @axologic/cli add button dialog
 
 # or straight from a URL
-npx @damo-ui/cli add https://damo-ui.com/r/ui/button.json`
+npx @axologic/cli add https://damo-ui.com/r/ui/button.json`
 
-const LIST_SNIPPET = `npx @damo-ui/cli list`
+const LIST_SNIPPET = `npx @axologic/cli list`
 
 const CONFIG_SNIPPET = `{
   "$schema": "https://ui.shadcn.com/schema.json",

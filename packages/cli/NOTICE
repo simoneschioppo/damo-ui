@@ -1,4 +1,4 @@
-@damo-ui/cli
+@axologic/cli
 
 This package is a from-scratch, dependency-free reimplementation of the
 component-installer workflow popularised by shadcn/ui. It is compatible with
@@ -12,5 +12,5 @@ the design of the workflow and the configuration/registry schemas.
   Copyright (c) 2023 shadcn
   Licensed under the MIT License.
 
-@damo-ui/cli itself is licensed under the MIT License.
+@axologic/cli itself is licensed under the MIT License.
 Copyright (c) 2026 Simone Schioppo.

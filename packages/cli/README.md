@@ -1,11 +1,11 @@
-# @damo-ui/cli
+# @axologic/cli
 
 The CLI for [damo-ui](https://github.com/simoneschioppo/damo-ui) — add
 Memphis-flavoured components to your project **shadcn-style**: the source is
 copied into your codebase (not imported from a black-box package), so you own
 and can tweak every line.
 
-> Published as `@damo-ui/cli` during the 0.x line; at the 1.0 cutover it takes
+> Published as `@axologic/cli` during the 0.x line; at the 1.0 cutover it takes
 > the bare `damo-ui` name (so `npx damo-ui add …`). The `bin` is already
 > `damo-ui`.
 
@@ -13,16 +13,16 @@ and can tweak every line.
 
 ```bash
 # 1. scaffold components.json
-npx @damo-ui/cli init
+npx @axologic/cli init
 
 # 2. add components (pulls their cn/icons/i18n deps + installs npm packages)
-npx @damo-ui/cli add button dialog
+npx @axologic/cli add button dialog
 
 # add directly from a URL
-npx @damo-ui/cli add https://damo-ui.com/r/ui/button.json
+npx @axologic/cli add https://damo-ui.com/r/ui/button.json
 
 # 3. browse what's available
-npx @damo-ui/cli list
+npx @axologic/cli list
 ```
 
 ## Commands

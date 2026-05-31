@@ -1,5 +1,5 @@
 {
-  "name": "@damo-ui/cli",
+  "name": "@axologic/cli",
   "version": "0.0.0",
   "type": "module",
   "description": "Add Memphis-style damo-ui components to your project, shadcn-style (copy-paste via a registry).",

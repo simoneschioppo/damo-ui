@@ -12,7 +12,7 @@
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
     "build": "pnpm --filter damo-ui build && pnpm run build:registry",
     "build:registry": "pnpm --filter damo-ui build:registry",
-    "test": "pnpm --filter damo-ui test && pnpm --filter @damo-ui/cli test",
+    "test": "pnpm --filter damo-ui test && pnpm --filter @axologic/cli test",
     "test:e2e": "pnpm --filter @damo/e2e test",
     "lint": "pnpm -r lint && node scripts/check-docs-sync.mjs",
     "check:docs-sync": "node scripts/check-docs-sync.mjs",
