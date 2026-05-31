@@ -59,3 +59,8 @@ PUBLICATION_READINESS.md
 # `apps/web/app/docs/` and drop every `lg:*` / `md:*` utility used in the
 # docs site layout (silently breaks the sidebar + responsive grid).
 /docs/
+
+# Generated shadcn-style registry (built from packages/ui/src by
+# scripts/build-registry; regenerated on every `dev`/`build`). Leading slash
+# anchors to the repo root so only this generated tree is ignored.
+/apps/web/public/r/
