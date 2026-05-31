@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ColorPicker } from 'damo-ui'
+import { ColorPicker } from '@axologic/ui'
 
 export function ColorPickerBasicExample() {
   const [color, setColor] = useState('#7a3980')

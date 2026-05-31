@@ -10,7 +10,7 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from 'damo-ui'
+} from '@axologic/ui'
 
 interface VariantPreviewProps {
   variant: 'default' | 'success' | 'warning' | 'danger'

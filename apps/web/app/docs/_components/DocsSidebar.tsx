@@ -10,7 +10,7 @@ import {
   SidebarBrand,
   SidebarHeader,
   SidebarSubtitle,
-} from 'damo-ui'
+} from '@axologic/ui'
 import { BRAND } from '../../../lib/brand'
 import { DOCS_NAV } from './docs-nav'
 

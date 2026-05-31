@@ -9,13 +9,18 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/damo-ui"><img alt="npm" src="https://img.shields.io/npm/v/damo-ui?color=plum&label=damo-ui" /></a>
+  <a href="https://www.npmjs.com/package/@axologic/ui"><img alt="npm" src="https://img.shields.io/npm/v/@axologic/ui?color=plum&label=@axologic/ui" /></a>
+  <a href="https://www.npmjs.com/package/damo-ui"><img alt="CLI" src="https://img.shields.io/npm/v/damo-ui?color=plum&label=damo-ui%20CLI" /></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
   <img alt="React 18+" src="https://img.shields.io/badge/React-%E2%89%A518-61dafb?logo=react&logoColor=white" />
   <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white" />
 </p>
 
-> ⚠️ **0.x preview.** The public API is stabilising. Expect breaking changes between minor versions until `1.0.0`. The migration paths are documented in [`CHANGELOG.md`](./CHANGELOG.md).
+> **1.0 — two ways to use it.** Copy-paste the components with the CLI
+> (`npx damo-ui add button`, shadcn-style — you own the source), or install the
+> package (`npm install @axologic/ui`) for the classic import experience. The
+> old `damo-ui@0.x` _library_ package is deprecated; migrate with
+> `npx damo-ui codemod migrate-from-npm`.
 
 ## Why damo-ui?
 
@@ -23,16 +28,29 @@
 - **Accessible by default** — Dialog, Dropdown, Tooltip, Popover, Select, Tabs, and other interactive components inherit keyboard navigation, focus management, and ARIA semantics from Radix UI primitives.
 - **Theme × palette × density, orthogonal** — flip light/dark, swap palette, and pick density (`compact`, `normal`, `comfortable`) live, all driven from `<html>` data attributes.
 - **Tailwind v4-first, v3 preset shipped** — CSS-first configuration on the latest Tailwind, with a legacy preset preserved for migration.
-- **54 components, one entry point** — Foundations, Forms, Feedback, Navigation, Data, Cards, and Layout. Single-import library today; `@damo-ui/cli` and registry post-1.0 (see Reserved scope below).
+- **54 components, two ways to consume** — Foundations, Forms, Feedback, Navigation, Data, Cards, and Layout. Copy-paste via the `damo-ui` CLI (shadcn-style) or import the `@axologic/ui` package.
 
-## Install
+## Quick start with the CLI (recommended)
 
 ```bash
-pnpm add damo-ui
+npx damo-ui init                 # writes components.json
+npx damo-ui add button dialog    # copies the source into your project + installs deps
+npx damo-ui list                 # browse the registry
+```
+
+The CLI copies each component into your codebase so you own and can tweak every
+line. Prefer a package import instead? Install `@axologic/ui` (below).
+
+## Install the package (`@axologic/ui`)
+
+Prefer a classic package import over copy-paste? Install the library:
+
+```bash
+pnpm add @axologic/ui
 # or
-npm install damo-ui
+npm install @axologic/ui
 # or
-yarn add damo-ui
+yarn add @axologic/ui
 ```
 
 Peer dependencies (must be installed in the consumer app):
@@ -49,22 +67,22 @@ Supported versions: React **≥ 18**, Tailwind **≥ 4**.
 
 ```css
 /* app/globals.css */
-@import 'damo-ui/styles/tokens.css';
-@import 'damo-ui/styles/globals.css';
+@import '@axologic/ui/styles/tokens.css';
+@import '@axologic/ui/styles/globals.css';
 
 @import 'tailwindcss';
-@import 'damo-ui/styles/theme.css';
+@import '@axologic/ui/styles/theme.css';
 
 /* Tailwind v4 needs to scan the lib's compiled JS for class names.
  * The path is relative to THIS CSS file. For a stock `create-next-app`
  * (globals.css at `app/globals.css`), node_modules sits one level up: */
-@source '../node_modules/damo-ui/dist/**/*.js';
+@source '../node_modules/@axologic/ui/dist/**/*.js';
 ```
 
 2. Use components:
 
 ```tsx
-import { Button, Card, Dialog } from 'damo-ui'
+import { Button, Card, Dialog } from '@axologic/ui'
 
 export default function Page() {
   return (
@@ -95,11 +113,11 @@ If you are still on Tailwind v3, import the preset:
 
 ```ts
 // tailwind.config.ts
-import preset from 'damo-ui/tailwind.preset'
+import preset from '@axologic/ui/tailwind.preset'
 
 export default {
   presets: [preset],
-  content: ['./app/**/*.{ts,tsx}', './node_modules/damo-ui/dist/**/*.js'],
+  content: ['./app/**/*.{ts,tsx}', './node_modules/@axologic/ui/dist/**/*.js'],
 }
 ```
 
@@ -117,7 +135,7 @@ The v3 preset mirrors the v4 surface exactly — same colours, radii, shadows, s
 - **Layout:** AppShell, AppTopBar, PageHeader, Sidebar — compose to scaffold a full app shell:
 
 ```tsx
-import { AppShell, AppTopBar, Sidebar, PageHeader } from 'damo-ui'
+import { AppShell, AppTopBar, Sidebar, PageHeader } from '@axologic/ui'
 
 export default function DashboardLayout({ children }) {
   return (
@@ -131,15 +149,17 @@ export default function DashboardLayout({ children }) {
 
 The full live reference is the docs site at `apps/web` — see "Local dev" below to run it.
 
-## Reserved scope `@damo-ui/*`
+## The packages
 
-The `@damo-ui/*` npm scope is reserved for ecosystem packages that complement the core library:
+| Package         | What it is                                         | Install                       |
+| --------------- | -------------------------------------------------- | ----------------------------- |
+| `damo-ui`       | The CLI — copy-paste components into your project  | `npx damo-ui add <component>` |
+| `@axologic/ui`  | The component library (classic package import)     | `npm install @axologic/ui`    |
+| `@axologic/mcp` | MCP server — lets AI agents add components for you | `npx @axologic/mcp`           |
 
-- `@damo-ui/cli` — copy-paste installer (post-1.0)
-- `@damo-ui/registry` — registry endpoint (post-1.0)
-- `@damo-ui/mcp` — MCP server for agentic workflows (post-1.0)
-
-Until those ship, only the unscoped `damo-ui` package is published.
+The registry is served from the docs site at `https://damo-ui.com/r` (no npm
+package). The `@damo-ui` scope was unavailable on npm, so scoped packages live
+under `@axologic/*`; the CLI keeps the bare `damo-ui` name.
 
 ## Tech stack
 
@@ -151,7 +171,7 @@ Until those ship, only the unscoped `damo-ui` package is published.
 
 ## Repo structure
 
-- `packages/ui` — the library (`damo-ui`)
+- `packages/ui` — the library (`@axologic/ui`); `packages/cli` — the CLI (`damo-ui`); `packages/mcp` — the MCP server (`@axologic/mcp`)
 - `apps/web` — Next 15 docs + showcase site (private; not published)
 - `e2e` — Playwright end-to-end tests (private)
 

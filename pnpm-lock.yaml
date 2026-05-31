@@ -32,12 +32,12 @@ importers:
 
   apps/web:
     dependencies:
+      '@axologic/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@shikijs/transformers':
         specifier: ^4.0.2
         version: 4.0.2
-      damo-ui:
-        specifier: workspace:*
-        version: link:../../packages/ui
       next:
         specifier: ^15.0.0
         version: 15.5.15(@babel/core@7.29.0)(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)

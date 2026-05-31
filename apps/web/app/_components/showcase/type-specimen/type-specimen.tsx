@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, type HTMLAttributes } from 'react'
-import { cn } from 'damo-ui'
+import { cn } from '@axologic/ui'
 
 export interface TypeSpecimenScaleRow {
   readonly label: string

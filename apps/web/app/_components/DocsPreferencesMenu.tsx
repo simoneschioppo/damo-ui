@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   usePersistedAttr,
-} from 'damo-ui'
+} from '@axologic/ui'
 import { usePersistedLocale } from '../../lib/usePersistedLocale'
 
 const THEME_VALUES = ['light', 'dark'] as const

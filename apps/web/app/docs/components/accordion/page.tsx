@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from 'damo-ui'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from 'damo-ui'`
+const IMPORT_SNIPPET = `import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@axologic/ui'`
 
 const BASIC_SNIPPET = `<Accordion type="single" collapsible defaultValue="item-1">
   <AccordionItem value="item-1">

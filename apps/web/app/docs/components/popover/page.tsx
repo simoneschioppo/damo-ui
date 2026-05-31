@@ -8,7 +8,7 @@ import {
   Button,
   IconButton,
   CogIcon,
-} from 'damo-ui'
+} from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
@@ -19,7 +19,7 @@ const IMPORT_SNIPPET = `import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
-} from 'damo-ui'`
+} from '@axologic/ui'`
 
 const BASIC_SNIPPET = `<Popover>
   <PopoverTrigger asChild>

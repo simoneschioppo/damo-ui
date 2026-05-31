@@ -20,8 +20,8 @@
 ## Install
 
 ```bash
-pnpm add damo-ui
-# or: npm install damo-ui  /  yarn add damo-ui
+pnpm add @axologic/ui
+# or: npm install @axologic/ui  /  yarn add @axologic/ui
 ```
 
 ## Peer dependencies
@@ -37,16 +37,16 @@ Wire Tailwind v4 in your global stylesheet:
 
 ```css
 /* app/globals.css */
-@import 'damo-ui/styles/tokens.css';
-@import 'damo-ui/styles/globals.css';
+@import '@axologic/ui/styles/tokens.css';
+@import '@axologic/ui/styles/globals.css';
 
 @import 'tailwindcss';
-@import 'damo-ui/styles/theme.css';
+@import '@axologic/ui/styles/theme.css';
 
 /* Tailwind v4 needs to scan the lib's compiled JS for class names.
  * The path is relative to THIS CSS file. For a stock `create-next-app`
  * (globals.css at `app/globals.css`), node_modules sits one level up: */
-@source '../node_modules/damo-ui/dist/**/*.js';
+@source '../node_modules/@axologic/ui/dist/**/*.js';
 ```
 
 (Optional) Drive theme / palette / density from `<html>`:
@@ -66,7 +66,7 @@ For the **Tailwind v3** preset, see [the repo README → Tailwind v3 section](ht
 ## Usage
 
 ```tsx
-import { Button, Card, Dialog } from 'damo-ui'
+import { Button, Card, Dialog } from '@axologic/ui'
 ;<Button variant="primary">Click me</Button>
 ```
 

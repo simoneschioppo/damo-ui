@@ -15,7 +15,7 @@ const IMPORT_SNIPPET = `import {
   ToastDescription,
   ToastAction,
   ToastClose,
-} from 'damo-ui'`
+} from '@axologic/ui'`
 
 const PROVIDER_SNIPPET = `// In your root layout — exactly one provider + viewport per app:
 <ToastProvider>

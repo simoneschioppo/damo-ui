@@ -57,7 +57,7 @@ or add to a project `.mcp.json`:
 | Variable           | Default                 | Purpose                                |
 | ------------------ | ----------------------- | -------------------------------------- |
 | `DAMO_UI_REGISTRY` | `https://damo-ui.com/r` | Registry base URL the tools read from. |
-| `DAMO_UI_CLI`      | `npx -y @axologic/cli`  | Command `add_component` shells out to. |
+| `DAMO_UI_CLI`      | `npx -y damo-ui`        | Command `add_component` shells out to. |
 
 ```json
 {

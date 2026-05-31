@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
-import { AppTopBar, AttrToggleGroup, Button } from 'damo-ui'
+import { AppTopBar, AttrToggleGroup, Button } from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { AppTopBar, AttrToggleGroup } from 'damo-ui'
+const IMPORT_SNIPPET = `import { AppTopBar, AttrToggleGroup } from '@axologic/ui'
 import Link from 'next/link'`
 
 const BASIC_SNIPPET = `<AppTopBar

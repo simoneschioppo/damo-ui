@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Button } from 'damo-ui'
+import { Button } from '@axologic/ui'
 import { BRAND } from '../lib/brand'
 import { linkTag } from '../lib/i18n-tags'
 import { Code } from './docs/_components/Code'
@@ -10,9 +10,9 @@ const FEATURE_KEYS = ['components', 'tokens', 'themeGenerator'] as const
 const INSTALL_SNIPPET = `pnpm add damo-ui`
 
 const STYLES_SNIPPET = `@import 'tailwindcss';
-@import 'damo-ui/styles/theme.css';`
+@import '@axologic/ui/styles/theme.css';`
 
-const RENDER_SNIPPET = `import { Button } from 'damo-ui'
+const RENDER_SNIPPET = `import { Button } from '@axologic/ui'
 
 export function Page() {
   return <Button>Save</Button>

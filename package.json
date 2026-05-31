@@ -7,12 +7,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev:lib": "pnpm --filter damo-ui dev",
+    "dev:lib": "pnpm --filter @axologic/ui dev",
     "dev:web": "pnpm --filter @damo/web dev",
     "dev": "pnpm run --parallel --filter=\"./packages/*\" --filter=\"./apps/*\" dev",
-    "build": "pnpm --filter damo-ui build && pnpm run build:registry",
-    "build:registry": "pnpm --filter damo-ui build:registry",
-    "test": "pnpm --filter damo-ui test && pnpm --filter @axologic/cli test && pnpm --filter @axologic/mcp test",
+    "build": "pnpm --filter @axologic/ui build && pnpm run build:registry",
+    "build:registry": "pnpm --filter @axologic/ui build:registry",
+    "test": "pnpm --filter @axologic/ui test && pnpm --filter damo-ui test && pnpm --filter @axologic/mcp test",
     "test:e2e": "pnpm --filter @damo/e2e test",
     "lint": "pnpm -r lint && node scripts/check-docs-sync.mjs",
     "check:docs-sync": "node scripts/check-docs-sync.mjs",

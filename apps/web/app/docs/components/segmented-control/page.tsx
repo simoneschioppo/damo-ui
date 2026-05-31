@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { SegmentedControl, SegmentedControlItem } from 'damo-ui'
+import { SegmentedControl, SegmentedControlItem } from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { SegmentedControl, SegmentedControlItem } from 'damo-ui'`
+const IMPORT_SNIPPET = `import { SegmentedControl, SegmentedControlItem } from '@axologic/ui'`
 
 const BASIC_SNIPPET = `<SegmentedControl defaultValue="day" aria-label="Range">
   <SegmentedControlItem value="day">Day</SegmentedControlItem>

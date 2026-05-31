@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import type { Locale } from 'damo-ui'
+import type { Locale } from '@axologic/ui'
 import { LOCALE_COOKIE, SUPPORTED_LOCALES } from '../i18n/locales'
 
 const STORAGE_KEY = 'locale'
