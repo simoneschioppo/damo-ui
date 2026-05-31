@@ -27,11 +27,12 @@ npx @axologic/cli list
 
 ## Commands
 
-| Command              | What it does                                                        |
-| -------------------- | ------------------------------------------------------------------- |
-| `init`               | Write `components.json` (detects `src/` layout + your globals.css). |
-| `add <component...>` | Copy components + their transitive registry deps; install npm deps. |
-| `list`               | List everything in the registry, grouped by kind.                   |
+| Command                    | What it does                                                        |
+| -------------------------- | ------------------------------------------------------------------- |
+| `init`                     | Write `components.json` (detects `src/` layout + your globals.css). |
+| `add <component...>`       | Copy components + their transitive registry deps; install npm deps. |
+| `list`                     | List everything in the registry, grouped by kind.                   |
+| `codemod migrate-from-npm` | Move a project off the classic `damo-ui` package to copy-paste.     |
 
 ## Options
 
@@ -41,10 +42,27 @@ npx @axologic/cli list
 | `--cwd <dir>`          | `.`                     | Target project directory.                         |
 | `--overwrite`          | off                     | Overwrite files that already exist.               |
 | `--no-deps`            | —                       | Skip installing npm dependencies.                 |
+| `--dry-run`            | off                     | Show planned changes without writing (`codemod`). |
 | `-f, --force`          | off                     | Overwrite an existing `components.json` (`init`). |
 | `-y, --yes`            | off                     | Assume defaults / skip prompts.                   |
 
 The registry URL can also be set with the `DAMO_UI_REGISTRY` env var.
+
+## Migrating from the `damo-ui` npm package
+
+Already using `import { Button } from 'damo-ui'`? One command converts the
+whole project to copy-paste:
+
+```bash
+npx @axologic/cli codemod migrate-from-npm --dry-run   # preview
+npx @axologic/cli codemod migrate-from-npm             # apply
+```
+
+It scans every `from 'damo-ui'` import/re-export (named, type-only, aliased,
+mixed), copies each used component via `add`, rewrites the imports to
+`@/components/ui/<name>` (or a relative path when no `@/` alias is set), and
+removes `damo-ui` from `package.json`. The pass is **idempotent** and
+TypeScript-aware (ts-morph). Review the diff and run your formatter afterwards.
 
 ## How it works
 
@@ -54,7 +72,10 @@ transitively (so `dialog` pulls `cn`, `icons`, `i18n`…), rewrites nothing
 path implied by your `components.json` aliases, then installs the union of npm
 `dependencies` with your detected package manager.
 
-Zero runtime dependencies — just Node ≥ 18 (uses the built-in `fetch`).
+The `init` / `add` / `list` commands have no runtime dependencies (Node ≥ 18,
+built-in `fetch`). The `codemod` command additionally uses `ts-morph` for the
+TypeScript-aware AST rewrite (lazy-loaded, so it costs nothing for the other
+commands).
 
 ## Attribution
 

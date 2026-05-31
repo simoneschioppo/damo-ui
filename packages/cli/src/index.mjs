@@ -13,6 +13,7 @@ import { parseArgs } from 'node:util'
 import { init } from './commands/init.mjs'
 import { add } from './commands/add.mjs'
 import { list } from './commands/list.mjs'
+import { codemod } from './commands/codemod.mjs'
 import { c, log } from './lib/log.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -31,12 +32,14 @@ ${c.bold('Commands')}
   init                 Create components.json in the current project
   add <component...>   Add components (with their deps) to your project
   list                 List components available in the registry
+  codemod migrate-from-npm   Migrate a project off the classic damo-ui package
 
 ${c.bold('Options')}
   -r, --registry <url> Registry base URL (default: ${DEFAULT_REGISTRY})
       --cwd <dir>      Project directory (default: .)
       --overwrite      Overwrite files that already exist (add)
       --no-deps        Do not install npm dependencies (add)
+      --dry-run        Show planned changes without writing (codemod)
   -f, --force          Overwrite an existing components.json (init)
   -y, --yes            Skip prompts / assume defaults
   -h, --help           Show this help
@@ -52,6 +55,7 @@ const OPTIONS = {
   registry: { type: 'string', short: 'r' },
   cwd: { type: 'string' },
   overwrite: { type: 'boolean', default: false },
+  'dry-run': { type: 'boolean', default: false },
   force: { type: 'boolean', short: 'f', default: false },
   yes: { type: 'boolean', short: 'y', default: false },
   help: { type: 'boolean', short: 'h', default: false },
@@ -91,6 +95,8 @@ async function main() {
       return add(rest, opts)
     case 'list':
       return list(opts)
+    case 'codemod':
+      return codemod(rest, { ...opts, dryRun: values['dry-run'] })
     default:
       log.error(`Unknown command: ${command}`)
       console.log(`\n${HELP}`)

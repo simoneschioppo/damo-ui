@@ -16,6 +16,12 @@ npx @axologic/cli add https://damo-ui.com/r/ui/button.json`
 
 const LIST_SNIPPET = `npx @axologic/cli list`
 
+const MIGRATE_SNIPPET = `# preview the changes first
+npx @axologic/cli codemod migrate-from-npm --dry-run
+
+# then apply
+npx @axologic/cli codemod migrate-from-npm`
+
 const CONFIG_SNIPPET = `{
   "$schema": "https://ui.shadcn.com/schema.json",
   "tsx": true,
@@ -74,6 +80,15 @@ export default function CliPage() {
       <h2 className="font-display text-2xl mb-3 mt-12">3. Browse the registry</h2>
       <Code code={LIST_SNIPPET} lang="bash" title="terminal" />
 
+      <h2 className="font-display text-2xl mb-3 mt-12">Already on the npm package?</h2>
+      <p className="text-muted-foreground mb-2">
+        If you import from <code>damo-ui</code> today, one command converts the whole project to
+        copy-paste — it rewrites every import (named, type-only, aliased, mixed), copies the used
+        components, and drops <code>damo-ui</code> from <code>package.json</code>. It is idempotent
+        and TypeScript-aware; preview with <code>--dry-run</code> first.
+      </p>
+      <Code code={MIGRATE_SNIPPET} lang="bash" title="terminal" />
+
       <h2 className="font-display text-2xl mb-3 mt-12">Notes</h2>
       <ul className="text-muted-foreground list-disc pl-5 space-y-1 max-w-[60ch]">
         <li>
@@ -84,7 +99,10 @@ export default function CliPage() {
           Pass <code>--no-deps</code> to skip installing npm packages, or{' '}
           <code>--registry &lt;url&gt;</code> to point at a different registry.
         </li>
-        <li>Zero runtime dependencies — it only needs Node ≥ 18.</li>
+        <li>
+          The <code>init</code> / <code>add</code> / <code>list</code> commands need only Node ≥ 18;
+          the codemod additionally uses <code>ts-morph</code> for the AST rewrite.
+        </li>
       </ul>
     </article>
   )
