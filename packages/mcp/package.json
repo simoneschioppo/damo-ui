@@ -1,0 +1,46 @@
+{
+  "name": "@axologic/mcp",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "MCP server for damo-ui — lets AI coding agents discover and install components from the registry.",
+  "license": "MIT",
+  "author": "Simone Schioppo",
+  "homepage": "https://github.com/simoneschioppo/damo-ui/tree/main/packages/mcp#readme",
+  "bugs": {
+    "url": "https://github.com/simoneschioppo/damo-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simoneschioppo/damo-ui.git",
+    "directory": "packages/mcp"
+  },
+  "keywords": [
+    "damo-ui",
+    "mcp",
+    "model-context-protocol",
+    "shadcn",
+    "components",
+    "ai"
+  ],
+  "bin": {
+    "damo-ui-mcp": "src/index.mjs"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --test",
+    "smoke": "node -e \"import('./src/server.mjs').then(m=>m.createServer()).then(()=>console.log('server builds OK'))\""
+  }
+}

@@ -39,6 +39,13 @@ components/ui/button/button.variants.ts
 components/ui/button/index.ts
 lib/cn.ts            # pulled in automatically (transitive dependency)`
 
+const MCP_SNIPPET = `// .mcp.json (Claude Code) — or ~/.cursor/mcp.json (Cursor)
+{
+  "mcpServers": {
+    "damo-ui": { "command": "npx", "args": ["-y", "@axologic/mcp"] }
+  }
+}`
+
 export default function CliPage() {
   return (
     <article className="prose-sized">
@@ -88,6 +95,14 @@ export default function CliPage() {
         and TypeScript-aware; preview with <code>--dry-run</code> first.
       </p>
       <Code code={MIGRATE_SNIPPET} lang="bash" title="terminal" />
+
+      <h2 className="font-display text-2xl mb-3 mt-12">For AI agents (MCP)</h2>
+      <p className="text-muted-foreground mb-2">
+        There&apos;s also an <a href="https://modelcontextprotocol.io">MCP</a> server,{' '}
+        <code>@axologic/mcp</code>, so agents like Claude Code or Cursor can search, read, and add
+        components for you. Point your client at it:
+      </p>
+      <Code code={MCP_SNIPPET} lang="json" title=".mcp.json" />
 
       <h2 className="font-display text-2xl mb-3 mt-12">Notes</h2>
       <ul className="text-muted-foreground list-disc pl-5 space-y-1 max-w-[60ch]">
