@@ -6,7 +6,7 @@
     "predev": "REGISTRY_URL=http://localhost:3000/r node ../../packages/ui/scripts/build-registry/build.mjs",
     "dev": "next dev --port 3000",
     "build:registry": "node ../../packages/ui/scripts/build-registry/build.mjs",
-    "build": "pnpm run build:registry && next build",
+    "build": "pnpm --filter damo-ui build && pnpm run build:registry && next build",
     "start": "next start --port 3000",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
