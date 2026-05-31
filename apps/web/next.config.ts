@@ -24,6 +24,22 @@ const config: NextConfig = {
       'damo-ui': path.join(uiSrc, 'index.ts'),
     },
   },
+  // The shadcn-style registry under /r is fetched cross-origin by the damo-ui
+  // CLI and by browser-based tools. Allow any origin to GET it and answer
+  // preflight requests; cache at the edge since it is regenerated per deploy.
+  async headers() {
+    return [
+      {
+        source: '/r/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET, OPTIONS' },
+          { key: 'Access-Control-Allow-Headers', value: '*' },
+          { key: 'Cache-Control', value: 'public, max-age=300, s-maxage=300' },
+        ],
+      },
+    ]
+  },
 }
 
 export default withNextIntl(config)
