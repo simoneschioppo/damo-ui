@@ -1,0 +1,44 @@
+{
+  "name": "@axologic/cli",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Add Memphis-style damo-ui components to your project, shadcn-style (copy-paste via a registry).",
+  "license": "MIT",
+  "author": "Simone Schioppo",
+  "homepage": "https://github.com/simoneschioppo/damo-ui/tree/main/packages/cli#readme",
+  "bugs": {
+    "url": "https://github.com/simoneschioppo/damo-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simoneschioppo/damo-ui.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "damo-ui",
+    "shadcn",
+    "cli",
+    "components",
+    "registry",
+    "memphis",
+    "react"
+  ],
+  "bin": {
+    "damo-ui": "src/index.mjs"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --test",
+    "smoke": "node src/index.mjs --help"
+  }
+}

@@ -1,0 +1,16 @@
+@axologic/cli
+
+This package is a from-scratch, dependency-free reimplementation of the
+component-installer workflow popularised by shadcn/ui. It is compatible with
+the `components.json` configuration schema and the registry-item JSON schema
+so that users familiar with shadcn feel at home.
+
+No source code from the shadcn/ui CLI is included; the project is credited for
+the design of the workflow and the configuration/registry schemas.
+
+  shadcn/ui — https://github.com/shadcn-ui/ui
+  Copyright (c) 2023 shadcn
+  Licensed under the MIT License.
+
+@axologic/cli itself is licensed under the MIT License.
+Copyright (c) 2026 Simone Schioppo.
