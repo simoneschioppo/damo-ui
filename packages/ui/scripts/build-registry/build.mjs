@@ -23,6 +23,7 @@ import { existsSync, mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, posix as P, relative, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { classifySpecifier, extractImports, rewriteSource } from './specifiers.mjs'
+import { parseExports, itemNameForPath } from './exports.mjs'
 import { readText, sourceFiles, walkFiles } from './fsutil.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -202,6 +203,31 @@ function buildThemeBase() {
   })
 }
 
+/**
+ * Build the public symbol → registry-item map from the barrel (`src/index.ts`),
+ * expanding `export * from './icons'` against the icons barrel. Consumed by the
+ * migration codemod (#86) to map `import { X } from 'damo-ui'` to a component.
+ */
+function buildExportMap() {
+  const map = {}
+  const add = (names, item) => {
+    for (const n of names) if (n) map[n] = item
+  }
+  for (const e of parseExports(readText(join(SRC, 'index.ts')))) {
+    if (e.star) {
+      if (e.from === './icons') {
+        for (const ie of parseExports(readText(join(SRC, 'icons/index.ts')))) {
+          add(ie.names, 'icons')
+        }
+      }
+      continue
+    }
+    const item = itemNameForPath(e.from)
+    if (item) add(e.names, item)
+  }
+  return map
+}
+
 function writeJson(relPath, data) {
   const abs = join(OUT, relPath)
   mkdirSync(dirname(abs), { recursive: true })
@@ -267,6 +293,10 @@ function build() {
     homepage: 'https://damo-ui.com',
     items: indexItems,
   })
+
+  // Symbol → component map for the migration codemod (#86).
+  const exportMap = buildExportMap()
+  writeJson('exports.json', exportMap)
 
   const counts = indexItems.reduce((acc, i) => ((acc[i.type] = (acc[i.type] ?? 0) + 1), acc), {})
   console.log(`[build-registry] wrote ${indexItems.length} items to ${OUT}`)

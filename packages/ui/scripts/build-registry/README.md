@@ -15,7 +15,13 @@ r/ui/<name>.json        one item per component + the icon set
 r/lib/<name>.json       shared utilities (cn, i18n, selection-chrome, safe-href)
 r/hooks/<name>.json     shared hooks
 r/themes/base.json      Memphis design tokens / theme / global CSS
+r/exports.json          symbol → component map (consumed by the migrate codemod)
 ```
+
+`exports.json` is built from the public barrel (`src/index.ts`, with
+`export * from './icons'` expanded) so the `migrate-from-npm` codemod can map
+`import { Button } from 'damo-ui'` back to a component without the monorepo
+source. See `exports.mjs`.
 
 The output tree is **git-ignored** — it is regenerated on every `dev` and
 `build`, never hand-edited.
