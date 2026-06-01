@@ -147,3 +147,45 @@ describe('Tabs — selection behavior', () => {
     expect(screen.getByText('B panel')).toBeInTheDocument()
   })
 })
+
+describe('TabsList — overflow scrolling', () => {
+  it('adds horizontal scroll affordances while staying content-sized when tabs fit', () => {
+    const { getByRole } = render(
+      <Tabs defaultValue="a">
+        <TabsList>
+          <TabsTrigger value="a">A</TabsTrigger>
+        </TabsList>
+      </Tabs>,
+    )
+    const classes = getByRole('tablist').className.split(/\s+/)
+    // Scrolls on overflow, scrollbar hidden, shrinkable as a flex item.
+    expect(classes).toContain('overflow-x-auto')
+    expect(classes).toContain('scrollbar-hide')
+    expect(classes).toContain('max-w-full')
+    expect(classes).toContain('min-w-0')
+    // Unchanged when tabs fit: still an inline-flex bordered bar.
+    expect(classes).toContain('inline-flex')
+    expect(classes).toContain('border-b-2')
+  })
+
+  it('keeps every trigger reachable by keyboard when the list overflows', async () => {
+    const user = userEvent.setup()
+    render(
+      <Tabs defaultValue="a">
+        <TabsList>
+          <TabsTrigger value="a">A</TabsTrigger>
+          <TabsTrigger value="b">B</TabsTrigger>
+          <TabsTrigger value="c">C</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+        <TabsContent value="b">B</TabsContent>
+        <TabsContent value="c">C</TabsContent>
+      </Tabs>,
+    )
+    screen.getByRole('tab', { name: 'A' }).focus()
+    await user.keyboard('{ArrowRight}')
+    expect(screen.getByRole('tab', { name: 'B' })).toHaveFocus()
+    await user.keyboard('{ArrowRight}')
+    expect(screen.getByRole('tab', { name: 'C' })).toHaveFocus()
+  })
+})
