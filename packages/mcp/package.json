@@ -1,7 +1,6 @@
 {
   "name": "@axologic/mcp",
   "version": "1.0.0",
-  "private": true,
   "type": "module",
   "description": "MCP server for damo-ui — lets AI coding agents discover and install components from the registry.",
   "license": "MIT",
@@ -36,6 +35,9 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "zod": "^3.23.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "test": "node --test",
