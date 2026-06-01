@@ -23,6 +23,11 @@ test.describe('Favicon suite (#78)', () => {
     await expect(apple).toHaveAttribute('href', /\/apple-touch-icon\.png/)
     await expect(shortcut).toHaveAttribute('href', /\/favicon\.ico/)
     await expect(manifest).toHaveAttribute('href', /\/site\.webmanifest/)
+
+    // SVG icon — crisp at any size + satisfies Google's multiple-of-48 hint.
+    const svg = page.locator('link[rel="icon"][type="image/svg+xml"]')
+    await expect(svg).toHaveCount(1)
+    await expect(svg).toHaveAttribute('href', /\/favicon\.svg/)
   })
 
   test('emits a <meta name="theme-color"> tag from the viewport export', async ({ page }) => {
@@ -35,6 +40,7 @@ test.describe('Favicon suite (#78)', () => {
   test.describe('asset reachability', () => {
     const targets = [
       { path: '/favicon.ico', type: /image\/(x-icon|vnd\.microsoft\.icon)/ },
+      { path: '/favicon.svg', type: /image\/svg\+xml/ },
       { path: '/favicon-16x16.png', type: /image\/png/ },
       { path: '/favicon-32x32.png', type: /image\/png/ },
       { path: '/apple-touch-icon.png', type: /image\/png/ },
