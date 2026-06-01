@@ -1,13 +1,16 @@
 name: Publish
 
-# Publishes the damo-ui packages on a release tag (e.g. `v1.0.0`):
-#   - @axologic/ui   (the component library)
-#   - damo-ui        (the CLI — the bare name post-1.0 cutover)
-#   - @axologic/mcp  (the MCP server)
+# Publishes the damo-ui CLI on a release tag (e.g. `v1.0.0`).
 #
-# NOTE: NODE_AUTH_TOKEN (secrets.NPM_TOKEN) must be an npm token with publish
-# rights for BOTH the `@axologic` scope and the `damo-ui` package. The 0.x
-# token was scoped to `damo-ui` only — update it before tagging v1.0.0.
+# damo-ui distributes shadcn-style: components are copy-pasted via the CLI from
+# the registry (served by the docs site at https://damo-ui.com/r), so the only
+# published npm package is the CLI itself, `damo-ui`. The component library
+# (@axologic/ui) and the MCP server (@axologic/mcp) live in the workspace as
+# private packages and are not published.
+#
+# The CLI ships its source (no build step). The existing `NPM_TOKEN` — scoped
+# to the `damo-ui` package — is sufficient, since `damo-ui` is the only thing
+# published.
 
 on:
   push:
@@ -35,20 +38,7 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Build library
-        run: pnpm --filter @axologic/ui build
-
-      - name: Publish @axologic/ui
-        run: pnpm --filter @axologic/ui publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Publish damo-ui (CLI)
         run: pnpm --filter damo-ui publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @axologic/mcp
-        run: pnpm --filter @axologic/mcp publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

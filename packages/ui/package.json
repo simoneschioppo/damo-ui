@@ -1,6 +1,7 @@
 {
   "name": "@axologic/ui",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
   "description": "Damo UI — a React component library heavily inspired by Memphis Design",
   "license": "MIT",

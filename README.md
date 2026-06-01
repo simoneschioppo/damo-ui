@@ -9,80 +9,54 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@axologic/ui"><img alt="npm" src="https://img.shields.io/npm/v/@axologic/ui?color=plum&label=@axologic/ui" /></a>
-  <a href="https://www.npmjs.com/package/damo-ui"><img alt="CLI" src="https://img.shields.io/npm/v/damo-ui?color=plum&label=damo-ui%20CLI" /></a>
+  <a href="https://www.npmjs.com/package/damo-ui"><img alt="npm — damo-ui CLI" src="https://img.shields.io/npm/v/damo-ui?color=plum&label=damo-ui" /></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
   <img alt="React 18+" src="https://img.shields.io/badge/React-%E2%89%A518-61dafb?logo=react&logoColor=white" />
   <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white" />
 </p>
 
-> **1.0 — two ways to use it.** Copy-paste the components with the CLI
-> (`npx damo-ui add button`, shadcn-style — you own the source), or install the
-> package (`npm install @axologic/ui`) for the classic import experience. The
-> old `damo-ui@0.x` _library_ package is deprecated; migrate with
-> `npx damo-ui codemod migrate-from-npm`.
+> **1.0 — copy-paste, shadcn-style.** Components are distributed via the
+> `damo-ui` CLI: it copies the source into your project so you own and can tweak
+> every line. There is no runtime component-library package to install — only
+> the CLI is on npm. The old `damo-ui@0.x` _library_ package is deprecated;
+> migrate with `npx damo-ui codemod migrate-from-npm`.
 
 ## Why damo-ui?
 
 - **Memphis-design primitives, palette-agnostic** — geometric shape decorations, chunky offset shadows, and four ready-to-opt-in palettes (`default`, `sunset`, `cyberpunk`, `forest`). Ships neutral grayscale by default.
 - **Accessible by default** — Dialog, Dropdown, Tooltip, Popover, Select, Tabs, and other interactive components inherit keyboard navigation, focus management, and ARIA semantics from Radix UI primitives.
 - **Theme × palette × density, orthogonal** — flip light/dark, swap palette, and pick density (`compact`, `normal`, `comfortable`) live, all driven from `<html>` data attributes.
-- **Tailwind v4-first, v3 preset shipped** — CSS-first configuration on the latest Tailwind, with a legacy preset preserved for migration.
-- **54 components, two ways to consume** — Foundations, Forms, Feedback, Navigation, Data, Cards, and Layout. Copy-paste via the `damo-ui` CLI (shadcn-style) or import the `@axologic/ui` package.
+- **Tailwind v4-first** — CSS-first configuration; the design tokens / theme are copied into your project (`damo-ui add base`).
+- **54 components, copy-paste** — Foundations, Forms, Feedback, Navigation, Data, Cards, and Layout. Added with `damo-ui add <name>`; you import them from your own `@/components/ui/*`.
 
-## Quick start with the CLI (recommended)
+## Quick start (Next.js + Tailwind v4)
 
 ```bash
 npx damo-ui init                 # writes components.json
-npx damo-ui add button dialog    # copies the source into your project + installs deps
-npx damo-ui list                 # browse the registry
+npx damo-ui add base             # copies the design tokens / theme / global CSS into ./styles
+npx damo-ui add button dialog    # copies the components (+ cn, icons, deps) into your project
+npx damo-ui list                 # browse everything in the registry
 ```
 
-The CLI copies each component into your codebase so you own and can tweak every
-line. Prefer a package import instead? Install `@axologic/ui` (below).
-
-## Install the package (`@axologic/ui`)
-
-Prefer a classic package import over copy-paste? Install the library:
-
-```bash
-pnpm add @axologic/ui
-# or
-npm install @axologic/ui
-# or
-yarn add @axologic/ui
-```
-
-Peer dependencies (must be installed in the consumer app):
-
-```bash
-pnpm add react react-dom tailwindcss tailwindcss-animate
-```
-
-Supported versions: React **≥ 18**, Tailwind **≥ 4**.
-
-## Quickstart (Next.js + Tailwind v4)
-
-1. Wire Tailwind v4 in your global stylesheet:
+Wire the copied CSS into your global stylesheet:
 
 ```css
 /* app/globals.css */
-@import '@axologic/ui/styles/tokens.css';
-@import '@axologic/ui/styles/globals.css';
+@import './styles/tokens.css';
+@import './styles/globals.css';
 
 @import 'tailwindcss';
-@import '@axologic/ui/styles/theme.css';
+@import './styles/theme.css';
 
-/* Tailwind v4 needs to scan the lib's compiled JS for class names.
- * The path is relative to THIS CSS file. For a stock `create-next-app`
- * (globals.css at `app/globals.css`), node_modules sits one level up: */
-@source '../node_modules/@axologic/ui/dist/**/*.js';
+/* Let Tailwind v4 scan your copied components for class names: */
+@source './components/ui/**/*.{ts,tsx}';
 ```
 
-2. Use components:
+Then use a component — imported from your own project, not a package:
 
 ```tsx
-import { Button, Card, Dialog } from '@axologic/ui'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 
 export default function Page() {
   return (
@@ -92,6 +66,9 @@ export default function Page() {
   )
 }
 ```
+
+Supported peer versions: React **≥ 18**, Tailwind **≥ 4** (`npx damo-ui add`
+installs each component's npm deps, e.g. Radix, automatically).
 
 3. (Optional) Drive theme/palette/density from `<html>`:
 
@@ -107,22 +84,6 @@ export default function Page() {
 
 All combinations are orthogonal and switch live without remount.
 
-## Tailwind v3 (legacy preset)
-
-If you are still on Tailwind v3, import the preset:
-
-```ts
-// tailwind.config.ts
-import preset from '@axologic/ui/tailwind.preset'
-
-export default {
-  presets: [preset],
-  content: ['./app/**/*.{ts,tsx}', './node_modules/@axologic/ui/dist/**/*.js'],
-}
-```
-
-The v3 preset mirrors the v4 surface exactly — same colours, radii, shadows, spacing.
-
 ## Component inventory (54)
 
 - **Foundations:** Icon (+31 atomic), Box, Container, AspectRatio, ScrollArea, Separator, Ornament, MemphisShape (8 shape variants), FormField
@@ -135,7 +96,11 @@ The v3 preset mirrors the v4 surface exactly — same colours, radii, shadows, s
 - **Layout:** AppShell, AppTopBar, PageHeader, Sidebar — compose to scaffold a full app shell:
 
 ```tsx
-import { AppShell, AppTopBar, Sidebar, PageHeader } from '@axologic/ui'
+// after `npx damo-ui add app-shell app-top-bar sidebar page-header`
+import { AppShell } from '@/components/ui/app-shell'
+import { AppTopBar } from '@/components/ui/app-top-bar'
+import { Sidebar } from '@/components/ui/sidebar'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function DashboardLayout({ children }) {
   return (
@@ -151,15 +116,16 @@ The full live reference is the docs site at `apps/web` — see "Local dev" below
 
 ## The packages
 
-| Package         | What it is                                         | Install                       |
-| --------------- | -------------------------------------------------- | ----------------------------- |
-| `damo-ui`       | The CLI — copy-paste components into your project  | `npx damo-ui add <component>` |
-| `@axologic/ui`  | The component library (classic package import)     | `npm install @axologic/ui`    |
-| `@axologic/mcp` | MCP server — lets AI agents add components for you | `npx @axologic/mcp`           |
+| Package         | What it is                                           | Published?                       |
+| --------------- | ---------------------------------------------------- | -------------------------------- |
+| `damo-ui`       | The CLI — copy-paste components from the registry    | ✅ npm — `npx damo-ui`           |
+| `@axologic/ui`  | The component source (this repo); shipped copy-paste | ❌ private workspace package     |
+| `@axologic/mcp` | MCP server — lets AI agents add components for you   | ❌ run from source (publish TBD) |
 
-The registry is served from the docs site at `https://damo-ui.com/r` (no npm
-package). The `@damo-ui` scope was unavailable on npm, so scoped packages live
-under `@axologic/*`; the CLI keeps the bare `damo-ui` name.
+Only the CLI is published. Components live in the **registry** served from the
+docs site at `https://damo-ui.com/r` and are copied into your project by the
+CLI — there is no runtime library package to install. (`@axologic/*` is the
+workspace scope; the `@damo-ui` npm scope was unavailable.)
 
 ## Tech stack
 
