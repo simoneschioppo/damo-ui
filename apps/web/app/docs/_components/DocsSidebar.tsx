@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
@@ -10,6 +11,7 @@ import {
   SidebarBrand,
   SidebarHeader,
   SidebarSubtitle,
+  useSidebar,
 } from '@axologic/ui'
 import { BRAND } from '../../../lib/brand'
 import { DOCS_NAV } from './docs-nav'
@@ -35,9 +37,15 @@ const stubBadgeClass =
 export function DocsSidebar() {
   const pathname = usePathname()
   const t = useTranslations('docsSidebar')
+  const { setOpenMobile } = useSidebar()
+
+  // Close the mobile nav drawer after a route change (e.g. tapping a link).
+  useEffect(() => {
+    setOpenMobile(false)
+  }, [pathname, setOpenMobile])
 
   return (
-    <Sidebar aria-label={t('aria')}>
+    <Sidebar responsive aria-label={t('aria')}>
       <SidebarHeader>
         <SidebarBrand>{BRAND.libName}</SidebarBrand>
         <SidebarSubtitle>{t('subtitle')}</SidebarSubtitle>
