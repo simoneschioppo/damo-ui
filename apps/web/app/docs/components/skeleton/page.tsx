@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Skeleton } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Skeleton } from '@/components/ui/skeleton'`
 
 const BASIC_SNIPPET = `<Skeleton className="h-4 w-48" />
 <Skeleton className="h-4 w-64" />

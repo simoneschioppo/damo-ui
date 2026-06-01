@@ -7,12 +7,13 @@ import { Code } from './docs/_components/Code'
 
 const FEATURE_KEYS = ['components', 'tokens', 'themeGenerator'] as const
 
-const INSTALL_SNIPPET = `pnpm add damo-ui`
+const INSTALL_SNIPPET = `npx damo-ui init
+npx damo-ui add button`
 
-const STYLES_SNIPPET = `@import 'tailwindcss';
-@import '@axologic/ui/styles/theme.css';`
+const STYLES_SNIPPET = `# copies the design tokens / theme CSS in:
+npx damo-ui add base`
 
-const RENDER_SNIPPET = `import { Button } from '@axologic/ui'
+const RENDER_SNIPPET = `import { Button } from '@/components/ui/button'
 
 export function Page() {
   return <Button>Save</Button>
@@ -111,7 +112,7 @@ export default async function HomePage() {
               </h3>
             </div>
             <p className="text-sm text-muted-foreground">{t('quickInstall.step2.desc')}</p>
-            <Code code={STYLES_SNIPPET} lang="css" title="app/globals.css" embedded fillHeight />
+            <Code code={STYLES_SNIPPET} lang="bash" title="terminal" embedded fillHeight />
           </div>
 
           <div className="border-2 border-memphis bg-card shadow-memphis p-5 flex flex-col gap-3">

@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Banner } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Banner } from '@/components/ui/banner'`
 
 const VARIANTS_SNIPPET = `<Banner variant="info" title="Heads up">
   Your trial ends in 7 days. Upgrade to keep your projects.

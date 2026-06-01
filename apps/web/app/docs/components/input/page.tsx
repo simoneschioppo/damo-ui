@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Input, Label } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Input, Label } from '@/components/ui/input'`
 
 const BASIC_SNIPPET = `<Label htmlFor="email">Email</Label>
 <Input id="email" type="email" placeholder="hello@example.com" />`

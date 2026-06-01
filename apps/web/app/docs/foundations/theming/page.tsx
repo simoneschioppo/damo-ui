@@ -56,7 +56,7 @@ localStorage.setItem('palette', 'cyberpunk')
 localStorage.setItem('density', 'compact')
 `
 
-const SWITCHERS_USAGE = `import { AttrToggleGroup } from '@axologic/ui'
+const SWITCHERS_USAGE = `import { AttrToggleGroup } from '@/components/ui/attr-toggle-group'
 
 export function ThemeBar() {
   return (
@@ -132,7 +132,7 @@ export default function RootLayout({ children }) {
   )
 }
 
-// Pair this with usePersistedAttr from damo-ui — its lazy-init useState makes
+// Pair this with usePersistedAttr (npx damo-ui add use-persisted-attr) — its lazy-init useState makes
 // React's first commit value match the script's DOM write, so the post-paint
 // effect is a no-op instead of an undo.
 `

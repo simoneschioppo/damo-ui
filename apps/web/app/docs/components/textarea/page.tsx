@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Textarea } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Textarea } from '@/components/ui/textarea'`
 
 const BASIC_SNIPPET = `<Textarea placeholder="Tell us more…" rows={4} />`
 const INVALID_SNIPPET = `<Textarea invalid defaultValue="Too short" />`

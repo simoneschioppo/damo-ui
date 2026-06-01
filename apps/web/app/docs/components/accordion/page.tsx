@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'`
 
 const BASIC_SNIPPET = `<Accordion type="single" collapsible defaultValue="item-1">
   <AccordionItem value="item-1">

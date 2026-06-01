@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Badge } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Badge } from '@/components/ui/badge'`
 
 const VARIANTS_SNIPPET = `<Badge>Default</Badge>
 <Badge variant="featured">Featured</Badge>

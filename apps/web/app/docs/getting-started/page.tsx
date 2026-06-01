@@ -6,29 +6,27 @@ import { Example } from '../_components/Example'
 import { BRAND } from '../../../lib/brand'
 import { codeTag, monoTag, strongTag, linkTag } from '../../../lib/i18n-tags'
 
-const INSTALL_SNIPPET = `pnpm add damo-ui
-# or
-npm install damo-ui
-# or
-yarn add damo-ui
+const INSTALL_SNIPPET = `# scaffold components.json (no dependency to add)
+npx damo-ui init
 `
 
-const STYLES_SNIPPET = `// app/layout.tsx
-import 'damo-ui/styles/tokens.css'
-import 'damo-ui/styles/globals.css'
+const STYLES_SNIPPET = `# copies the design tokens / theme / global CSS into ./styles
+npx damo-ui add base
 `
 
 const TAILWIND_SNIPPET = `/* app/globals.css */
-@import '@axologic/ui/styles/tokens.css';
-@import '@axologic/ui/styles/globals.css';
+@import './styles/tokens.css';
+@import './styles/globals.css';
 
 @import 'tailwindcss';
-@import '@axologic/ui/styles/theme.css';
+@import './styles/theme.css';
 
-@source '../../node_modules/damo-ui/dist/**/*.js';
+/* let Tailwind v4 scan your copied-in components */
+@source './components/ui/**/*.{ts,tsx}';
 `
 
-const FIRST_BUTTON_SNIPPET = `import { Button } from '@axologic/ui'
+const FIRST_BUTTON_SNIPPET = `// after: npx damo-ui add button
+import { Button } from '@/components/ui/button'
 
 export default function Page() {
   return <Button variant="primary">Save</Button>
@@ -36,7 +34,8 @@ export default function Page() {
 `
 
 const ROOT_LAYOUT_SNIPPET = `// app/layout.tsx
-import { AppTopBar, AttrToggleGroup } from '@axologic/ui'
+import { AppTopBar } from '@/components/ui/app-top-bar'
+import { AttrToggleGroup } from '@/components/ui/attr-toggle-group'
 
 export default function RootLayout({ children }) {
   return (
@@ -96,7 +95,7 @@ export default function RootLayout({ children }) {
 
 export const metadata = {
   title: `Getting Started — ${BRAND.libName}`,
-  description: `Install ${BRAND.libName} and ship your first component.`,
+  description: `Scaffold your first ${BRAND.libName} component with the CLI.`,
 }
 
 export default async function GettingStartedPage() {
@@ -119,7 +118,7 @@ export default async function GettingStartedPage() {
 
       <h2 className="font-display text-2xl mb-3 mt-12">{t('step2.title')}</h2>
       <p className="text-foreground/80 mb-2">{t('step2.body')}</p>
-      <Code code={STYLES_SNIPPET} lang="tsx" title="app/layout.tsx" />
+      <Code code={STYLES_SNIPPET} lang="bash" title="terminal" />
 
       <p className="text-foreground/80 mt-6 mb-2">
         {t.rich('step2.tailwindHint', { mono: monoTag })}

@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { AspectRatio } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { AspectRatio } from '@/components/ui/aspect-ratio'`
 
 const BASIC_SNIPPET = `<AspectRatio ratio={16 / 9}>
   <img src="/cover.jpg" alt="" className="h-full w-full object-cover" />

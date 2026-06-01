@@ -30,7 +30,7 @@ const IMPORT_SNIPPET = `import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuShortcut,
-} from '@axologic/ui'`
+} from '@/components/ui/dropdown-menu'`
 
 const BASIC_SNIPPET = `<DropdownMenu>
   <DropdownMenuTrigger asChild>

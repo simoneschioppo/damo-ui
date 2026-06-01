@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Avatar, AvatarImage, AvatarFallback, AvatarGroup } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Avatar, AvatarImage, AvatarFallback, AvatarGroup } from '@/components/ui/avatar'`
 
 const BASIC_SNIPPET = `<Avatar>
   <AvatarImage src="/users/dm.jpg" alt="Damo" />

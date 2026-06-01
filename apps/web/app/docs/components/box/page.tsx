@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Box } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Box } from '@/components/ui/box'`
 
 const ROW_SNIPPET = `<Box gap={3} align="center">
   <span>One</span>

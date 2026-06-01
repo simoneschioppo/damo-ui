@@ -21,7 +21,7 @@ const IMPORT_SNIPPET = `import {
   SidebarSubtitle,
   SidebarBody,
   SidebarFooter,
-} from '@axologic/ui'`
+} from '@/components/ui/sidebar'`
 
 const BASIC_SNIPPET = `<Sidebar aria-label="Main navigation">
   <SidebarHeader>

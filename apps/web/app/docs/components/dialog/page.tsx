@@ -30,7 +30,7 @@ const IMPORT_SNIPPET = `import {
   DialogDescription,
   DialogFooter,
   DialogClose,
-} from '@axologic/ui'`
+} from '@/components/ui/dialog'`
 
 const BASIC_SNIPPET = `<Dialog>
   <DialogTrigger asChild>

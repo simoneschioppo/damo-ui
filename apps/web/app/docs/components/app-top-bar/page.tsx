@@ -6,7 +6,7 @@ import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { AppTopBar, AttrToggleGroup } from '@axologic/ui'
+const IMPORT_SNIPPET = `import { AppTopBar, AttrToggleGroup } from '@/components/ui/app-top-bar'
 import Link from 'next/link'`
 
 const BASIC_SNIPPET = `<AppTopBar

@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Switch, Label } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Switch, Label } from '@/components/ui/switch'`
 
 const BASIC_SNIPPET = `<div className="flex items-center gap-3">
   <Switch id="notify" />

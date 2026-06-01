@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { MemphisShape } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { MemphisShape } from '@/components/ui/memphis-shape'`
 
 const ALL_VARIANTS_SNIPPET = `<MemphisShape variant="diamond" />
 <MemphisShape variant="circle" />

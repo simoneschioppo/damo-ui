@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Separator } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Separator } from '@/components/ui/separator'`
 
 const SOLID_SNIPPET = `<Separator />`
 const VARIANT_SNIPPET = `<Separator variant="dashed" />

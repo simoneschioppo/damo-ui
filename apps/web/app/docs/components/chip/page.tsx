@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Chip } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Chip } from '@/components/ui/chip'`
 
 const VARIANTS_SNIPPET = `<Chip>Default</Chip>
 <Chip variant="accent">Accent</Chip>
