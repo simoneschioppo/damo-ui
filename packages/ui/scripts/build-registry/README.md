@@ -1,8 +1,9 @@
 # Registry generator
 
 Generates a [shadcn-compatible](https://ui.shadcn.com/docs/registry) registry
-from `packages/ui/src`, so damo-ui can be consumed copy-paste style
-(`npx damo-ui add button`) in addition to the classic npm package.
+from `packages/ui/src` — the source the `damo-ui` CLI copies into consumer
+projects (`npx damo-ui add button`). This registry **is** the distribution:
+there is no published component-library package.
 
 ## Output
 

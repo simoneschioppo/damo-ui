@@ -85,15 +85,15 @@
       }
     },
     "quickInstall": {
-      "eyebrow": "INSTALLAZIONE RAPIDA",
-      "heading": "Installa. Configura. Renderizza.",
+      "eyebrow": "AVVIO RAPIDO",
+      "heading": "Init. Add. Render.",
       "step1": {
-        "title": "Installa",
-        "desc": "Aggiungi il pacchetto — funziona con pnpm, npm, yarn o bun."
+        "title": "Init",
+        "desc": "Lancia la CLI — nessuna dipendenza da aggiungere."
       },
       "step2": {
-        "title": "Configura gli stili",
-        "desc": "Un file CSS. Pronto per Tailwind v4."
+        "title": "Aggiungi la base",
+        "desc": "damo-ui add base copia i design token / il CSS del tema nel tuo repo."
       },
       "step3": {
         "title": "Renderizza",
@@ -110,11 +110,11 @@
   },
   "gettingStarted": {
     "eyebrow": "PER INIZIARE",
-    "headlineLine1": "Installa Damo UI",
+    "headlineLine1": "Configura Damo UI",
     "headlineLine2": "in quattro minuti.",
-    "lead": "Damo UI è una libreria di componenti React + Next.js ispirata al Memphis design. Token, componenti e pattern pronti per essere composti in una UI di prodotto.",
+    "lead": "Damo UI è una CLI + registry che copia componenti React in stile Memphis direttamente nel tuo codebase, alla shadcn. Token, componenti e pattern che possiedi e puoi modificare.",
     "step1": {
-      "title": "1. Installa il pacchetto"
+      "title": "1. Inizializza"
     },
     "step2": {
       "title": "2. Aggancia gli stili",

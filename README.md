@@ -5,7 +5,7 @@
 <h1 align="center">damo-ui</h1>
 
 <p align="center">
-  Memphis-inspired React component library for Next.js — tokens, components, and patterns ready to use.
+  Memphis-inspired React components for Next.js — copy-paste into your project with the damo-ui CLI (shadcn-style).
 </p>
 
 <p align="center">

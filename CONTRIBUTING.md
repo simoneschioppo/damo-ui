@@ -25,7 +25,7 @@ A new component must be added to one of the groups there.
 
 ## 2. Real components, not mockups
 
-The docs site and the theme generator MUST mount the real `damo-ui`
+The docs site and the theme generator MUST mount the real `@axologic/ui`
 components in their live previews. No hand-rolled JSX that replicates a
 component's chrome. The only exceptions are:
 
@@ -46,10 +46,10 @@ pnpm install
 pnpm dev               # Ladle (61000) + Next docs site (3000) in parallel
 
 # Before opening a PR:
-pnpm test              # damo-ui unit tests must pass (currently 525)
+pnpm test              # unit tests must pass (lib + CLI + MCP, currently 679)
 pnpm lint              # eslint + docs-sync guardrail
 pnpm --filter @damo/web build
-pnpm --filter damo-ui build
+pnpm --filter @axologic/ui build
 ```
 
 ## CI strategy

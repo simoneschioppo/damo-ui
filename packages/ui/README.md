@@ -15,13 +15,17 @@
   <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white" />
 </p>
 
-> ⚠️ **0.x preview.** Public API is stabilising. Expect breaking changes between minor versions until `1.0.0`. Migration history: [CHANGELOG.md](https://github.com/simoneschioppo/damo-ui/blob/main/CHANGELOG.md).
+> ℹ️ **Private package — not published to npm.** `@axologic/ui` is the source
+> that the [`damo-ui` CLI](https://www.npmjs.com/package/damo-ui) copies into
+> consumer projects (shadcn-style). You don't install it; you copy components
+> in. See the [root README](https://github.com/simoneschioppo/damo-ui#readme).
 
-## Install
+## Use it (copy-paste, via the CLI)
 
 ```bash
-pnpm add @axologic/ui
-# or: npm install @axologic/ui  /  yarn add @axologic/ui
+npx damo-ui init
+npx damo-ui add base        # design tokens / theme CSS
+npx damo-ui add button      # then import from @/components/ui/button
 ```
 
 ## Peer dependencies
@@ -61,7 +65,7 @@ Wire Tailwind v4 in your global stylesheet:
 | `data-palette` | `default` \| `sunset` \| `cyberpunk` \| `forest` |
 | `data-density` | `compact` \| `normal` \| `comfortable`           |
 
-For the **Tailwind v3** preset, see [the repo README → Tailwind v3 section](https://github.com/simoneschioppo/damo-ui#tailwind-v3-legacy-preset).
+Tailwind v4 is the supported target (the tokens/theme CSS are copied in via `npx damo-ui add base`).
 
 ## Usage
 

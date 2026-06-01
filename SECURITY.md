@@ -2,9 +2,7 @@
 
 ## Supported versions
 
-While `damo-ui` is in the `0.x` preview range, only the **latest published version** receives security fixes. Older `0.x` versions will not be patched; consumers must upgrade.
-
-Once `1.0.0` ships, this section will document the support window per major version.
+`damo-ui` (the CLI) is at `1.x`. Only the **latest published version** receives security fixes; consumers should stay current. The legacy `damo-ui@0.x` _library_ line is deprecated and not patched — migrate via `npx damo-ui codemod migrate-from-npm`.
 
 ## Reporting a vulnerability
 
@@ -25,12 +23,13 @@ You can expect:
 
 In scope:
 
-- Vulnerabilities in code published to the npm package `damo-ui` (the contents of `packages/ui/dist/`).
-- Supply-chain issues introduced via the build pipeline (`packages/ui/tsup.config.ts`, `scripts/post-build.mjs`, GitHub Actions workflows).
+- Vulnerabilities in code published to the npm package `damo-ui` — the CLI (the contents of `packages/cli/src/`).
+- The component source the CLI distributes from the registry (`packages/ui/src/`, served at `https://damo-ui.com/r`).
+- Supply-chain issues introduced via the publish/CI pipeline (`.github/workflows/`).
 
 Out of scope:
 
-- The `apps/web` docs site and the `e2e/` Playwright workspace (private monorepo packages, never published).
+- The `apps/web` docs site, the `e2e/` Playwright workspace, and the private (unpublished) `@axologic/ui` / `@axologic/mcp` packages.
 - Issues in third-party dependencies — please report those upstream and link the upstream advisory here.
 - Self-XSS, attacks requiring physical access, social engineering of the maintainer.
 
