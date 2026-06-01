@@ -1,0 +1,37 @@
+name: Publish package
+
+# Manually publish a single (non-private) workspace package to npm using the
+# repo's NPM_TOKEN. Used for packages outside the tag-driven CLI release —
+# e.g. @axologic/mcp. Run: `gh workflow run publish-package.yml -f filter=@axologic/mcp`.
+#
+# The package's npm scope/org must exist and the NPM_TOKEN must have write
+# access to it.
+
+on:
+  workflow_dispatch:
+    inputs:
+      filter:
+        description: 'pnpm package filter to publish (e.g. @axologic/mcp)'
+        required: true
+        default: '@axologic/mcp'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Publish
+        run: pnpm --filter "${{ inputs.filter }}" publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
