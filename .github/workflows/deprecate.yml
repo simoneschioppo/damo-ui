@@ -1,0 +1,35 @@
+name: Deprecate
+
+# Manually-triggered deprecation of npm versions, using the repo's NPM_TOKEN
+# (same credential the Publish workflow uses — it has write access to the
+# `damo-ui` package, unlike a local npm session). Run from the Actions tab or
+# `gh workflow run deprecate.yml -f spec='damo-ui@<1.0.0'`.
+#
+# Deprecation is reversible: re-run with an empty message to undeprecate
+# (`npm deprecate <spec> ""`).
+
+on:
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: 'npm version range to deprecate (e.g. damo-ui@<1.0.0)'
+        required: true
+        default: 'damo-ui@<1.0.0'
+      message:
+        description: 'Deprecation message (empty string undeprecates)'
+        required: true
+        default: 'damo-ui is now the CLI — components are copy-paste: npx damo-ui add <component>. Migrate: npx damo-ui codemod migrate-from-npm'
+
+jobs:
+  deprecate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: npm deprecate
+        run: npm deprecate "${{ inputs.spec }}" "${{ inputs.message }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
