@@ -1,7 +1,23 @@
 'use client'
 
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
+import { forwardRef, useState, type HTMLAttributes, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
+import { MenuIcon } from '../../icons'
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../drawer/drawer'
+import type { Breakpoint } from '../../hooks/use-media-query'
+
+/** Whole Tailwind literals so the v4 source scanner can see them. */
+const NAV_REVEAL: Record<Breakpoint, string> = {
+  sm: 'hidden sm:flex',
+  md: 'hidden md:flex',
+  lg: 'hidden lg:flex',
+}
+const MENU_HIDE: Record<Breakpoint, string> = {
+  sm: 'sm:hidden',
+  md: 'md:hidden',
+  lg: 'lg:hidden',
+}
 
 export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
   logo: ReactNode
@@ -9,30 +25,39 @@ export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
   actions?: ReactNode
   /** When true (default) the header is rendered as a sticky top banner. */
   sticky?: boolean
+  /**
+   * Below this breakpoint the `nav` collapses into a mobile menu (hamburger →
+   * Drawer) so the single-row header never wraps and spills over the page.
+   * Default `md` (768px).
+   */
+  mobileBreakpoint?: Breakpoint
 }
 
 /**
  * AppTopBar — Memphis-styled site header with logo, optional nav, and optional
  * actions slots. Defaults to sticky top placement; opt out via `sticky={false}`.
+ * Below `mobileBreakpoint` the nav collapses into a hamburger-driven drawer.
  *
  * @example
  * ```tsx
  * <AppTopBar
  *   logo={<Link href="/">Brand</Link>}
  *   nav={<><Link href="/a">A</Link><Link href="/b">B</Link></>}
- *   actions={<><ThemeSwitcher /><PaletteSwitcher options={[…]} /></>}
+ *   actions={<DisplaySettings />}
  * />
  * ```
  */
 export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTopBar(
-  { logo, nav, actions, sticky = true, className, ...rest },
+  { logo, nav, actions, sticky = true, mobileBreakpoint = 'md', className, ...rest },
   ref,
 ) {
+  const hasNav = nav !== undefined && nav !== null
+  const hasActions = actions !== undefined && actions !== null
   return (
     <header
       ref={ref}
       className={cn(
-        'flex items-center justify-between gap-6 flex-wrap px-6',
+        'flex items-center justify-between gap-6 px-6',
         'h-[var(--header-height)] min-h-[var(--header-height)]',
         'border-b-2 border-memphis bg-card text-foreground',
         sticky && 'sticky top-0 z-header',
@@ -41,10 +66,57 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
       {...rest}
     >
       <div className="font-display text-xl tracking-wider">{logo}</div>
-      {nav !== undefined && nav !== null && <nav className="flex gap-6">{nav}</nav>}
-      {actions !== undefined && actions !== null && (
-        <div className="flex gap-4 items-center flex-wrap">{actions}</div>
+      {hasNav && (
+        <nav className={cn('items-center gap-6', NAV_REVEAL[mobileBreakpoint])}>{nav}</nav>
+      )}
+      {(hasActions || hasNav) && (
+        <div className="flex gap-4 items-center flex-wrap">
+          {actions}
+          {hasNav && <AppTopBarMobileMenu breakpoint={mobileBreakpoint}>{nav}</AppTopBarMobileMenu>}
+        </div>
       )}
     </header>
   )
 })
+
+interface AppTopBarMobileMenuProps {
+  breakpoint: Breakpoint
+  children: ReactNode
+}
+
+/** Hamburger (below the breakpoint) that opens the nav in a right-side drawer. */
+function AppTopBarMobileMenu({ breakpoint, children }: AppTopBarMobileMenuProps) {
+  const [open, setOpen] = useState(false)
+  const i18n = useI18n()
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
+        <button
+          type="button"
+          aria-label={i18n.appTopBar.menuLabel}
+          className={cn(
+            'inline-flex h-10 w-10 items-center justify-center rounded-none',
+            'border-2 border-memphis bg-card text-foreground cursor-pointer',
+            'transition-colors duration-fast hover:bg-muted',
+            'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+            MENU_HIDE[breakpoint],
+          )}
+        >
+          <MenuIcon size={20} />
+        </button>
+      </DrawerTrigger>
+      <DrawerContent side="right" aria-describedby={undefined} className="w-[min(85vw,18rem)]">
+        <DrawerTitle className="sr-only">{i18n.appTopBar.menuLabel}</DrawerTitle>
+        {/* Close the menu once a nav link is selected. */}
+        <nav
+          className="mt-2 flex flex-col gap-1"
+          onClick={(event) => {
+            if ((event.target as HTMLElement).closest('a')) setOpen(false)
+          }}
+        >
+          {children}
+        </nav>
+      </DrawerContent>
+    </Drawer>
+  )
+}

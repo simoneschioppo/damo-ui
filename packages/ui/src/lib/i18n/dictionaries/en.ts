@@ -37,6 +37,9 @@ export const en: Dictionary = {
     toggleLabel: 'Toggle navigation',
     label: 'Navigation',
   },
+  appTopBar: {
+    menuLabel: 'Open menu',
+  },
   toast: {
     closeLabel: 'Close',
   },

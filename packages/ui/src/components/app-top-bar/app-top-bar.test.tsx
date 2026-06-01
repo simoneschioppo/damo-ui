@@ -61,7 +61,9 @@ describe('AppTopBar', () => {
     expect(header.className).toContain('items-center')
     expect(header.className).toContain('justify-between')
     expect(header.className).toContain('gap-6')
-    expect(header.className).toContain('flex-wrap')
+    // The header no longer wraps — wrapping over a fixed height spilled the
+    // nav onto the page on mobile (the nav now collapses into a drawer).
+    expect(header.className).not.toContain('flex-wrap')
     expect(header.className).toContain('px-6')
     expect(header.className).toContain('h-[var(--header-height)]')
     expect(header.className).toContain('min-h-[var(--header-height)]')
