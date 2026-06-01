@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { NavItem } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { NavItem } from '@/components/ui/nav-item'`
 
 const BASIC_SNIPPET = `<NavItem href="/dashboard">Dashboard</NavItem>
 <NavItem href="/inbox" active>

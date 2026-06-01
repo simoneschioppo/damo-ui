@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { RadioGroup, RadioGroupItem, Label } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { RadioGroup, RadioGroupItem, Label } from '@/components/ui/radio-group'`
 
 const BASIC_SNIPPET = `<RadioGroup defaultValue="medium">
   <div className="flex items-center gap-2">

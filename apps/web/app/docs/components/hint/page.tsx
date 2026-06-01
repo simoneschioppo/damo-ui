@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Hint } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Hint } from '@/components/ui/hint'`
 
 const BASIC_SNIPPET = `<Hint num={1} title="Numbered insight">
   Pair the numbered tile with a short paragraph. The tile is a

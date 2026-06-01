@@ -20,7 +20,7 @@ const IMPORT_SNIPPET = `import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from '@axologic/ui'`
+} from '@/components/ui/tooltip'`
 
 const PROVIDER_SNIPPET = `// In your root layout:
 <TooltipProvider delayDuration={150}>

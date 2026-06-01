@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { AttrToggleGroup } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { AttrToggleGroup } from '@/components/ui/attr-toggle-group'`
 
 const SEGMENTED_SNIPPET = `<AttrToggleGroup
   label="Tone"

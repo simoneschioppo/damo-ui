@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Damo UI — a React component library heavily inspired by Memphis Design",
+  "description": "Private source package for damo-ui's copy-paste components (consumed via the damo-ui CLI). Not published.",
   "license": "MIT",
   "author": "Simone Schioppo",
   "homepage": "https://github.com/simoneschioppo/damo-ui#readme",
@@ -25,9 +25,6 @@
     "radix-ui",
     "typescript"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/simoneschioppo/damo-ui.git",

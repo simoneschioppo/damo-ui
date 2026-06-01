@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { SegmentedControl, SegmentedControlItem } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { SegmentedControl, SegmentedControlItem } from '@/components/ui/segmented-control'`
 
 const BASIC_SNIPPET = `<SegmentedControl defaultValue="day" aria-label="Range">
   <SegmentedControlItem value="day">Day</SegmentedControlItem>

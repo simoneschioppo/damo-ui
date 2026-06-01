@@ -22,7 +22,7 @@ const IMPORT_SNIPPET = `import {
   ContextMenuItem,
   ContextMenuLabel,
   ContextMenuSeparator,
-} from '@axologic/ui'`
+} from '@/components/ui/context-menu'`
 
 const BASIC_SNIPPET = `<ContextMenu>
   <ContextMenuTrigger asChild>

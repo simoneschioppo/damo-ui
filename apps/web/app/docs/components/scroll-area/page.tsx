@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { ScrollArea } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { ScrollArea } from '@/components/ui/scroll-area'`
 
 const BASIC_SNIPPET = `<ScrollArea className="h-72 w-full border-2 border-memphis">
   <ul className="p-4 space-y-2">

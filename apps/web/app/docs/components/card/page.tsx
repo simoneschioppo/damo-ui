@@ -22,7 +22,7 @@ const IMPORT_SNIPPET = `import {
   CardDescription,
   CardBody,
   CardFooter,
-} from '@axologic/ui'`
+} from '@/components/ui/card'`
 
 const BASIC_SNIPPET = `<Card variant="default">
   <CardHeader>

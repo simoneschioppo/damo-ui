@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Button, IconButton } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Button, IconButton } from '@/components/ui/button'`
 
 const BASIC_SNIPPET = `<Button variant="primary">Save</Button>
 <Button variant="ghost">Cancel</Button>`
@@ -25,7 +25,7 @@ const FULL_WIDTH_SNIPPET = `<Button variant="primary" fullWidth>
 </Button>`
 
 const AS_LINK_SNIPPET = `import Link from 'next/link'
-import { Button } from '@axologic/ui'
+import { Button } from '@/components/ui/button'
 
 // Render the Link as a Button. All variant, size, and animation
 // classes — including the Memphis press effect on :active — are

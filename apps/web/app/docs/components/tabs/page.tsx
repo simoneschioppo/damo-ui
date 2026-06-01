@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag, kbdTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Tabs, TabsList, TabsTrigger, TabsContent } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'`
 
 const BASIC_SNIPPET = `<Tabs defaultValue="overview">
   <TabsList>

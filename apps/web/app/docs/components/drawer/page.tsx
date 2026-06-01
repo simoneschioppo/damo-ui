@@ -27,7 +27,7 @@ const IMPORT_SNIPPET = `import {
   DrawerTitle,
   DrawerDescription,
   DrawerClose,
-} from '@axologic/ui'`
+} from '@/components/ui/drawer'`
 
 const BASIC_SNIPPET = `<Drawer>
   <DrawerTrigger asChild>

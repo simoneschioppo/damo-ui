@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Stat } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Stat } from '@/components/ui/stat'`
 
 const BASIC_SNIPPET = `<Stat label="MRR" value="€42,800" delta="+12% vs last month" deltaTone="positive" />`
 

@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { Medal } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Medal } from '@/components/ui/medal'`
 
 const RANKS_SNIPPET = `<Medal rank="bronze" value={3} label="Bronze" />
 <Medal rank="silver" value={2} label="Silver" />

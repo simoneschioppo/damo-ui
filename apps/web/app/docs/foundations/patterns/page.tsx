@@ -31,7 +31,7 @@ const RAW_CSS_PATTERN = `/* Apply the same pattern directly via CSS — no compo
 }
 `
 
-const SHAPE_BASIC = `import { MemphisShape } from '@axologic/ui'
+const SHAPE_BASIC = `import { MemphisShape } from '@/components/ui/memphis-shape'
 
 <MemphisShape variant="diamond" size={64} color="var(--primary)" />
 <MemphisShape variant="circle"  size={64} color="var(--secondary)" />

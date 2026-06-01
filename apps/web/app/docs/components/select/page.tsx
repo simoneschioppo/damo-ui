@@ -25,7 +25,7 @@ const IMPORT_SNIPPET = `import {
   SelectGroup,
   SelectLabel,
   SelectSeparator,
-} from '@axologic/ui'`
+} from '@/components/ui/select'`
 
 const BASIC_SNIPPET = `<Select defaultValue="medium">
   <SelectTrigger className="w-[180px]">

@@ -59,8 +59,8 @@ export default function CliPage() {
         can read, tweak and version every line.
       </p>
       <p className="text-sm text-muted-foreground max-w-[60ch] mb-12">
-        Both models are supported: install the package with <code>npm install @axologic/ui</code>{' '}
-        for the zero-config import experience, or use the CLI below for copy-paste. The CLI is{' '}
+        There&apos;s no component-library package to install — the CLI copies the source into your
+        project and you import it from <code>@/components/ui/*</code>. The CLI is{' '}
         <code>components.json</code>-compatible, so if you already use shadcn it will feel familiar.
       </p>
 

@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { ArticleCard } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { ArticleCard } from '@/components/ui/article-card'`
 
 const BASIC_SNIPPET = `<ArticleCard label="REGOLA" title="Use semantic tokens, not raw scales">
   <p>Always reach for <code>bg-card</code> rather than <code>bg-paper-100</code> in product code.</p>

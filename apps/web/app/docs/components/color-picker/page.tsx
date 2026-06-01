@@ -11,7 +11,7 @@ import {
   ColorPickerNoLabelExample,
 } from './_examples'
 
-const IMPORT_SNIPPET = `import { ColorPicker } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { ColorPicker } from '@/components/ui/color-picker'`
 
 const BASIC_SNIPPET = `function Example() {
   const [color, setColor] = useState('#7a3980')

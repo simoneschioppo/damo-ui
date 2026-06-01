@@ -5,7 +5,7 @@ import { Code } from '../../_components/Code'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { AppShell } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { AppShell } from '@/components/ui/app-shell'`
 
 const BASIC_SNIPPET = `<AppShell sidebar={<Nav />} sidebarWidth={260}>
   <PageHeader title="Dashboard" />

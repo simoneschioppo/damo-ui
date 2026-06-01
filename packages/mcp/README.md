@@ -6,6 +6,11 @@ An [MCP](https://modelcontextprotocol.io) server for
 components straight from the registry — search the catalog, read a component's
 source, or drop it into your project, all from inside the editor.
 
+> ⚠️ **Not yet published to npm.** Until it ships, run it from source instead
+> of `npx`: clone the repo and point your client at
+> `node /abs/path/to/damo-ui/packages/mcp/src/index.mjs` (the `npx -y @axologic/mcp`
+> snippets below are the intended config once published).
+
 ## Tools
 
 | Tool                 | What it does                                                           |

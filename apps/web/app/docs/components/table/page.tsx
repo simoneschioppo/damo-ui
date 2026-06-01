@@ -26,7 +26,7 @@ const IMPORT_SNIPPET = `import {
   TableRow,
   TableCell,
   TableCaption,
-} from '@axologic/ui'`
+} from '@/components/ui/table'`
 
 const BASIC_SNIPPET = `<Table>
   <TableCaption>Recent invoices</TableCaption>

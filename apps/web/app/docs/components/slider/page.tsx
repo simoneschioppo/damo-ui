@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Slider } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Slider } from '@/components/ui/slider'`
 
 const BASIC_SNIPPET = `<Slider defaultValue={[40]} max={100} step={1} />`
 const RANGE_SNIPPET = `<Slider defaultValue={[20, 80]} max={100} step={1} />`

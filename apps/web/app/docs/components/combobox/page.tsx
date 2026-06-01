@@ -7,7 +7,7 @@ import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, kbdTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Combobox } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { Combobox } from '@/components/ui/combobox'`
 
 const BASIC_SNIPPET = `<Combobox
   options={[

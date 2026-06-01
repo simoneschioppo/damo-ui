@@ -19,7 +19,7 @@ const IMPORT_SNIPPET = `import {
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
-} from '@axologic/ui'`
+} from '@/components/ui/popover'`
 
 const BASIC_SNIPPET = `<Popover>
   <PopoverTrigger asChild>

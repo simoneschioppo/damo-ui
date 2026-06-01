@@ -7,7 +7,7 @@ import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { FeatureCard, BoltIcon } from '@axologic/ui'`
+const IMPORT_SNIPPET = `import { FeatureCard, BoltIcon } from '@/components/ui/feature-card'`
 
 const BASIC_SNIPPET = `<FeatureCard
   title="Memphis chrome"
