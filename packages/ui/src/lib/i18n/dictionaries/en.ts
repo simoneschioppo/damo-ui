@@ -33,6 +33,10 @@ export const en: Dictionary = {
   drawer: {
     closeLabel: 'Close',
   },
+  sidebar: {
+    toggleLabel: 'Toggle navigation',
+    label: 'Navigation',
+  },
   toast: {
     closeLabel: 'Close',
   },
