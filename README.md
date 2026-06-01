@@ -17,8 +17,9 @@
 
 > **1.0 — copy-paste, shadcn-style.** Components are distributed via the
 > `damo-ui` CLI: it copies the source into your project so you own and can tweak
-> every line. There is no runtime component-library package to install — only
-> the CLI is on npm. The old `damo-ui@0.x` _library_ package is deprecated;
+> every line. There is no runtime component-library package to install — the
+> components are copy-paste (the `damo-ui` CLI and `@axologic/mcp` server are
+> the only npm packages). The old `damo-ui@0.x` _library_ package is deprecated;
 > migrate with `npx damo-ui codemod migrate-from-npm`.
 
 ## Why damo-ui?
@@ -118,13 +119,14 @@ The full live reference is the docs site at `apps/web` — see "Local dev" below
 
 ## The packages
 
-| Package         | What it is                                           | Published?                       |
-| --------------- | ---------------------------------------------------- | -------------------------------- |
-| `damo-ui`       | The CLI — copy-paste components from the registry    | ✅ npm — `npx damo-ui`           |
-| `@axologic/ui`  | The component source (this repo); shipped copy-paste | ❌ private workspace package     |
-| `@axologic/mcp` | MCP server — lets AI agents add components for you   | ❌ run from source (publish TBD) |
+| Package         | What it is                                           | Published?                   |
+| --------------- | ---------------------------------------------------- | ---------------------------- |
+| `damo-ui`       | The CLI — copy-paste components from the registry    | ✅ npm — `npx damo-ui`       |
+| `@axologic/ui`  | The component source (this repo); shipped copy-paste | ❌ private workspace package |
+| `@axologic/mcp` | MCP server — lets AI agents add components for you   | ✅ npm — `npx @axologic/mcp` |
 
-Only the CLI is published. Components live in the **registry** served from the
+The CLI + MCP server are published; components themselves are **not** an npm
+package — they live in the **registry** served from the
 docs site at `https://damo-ui.com/r` and are copied into your project by the
 CLI — there is no runtime library package to install. (`@axologic/*` is the
 workspace scope; the `@damo-ui` npm scope was unavailable.)
