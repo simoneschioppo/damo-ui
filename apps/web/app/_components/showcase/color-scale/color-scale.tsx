@@ -1,8 +1,8 @@
 'use client'
 
 import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react'
-import { cn } from 'damo-ui'
-import { useResolvedCssVars } from 'damo-ui'
+import { cn } from '@axologic/ui'
+import { useResolvedCssVars } from '@axologic/ui'
 
 export interface ColorStop {
   k: number

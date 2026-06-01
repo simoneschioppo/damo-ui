@@ -56,7 +56,7 @@ localStorage.setItem('palette', 'cyberpunk')
 localStorage.setItem('density', 'compact')
 `
 
-const SWITCHERS_USAGE = `import { AttrToggleGroup } from 'damo-ui'
+const SWITCHERS_USAGE = `import { AttrToggleGroup } from '@axologic/ui'
 
 export function ThemeBar() {
   return (

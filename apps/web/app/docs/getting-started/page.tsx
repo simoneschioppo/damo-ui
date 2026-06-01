@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Button } from 'damo-ui'
+import { Button } from '@axologic/ui'
 import { Code } from '../_components/Code'
 import { Example } from '../_components/Example'
 import { BRAND } from '../../../lib/brand'
@@ -19,16 +19,16 @@ import 'damo-ui/styles/globals.css'
 `
 
 const TAILWIND_SNIPPET = `/* app/globals.css */
-@import 'damo-ui/styles/tokens.css';
-@import 'damo-ui/styles/globals.css';
+@import '@axologic/ui/styles/tokens.css';
+@import '@axologic/ui/styles/globals.css';
 
 @import 'tailwindcss';
-@import 'damo-ui/styles/theme.css';
+@import '@axologic/ui/styles/theme.css';
 
 @source '../../node_modules/damo-ui/dist/**/*.js';
 `
 
-const FIRST_BUTTON_SNIPPET = `import { Button } from 'damo-ui'
+const FIRST_BUTTON_SNIPPET = `import { Button } from '@axologic/ui'
 
 export default function Page() {
   return <Button variant="primary">Save</Button>
@@ -36,7 +36,7 @@ export default function Page() {
 `
 
 const ROOT_LAYOUT_SNIPPET = `// app/layout.tsx
-import { AppTopBar, AttrToggleGroup } from 'damo-ui'
+import { AppTopBar, AttrToggleGroup } from '@axologic/ui'
 
 export default function RootLayout({ children }) {
   return (

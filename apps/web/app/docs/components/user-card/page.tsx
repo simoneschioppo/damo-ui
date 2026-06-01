@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { UserCard, Badge } from 'damo-ui'
+import { UserCard, Badge } from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { UserCard } from 'damo-ui'`
+const IMPORT_SNIPPET = `import { UserCard } from '@axologic/ui'`
 
 const BASIC_SNIPPET = `<UserCard name="Damo Membro" meta="DAMO@EXAMPLE.COM" />`
 

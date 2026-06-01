@@ -9,62 +9,54 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/damo-ui"><img alt="npm" src="https://img.shields.io/npm/v/damo-ui?color=plum&label=damo-ui" /></a>
+  <a href="https://www.npmjs.com/package/damo-ui"><img alt="npm — damo-ui CLI" src="https://img.shields.io/npm/v/damo-ui?color=plum&label=damo-ui" /></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
   <img alt="React 18+" src="https://img.shields.io/badge/React-%E2%89%A518-61dafb?logo=react&logoColor=white" />
   <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white" />
 </p>
 
-> ⚠️ **0.x preview.** The public API is stabilising. Expect breaking changes between minor versions until `1.0.0`. The migration paths are documented in [`CHANGELOG.md`](./CHANGELOG.md).
+> **1.0 — copy-paste, shadcn-style.** Components are distributed via the
+> `damo-ui` CLI: it copies the source into your project so you own and can tweak
+> every line. There is no runtime component-library package to install — only
+> the CLI is on npm. The old `damo-ui@0.x` _library_ package is deprecated;
+> migrate with `npx damo-ui codemod migrate-from-npm`.
 
 ## Why damo-ui?
 
 - **Memphis-design primitives, palette-agnostic** — geometric shape decorations, chunky offset shadows, and four ready-to-opt-in palettes (`default`, `sunset`, `cyberpunk`, `forest`). Ships neutral grayscale by default.
 - **Accessible by default** — Dialog, Dropdown, Tooltip, Popover, Select, Tabs, and other interactive components inherit keyboard navigation, focus management, and ARIA semantics from Radix UI primitives.
 - **Theme × palette × density, orthogonal** — flip light/dark, swap palette, and pick density (`compact`, `normal`, `comfortable`) live, all driven from `<html>` data attributes.
-- **Tailwind v4-first, v3 preset shipped** — CSS-first configuration on the latest Tailwind, with a legacy preset preserved for migration.
-- **54 components, one entry point** — Foundations, Forms, Feedback, Navigation, Data, Cards, and Layout. Single-import library today; `@damo-ui/cli` and registry post-1.0 (see Reserved scope below).
+- **Tailwind v4-first** — CSS-first configuration; the design tokens / theme are copied into your project (`damo-ui add base`).
+- **54 components, copy-paste** — Foundations, Forms, Feedback, Navigation, Data, Cards, and Layout. Added with `damo-ui add <name>`; you import them from your own `@/components/ui/*`.
 
-## Install
-
-```bash
-pnpm add damo-ui
-# or
-npm install damo-ui
-# or
-yarn add damo-ui
-```
-
-Peer dependencies (must be installed in the consumer app):
+## Quick start (Next.js + Tailwind v4)
 
 ```bash
-pnpm add react react-dom tailwindcss tailwindcss-animate
+npx damo-ui init                 # writes components.json
+npx damo-ui add base             # copies the design tokens / theme / global CSS into ./styles
+npx damo-ui add button dialog    # copies the components (+ cn, icons, deps) into your project
+npx damo-ui list                 # browse everything in the registry
 ```
 
-Supported versions: React **≥ 18**, Tailwind **≥ 4**.
-
-## Quickstart (Next.js + Tailwind v4)
-
-1. Wire Tailwind v4 in your global stylesheet:
+Wire the copied CSS into your global stylesheet:
 
 ```css
 /* app/globals.css */
-@import 'damo-ui/styles/tokens.css';
-@import 'damo-ui/styles/globals.css';
+@import './styles/tokens.css';
+@import './styles/globals.css';
 
 @import 'tailwindcss';
-@import 'damo-ui/styles/theme.css';
+@import './styles/theme.css';
 
-/* Tailwind v4 needs to scan the lib's compiled JS for class names.
- * The path is relative to THIS CSS file. For a stock `create-next-app`
- * (globals.css at `app/globals.css`), node_modules sits one level up: */
-@source '../node_modules/damo-ui/dist/**/*.js';
+/* Let Tailwind v4 scan your copied components for class names: */
+@source './components/ui/**/*.{ts,tsx}';
 ```
 
-2. Use components:
+Then use a component — imported from your own project, not a package:
 
 ```tsx
-import { Button, Card, Dialog } from 'damo-ui'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 
 export default function Page() {
   return (
@@ -75,7 +67,12 @@ export default function Page() {
 }
 ```
 
-3. (Optional) Drive theme/palette/density from `<html>`:
+Supported peer versions: React **≥ 18**, Tailwind **≥ 4** (`npx damo-ui add`
+installs each component's npm deps, e.g. Radix, automatically).
+
+### Optional: theme, palette & density
+
+Drive them from `<html>` data attributes:
 
 ```html
 <html data-theme="light" data-palette="default" data-density="normal"></html>
@@ -89,22 +86,6 @@ export default function Page() {
 
 All combinations are orthogonal and switch live without remount.
 
-## Tailwind v3 (legacy preset)
-
-If you are still on Tailwind v3, import the preset:
-
-```ts
-// tailwind.config.ts
-import preset from 'damo-ui/tailwind.preset'
-
-export default {
-  presets: [preset],
-  content: ['./app/**/*.{ts,tsx}', './node_modules/damo-ui/dist/**/*.js'],
-}
-```
-
-The v3 preset mirrors the v4 surface exactly — same colours, radii, shadows, spacing.
-
 ## Component inventory (54)
 
 - **Foundations:** Icon (+31 atomic), Box, Container, AspectRatio, ScrollArea, Separator, Ornament, MemphisShape (8 shape variants), FormField
@@ -117,7 +98,11 @@ The v3 preset mirrors the v4 surface exactly — same colours, radii, shadows, s
 - **Layout:** AppShell, AppTopBar, PageHeader, Sidebar — compose to scaffold a full app shell:
 
 ```tsx
-import { AppShell, AppTopBar, Sidebar, PageHeader } from 'damo-ui'
+// after `npx damo-ui add app-shell app-top-bar sidebar page-header`
+import { AppShell } from '@/components/ui/app-shell'
+import { AppTopBar } from '@/components/ui/app-top-bar'
+import { Sidebar } from '@/components/ui/sidebar'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default function DashboardLayout({ children }) {
   return (
@@ -131,27 +116,30 @@ export default function DashboardLayout({ children }) {
 
 The full live reference is the docs site at `apps/web` — see "Local dev" below to run it.
 
-## Reserved scope `@damo-ui/*`
+## The packages
 
-The `@damo-ui/*` npm scope is reserved for ecosystem packages that complement the core library:
+| Package         | What it is                                           | Published?                       |
+| --------------- | ---------------------------------------------------- | -------------------------------- |
+| `damo-ui`       | The CLI — copy-paste components from the registry    | ✅ npm — `npx damo-ui`           |
+| `@axologic/ui`  | The component source (this repo); shipped copy-paste | ❌ private workspace package     |
+| `@axologic/mcp` | MCP server — lets AI agents add components for you   | ❌ run from source (publish TBD) |
 
-- `@damo-ui/cli` — copy-paste installer (post-1.0)
-- `@damo-ui/registry` — registry endpoint (post-1.0)
-- `@damo-ui/mcp` — MCP server for agentic workflows (post-1.0)
-
-Until those ship, only the unscoped `damo-ui` package is published.
+Only the CLI is published. Components live in the **registry** served from the
+docs site at `https://damo-ui.com/r` and are copied into your project by the
+CLI — there is no runtime library package to install. (`@axologic/*` is the
+workspace scope; the `@damo-ui` npm scope was unavailable.)
 
 ## Tech stack
 
 - React 19 (peer ≥ 18)
-- Tailwind v4 (CSS-first); v3 preset shipped for legacy consumers
+- Tailwind v4 (CSS-first)
 - Radix UI primitives
 - TypeScript strict, pnpm workspace, tsup build
 - Vitest unit + Playwright e2e
 
 ## Repo structure
 
-- `packages/ui` — the library (`damo-ui`)
+- `packages/ui` — the library (`@axologic/ui`); `packages/cli` — the CLI (`damo-ui`); `packages/mcp` — the MCP server (`@axologic/mcp`)
 - `apps/web` — Next 15 docs + showcase site (private; not published)
 - `e2e` — Playwright end-to-end tests (private)
 

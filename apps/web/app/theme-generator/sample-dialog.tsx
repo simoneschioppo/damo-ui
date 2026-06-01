@@ -14,7 +14,7 @@ import {
   DialogTrigger,
   Input,
   Label,
-} from 'damo-ui'
+} from '@axologic/ui'
 
 /**
  * Sample dialog mounted in the theme generator preview pane.

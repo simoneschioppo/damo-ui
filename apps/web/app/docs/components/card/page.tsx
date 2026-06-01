@@ -1,6 +1,14 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Card, CardHeader, CardTitle, CardDescription, CardBody, CardFooter, Button } from 'damo-ui'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardBody,
+  CardFooter,
+  Button,
+} from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
@@ -14,7 +22,7 @@ const IMPORT_SNIPPET = `import {
   CardDescription,
   CardBody,
   CardFooter,
-} from 'damo-ui'`
+} from '@axologic/ui'`
 
 const BASIC_SNIPPET = `<Card variant="default">
   <CardHeader>

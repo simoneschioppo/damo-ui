@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, type CSSProperties, type HTMLAttributes } from 'react'
-import { cn } from 'damo-ui'
+import { cn } from '@axologic/ui'
 
 export interface TokenSwatchProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Human-readable token name, e.g. "Background". */

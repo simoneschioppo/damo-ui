@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Slider } from 'damo-ui'
+import { Slider } from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Slider } from 'damo-ui'`
+const IMPORT_SNIPPET = `import { Slider } from '@axologic/ui'`
 
 const BASIC_SNIPPET = `<Slider defaultValue={[40]} max={100} step={1} />`
 const RANGE_SNIPPET = `<Slider defaultValue={[20, 80]} max={100} step={1} />`

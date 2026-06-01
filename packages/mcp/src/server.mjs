@@ -20,7 +20,7 @@ const DEFAULT_REGISTRY = (process.env.DAMO_UI_REGISTRY || 'https://damo-ui.com/r
   /\/+$/,
   '',
 )
-const DEFAULT_CLI = process.env.DAMO_UI_CLI || 'npx -y @axologic/cli'
+const DEFAULT_CLI = process.env.DAMO_UI_CLI || 'npx -y damo-ui'
 
 const text = (t) => ({ content: [{ type: 'text', text: t }] })
 const errorText = (t) => ({ content: [{ type: 'text', text: t }], isError: true })

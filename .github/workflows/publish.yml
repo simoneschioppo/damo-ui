@@ -1,9 +1,21 @@
 name: Publish
 
+# Publishes the damo-ui CLI on a release tag (e.g. `v1.0.0`).
+#
+# damo-ui distributes shadcn-style: components are copy-pasted via the CLI from
+# the registry (served by the docs site at https://damo-ui.com/r), so the only
+# published npm package is the CLI itself, `damo-ui`. The component library
+# (@axologic/ui) and the MCP server (@axologic/mcp) live in the workspace as
+# private packages and are not published.
+#
+# The CLI ships its source (no build step). The existing `NPM_TOKEN` — scoped
+# to the `damo-ui` package — is sufficient, since `damo-ui` is the only thing
+# published.
+
 on:
   push:
     tags:
-      - 'damo-ui@*'
+      - 'v*'
 
 jobs:
   publish:
@@ -26,10 +38,7 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Build lib
-        run: pnpm --filter damo-ui build
-
-      - name: Publish to npm
+      - name: Publish damo-ui (CLI)
         run: pnpm --filter damo-ui publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

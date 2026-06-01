@@ -6,7 +6,7 @@
     "predev": "REGISTRY_URL=http://localhost:3000/r node ../../packages/ui/scripts/build-registry/build.mjs",
     "dev": "next dev --port 3000",
     "build:registry": "node ../../packages/ui/scripts/build-registry/build.mjs",
-    "build": "pnpm --filter damo-ui build && pnpm run build:registry && next build",
+    "build": "pnpm --filter @axologic/ui build && pnpm run build:registry && next build",
     "start": "next start --port 3000",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@shikijs/transformers": "^4.0.2",
-    "damo-ui": "workspace:*",
+    "@axologic/ui": "workspace:*",
     "next": "^15.0.0",
     "next-intl": "^4.11.1",
     "react": "^19.0.0",

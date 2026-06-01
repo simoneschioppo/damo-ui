@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
-import { FeatureCard, BoltIcon } from 'damo-ui'
+import { FeatureCard, BoltIcon } from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { FeatureCard, BoltIcon } from 'damo-ui'`
+const IMPORT_SNIPPET = `import { FeatureCard, BoltIcon } from '@axologic/ui'`
 
 const BASIC_SNIPPET = `<FeatureCard
   title="Memphis chrome"

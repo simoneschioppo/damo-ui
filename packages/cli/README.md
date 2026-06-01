@@ -1,11 +1,11 @@
-# @axologic/cli
+# damo-ui
 
 The CLI for [damo-ui](https://github.com/simoneschioppo/damo-ui) — add
 Memphis-flavoured components to your project **shadcn-style**: the source is
 copied into your codebase (not imported from a black-box package), so you own
 and can tweak every line.
 
-> Published as `@axologic/cli` during the 0.x line; at the 1.0 cutover it takes
+> Published as `damo-ui` during the 0.x line; at the 1.0 cutover it takes
 > the bare `damo-ui` name (so `npx damo-ui add …`). The `bin` is already
 > `damo-ui`.
 
@@ -13,16 +13,16 @@ and can tweak every line.
 
 ```bash
 # 1. scaffold components.json
-npx @axologic/cli init
+npx damo-ui init
 
 # 2. add components (pulls their cn/icons/i18n deps + installs npm packages)
-npx @axologic/cli add button dialog
+npx damo-ui add button dialog
 
 # add directly from a URL
-npx @axologic/cli add https://damo-ui.com/r/ui/button.json
+npx damo-ui add https://damo-ui.com/r/ui/button.json
 
 # 3. browse what's available
-npx @axologic/cli list
+npx damo-ui list
 ```
 
 ## Commands
@@ -54,8 +54,8 @@ Already using `import { Button } from 'damo-ui'`? One command converts the
 whole project to copy-paste:
 
 ```bash
-npx @axologic/cli codemod migrate-from-npm --dry-run   # preview
-npx @axologic/cli codemod migrate-from-npm             # apply
+npx damo-ui codemod migrate-from-npm --dry-run   # preview
+npx damo-ui codemod migrate-from-npm             # apply
 ```
 
 It scans every `from 'damo-ui'` import/re-export (named, type-only, aliased,

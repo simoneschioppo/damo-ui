@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Pagination } from 'damo-ui'
+import { Pagination } from '@axologic/ui'
 
 export function PaginationBasicExample() {
   const [page, setPage] = useState(3)

@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Combobox } from 'damo-ui'
+import { Combobox } from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 import { codeTag, monoTag, strongTag, emTag, kbdTag, linkTag } from '../../../../lib/i18n-tags'
 
-const IMPORT_SNIPPET = `import { Combobox } from 'damo-ui'`
+const IMPORT_SNIPPET = `import { Combobox } from '@axologic/ui'`
 
 const BASIC_SNIPPET = `<Combobox
   options={[

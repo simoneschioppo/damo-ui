@@ -6,21 +6,21 @@ export const metadata = {
   description: `Add ${BRAND.libName} components to your project shadcn-style with the damo-ui CLI.`,
 }
 
-const INIT_SNIPPET = `npx @axologic/cli init`
+const INIT_SNIPPET = `npx damo-ui init`
 
 const ADD_SNIPPET = `# add components (pulls cn / icons / i18n + installs npm deps)
-npx @axologic/cli add button dialog
+npx damo-ui add button dialog
 
 # or straight from a URL
-npx @axologic/cli add https://damo-ui.com/r/ui/button.json`
+npx damo-ui add https://damo-ui.com/r/ui/button.json`
 
-const LIST_SNIPPET = `npx @axologic/cli list`
+const LIST_SNIPPET = `npx damo-ui list`
 
 const MIGRATE_SNIPPET = `# preview the changes first
-npx @axologic/cli codemod migrate-from-npm --dry-run
+npx damo-ui codemod migrate-from-npm --dry-run
 
 # then apply
-npx @axologic/cli codemod migrate-from-npm`
+npx damo-ui codemod migrate-from-npm`
 
 const CONFIG_SNIPPET = `{
   "$schema": "https://ui.shadcn.com/schema.json",
@@ -59,9 +59,9 @@ export default function CliPage() {
         can read, tweak and version every line.
       </p>
       <p className="text-sm text-muted-foreground max-w-[60ch] mb-12">
-        Both models are supported: keep using <code>npm install damo-ui</code> for the zero-config
-        package, or use the CLI below for copy-paste. The CLI is <code>components.json</code>
-        -compatible, so if you already use shadcn it will feel familiar.
+        Both models are supported: install the package with <code>npm install @axologic/ui</code>{' '}
+        for the zero-config import experience, or use the CLI below for copy-paste. The CLI is{' '}
+        <code>components.json</code>-compatible, so if you already use shadcn it will feel familiar.
       </p>
 
       <h2 className="font-display text-2xl mb-3">1. Initialize</h2>

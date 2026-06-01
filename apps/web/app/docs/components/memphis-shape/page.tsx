@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { codeTag, monoTag, strongTag, emTag, linkTag } from '../../../../lib/i18n-tags'
-import { MemphisShape } from 'damo-ui'
+import { MemphisShape } from '@axologic/ui'
 import { Code } from '../../_components/Code'
 import { Example } from '../../_components/Example'
 import { PropsTable, type PropDef } from '../../_components/PropsTable'
 import { BRAND } from '../../../../lib/brand'
 
-const IMPORT_SNIPPET = `import { MemphisShape } from 'damo-ui'`
+const IMPORT_SNIPPET = `import { MemphisShape } from '@axologic/ui'`
 
 const ALL_VARIANTS_SNIPPET = `<MemphisShape variant="diamond" />
 <MemphisShape variant="circle" />
