@@ -1,6 +1,6 @@
 {
   "name": "damo-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Add Memphis-style damo-ui components to your project, shadcn-style (copy-paste via a registry).",
   "license": "MIT",
