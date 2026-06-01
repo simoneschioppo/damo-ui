@@ -35,7 +35,9 @@ import {
   SidebarBrand,
   SidebarFooter,
   SidebarHeader,
+  SidebarProvider,
   SidebarSubtitle,
+  SidebarTrigger,
   Slider,
   Tabs,
   TabsContent,
@@ -148,14 +150,6 @@ function humanize(key: string): string {
 // Layout styles (inline, layout primitives only — no color)
 // ═══════════════════════════════════════════════════════════
 
-const pageStyle: CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: '340px 1fr',
-  minHeight: '100vh',
-  background: 'var(--background)',
-  color: 'var(--foreground)',
-}
-const mainStyle: CSSProperties = { padding: '32px 48px 64px', minWidth: 0 }
 const stackStyle: CSSProperties = { display: 'flex', flexDirection: 'column', gap: 12 }
 const rowStyle: CSSProperties = { display: 'flex', alignItems: 'center', gap: 8 }
 
@@ -1042,242 +1036,255 @@ export default function ThemeGeneratorPage() {
   }
 
   return (
-    <div style={pageStyle}>
-      {/* ─── Sidebar ──────────────────────────────────── */}
-      <Sidebar aria-label={t('sidebar.aria')}>
-        <SidebarHeader>
-          <SidebarBrand>{t('sidebar.brand')}</SidebarBrand>
-          <SidebarSubtitle>
-            {BRAND.libName} · {t('sidebar.subtitle')}
-          </SidebarSubtitle>
-        </SidebarHeader>
+    <SidebarProvider>
+      <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] min-h-screen bg-background text-foreground">
+        {/* ─── Sidebar (editor) — drawer on mobile, sticky aside on desktop ── */}
+        <Sidebar responsive aria-label={t('sidebar.aria')}>
+          <SidebarHeader>
+            <SidebarBrand>{t('sidebar.brand')}</SidebarBrand>
+            <SidebarSubtitle>
+              {BRAND.libName} · {t('sidebar.subtitle')}
+            </SidebarSubtitle>
+          </SidebarHeader>
 
-        <SidebarBody>
-          {/* Editor tabs: Palette / Theme / Identity */}
-          <Tabs value={editorTab} onValueChange={(v) => setEditorTab(v as EditorTab)}>
-            <TabsList>
-              <TabsTrigger value="palette">{t('sidebar.tabs.palette')}</TabsTrigger>
-              <TabsTrigger value="theme">{t('sidebar.tabs.theme')}</TabsTrigger>
-              <TabsTrigger value="identity">{t('sidebar.tabs.identity')}</TabsTrigger>
-            </TabsList>
+          <SidebarBody>
+            {/* Editor tabs: Palette / Theme / Identity */}
+            <Tabs value={editorTab} onValueChange={(v) => setEditorTab(v as EditorTab)}>
+              <TabsList>
+                <TabsTrigger value="palette">{t('sidebar.tabs.palette')}</TabsTrigger>
+                <TabsTrigger value="theme">{t('sidebar.tabs.theme')}</TabsTrigger>
+                <TabsTrigger value="identity">{t('sidebar.tabs.identity')}</TabsTrigger>
+              </TabsList>
 
-            {/* Edit-mode toggle — Light / Dark (independent of preview).
+              {/* Edit-mode toggle — Light / Dark (independent of preview).
                 Shared across all editor tabs so palette and identity can
                 also be customised per mode. */}
-            <div style={{ marginTop: 12, marginBottom: 12 }}>
-              <div style={rowStyle}>
-                <Label>{t('sidebar.editingLabel')}</Label>
-                <Button
-                  variant={editMode === 'light' ? 'primary' : 'outline'}
-                  size="sm"
-                  onClick={() => setEditMode('light')}
-                  aria-pressed={editMode === 'light'}
-                >
-                  {t('sidebar.lightButton')}
-                </Button>
-                <Button
-                  variant={editMode === 'dark' ? 'primary' : 'outline'}
-                  size="sm"
-                  onClick={() => setEditMode('dark')}
-                  aria-pressed={editMode === 'dark'}
-                >
-                  {t('sidebar.darkButton')}
-                </Button>
-              </div>
-              <div
-                data-testid="editing-variant-header"
-                style={{
-                  marginTop: 8,
-                  padding: '6px 10px',
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  fontFamily: 'var(--font-mono)',
-                  background: editMode === 'dark' ? 'var(--ink-900)' : 'var(--paper-100)',
-                  color: editMode === 'dark' ? 'var(--paper-50)' : 'var(--ink-900)',
-                  border: '2px solid var(--memphis-border-color)',
-                }}
-              >
-                {t('sidebar.editingHeader', { mode: editMode })}{' '}
-                <code>data-theme=&quot;{editMode}&quot;</code>
-              </div>
-            </div>
-
-            <TabsContent value="palette">
-              <PaletteEditor
-                palette={palette}
-                otherPalette={otherPalette}
-                mode={editMode}
-                dispatch={dispatch}
-              />
-            </TabsContent>
-
-            <TabsContent value="theme">
-              <ThemeEditor
-                semantic={semantic}
-                otherSemantic={otherSemantic}
-                mode={editMode}
-                onChange={(key, value) =>
-                  dispatch({ type: 'SET_SEMANTIC', mode: editMode, key, value })
-                }
-              />
-            </TabsContent>
-
-            <TabsContent value="identity">
-              <IdentityEditor
-                theme={theme}
-                identity={identity}
-                otherIdentity={otherIdentity}
-                mode={editMode}
-                dispatch={dispatch}
-              />
-            </TabsContent>
-          </Tabs>
-        </SidebarBody>
-
-        <SidebarFooter>
-          <Button
-            variant="ghost"
-            onClick={() => {
-              const root = typeof document !== 'undefined' ? document.documentElement : null
-              const attr = root?.getAttribute('data-palette') ?? ''
-              const preset: PresetName = (PRESET_NAMES as readonly string[]).includes(attr)
-                ? (attr as PresetName)
-                : 'default'
-              dispatch({ type: 'RESET', preset })
-            }}
-          >
-            {t('sidebar.reset')}
-          </Button>
-        </SidebarFooter>
-      </Sidebar>
-
-      {/* ─── Main pane ────────────────────────────────── */}
-      <main style={mainStyle}>
-        <Tabs
-          value={previewPaneTab}
-          onValueChange={(v) => setPreviewPaneTab(v as 'preview' | 'export')}
-        >
-          <TabsList>
-            <TabsTrigger value="preview">{t('preview.tab')}</TabsTrigger>
-            <TabsTrigger value="export">{t('export.tab')}</TabsTrigger>
-          </TabsList>
-
-          {/* Preview tab */}
-          <TabsContent value="preview">
-            <div style={{ ...stackStyle, gap: 16, marginTop: 16 }}>
-              <div style={previewHeaderStyle}>
-                {/* Scene tabs */}
-                <Tabs value={sceneTab} onValueChange={(v) => setSceneTab(v as SceneTab)}>
-                  <TabsList>
-                    <TabsTrigger value="components">{t('preview.scenes.components')}</TabsTrigger>
-                    <TabsTrigger value="gallery">{t('preview.scenes.gallery')}</TabsTrigger>
-                    <TabsTrigger value="auth">{t('preview.scenes.auth')}</TabsTrigger>
-                    <TabsTrigger value="dashboard">{t('preview.scenes.dashboard')}</TabsTrigger>
-                    <TabsTrigger value="profile">{t('preview.scenes.profile')}</TabsTrigger>
-                    <TabsTrigger value="feed">{t('preview.scenes.feed')}</TabsTrigger>
-                  </TabsList>
-                </Tabs>
-                <SampleDialog />
-              </div>
-
-              {/* Scene preview */}
-              <div
-                style={{
-                  padding: 32,
-                  background: 'var(--background)',
-                  border: '2px solid var(--memphis-border-color)',
-                }}
-              >
-                {sceneTab === 'components' && <ComponentsPreview />}
-                {sceneTab === 'gallery' && <GalleryPreview />}
-                {sceneTab === 'auth' && <AuthPreview />}
-                {sceneTab === 'dashboard' && <DashboardPreview />}
-                {sceneTab === 'profile' && <ProfilePreview />}
-                {sceneTab === 'feed' && <FeedPreview />}
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* Export tab */}
-          <TabsContent value="export">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 16 }}>
-              {/* Section A: Format selector */}
-              <section>
-                <Label>{t('export.format')}</Label>
-                <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+              <div style={{ marginTop: 12, marginBottom: 12 }}>
+                <div style={rowStyle}>
+                  <Label>{t('sidebar.editingLabel')}</Label>
                   <Button
-                    variant={exportTab === 'css' ? 'primary' : 'outline'}
+                    variant={editMode === 'light' ? 'primary' : 'outline'}
                     size="sm"
-                    onClick={() => setExportTab('css')}
+                    onClick={() => setEditMode('light')}
+                    aria-pressed={editMode === 'light'}
                   >
-                    CSS
+                    {t('sidebar.lightButton')}
                   </Button>
                   <Button
-                    variant={exportTab === 'tailwind' ? 'primary' : 'outline'}
+                    variant={editMode === 'dark' ? 'primary' : 'outline'}
                     size="sm"
-                    onClick={() => setExportTab('tailwind')}
+                    onClick={() => setEditMode('dark')}
+                    aria-pressed={editMode === 'dark'}
                   >
-                    Tailwind
-                  </Button>
-                  <Button
-                    variant={exportTab === 'json' ? 'primary' : 'outline'}
-                    size="sm"
-                    onClick={() => setExportTab('json')}
-                  >
-                    JSON
+                    {t('sidebar.darkButton')}
                   </Button>
                 </div>
-              </section>
+                <div
+                  data-testid="editing-variant-header"
+                  style={{
+                    marginTop: 8,
+                    padding: '6px 10px',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    fontFamily: 'var(--font-mono)',
+                    background: editMode === 'dark' ? 'var(--ink-900)' : 'var(--paper-100)',
+                    color: editMode === 'dark' ? 'var(--paper-50)' : 'var(--ink-900)',
+                    border: '2px solid var(--memphis-border-color)',
+                  }}
+                >
+                  {t('sidebar.editingHeader', { mode: editMode })}{' '}
+                  <code>data-theme=&quot;{editMode}&quot;</code>
+                </div>
+              </div>
 
-              {/* Section B: Include toggles — only for CSS and Tailwind */}
-              {(exportTab === 'css' || exportTab === 'tailwind') && (
+              <TabsContent value="palette">
+                <PaletteEditor
+                  palette={palette}
+                  otherPalette={otherPalette}
+                  mode={editMode}
+                  dispatch={dispatch}
+                />
+              </TabsContent>
+
+              <TabsContent value="theme">
+                <ThemeEditor
+                  semantic={semantic}
+                  otherSemantic={otherSemantic}
+                  mode={editMode}
+                  onChange={(key, value) =>
+                    dispatch({ type: 'SET_SEMANTIC', mode: editMode, key, value })
+                  }
+                />
+              </TabsContent>
+
+              <TabsContent value="identity">
+                <IdentityEditor
+                  theme={theme}
+                  identity={identity}
+                  otherIdentity={otherIdentity}
+                  mode={editMode}
+                  dispatch={dispatch}
+                />
+              </TabsContent>
+            </Tabs>
+          </SidebarBody>
+
+          <SidebarFooter>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                const root = typeof document !== 'undefined' ? document.documentElement : null
+                const attr = root?.getAttribute('data-palette') ?? ''
+                const preset: PresetName = (PRESET_NAMES as readonly string[]).includes(attr)
+                  ? (attr as PresetName)
+                  : 'default'
+                dispatch({ type: 'RESET', preset })
+              }}
+            >
+              {t('sidebar.reset')}
+            </Button>
+          </SidebarFooter>
+        </Sidebar>
+
+        {/* ─── Main pane ────────────────────────────────── */}
+        <main className="min-w-0 px-4 py-6 sm:px-6 lg:px-12 lg:py-8">
+          {/* Mobile: open the editor drawer (hidden once the sidebar is visible) */}
+          <div className="lg:hidden mb-4 flex items-center gap-3">
+            <SidebarTrigger />
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              {t('sidebar.subtitle')}
+            </span>
+          </div>
+          <Tabs
+            value={previewPaneTab}
+            onValueChange={(v) => setPreviewPaneTab(v as 'preview' | 'export')}
+          >
+            <TabsList>
+              <TabsTrigger value="preview">{t('preview.tab')}</TabsTrigger>
+              <TabsTrigger value="export">{t('export.tab')}</TabsTrigger>
+            </TabsList>
+
+            {/* Preview tab */}
+            <TabsContent value="preview">
+              <div style={{ ...stackStyle, gap: 16, marginTop: 16 }}>
+                <div style={previewHeaderStyle}>
+                  {/* Scene tabs — shrink + scroll horizontally on narrow screens */}
+                  <Tabs
+                    className="min-w-0 max-w-full"
+                    value={sceneTab}
+                    onValueChange={(v) => setSceneTab(v as SceneTab)}
+                  >
+                    <TabsList>
+                      <TabsTrigger value="components">{t('preview.scenes.components')}</TabsTrigger>
+                      <TabsTrigger value="gallery">{t('preview.scenes.gallery')}</TabsTrigger>
+                      <TabsTrigger value="auth">{t('preview.scenes.auth')}</TabsTrigger>
+                      <TabsTrigger value="dashboard">{t('preview.scenes.dashboard')}</TabsTrigger>
+                      <TabsTrigger value="profile">{t('preview.scenes.profile')}</TabsTrigger>
+                      <TabsTrigger value="feed">{t('preview.scenes.feed')}</TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                  <SampleDialog />
+                </div>
+
+                {/* Scene preview — scrolls wide content (tables, button rows)
+                    instead of overflowing the page on mobile */}
+                <div className="overflow-x-auto border-2 border-memphis bg-background p-4 sm:p-6 lg:p-8">
+                  {sceneTab === 'components' && <ComponentsPreview />}
+                  {sceneTab === 'gallery' && <GalleryPreview />}
+                  {sceneTab === 'auth' && <AuthPreview />}
+                  {sceneTab === 'dashboard' && <DashboardPreview />}
+                  {sceneTab === 'profile' && <ProfilePreview />}
+                  {sceneTab === 'feed' && <FeedPreview />}
+                </div>
+              </div>
+            </TabsContent>
+
+            {/* Export tab */}
+            <TabsContent value="export">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 16 }}>
+                {/* Section A: Format selector */}
                 <section>
-                  <Label>{t('export.include')}</Label>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
-                    {INCLUDE_OPTIONS[exportTab].map((opt) => (
-                      <label
-                        key={opt.key}
-                        style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
-                      >
-                        <Checkbox
-                          checked={includeFlags[opt.key]}
-                          onCheckedChange={(v) => setIncludeFlag(opt.key, !!v)}
-                        />
-                        <span style={{ fontSize: 13 }}>
-                          {t(`export.includeOptions.${opt.labelKey}`)}
-                        </span>
-                      </label>
-                    ))}
+                  <Label>{t('export.format')}</Label>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
+                    <Button
+                      variant={exportTab === 'css' ? 'primary' : 'outline'}
+                      size="sm"
+                      onClick={() => setExportTab('css')}
+                    >
+                      CSS
+                    </Button>
+                    <Button
+                      variant={exportTab === 'tailwind' ? 'primary' : 'outline'}
+                      size="sm"
+                      onClick={() => setExportTab('tailwind')}
+                    >
+                      Tailwind
+                    </Button>
+                    <Button
+                      variant={exportTab === 'json' ? 'primary' : 'outline'}
+                      size="sm"
+                      onClick={() => setExportTab('json')}
+                    >
+                      JSON
+                    </Button>
                   </div>
                 </section>
-              )}
 
-              {/* Section C: Output preview */}
-              <section>
-                <Label>{t('export.output')}</Label>
-                <pre style={{ ...preBoxStyle, marginTop: 8 }}>{filteredOutput}</pre>
-                <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-                  <Button variant="primary" onClick={() => handleCopy(filteredOutput)}>
-                    {copyState === 'copied'
-                      ? t('export.copied')
-                      : copyState === 'error'
-                        ? t('export.copyFailed')
-                        : t('export.copy')}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleDownload(filteredOutput, downloadFilename)}
-                  >
-                    {t('export.download')}
-                  </Button>
-                </div>
-              </section>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </main>
-    </div>
+                {/* Section B: Include toggles — only for CSS and Tailwind */}
+                {(exportTab === 'css' || exportTab === 'tailwind') && (
+                  <section>
+                    <Label>{t('export.include')}</Label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+                      {INCLUDE_OPTIONS[exportTab].map((opt) => (
+                        <label
+                          key={opt.key}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <Checkbox
+                            checked={includeFlags[opt.key]}
+                            onCheckedChange={(v) => setIncludeFlag(opt.key, !!v)}
+                          />
+                          <span style={{ fontSize: 13 }}>
+                            {t(`export.includeOptions.${opt.labelKey}`)}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* Section C: Output preview */}
+                <section>
+                  <Label>{t('export.output')}</Label>
+                  <pre style={{ ...preBoxStyle, marginTop: 8 }}>{filteredOutput}</pre>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
+                    <Button variant="primary" onClick={() => handleCopy(filteredOutput)}>
+                      {copyState === 'copied'
+                        ? t('export.copied')
+                        : copyState === 'error'
+                          ? t('export.copyFailed')
+                          : t('export.copy')}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleDownload(filteredOutput, downloadFilename)}
+                    >
+                      {t('export.download')}
+                    </Button>
+                  </div>
+                </section>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </main>
+      </div>
+    </SidebarProvider>
   )
 }
