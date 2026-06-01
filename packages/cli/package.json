@@ -5,7 +5,7 @@
   "description": "Add Memphis-style damo-ui components to your project, shadcn-style (copy-paste via a registry).",
   "license": "MIT",
   "author": "Simone Schioppo",
-  "homepage": "https://github.com/simoneschioppo/damo-ui/tree/main/packages/cli#readme",
+  "homepage": "https://damo-ui.com",
   "bugs": {
     "url": "https://github.com/simoneschioppo/damo-ui/issues"
   },

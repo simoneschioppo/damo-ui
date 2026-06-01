@@ -9,12 +9,32 @@ import { DocsProviders } from './_components/DocsProviders'
 import { DocsPreferencesMenu } from './_components/DocsPreferencesMenu'
 import './globals.css'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+// Default to the production origin so canonical/OG URLs are correct even if
+// NEXT_PUBLIC_SITE_URL isn't set in the deploy env (localhost would poison SEO).
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://damo-ui.com'
+
+const TITLE = `${BRAND.libName} — Memphis-inspired components you copy & own`
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: `${BRAND.libName} — Memphis-inspired components you copy & own`,
+  title: {
+    default: TITLE,
+    template: `%s — ${BRAND.libName}`,
+  },
   description: BRAND.tagline,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    siteName: BRAND.libName,
+    title: TITLE,
+    description: BRAND.tagline,
+    url: '/',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITLE,
+    description: BRAND.tagline,
+  },
   icons: {
     icon: [
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
@@ -97,6 +117,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               <>
                 <Link href="/docs">{t('docs')}</Link>
                 <Link href="/theme-generator">{t('themeGenerator')}</Link>
+                <a href={BRAND.repoUrl} target="_blank" rel="noreferrer">
+                  GitHub
+                </a>
               </>
             }
             actions={<DocsPreferencesMenu />}

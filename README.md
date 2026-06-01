@@ -15,6 +15,10 @@
   <img alt="Tailwind v4" src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white" />
 </p>
 
+<p align="center">
+  <b><a href="https://damo-ui.com">📖 Docs &amp; live playground</a></b> · <a href="https://damo-ui.com/r">registry</a>
+</p>
+
 > **1.0 — copy-paste, shadcn-style.** Components are distributed via the
 > `damo-ui` CLI: it copies the source into your project so you own and can tweak
 > every line. There is no runtime component-library package to install — the
