@@ -13,7 +13,15 @@ export const TabsList = forwardRef<
   return (
     <TabsPrimitive.List
       ref={ref}
-      className={cn('inline-flex items-center gap-1 border-b-2 border-memphis', className)}
+      className={cn(
+        'inline-flex items-center gap-1 border-b-2 border-memphis',
+        // Scroll horizontally when the triggers overflow (e.g. many tabs on a
+        // narrow screen) instead of clipping. `inline-flex` keeps the bar
+        // content-sized when they fit; `min-w-0` lets it shrink as a flex item
+        // so the scroll — not the parent — absorbs the overflow.
+        'max-w-full min-w-0 overflow-x-auto scrollbar-hide',
+        className,
+      )}
       {...rest}
     />
   )

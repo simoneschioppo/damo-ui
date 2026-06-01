@@ -130,6 +130,19 @@
   transition-duration: var(--duration-slow);
 }
 
+/* Hide the scrollbar while keeping the element scrollable. Used by TabsList
+ * (and any overflow-x bar) so horizontal scroll on small screens never adds a
+ * track that would shift the layout or clip the active underline. The global
+ * Memphis scrollbar above styles visible scrollbars; this opts a single
+ * element out entirely. */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Named Memphis shadow utilities.
  * These were originally declared inside `@theme inline` as
  * `--shadow-memphis-X: var(--shadow-memphis-X)` so v4's `--shadow-*`
