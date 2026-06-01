@@ -37,6 +37,9 @@ export const it: Dictionary = {
     toggleLabel: 'Apri/chiudi navigazione',
     label: 'Navigazione',
   },
+  appTopBar: {
+    menuLabel: 'Apri menu',
+  },
   toast: {
     closeLabel: 'Chiudi',
   },

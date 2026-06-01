@@ -44,6 +44,10 @@ export interface Dictionary {
     /** Accessible (sr-only) name for the mobile nav drawer. */
     label: string
   }
+  appTopBar: {
+    /** `aria-label` on the mobile menu (hamburger) button. */
+    menuLabel: string
+  }
   toast: {
     closeLabel: string
   }
