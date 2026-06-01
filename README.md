@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <b><a href="https://damo-ui.com">📖 Docs &amp; live playground</a></b> · <a href="https://damo-ui.com/r">registry</a>
+  <b><a href="https://damo-ui.com">📖 Docs &amp; live playground</a></b> · <a href="https://damo-ui.com/r/registry.json">registry (JSON)</a>
 </p>
 
 > **1.0 — copy-paste, shadcn-style.** Components are distributed via the

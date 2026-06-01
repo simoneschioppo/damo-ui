@@ -40,6 +40,13 @@ const config: NextConfig = {
       },
     ]
   },
+  // Bare `/r` is the registry's base path (the CLI appends /registry.json,
+  // /ui/<name>.json, …) — there is no page there, so a human visiting it would
+  // hit a 404. Point it at the registry index. Exact match: does not touch the
+  // `/r/*.json` files served as static assets.
+  async redirects() {
+    return [{ source: '/r', destination: '/r/registry.json', permanent: false }]
+  },
 }
 
 export default withNextIntl(config)
