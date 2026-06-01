@@ -70,7 +70,9 @@ export default function Page() {
 Supported peer versions: React **≥ 18**, Tailwind **≥ 4** (`npx damo-ui add`
 installs each component's npm deps, e.g. Radix, automatically).
 
-3. (Optional) Drive theme/palette/density from `<html>`:
+### Optional: theme, palette & density
+
+Drive them from `<html>` data attributes:
 
 ```html
 <html data-theme="light" data-palette="default" data-density="normal"></html>
@@ -130,7 +132,7 @@ workspace scope; the `@damo-ui` npm scope was unavailable.)
 ## Tech stack
 
 - React 19 (peer ≥ 18)
-- Tailwind v4 (CSS-first); v3 preset shipped for legacy consumers
+- Tailwind v4 (CSS-first)
 - Radix UI primitives
 - TypeScript strict, pnpm workspace, tsup build
 - Vitest unit + Playwright e2e
