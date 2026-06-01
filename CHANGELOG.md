@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] — 2026-06-01 — shadcn-style cutover
+
+`damo-ui` switches from a published component **library** to **copy-paste distribution**: components are copied into your project from a registry via the `damo-ui` CLI (shadcn-style). You own and can tweak the source.
+
+### Breaking — distribution model
+
+- **The `damo-ui` npm package is now the CLI** (`npx damo-ui add <component>`), not the component library. Installing `damo-ui` no longer gives you React components to import.
+- **The component library is no longer published.** Its source lives in the workspace as the private `@axologic/ui` package and ships copy-paste via the registry. (The `@damo-ui/*` scope was unavailable on npm; the reserved-scope note in the previous entry is superseded — scoped ecosystem packages use `@axologic/*`.)
+- **`damo-ui@0.x` (the old library) is deprecated.** Migrate with `npx damo-ui codemod migrate-from-npm` — it rewrites `from 'damo-ui'` imports to `@/components/ui/*`, copies the used components, and removes the old dependency.
+
+### Added
+
+- **CLI `damo-ui`** — `init`, `add <component>` (copies the component + its transitive registry deps and installs the npm deps), `add base` (design tokens / theme CSS), `list`, and `codemod migrate-from-npm`. `components.json`-compatible.
+- **Registry** generated from `packages/ui/src` and served at `https://damo-ui.com/r` (the docs site) with permissive CORS.
+- **MCP server `@axologic/mcp`** (run from source) — lets AI coding agents discover and add components.
+
+### Notes
+
+- Tailwind v4-first; the tokens/theme CSS are copied in via `npx damo-ui add base`. 54 components.
+
 ## [Unreleased] — Phase 2 pre-publication audit (gh-79)
 
 Pre-publication housekeeping ahead of the public-npm soft-launch (#82). No runtime behaviour changes — only naming, licensing, and consumer-facing docs.
