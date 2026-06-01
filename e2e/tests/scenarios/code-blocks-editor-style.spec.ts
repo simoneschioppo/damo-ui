@@ -329,7 +329,7 @@ test.describe('gh-100 — editor-style code blocks', () => {
   })
 
   // ── Test 6 — Single-line snippet has NO line numbers ───────────────────
-  // The homepage Quick Install card renders `pnpm add damo-ui` as an embedded
+  // The homepage Quick Start card renders `npx damo-ui add base` as an embedded
   // single-line block. Assert .line-number count is 0 inside that block.
   test('single-line .damo-code block on homepage has no .line-number elements', async ({
     page,

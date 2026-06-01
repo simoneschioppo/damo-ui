@@ -10,8 +10,7 @@ const FEATURE_KEYS = ['components', 'tokens', 'themeGenerator'] as const
 const INSTALL_SNIPPET = `npx damo-ui init
 npx damo-ui add button`
 
-const STYLES_SNIPPET = `# copies the design tokens / theme CSS in:
-npx damo-ui add base`
+const STYLES_SNIPPET = `npx damo-ui add base`
 
 const RENDER_SNIPPET = `import { Button } from '@/components/ui/button'
 
