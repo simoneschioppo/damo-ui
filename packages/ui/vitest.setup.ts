@@ -65,3 +65,20 @@ if (typeof Element !== 'undefined') {
     Element.prototype.scrollIntoView = () => {}
   }
 }
+
+// jsdom does not implement matchMedia, which the useMediaQuery hook and the
+// responsive Sidebar rely on. Provide a no-op shim that reports "no match"
+// (desktop). Tests needing a specific result override window.matchMedia.
+if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    }) as unknown as MediaQueryList
+}

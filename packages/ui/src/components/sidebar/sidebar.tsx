@@ -1,13 +1,30 @@
 'use client'
 
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
+import { forwardRef, useContext, type HTMLAttributes, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
+import { useI18n } from '../../lib/i18n'
+import { Drawer, DrawerContent, DrawerTitle } from '../drawer/drawer'
 import { sidebarVariants, type SidebarVariants } from './sidebar.variants'
+import { SidebarContext } from './sidebar-context'
+import type { Breakpoint } from '../../hooks/use-media-query'
+
+/** Reveal-at-breakpoint literals for the desktop aside (flash-guarded on mobile). */
+const REVEAL_AT: Record<Breakpoint, string> = {
+  sm: 'hidden sm:flex',
+  md: 'hidden md:flex',
+  lg: 'hidden lg:flex',
+}
 
 export interface SidebarProps
   extends Omit<HTMLAttributes<HTMLElement>, 'children'>, SidebarVariants {
   /** Optional fixed width (number → px, string → raw CSS value). */
   width?: number | string
+  /**
+   * Collapse to an off-canvas drawer below the `SidebarProvider`'s breakpoint,
+   * toggled by a `SidebarTrigger`. Requires a `SidebarProvider` ancestor;
+   * without one it renders as a normal (non-responsive) sidebar.
+   */
+  responsive?: boolean
   children?: ReactNode
 }
 
@@ -28,15 +45,47 @@ export interface SidebarProps
  * ```
  */
 export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
-  { sticky = true, border = 'right', width, className, style, children, ...rest },
+  {
+    sticky = true,
+    border = 'right',
+    width,
+    responsive = false,
+    className,
+    style,
+    children,
+    ...rest
+  },
   ref,
 ) {
+  const ctx = useContext(SidebarContext)
+  const i18n = useI18n()
   const widthStyle =
     width !== undefined ? { width: typeof width === 'number' ? `${width}px` : width } : undefined
+
+  // Mobile: render the body inside an off-canvas drawer driven by the provider.
+  if (responsive && ctx?.isMobile) {
+    return (
+      <Drawer open={ctx.openMobile} onOpenChange={ctx.setOpenMobile}>
+        <DrawerContent
+          side="left"
+          aria-describedby={undefined}
+          className={cn('w-[min(85vw,22rem)] max-w-none gap-5 bg-muted px-5 py-8', className)}
+        >
+          <DrawerTitle className="sr-only">{i18n.sidebar.label}</DrawerTitle>
+          {children}
+        </DrawerContent>
+      </Drawer>
+    )
+  }
+
+  // Desktop (or no provider): the sticky aside. When responsive, hide it below
+  // the breakpoint so the SSR / pre-hydration markup never flashes on mobile.
+  const revealClass = responsive && ctx ? REVEAL_AT[ctx.breakpoint] : undefined
+
   return (
     <aside
       ref={ref}
-      className={cn(sidebarVariants({ sticky, border }), className)}
+      className={cn(sidebarVariants({ sticky, border }), revealClass, className)}
       style={{ ...widthStyle, ...style }}
       {...rest}
     >

@@ -38,6 +38,12 @@ export interface Dictionary {
   drawer: {
     closeLabel: string
   }
+  sidebar: {
+    /** `aria-label` on the SidebarTrigger button. */
+    toggleLabel: string
+    /** Accessible (sr-only) name for the mobile nav drawer. */
+    label: string
+  }
   toast: {
     closeLabel: string
   }

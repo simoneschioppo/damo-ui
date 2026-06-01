@@ -257,6 +257,7 @@ export { ArticleCard, type ArticleCardProps } from './components/article-card'
 // Hooks
 export { useResolvedCssVars } from './hooks/use-resolved-css-vars'
 export { usePersistedAttr } from './hooks/use-persisted-attr'
+export { useMediaQuery, useIsMobile, type Breakpoint } from './hooks/use-media-query'
 
 // Layout (Phase 9)
 export { AppShell, type AppShellProps } from './components/app-shell'
@@ -269,7 +270,13 @@ export {
   SidebarSubtitle,
   SidebarBody,
   SidebarFooter,
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
   type SidebarProps,
+  type SidebarProviderProps,
+  type SidebarContextValue,
+  type SidebarTriggerProps,
   sidebarVariants,
   type SidebarVariants,
 } from './components/sidebar'
