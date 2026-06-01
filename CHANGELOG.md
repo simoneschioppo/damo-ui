@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] — 2026-06-01
+
+### Changed
+
+- CLI `package.json` `homepage` → `https://damo-ui.com` (was the GitHub readme URL), so the npm page links to the docs site. Metadata-only patch; no code changes.
+
 ## [1.0.0] — 2026-06-01 — shadcn-style cutover
 
 `damo-ui` switches from a published component **library** to **copy-paste distribution**: components are copied into your project from a registry via the `damo-ui` CLI (shadcn-style). You own and can tweak the source.
