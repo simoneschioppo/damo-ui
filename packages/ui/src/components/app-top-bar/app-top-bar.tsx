@@ -27,6 +27,23 @@ const MENU_TRIGGER_SIZE: Record<AppTopBarMenuSize, { box: string; icon: number }
   lg: { box: 'h-12 w-12', icon: 24 },
 }
 
+/**
+ * Memphis surface of the mobile menu hamburger, per variant. `raised` mirrors
+ * the Button `ghost` variant (offset shadow + hover/active/open press) so the
+ * hamburger can match a `ghost` action button (e.g. an `IconButton`). Whole
+ * Tailwind literals so the v4 source scanner can see every class.
+ */
+export type AppTopBarMenuVariant = 'flat' | 'raised'
+const MENU_TRIGGER_VARIANT: Record<AppTopBarMenuVariant, string> = {
+  flat: 'transition-colors duration-fast',
+  raised:
+    'transition-[transform,box-shadow,background-color,color] duration-snap ease-memphis ' +
+    'shadow-memphis-primary ' +
+    'hover:-translate-x-px hover:-translate-y-px hover:shadow-memphis-primary-hover ' +
+    'active:translate-x-[3px] active:translate-y-[3px] active:shadow-memphis-primary-active ' +
+    'data-[state=open]:translate-x-[3px] data-[state=open]:translate-y-[3px] data-[state=open]:shadow-memphis-primary-active',
+}
+
 export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
   logo: ReactNode
   nav?: ReactNode
@@ -45,6 +62,18 @@ export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
    * spacing utilities. Default `'md'` (40px box, 20px icon).
    */
   menuTriggerSize?: AppTopBarMenuSize
+  /**
+   * Memphis surface of the mobile menu hamburger. `'flat'` (default) is a plain
+   * bordered button; `'raised'` adds the Memphis offset shadow + press
+   * animation, identical to the Button `ghost` variant (e.g. an `IconButton`).
+   */
+  menuTriggerVariant?: AppTopBarMenuVariant
+  /**
+   * Render the mobile menu hamburger at `data-density="compact"`. Combined with
+   * the default `md` size this yields a 30px box, pixel-matching a compact
+   * `IconButton` placed in `actions`. Default `false`.
+   */
+  menuTriggerCompact?: boolean
 }
 
 /**
@@ -69,6 +98,8 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
     sticky = true,
     mobileBreakpoint = 'md',
     menuTriggerSize = 'md',
+    menuTriggerVariant = 'flat',
+    menuTriggerCompact = false,
     className,
     ...rest
   },
@@ -96,7 +127,12 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
         <div className="flex gap-4 items-center flex-wrap">
           {actions}
           {hasNav && (
-            <AppTopBarMobileMenu breakpoint={mobileBreakpoint} size={menuTriggerSize}>
+            <AppTopBarMobileMenu
+              breakpoint={mobileBreakpoint}
+              size={menuTriggerSize}
+              variant={menuTriggerVariant}
+              compact={menuTriggerCompact}
+            >
               {nav}
             </AppTopBarMobileMenu>
           )}
@@ -109,11 +145,19 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
 interface AppTopBarMobileMenuProps {
   breakpoint: Breakpoint
   size: AppTopBarMenuSize
+  variant: AppTopBarMenuVariant
+  compact: boolean
   children: ReactNode
 }
 
 /** Hamburger (below the breakpoint) that opens the nav in a right-side drawer. */
-function AppTopBarMobileMenu({ breakpoint, size, children }: AppTopBarMobileMenuProps) {
+function AppTopBarMobileMenu({
+  breakpoint,
+  size,
+  variant,
+  compact,
+  children,
+}: AppTopBarMobileMenuProps) {
   const [open, setOpen] = useState(false)
   const i18n = useI18n()
   return (
@@ -122,11 +166,13 @@ function AppTopBarMobileMenu({ breakpoint, size, children }: AppTopBarMobileMenu
         <button
           type="button"
           aria-label={i18n.appTopBar.menuLabel}
+          data-density={compact ? 'compact' : undefined}
           className={cn(
             'inline-flex items-center justify-center rounded-none',
             MENU_TRIGGER_SIZE[size].box,
             'border-2 border-memphis bg-card text-foreground cursor-pointer',
-            'transition-colors duration-fast hover:bg-muted',
+            'hover:bg-muted',
+            MENU_TRIGGER_VARIANT[variant],
             'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
             MENU_HIDE[breakpoint],
           )}

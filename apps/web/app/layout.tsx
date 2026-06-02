@@ -117,9 +117,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body suppressHydrationWarning>
         <DocsProviders locale={locale} messages={messages}>
           {/*
-            menuTriggerSize="sm" matches the compact settings IconButton in
-            `actions`, so the two top-right controls read as the same size on
-            mobile (the hamburger would otherwise be 40px vs the gear's 30px).
+            Pixel-match the settings IconButton in `actions` — a compact `ghost`
+            IconButton (30px). menuTriggerCompact renders the hamburger at
+            data-density="compact" so its default md box computes to 30px, and
+            menuTriggerVariant="raised" adds the same Memphis shadow + press.
           */}
           <AppTopBar
             logo={<BrandMark />}
@@ -133,7 +134,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               </>
             }
             actions={<DocsPreferencesMenu />}
-            menuTriggerSize="sm"
+            menuTriggerVariant="raised"
+            menuTriggerCompact
           />
           {children}
         </DocsProviders>

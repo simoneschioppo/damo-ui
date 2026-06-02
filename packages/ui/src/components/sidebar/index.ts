@@ -18,4 +18,5 @@ export {
   SidebarTrigger,
   type SidebarTriggerProps,
   type SidebarTriggerSize,
+  type SidebarTriggerVariant,
 } from './sidebar-trigger'

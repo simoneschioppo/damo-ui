@@ -69,6 +69,18 @@ export default async function AppTopBarDocsPage() {
       description: t('componentDocs.app-top-bar.props.menuTriggerSize'),
     },
     {
+      name: 'menuTriggerVariant',
+      type: "'flat' | 'raised'",
+      defaultValue: "'flat'",
+      description: t('componentDocs.app-top-bar.props.menuTriggerVariant'),
+    },
+    {
+      name: 'menuTriggerCompact',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: t('componentDocs.app-top-bar.props.menuTriggerCompact'),
+    },
+    {
       name: 'className',
       type: 'string',
       description: t('componentDocs.app-top-bar.props.className'),
