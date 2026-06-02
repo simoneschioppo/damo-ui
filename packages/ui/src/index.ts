@@ -261,7 +261,7 @@ export { useMediaQuery, useIsMobile, type Breakpoint } from './hooks/use-media-q
 
 // Layout (Phase 9)
 export { AppShell, type AppShellProps } from './components/app-shell'
-export { AppTopBar, type AppTopBarProps } from './components/app-top-bar'
+export { AppTopBar, type AppTopBarProps, type AppTopBarMenuSize } from './components/app-top-bar'
 export { PageHeader, type PageHeaderProps } from './components/page-header'
 export {
   Sidebar,
@@ -277,6 +277,7 @@ export {
   type SidebarProviderProps,
   type SidebarContextValue,
   type SidebarTriggerProps,
+  type SidebarTriggerSize,
   sidebarVariants,
   type SidebarVariants,
 } from './components/sidebar'

@@ -19,6 +19,14 @@ const MENU_HIDE: Record<Breakpoint, string> = {
   lg: 'lg:hidden',
 }
 
+/** Box + icon dimensions of the mobile menu hamburger, per size. */
+export type AppTopBarMenuSize = 'sm' | 'md' | 'lg'
+const MENU_TRIGGER_SIZE: Record<AppTopBarMenuSize, { box: string; icon: number }> = {
+  sm: { box: 'h-8 w-8', icon: 16 },
+  md: { box: 'h-10 w-10', icon: 20 },
+  lg: { box: 'h-12 w-12', icon: 24 },
+}
+
 export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
   logo: ReactNode
   nav?: ReactNode
@@ -31,6 +39,12 @@ export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
    * Default `md` (768px).
    */
   mobileBreakpoint?: Breakpoint
+  /**
+   * Box + icon size of the mobile menu hamburger, so it can be matched to an
+   * adjacent action button (e.g. an `IconButton`). The box uses density-aware
+   * spacing utilities. Default `'md'` (40px box, 20px icon).
+   */
+  menuTriggerSize?: AppTopBarMenuSize
 }
 
 /**
@@ -48,7 +62,16 @@ export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
  * ```
  */
 export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTopBar(
-  { logo, nav, actions, sticky = true, mobileBreakpoint = 'md', className, ...rest },
+  {
+    logo,
+    nav,
+    actions,
+    sticky = true,
+    mobileBreakpoint = 'md',
+    menuTriggerSize = 'md',
+    className,
+    ...rest
+  },
   ref,
 ) {
   const hasNav = nav !== undefined && nav !== null
@@ -72,7 +95,11 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
       {(hasActions || hasNav) && (
         <div className="flex gap-4 items-center flex-wrap">
           {actions}
-          {hasNav && <AppTopBarMobileMenu breakpoint={mobileBreakpoint}>{nav}</AppTopBarMobileMenu>}
+          {hasNav && (
+            <AppTopBarMobileMenu breakpoint={mobileBreakpoint} size={menuTriggerSize}>
+              {nav}
+            </AppTopBarMobileMenu>
+          )}
         </div>
       )}
     </header>
@@ -81,11 +108,12 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
 
 interface AppTopBarMobileMenuProps {
   breakpoint: Breakpoint
+  size: AppTopBarMenuSize
   children: ReactNode
 }
 
 /** Hamburger (below the breakpoint) that opens the nav in a right-side drawer. */
-function AppTopBarMobileMenu({ breakpoint, children }: AppTopBarMobileMenuProps) {
+function AppTopBarMobileMenu({ breakpoint, size, children }: AppTopBarMobileMenuProps) {
   const [open, setOpen] = useState(false)
   const i18n = useI18n()
   return (
@@ -95,14 +123,15 @@ function AppTopBarMobileMenu({ breakpoint, children }: AppTopBarMobileMenuProps)
           type="button"
           aria-label={i18n.appTopBar.menuLabel}
           className={cn(
-            'inline-flex h-10 w-10 items-center justify-center rounded-none',
+            'inline-flex items-center justify-center rounded-none',
+            MENU_TRIGGER_SIZE[size].box,
             'border-2 border-memphis bg-card text-foreground cursor-pointer',
             'transition-colors duration-fast hover:bg-muted',
             'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
             MENU_HIDE[breakpoint],
           )}
         >
-          <MenuIcon size={20} />
+          <MenuIcon size={MENU_TRIGGER_SIZE[size].icon} />
         </button>
       </DrawerTrigger>
       <DrawerContent side="right" aria-describedby={undefined} className="w-[min(85vw,18rem)]">

@@ -14,4 +14,8 @@ export {
   type SidebarProviderProps,
   type SidebarContextValue,
 } from './sidebar-context'
-export { SidebarTrigger, type SidebarTriggerProps } from './sidebar-trigger'
+export {
+  SidebarTrigger,
+  type SidebarTriggerProps,
+  type SidebarTriggerSize,
+} from './sidebar-trigger'

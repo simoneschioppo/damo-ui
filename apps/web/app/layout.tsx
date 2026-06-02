@@ -116,6 +116,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       </head>
       <body suppressHydrationWarning>
         <DocsProviders locale={locale} messages={messages}>
+          {/*
+            menuTriggerSize="sm" matches the compact settings IconButton in
+            `actions`, so the two top-right controls read as the same size on
+            mobile (the hamburger would otherwise be 40px vs the gear's 30px).
+          */}
           <AppTopBar
             logo={<BrandMark />}
             nav={
@@ -128,6 +133,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               </>
             }
             actions={<DocsPreferencesMenu />}
+            menuTriggerSize="sm"
           />
           {children}
         </DocsProviders>
