@@ -56,7 +56,7 @@ pnpm --filter @axologic/ui build
 
 - **PR runs** execute lint + unit tests + chromium-only e2e (~4–5 min). Docs-only PRs (markdown / `.gitignore`) skip the e2e job entirely.
 - **Push to `main`** always runs the full PR pipeline (no skip).
-- **Cross-browser coverage** (chromium + webkit) runs nightly via `.github/workflows/e2e-nightly.yml` at 03:00 UTC. Webkit-only regressions surface within 24h. Trigger manually via the Actions tab when investigating a suspected webkit issue.
+- **Cross-browser coverage** (webkit) is run locally on demand — there is no scheduled CI job. PR and `main` runs cover chromium; run the e2e suite locally with webkit installed to catch webkit-specific regressions before a release.
 - The first request to a docs page initializes a server-side Shiki singleton; `e2e/global-setup.ts` prewarms the heavy routes (`/docs/getting-started`, `/docs/foundations/patterns`, `/docs/foundations/tokens`) before tests run to avoid cold-start races on CI runners.
 
 ## Review policy

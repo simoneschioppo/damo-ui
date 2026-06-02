@@ -135,7 +135,7 @@ jobs:
 
   # PR runs use chromium only — webkit on shared GHA runners is documented-flaky
   # (see the 9 `test.skip(browserName === 'webkit', ...)` sites in e2e/tests/).
-  # Cross-browser coverage runs nightly via .github/workflows/e2e-nightly.yml.
+  # Cross-browser (webkit) coverage is run locally on demand — no scheduled CI job.
   e2e:
     runs-on: ubuntu-latest
     needs: [lint-and-test, changes]
