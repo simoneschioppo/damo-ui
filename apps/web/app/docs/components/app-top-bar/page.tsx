@@ -63,6 +63,12 @@ export default async function AppTopBarDocsPage() {
       description: t('componentDocs.app-top-bar.props.sticky'),
     },
     {
+      name: 'menuTriggerSize',
+      type: "'sm' | 'md' | 'lg'",
+      defaultValue: "'md'",
+      description: t('componentDocs.app-top-bar.props.menuTriggerSize'),
+    },
+    {
       name: 'className',
       type: 'string',
       description: t('componentDocs.app-top-bar.props.className'),

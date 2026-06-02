@@ -546,6 +546,7 @@
         "nav": "Inline navigation. Renders inside a &lt;nav&gt; element.",
         "actions": "Right-aligned controls. Compose with <code>AttrToggleGroup</code>, <code>Popover</code>, etc.",
         "sticky": "Stick the bar to the viewport top with z-index header.",
+        "menuTriggerSize": "Size of the mobile menu hamburger ('sm', 'md', or 'lg'; default 'md') so it can be matched to an adjacent action button.",
         "className": "Tailwind classes are merged on top of the defaults."
       }
     },

@@ -546,6 +546,7 @@
         "nav": "Navigazione inline. Viene renderizzata dentro un elemento &lt;nav&gt;.",
         "actions": "Controlli allineati a destra. Componili con <code>AttrToggleGroup</code>, <code>Popover</code>, ecc.",
         "sticky": "Fissa la barra in alto al viewport con z-index header.",
+        "menuTriggerSize": "Dimensione dell'hamburger del menu mobile ('sm', 'md' o 'lg'; default 'md') così da allinearlo a un bottone d'azione adiacente.",
         "className": "Le classi Tailwind vengono unite sopra i default."
       }
     },
