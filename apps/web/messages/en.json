@@ -350,6 +350,7 @@
       "api": "API",
       "accessibility": "Accessibility",
       "sizes": "Sizes",
+      "sides": "Sides",
       "disabled": "Disabled",
       "fullWidth": "Full width",
       "useAsLink": "Use as a link",
