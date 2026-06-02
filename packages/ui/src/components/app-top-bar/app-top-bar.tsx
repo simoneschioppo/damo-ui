@@ -68,6 +68,12 @@ export interface AppTopBarProps extends HTMLAttributes<HTMLElement> {
    * animation, identical to the Button `ghost` variant (e.g. an `IconButton`).
    */
   menuTriggerVariant?: AppTopBarMenuVariant
+  /**
+   * Render the mobile menu hamburger at `data-density="compact"`. Combined with
+   * the default `md` size this yields a 30px box, pixel-matching a compact
+   * `IconButton` placed in `actions`. Default `false`.
+   */
+  menuTriggerCompact?: boolean
 }
 
 /**
@@ -93,6 +99,7 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
     mobileBreakpoint = 'md',
     menuTriggerSize = 'md',
     menuTriggerVariant = 'flat',
+    menuTriggerCompact = false,
     className,
     ...rest
   },
@@ -124,6 +131,7 @@ export const AppTopBar = forwardRef<HTMLElement, AppTopBarProps>(function AppTop
               breakpoint={mobileBreakpoint}
               size={menuTriggerSize}
               variant={menuTriggerVariant}
+              compact={menuTriggerCompact}
             >
               {nav}
             </AppTopBarMobileMenu>
@@ -138,11 +146,18 @@ interface AppTopBarMobileMenuProps {
   breakpoint: Breakpoint
   size: AppTopBarMenuSize
   variant: AppTopBarMenuVariant
+  compact: boolean
   children: ReactNode
 }
 
 /** Hamburger (below the breakpoint) that opens the nav in a right-side drawer. */
-function AppTopBarMobileMenu({ breakpoint, size, variant, children }: AppTopBarMobileMenuProps) {
+function AppTopBarMobileMenu({
+  breakpoint,
+  size,
+  variant,
+  compact,
+  children,
+}: AppTopBarMobileMenuProps) {
   const [open, setOpen] = useState(false)
   const i18n = useI18n()
   return (
@@ -151,6 +166,7 @@ function AppTopBarMobileMenu({ breakpoint, size, variant, children }: AppTopBarM
         <button
           type="button"
           aria-label={i18n.appTopBar.menuLabel}
+          data-density={compact ? 'compact' : undefined}
           className={cn(
             'inline-flex items-center justify-center rounded-none',
             MENU_TRIGGER_SIZE[size].box,

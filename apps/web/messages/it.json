@@ -549,6 +549,7 @@
         "sticky": "Fissa la barra in alto al viewport con z-index header.",
         "menuTriggerSize": "Dimensione dell'hamburger del menu mobile ('sm', 'md' o 'lg'; default 'md') così da allinearlo a un bottone d'azione adiacente.",
         "menuTriggerVariant": "Superficie Memphis dell'hamburger: 'flat' (default, bordo semplice) o 'raised' (ombra offset + press, identica al Button ghost).",
+        "menuTriggerCompact": "Renderizza l'hamburger a densità compatta così il box 'md' di default è 30px, allineandosi al pixel con un IconButton compatto in actions.",
         "className": "Le classi Tailwind vengono unite sopra i default."
       }
     },

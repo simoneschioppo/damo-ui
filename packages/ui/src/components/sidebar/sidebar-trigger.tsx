@@ -54,6 +54,12 @@ export interface SidebarTriggerProps extends Omit<ComponentPropsWithoutRef<'butt
    * `ghost` variant.
    */
   variant?: SidebarTriggerVariant
+  /**
+   * Render at `data-density="compact"`. Combined with the default `md` size
+   * this yields a 30px box, pixel-matching a compact `IconButton`. Default
+   * `false`.
+   */
+  compact?: boolean
 }
 
 /**
@@ -63,7 +69,7 @@ export interface SidebarTriggerProps extends Omit<ComponentPropsWithoutRef<'butt
  */
 export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>(
   function SidebarTrigger(
-    { className, onClick, children, size = 'md', variant = 'flat', ...rest },
+    { className, onClick, children, size = 'md', variant = 'flat', compact = false, ...rest },
     ref,
   ) {
     const { toggleMobile, openMobile, breakpoint } = useSidebar()
@@ -74,6 +80,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
         type="button"
         aria-label={i18n.sidebar.toggleLabel}
         aria-expanded={openMobile}
+        data-density={compact ? 'compact' : undefined}
         data-state={openMobile ? 'open' : 'closed'}
         onClick={(event) => {
           onClick?.(event)

@@ -549,6 +549,7 @@
         "sticky": "Stick the bar to the viewport top with z-index header.",
         "menuTriggerSize": "Size of the mobile menu hamburger ('sm', 'md', or 'lg'; default 'md') so it can be matched to an adjacent action button.",
         "menuTriggerVariant": "Memphis surface of the hamburger: 'flat' (default, plain bordered) or 'raised' (offset shadow + press, identical to the ghost Button).",
+        "menuTriggerCompact": "Render the hamburger at compact density so its default 'md' box is 30px, pixel-matching a compact IconButton in actions.",
         "className": "Tailwind classes are merged on top of the defaults."
       }
     },
