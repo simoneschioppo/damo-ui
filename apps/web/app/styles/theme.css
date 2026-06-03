@@ -263,6 +263,13 @@
  * A11y baseline: when the user requests reduced motion, collapse every
  * animation/transition to ~0 so visual motion is effectively absent.
  *
+ * Do NOT add `transform: none` here. Radix popper overlays (Popover,
+ * DropdownMenu, Select, Tooltip, …) and centered Dialogs are positioned via an
+ * inline `transform: translate(…)`; a blanket `transform: none !important` would
+ * override that inline positioning and dump them at the viewport's top-left for
+ * reduced-motion users (issue #174). The two `*-duration` collapses below
+ * already remove all motion without touching layout transforms.
+ *
  * Scoped exception: routes that *preview* motion (the theme generator)
  * set `data-motion-preview` on <html> while they are active, opting out
  * of this collapse so editing `--duration-*` tokens produces a visible
@@ -276,6 +283,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    transform: none !important;
   }
 }
