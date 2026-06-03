@@ -123,4 +123,27 @@ test.describe('Docs preferences menu (topbar cog)', () => {
     await page.keyboard.press('Enter')
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
   })
+
+  test('stays anchored to the trigger under reduced motion (issue #174)', async ({ page }) => {
+    // Regression: a too-broad `transform: none !important` in the reduced-motion
+    // reset used to override Radix's inline positioning transform on the popper
+    // wrapper, dumping the popover at the viewport top-left. Layout transforms
+    // must survive the motion collapse.
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const trigger = page.getByRole('button', { name: 'Display settings' })
+    await trigger.click()
+    const popover = page.getByRole('dialog')
+    await expect(popover).toBeVisible()
+
+    const viewport = page.viewportSize()!
+    const triggerBox = (await trigger.boundingBox())!
+    const popoverBox = (await popover.boundingBox())!
+
+    // Not dumped at the top-left origin — it sits on the right half (cog is top-right).
+    expect(popoverBox.x).toBeGreaterThan(viewport.width / 2)
+    // align="end": the popover's right edge tracks the trigger's right edge.
+    expect(
+      Math.abs(popoverBox.x + popoverBox.width - (triggerBox.x + triggerBox.width)),
+    ).toBeLessThan(40)
+  })
 })
